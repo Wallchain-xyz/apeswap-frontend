@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsxImportSource": "theme-ui",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

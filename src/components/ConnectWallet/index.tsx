@@ -1,7 +1,8 @@
 import { connectionIcons, listOfConnections } from '../../utils/connection'
-import { Flex, Text, Button, Image } from 'theme-ui'
+import { Text, Button, Image } from 'theme-ui'
 import { getConnectionName } from '../../utils/connection/utils'
 import useActivate from '../../utils/connection/activate'
+import Flex from 'components/Flex'
 
 const ConenctWallet = () => {
   const activate = useActivate()
