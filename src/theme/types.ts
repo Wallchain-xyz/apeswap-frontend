@@ -32,6 +32,16 @@ enum colorValues {
   smartGradient = "smartGradient",
 }
 
+export type MediaQueries = {
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  xxl: string;
+  nav: string;
+};
+
 export type colorProps = `${colorValues}`;
 
 export default colorValues;

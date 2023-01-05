@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { Connection } from "utils/connection/types";
 import { getConnectionName } from "utils/connection/utils";
 import { Provider } from "react-redux";
+import Footer from "components/Footer";
 
 const CONNECTIONS = [
   gnosisSafeConnection,
@@ -41,6 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Web3ReactProvider connectors={connectors} key={key}>
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
+          <Footer />
         </ThemeProvider>
       </Web3ReactProvider>
     </Provider>

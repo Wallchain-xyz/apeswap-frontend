@@ -58,6 +58,9 @@ export enum icons {
   POSITIONS = "Positions",
   MENU_SETTINGS = "MenuSettings",
   FAV = "Fav",
+  FULL_LOGO = "fullLogo",
+  ISLAND = 'island',
+  MOON = 'moon'
 }
 
 export enum directions {
@@ -69,7 +72,6 @@ export enum directions {
 
 export type iconTypes = `${icons}`;
 type directionTypes = `${directions}`;
-
 
 export interface SvgProps {
   icon?: iconTypes;

@@ -2,7 +2,7 @@ import { connectionIcons, listOfConnections } from '../../utils/connection'
 import { Text, Button, Image } from 'theme-ui'
 import { getConnectionName } from '../../utils/connection/utils'
 import useActivate from '../../utils/connection/activate'
-import Flex from 'components/Flex'
+import { Flex } from 'components/uikit'
 
 const ConenctWallet = () => {
   const activate = useActivate()

@@ -62,6 +62,7 @@ const Colors = {
       navMenuLogo: "#5E5E5E",
       input: "#FAFAFA",
       footer: "#0B0B0B",
+      hoveredYellow: "#FFDA00",
     },
   },
 };

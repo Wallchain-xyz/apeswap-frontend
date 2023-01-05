@@ -1,6 +1,5 @@
 import { useWeb3React } from "@web3-react/core";
-import Flex from "components/Flex";
-import { Svg } from "components/Svg";
+import { Flex, Svg } from "components/uikit";
 import React, { useCallback } from "react";
 import { Text, Card, Button } from "theme-ui";
 import ConenctWallet from "../../components/ConnectWallet";
@@ -23,7 +22,10 @@ const Home = () => {
         flexDirection: "column",
       }}
     >
-      <Flex sx={{ background: "white3", padding: "20px", borderRadius: '10px' }}>
+      <Svg icon='fullLogo' color='body'/>
+      <Flex
+        sx={{ background: "white3", padding: "20px", borderRadius: "10px" }}
+      >
         <ConenctWallet />
       </Flex>
       {account && (
@@ -31,7 +33,7 @@ const Home = () => {
           <Button onClick={disconnect} margin="10px 0px">
             Press to logout
           </Button>
-          <Svg icon="Fav" color='success'/>
+          <Svg />
           <Text sx={{ color: "black" }}>{account}</Text>
           <Text sx={{ color: "black" }}>
             Connected to network id: {chainId}

@@ -47,3 +47,7 @@ export { default as Message } from "./Message";
 export { default as Positions } from "./Positions";
 export { default as MenuSettings } from "./MenuSettings";
 export { default as Fav } from "./Fav";
+export { default as FullLogo } from "./FullLogo";
+export { default as Telegram } from "./Telegram";
+export { default as Island } from "./Island";
+export { default as Moon } from "./Moon";

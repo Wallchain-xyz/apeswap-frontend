@@ -1,6 +1,8 @@
-import { useWeb3React } from '@web3-react/core'
-import Head from 'next/head'
-import Home from './home'
+import { useWeb3React } from "@web3-react/core";
+import Footer from "components/Footer";
+import { Flex } from "components/uikit";
+import Head from "next/head";
+import Home from "./home";
 
 export default function Index() {
   return (
@@ -11,5 +13,5 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>
-  )
+  );
 }

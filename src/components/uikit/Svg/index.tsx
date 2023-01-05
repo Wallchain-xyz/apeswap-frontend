@@ -51,6 +51,10 @@ import {
   Positions,
   MenuSettings,
   Fav,
+  FullLogo,
+  Telegram,
+  Island,
+  Moon
 } from "./Icons";
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from "./tokens";
 import { IconStyles } from "./Icons/types";
@@ -229,6 +233,18 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
   }
   if (icon === icons.FAV) {
     return <Fav {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.FULL_LOGO) {
+    return <FullLogo {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.TELEGRAM) {
+    return <Telegram {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.ISLAND) {
+    return <Island {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.MOON) {
+    return <Moon {...props} getStyles={getStyles} />;
   }
   return null;
 };
