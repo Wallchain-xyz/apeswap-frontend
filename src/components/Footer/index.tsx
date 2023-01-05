@@ -13,24 +13,25 @@ const Footer = () => {
             `ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone.`
           )}
         </Text>
+        <ThemeSwitcher />
         <Flex
           sx={{
             width: "100%",
             justifyContent: "space-between",
-            alignitems: "center",
+            alignItems: "center",
           }}
         >
           <Flex sx={styles.iconContainer}>
             <Svg icon="twitter" color="text" />
           </Flex>
           <Flex sx={styles.iconContainer}>
-            <Svg icon="medium" color="text" />
+            <Svg icon="discord" color="text" />
           </Flex>
           <Flex sx={styles.iconContainer}>
             <Svg icon='telegram' color="text" />
           </Flex>
           <Flex sx={styles.iconContainer}>
-            <Svg icon="discord" color="text" />
+            <Svg icon="reddit" color="text" />
           </Flex>
           <Flex sx={styles.iconContainer}>
             <Svg icon="medium" color="text" />
@@ -39,7 +40,6 @@ const Footer = () => {
             <Svg icon="instagram" color="text" />
           </Flex>
         </Flex>
-        <ThemeSwitcher />
       </Flex>
     </Flex>
   );

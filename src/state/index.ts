@@ -18,7 +18,7 @@ import { updateVersion } from './global/actions'
 // import user from './user/reducer'
 import wallets from './wallets/reducer'
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
+const PERSISTED_KEYS: string[] = [] // ['user', 'transactions', 'lists']
 
 const store = configureStore({
   reducer: {
@@ -40,11 +40,11 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: true })
       // .concat(routingApi.middleware)
-      .concat(save({ states: PERSISTED_KEYS, debounce: 1000 })),
-  preloadedState: load({ states: PERSISTED_KEYS }),
+      // .concat(save({ states: PERSISTED_KEYS, debounce: 1000 })),
+  // preloadedState: load({ states: PERSISTED_KEYS, disableWarnings: true }),
 })
 
-store.dispatch(updateVersion())
+// store.dispatch(updateVersion())
 
 setupListeners(store.dispatch)
 

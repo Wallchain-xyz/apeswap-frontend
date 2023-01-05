@@ -23,8 +23,8 @@ const ThemeSwitcher = ({ isMini }: { isMini?: Boolean }) => {
       variant="tertiary"
       onClick={() => setColorMode(isDark ? "light" : "dark")}
     >
-      {/* alignitems center is a Safari fix */}
-      <Flex alignitems="center">
+      {/* alignItems center is a Safari fix */}
+      <Flex alignItems="center">
         {!isMini && (
           <>
             <Svg icon="island" width="20px" key="islandMode" />

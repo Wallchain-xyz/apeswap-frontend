@@ -245,7 +245,7 @@
 //             position: "absolute",
 //             flexDirection: "column",
 //             bottom: "10px",
-//             alignitems: "center",
+//             alignItems: "center",
 //             justifyContent: "center",
 //             height: "fit-content",
 //             width: "fit-content",
@@ -255,7 +255,7 @@
 //           <Text color="primaryBright">{t("©2022 All rights reserved")}</Text>
 //           <Flex
 //             sx={{
-//               alignitems: "center",
+//               alignItems: "center",
 //               width: "150px",
 //               justifyContent: "center",
 //             }}

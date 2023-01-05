@@ -245,11 +245,10 @@ import { ThemeUIStyleObject } from "theme-ui";
 
 const styles: Record<string, ThemeUIStyleObject> = {
   container: {
-    padding: [
-      "20px 20px 20px 20px",
-      "80px 50px 80px 50px",
-      "80px 50px 100px 50px",
-    ],
+    alignContent: "center",
+    justifyContent: "center",
+    border: "1px solid red",
+    padding: ["80px 50px 100px 50px"],
     background: "footer",
     width: "100%",
     height: "500px",
@@ -257,14 +256,14 @@ const styles: Record<string, ThemeUIStyleObject> = {
   leftColumnContainer: {
     flexDirection: "column",
     justifyContent: "space-between",
-    alignitems: "center",
+    alignItems: "center",
     height: ["475px", "375px", "375px"],
     width: ["100%", "375px", "375px"],
   },
   iconContainer: {
     height: "45px",
     width: "45px",
-    alignitems: "center",
+    alignItems: "center",
     justifyContent: "center",
     borderRadius: "10px",
     background: "white2",

@@ -139,7 +139,7 @@ const components = {
   label: {
     inline: {
       display: "inline-flex",
-      alignitems: "center",
+      alignItems: "center",
       columnGap: 2,
     },
   },
@@ -276,7 +276,7 @@ const components = {
       borderRadius: "50%",
       display: "flex",
       justifyContent: "center",
-      alignitems: "center",
+      alignItems: "center",
       overflow: "hidden",
       cursor: "pointer",
       padding: "1px",
