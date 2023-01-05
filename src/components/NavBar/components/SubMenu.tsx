@@ -26,7 +26,8 @@ const SubMenu = ({
         })}
       </Flex>
       <Image
-        src={`images/nav/${label}_${colorMode}.svg`}
+        priority
+        src={`/images/nav/${label}_${colorMode}.svg`}
         alt={label}
         width={230}
         height={305}
