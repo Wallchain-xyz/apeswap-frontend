@@ -80,4 +80,5 @@ export interface SvgProps {
   width?: string | number;
   height?: string | number;
   spin?: boolean;
+  margin?: string
 }

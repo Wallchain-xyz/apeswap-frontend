@@ -16,6 +16,9 @@ import { Connection } from "utils/connection/types";
 import { getConnectionName } from "utils/connection/utils";
 import { Provider } from "react-redux";
 import Footer from "components/Footer";
+import NavBar from "components/NavBar";
+import { LanguageProvider } from "contexts/Localization";
+import ModalProvider from "contexts/ModalContext";
 
 const CONNECTIONS = [
   gnosisSafeConnection,
@@ -41,8 +44,13 @@ export default function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <Web3ReactProvider connectors={connectors} key={key}>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-          <Footer />
+          <LanguageProvider>
+            <ModalProvider>
+              <NavBar />
+              <Component {...pageProps} />
+              <Footer />
+            </ModalProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </Web3ReactProvider>
     </Provider>

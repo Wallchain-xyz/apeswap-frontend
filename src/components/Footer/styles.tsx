@@ -261,8 +261,8 @@ const styles: Record<string, ThemeUIStyleObject> = {
     width: ["100%", "375px", "375px"],
   },
   iconContainer: {
-    height: "45px",
-    width: "45px",
+    height: "42.5px",
+    width: "42.5px",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "10px",

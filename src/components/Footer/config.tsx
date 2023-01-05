@@ -1,4 +1,6 @@
-export const supportLinks = [
+import { icons } from "components/uikit/Svg/types";
+
+export const SUPPORT_LINKS: { label: string; href: string }[] = [
   {
     label: "FAQ",
     href: "https://apeswap.gitbook.io/apeswap-finance/welcome/master",
@@ -17,7 +19,7 @@ export const supportLinks = [
   },
 ];
 
-export const engageLinks = [
+export const ENGAGE_LINKS: { label: string; href: string }[] = [
   {
     label: "Governance",
     href: "https://discuss.apeswap.finance",
@@ -36,7 +38,7 @@ export const engageLinks = [
   },
 ];
 
-export const learnLinks = [
+export const ACCESS_LINKS: { label: string; href: string }[] = [
   {
     label: "Docs",
     href: "https://apeswap.gitbook.io/apeswap-finance/welcome/master",
@@ -53,4 +55,13 @@ export const learnLinks = [
     label: "Github",
     href: "https://github.com/ApeSwapFinance/",
   },
+];
+
+export const SOCIAL_LINKS: { label: icons; href: string }[] = [
+  { label: icons.TWITTER, href: "" },
+  { label: icons.DISCORD, href: "" },
+  { label: icons.TELEGRAM, href: "" },
+  { label: icons.REDDIT, href: "" },
+  { label: icons.MEDIUM, href: "" },
+  { label: icons.INSTAGRAM, href: "" },
 ];

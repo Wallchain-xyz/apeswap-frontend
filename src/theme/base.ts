@@ -57,6 +57,7 @@ const baseTheme = {
       fontFamily: "body",
       lineHeight: "body",
       fontWeight: "light",
+      letterSpacing: '.45px',
       color: "text",
       bg: "background",
     },
