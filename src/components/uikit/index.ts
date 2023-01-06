@@ -6,4 +6,5 @@ export { default as Text } from "./Text";
 export { default as Skeleton } from "./Skeleton";
 export { default as Button } from "./Button/Button";
 export { default as IconButton } from "./Button/IconButton";
+export { default as Modal } from "./Modal";
 

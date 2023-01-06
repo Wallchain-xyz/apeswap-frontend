@@ -24,7 +24,7 @@ const ThemeSwitcher = ({ isMini }: { isMini?: Boolean }) => {
       onClick={() => setColorMode(isDark ? "light" : "dark")}
     >
       {/* alignItems center is a Safari fix */}
-      <Flex alignItems="center">
+      <Flex>
         {!isMini && (
           <>
             <Svg icon="island" width="20px" key="islandMode" />

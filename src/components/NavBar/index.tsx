@@ -1,4 +1,6 @@
 import { ChainId } from "@ape.swap/sdk";
+import ConnectWalletButton from "components/ConnectWallet/ConnectWalletButton";
+import LangSelectorButton from "components/Langauge/LangSelectorButton";
 import { Flex, Svg, Text } from "components/uikit";
 import { useTranslation } from "contexts/Localization";
 import { useState } from "react";
@@ -39,7 +41,8 @@ const NavBar = () => {
         </Flex>
       </Flex>
       <Flex>
-        <Svg icon="logo" width="38px" />
+        <LangSelectorButton />
+        <ConnectWalletButton />
       </Flex>
     </Flex>
   );

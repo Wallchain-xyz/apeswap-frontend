@@ -1,4 +1,3 @@
-import { ReactText } from 'react'
 import translations from 'config/localization/translations.json'
 
 export interface Language {

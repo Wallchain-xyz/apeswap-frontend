@@ -59,8 +59,23 @@ export enum icons {
   MENU_SETTINGS = "MenuSettings",
   FAV = "Fav",
   FULL_LOGO = "fullLogo",
-  ISLAND = 'island',
-  MOON = 'moon'
+  ISLAND = "island",
+  MOON = "moon",
+  BINANCE_CHAIN = "binanceChain",
+  BITKEEP = "bitkeep",
+  BRAVE = "brave",
+  COINBASE = "coinbase",
+  MATH_WALLET = "mathWallet",
+  METAMASK = "metamask",
+  NABOX = "nabox",
+  ONTO_WALLET = "ontoWallet",
+  SAFE_PAL_WALLET = "safePalWallet",
+  SOCIAL_LOGIN = "socialLogin",
+  TOKEN_POCKET = "tokenPocket",
+  TORUS_WALLET = "torusWallet",
+  TRUST_WALLET = "trustWallet",
+  UNSTOPPABLE = "unstoppable",
+  WALLET_CONNECT = "walletConnect",
 }
 
 export enum directions {
@@ -80,5 +95,5 @@ export interface SvgProps {
   width?: string | number;
   height?: string | number;
   spin?: boolean;
-  margin?: string
+  margin?: string;
 }

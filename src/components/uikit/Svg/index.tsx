@@ -1,5 +1,5 @@
 import React from "react";
-import { SvgProps, icons } from "./types";
+import { SvgProps, icons, iconTypes } from "./types";
 import { dynamicStyles } from "./styles";
 import {
   Caret,
@@ -54,12 +54,29 @@ import {
   FullLogo,
   Telegram,
   Island,
-  Moon
+  Moon,
 } from "./Icons";
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from "./tokens";
+import {
+  BinanceChain,
+  Bitkeep,
+  Brave,
+  Coinbase,
+  MathWallet,
+  Metamask,
+  Nabox,
+  OntoWallet,
+  SafePalWallet,
+  SocialLogin,
+  TokenPocket,
+  TorusWallet,
+  TrustWallet,
+  Unstoppable,
+  WalletConnect,
+} from "./walletIcons";
 import { IconStyles } from "./Icons/types";
 
-const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
+const Svg = ({ icon, ...props }: any) => {
   const getStyles = ({ degree, color, margin }: IconStyles) =>
     dynamicStyles.generic({
       degree,
@@ -245,6 +262,53 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
   }
   if (icon === icons.MOON) {
     return <Moon {...props} getStyles={getStyles} />;
+  }
+
+  // Wallet Icons
+  if (icon === icons.BINANCE_CHAIN) {
+    return <BinanceChain {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.BITKEEP) {
+    return <Bitkeep {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.BRAVE) {
+    return <Brave {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.COINBASE) {
+    return <Coinbase {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.MATH_WALLET) {
+    return <MathWallet {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.METAMASK) {
+    return <Metamask {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.NABOX) {
+    return <Nabox {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.ONTO_WALLET) {
+    return <OntoWallet {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.SAFE_PAL_WALLET) {
+    return <SafePalWallet {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.SOCIAL_LOGIN) {
+    return <SocialLogin {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.TOKEN_POCKET) {
+    return <TokenPocket {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.TORUS_WALLET) {
+    return <TorusWallet {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.TRUST_WALLET) {
+    return <TrustWallet {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.UNSTOPPABLE) {
+    return <Unstoppable {...props} getStyles={getStyles} />;
+  }
+  if (icon === icons.WALLET_CONNECT) {
+    return <WalletConnect {...props} getStyles={getStyles} />;
   }
   return null;
 };

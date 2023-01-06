@@ -30,6 +30,7 @@ enum colorValues {
   footer = "footer",
   gray = "gray",
   smartGradient = "smartGradient",
+  modalOverlay = 'modalOverlay'
 }
 
 export type MediaQueries = {
