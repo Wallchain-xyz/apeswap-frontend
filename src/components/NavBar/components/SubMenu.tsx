@@ -14,6 +14,7 @@ const SubMenu = ({
 }) => {
   const [colorMode] = useColorMode();
   const { t } = useTranslation();
+  console.log(`/images/nav/${label}_${colorMode}.svg`);
   return (
     <Flex sx={styles.subMenuContainer}>
       <Flex sx={{ flexDirection: "column", margin: "20px 0px 0px 20px" }}>
@@ -27,7 +28,7 @@ const SubMenu = ({
       </Flex>
       <Image
         priority
-        src={`/images/nav/${label}_${colorMode}.svg`}
+        src={`/images/nav/${label.toLowerCase()}_${colorMode}.svg`}
         alt={label}
         width={230}
         height={305}

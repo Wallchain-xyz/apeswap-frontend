@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191"
+  },
   "dependencies": {
     "@ape.swap/sdk": "^4.3.3",
     "@coinbase/wallet-sdk": "^3.3.0",
