@@ -61,7 +61,11 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       {isOpen && (
         <Flex>
           <Flex onClick={handleOverlayDismiss} />
-          {React.isValidElement(modalNode) && React.cloneElement(modalNode)}
+          {React.isValidElement(modalNode) &&
+            React.cloneElement(modalNode, {
+              // @ts-ignore
+              onDismiss: handleDismiss,
+            })}
         </Flex>
       )}
       {children}

@@ -51,3 +51,5 @@ export { default as FullLogo } from "./FullLogo";
 export { default as Telegram } from "./Telegram";
 export { default as Island } from "./Island";
 export { default as Moon } from "./Moon";
+export { default as LanguageIcon } from "./LanguageIcon";
+

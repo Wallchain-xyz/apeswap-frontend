@@ -1,8 +1,8 @@
 import { Button, Flex, Modal, Svg, Text } from "components/uikit";
 import useActivate from "utils/connection/activate";
-import connectors from "../config";
+import connectors from "./config";
 
-const ConnectWalletModal = () => {
+const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
   const activate = useActivate();
   return (
     <Modal maxWidth="400px" minWidth="350px" title="Connect to a Wallet">
@@ -21,9 +21,11 @@ const ConnectWalletModal = () => {
                 alignItems: "center",
                 background: "white4",
               }}
-              onClick={() => activate(connection)}
+              onClick={() => {
+                activate(connection), onDismiss();
+              }}
             >
-              <Text weight={500} size="15px">
+              <Text weight="normal" size="15px">
                 {label}
               </Text>
               <Svg icon={icon} width="30px" />

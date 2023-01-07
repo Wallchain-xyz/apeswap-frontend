@@ -1,5 +1,4 @@
-import React from "react";
-import { SvgProps, icons, iconTypes } from "./types";
+import { icons, SvgProps } from "./types";
 import { dynamicStyles } from "./styles";
 import {
   Caret,
@@ -75,242 +74,172 @@ import {
   WalletConnect,
 } from "./walletIcons";
 import { IconStyles } from "./Icons/types";
+import Language from "./Icons/LanguageIcon";
 
-const Svg = ({ icon, ...props }: any) => {
+const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
   const getStyles = ({ degree, color, margin }: IconStyles) =>
     dynamicStyles.generic({
       degree,
       color,
       margin,
     });
-  if (icon === icons.SUCCESS_OUTLINE) {
-    return <SuccessOutline {...props} getStyles={getStyles} />;
+  switch (icon) {
+    case icons.SUCCESS_OUTLINE:
+      return <SuccessOutline {...props} getStyles={getStyles} />;
+    case icons.TRASH:
+      return <Trash {...props} getStyles={getStyles} />;
+    case icons.CANCELLED:
+      return <Cancelled {...props} getStyles={getStyles} />;
+    case icons.INFO_SOLID:
+      return <InfoSolid {...props} getStyles={getStyles} />;
+    case icons.ARROW:
+      return <Arrow {...props} getStyles={getStyles} />;
+    case icons.SWAP_ARROWS:
+      return <SwapArrows {...props} getStyles={getStyles} />;
+    case icons.CARET:
+      return <Caret {...props} getStyles={getStyles} />;
+    case icons.WEBSITE:
+      return <Website {...props} getStyles={getStyles} />;
+    case icons.EXTERNAL:
+      return <External {...props} getStyles={getStyles} />;
+    case icons.HOME:
+      return <Home {...props} getStyles={getStyles} />;
+    case icons.CALCULATOR:
+      return <Calculator {...props} getStyles={getStyles} />;
+    case icons.FARM:
+      return <Farm {...props} getStyles={getStyles} />;
+    case icons.FRAME:
+      return <Frame {...props} getStyles={getStyles} />;
+    case icons.GNANA:
+      return <Gnana {...props} getStyles={getStyles} />;
+    case icons.INFO:
+      return <Info {...props} getStyles={getStyles} />;
+    case icons.MORE:
+      return <More {...props} getStyles={getStyles} />;
+    case icons.NFA:
+      return <NFA {...props} getStyles={getStyles} />;
+    case icons.POOL:
+      return <Pool {...props} getStyles={getStyles} />;
+    case icons.ROCKET:
+      return <Rocket {...props} getStyles={getStyles} />;
+    case icons.TRADE:
+      return <Trade {...props} getStyles={getStyles} />;
+    case icons.VAULT:
+      return <Vault {...props} getStyles={getStyles} />;
+    case icons.ELLIPSE:
+      return <Ellipse {...props} getStyles={getStyles} />;
+    case icons.COLLAPSE:
+      return <Collapse {...props} getStyles={getStyles} />;
+    case icons.TEXTLOGO:
+      return <TextLogo {...props} getStyles={getStyles} />;
+    case icons.PROFILELIGHT:
+      return <ProfileLight {...props} getStyles={getStyles} />;
+    case icons.PROFILEDARK:
+      return <ProfileDark {...props} getStyles={getStyles} />;
+    case icons.PROFILEICON:
+      return <ProfileIcon {...props} getStyles={getStyles} />;
+    case icons.LOGO:
+      return <Logo {...props} getStyles={getStyles} />;
+    case icons.HAMBURGER:
+      return <Hamburger {...props} getStyles={getStyles} />;
+    case icons.TWITTER:
+      return <Twitter {...props} getStyles={getStyles} />;
+    case icons.SEND:
+      return <Send {...props} getStyles={getStyles} />;
+    case icons.ERROR:
+      return <Error {...props} getStyles={getStyles} />;
+    case icons.CLOSE:
+      return <Close {...props} getStyles={getStyles} />;
+    case icons.SEARCH:
+      return <Search {...props} getStyles={getStyles} />;
+    case icons.SUCCESS:
+      return <Success {...props} getStyles={getStyles} />;
+    case icons.QUESTION:
+      return <Question {...props} getStyles={getStyles} />;
+    case icons.SETTINGS:
+      return <Settings {...props} getStyles={getStyles} />;
+    case icons.CHART:
+      return <Chart {...props} getStyles={getStyles} />;
+    case icons.BNB_TOKEN:
+      return <BNB {...props} getStyles={getStyles} />;
+    case icons.BANANA_TOKEN:
+      return <BANANA {...props} getStyles={getStyles} />;
+    case icons.ETH_TOKEN:
+      return <ETH {...props} getStyles={getStyles} />;
+    case icons.GNANA_TOKEN:
+      return <GNANA {...props} getStyles={getStyles} />;
+    case icons.POLYGON_TOKEN:
+      return <POLYGON {...props} getStyles={getStyles} />;
+    case icons.TLOS_TOKEN:
+      return <TLOS {...props} getStyles={getStyles} />;
+    case icons.BSC_TOKEN:
+      return <BSC {...props} getStyles={getStyles} />;
+    case icons.DISCORD:
+      return <Discord {...props} getStyles={getStyles} />;
+    case icons.REDDIT:
+      return <Reddit {...props} getStyles={getStyles} />;
+    case icons.MEDIUM:
+      return <Medium {...props} getStyles={getStyles} />;
+    case icons.INSTAGRAM:
+      return <Instagram {...props} getStyles={getStyles} />;
+    case icons.ZAP_ICON:
+      return <ZapIcon {...props} getStyles={getStyles} />;
+    case icons.ZAP_ARROW:
+      return <ZapArrow {...props} getStyles={getStyles} color="white" />;
+    case icons.MIGRATE:
+      return <Migrate {...props} getStyles={getStyles} />;
+    case icons.MESSAGE:
+      return <Message {...props} getStyles={getStyles} />;
+    case icons.POSITIONS:
+      return <Positions {...props} getStyles={getStyles} />;
+    case icons.MENU_SETTINGS:
+      return <MenuSettings {...props} getStyles={getStyles} />;
+    case icons.FAV:
+      return <Fav {...props} getStyles={getStyles} />;
+    case icons.FULL_LOGO:
+      return <FullLogo {...props} getStyles={getStyles} />;
+    case icons.TELEGRAM:
+      return <Telegram {...props} getStyles={getStyles} />;
+    case icons.ISLAND:
+      return <Island {...props} getStyles={getStyles} />;
+    case icons.MOON:
+      return <Moon {...props} getStyles={getStyles} />;
+    case icons.LANGUAGE_ICON:
+      return <Language {...props} getStyles={getStyles} />;
+    // Wallet Icons
+    case icons.BINANCE_CHAIN:
+      return <BinanceChain {...props} getStyles={getStyles} />;
+    case icons.BITKEEP:
+      return <Bitkeep {...props} getStyles={getStyles} />;
+    case icons.BRAVE:
+      return <Brave {...props} getStyles={getStyles} />;
+    case icons.COINBASE:
+      return <Coinbase {...props} getStyles={getStyles} />;
+    case icons.MATH_WALLET:
+      return <MathWallet {...props} getStyles={getStyles} />;
+    case icons.METAMASK:
+      return <Metamask {...props} getStyles={getStyles} />;
+    case icons.NABOX:
+      return <Nabox {...props} getStyles={getStyles} />;
+    case icons.ONTO_WALLET:
+      return <OntoWallet {...props} getStyles={getStyles} />;
+    case icons.SAFE_PAL_WALLET:
+      return <SafePalWallet {...props} getStyles={getStyles} />;
+    case icons.SOCIAL_LOGIN:
+      return <SocialLogin {...props} getStyles={getStyles} />;
+    case icons.TOKEN_POCKET:
+      return <TokenPocket {...props} getStyles={getStyles} />;
+    case icons.TORUS_WALLET:
+      return <TorusWallet {...props} getStyles={getStyles} />;
+    case icons.TRUST_WALLET:
+      return <TrustWallet {...props} getStyles={getStyles} />;
+    case icons.UNSTOPPABLE:
+      return <Unstoppable {...props} getStyles={getStyles} />;
+    case icons.WALLET_CONNECT:
+      return <WalletConnect {...props} getStyles={getStyles} />;
+    default:
+      return null;
   }
-  if (icon === icons.TRASH) {
-    return <Trash {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.CANCELLED) {
-    return <Cancelled {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.INFO_SOLID) {
-    return <InfoSolid {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ARROW) {
-    return <Arrow {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SWAP_ARROWS) {
-    return <SwapArrows {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.CARET) {
-    return <Caret {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.WEBSITE) {
-    return <Website {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.EXTERNAL) {
-    return <External {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.HOME) {
-    return <Home {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.CALCULATOR) {
-    return <Calculator {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.FARM) {
-    return <Farm {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.FRAME) {
-    return <Frame {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.GNANA) {
-    return <Gnana {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.INFO) {
-    return <Info {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.MORE) {
-    return <More {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.NFA) {
-    return <NFA {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.POOL) {
-    return <Pool {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ROCKET) {
-    return <Rocket {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TRADE) {
-    return <Trade {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.VAULT) {
-    return <Vault {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ELLIPSE) {
-    return <Ellipse {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.COLLAPSE) {
-    return <Collapse {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TEXTLOGO) {
-    return <TextLogo {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.PROFILELIGHT) {
-    return <ProfileLight {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.PROFILEDARK) {
-    return <ProfileDark {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.PROFILEICON) {
-    return <ProfileIcon {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.LOGO) {
-    return <Logo {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.HAMBURGER) {
-    return <Hamburger {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TWITTER) {
-    return <Twitter {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SEND) {
-    return <Send {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ERROR) {
-    return <Error {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.CLOSE) {
-    return <Close {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SEARCH) {
-    return <Search {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SUCCESS) {
-    return <Success {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.QUESTION) {
-    return <Question {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SETTINGS) {
-    return <Settings {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.CHART) {
-    return <Chart {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.BNB_TOKEN) {
-    return <BNB {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.BANANA_TOKEN) {
-    return <BANANA {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ETH_TOKEN) {
-    return <ETH {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.GNANA_TOKEN) {
-    return <GNANA {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.POLYGON_TOKEN) {
-    return <POLYGON {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TLOS_TOKEN) {
-    return <TLOS {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.BSC_TOKEN) {
-    return <BSC {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.DISCORD) {
-    return <Discord {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.REDDIT) {
-    return <Reddit {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.MEDIUM) {
-    return <Medium {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.INSTAGRAM) {
-    return <Instagram {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ZAP_ICON) {
-    return <ZapIcon {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ZAP_ARROW) {
-    return <ZapArrow {...props} getStyles={getStyles} color="white" />;
-  }
-  if (icon === icons.MIGRATE) {
-    return <Migrate {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.MESSAGE) {
-    return <Message {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.POSITIONS) {
-    return <Positions {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.MENU_SETTINGS) {
-    return <MenuSettings {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.FAV) {
-    return <Fav {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.FULL_LOGO) {
-    return <FullLogo {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TELEGRAM) {
-    return <Telegram {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ISLAND) {
-    return <Island {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.MOON) {
-    return <Moon {...props} getStyles={getStyles} />;
-  }
-
-  // Wallet Icons
-  if (icon === icons.BINANCE_CHAIN) {
-    return <BinanceChain {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.BITKEEP) {
-    return <Bitkeep {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.BRAVE) {
-    return <Brave {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.COINBASE) {
-    return <Coinbase {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.MATH_WALLET) {
-    return <MathWallet {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.METAMASK) {
-    return <Metamask {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.NABOX) {
-    return <Nabox {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.ONTO_WALLET) {
-    return <OntoWallet {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SAFE_PAL_WALLET) {
-    return <SafePalWallet {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.SOCIAL_LOGIN) {
-    return <SocialLogin {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TOKEN_POCKET) {
-    return <TokenPocket {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TORUS_WALLET) {
-    return <TorusWallet {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.TRUST_WALLET) {
-    return <TrustWallet {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.UNSTOPPABLE) {
-    return <Unstoppable {...props} getStyles={getStyles} />;
-  }
-  if (icon === icons.WALLET_CONNECT) {
-    return <WalletConnect {...props} getStyles={getStyles} />;
-  }
-  return null;
 };
 
 export default Svg;

@@ -10,7 +10,7 @@ const LangSelectorButton = () => {
       sx={{ padding: "0px 15px", cursor: "pointer" }}
       onClick={onPresentLanguageModal}
     >
-      <Svg icon="website" width="30px" color="text" />
+      <Svg icon='languageIcon' width="30px" color="text" />
     </Flex>
   );
 };

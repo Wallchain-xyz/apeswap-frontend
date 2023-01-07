@@ -297,6 +297,23 @@ const components = {
       borderRadius: "normal",
     },
   },
+  flex: {
+    navContainer: {
+      height: "35px",
+      padding: "0px 15px",
+      background: "white3",
+      borderRadius: "10px",
+      alignItems: "center",
+      cursor: "pointer",
+      transition: "all .3s linear",
+      "&:hover": {
+        filter: "brightness(95%)",
+      },
+      "&:active": {
+        transform: "scale(0.9)",
+      },
+    },
+  },
 };
 
 export default components;

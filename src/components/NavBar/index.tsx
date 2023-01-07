@@ -1,22 +1,31 @@
 import { ChainId } from "@ape.swap/sdk";
-import ConnectWalletButton from "components/ConnectWallet/ConnectWalletButton";
-import LangSelectorButton from "components/Langauge/LangSelectorButton";
+import { useWeb3React } from "@web3-react/core";
+import ConnectWalletButton from "components/ConnectWallet";
+import { LangSelectorButton } from "components/Langauge";
+import Moonpay from "components/Moonpay";
+import NetworkSelector from "components/NetworkSelector";
 import { Flex, Svg, Text } from "components/uikit";
 import { useTranslation } from "contexts/Localization";
+import useModal from "hooks/useModal";
 import { useState } from "react";
+import AccountModal from "./components/AccountModal";
 import SubMenu from "./components/SubMenu";
-import { configMappedToNetwork } from "./config/chains";
+import { getNavConfig } from "./config/chains";
 import styles from "./styles";
 
 const NavBar = () => {
+  const { chainId, account } = useWeb3React();
   const [hoverLabel, setHoverLabel] = useState<string>("");
   const { t } = useTranslation();
+  const [onPresentAccountModal] = useModal(
+    <AccountModal onDismiss={() => null} />
+  );
   return (
     <Flex sx={styles.container}>
       <Flex>
         <Svg icon="logo" width="38px" />
         <Flex sx={{ ml: "20px" }}>
-          {configMappedToNetwork[ChainId.BSC]?.map(({ label, items }) => {
+          {getNavConfig(chainId).map(({ label, items }) => {
             return (
               <Flex
                 key={label}
@@ -40,9 +49,18 @@ const NavBar = () => {
           })}
         </Flex>
       </Flex>
-      <Flex>
+      <Flex sx={{ alignItems: "center" }}>
         <LangSelectorButton />
-        <ConnectWalletButton />
+        <Moonpay />
+        <NetworkSelector />
+        {account ? (
+          <Flex variant="flex.navContainer" onClick={onPresentAccountModal}>
+            {account.slice(0, 4).toUpperCase()}...
+            {account.slice(account.length - 4, account.length).toUpperCase()}
+          </Flex>
+        ) : (
+          <ConnectWalletButton />
+        )}
       </Flex>
     </Flex>
   );

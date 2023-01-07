@@ -1,36 +1,28 @@
-import { connectionIcons, listOfConnections } from '../../utils/connection'
-import { Text, Button, Image } from 'theme-ui'
-import { getConnectionName } from '../../utils/connection/utils'
-import useActivate from '../../utils/connection/activate'
-import { Flex } from 'components/uikit'
+import { Button, Flex, Text } from "components/uikit";
+import { useTranslation } from "contexts/Localization";
+import useModal from "hooks/useModal";
+import ConnectWalletModal from "./ConnectWalletModal";
 
-const ConenctWallet = () => {
-  const activate = useActivate()
+const ConnectWalletButton = () => {
+  const [onPresentWalletConnectModal] = useModal(
+    <ConnectWalletModal onDismiss={() => null} />,
+    true,
+    true,
+    "ConnectWalletModal"
+  );
+  const { t } = useTranslation();
   return (
-    <Flex sx={{ flexDirection: 'column' }}>
-      {listOfConnections.map((connection) => {
-        return (
-          <Button
-            onClick={() => activate(connection)}
-            margin="10px 0px"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            key={getConnectionName({ connection })}
-          >
-            <Image
-              src={connectionIcons[connection.type]?.src}
-              width="20px"
-              mr="10px"
-            />
-            <Text>{getConnectionName({ connection })}</Text>
-          </Button>
-        )
-      })}
+    <Flex sx={{ height: "100%", alignItems: "center" }}>
+      <Button
+        onClick={onPresentWalletConnectModal}
+        sx={{ height: "32.5px", padding: "10px 10px", alignItems: "center" }}
+      >
+        <Text size="14px" weight={600} sx={{ mt: "1px" }}>
+          {t("Connect")}
+        </Text>
+      </Button>
     </Flex>
-  )
-}
+  );
+};
 
-export default ConenctWallet
+export default ConnectWalletButton;

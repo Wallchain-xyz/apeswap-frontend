@@ -32,7 +32,7 @@ const Home = () => {
       {account && (
         <>
           <Button onClick={disconnect} margin="10px 0px">
-            Press to logoutsadas dasdasdasdas das dasdasd
+            Press to logout
           </Button>
           <Svg />
           <Text sx={{ color: "black" }}>{account}</Text>
