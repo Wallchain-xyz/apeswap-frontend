@@ -1,7 +1,10 @@
 import { ThemeUIStyleObject } from "theme-ui";
 import { fontSizes } from "./types";
 
-const styles: Record<string, ThemeUIStyleObject> = {
+const styles: Record<
+  "container" | "ul" | "backdrop" | "input",
+  ThemeUIStyleObject
+> = {
   container: {
     background: "lvl1",
     borderRadius: "10px",
@@ -42,14 +45,15 @@ interface Props {
   size: keyof typeof fontSizes;
 }
 
-export const dynamicStyles: Record<string, (props: any) => ThemeUIStyleObject> = {
-  dropdownItem: ({ size }: Props) => ({
-    display: "inline-block",
-    fontSize: fontSizes[size],
-    "*": {
+export const dynamicStyles: Record<string, (props: any) => ThemeUIStyleObject> =
+  {
+    dropdownItem: ({ size }: Props) => ({
+      display: "inline-block",
       fontSize: fontSizes[size],
-    },
-  }),
-};
+      "*": {
+        fontSize: fontSizes[size],
+      },
+    }),
+  };
 
 export default styles;

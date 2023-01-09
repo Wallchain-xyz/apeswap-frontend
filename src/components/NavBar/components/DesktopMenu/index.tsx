@@ -48,7 +48,7 @@ const DesktopMenu = () => {
         sx={{
           alignItems: "center",
           minWidth: "fit-content",
-          border: "1px solid red",
+          display: ['none', 'none', 'none', 'flex', 'flex']
         }}
       >
         <LangSelectorButton />

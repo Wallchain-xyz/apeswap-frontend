@@ -1,6 +1,7 @@
 import { Box } from "theme-ui";
 import { SelectItemProps, selectItemPadding, sizes } from "./types";
 import { dynamicStyles } from "./styles";
+import Flex from "../Flex";
 
 const SelectItem = ({
   onClick,

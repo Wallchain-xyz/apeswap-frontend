@@ -19,11 +19,7 @@ const NetworkSelector = () => {
   );
 
   return (
-    <Flex
-      variant="flex.navContainer"
-      sx={{ mr: "20px" }}
-      onClick={onPresentWalletConnectModal}
-    >
+    <Flex variant="flex.navContainer" onClick={onPresentWalletConnectModal}>
       <Svg
         icon={isSupportedChain(chainId) ? NETWORK_ICONS[chainId] : "error"}
         width="25px"

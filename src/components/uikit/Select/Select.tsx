@@ -68,7 +68,7 @@ const Select = ({
         </Flex>
         <AnimatePresence>
           {open && (
-            <motion.ul
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "fit-content" }}
               transition={{ opacity: { duration: 0.2 } }}
@@ -91,7 +91,7 @@ const Select = ({
                   onClick: () => setNativeInput((child as any)?.props?.value),
                 });
               })}
-            </motion.ul>
+            </motion.div>
           )}
         </AnimatePresence>
         <input

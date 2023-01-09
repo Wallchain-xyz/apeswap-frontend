@@ -26,6 +26,7 @@ const styles: Record<
     alignItems: "center",
     padding: "2px 7.5px 0px 7.5px",
     margin: "0px 22.5px",
+    display: ['none', 'none', 'none', 'flex', 'flex']
   },
   desktopSubMenuContainer: {
     position: "absolute",

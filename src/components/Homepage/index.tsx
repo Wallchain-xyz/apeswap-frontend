@@ -6,7 +6,7 @@ import ConenctWallet from "../../components/ConnectWallet";
 
 const Home = () => {
   const { account, connector, chainId } = useWeb3React();
-  console.log(chainId)
+  console.log(chainId);
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {
       connector.deactivate();
@@ -23,7 +23,7 @@ const Home = () => {
         flexDirection: "column",
       }}
     >
-      <Svg icon='fullLogo' color='body'/>
+      {" "}
       <Flex
         sx={{ background: "white3", padding: "20px", borderRadius: "10px" }}
       >

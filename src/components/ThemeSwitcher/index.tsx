@@ -2,38 +2,42 @@ import React from "react";
 import { Button, Flex, Svg, Text } from "components/uikit";
 import { useColorMode } from "theme-ui";
 
-const ThemeSwitcher = ({ isMini }: { isMini?: Boolean }) => {
+const ThemeSwitcher = () => {
   const [colorMode, setColorMode] = useColorMode();
   const isDark = colorMode === "dark";
   return (
     <Button
       sx={{
-        marginRight: isMini && "20px",
         height: "35px",
+        alignItems: "center",
         "&&": {
-          padding: isMini ? "8px" : "3px 12px",
-        },
-        ".island": {
-          fill: isDark ? "gray" : "brown",
-        },
-        ".moon": {
-          fill: isDark ? "gray" : "primaryGray",
+          padding: "3px 12px",
         },
       }}
       variant="tertiary"
       onClick={() => setColorMode(isDark ? "light" : "dark")}
     >
-      {/* alignItems center is a Safari fix */}
       <Flex>
-        {!isMini && (
-          <>
-            <Svg icon="island" width="20px" key="islandMode" />
-            <Text weight="normal" color={isDark ? "gray" : "brown"} mx="4px">
-              /
-            </Text>
-          </>
-        )}
-        <Svg icon="moon" width="24px" key="nightMode" />
+        <Svg
+          icon="island"
+          width="20px"
+          key="islandMode"
+          color={isDark ? "gray" : "brown"}
+        />
+        <Text
+          weight={400}
+          color={isDark ? "text" : "brown"}
+          size="27px"
+          margin="1px 5px 0px 6px"
+        >
+          /
+        </Text>
+        <Svg
+          icon="moon"
+          width="24px"
+          key="nightMode"
+          color={isDark ? "text" : "gray"}
+        />
       </Flex>
     </Button>
   );
