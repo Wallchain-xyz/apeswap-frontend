@@ -1,5 +1,9 @@
 import { ThemeUIStyleObject } from "theme-ui";
 
+export const NAV_HEIGHT = 60
+export const NAV_MOBILE_DISPLAY = ['flex', 'flex', 'flex', 'flex', 'none']
+export const NAV_DESKTOP_DISPLAY = ['none', 'none', 'none', 'none', 'flex']
+
 const styles: Record<
   | "container"
   | "menuItemContainer"
@@ -15,7 +19,7 @@ const styles: Record<
     justifyContent: "space-between",
     background: "navbar",
     width: "100vw",
-    height: "60px",
+    height: `${NAV_HEIGHT}px`,
     borderBottom: "2px solid",
     borderColor: "white3",
   },
@@ -26,7 +30,7 @@ const styles: Record<
     alignItems: "center",
     padding: "2px 7.5px 0px 7.5px",
     margin: "0px 22.5px",
-    display: ['none', 'none', 'none', 'flex', 'flex']
+    display: NAV_DESKTOP_DISPLAY
   },
   desktopSubMenuContainer: {
     position: "absolute",

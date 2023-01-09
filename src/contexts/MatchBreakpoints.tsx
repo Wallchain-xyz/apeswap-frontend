@@ -79,6 +79,7 @@ export const getBreakpointChecks = (state: State): BreakpointChecks => {
     isMobile: state.isXs || state.isSm,
     isTablet: state.isMd || state.isLg,
     isDesktop: state.isXl || state.isXxl,
+    isNavBreak: state.isXs || state.isSm || state.isMd || state.isLg,
   };
 };
 

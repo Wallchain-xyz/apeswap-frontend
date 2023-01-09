@@ -5,25 +5,15 @@ import { Flex, Svg } from "components/uikit";
 import { useState } from "react";
 import { MenuButton } from "theme-ui";
 import AccountLoggedInDisplay from "../AccountLoggedInDisplay";
-import styles from "../styles";
+import styles, { NAV_HEIGHT, NAV_MOBILE_DISPLAY } from "../styles";
 import SubMenu from "./SubMenu";
 import { getNavConfig } from "components/NavBar/config/chains";
 
-const MobileMenu = () => {
-  const { account, chainId } = useWeb3React();
-  const [dropdownFlag, setDropdownFlag] = useState(false);
+const MobileMenu = ({ dropdownFlag }: { dropdownFlag: boolean }) => {
+  const { chainId } = useWeb3React();
 
   return (
-    <>
-      <Flex sx={styles.container}>
-        <Flex>
-          <Svg icon="logo" width="38px" />
-        </Flex>
-        <Flex sx={{ alignItems: "center" }}>
-          {account ? <AccountLoggedInDisplay /> : <ConnectWalletButton />}
-          <MenuButton onClick={() => setDropdownFlag((prev) => !prev)} />
-        </Flex>
-      </Flex>
+    <Flex sx={{ display: NAV_MOBILE_DISPLAY}}>
       <AnimatePresence>
         {dropdownFlag && (
           <motion.div
@@ -33,6 +23,8 @@ const MobileMenu = () => {
             exit={{ height: 0 }}
             sx={{
               position: "absolute",
+              top: NAV_HEIGHT,
+              left: 0,
               height: "100px",
               width: "100%",
               overflow: "hidden",
@@ -45,7 +37,7 @@ const MobileMenu = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </Flex>
   );
 };
 

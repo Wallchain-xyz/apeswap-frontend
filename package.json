@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "yarn run typechain",
+    "typechain": "typechain --out-dir src/config/abi/types --target=ethers-v5 \"src/config/abi/*.json\""
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191"
+    "@typechain/ethers-v5": "^10.2.0",
+    "@types/lodash": "^4.14.191",
+    "typechain": "^8.1.1"
   },
   "dependencies": {
     "@ape.swap/sdk": "^4.3.3",
