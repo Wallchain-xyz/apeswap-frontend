@@ -8,19 +8,25 @@ import NavBar from "components/NavBar";
 import { LanguageProvider } from "contexts/Localization";
 import ModalProvider from "contexts/ModalContext";
 import Web3Provider from "contexts/Web3Provider";
+import { MatchBreakpointsProvider } from "contexts/MatchBreakpoints";
+import { useResponsiveValue, useBreakpointIndex } from '@theme-ui/match-media'
 
 export default function App({ Component, pageProps }: AppProps) {
+  //   const NavBar =  dynamic(() => import('components/NavBar'), { ssr: false })
+  console.log(useBreakpointIndex())
   return (
     <Provider store={store}>
       <Web3Provider>
         <ThemeProvider theme={theme}>
-          <LanguageProvider>
-            <ModalProvider>
-              <NavBar />
-              <Component {...pageProps} />
-              <Footer />
-            </ModalProvider>
-          </LanguageProvider>
+          <MatchBreakpointsProvider>
+            <LanguageProvider>
+              <ModalProvider>
+                <NavBar />
+                <Component {...pageProps} />
+                <Footer />
+              </ModalProvider>
+            </LanguageProvider>
+          </MatchBreakpointsProvider>
         </ThemeProvider>
       </Web3Provider>
     </Provider>

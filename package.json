@@ -16,6 +16,7 @@
     "@coinbase/wallet-sdk": "^3.3.0",
     "@emotion/react": "^11.10.5",
     "@reduxjs/toolkit": "^1.9.1",
+    "@theme-ui/match-media": "^0.15.4",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",

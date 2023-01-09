@@ -7,5 +7,4 @@ export const theme: Theme = {
   ...baseTheme,
   ...components,
   colors: { ...Colors },
-  };
-
+};

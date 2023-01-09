@@ -1027,6 +1027,11 @@
   dependencies:
     csstype "^3.0.10"
 
+"@theme-ui/match-media@^0.15.4":
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/@theme-ui/match-media/-/match-media-0.15.4.tgz#d19666597d2f578b1406b714d039d9aa3fb75e6f"
+  integrity sha512-xjmu/Tkh9gR+QDrwQ7de39sEBLQhXngGgz4ZxzCO0+hZ4bGQkrS3AJU4p8LPV/GYbIk55mK19sh9jRBPqb5F9A==
+
 "@theme-ui/theme-provider@^0.15.3":
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/@theme-ui/theme-provider/-/theme-provider-0.15.3.tgz#1ffdaf689bc9bdb7c5f9d29cbf86617412660cc0"
