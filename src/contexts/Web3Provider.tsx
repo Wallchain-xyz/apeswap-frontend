@@ -1,5 +1,6 @@
 import { Web3ReactHooks, Web3ReactProvider } from "@web3-react/core";
 import { Connector } from "@web3-react/types";
+import useEagerConnect from "hooks/useEagerConnect";
 import React, { useMemo } from "react";
 import { listOfConnections } from "utils/connection";
 import { Connection } from "utils/connection/types";
@@ -17,6 +18,8 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         .join("-"),
     [listOfConnections]
   );
+
+  useEagerConnect();
 
   return (
     <Web3ReactProvider connectors={connectors} key={key}>
