@@ -114,6 +114,15 @@ const Footer = () => {
           <MobileDropdown title="Access" items={ACCESS_LINKS} />
         </Flex>
       </Flex>
+      <Flex sx={styles.footerMonkeyContainer}>
+        <Flex sx={styles.footerMonkey}>
+          <Svg icon="logo" width="100%" />
+        </Flex>
+      </Flex>
+      <Flex sx={styles.allRightsReserved}>
+        <Text>©2023 All rights reserved</Text>
+        <Text size="12px"> Terms | Privacy Policy</Text>
+      </Flex>
     </Flex>
   );
 };

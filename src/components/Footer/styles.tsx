@@ -1,6 +1,5 @@
 import { ThemeUIStyleObject } from "theme-ui";
 
-// TODO: Figure out media queries
 const styles: Record<
   | "container"
   | "columnContainer"
@@ -8,10 +7,13 @@ const styles: Record<
   | "rightColumnContainer"
   | "iconContainer"
   | "allRightsReserved"
-  | "supportLinksContainer",
+  | "supportLinksContainer"
+  | "footerMonkeyContainer"
+  | "footerMonkey",
   ThemeUIStyleObject
 > = {
   container: {
+    position: "relative",
     alignContent: "center",
     justifyContent: "center",
     padding: [
@@ -64,16 +66,34 @@ const styles: Record<
   },
   allRightsReserved: {
     color: "primaryBright",
+    flexDirection: "column",
+    alignItems: "center",
     position: "absolute",
-    bottom: ["10px", "20px"],
-    left: ["20px", "auto"],
+    bottom: ["10px", "10px"],
+    left: ["20px", "20px", 'auto', '25%', "auto"],
   },
   supportLinksContainer: {
     flexDirection: "column",
     height: "200px",
     justifyContent: "space-between",
     alignSelf: "flex-start",
-    display: ["none", "none", "flex"]
+    display: ["none", "none", "flex"],
+    zIndex: 1,
+  },
+  footerMonkeyContainer: {
+    position: "absolute",
+    overflow: "hidden",
+    bottom: 0,
+    right: [0, 0, 0, 50],
+  },
+  footerMonkey: {
+    width: ["120px", "150px", "150px", "325px"],
+    transform: [
+      "translate(0px, 45px)",
+      "translate(0px, 55px)",
+      "translate(0px, 55px)",
+      "translate(0px, 130px)",
+    ],
   },
   // linkText: {
   //   "&:hover": {

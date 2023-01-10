@@ -7,9 +7,9 @@ export default function Moonpay() {
 
   return (
     <>
-      <Flex justifyContent="center" mb="20px" mt="20px">
-        <Flex onClick={onPresentModal} mr="10px" sx={{cursor: 'pointer'}}>
-          <Svg icon="calculator" />
+      <Flex justifyContent="center">
+        <Flex onClick={onPresentModal} mr="20px" sx={{cursor: 'pointer'}}>
+          <Svg icon="card" width='30px' />
         </Flex>
       </Flex>
     </>

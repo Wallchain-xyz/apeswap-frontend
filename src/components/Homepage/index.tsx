@@ -6,7 +6,6 @@ import ConenctWallet from "../../components/ConnectWallet";
 
 const Home = () => {
   const { account, connector, chainId } = useWeb3React();
-  console.log(chainId);
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {
       connector.deactivate();

@@ -53,5 +53,6 @@ export { default as Island } from "./Island";
 export { default as Moon } from "./Moon";
 export { default as LanguageIcon } from "./LanguageIcon";
 export { default as AccountMonkey } from "./AccountMonkey";
+export { default as Card } from "./Card";
 
 
