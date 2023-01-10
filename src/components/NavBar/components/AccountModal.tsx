@@ -2,10 +2,13 @@ import { useWeb3React } from "@web3-react/core";
 import { Button, Flex, Modal, Text } from "components/uikit";
 import { useTranslation } from "contexts/Localization";
 import { useCallback } from "react";
+import { useAppDispatch } from "state/hooks";
+import { updateSelectedWallet } from "state/user/reducer";
 import { Link } from "theme-ui";
 
 // TODO: When expanding on this component move it into its on folder in components
 const AccountModal = ({ onDismiss }: { onDismiss: () => void }) => {
+  const dispatch = useAppDispatch();
   const { account, chainId, connector } = useWeb3React();
   const { t } = useTranslation();
   const disconnect = useCallback(() => {
@@ -27,7 +30,9 @@ const AccountModal = ({ onDismiss }: { onDismiss: () => void }) => {
       </Flex>
       <Button
         onClick={() => {
-          disconnect(), onDismiss();
+          disconnect(),
+            dispatch(updateSelectedWallet({ wallet: undefined })),
+            onDismiss();
         }}
         sx={{ alignSelf: "center" }}
         variant="secondary"

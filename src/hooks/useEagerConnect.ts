@@ -5,13 +5,14 @@ import { getConnection } from "utils/connection/utils";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "state/hooks";
 import { updateSelectedWallet } from "state/user/reducer";
+import { ChainId } from "@ape.swap/sdk";
 
-async function connect(connector: Connector) {
+async function connect(connector: Connector, chainId: ChainId) {
   try {
     if (connector.connectEagerly) {
-      await connector.connectEagerly(1);
+      await connector.connectEagerly(chainId);
     } else {
-      await connector.activate(1);
+      await connector.activate(chainId);
     }
   } catch (error) {
     console.debug(`web3-react eager connection error: ${error}`);
@@ -22,6 +23,7 @@ export default function useEagerConnect() {
   const dispatch = useAppDispatch();
 
   const selectedWallet = useAppSelector((state) => state.user.selectedWallet);
+  const selectedChainId = useAppSelector((state) => state.user.selectedNetwork);
 
   let selectedConnection: Connection | undefined;
   if (selectedWallet) {
@@ -33,11 +35,11 @@ export default function useEagerConnect() {
   }
 
   useEffect(() => {
-    connect(gnosisSafeConnection.connector);
-    connect(networkConnection.connector);
+    connect(gnosisSafeConnection.connector, selectedChainId);
+    connect(networkConnection.connector, selectedChainId);
 
     if (selectedConnection) {
-      connect(selectedConnection.connector);
+      connect(selectedConnection.connector, selectedChainId);
     } // The dependency list is empty so this is only run once on mount
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 }

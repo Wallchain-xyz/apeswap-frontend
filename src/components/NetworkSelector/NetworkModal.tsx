@@ -6,9 +6,18 @@ import {
   NETWORK_LABEL,
 } from "config/constants/chains";
 import useSelectChain from "hooks/useSelectChain";
+import { useAppDispatch } from "state/hooks";
+import { updateSelectedNetwork } from "state/user/reducer";
 
-const NetworkModal = ({ onDismiss }: { onDismiss: () => void }) => {
+const NetworkModal = ({
+  onDismiss,
+  onSetRequestPending,
+}: {
+  onDismiss: () => void;
+  onSetRequestPending: (reqFlag: boolean) => void;
+}) => {
   const selectChain = useSelectChain();
+  const dispatch = useAppDispatch();
   return (
     <Modal
       maxWidth="400px"
@@ -30,8 +39,12 @@ const NetworkModal = ({ onDismiss }: { onDismiss: () => void }) => {
                 justifyContent: "center",
                 background: "white4",
               }}
-              onClick={() => {
-                selectChain(chainId);
+              onClick={async () => {
+                onSetRequestPending(true);
+                selectChain(chainId)
+                  .then(() => onSetRequestPending(false))
+                  .catch(() => onSetRequestPending(false));
+                dispatch(updateSelectedNetwork({ chainId: chainId }));
                 onDismiss();
               }}
             >

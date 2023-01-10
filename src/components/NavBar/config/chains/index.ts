@@ -1,5 +1,6 @@
 import { ChainId } from "@ape.swap/sdk";
 import { NavConfig } from "components/NavBar/types";
+import { isSupportedChain } from "utils";
 import bscConfig from "./bscConfig";
 import ethConfig from "./ethConfig";
 import maticConfig from "./maticConfig";
@@ -15,7 +16,8 @@ export const configMappedToNetwork: Record<ChainId, NavConfig[]> = {
 };
 
 export const getNavConfig = (chainId: ChainId | undefined): NavConfig[] => {
-  if (!chainId) {
+  const supportedChainId = isSupportedChain(chainId);
+  if (!chainId || !supportedChainId) {
     return configMappedToNetwork[ChainId.BSC];
   }
   return configMappedToNetwork[chainId];
