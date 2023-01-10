@@ -39,7 +39,9 @@ const NavBar = () => {
         >
           <LangSelectorButton />
           <Moonpay />
-          <NetworkSelector />
+          <span sx={{ mr: "10px" }}>
+            <NetworkSelector />
+          </span>
         </Flex>
         {account ? <AccountLoggedInDisplay /> : <ConnectWalletButton />}
         <Flex

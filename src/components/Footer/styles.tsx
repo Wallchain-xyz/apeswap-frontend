@@ -73,7 +73,7 @@ const styles: Record<
     height: "200px",
     justifyContent: "space-between",
     alignSelf: "flex-start",
-    display: ["none", "none", "flex"],
+    display: ["none", "none", "flex"]
   },
   // linkText: {
   //   "&:hover": {

@@ -54,6 +54,7 @@ import {
   Telegram,
   Island,
   Moon,
+  AccountMonkey,
 } from "./Icons";
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from "./tokens";
 import {
@@ -206,6 +207,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Moon {...props} getStyles={getStyles} />;
     case icons.LANGUAGE_ICON:
       return <Language {...props} getStyles={getStyles} />;
+      case icons.ACCOUNT_MONKEY:
+        return <AccountMonkey {...props} getStyles={getStyles} />;
     // Wallet Icons
     case icons.BINANCE_CHAIN:
       return <BinanceChain {...props} getStyles={getStyles} />;

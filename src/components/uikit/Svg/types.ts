@@ -61,6 +61,7 @@ export enum icons {
   FULL_LOGO = "fullLogo",
   ISLAND = "island",
   MOON = "moon",
+  ACCOUNT_MONKEY = 'accountMonkey',
   LANGUAGE_ICON = "languageIcon",
   BINANCE_CHAIN = "binanceChain",
   BITKEEP = "bitkeep",
