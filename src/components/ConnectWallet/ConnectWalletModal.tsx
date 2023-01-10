@@ -1,9 +1,12 @@
 import { Button, Flex, Modal, Svg, Text } from "components/uikit";
+import { useAppDispatch } from "state/hooks";
+import { updateSelectedWallet } from "state/user/reducer";
 import useActivate from "utils/connection/activate";
 import connectors from "./config";
 
 const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
   const activate = useActivate();
+  const dispatch = useAppDispatch();
   return (
     <Modal maxWidth="400px" minWidth="350px" title="Connect to a Wallet">
       <Flex
@@ -22,7 +25,9 @@ const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
                 background: "white4",
               }}
               onClick={() => {
-                activate(connection), onDismiss();
+                activate(connection),
+                  dispatch(updateSelectedWallet({ wallet: connection.type })),
+                  onDismiss();
               }}
             >
               <Text weight="normal" size="15px">

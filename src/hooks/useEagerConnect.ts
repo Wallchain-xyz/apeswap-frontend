@@ -1,20 +1,17 @@
 import { Connector } from "@web3-react/types";
-import {
-  gnosisSafeConnection,
-  injectedConnection,
-  networkConnection,
-} from "utils/connection";
-import { Connection, ConnectionType } from "utils/connection/types";
+import { gnosisSafeConnection, networkConnection } from "utils/connection";
+import { Connection } from "utils/connection/types";
 import { getConnection } from "utils/connection/utils";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "state/hooks";
+import { updateSelectedWallet } from "state/user/reducer";
 
 async function connect(connector: Connector) {
   try {
     if (connector.connectEagerly) {
-      await connector.connectEagerly();
+      await connector.connectEagerly(1);
     } else {
-      await connector.activate();
+      await connector.activate(1);
     }
   } catch (error) {
     console.debug(`web3-react eager connection error: ${error}`);
@@ -24,14 +21,14 @@ async function connect(connector: Connector) {
 export default function useEagerConnect() {
   const dispatch = useAppDispatch();
 
-  const selectedWallet = ConnectionType.INJECTED; // useAppSelector((state) => state.user.selectedWallet);
+  const selectedWallet = useAppSelector((state) => state.user.selectedWallet);
 
   let selectedConnection: Connection | undefined;
   if (selectedWallet) {
     try {
       selectedConnection = getConnection(selectedWallet);
     } catch {
-      //   dispatch(updateSelectedWallet({ wallet: undefined }));
+      dispatch(updateSelectedWallet({ wallet: undefined }));
     }
   }
 
