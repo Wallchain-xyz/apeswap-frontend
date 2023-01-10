@@ -7,43 +7,48 @@ const styles: Record<
   | "leftColumnContainer"
   | "rightColumnContainer"
   | "iconContainer"
-  | "allRightsReserved",
+  | "allRightsReserved"
+  | "supportLinksContainer",
   ThemeUIStyleObject
 > = {
   container: {
     alignContent: "center",
     justifyContent: "center",
-    border: "1px solid red",
-    padding: "80px 10px 100px 10px",
+    padding: [
+      "20px 20px 100px 20px",
+      "20px 20px 100px 20px",
+      "80px 20px 100px 20px",
+    ],
     background: "footer",
     width: "100%",
     minHeight: "560px",
+    borderTop: "2px solid",
+    borderColor: "white3",
   },
   columnContainer: {
-    width: "1200px",
-    justifyContent: "space-between",
-    border: "1px solid red",
-    "@media screen and (max-width: 780px)": {
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "column",
-      width: "100%",
-    },
+    width: ["100%", "100%", "100%", "1200px"],
+    alignItems: "center",
+    justifyContent: ["center", "center", "center", "space-between"],
+    flexDirection: ["column", "column", "column", "row"],
   },
   leftColumnContainer: {
     flexDirection: "column",
-    border: "1px solid red",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    height: ["475px", "375px", "375px"],
+    height: "375px",
     maxWidth: "375px",
     width: "100%",
+    marginBottom: ["20px", "20px", "20px", "0px"],
   },
   rightColumnContainer: {
-    border: "1px solid red",
     maxWidth: "550px",
-    width: '100%',
+    width: "100%",
+    alignSelf: ["auto", "auto", "auto", "flex-start"],
+    flexDirection: ["column", "column", "row"],
     justifyContent: "space-between",
+    pt: ["0px", "0px", "0px", "10px"],
+    ml: ["0px", "0px", "0px", "50px"],
+    marginTop: ["20px", "20px", "20px", "0px"],
   },
   iconContainer: {
     height: "42.5px",
@@ -62,6 +67,13 @@ const styles: Record<
     position: "absolute",
     bottom: ["10px", "20px"],
     left: ["20px", "auto"],
+  },
+  supportLinksContainer: {
+    flexDirection: "column",
+    height: "200px",
+    justifyContent: "space-between",
+    alignSelf: "flex-start",
+    display: ["none", "none", "flex"],
   },
   // linkText: {
   //   "&:hover": {

@@ -1,8 +1,10 @@
 import { LangaugeDropdown } from "components/Langauge";
 import NetworkSelector from "components/NetworkSelector";
 import ThemeSwitcher from "components/ThemeSwitcher";
-import { Flex, Svg, Text } from "components/uikit";
+import { Button, Flex, Svg, Text } from "components/uikit";
 import { useTranslation } from "contexts/Localization";
+import CountUp from "react-countup";
+import MobileDropdown from "./components/MobileDropdown";
 import {
   ACCESS_LINKS,
   ENGAGE_LINKS,
@@ -23,7 +25,15 @@ const Footer = () => {
               `ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone.`
             )}
           </Text>
-          <Flex sx={{ justifyContent: "space-between", width: "100%", flexWrap: 'wrap' }}>
+          <Flex
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              flexWrap: "wrap",
+              height: ["100px", "fit-content"],
+            }}
+          >
             <ThemeSwitcher />
             <NetworkSelector />
             <LangaugeDropdown />
@@ -43,17 +53,27 @@ const Footer = () => {
               );
             })}
           </Flex>
-          <Flex>asds</Flex>
+          <Flex>
+            <Flex sx={{ alignItems: "center" }}>
+              <Svg icon="banana_token" width={35} />
+              <Text color="primaryBright" ml="7px" weight={600}>
+                $
+                <CountUp
+                  start={0}
+                  end={42.0}
+                  decimals={2}
+                  duration={1}
+                  separator=","
+                />
+              </Text>
+            </Flex>
+            <Button size="sm" ml="20px">
+              {t("Add Funds")}
+            </Button>
+          </Flex>
         </Flex>
         <Flex sx={styles.rightColumnContainer}>
-          <Flex
-            sx={{
-              flexDirection: "column",
-              height: "200px",
-              border: "1px solid red",
-              justifyContent: "space-between",
-            }}
-          >
+          <Flex sx={styles.supportLinksContainer}>
             <Text color="yellow" size="26px" weight={700}>
               {t("Support")}
             </Text>
@@ -65,14 +85,7 @@ const Footer = () => {
               );
             })}
           </Flex>
-          <Flex
-            sx={{
-              flexDirection: "column",
-              height: "200px",
-              border: "1px solid red",
-              justifyContent: "space-between",
-            }}
-          >
+          <Flex sx={styles.supportLinksContainer}>
             <Text color="yellow" size="26px" weight={700}>
               {t("Engage")}
             </Text>
@@ -84,14 +97,7 @@ const Footer = () => {
               );
             })}
           </Flex>
-          <Flex
-            sx={{
-              flexDirection: "column",
-              height: "200px",
-              border: "1px solid red",
-              justifyContent: "space-between",
-            }}
-          >
+          <Flex sx={styles.supportLinksContainer}>
             <Text color="yellow" size="26px" weight={700}>
               {t("Access")}
             </Text>
@@ -103,6 +109,9 @@ const Footer = () => {
               );
             })}
           </Flex>
+          <MobileDropdown title="Support" items={SUPPORT_LINKS} />
+          <MobileDropdown title="Engage" items={ENGAGE_LINKS} />
+          <MobileDropdown title="Access" items={ACCESS_LINKS} />
         </Flex>
       </Flex>
     </Flex>

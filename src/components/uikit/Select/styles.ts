@@ -10,6 +10,7 @@ const styles: Record<
     borderRadius: "10px",
     cursor: "pointer",
     width: "fit-content",
+    height: 'fit-content',
     position: "relative",
   },
   ul: {
