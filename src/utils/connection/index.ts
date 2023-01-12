@@ -4,12 +4,6 @@ import { GnosisSafe } from '@web3-react/gnosis-safe'
 import { MetaMask } from '@web3-react/metamask'
 import { Network } from '@web3-react/network'
 import { WalletConnect } from '@web3-react/walletconnect'
-import METAMASK_ICON_URL from 'assets/images/metamaskWallet.png'
-import WALLET_CONNECT_ICON_URL from 'assets/images/walletConnectWallet.svg'
-import COINBASE_ICON_URL from 'assets/images/coinbaseWallet.svg'
-import GNOSIS_SAFE_ICON_URL from 'assets/images/gnosisSafeWallet.png'
-
-import { StaticImageData } from 'next/image'
 import { Connection, ConnectionType } from './types'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { NETWORK_RPC, RPC_PROVIDERS } from 'config/constants/chains'
@@ -101,10 +95,3 @@ export const listOfConnections: Connection[] = [
   gnosisSafeConnection,
   networkConnection,
 ]
-
-export const connectionIcons: Partial<Record<ConnectionType, StaticImageData>> = {
-  [ConnectionType.INJECTED]: METAMASK_ICON_URL,
-  [ConnectionType.WALLET_CONNECT]: WALLET_CONNECT_ICON_URL,
-  [ConnectionType.COINBASE_WALLET]: COINBASE_ICON_URL,
-  [ConnectionType.GNOSIS_SAFE]: GNOSIS_SAFE_ICON_URL,
-}
