@@ -25,7 +25,10 @@ export default function useBlockNumber(): number | undefined {
 
 export function BlockNumberProvider({ children }: { children: ReactNode }) {
   const { chainId: activeChainId, provider } = useWeb3React()
-  const [{ chainId, block }, setChainBlock] = useState<{ chainId?: number; block?: number }>({ chainId: activeChainId })
+  const [{ chainId, block }, setChainBlock] = useState<{
+    chainId?: number
+    block?: number
+  }>({ chainId: activeChainId })
 
   const onBlock = useCallback(
     (block: number) => {
@@ -38,7 +41,7 @@ export function BlockNumberProvider({ children }: { children: ReactNode }) {
         return chainBlock
       })
     },
-    [activeChainId, setChainBlock]
+    [activeChainId, setChainBlock],
   )
 
   const windowVisible = useIsWindowVisible()

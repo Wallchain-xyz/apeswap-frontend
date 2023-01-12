@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 const MoonPayIframe: React.FC<{ manualChainId?: number }> = ({ manualChainId }) => {
   const url = 'https://apeswap.finance/'
 

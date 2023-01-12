@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const Chart: React.FC<SvgProps> = ({ direction = "down", color = "text", width, getStyles }) => {
+const Chart: React.FC<SvgProps> = ({ direction = 'down', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 90,
     up: 180,
     right: 270,
     down: 0,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "10"} viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '10'} viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path
         d="M3.10416 1.5204C3.10416 0.680715 2.40926 0 1.55208 0C0.694896 0 0 0.680715 0 1.5204V18.2448C0 19.9243 1.38978 21.2856 3.10416 21.2856H26.3853C27.2425 21.2856 27.9374 20.605 27.9374 19.7652C27.9374 18.9255 27.2425 18.2448 26.3853 18.2448H3.10416V1.5204Z"
         fill="#4D4040"
@@ -27,7 +26,7 @@ const Chart: React.FC<SvgProps> = ({ direction = "down", color = "text", width, 
         fill="#4D4040"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Chart;
+export default Chart

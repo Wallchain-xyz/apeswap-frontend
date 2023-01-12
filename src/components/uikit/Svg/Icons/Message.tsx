@@ -1,16 +1,15 @@
+import React from 'react'
+import { SvgProps } from './types'
 
-import React from "react";
-import { SvgProps } from "./types";
-
-const Message: React.FC<SvgProps> = ({ width, height, color = "text", getStyles }) => {
+const Message: React.FC<SvgProps> = ({ width, height, color = 'text', getStyles }) => {
   const style = getStyles({
     color,
-  });
+  })
 
   return (
     <svg
-      width={width || "25"}
-      height={height || "20"}
+      width={width || '25'}
+      height={height || '20'}
       viewBox="0 0 25 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +20,7 @@ const Message: React.FC<SvgProps> = ({ width, height, color = "text", getStyles 
         fill="#4D4040"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message

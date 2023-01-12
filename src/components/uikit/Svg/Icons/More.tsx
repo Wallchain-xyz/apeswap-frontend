@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const More: React.FC<SvgProps> = ({ direction = "right", color = "text", width, getStyles }) => {
+const More: React.FC<SvgProps> = ({ direction = 'right', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 180,
     up: 270,
     right: 0,
     down: 90,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "24"} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '24'} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path
         d="M7.97587 14.4378C7.97587 15.4163 7.76563 16.0879 7.34513 16.4527C6.92463 16.8176 6.30168 17 5.47626 17C4.66641 17 4.05124 16.8176 3.63074 16.4527C3.21025 16.0879 3 15.4163 3 14.4378C3 13.4594 3.21025 12.8126 3.63074 12.4975C4.06682 12.1658 4.68977 12 5.49962 12C6.30946 12 6.92463 12.1658 7.34513 12.4975C7.76563 12.8126 7.97587 13.4594 7.97587 14.4378Z"
         fill="#4D4040"
@@ -29,7 +28,7 @@ const More: React.FC<SvgProps> = ({ direction = "right", color = "text", width, 
         fill="#4D4040"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default More;
+export default More

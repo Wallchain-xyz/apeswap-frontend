@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const NFA: React.FC<SvgProps> = ({ direction = "right", color = "text", width, getStyles }) => {
+const NFA: React.FC<SvgProps> = ({ direction = 'right', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 180,
     up: 270,
     right: 0,
     down: 90,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "24"} viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '24'} viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path
         d="M21.1525 13.0931H20.6684V12.0984H20.1682V11.6186H19.155V12.0984H18.1546V10.6176H17.6544V9.12409H17.1478L16.8349 8.97942L16.3335 8.87891L16.1831 8.9787L15.9157 8.87891L15.6817 8.97873L15.5146 8.87891H15.2137L14.9129 8.97894L14.5619 8.87882L13.9602 8.87873H13.4421L12.9072 8.97894H12.3724H12.1886L11.5702 8.87866H10.9852L10.5506 8.97894H10.0659L9.56453 8.87866H8.66199H8.04452H7.47533L5.02403 9.11138H4.51741V10.6049H4.03337V12.0984H3.02009V11.6186H2.00359V12.0984H1.5002V13.0899H1V14.0813H1.5002V15.076H2.00359V15.5717H2.50701V16.0611H3.01363V19.0481H3.51383V20.0427H4.01722V20.5353H4.52387V21.0342H5.02403V21.5331H5.53069V22.0225H6.03731V22.5214H6.5375V23.0298H7.04735V23.5255H7.55078V24.0212H8.05417V24.5201H9.06421V25H13.1044V24.5201H14.1144V24.0212H14.6179V23.5287H15.1213V23.033H15.6182V22.5436H16.1184V22.0447H16.6186V21.5522H17.1252V21.0501H17.6222V20.5512H18.1288V20.0618H18.6354V19.0481H19.1421V16.0769H19.6552V15.5717H20.1682V15.076H20.6749V14.0909H21.1589L21.1525 13.0931Z"
         fill="#4D4040"
@@ -32,7 +31,7 @@ const NFA: React.FC<SvgProps> = ({ direction = "right", color = "text", width, g
         fill="#F9F4E7"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default NFA;
+export default NFA

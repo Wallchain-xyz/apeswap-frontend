@@ -1,9 +1,9 @@
-import React from "react";
-import { SvgProps } from "../types";
+import React from 'react'
+import { SvgProps } from '../types'
 
 const BANANA: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width={width || "25"} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width || '25'} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M16.5444 34.937L16.5429 34.9368C13.2548 34.654 10.1202 33.4202 7.52143 31.386C4.9227 29.3518 2.97226 26.6053 1.90808 23.4814C0.843902 20.3575 0.712007 16.9915 1.52849 13.7939C2.34497 10.5964 4.07452 7.7056 6.50611 5.47434C8.9377 3.24307 11.9662 1.76779 15.222 1.22852C18.4779 0.689239 21.8203 1.10928 24.8415 2.43739C27.8626 3.7655 30.4319 5.94425 32.2358 8.70778C34.0396 11.4713 35.0001 14.7001 35 18.0003C35 22.5089 33.2089 26.8328 30.0208 30.0209C26.8327 33.209 22.5087 35 18 35C17.5092 35 17.024 34.9789 16.5444 34.937Z"
         fill="#FAF4E6"
@@ -43,7 +43,7 @@ const BANANA: React.FC<SvgProps> = ({ width }) => {
         fill="#FFCA28"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default BANANA;
+export default BANANA

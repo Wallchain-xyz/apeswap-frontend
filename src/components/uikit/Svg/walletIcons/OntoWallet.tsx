@@ -1,27 +1,11 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const OntoWallet = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "32"}
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>{"\u7F16\u7EC4"}</title>
-      <g
-        id="\u9875\u9762-1"
-        stroke="none"
-        strokeWidth={1}
-        fill="none"
-        fillRule="evenodd"
-      >
-        <g
-          id="ONTO-Landing-Page"
-          transform="translate(-48.000000, -53.000000)"
-          stroke="#000000"
-          strokeWidth={3}
-        >
+    <svg width={width || '32'} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <title>{'\u7F16\u7EC4'}</title>
+      <g id="\u9875\u9762-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
+        <g id="ONTO-Landing-Page" transform="translate(-48.000000, -53.000000)" stroke="#000000" strokeWidth={3}>
           <g id="\u7F16\u7EC4" transform="translate(50.000000, 57.000000)">
             <path
               d="M3.14572653,3.565339 L3.14572653,3.565339 L0,0.420257608 L0,11.1571295 C0,13.9054947 1.04857551,16.6532371 3.14572653,18.7495428 C7.3406516,22.9427771 14.141751,22.9427771 18.336676,18.7495428 L3.14572653,3.565339 Z"
@@ -35,7 +19,7 @@ const OntoWallet = ({ width }: SvgProps) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default OntoWallet;
+export default OntoWallet

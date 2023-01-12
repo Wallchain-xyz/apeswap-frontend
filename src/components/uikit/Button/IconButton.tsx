@@ -1,10 +1,10 @@
-import React from "react";
-import { Button } from "theme-ui";
-import Svg from "../Svg";
-import { icons } from "../Svg/types";
-import { IconButtonProps, iconButtonVariants as variants } from "./types";
-import style from "./styles";
-import colorValues from "theme/types";
+import React from 'react'
+import { Button } from 'theme-ui'
+import Svg from '../Svg'
+import { icons } from '../Svg/types'
+import { IconButtonProps, iconButtonVariants as variants } from './types'
+import style from './styles'
+import colorValues from 'theme/types'
 
 const IconButton: React.FC<IconButtonProps> = ({
   icon = icons.DISCORD,
@@ -27,7 +27,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     >
       {children || <Svg color={color} icon={icon} {...props} />}
     </Button>
-  );
-};
+  )
+}
 
-export default IconButton;
+export default IconButton

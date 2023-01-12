@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const Trade: React.FC<SvgProps> = ({ direction = "right", color = "text", width, getStyles }) => {
+const Trade: React.FC<SvgProps> = ({ direction = 'right', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 180,
     up: 270,
     right: 0,
     down: 90,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "28"} viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '28'} viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path
         d="M22.9536 5.45462L21.0978 4.96173L19.242 4.46884C18.9815 4.40312 18.8838 4.07453 19.0792 3.87738L19.9582 2.99018C18.1675 1.87297 16.1164 1.28151 14.0001 1.28151C11.2001 1.28151 8.49777 2.333 6.44661 4.23883C6.18614 4.46884 5.76289 4.46884 5.53498 4.20597C5.30708 3.9431 5.30708 3.51593 5.56754 3.28591C7.87917 1.15007 10.8745 0 14.0001 0C16.4745 0 18.8513 0.722901 20.9024 2.10298L21.8141 1.18293C22.0094 0.985774 22.335 1.08435 22.4001 1.34722L22.8885 3.2202L23.3768 5.09317C23.442 5.29032 23.1815 5.55319 22.9536 5.45462Z"
         fill="#4D4040"
@@ -33,7 +32,7 @@ const Trade: React.FC<SvgProps> = ({ direction = "right", color = "text", width,
         fill="#4D4040"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Trade;
+export default Trade

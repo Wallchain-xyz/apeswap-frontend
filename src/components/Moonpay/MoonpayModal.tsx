@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import MoonPayIframe from './MoonFrame'
-import { ChainId } from '@ape.swap/sdk'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 import { NETWORK_LABEL } from 'config/constants/chains'
 import { useTranslation } from 'contexts/Localization'
 import { useWeb3React } from '@web3-react/core'
@@ -8,9 +8,9 @@ import { CheckBox, Flex, Modal, Text } from 'components/uikit'
 import { ModalProps } from 'components/uikit/Modal/types'
 
 // Supported chains for moonpay
-const SUPPORTED_CHAINS = [ChainId.BSC, ChainId.MAINNET, ChainId.MATIC]
+const SUPPORTED_CHAINS = [SupportedChainId.BSC, SupportedChainId.MAINNET, SupportedChainId.POLYGON]
 
-export default function MoonPayModal({ onDismiss }: {onDismiss: () => void}) {
+export default function MoonPayModal({ onDismiss }: { onDismiss: () => void }) {
   const [accept, setAccept] = useState(false)
   const { t } = useTranslation()
   const { chainId } = useWeb3React()

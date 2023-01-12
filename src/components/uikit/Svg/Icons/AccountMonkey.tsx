@@ -1,30 +1,20 @@
-import React from "react";
-import { SvgProps, rotation } from "./types";
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-const AccountMonkey: React.FC<SvgProps> = ({
-  direction = "down",
-  color = "white3",
-  width,
-  getStyles,
-}) => {
+const AccountMonkey: React.FC<SvgProps> = ({ direction = 'down', color = 'white3', width, getStyles }) => {
   const deg: rotation = {
     left: 90,
     up: 180,
     right: 270,
     down: 0,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg
-      width={width || "85.46"}
-      viewBox="0 0 85.46 100.46"
-      xmlns="http://www.w3.org/2000/svg"
-      sx={style}
-    >
+    <svg width={width || '85.46'} viewBox="0 0 85.46 100.46" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path d="M85.46 42.73A42.73 42.73 0 1142.73 0a42.68 42.68 0 0142.73 42.73z" />
       <path
         color="grey"
@@ -58,7 +48,7 @@ const AccountMonkey: React.FC<SvgProps> = ({
         d="M33.75 41.12a2.94 2.94 0 01-3-2.86v-1a2.94 2.94 0 013-2.85 2.94 2.94 0 013 2.85v1a2.94 2.94 0 01-3 2.86zM51.84 41.12a2.94 2.94 0 01-3-2.86v-1a2.94 2.94 0 013-2.85 2.94 2.94 0 013 2.85v1a2.94 2.94 0 01-3 2.86z"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default AccountMonkey;
+export default AccountMonkey

@@ -1,87 +1,87 @@
-import { icons } from "components/uikit/Svg/types";
+import { icons } from 'components/uikit/Svg/types'
 import {
   coinbaseWalletConnection,
   injectedConnection,
   networkConnection,
   walletConnectConnection,
-} from "utils/connection";
-import { Config } from "./types";
+} from 'utils/connection'
+import { Config } from './types'
 
 const connectors: Config[] = [
   {
-    label: "Metamask",
+    label: 'Metamask',
     icon: icons.METAMASK,
     connection: injectedConnection,
   },
   {
-    label: "TrustWallet",
+    label: 'TrustWallet',
     icon: icons.TRUST_WALLET,
     connection: injectedConnection,
   },
   // TODO: Add torus login
   {
-    label: "Social Login",
+    label: 'Social Login',
     icon: icons.SOCIAL_LOGIN,
     connection: networkConnection,
   },
   {
-    label: "Brave Wallet",
+    label: 'Brave Wallet',
     icon: icons.BRAVE,
     connection: injectedConnection,
   },
   {
-    label: "WalletConnect",
+    label: 'WalletConnect',
     icon: icons.WALLET_CONNECT,
     connection: walletConnectConnection,
   },
   {
-    label: "SafePal Wallet",
+    label: 'SafePal Wallet',
     icon: icons.SAFE_PAL_WALLET,
     connection: injectedConnection,
   },
   {
-    label: "TokenPocket",
+    label: 'TokenPocket',
     icon: icons.TOKEN_POCKET,
     connection: injectedConnection,
   },
   {
-    label: "Coinbase Wallet",
+    label: 'Coinbase Wallet',
     icon: icons.COINBASE,
     connection: coinbaseWalletConnection,
   },
   // TODO: Add binance wallet
   {
-    label: "Binance Chain Wallet",
+    label: 'Binance Chain Wallet',
     icon: icons.BINANCE_CHAIN,
     connection: injectedConnection,
   },
   // TODO: Add Unstoppable domains
   {
-    label: "Unstoppable Domains",
+    label: 'Unstoppable Domains',
     icon: icons.UNSTOPPABLE,
     connection: injectedConnection,
   },
   {
-    label: "NABOX Wallet",
+    label: 'NABOX Wallet',
     icon: icons.NABOX,
     connection: injectedConnection,
   },
   {
-    label: "ONTO Wallet",
+    label: 'ONTO Wallet',
     icon: icons.ONTO_WALLET,
     connection: injectedConnection,
   },
   {
-    label: "Bitkeep",
+    label: 'Bitkeep',
     icon: icons.BITKEEP,
     connection: injectedConnection,
   },
   {
-    label: "MathWallet",
+    label: 'MathWallet',
     icon: icons.MATH_WALLET,
     connection: injectedConnection,
   },
-];
+]
 
-export default connectors;
-export const localStorageKey = "accountStatus";
+export default connectors
+export const localStorageKey = 'accountStatus'

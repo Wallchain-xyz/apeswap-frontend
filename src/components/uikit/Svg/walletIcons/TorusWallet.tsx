@@ -1,8 +1,8 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const TorusWallet = ({ width }: SvgProps) => {
   return (
-    <svg width={width || "32"} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width || '32'} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M16 32c8.837 0 16-7.163 16-16S24.837 0 16 0 0 7.163 0 16s7.163 16 16 16Z" fill="#0364FF" />
       <path
         fillRule="evenodd"
@@ -12,7 +12,7 @@ const TorusWallet = ({ width }: SvgProps) => {
       />
       <path d="M20.838 13.876a2.191 2.191 0 1 0 0-4.382 2.191 2.191 0 0 0 0 4.382Z" fill="#fff" />
     </svg>
-  );
-};
+  )
+}
 
-export default TorusWallet;
+export default TorusWallet

@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const Website: React.FC<SvgProps> = ({ direction = "right", color = "white", width, getStyles }) => {
+const Website: React.FC<SvgProps> = ({ direction = 'right', color = 'white', width, getStyles }) => {
   const deg: rotation = {
     left: 180,
     up: 270,
     right: 0,
     down: 90,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "20"} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '20'} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path d="M6.00377 12.8243C5.77739 11.1035 5.77739 9.3592 6.00377 7.63843H13.2627C13.4898 9.35914 13.4898 11.1036 13.2627 12.8243H6.00377Z" />
       <path d="M13.0267 6.31005H6.22217C6.57084 4.79527 7.02005 3.3428 7.97901 2.11476C8.23706 1.78484 8.53784 1.50176 8.90552 1.30014C9.41369 1.02358 9.91592 1.03988 10.4138 1.32744C10.8978 1.60726 11.2552 2.0219 11.5639 2.48338C12.2652 3.53261 12.6646 4.71258 12.959 5.93655C12.9859 6.04815 13.0077 6.16098 13.0319 6.27339C13.0316 6.28578 13.0298 6.29809 13.0267 6.31005Z" />
       <path d="M6.22461 14.1504H13.0667C12.9104 14.6999 12.7731 15.2359 12.6053 15.7613C12.3282 16.6285 11.972 17.4634 11.4104 18.1762C11.1423 18.5183 10.8302 18.8213 10.4827 19.0768C9.91955 19.4861 9.31837 19.4454 8.74133 19.0629C8.17221 18.685 7.7796 18.1428 7.44161 17.5559C6.84004 16.5038 6.48938 15.3572 6.22461 14.1504Z" />
@@ -26,7 +25,7 @@ const Website: React.FC<SvgProps> = ({ direction = "right", color = "white", wid
       <path d="M14.3503 14.1504H18.3037C17.811 16.3401 14.0879 19.5232 11.7734 19.7305C13.2774 18.1872 13.9027 16.215 14.3503 14.1504Z" />
       <path d="M4.91969 14.1504C5.36652 16.213 5.98432 18.1807 7.48272 19.713C6.857 19.7831 4.64225 18.6715 3.57841 17.7498C2.44689 16.7694 1.15628 14.9935 0.966309 14.1504H4.91969Z" />
     </svg>
-  );
-};
+  )
+}
 
-export default Website;
+export default Website

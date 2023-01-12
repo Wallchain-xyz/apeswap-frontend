@@ -1,25 +1,25 @@
-import React, { useContext } from "react";
-import { Box } from "theme-ui";
-import { AnimatePresence, motion } from "framer-motion";
-import { ModalProps } from "./types";
-import style from "./styles";
-import ModalHeader from "./ModalHeader";
-import { Context as ModalContext } from "contexts/ModalContext";
-import Text from "../Text";
+import React, { useContext } from 'react'
+import { Box } from 'theme-ui'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ModalProps } from './types'
+import style from './styles'
+import ModalHeader from './ModalHeader'
+import { Context as ModalContext } from 'contexts/ModalContext'
+import Text from '../Text'
 
 const Modal = ({
   children,
   onDismiss,
   open = true,
   title,
-  zIndex = "modal",
-  minWidth = "50%",
-  maxWidth = "80%",
+  zIndex = 'modal',
+  minWidth = '50%',
+  maxWidth = '80%',
   onAnimationComplete,
   ...props
 }: ModalProps) => {
-  const { handleClose } = useContext(ModalContext);
-  const onClose = onDismiss || handleClose;
+  const { handleClose } = useContext(ModalContext)
+  const onClose = onDismiss || handleClose
 
   return (
     <Box id={title}>
@@ -28,17 +28,17 @@ const Modal = ({
           <motion.div
             initial={{
               opacity: 0,
-              transform: "translate(-50%, -50%) scale(0.1)",
+              transform: 'translate(-50%, -50%) scale(0.1)',
             }}
             animate={{
               opacity: 1,
-              transform: "translate(-50%, -50%) scale(1.0)",
+              transform: 'translate(-50%, -50%) scale(1.0)',
             }}
             transition={{
               opacity: { duration: 0.2 },
               transform: { duration: 0.2 },
             }}
-            exit={{ opacity: 0, transform: "translate(-50%, -50%) scale(0)" }}
+            exit={{ opacity: 0, transform: 'translate(-50%, -50%) scale(0)' }}
             {...props}
             sx={{ minWidth, maxWidth, zIndex, ...style.container }}
             onAnimationComplete={onAnimationComplete}
@@ -55,19 +55,19 @@ const Modal = ({
                 return React.cloneElement(child as any, {
                   ...(child as any)?.props,
                   onDismiss: () => {
-                    (child as any)?.props?.onDismiss?.();
-                    onClose();
+                    ;(child as any)?.props?.onDismiss?.()
+                    onClose()
                   },
-                });
+                })
               }
-              return child;
+              return child
             })}
           </motion.div>
         )}
       </AnimatePresence>
       {open && <Box sx={style.backdrop} onClick={onClose} />}
     </Box>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

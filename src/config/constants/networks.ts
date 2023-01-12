@@ -1,21 +1,19 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
 
-export enum ChainId {
+export enum SupportedChainId {
   MAINNET = 1,
   POLYGON = 137,
   BSC = 56,
 }
 
-export const RPC_URLS: Record<ChainId, string[]> = {
-  [ChainId.MAINNET]: [
-    'https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7',
-  ],
-  [ChainId.POLYGON]: ['https://polygon-rpc.com'],
-  [ChainId.BSC]: ['https://bsc-dataseed4.binance.org'],
+export const RPC_URLS: Record<SupportedChainId, string[]> = {
+  [SupportedChainId.MAINNET]: ['https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7'],
+  [SupportedChainId.POLYGON]: ['https://polygon-rpc.com'],
+  [SupportedChainId.BSC]: ['https://bsc-dataseed4.binance.org'],
 }
 
-export const RPC_PROVIDERS: Record<ChainId, StaticJsonRpcProvider> = {
-  [ChainId.MAINNET]: new StaticJsonRpcProvider(RPC_URLS[ChainId.MAINNET][0]),
-  [ChainId.POLYGON]: new StaticJsonRpcProvider(RPC_URLS[ChainId.POLYGON][0]),
-  [ChainId.BSC]: new StaticJsonRpcProvider(RPC_URLS[ChainId.BSC][0]),
+export const RPC_PROVIDERS: Record<SupportedChainId, StaticJsonRpcProvider> = {
+  [SupportedChainId.MAINNET]: new StaticJsonRpcProvider(RPC_URLS[SupportedChainId.MAINNET][0]),
+  [SupportedChainId.POLYGON]: new StaticJsonRpcProvider(RPC_URLS[SupportedChainId.POLYGON][0]),
+  [SupportedChainId.BSC]: new StaticJsonRpcProvider(RPC_URLS[SupportedChainId.BSC][0]),
 }

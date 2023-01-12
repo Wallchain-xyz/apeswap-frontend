@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const Pool: React.FC<SvgProps> = ({ direction = "right", color = "text", width, getStyles }) => {
+const Pool: React.FC<SvgProps> = ({ direction = 'right', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 180,
     up: 270,
     right: 0,
     down: 90,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "24"} viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '24'} viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <g clipPath="url(#clip0_3820_7987)">
         <path
           d="M16.7843 26.8033C16.7473 26.7286 16.7134 26.6509 16.6795 26.5762C16.4773 26.4214 16.2553 26.2949 16.0195 26.2001C15.452 26.5681 14.7913 26.7635 14.1165 26.7628H11.9822C11.2849 26.7624 10.6033 26.5537 10.0237 26.1628C9.87381 26.2 9.72959 26.2575 9.59502 26.3338L9.51174 26.5048C9.45622 26.626 9.39762 26.7379 9.33594 26.8467C9.76488 27.0063 10.2038 27.1371 10.6498 27.2384C11.4209 27.4151 12.2092 27.5038 13 27.5027C13.4061 27.5025 13.8118 27.4785 14.2152 27.4311C15.3503 27.6684 16.4988 27.8356 17.6541 27.9317C17.2609 27.6494 16.9585 27.2571 16.7843 26.8033Z"
@@ -72,7 +71,7 @@ const Pool: React.FC<SvgProps> = ({ direction = "right", color = "text", width, 
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default Pool;
+export default Pool

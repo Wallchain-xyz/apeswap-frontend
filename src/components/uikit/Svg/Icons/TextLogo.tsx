@@ -1,10 +1,9 @@
-
-import React from "react";
-import { SvgProps } from "./types";
+import React from 'react'
+import { SvgProps } from './types'
 
 const TextLogo: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width={width || "160"} viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width || '160'} viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M4.81663 13.2106C4.52556 14.272 4.37562 15.351 4.37562 16.4212C4.37562 16.5001 4.37562 16.5703 4.37562 16.6492C4.39326 17.965 4.22567 19.272 3.9346 20.544C3.326 20.3334 2.69976 19.8948 2.09998 19.1405C0.529969 17.1668 1.05919 13.9913 2.99965 13.2369C3.73174 12.9562 4.34916 13.0176 4.82545 13.2019C4.82545 13.2106 4.82545 13.2106 4.81663 13.2106Z"
         fill="#A16552"
@@ -107,7 +106,7 @@ const TextLogo: React.FC<SvgProps> = ({ width }) => {
         fill="#A16552"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default TextLogo;
+export default TextLogo

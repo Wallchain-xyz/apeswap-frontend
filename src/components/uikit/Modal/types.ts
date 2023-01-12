@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react'
 
 export interface InternalProps {
   children: React.ReactNode
-  onDismiss?: () => void;
-  onAnimationComplete?: () => void;
-  t?: (key: string) => string;
+  onDismiss?: () => void
+  onAnimationComplete?: () => void
+  t?: (key: string) => string
 }
 
 export interface ModalProps extends InternalProps {
   children: React.ReactNode
-  open?: boolean;
-  minWidth?: string;
-  maxWidth?: string;
-  title?: string;
-  zIndex?: string | number;
+  open?: boolean
+  minWidth?: string
+  maxWidth?: string
+  title?: string
+  zIndex?: string | number
 }
 
 export interface ModalTheme {
-  background: string;
+  background: string
 }
 
 export interface InjectedProps {
-  handleClose?: () => void;
+  handleClose?: () => void
 }

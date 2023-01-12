@@ -1,56 +1,56 @@
 const ethConfig = [
   {
-    label: "Exchange",
-    lightIcon: "ExchangeLightImage",
-    darkIcon: "ExchangeDarkImage",
+    label: 'Exchange',
+    lightIcon: 'ExchangeLightImage',
+    darkIcon: 'ExchangeDarkImage',
     items: [
       {
-        label: "Swap",
-        href: "/swap",
+        label: 'Swap',
+        href: '/swap',
         isNew: false,
       },
       {
-        label: "Liquidity",
-        href: "/add-liquidity",
+        label: 'Liquidity',
+        href: '/add-liquidity',
         isNew: false,
       },
       {
-        label: "Pro Trading",
-        href: "https://pro.apeswap.finance",
+        label: 'Pro Trading',
+        href: 'https://pro.apeswap.finance',
         isNew: false,
       },
     ],
   },
   {
-    label: "Explore",
-    lightIcon: "MoreLightImage",
-    darkIcon: "MoreDarkImage",
+    label: 'Explore',
+    lightIcon: 'MoreLightImage',
+    darkIcon: 'MoreDarkImage',
     items: [
       {
-        label: "ApeStats",
-        href: "/apestats",
+        label: 'ApeStats',
+        href: '/apestats',
         isNew: false,
       },
       {
-        label: "Dashboard",
-        href: "protocol-dashboard",
+        label: 'Dashboard',
+        href: 'protocol-dashboard',
         isNew: false,
       },
       {
-        label: "Documentation",
-        href: "https://apeswap.gitbook.io/apeswap-finance/",
+        label: 'Documentation',
+        href: 'https://apeswap.gitbook.io/apeswap-finance/',
       },
       {
-        label: "Charts",
-        href: "/info",
+        label: 'Charts',
+        href: '/info',
       },
       {
-        label: "Governance",
-        href: "https://discuss.apeswap.finance",
+        label: 'Governance',
+        href: 'https://discuss.apeswap.finance',
       },
       {
-        label: "Newsletter",
-        href: "?modal=newsletter",
+        label: 'Newsletter',
+        href: '?modal=newsletter',
         isNew: true,
       },
     ],
@@ -70,6 +70,6 @@ const ethConfig = [
   //     icon: 'ApeZone',
   //     href: '/gnana',
   //   },
-];
+]
 
-export default ethConfig;
+export default ethConfig

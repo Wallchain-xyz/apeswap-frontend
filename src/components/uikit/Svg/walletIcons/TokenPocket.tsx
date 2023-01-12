@@ -1,21 +1,11 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const TokenPocket = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "32"}
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={width || '32'} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="32" height="32" fill="url(#pattern1)" rx="16" />
       <defs>
-        <pattern
-          id="pattern1"
-          patternContentUnits="objectBoundingBox"
-          width="1"
-          height="1"
-        >
+        <pattern id="pattern1" patternContentUnits="objectBoundingBox" width="1" height="1">
           <use xlinkHref="#img1" transform="scale(0.0025)" />
         </pattern>
         <image
@@ -26,7 +16,7 @@ const TokenPocket = ({ width }: SvgProps) => {
         />
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default TokenPocket;
+export default TokenPocket

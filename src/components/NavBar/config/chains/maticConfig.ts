@@ -1,5 +1,3 @@
-
-
 const maticConfig = [
   {
     label: 'Exchange',

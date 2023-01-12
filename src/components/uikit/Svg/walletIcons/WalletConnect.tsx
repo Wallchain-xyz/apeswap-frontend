@@ -1,13 +1,8 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const GNANA = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "96"}
-      viewBox="0 0 96 96"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={width || '96'} viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M96 48C96 21.4903 74.5097 0 48 0C21.4903 0 0 21.4903 0 48C0 74.5097 21.4903 96 48 96C74.5097 96 96 74.5097 96 48Z"
         fill="#3389FB"
@@ -17,7 +12,7 @@ const GNANA = ({ width }: SvgProps) => {
         fill="white"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default GNANA;
+export default GNANA

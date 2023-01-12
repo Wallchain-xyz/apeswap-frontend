@@ -1,4 +1,4 @@
-import { MediaQueries } from "./types";
+import { MediaQueries } from './types'
 
 export const breakpointMap: { [key: string]: number } = {
   xs: 370,
@@ -7,7 +7,7 @@ export const breakpointMap: { [key: string]: number } = {
   lg: 968,
   xl: 1080,
   xxl: 1200,
-};
+}
 
 const mediaQueries: MediaQueries = {
   xs: `@media screen and (min-width: ${breakpointMap.xs}px)`,
@@ -17,10 +17,10 @@ const mediaQueries: MediaQueries = {
   xl: `@media screen and (min-width: ${breakpointMap.xl}px)`,
   xxl: `@media screen and (min-width: ${breakpointMap.xxl}px)`,
   nav: `@media screen and (min-width: ${breakpointMap.lg}px)`,
-};
+}
 
 const baseTheme = {
-  initialColorModeName: "light",
+  initialColorModeName: 'light',
   breakpoints: [
     `${breakpointMap.xs}px`,
     `${breakpointMap.sm}px`,
@@ -30,9 +30,7 @@ const baseTheme = {
   ],
   space: [0, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 48, 64],
   fontSizes: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 48, 64],
-  borderWidths: [
-    0, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 48, 64,
-  ],
+  borderWidths: [0, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 48, 64],
   mediaQueries,
   fontWeights: {
     light: 400,
@@ -40,81 +38,81 @@ const baseTheme = {
     bold: 700,
   },
   fonts: {
-    body: "Poppins,sans-serif;",
-    titan: "Titan One",
-    poppins: "Poppins",
+    body: 'Poppins,sans-serif;',
+    titan: 'Titan One',
+    poppins: 'Poppins',
   },
   radii: {
-    small: "4px",
-    default: "16px",
-    normal: "10px",
-    card: "32px",
-    circle: "50%",
+    small: '4px',
+    default: '16px',
+    normal: '10px',
+    card: '32px',
+    circle: '50%',
   },
   zIndices: { dropdown: 10, modal: 100 },
   styles: {
     root: {
-      fontFamily: "body",
-      lineHeight: "body",
-      fontWeight: "light",
-      letterSpacing: ".45px",
-      color: "text",
-      bg: "background",
+      fontFamily: 'body',
+      lineHeight: 'body',
+      fontWeight: 'light',
+      letterSpacing: '.45px',
+      color: 'text',
+      bg: 'background',
     },
     a: {
-      color: "primary",
-      textDecoration: "none",
-      ":hover": {
-        color: "secondary",
-        textDecoration: "underline",
+      color: 'primary',
+      textDecoration: 'none',
+      ':hover': {
+        color: 'secondary',
+        textDecoration: 'underline',
       },
     },
     nav: {
       breakpoints: [`@media screen and (min-width: ${breakpointMap.lg}px)`],
     },
     progress: {
-      primary: "primary",
-      color: "green",
-      background: "#DAA628",
-      height: "20px",
+      primary: 'primary',
+      color: 'green',
+      background: '#DAA628',
+      height: '20px',
     },
     hr: {
-      background: "dividerColor",
-      height: "1px",
-      border: "none",
+      background: 'dividerColor',
+      height: '1px',
+      border: 'none',
     },
     h1: {
-      variant: "text.heading",
-      fontSize: "30px",
-      lineHeight: "45px",
+      variant: 'text.heading',
+      fontSize: '30px',
+      lineHeight: '45px',
     },
     h2: {
-      variant: "text.heading",
-      fontSize: "25px",
-      lineHeight: "37px",
+      variant: 'text.heading',
+      fontSize: '25px',
+      lineHeight: '37px',
     },
     h3: {
-      variant: "text.heading",
-      fontSize: "22px",
-      lineHeight: "33px",
+      variant: 'text.heading',
+      fontSize: '22px',
+      lineHeight: '33px',
     },
     h4: {
-      variant: "text.heading",
-      fontSize: "20px",
-      lineHeight: "30px",
+      variant: 'text.heading',
+      fontSize: '20px',
+      lineHeight: '30px',
     },
     h5: {
-      variant: "text.heading",
-      fontSize: "16px",
-      lineHeight: "24px",
+      variant: 'text.heading',
+      fontSize: '16px',
+      lineHeight: '24px',
     },
     banner: {
-      variant: "text.heading",
-      fontWeight: "800",
-      fontSize: "60px",
-      lineHeight: "66px",
+      variant: 'text.heading',
+      fontWeight: '800',
+      fontSize: '60px',
+      lineHeight: '66px',
     },
   },
-};
+}
 
-export default baseTheme;
+export default baseTheme

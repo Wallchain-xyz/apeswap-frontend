@@ -1,5 +1,3 @@
-
-
 const tlosConfig = [
   {
     label: 'Exchange',

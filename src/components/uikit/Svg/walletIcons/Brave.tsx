@@ -1,33 +1,16 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const Brave = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "218"}
-      viewBox="0 0 218 256"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={width || '218'} viewBox="0 0 218 256" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient
-          x1="0%"
-          y1="50.7055163%"
-          x2="100%"
-          y2="50.7055163%"
-          id="linearGradient-1"
-        >
+        <linearGradient x1="0%" y1="50.7055163%" x2="100%" y2="50.7055163%" id="linearGradient-1">
           <stop stopColor="#FF5500" offset="0%" />
           <stop stopColor="#FF5500" offset="40.9877232%" />
           <stop stopColor="#FF2000" offset="58.1981215%" />
           <stop stopColor="#FF2000" offset="100%" />
         </linearGradient>
-        <linearGradient
-          x1="2.1484375%"
-          y1="50.7055163%"
-          x2="100%"
-          y2="50.7055163%"
-          id="linearGradient-2"
-        >
+        <linearGradient x1="2.1484375%" y1="50.7055163%" x2="100%" y2="50.7055163%" id="linearGradient-2">
           <stop stopColor="#FF452A" offset="0%" />
           <stop stopColor="#FF2000" offset="100%" />
         </linearGradient>
@@ -36,18 +19,9 @@ const Brave = ({ width }: SvgProps) => {
           id="path-3"
         />
       </defs>
-      <g
-        id="starting-collection"
-        stroke="none"
-        strokeWidth="1"
-        fill="none"
-        fillRule="evenodd"
-      >
+      <g id="starting-collection" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="Build-Icons" transform="translate(-70.000000, -350.000000)">
-          <g
-            id="build-icons/Stable"
-            transform="translate(50.000000, 350.000000)"
-          >
+          <g id="build-icons/Stable" transform="translate(50.000000, 350.000000)">
             <g id="Logo" transform="translate(20.114286, 0.000000)">
               <path
                 d="M209.984109,61.2848749 L215.968109,46.5784919 C215.968109,46.5784919 208.352109,38.4082791 199.104109,29.1487047 C189.856109,19.8891302 170.272109,25.3359387 170.272109,25.3359387 L147.968109,0.00010893617 L108.800109,0.00010893617 L69.6321088,0.00010893617 L47.3281088,25.3359387 C47.3281088,25.3359387 27.7441088,19.8891302 18.4961088,29.1487047 C9.2481088,38.4082791 1.6321088,46.5784919 1.6321088,46.5784919 L7.6161088,61.2848749 L0.0001088,83.0721089 C0.0001088,83.0721089 22.3993088,168.017811 25.0241088,178.391258 C30.1921088,198.81679 33.7281088,206.714662 48.4161088,217.063598 C63.1041088,227.412534 89.7601088,245.387003 94.1121088,248.110407 C98.4641088,250.833811 103.904109,255.472858 108.800109,255.472858 C113.696109,255.472858 119.136109,250.833811 123.488109,248.110407 C127.840109,245.387003 154.496109,227.412534 169.184109,217.063598 C183.872109,206.714662 187.408109,198.81679 192.576109,178.391258 C195.200365,168.017811 217.600109,83.0721089 217.600109,83.0721089 L209.984109,61.2848749 Z"
@@ -62,17 +36,13 @@ const Brave = ({ width }: SvgProps) => {
               <mask id="mask-4" fill="white">
                 <use xlinkHref="#path-3" />
               </mask>
-              <use
-                id="Top-Head"
-                fill="url(#linearGradient-2)"
-                xlinkHref="#path-3"
-              />
+              <use id="Top-Head" fill="url(#linearGradient-2)" xlinkHref="#path-3" />
             </g>
           </g>
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default Brave;
+export default Brave

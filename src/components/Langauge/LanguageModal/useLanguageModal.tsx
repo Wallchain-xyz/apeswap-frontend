@@ -1,18 +1,13 @@
-import SelectLanguageModal from "./SelectLanguageModal";
-import useModal from "hooks/useModal";
+import SelectLanguageModal from './SelectLanguageModal'
+import useModal from 'hooks/useModal'
 
 interface ReturnType {
-  onPresentLanguageModal: () => void;
+  onPresentLanguageModal: () => void
 }
 
 const useLanguageModal = (): ReturnType => {
-  const [onPresentLanguageModal] = useModal(
-    <SelectLanguageModal />,
-    true,
-    true,
-    "LanguageModal"
-  );
-  return { onPresentLanguageModal };
-};
+  const [onPresentLanguageModal] = useModal(<SelectLanguageModal />, true, true, 'LanguageModal')
+  return { onPresentLanguageModal }
+}
 
-export default useLanguageModal;
+export default useLanguageModal

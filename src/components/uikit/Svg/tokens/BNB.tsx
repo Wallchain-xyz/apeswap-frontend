@@ -1,9 +1,9 @@
-import React from "react";
-import { SvgProps } from "../types";
+import React from 'react'
+import { SvgProps } from '../types'
 
 const BNB: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width={width || "25"} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width || '25'} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M35 18C35 27.3888 27.3888 35 18 35C8.61116 35 1 27.3888 1 18C1 8.61116 8.61116 1 18 1C27.3888 1 35 8.61116 35 18Z"
         fill="#F3BA2F"
@@ -15,7 +15,7 @@ const BNB: React.FC<SvgProps> = ({ width }) => {
         fill="white"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default BNB;
+export default BNB

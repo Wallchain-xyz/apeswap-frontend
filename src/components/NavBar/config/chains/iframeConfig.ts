@@ -1,3 +1,3 @@
-const iframeConfig = [''];
+const iframeConfig = ['']
 
-export default iframeConfig;
+export default iframeConfig

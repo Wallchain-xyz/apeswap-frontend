@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const Question: React.FC<SvgProps> = ({ direction = "down", color = "text", width, getStyles }) => {
+const Question: React.FC<SvgProps> = ({ direction = 'down', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 90,
     up: 180,
     right: 270,
     down: 0,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "10"} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '10'} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <mask id="path-1-inside-1_8581_37440" fill="white">
         <path
           fillRule="evenodd"
@@ -35,7 +34,7 @@ const Question: React.FC<SvgProps> = ({ direction = "down", color = "text", widt
         mask="url(#path-1-inside-1_8581_37440)"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Question;
+export default Question

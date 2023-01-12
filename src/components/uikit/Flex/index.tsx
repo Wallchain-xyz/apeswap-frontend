@@ -1,8 +1,8 @@
-import React from "react";
-import { Flex as ThemeUIFlex } from "theme-ui";
+import React from 'react'
+import { Flex as ThemeUIFlex } from 'theme-ui'
 
 const Flex = ({ children, ...props }: { children: React.ReactNode } | any) => {
-  return <ThemeUIFlex {...props}>{children}</ThemeUIFlex>;
-};
+  return <ThemeUIFlex {...props}>{children}</ThemeUIFlex>
+}
 
-export default Flex;
+export default Flex

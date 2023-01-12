@@ -1,19 +1,16 @@
-import type { AppProps } from "next/app";
-import { ThemeProvider } from "theme-ui";
-import store from "state";
-import { theme } from "theme";
-import { Provider } from "react-redux";
-import Footer from "components/Footer";
-import NavBar from "components/NavBar";
-import { LanguageProvider } from "contexts/Localization";
-import ModalProvider from "contexts/ModalContext";
-import Web3Provider from "contexts/Web3Provider";
-import { MatchBreakpointsProvider } from "contexts/MatchBreakpoints";
-import { useResponsiveValue, useBreakpointIndex } from '@theme-ui/match-media'
+import type { AppProps } from 'next/app'
+import { ThemeProvider } from 'theme-ui'
+import store from 'state'
+import { theme } from 'theme'
+import { Provider } from 'react-redux'
+import Footer from 'components/Footer'
+import NavBar from 'components/NavBar'
+import { LanguageProvider } from 'contexts/Localization'
+import ModalProvider from 'contexts/ModalContext'
+import Web3Provider from 'contexts/Web3Provider'
+import { MatchBreakpointsProvider } from 'contexts/MatchBreakpoints'
 
 export default function App({ Component, pageProps }: AppProps) {
-  //   const NavBar =  dynamic(() => import('components/NavBar'), { ssr: false })
-  console.log(useBreakpointIndex())
   return (
     <Provider store={store}>
       <Web3Provider>
@@ -30,5 +27,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </ThemeProvider>
       </Web3Provider>
     </Provider>
-  );
+  )
 }

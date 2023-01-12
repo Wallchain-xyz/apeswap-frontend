@@ -1,21 +1,20 @@
+import React from 'react'
+import { SvgProps, rotation } from './types'
 
-import React from "react";
-import { SvgProps, rotation } from "./types";
-
-const Gnana: React.FC<SvgProps> = ({ direction = "right", color = "text", width, getStyles }) => {
+const Gnana: React.FC<SvgProps> = ({ direction = 'right', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 180,
     up: 270,
     right: 0,
     down: 90,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
 
   return (
-    <svg width={width || "24"} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '24'} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -49,7 +48,7 @@ const Gnana: React.FC<SvgProps> = ({ direction = "right", color = "text", width,
         fill="#4D4040"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Gnana;
+export default Gnana

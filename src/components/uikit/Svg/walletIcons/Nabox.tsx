@@ -1,15 +1,10 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const Nabox = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "200.17"}
-      viewBox="0 0 200.17 228.32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={width || '200.17'} viewBox="0 0 200.17 228.32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <style>{".prefix__cls-1{fill:#2ac98b;fill-rule:evenodd}"}</style>
+        <style>{'.prefix__cls-1{fill:#2ac98b;fill-rule:evenodd}'}</style>
       </defs>
       <title>Nabox</title>
       <g id="prefix__\u56FE\u5C42_2" data-name="\u56FE\u5C42 2">
@@ -25,7 +20,7 @@ const Nabox = ({ width }: SvgProps) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default Nabox;
+export default Nabox

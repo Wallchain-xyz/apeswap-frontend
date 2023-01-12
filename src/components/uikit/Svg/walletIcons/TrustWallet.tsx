@@ -1,13 +1,8 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const TrustWallet = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "96"}
-      viewBox="0 0 96 96"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={width || '96'} viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0)">
         <path
           d="M48.0048 96.0097C74.5172 96.0097 96.0097 74.5172 96.0097 48.0048C96.0097 21.4925 74.5172 0 48.0048 0C21.4925 0 0 21.4925 0 48.0048C0 74.5172 21.4925 96.0097 48.0048 96.0097Z"
@@ -24,7 +19,7 @@ const TrustWallet = ({ width }: SvgProps) => {
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default TrustWallet;
+export default TrustWallet

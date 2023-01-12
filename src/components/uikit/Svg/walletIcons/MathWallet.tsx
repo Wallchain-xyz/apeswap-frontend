@@ -1,13 +1,8 @@
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
 const MathWallet = ({ width }: SvgProps) => {
   return (
-    <svg
-      width={width || "96"}
-      viewBox="0 0 96 96"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width={width || '96'} viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="48" cy="48" r="48" fill="white" />
       <path
         fillRule="evenodd"
@@ -16,7 +11,7 @@ const MathWallet = ({ width }: SvgProps) => {
         fill="#1D222A"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default MathWallet;
+export default MathWallet

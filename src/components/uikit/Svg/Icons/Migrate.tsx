@@ -1,20 +1,19 @@
+import React from 'react'
+import { rotation, SvgProps } from './types'
 
-import React from "react";
-import { rotation, SvgProps } from "./types";
-
-const Arrow: React.FC<SvgProps> = ({ direction = "down", color = "text", width, getStyles }) => {
+const Arrow: React.FC<SvgProps> = ({ direction = 'down', color = 'text', width, getStyles }) => {
   const deg: rotation = {
     left: 90,
     up: 180,
     right: 270,
     down: 0,
-  };
+  }
   const style = getStyles({
     degree: deg[direction as keyof rotation],
     color,
-  });
+  })
   return (
-    <svg width={width || "23"} height="21" viewBox="0 0 23 21" sx={style}>
+    <svg width={width || '23'} height="21" viewBox="0 0 23 21" sx={style}>
       <path
         d="M16.0441 2.93585C16.0441 2.42479 16.0751 1.96208 16.1328 1.67745C16.1328 1.67301 16.1899 1.41254 16.2267 1.32572C16.2844 1.20042 16.3885 1.09437 16.5188 1.02678C16.6229 0.978439 16.7329 0.954762 16.8477 0.954762C16.9673 0.959201 17.1921 1.03172 17.2807 1.06575C17.8648 1.27738 18.9812 1.97194 19.4093 2.39569C19.482 2.46327 19.5604 2.54516 19.5813 2.5644C19.6699 2.67095 19.7169 2.80069 19.7169 2.94029C19.7169 3.06608 19.6752 3.19138 19.5914 3.29251C19.5514 3.34504 19.4717 3.42172 19.4343 3.45678L19.4142 3.47552C18.9764 3.91456 17.8856 4.57459 17.3325 4.78671C17.3325 4.79123 17.0566 4.89689 16.8901 4.91827L16.8477 4.92187L16.8269 4.92187C16.5866 4.92187 16.3624 4.79658 16.2476 4.59383C16.1851 4.48284 16.1274 4.16022 16.1221 4.15529C16.0751 3.86621 16.0441 3.42274 16.0441 2.93585ZM3.68313 2.9124C3.68313 2.65249 3.89663 2.43897 4.17056 2.4133L4.2261 2.41071L14.845 2.54442C15.0805 2.54442 15.2711 2.72053 15.2711 2.93807C15.2711 3.14008 15.1068 3.30635 14.8948 3.32908L14.845 3.33172L4.2261 3.41458C3.92605 3.41458 3.68313 3.18963 3.68313 2.9124Z"
         fill="#4D4040"
@@ -55,7 +54,7 @@ const Arrow: React.FC<SvgProps> = ({ direction = "down", color = "text", width, 
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default Arrow;
+export default Arrow

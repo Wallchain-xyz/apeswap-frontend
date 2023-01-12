@@ -1,24 +1,24 @@
-import { ChainId } from "@ape.swap/sdk";
-import { NavConfig } from "components/NavBar/types";
-import { isSupportedChain } from "utils";
-import bscConfig from "./bscConfig";
-import ethConfig from "./ethConfig";
-import maticConfig from "./maticConfig";
-import tlosConfig from "./tlosConfig";
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { NavConfig } from 'components/NavBar/types'
+import { isSupportedChain } from 'utils'
+import bscConfig from './bscConfig'
+import ethConfig from './ethConfig'
+import maticConfig from './maticConfig'
+import tlosConfig from './tlosConfig'
 
-export const configMappedToNetwork: Record<ChainId, NavConfig[]> = {
-  [ChainId.BSC]: bscConfig,
-  [ChainId.BSC_TESTNET]: bscConfig,
-  [ChainId.MATIC]: maticConfig,
-  [ChainId.MATIC_TESTNET]: maticConfig,
-  [ChainId.TLOS]: tlosConfig,
-  [ChainId.MAINNET]: ethConfig,
-};
+export const configMappedToNetwork: Record<SupportedChainId, NavConfig[]> = {
+  [SupportedChainId.BSC]: bscConfig,
+  [SupportedChainId.BSC_TESTNET]: bscConfig,
+  [SupportedChainId.POLYGON]: maticConfig,
+  [SupportedChainId.POLYGON_MUMBAI]: maticConfig,
+  [SupportedChainId.TLOS]: tlosConfig,
+  [SupportedChainId.MAINNET]: ethConfig,
+}
 
-export const getNavConfig = (chainId: ChainId | undefined): NavConfig[] => {
-  const supportedChainId = isSupportedChain(chainId);
+export const getNavConfig = (chainId: SupportedChainId | undefined): NavConfig[] => {
+  const supportedChainId = isSupportedChain(chainId)
   if (!chainId || !supportedChainId) {
-    return configMappedToNetwork[ChainId.BSC];
+    return configMappedToNetwork[SupportedChainId.BSC]
   }
-  return configMappedToNetwork[chainId];
-};
+  return configMappedToNetwork[chainId]
+}

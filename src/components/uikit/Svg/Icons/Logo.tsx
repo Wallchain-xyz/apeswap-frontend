@@ -1,10 +1,9 @@
-
-import React from "react";
-import { SvgProps } from "./types";
+import React from 'react'
+import { SvgProps } from './types'
 
 const Logo: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width={width || "35"} viewBox="0 0 35 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width || '35'} viewBox="0 0 35 34" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M4.68422 12.3515C4.4028 13.3692 4.25826 14.4192 4.25433 15.4743C4.25433 15.5479 4.25433 15.6206 4.25433 15.693C4.27035 16.9703 4.1109 18.2379 3.82444 19.4804C3.23079 19.2717 2.61878 18.8487 2.03647 18.1179C0.499792 16.1935 1.01254 13.1036 2.90485 12.3767C3.62082 12.1023 4.21955 12.1603 4.68774 12.3403C4.68618 12.3446 4.68579 12.3477 4.68422 12.3515Z"
         fill="#A16552"
@@ -79,7 +78,7 @@ const Logo: React.FC<SvgProps> = ({ width }) => {
         fill="#4E3F3F"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo

@@ -1,6 +1,6 @@
-import React from "react";
-import { Text as ThemeUIText } from "theme-ui";
-import { TextProps, variants } from "./types";
+import React from 'react'
+import { Text as ThemeUIText } from 'theme-ui'
+import { TextProps, variants } from './types'
 
 const Text: React.FC<TextProps> = ({
   variant = variants.NORMAL,
@@ -11,10 +11,18 @@ const Text: React.FC<TextProps> = ({
   ...props
 }) => {
   return (
-    <ThemeUIText {...props} sx={{ variant: `text.${variant}`, color, fontWeight: weight, fontSize: size }}>
+    <ThemeUIText
+      {...props}
+      sx={{
+        variant: `text.${variant}`,
+        color,
+        fontWeight: weight,
+        fontSize: size,
+      }}
+    >
       {children}
     </ThemeUIText>
-  );
-};
+  )
+}
 
-export default Text;
+export default Text

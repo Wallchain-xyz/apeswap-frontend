@@ -1,5 +1,5 @@
-import { icons, SvgProps } from "./types";
-import { dynamicStyles } from "./styles";
+import { icons, SvgProps } from './types'
+import { dynamicStyles } from './styles'
 import {
   Caret,
   External,
@@ -56,8 +56,8 @@ import {
   Moon,
   AccountMonkey,
   Card,
-} from "./Icons";
-import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from "./tokens";
+} from './Icons'
+import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from './tokens'
 import {
   BinanceChain,
   Bitkeep,
@@ -74,9 +74,9 @@ import {
   TrustWallet,
   Unstoppable,
   WalletConnect,
-} from "./walletIcons";
-import { IconStyles } from "./Icons/types";
-import Language from "./Icons/LanguageIcon";
+} from './walletIcons'
+import { IconStyles } from './Icons/types'
+import Language from './Icons/LanguageIcon'
 
 const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
   const getStyles = ({ degree, color, margin }: IconStyles) =>
@@ -84,168 +84,168 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       degree,
       color,
       margin,
-    });
+    })
   switch (icon) {
     case icons.SUCCESS_OUTLINE:
-      return <SuccessOutline {...props} getStyles={getStyles} />;
+      return <SuccessOutline {...props} getStyles={getStyles} />
     case icons.TRASH:
-      return <Trash {...props} getStyles={getStyles} />;
+      return <Trash {...props} getStyles={getStyles} />
     case icons.CANCELLED:
-      return <Cancelled {...props} getStyles={getStyles} />;
+      return <Cancelled {...props} getStyles={getStyles} />
     case icons.INFO_SOLID:
-      return <InfoSolid {...props} getStyles={getStyles} />;
+      return <InfoSolid {...props} getStyles={getStyles} />
     case icons.ARROW:
-      return <Arrow {...props} getStyles={getStyles} />;
+      return <Arrow {...props} getStyles={getStyles} />
     case icons.SWAP_ARROWS:
-      return <SwapArrows {...props} getStyles={getStyles} />;
+      return <SwapArrows {...props} getStyles={getStyles} />
     case icons.CARET:
-      return <Caret {...props} getStyles={getStyles} />;
+      return <Caret {...props} getStyles={getStyles} />
     case icons.WEBSITE:
-      return <Website {...props} getStyles={getStyles} />;
+      return <Website {...props} getStyles={getStyles} />
     case icons.EXTERNAL:
-      return <External {...props} getStyles={getStyles} />;
+      return <External {...props} getStyles={getStyles} />
     case icons.HOME:
-      return <Home {...props} getStyles={getStyles} />;
+      return <Home {...props} getStyles={getStyles} />
     case icons.CALCULATOR:
-      return <Calculator {...props} getStyles={getStyles} />;
+      return <Calculator {...props} getStyles={getStyles} />
     case icons.FARM:
-      return <Farm {...props} getStyles={getStyles} />;
+      return <Farm {...props} getStyles={getStyles} />
     case icons.FRAME:
-      return <Frame {...props} getStyles={getStyles} />;
+      return <Frame {...props} getStyles={getStyles} />
     case icons.GNANA:
-      return <Gnana {...props} getStyles={getStyles} />;
+      return <Gnana {...props} getStyles={getStyles} />
     case icons.INFO:
-      return <Info {...props} getStyles={getStyles} />;
+      return <Info {...props} getStyles={getStyles} />
     case icons.MORE:
-      return <More {...props} getStyles={getStyles} />;
+      return <More {...props} getStyles={getStyles} />
     case icons.NFA:
-      return <NFA {...props} getStyles={getStyles} />;
+      return <NFA {...props} getStyles={getStyles} />
     case icons.POOL:
-      return <Pool {...props} getStyles={getStyles} />;
+      return <Pool {...props} getStyles={getStyles} />
     case icons.ROCKET:
-      return <Rocket {...props} getStyles={getStyles} />;
+      return <Rocket {...props} getStyles={getStyles} />
     case icons.TRADE:
-      return <Trade {...props} getStyles={getStyles} />;
+      return <Trade {...props} getStyles={getStyles} />
     case icons.VAULT:
-      return <Vault {...props} getStyles={getStyles} />;
+      return <Vault {...props} getStyles={getStyles} />
     case icons.ELLIPSE:
-      return <Ellipse {...props} getStyles={getStyles} />;
+      return <Ellipse {...props} getStyles={getStyles} />
     case icons.COLLAPSE:
-      return <Collapse {...props} getStyles={getStyles} />;
+      return <Collapse {...props} getStyles={getStyles} />
     case icons.TEXTLOGO:
-      return <TextLogo {...props} getStyles={getStyles} />;
+      return <TextLogo {...props} getStyles={getStyles} />
     case icons.PROFILELIGHT:
-      return <ProfileLight {...props} getStyles={getStyles} />;
+      return <ProfileLight {...props} getStyles={getStyles} />
     case icons.PROFILEDARK:
-      return <ProfileDark {...props} getStyles={getStyles} />;
+      return <ProfileDark {...props} getStyles={getStyles} />
     case icons.PROFILEICON:
-      return <ProfileIcon {...props} getStyles={getStyles} />;
+      return <ProfileIcon {...props} getStyles={getStyles} />
     case icons.LOGO:
-      return <Logo {...props} getStyles={getStyles} />;
+      return <Logo {...props} getStyles={getStyles} />
     case icons.HAMBURGER:
-      return <Hamburger {...props} getStyles={getStyles} />;
+      return <Hamburger {...props} getStyles={getStyles} />
     case icons.TWITTER:
-      return <Twitter {...props} getStyles={getStyles} />;
+      return <Twitter {...props} getStyles={getStyles} />
     case icons.SEND:
-      return <Send {...props} getStyles={getStyles} />;
+      return <Send {...props} getStyles={getStyles} />
     case icons.ERROR:
-      return <Error {...props} getStyles={getStyles} />;
+      return <Error {...props} getStyles={getStyles} />
     case icons.CLOSE:
-      return <Close {...props} getStyles={getStyles} />;
+      return <Close {...props} getStyles={getStyles} />
     case icons.SEARCH:
-      return <Search {...props} getStyles={getStyles} />;
+      return <Search {...props} getStyles={getStyles} />
     case icons.SUCCESS:
-      return <Success {...props} getStyles={getStyles} />;
+      return <Success {...props} getStyles={getStyles} />
     case icons.QUESTION:
-      return <Question {...props} getStyles={getStyles} />;
+      return <Question {...props} getStyles={getStyles} />
     case icons.SETTINGS:
-      return <Settings {...props} getStyles={getStyles} />;
+      return <Settings {...props} getStyles={getStyles} />
     case icons.CHART:
-      return <Chart {...props} getStyles={getStyles} />;
+      return <Chart {...props} getStyles={getStyles} />
     case icons.BNB_TOKEN:
-      return <BNB {...props} getStyles={getStyles} />;
+      return <BNB {...props} getStyles={getStyles} />
     case icons.BANANA_TOKEN:
-      return <BANANA {...props} getStyles={getStyles} />;
+      return <BANANA {...props} getStyles={getStyles} />
     case icons.ETH_TOKEN:
-      return <ETH {...props} getStyles={getStyles} />;
+      return <ETH {...props} getStyles={getStyles} />
     case icons.GNANA_TOKEN:
-      return <GNANA {...props} getStyles={getStyles} />;
+      return <GNANA {...props} getStyles={getStyles} />
     case icons.POLYGON_TOKEN:
-      return <POLYGON {...props} getStyles={getStyles} />;
+      return <POLYGON {...props} getStyles={getStyles} />
     case icons.TLOS_TOKEN:
-      return <TLOS {...props} getStyles={getStyles} />;
+      return <TLOS {...props} getStyles={getStyles} />
     case icons.BSC_TOKEN:
-      return <BSC {...props} getStyles={getStyles} />;
+      return <BSC {...props} getStyles={getStyles} />
     case icons.DISCORD:
-      return <Discord {...props} getStyles={getStyles} />;
+      return <Discord {...props} getStyles={getStyles} />
     case icons.REDDIT:
-      return <Reddit {...props} getStyles={getStyles} />;
+      return <Reddit {...props} getStyles={getStyles} />
     case icons.MEDIUM:
-      return <Medium {...props} getStyles={getStyles} />;
+      return <Medium {...props} getStyles={getStyles} />
     case icons.INSTAGRAM:
-      return <Instagram {...props} getStyles={getStyles} />;
+      return <Instagram {...props} getStyles={getStyles} />
     case icons.ZAP_ICON:
-      return <ZapIcon {...props} getStyles={getStyles} />;
+      return <ZapIcon {...props} getStyles={getStyles} />
     case icons.ZAP_ARROW:
-      return <ZapArrow {...props} getStyles={getStyles} color="white" />;
+      return <ZapArrow {...props} getStyles={getStyles} color="white" />
     case icons.MIGRATE:
-      return <Migrate {...props} getStyles={getStyles} />;
+      return <Migrate {...props} getStyles={getStyles} />
     case icons.MESSAGE:
-      return <Message {...props} getStyles={getStyles} />;
+      return <Message {...props} getStyles={getStyles} />
     case icons.POSITIONS:
-      return <Positions {...props} getStyles={getStyles} />;
+      return <Positions {...props} getStyles={getStyles} />
     case icons.MENU_SETTINGS:
-      return <MenuSettings {...props} getStyles={getStyles} />;
+      return <MenuSettings {...props} getStyles={getStyles} />
     case icons.FAV:
-      return <Fav {...props} getStyles={getStyles} />;
+      return <Fav {...props} getStyles={getStyles} />
     case icons.FULL_LOGO:
-      return <FullLogo {...props} getStyles={getStyles} />;
+      return <FullLogo {...props} getStyles={getStyles} />
     case icons.TELEGRAM:
-      return <Telegram {...props} getStyles={getStyles} />;
+      return <Telegram {...props} getStyles={getStyles} />
     case icons.ISLAND:
-      return <Island {...props} getStyles={getStyles} />;
+      return <Island {...props} getStyles={getStyles} />
     case icons.MOON:
-      return <Moon {...props} getStyles={getStyles} />;
+      return <Moon {...props} getStyles={getStyles} />
     case icons.LANGUAGE_ICON:
-      return <Language {...props} getStyles={getStyles} />;
+      return <Language {...props} getStyles={getStyles} />
     case icons.ACCOUNT_MONKEY:
-      return <AccountMonkey {...props} getStyles={getStyles} />;
+      return <AccountMonkey {...props} getStyles={getStyles} />
     case icons.CARD:
-      return <Card {...props} getStyles={getStyles} />;
+      return <Card {...props} getStyles={getStyles} />
     // Wallet Icons
     case icons.BINANCE_CHAIN:
-      return <BinanceChain {...props} getStyles={getStyles} />;
+      return <BinanceChain {...props} getStyles={getStyles} />
     case icons.BITKEEP:
-      return <Bitkeep {...props} getStyles={getStyles} />;
+      return <Bitkeep {...props} getStyles={getStyles} />
     case icons.BRAVE:
-      return <Brave {...props} getStyles={getStyles} />;
+      return <Brave {...props} getStyles={getStyles} />
     case icons.COINBASE:
-      return <Coinbase {...props} getStyles={getStyles} />;
+      return <Coinbase {...props} getStyles={getStyles} />
     case icons.MATH_WALLET:
-      return <MathWallet {...props} getStyles={getStyles} />;
+      return <MathWallet {...props} getStyles={getStyles} />
     case icons.METAMASK:
-      return <Metamask {...props} getStyles={getStyles} />;
+      return <Metamask {...props} getStyles={getStyles} />
     case icons.NABOX:
-      return <Nabox {...props} getStyles={getStyles} />;
+      return <Nabox {...props} getStyles={getStyles} />
     case icons.ONTO_WALLET:
-      return <OntoWallet {...props} getStyles={getStyles} />;
+      return <OntoWallet {...props} getStyles={getStyles} />
     case icons.SAFE_PAL_WALLET:
-      return <SafePalWallet {...props} getStyles={getStyles} />;
+      return <SafePalWallet {...props} getStyles={getStyles} />
     case icons.SOCIAL_LOGIN:
-      return <SocialLogin {...props} getStyles={getStyles} />;
+      return <SocialLogin {...props} getStyles={getStyles} />
     case icons.TOKEN_POCKET:
-      return <TokenPocket {...props} getStyles={getStyles} />;
+      return <TokenPocket {...props} getStyles={getStyles} />
     case icons.TORUS_WALLET:
-      return <TorusWallet {...props} getStyles={getStyles} />;
+      return <TorusWallet {...props} getStyles={getStyles} />
     case icons.TRUST_WALLET:
-      return <TrustWallet {...props} getStyles={getStyles} />;
+      return <TrustWallet {...props} getStyles={getStyles} />
     case icons.UNSTOPPABLE:
-      return <Unstoppable {...props} getStyles={getStyles} />;
+      return <Unstoppable {...props} getStyles={getStyles} />
     case icons.WALLET_CONNECT:
-      return <WalletConnect {...props} getStyles={getStyles} />;
+      return <WalletConnect {...props} getStyles={getStyles} />
     default:
-      return null;
+      return null
   }
-};
+}
 
-export default Svg;
+export default Svg

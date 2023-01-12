@@ -1,14 +1,13 @@
+import React from 'react'
+import { SvgProps } from './types'
 
-import React from "react";
-import { SvgProps } from "./types";
-
-const Close: React.FC<SvgProps> = ({ width, color = "text", getStyles }) => {
+const Close: React.FC<SvgProps> = ({ width, color = 'text', getStyles }) => {
   const style = getStyles({
     color,
-  });
+  })
 
   return (
-    <svg width={width || "12"} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
+    <svg width={width || '12'} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" sx={style}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -16,7 +15,7 @@ const Close: React.FC<SvgProps> = ({ width, color = "text", getStyles }) => {
         fill="#FAFAFA"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Close;
+export default Close
