@@ -1,11 +1,15 @@
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Svg } from 'components/uikit'
+import { useAllTokens } from 'hooks/Tokens'
 import React, { useCallback } from 'react'
+import { useCombinedActiveList } from 'state/lists/hooks'
 import { Text, Card, Button } from 'theme-ui'
 import ConenctWallet from '../../components/ConnectWallet'
 
 const Home = () => {
   const { account, connector, chainId } = useWeb3React()
+  console.log(useCombinedActiveList())
+  console.log(useAllTokens())
   console.log(chainId)
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {
