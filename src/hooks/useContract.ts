@@ -7,9 +7,11 @@ import { getContract } from 'utils'
 // ABIS
 
 import multicallV3Abi from 'config/abi/multicallv3.json'
-import ERC20_ABI from 'config/abi/multicallv3.json'
+import ERC20_ABI from 'config/abi/erc20.json'
+import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
+import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -40,4 +42,8 @@ export function useInterfaceMulticall() {
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean) {
   return useContract<Erc20>(tokenAddress, ERC20_ABI, withSignerIfPossible)
+}
+
+export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract<Erc20_bytes32>(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible)
 }

@@ -8,7 +8,7 @@ import { load, save } from 'redux-localstorage-simple'
 // import burnV3 from './burn/v3/reducer'
 // import connection from './connection/reducer'
 import { updateVersion } from './global/actions'
-// import lists from './lists/reducer'
+import lists from './lists/reducer'
 // import logs from './logs/slice'
 import mint from './mint/reducer'
 // import mintV3 from './mint/v3/reducer'
@@ -33,7 +33,7 @@ const store = configureStore({
     // burn,
     // burnV3,
     multicall: multicall.reducer,
-    // lists,
+    lists,
     // logs,
     // [routingApi.reducerPath]: routingApi.reducer,
   },

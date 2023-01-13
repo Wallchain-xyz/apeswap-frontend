@@ -5,6 +5,8 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { icons } from 'components/uikit/Svg/types'
 import { BigNumber } from 'ethers'
 
+// TODO: Clean this file up a bit
+
 // List of mainnet chains
 // This is currently used for the info page
 export const MAINNET_CHAINS = [
@@ -55,6 +57,8 @@ export const NETWORK_RPC: Record<SupportedChainId, string[]> = {
   [SupportedChainId.TLOS]: ['https://mainnet.telos.net/evm'],
 }
 
+
+// RPC Providers
 export const RPC_PROVIDERS: Record<SupportedChainId, StaticJsonRpcProvider> = {
   [SupportedChainId.MAINNET]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.MAINNET][0]),
   [SupportedChainId.POLYGON]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.POLYGON][0]),
