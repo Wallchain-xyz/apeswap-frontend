@@ -6,6 +6,8 @@ const NFT_INDEX = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-toke
 const PANCAKE_EXTENDED = 'https://tokens.pancakeswap.finance/pancakeswap-extended.json'
 const PANCAKE_100 = 'https://tokens.pancakeswap.finance/pancakeswap-top-100.json'
 const QUICKSWAP = 'https://unpkg.com/quickswap-default-token-list@1.2.18/build/quickswap-default.tokenlist.json'
+const CMC_ALL_LIST = 'https://api.coinmarketcap.com/data-api/v3/uniswap/all.json'
+const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json'
 
 export const UNSUPPORTED_LIST_URLS: string[] = []
 
@@ -15,8 +17,8 @@ export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
   NFT_INDEX,
   QUICKSWAP,
   PANCAKE_100,
-  // COINGECKO_LIST,
-  // CMC_ALL_LIST,
+  COINGECKO_LIST,
+  CMC_ALL_LIST,
   PANCAKE_EXTENDED,
   ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]

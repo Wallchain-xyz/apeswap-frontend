@@ -23,7 +23,7 @@ function useTokensFromMap(tokenMap: TokenAddressMap): { [address: string]: Token
   }, [chainId, tokenMap])
 }
 
-export function useAllTokens(): { [address: string]: Token } {
+export function useAllTokens(): Record<string, Token> {
   const allTokens = useCombinedActiveList()
   const tokensFromMap = useTokensFromMap(allTokens)
   const userAddedTokens = useUserAddedTokens()

@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'state/hooks'
 
 import { useTotalSupply } from 'hooks/useTotalSupply'
 import { PairState, useV2Pair } from 'hooks/useV2Pairs'
-import { useCurrencyBalances } from 'hooks/useCurrencyBalance'
+import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { AppState } from '../index'
 import { Field, typeInput } from './actions'
 import { useTranslation } from 'contexts/Localization'

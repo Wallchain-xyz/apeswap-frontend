@@ -19,6 +19,7 @@
     "@typechain/ethers-v5": "^10.2.0",
     "@types/jest": "^29.2.5",
     "@types/lodash": "^4.14.191",
+    "@types/react-window": "^1.8.5",
     "eslint": "8.31.0",
     "typechain": "^8.1.1",
     "yalc": "^1.0.0-pre.53"
@@ -60,6 +61,7 @@
     "react-countup": "^6.4.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
+    "react-window": "^1.8.8",
     "redux-localstorage-simple": "^2.5.1",
     "sharp": "^0.31.3",
     "theme-ui": "^0.15.3",

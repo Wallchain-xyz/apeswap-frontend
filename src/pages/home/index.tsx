@@ -1,4 +1,5 @@
 import { useWeb3React } from '@web3-react/core'
+import TokenListModal from 'components/TokenListModal'
 import { Flex, Svg } from 'components/uikit'
 import { useAllTokens } from 'hooks/Tokens'
 import React, { useCallback } from 'react'
@@ -27,10 +28,10 @@ const Home = () => {
         flexDirection: 'column',
       }}
     >
-      <Svg icon="fullLogo" color="body" />
       <Flex sx={{ background: 'white3', padding: '20px', borderRadius: '10px' }}>
         <ConenctWallet />
       </Flex>
+      <TokenListModal />
       {account && (
         <>
           <Button onClick={disconnect} margin="10px 0px">
