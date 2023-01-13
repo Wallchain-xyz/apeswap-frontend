@@ -23,17 +23,18 @@ const MobileDropdown = ({
         alignItems: 'center',
         minHeight: '50px',
       }}
-      onClick={() => setOpened((prev) => !prev)}
     >
       <Flex
         sx={{
           height: '35px',
-          width: '250px',
+          width: '100%',
+          maxWidth: '375px',
           justifyContent: 'space-between',
           cursor: 'pointer',
           borderBottom: underline && '1px solid',
           borderColor: underline && 'primaryBright',
         }}
+        onClick={() => setOpened((prev) => !prev)}
       >
         <Text color="yellow"> {t(title)} </Text>
         <Svg icon="caret" color="primaryBright" direction={opened ? 'up' : 'down'} />
@@ -45,7 +46,7 @@ const MobileDropdown = ({
             animate={{ height: 'fit-content' }}
             transition={{ opacity: { duration: 0.2 } }}
             exit={{ height: 0 }}
-            sx={{ overflow: 'hidden', width: '250px' }}
+            sx={{ overflow: 'hidden', width: '100%', maxWidth: '375px' }}
           >
             {items?.map(({ label }) => {
               return (
