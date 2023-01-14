@@ -1,4 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { FACTORY_ADDRESS as V3_FACTORY_ADDRESS } from '@ape.swap/v3-sdk'
+
 
 type AddressMap = { [chainId: number]: string }
 

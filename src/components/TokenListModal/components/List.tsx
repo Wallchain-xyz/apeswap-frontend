@@ -9,7 +9,6 @@ import { tokenComparator } from 'lib/hooks/useTokenList/sorting'
 import { FixedSizeList } from 'react-window'
 import { useCallback, useMemo, useState } from 'react'
 import { UserAddedToken } from 'state/user/types'
-
 import ListRow from './ListRow'
 import { CSSProperties } from 'theme-ui'
 

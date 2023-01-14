@@ -4,11 +4,13 @@ import { Flex, Svg } from 'components/uikit'
 import { useAllTokens } from 'hooks/Tokens'
 import React, { useCallback } from 'react'
 import { useCombinedActiveList } from 'state/lists/hooks'
+import { useV3MintState } from 'state/mint/v3/hooks'
 import { Text, Card, Button } from 'theme-ui'
 import ConenctWallet from '../../components/ConnectWallet'
 
 const Home = () => {
   const { account, connector, chainId } = useWeb3React()
+  console.log(useV3MintState())
   console.log(useCombinedActiveList())
   console.log(useAllTokens())
   console.log(chainId)
