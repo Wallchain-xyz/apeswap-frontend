@@ -9,8 +9,11 @@
     "prod": "next build && next start",
     "lint": "next lint",
     "format:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
-    "postinstall": "yarn run typechain",
-    "typechain": "typechain --out-dir src/config/abi/types --target=ethers-v5 \"src/config/abi/*.json\""
+    "postinstall": "patch-package",
+    "prepare": "yarn contracts:compile",
+    "contracts:compile": "yarn contracts:compile:abi && yarn contracts:compile:v3",
+    "contracts:compile:abi": "typechain --out-dir src/config/abi/types --target=ethers-v5 \"src/config/abi/*.json\"",
+    "contracts:compile:v3": "typechain --target ethers-v5 --out-dir src/config/abi/types/v3 \"./node_modules/@uniswap/**/artifacts/contracts/**/*[!dbg].json\""
   },
   "engines": {
     "node": ">=16.0.0"
@@ -22,7 +25,10 @@
     "@types/react-window": "^1.8.5",
     "eslint": "8.31.0",
     "typechain": "^8.1.1",
-    "yalc": "^1.0.0-pre.53"
+    "yalc": "^1.0.0-pre.53",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "eslint-config-next": "^13.1.1"
   },
   "dependencies": {
     "@ape.swap/sdk": "^4.3.3",
@@ -50,7 +56,6 @@
     "@web3-react/url": "^8.0.25-beta.0",
     "@web3-react/walletconnect": "^8.0.35-beta.0",
     "cids": "^1.1.9",
-    "eslint-config-next": "^13.1.1",
     "ethers": "^5.7.2",
     "framer-motion": "^8.1.9",
     "jsbi": "^3.1.4",
