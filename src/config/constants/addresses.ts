@@ -1,7 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { FACTORY_ADDRESS as V3_FACTORY_ADDRESS } from '@ape.swap/v3-sdk'
 
-
 type AddressMap = { [chainId: number]: string }
 
 export const BANANA_ADDRESSES: AddressMap = {
@@ -19,4 +18,8 @@ export const V2_FACTORY_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON]: '0x5d47baba0d66083c52009271faf3f50dcc01023c',
   [SupportedChainId.MAINNET]: '0x92df60c51c710a1b1c20e42d85e221f3a1bfc7f2',
   [SupportedChainId.TLOS]: '0x667fd83e24ca1d935d36717d305d54fa0cac991c',
+}
+
+export const NONFUNGIBLE_POSITION_MANAGER_ADDRESSES: AddressMap = {
+  [SupportedChainId.MAINNET]: '0xC36442b4a4522E871399CD717aBDD847Ab11FE88',
 }

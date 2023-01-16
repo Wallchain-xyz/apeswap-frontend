@@ -1,3 +1,8 @@
+export const buttonHover = {
+  '&:not([disabled])': { borderColor: '#FFDA00', background: '#FFDA00' },
+  '&:disabled': {},
+}
+
 const buttonBaseStyles = {
   padding: '10px 20px 10px 19px',
   fontSize: '16px',

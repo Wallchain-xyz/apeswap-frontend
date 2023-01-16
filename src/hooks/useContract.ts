@@ -1,6 +1,7 @@
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
 import contractAddresses from 'config/constants/contractAddresses'
+
 import { useMemo } from 'react'
 import { getContract } from 'utils'
 
@@ -9,9 +10,14 @@ import { getContract } from 'utils'
 import multicallV3Abi from 'config/abi/multicallv3.json'
 import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
+import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
+import { NonfungiblePositionManager } from 'config/abi/types/v3'
+import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
+
+const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -46,4 +52,12 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract<Erc20_bytes32>(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible)
+}
+
+export function useV3NFTPositionManagerContract(withSignerIfPossible?: boolean): NonfungiblePositionManager | null {
+  return useContract<NonfungiblePositionManager>(
+    NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
+    NFTPositionManagerABI,
+    withSignerIfPossible,
+  )
 }
