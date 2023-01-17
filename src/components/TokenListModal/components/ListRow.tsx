@@ -1,4 +1,5 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
+import CurrencyLogo from 'components/CurrencyLogo'
 import { Flex, Text } from 'components/uikit'
 import Image from 'next/image'
 import { CSSProperties } from 'theme-ui'
@@ -7,10 +8,12 @@ const ListRow = ({
   currency,
   userBalance,
   style,
+  onSelect,
 }: {
   currency: Currency
   userBalance: string | undefined
   style: CSSProperties
+  onSelect: () => void
 }) => {
   return (
     <Flex
@@ -24,16 +27,11 @@ const ListRow = ({
           backgroundColor: 'white3',
         },
       }}
+      onClick={onSelect}
     >
       <Flex sx={{ alignItems: 'center' }}>
-        <Image
-          src="https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BANANA.svg"
-          alt={currency.symbol || '...'}
-          width={35}
-          height={35}
-          sx={{ mr: '10px' }}
-        />
-        <Flex sx={{ flexDirection: 'column' }}>
+        <CurrencyLogo currency={currency} size={35} />
+        <Flex sx={{ flexDirection: 'column', ml: '15px' }}>
           <Text weight={600}>{currency.symbol}</Text>
           <Text weight={400} size="12px" sx={{ lineHeight: '12px' }}>
             {currency.name}

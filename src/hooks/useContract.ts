@@ -10,12 +10,17 @@ import { getContract } from 'utils'
 import multicallV3Abi from 'config/abi/multicallv3.json'
 import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
+import ENS_ABI from 'config/abi/ens-registrar.json'
+import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 import { NonfungiblePositionManager } from 'config/abi/types/v3'
 import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
+import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
 
@@ -52,6 +57,24 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract<Erc20_bytes32>(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible)
+}
+
+export function useENSRegistrarContract(withSignerIfPossible?: boolean) {
+  const { chainId } = useWeb3React()
+  let address: string | undefined
+  if (chainId) {
+    // eslint-disable-next-line default-case
+    switch (chainId) {
+      case SupportedChainId.MAINNET:
+        address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+        break
+    }
+  }
+  return useContract<EnsRegistrar>(address, ENS_ABI, withSignerIfPossible)
+}
+
+export function useENSResolverContract(address: string | undefined, withSignerIfPossible?: boolean) {
+  return useContract<EnsPublicResolver>(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible)
 }
 
 export function useV3NFTPositionManagerContract(withSignerIfPossible?: boolean): NonfungiblePositionManager | null {

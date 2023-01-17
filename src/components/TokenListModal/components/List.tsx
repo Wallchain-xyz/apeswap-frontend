@@ -12,7 +12,15 @@ import { UserAddedToken } from 'state/user/types'
 import ListRow from './ListRow'
 import { CSSProperties } from 'theme-ui'
 
-const List = ({ searchQuery }: { searchQuery: string }) => {
+const List = ({
+  searchQuery,
+  onCurrencySelect,
+  onDismiss,
+}: {
+  searchQuery: string
+  onCurrencySelect: (currency: Currency) => void
+  onDismiss: () => void
+}) => {
   const { chainId } = useWeb3React()
   const debouncedQuery = useDebounce(searchQuery, 200)
   const defaultTokens = useAllTokens()
@@ -48,10 +56,18 @@ const List = ({ searchQuery }: { searchQuery: string }) => {
           </Flex>
         )
       return (
-        <ListRow currency={row} userBalance={balances[row.address]?.toSignificant(6)} key={row.address} style={style} />
+        <ListRow
+          currency={row}
+          userBalance={balances[row.address]?.toSignificant(6)}
+          key={row.address}
+          style={style}
+          onSelect={() => {
+            onCurrencySelect(row), onDismiss()
+          }}
+        />
       )
     },
-    [balances, balancesAreLoading],
+    [balances, balancesAreLoading, onCurrencySelect, onDismiss],
   )
 
   const itemKey = useCallback((index: number, data: Token[]) => {

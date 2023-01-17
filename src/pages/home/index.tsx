@@ -33,7 +33,6 @@ const Home = () => {
       <Flex sx={{ background: 'white3', padding: '20px', borderRadius: '10px' }}>
         <ConenctWallet />
       </Flex>
-      <TokenListModal />
       {account && (
         <>
           <Button onClick={disconnect} margin="10px 0px">
