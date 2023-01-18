@@ -1,7 +1,8 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 import { buttonHover } from 'theme/components'
 
-export const styles: Record<
+
+const styles: Record<
   | 'dexPanelContainer'
   | 'panelTopContainer'
   | 'panelBottomContainer'
@@ -62,3 +63,6 @@ export const styles: Record<
     ':hover': buttonHover,
   },
 }
+
+
+export default styles

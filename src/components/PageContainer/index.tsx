@@ -1,20 +1,19 @@
 import { NAV_HEIGHT } from 'components/NavBar/components/styles'
 import { Flex } from 'components/uikit'
+import { CSSProperties } from 'theme-ui'
 
-const PageContainer = ({ children }: { children: React.ReactNode }) => {
+const PageContainer = ({ style, children }: { style?: CSSProperties; children: React.ReactNode }) => {
   return (
     <Flex
       sx={{
         minHeight: '100vh',
-        border: '1px solid red',
         padding: '0px 10px',
-        alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
         paddingTop: `${NAV_HEIGHT}px`,
       }}
     >
-      <Flex sx={{ maxWidth: '1200px', width: '100%', height: '100%', border: '1px solid red' }}>{children}</Flex>
+      <Flex sx={{ maxWidth: '1200px', width: '100%', minHeight: '100%', ...style }}>{children}</Flex>
     </Flex>
   )
 }

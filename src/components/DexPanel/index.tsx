@@ -1,17 +1,17 @@
 // import { Input as NumericalInput } from 'components/CurrencyInputPanel/NumericalInput'
 import { useTranslation } from 'contexts/Localization'
-import { Spinner } from 'theme-ui'
+import { Input, Spinner } from 'theme-ui'
 import React, { useEffect } from 'react'
 // TODO: Figure out the best way to hadnle fields
 // import { Field } from 'state/swap/actions'
 // import { Field as MintField } from 'state/mint/actions'
 // import { useCurrencyBalance } from 'state/wallet/hooks'
 // import TokenSelector from '../TokenSelector'
-import { styles } from './styles'
+import styles from './styles'
 import { DexPanelProps } from './types'
 // import Dots from 'components/Loader/Dots'
 // import { useTokenPriceUsd } from 'hooks/useTokenPriceUsd'
-import { Flex, Text } from 'components/uikit'
+import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import TokenSelector from 'components/TokenSelector'
@@ -59,6 +59,7 @@ const DexPanel = ({
     <Flex sx={styles.dexPanelContainer}>
       <Flex sx={styles.panelTopContainer}>
         <Text sx={styles.swapDirectionText}>{panelText}</Text>
+        <NumericInput onUserInput={onUserInput} value={value} />
         {/* <NumericalInput
           value={isRemoveLiquidity ? `${value}%` : value}
           onUserInput={(val) => onUserInput(fieldType, val)}

@@ -301,7 +301,7 @@ const components = {
   },
   flex: {
     dexContainer: {
-      width: 'auto',
+      width: '100%',
       maxWidth: '420px',
       height: 'fit-content',
       background: 'white2',

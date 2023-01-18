@@ -11,3 +11,4 @@ export { default as CheckBox } from './Checkbox'
 // Exports
 export { Button, IconButton } from './Button'
 export { Select, SelectItem } from './Select'
+export { NumericInput } from './Input'
