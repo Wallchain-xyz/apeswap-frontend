@@ -34,9 +34,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   return (
     <Flex sx={styles.dexNavContainer}>
-      <Flex
-        sx={{ ...styles.navLinkContainer, justifyContent: chainId === ChainId.BSC ? 'space-between' : 'flex-start' }}
-      >
+      <Flex sx={{ ...styles.navLinkContainer, justifyContent: 'flex-start' }}>
         <Text
           size="14px"
           sx={{
