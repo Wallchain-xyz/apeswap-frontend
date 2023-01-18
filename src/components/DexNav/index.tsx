@@ -40,7 +40,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           sx={{
             ...styles.navLink,
             color: !pathname?.includes('swap') && 'textDisabled',
-            mr: chainId === ChainId.BSC ? '0px' : '30px',
+            mr: '30px',
           }}
           onClick={() => push('/swap')}
           id="swap-link"
