@@ -18,8 +18,9 @@ import DexPanel from 'components/DexPanel'
 import { Bound, Field } from 'state/mint/v3/actions'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import RangeSelector from './components/RangeSelector'
+import RangeSelector from './components/RangeSelectors'
 import FeeSelector from './components/FeeSelector'
+import RangeSelectors from './components/RangeSelectors'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -193,23 +194,26 @@ const AddLiquidity = ({
         />
       </Flex>
       <Flex variant="flex.dexContainer">
-        <FeeSelector currencyIdA={currencyIdA} currencyIdB={currencyIdB} onHandleFeeSelect={handleFeeSelect} />
-        <Flex sx={{ justifyContent: 'space-between' }}>
-          <RangeSelector
-            rangeType="Min Price"
-            value={priceLower?.toSignificant(5) || '0'}
-            onDecrementRange={getDecrementLower}
-            onIncrementRange={getIncrementLower}
-            onRangeInput={onLeftRangeInput}
-          />
-          <RangeSelector
-            rangeType="Max Price"
-            value={priceUpper?.toSignificant(5) || '0'}
-            onDecrementRange={getDecrementUpper}
-            onIncrementRange={getIncrementUpper}
-            onRangeInput={onRightRangeInput}
-          />
-        </Flex>
+        <FeeSelector
+          feeAmount={feeAmount}
+          currencyIdA={currencyIdA}
+          currencyIdB={currencyIdB}
+          onHandleFeeSelect={handleFeeSelect}
+        />
+        <RangeSelectors
+          feeAmount={feeAmount}
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          currencyA={currencies[Field.CURRENCY_A] ?? null}
+          currencyB={currencies[Field.CURRENCY_B] ?? null}
+          ticksAtLimit={ticksAtLimit}
+          getDecrementLower={getDecrementLower}
+          getIncrementLower={getIncrementLower}
+          getDecrementUpper={getDecrementUpper}
+          getIncrementUpper={getIncrementUpper}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+        />
       </Flex>
     </Flex>
   )

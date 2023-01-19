@@ -1,17 +1,23 @@
-import { Button, Flex, IconButton, NumericInput, Text } from 'components/uikit'
+import { Flex, NumericInput, Text } from 'components/uikit'
 
 const RangeSelector = ({
-  rangeType,
   value,
+  rangeType,
+  disabled,
+  tokenASymbol,
+  tokenBSymbol,
+  onRangeInput,
   onDecrementRange,
   onIncrementRange,
-  onRangeInput,
 }: {
-  rangeType: 'Min Price' | 'Max Price'
   value: string
+  rangeType: 'Min Price' | 'Max Price'
+  disabled?: boolean
+  tokenASymbol?: string
+  tokenBSymbol?: string
+  onRangeInput: (input: string) => void
   onDecrementRange: () => string
   onIncrementRange: () => string
-  onRangeInput: (userInput: string) => void
 }) => {
   return (
     <Flex
@@ -32,9 +38,9 @@ const RangeSelector = ({
       <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
         <Flex
           sx={{
-            height: '25px',
-            width: '25px',
-            background: 'yellow',
+            minHeight: '25px',
+            minWidth: '25px',
+            background: disabled ? 'grey' : 'yellow',
             borderRadius: '4px',
             alignItems: 'center',
             justifyContent: 'center',
@@ -49,24 +55,23 @@ const RangeSelector = ({
         <NumericInput onUserInput={onRangeInput} value={value} style={{ textAlign: 'center' }} />
         <Flex
           sx={{
-            height: '25px',
-            width: '25px',
-            background: 'yellow',
-            borderRadius: '4px',
+            minHeight: '25px',
+            minWidth: '25px',
+            background: disabled ? 'grey' : 'yellow',
+            borderRadius: '5px',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
           }}
           onClick={() => onRangeInput(onIncrementRange())}
         >
-          {' '}
-          <Text color="primaryBright" size="20px">
+          <Text color="primaryBright" size="20px" sx={{ mb: '3px' }}>
             +
           </Text>
         </Flex>
       </Flex>
       <Text size="12px" weight={300}>
-        Token per Token
+        {tokenBSymbol} per {tokenASymbol}
       </Text>
     </Flex>
   )
