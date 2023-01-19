@@ -7,7 +7,7 @@ import { Field } from 'state/mint/v2/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/v2/hooks'
 import AddLiquiditySign from './components/AddLiquiditySign'
 import PoolInfo from './components/PoolInfo'
-import useHandleCurrencyASelect, { useHandleCurrencyBSelect } from './hooks'
+import { useHandleCurrencyASelect, useHandleCurrencyBSelect } from './hooks'
 import styles from './styles'
 
 const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; currencyIdB: string }) => {

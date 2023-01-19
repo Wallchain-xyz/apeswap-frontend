@@ -1,4 +1,5 @@
 import { Currency } from '@ape.swap/sdk-core'
+import { FeeAmount } from '@ape.swap/v3-sdk'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { currencyId } from 'utils/currencyId'
@@ -15,9 +16,9 @@ export const useHandleCurrencyASelect = ({
     (currencyA: Currency) => {
       const newCurrencyIdA = currencyId(currencyA)
       if (newCurrencyIdA === currencyIdB) {
-        push(`/add-liquidity/v2/${currencyIdB}/${currencyIdA}`)
+        push(`/add-liquidity/${currencyIdB}/${currencyIdA}`)
       } else {
-        push(`/add-liquidity/v2/${newCurrencyIdA}/${currencyIdB}`)
+        push(`/add-liquidity/${newCurrencyIdA}/${currencyIdB}`)
       }
     },
     [currencyIdB, currencyIdA, push],
@@ -37,14 +38,36 @@ export const useHandleCurrencyBSelect = ({
       const newCurrencyIdB = currencyId(currencyB)
       if (currencyIdA === newCurrencyIdB) {
         if (currencyIdB) {
-          push(`/add-liquidity/v2/?currencyIdB=${currencyIdB}/${newCurrencyIdB}`)
+          push(`/add-liquidity/?currencyIdB=${currencyIdB}/${newCurrencyIdB}`)
         } else {
-          push(`/add-liquidity/v2/${newCurrencyIdB}`)
+          push(`/add-liquidity/${newCurrencyIdB}`)
         }
       } else {
-        push(`/add-liquidity/v2/${currencyIdA ? currencyIdA : 'ETH'}/${newCurrencyIdB}`)
+        push(`/add-liquidity/${currencyIdA ? currencyIdA : 'ETH'}/${newCurrencyIdB}`)
       }
     },
     [currencyIdB, currencyIdA, push],
+  )
+}
+
+export const useHandleFeeSelect = ({
+  currencyIdA,
+  currencyIdB,
+  onLeftRangeInput,
+  onRightRangeInput,
+}: {
+  currencyIdA: string
+  currencyIdB: string
+  onLeftRangeInput: (input: string) => void
+  onRightRangeInput: (input: string) => void
+}) => {
+  const { push } = useRouter()
+  return useCallback(
+    (newFeeAmount: FeeAmount) => {
+      onLeftRangeInput('')
+      onRightRangeInput('')
+      push(`/add-liquidity/${currencyIdA}/${currencyIdB}/${newFeeAmount}`)
+    },
+    [currencyIdA, currencyIdB, push, onLeftRangeInput, onRightRangeInput],
   )
 }

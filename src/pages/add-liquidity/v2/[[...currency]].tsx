@@ -4,6 +4,7 @@ import AddLiquidityV2 from 'views/AddLiquidityV2'
 
 const AddLiquidityPageV2 = () => {
   const { query } = useRouter()
+  // TODO: Default to whatever pair we want
   const [currencyIdA, currencyIdB] = (query.currency as string[]) || ['', '']
 
   return (

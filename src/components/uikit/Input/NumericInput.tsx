@@ -1,8 +1,17 @@
 import { FormEvent, ChangeEvent } from 'react'
+import { CSSProperties } from 'theme-ui'
 import { isNumber } from 'utils/numbers'
 import Input from './Input'
 
-const NumericInput = ({ onUserInput, value }: { onUserInput: (input: string) => void; value: string }) => {
+const NumericInput = ({
+  onUserInput,
+  value,
+  style,
+}: {
+  onUserInput: (input: string) => void
+  value: string
+  style?: CSSProperties
+}) => {
   return (
     <Input
       sx={{
@@ -13,6 +22,7 @@ const NumericInput = ({ onUserInput, value }: { onUserInput: (input: string) => 
         display: 'inline-block',
         fontSize: '22px',
         ':focus': { outline: 'none' },
+        ...style,
       }}
       value={value}
       onChange={(e: ChangeEvent<HTMLInputElement>) => onUserInput(e.target.value)}
