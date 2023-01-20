@@ -17,7 +17,7 @@ const FeeSelector = ({
   currencyIdB: string
   onHandleFeeSelect: (fee: FeeAmount) => void
 }) => {
-  const [hide, setHide] = useState(false)
+  const [hide, setHide] = useState(true)
 
   const currencyA = useCurrency(currencyIdA) ?? undefined
   const currencyB = useCurrency(currencyIdB) ?? undefined
