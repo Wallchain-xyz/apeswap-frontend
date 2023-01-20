@@ -189,38 +189,28 @@ const AddLiquidity = ({
           otherCurrency={currencies[Field.CURRENCY_A] ?? null}
         />
       </Flex>
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, width: '0px' }}
-          animate={{ width: 'fit-content', opacity: 1 }}
-          transition={{ opacity: { duration: 0.3 }, width: { duration: 0.3 } }}
-          exit={{ width: '0px', opacity: 0 }}
-          sx={{ overflow: 'hidden' }}
-        >
-          <Flex variant="flex.dexContainer">
-            <FeeSelector
-              feeAmount={feeAmount}
-              currencyIdA={currencyIdA}
-              currencyIdB={currencyIdB}
-              onHandleFeeSelect={handleFeeSelect}
-            />
-            <RangeSelectors
-              priceLower={priceLower}
-              priceUpper={priceUpper}
-              currencyA={currencies[Field.CURRENCY_A] ?? null}
-              currencyB={currencies[Field.CURRENCY_B] ?? null}
-              ticksAtLimit={ticksAtLimit}
-              getDecrementLower={getDecrementLower}
-              getIncrementLower={getIncrementLower}
-              getDecrementUpper={getDecrementUpper}
-              getIncrementUpper={getIncrementUpper}
-              onLeftRangeInput={onLeftRangeInput}
-              onRightRangeInput={onRightRangeInput}
-            />
-            <LiquidityChart />
-          </Flex>
-        </motion.div>
-      </AnimatePresence>
+      <Flex variant="flex.dexContainer">
+        <FeeSelector
+          feeAmount={feeAmount}
+          currencyIdA={currencyIdA}
+          currencyIdB={currencyIdB}
+          onHandleFeeSelect={handleFeeSelect}
+        />
+        <RangeSelectors
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          currencyA={currencies[Field.CURRENCY_A] ?? null}
+          currencyB={currencies[Field.CURRENCY_B] ?? null}
+          ticksAtLimit={ticksAtLimit}
+          getDecrementLower={getDecrementLower}
+          getIncrementLower={getIncrementLower}
+          getDecrementUpper={getDecrementUpper}
+          getIncrementUpper={getIncrementUpper}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+        />
+        <LiquidityChart />
+      </Flex>
     </Flex>
   )
 }
