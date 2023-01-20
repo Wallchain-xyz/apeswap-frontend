@@ -5,7 +5,6 @@ import { Bound } from 'state/mint/v3/actions'
 import RangeSelector from './RangeSelector'
 
 const RangeSelectors = ({
-  feeAmount,
   priceLower,
   priceUpper,
   currencyA,
@@ -18,7 +17,6 @@ const RangeSelectors = ({
   onLeftRangeInput,
   onRightRangeInput,
 }: {
-  feeAmount?: number
   priceLower?: Price<Token, Token>
   priceUpper?: Price<Token, Token>
   currencyA?: Currency | null

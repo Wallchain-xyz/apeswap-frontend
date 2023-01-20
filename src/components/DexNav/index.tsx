@@ -60,6 +60,9 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           {t('Liquidity')}
         </Text>
       </Flex>
+      <Link href="/add-liquidity/v2">v2</Link>
+      <Link href="/add-liquidity">v3</Link>
+
       <Flex sx={{ ...styles.navIconContainer }}>
         {/* <RunFiatButton
           sx={{ marginRight: '2px', width: '20px' }}

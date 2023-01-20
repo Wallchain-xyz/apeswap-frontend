@@ -18,9 +18,10 @@ import DexPanel from 'components/DexPanel'
 import { Bound, Field } from 'state/mint/v3/actions'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import RangeSelector from './components/RangeSelectors'
+import { AnimatePresence, motion } from 'framer-motion'
 import FeeSelector from './components/FeeSelector'
 import RangeSelectors from './components/RangeSelectors'
+import LiquidityChart from './components/LiquidityChart'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -165,11 +166,6 @@ const AddLiquidity = ({
   const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper, getSetFullRange } =
     useRangeHopCallbacks(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, tickLower, tickUpper, pool)
 
-  //   useEffect(() => {
-  //     onLeftRangeInput((invertPrice ? priceLower : priceUpper?.invert())?.toSignificant(6) ?? '')
-  //     onRightRangeInput((invertPrice ? priceUpper : priceLower?.invert())?.toSignificant(6) ?? '')
-  //   }, [priceLower, invertPrice, priceUpper, onLeftRangeInput, onRightRangeInput])
-
   return (
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
@@ -193,28 +189,38 @@ const AddLiquidity = ({
           otherCurrency={currencies[Field.CURRENCY_A] ?? null}
         />
       </Flex>
-      <Flex variant="flex.dexContainer">
-        <FeeSelector
-          feeAmount={feeAmount}
-          currencyIdA={currencyIdA}
-          currencyIdB={currencyIdB}
-          onHandleFeeSelect={handleFeeSelect}
-        />
-        <RangeSelectors
-          feeAmount={feeAmount}
-          priceLower={priceLower}
-          priceUpper={priceUpper}
-          currencyA={currencies[Field.CURRENCY_A] ?? null}
-          currencyB={currencies[Field.CURRENCY_B] ?? null}
-          ticksAtLimit={ticksAtLimit}
-          getDecrementLower={getDecrementLower}
-          getIncrementLower={getIncrementLower}
-          getDecrementUpper={getDecrementUpper}
-          getIncrementUpper={getIncrementUpper}
-          onLeftRangeInput={onLeftRangeInput}
-          onRightRangeInput={onRightRangeInput}
-        />
-      </Flex>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, width: '0px' }}
+          animate={{ width: 'fit-content', opacity: 1 }}
+          transition={{ opacity: { duration: 0.3 }, width: { duration: 0.3 } }}
+          exit={{ width: '0px', opacity: 0 }}
+          sx={{ overflow: 'hidden' }}
+        >
+          <Flex variant="flex.dexContainer">
+            <FeeSelector
+              feeAmount={feeAmount}
+              currencyIdA={currencyIdA}
+              currencyIdB={currencyIdB}
+              onHandleFeeSelect={handleFeeSelect}
+            />
+            <RangeSelectors
+              priceLower={priceLower}
+              priceUpper={priceUpper}
+              currencyA={currencies[Field.CURRENCY_A] ?? null}
+              currencyB={currencies[Field.CURRENCY_B] ?? null}
+              ticksAtLimit={ticksAtLimit}
+              getDecrementLower={getDecrementLower}
+              getIncrementLower={getIncrementLower}
+              getDecrementUpper={getDecrementUpper}
+              getIncrementUpper={getIncrementUpper}
+              onLeftRangeInput={onLeftRangeInput}
+              onRightRangeInput={onRightRangeInput}
+            />
+            <LiquidityChart />
+          </Flex>
+        </motion.div>
+      </AnimatePresence>
     </Flex>
   )
 }
