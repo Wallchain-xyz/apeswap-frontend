@@ -189,7 +189,15 @@ const AddLiquidity = ({
           otherCurrency={currencies[Field.CURRENCY_A] ?? null}
         />
       </Flex>
-      <Flex variant="flex.dexContainer">
+      {/* <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, width: '0px' }}
+          animate={{ width: 'fit-content', opacity: 1 }}
+          transition={{ opacity: { duration: 0.3 }, width: { duration: 0.3 } }}
+          exit={{ width: '0px', opacity: 0 }}
+          sx={{ overflow: 'hidden' }}
+        > */}
+      <Flex variant="flex.v3SubDexContainer">
         <FeeSelector
           feeAmount={feeAmount}
           currencyIdA={currencyIdA}
@@ -209,8 +217,11 @@ const AddLiquidity = ({
           onLeftRangeInput={onLeftRangeInput}
           onRightRangeInput={onRightRangeInput}
         />
-        <LiquidityChart />
+        {/* <LiquidityChart /> */}
+        <Flex sx={{ mt: '20px', width: '100%', background: 'white3', height: '126px', borderRadius: '10px' }} />
       </Flex>
+      {/* </motion.div>
+      </AnimatePresence> */}
     </Flex>
   )
 }

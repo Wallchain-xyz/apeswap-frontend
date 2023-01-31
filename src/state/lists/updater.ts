@@ -16,6 +16,7 @@ export default function Updater(): null {
 
   // get all loaded lists, and the active urls
   const lists = useAllLists()
+  console.log(lists)
 
   const fetchList = useFetchListCallback()
   const fetchAllListsCallback = useCallback(() => {
@@ -23,7 +24,9 @@ export default function Updater(): null {
     Object.keys(lists).forEach((url) => {
       // Skip validation on unsupported lists
       const isUnsupportedList = UNSUPPORTED_LIST_URLS.includes(url)
-      fetchList(url, false, isUnsupportedList).catch((error: any) => console.debug('interval list fetching error', error))
+      fetchList(url, false, isUnsupportedList).catch((error: any) =>
+        console.debug('interval list fetching error', error),
+      )
     })
   }, [fetchList, isWindowVisible, lists])
 
@@ -67,7 +70,7 @@ export default function Updater(): null {
               dispatch(acceptListUpdate(listUrl))
             } else {
               console.error(
-                `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`
+                `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`,
               )
             }
             break

@@ -310,6 +310,16 @@ const components = {
       margin: '0px 10px',
       flexDirection: 'column',
     },
+    v3SubDexContainer: {
+      width: '100%',
+      maxWidth: '600px',
+      height: 'fit-content',
+      background: 'white2',
+      padding: '15px',
+      borderRadius: '10px',
+      margin: '0px 10px',
+      flexDirection: 'column',
+    },
     navContainer: {
       height: '35px',
       padding: '0px 15px',

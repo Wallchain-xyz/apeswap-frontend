@@ -1,7 +1,6 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { Flex, Text } from 'components/uikit'
-import Image from 'next/image'
 import { CSSProperties } from 'theme-ui'
 
 const ListRow = ({

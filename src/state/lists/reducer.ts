@@ -29,6 +29,7 @@ const NEW_LIST_STATE: ListState = {
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] extends ReadonlyArray<infer U> ? U[] : T[P] }
 
+console.log(DEFAULT_LIST_OF_LISTS)
 const initialState: ListsState = {
   lastInitializedDefaultListOfLists: DEFAULT_LIST_OF_LISTS,
   byUrl: {
@@ -118,7 +119,7 @@ export default createReducer(initialState, (builder) =>
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),
-          new Set()
+          new Set(),
         )
         const newListOfListsSet = DEFAULT_LIST_OF_LISTS.reduce<Set<string>>((s, l) => s.add(l), new Set())
 
@@ -136,5 +137,5 @@ export default createReducer(initialState, (builder) =>
       }
 
       state.lastInitializedDefaultListOfLists = DEFAULT_LIST_OF_LISTS
-    })
+    }),
 )

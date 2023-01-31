@@ -2,6 +2,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 
 export const UNI_LIST = 'https://tokens.uniswap.org'
 
+const APESWAP = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/apeswap.json'
 const NFT_INDEX = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/nftindex.json'
 const PANCAKE_EXTENDED = 'https://tokens.pancakeswap.finance/pancakeswap-extended.json'
 const PANCAKE_100 = 'https://tokens.pancakeswap.finance/pancakeswap-top-100.json'
@@ -12,7 +13,7 @@ const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json'
 export const UNSUPPORTED_LIST_URLS: string[] = []
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [UNI_LIST]
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [APESWAP, UNI_LIST]
 export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
   NFT_INDEX,
   QUICKSWAP,
