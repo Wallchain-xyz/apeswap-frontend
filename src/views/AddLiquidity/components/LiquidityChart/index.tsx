@@ -9,6 +9,7 @@ import { ZoomLevels } from './types'
 import { useDensityChartData } from './hooks'
 import { useCallback, useMemo } from 'react'
 import { batch } from 'react-redux'
+import { useThemeUI } from 'theme-ui'
 
 // TODO: Move to constants file
 const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
@@ -68,6 +69,9 @@ const LiquidityChart = ({
   })
 
   const isSorted = currencyA && currencyB && currencyA?.wrapped.sortsBefore(currencyB?.wrapped)
+
+  const { theme } = useThemeUI()
+  console.log(theme.colors?.text)
 
   console.log(isLoading, error, formattedData)
 
@@ -129,7 +133,16 @@ const LiquidityChart = ({
   // TODO: Figure out token colros
 
   return (
-    <Flex sx={{ mt: '20px', width: '100%', background: 'white3', height: '126px', borderRadius: '10px' }}>
+    <Flex
+      sx={{
+        position: 'relative',
+        mt: '20px',
+        width: '100%',
+        background: 'white3',
+        height: '137px',
+        borderRadius: '10px',
+      }}
+    >
       {!formattedData || formattedData.length === 0 || !price ? (
         <></>
       ) : (
@@ -139,11 +152,11 @@ const LiquidityChart = ({
           margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
           styles={{
             area: {
-              selection: 'text',
+              selection: 'yellow',
             },
             brush: {
               handle: {
-                west: saturate(0.1, 'red') ?? 'error',
+                west: saturate(0.1, 'green') ?? 'error',
                 east: saturate(0.1, 'blue') ?? 'error',
               },
             },

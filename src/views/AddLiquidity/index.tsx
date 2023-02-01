@@ -159,7 +159,7 @@ const AddLiquidity = ({
         <FeeSelector
           feeAmount={feeAmount}
           currencyIdA={currencyIdA}
-          currencyIdB={currencyIdB}x
+          currencyIdB={currencyIdB}
           onHandleFeeSelect={handleFeeSelect}
         />
         <RangeSelectors

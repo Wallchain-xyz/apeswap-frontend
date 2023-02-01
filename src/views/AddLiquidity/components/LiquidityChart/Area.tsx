@@ -1,14 +1,7 @@
 import { area, curveStepAfter, ScaleLinear } from 'd3'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { ChartEntry } from './types'
 
-// import { ChartEntry } from './types'
-
-// const Path = styled.path<{ fill: string | undefined }>`
-//   opacity: 0.5;
-//   stroke: ${({ fill, theme }) => fill ?? theme.accentAction};
-//   fill: ${({ fill, theme }) => fill ?? theme.accentAction};
-// `
 export const Area = ({
   series,
   xScale,
@@ -26,8 +19,8 @@ export const Area = ({
 }) =>
   useMemo(
     () => (
-      <svg
-        fill={fill}
+      <path
+        sx={{ opacity: 0.5, stroke: fill ?? 'yellow', fill: fill ?? 'yellow' }}
         d={
           area()
             .curve(curveStepAfter)
