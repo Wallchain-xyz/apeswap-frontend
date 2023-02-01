@@ -1,29 +1,30 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
-export const UNSUPPORTED_LIST_URLS: string[] = []
+export const UNI_LIST = 'https://tokens.uniswap.org'
 
+const APESWAP = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/apeswap.json'
 const NFT_INDEX = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/nftindex.json'
 const PANCAKE_EXTENDED = 'https://tokens.pancakeswap.finance/pancakeswap-extended.json'
 const PANCAKE_100 = 'https://tokens.pancakeswap.finance/pancakeswap-top-100.json'
-// const CMC_ALL_LIST = 'https://api.coinmarketcap.com/data-api/v3/uniswap/all.json'
-// const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json'
-// const UNI_LIST = 'https://tokens.uniswap.org'
 const QUICKSWAP = 'https://unpkg.com/quickswap-default-token-list@1.2.18/build/quickswap-default.tokenlist.json'
+const CMC_ALL_LIST = 'https://api.coinmarketcap.com/data-api/v3/uniswap/all.json'
+const COINGECKO_LIST = 'https://tokens.coingecko.com/uniswap/all.json'
 
-// lower index == higher priority for token import
-export const DEFAULT_LIST_OF_LISTS: string[] = [
+export const UNSUPPORTED_LIST_URLS: string[] = []
+
+// default lists to be 'active' aka searched across
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [APESWAP, UNI_LIST]
+export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
   NFT_INDEX,
   QUICKSWAP,
   PANCAKE_100,
-  // COINGECKO_LIST,
-  // CMC_ALL_LIST,
+  COINGECKO_LIST,
+  CMC_ALL_LIST,
   PANCAKE_EXTENDED,
   ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]
 
-// default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = []
-export const DEFAULT_INACTIVE_LIST_URLS = []
+export const DEFAULT_LIST_OF_LISTS: string[] = [...DEFAULT_ACTIVE_LIST_URLS, ...DEFAULT_INACTIVE_LIST_URLS]
 
 interface ExtendedListType {
   name: string

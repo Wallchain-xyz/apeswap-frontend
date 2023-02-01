@@ -1,14 +1,16 @@
 import { Interface } from '@ethersproject/abi'
-import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import ERC20ABI from 'config/abi/erc20.json'
-import { Erc20Interface } from 'config/abi/types/Erc20'
+
 import JSBI from 'jsbi'
 import { useMultipleContractSingleData, useSingleContractMultipleData } from 'lib/hooks/multicall'
 import { useMemo } from 'react'
+
 import { nativeOnChain } from 'config/constants/tokens'
-import { useInterfaceMulticall } from 'hooks/useContract'
-import { isAddress } from 'utils'
+import { useInterfaceMulticall } from '../../hooks/useContract'
+import { isAddress } from '../../utils'
+import { Erc20Interface } from 'config/abi/types/Erc20'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -35,9 +37,7 @@ export function useNativeCurrencyBalances(uncheckedAddresses?: (string | undefin
 
   return useMemo(
     () =>
-      validAddressInputs.reduce<{
-        [address: string]: CurrencyAmount<Currency>
-      }>((memo, [address], i) => {
+      validAddressInputs.reduce<{ [address: string]: CurrencyAmount<Currency> }>((memo, [address], i) => {
         const value = results?.[i]?.result?.[0]
         if (value && chainId)
           memo[address] = CurrencyAmount.fromRawAmount(nativeOnChain(chainId), JSBI.BigInt(value.toString()))
@@ -77,9 +77,7 @@ export function useTokenBalancesWithLoadingIndicator(
   return useMemo(
     () => [
       address && validatedTokens.length > 0
-        ? validatedTokens.reduce<{
-            [tokenAddress: string]: CurrencyAmount<Token> | undefined
-          }>((memo, token, i) => {
+        ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token, i) => {
             const value = balances?.[i]?.result?.[0]
             const amount = value ? JSBI.BigInt(value.toString()) : undefined
             if (amount) {

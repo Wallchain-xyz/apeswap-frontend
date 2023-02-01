@@ -14,6 +14,7 @@ const styles: Record<
   ThemeUIStyleObject
 > = {
   container: {
+    position: 'fixed',
     padding: '0px 25px',
     alignContent: 'center',
     justifyContent: 'space-between',

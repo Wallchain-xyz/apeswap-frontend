@@ -8,7 +8,6 @@ import styles from '../styles'
 const SubMenu = ({ label, menuItems }: { label: string; menuItems: MenuItem[] }) => {
   const [colorMode] = useColorMode()
   const { t } = useTranslation()
-  console.log(`/images/nav/${label}_${colorMode}.svg`)
   return (
     <Flex sx={styles.desktopSubMenuContainer}>
       <Flex sx={{ flexDirection: 'column', margin: '20px 0px 0px 20px' }}>

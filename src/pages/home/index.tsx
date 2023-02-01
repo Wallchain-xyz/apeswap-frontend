@@ -1,12 +1,15 @@
 import { useWeb3React } from '@web3-react/core'
+import TokenListModal from 'components/TokenListModal'
 import { Flex, Svg } from 'components/uikit'
+import { useAllTokens } from 'hooks/Tokens'
 import React, { useCallback } from 'react'
+import { useCombinedActiveList } from 'state/lists/hooks'
+import { useV3MintState } from 'state/mint/v3/hooks'
 import { Text, Card, Button } from 'theme-ui'
 import ConenctWallet from '../../components/ConnectWallet'
 
 const Home = () => {
   const { account, connector, chainId } = useWeb3React()
-  console.log(chainId)
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {
       connector.deactivate()
@@ -23,7 +26,6 @@ const Home = () => {
         flexDirection: 'column',
       }}
     >
-      <Svg icon="fullLogo" color="body" />
       <Flex sx={{ background: 'white3', padding: '20px', borderRadius: '10px' }}>
         <ConenctWallet />
       </Flex>
