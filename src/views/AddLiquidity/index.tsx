@@ -22,6 +22,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import FeeSelector from './components/FeeSelector'
 import RangeSelectors from './components/RangeSelectors'
 import LiquidityChart from './components/LiquidityChart'
+import Actions from './actions'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -145,6 +146,16 @@ const AddLiquidity = ({
           value={formattedAmounts[Field.CURRENCY_B]}
           currency={currencies[Field.CURRENCY_B] ?? null}
           otherCurrency={currencies[Field.CURRENCY_A] ?? null}
+        />
+        <Actions
+          positionManager={positionManager}
+          baseCurrency={currencies[Field.CURRENCY_A]}
+          quoteCurrency={currencies[Field.CURRENCY_B]}
+          position={position}
+          outOfRange={outOfRange}
+          hasExistingPosition={hasExistingPosition}
+          noLiquidity={noLiquidity}
+          tokenId={tokenId}
         />
       </Flex>
       {/* <AnimatePresence>

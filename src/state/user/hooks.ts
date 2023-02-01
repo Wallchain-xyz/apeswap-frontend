@@ -1,8 +1,9 @@
-import { Token } from '@ape.swap/sdk-core'
+import { Percent, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import JSBI from 'jsbi'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { addSerializedToken } from './reducer'
+import { addSerializedToken, updateUserSlippageTolerance } from './reducer'
 import { SerializedToken, UserAddedToken } from './types'
 
 const serializeToken = (token: Token): SerializedToken => {
@@ -50,4 +51,53 @@ export function useUserAddedTokensOnChain(chainId: number | undefined | null): T
 export function useUserAddedTokens(): Token[] {
   const { chainId } = useWeb3React()
   return useUserAddedTokensOnChain(chainId)
+}
+
+/**
+ * Return the user's slippage tolerance, from the redux store, and a function to update the slippage tolerance
+ */
+export function useUserSlippageTolerance(): [Percent | 'auto', (slippageTolerance: Percent | 'auto') => void] {
+  const userSlippageToleranceRaw = useAppSelector((state) => {
+    return state.user.userSlippageTolerance
+  })
+  const userSlippageTolerance = useMemo(
+    () => (userSlippageToleranceRaw === 'auto' ? 'auto' : new Percent(userSlippageToleranceRaw, 10_000)),
+    [userSlippageToleranceRaw],
+  )
+
+  const dispatch = useAppDispatch()
+  const setUserSlippageTolerance = useCallback(
+    (userSlippageTolerance: Percent | 'auto') => {
+      let value: 'auto' | number
+      try {
+        value =
+          userSlippageTolerance === 'auto' ? 'auto' : JSBI.toNumber(userSlippageTolerance.multiply(10_000).quotient)
+      } catch (error) {
+        value = 'auto'
+      }
+      dispatch(
+        updateUserSlippageTolerance({
+          userSlippageTolerance: value,
+        }),
+      )
+    },
+    [dispatch],
+  )
+
+  return useMemo(
+    () => [userSlippageTolerance, setUserSlippageTolerance],
+    [setUserSlippageTolerance, userSlippageTolerance],
+  )
+}
+
+/**
+ * Same as above but replaces the auto with a default value
+ * @param defaultSlippageTolerance the default value to replace auto with
+ */
+export function useUserSlippageToleranceWithDefault(defaultSlippageTolerance: Percent): Percent {
+  const allowedSlippage = useUserSlippageTolerance()[0]
+  return useMemo(
+    () => (allowedSlippage === 'auto' ? defaultSlippageTolerance : allowedSlippage),
+    [allowedSlippage, defaultSlippageTolerance],
+  )
 }
