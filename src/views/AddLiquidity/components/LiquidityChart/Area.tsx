@@ -20,7 +20,7 @@ export const Area = ({
   useMemo(
     () => (
       <path
-        sx={{ opacity: 0.5, stroke: fill ?? 'yellow', fill: fill ?? 'yellow' }}
+        sx={{ opacity: .5, stroke: fill ?? 'yellow', fill: fill ?? 'yellow' }}
         d={
           area()
             .curve(curveStepAfter)

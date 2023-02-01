@@ -162,6 +162,18 @@ const AddLiquidity = ({
           currencyIdB={currencyIdB}
           onHandleFeeSelect={handleFeeSelect}
         />
+        <LiquidityChart
+          currencyA={baseCurrency ?? undefined}
+          currencyB={quoteCurrency ?? undefined}
+          feeAmount={feeAmount}
+          ticksAtLimit={ticksAtLimit}
+          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+          interactive={!hasExistingPosition}
+        />
         <RangeSelectors
           priceLower={priceLower}
           priceUpper={priceUpper}
@@ -174,18 +186,6 @@ const AddLiquidity = ({
           getIncrementUpper={getIncrementUpper}
           onLeftRangeInput={onLeftRangeInput}
           onRightRangeInput={onRightRangeInput}
-        />
-        <LiquidityChart
-          currencyA={baseCurrency ?? undefined}
-          currencyB={quoteCurrency ?? undefined}
-          feeAmount={feeAmount}
-          ticksAtLimit={ticksAtLimit}
-          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
-          priceLower={priceLower}
-          priceUpper={priceUpper}
-          onLeftRangeInput={onLeftRangeInput}
-          onRightRangeInput={onRightRangeInput}
-          interactive={!hasExistingPosition}
         />
       </Flex>
       {/* </motion.div>

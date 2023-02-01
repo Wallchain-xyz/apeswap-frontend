@@ -1,7 +1,6 @@
 import { max, scaleLinear, ZoomTransform } from 'd3'
 import { Chart as ChartJS, LinearScale, LineElement, Tooltip, Legend, CategoryScale, BarElement } from 'chart.js'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Bar } from 'react-chartjs-2'
 import { ChartEntry, LiquidityChartRangeInputProps } from './types'
 import { Area } from './Area'
 import { Line } from './Line'
@@ -9,6 +8,7 @@ import { Brush } from './Brush'
 import { AxisBottom } from './AxisBottom'
 import Zoom from './Zoom'
 import { Bound } from 'state/mint/v3/actions'
+import { Flex } from 'components/uikit'
 ChartJS.register(LinearScale, CategoryScale, LineElement, BarElement, Tooltip, Legend)
 
 const xAccessor = (d: ChartEntry) => d.price0
@@ -64,7 +64,7 @@ const Chart = ({
     }
   }, [brushDomain, onBrushDomainChange, xScale])
   return (
-    <>
+    <Flex sx={{ transform: 'translate(0px, -10px)' }}>
       <Zoom
         svg={zoomRef.current}
         xScale={xScale}
@@ -83,12 +83,7 @@ const Chart = ({
         showResetButton={Boolean(ticksAtLimit[Bound.LOWER] || ticksAtLimit[Bound.UPPER])}
         zoomLevels={zoomLevels}
       />
-      <svg
-        sx={{ border: '1px solid red', overflow: 'visible' }}
-        width="100%"
-        height="100%"
-        viewBox={`0 0 ${width} ${height}`}
-      >
+      <svg sx={{ overflow: 'visible' }} width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
         <defs>
           <clipPath id={`${id}-chart-clip`}>
             <rect x="0" y="0" width={innerWidth} height={height} />
@@ -106,7 +101,7 @@ const Chart = ({
             </mask>
           )}
         </defs>
-        <g transform={`translate(${margins.left},${margins.top})`}>
+        <g transform={`translate(${margins.left},${margins.top})`} sx={{ border: '1px solid red' }}>
           <g clipPath={`url(#${id}-chart-clip)`}>
             <Area series={series} xScale={xScale} yScale={yScale} xValue={xAccessor} yValue={yAccessor} />
 
@@ -155,7 +150,7 @@ const Chart = ({
           />
         </g>
       </svg>
-    </>
+    </Flex>
   )
 }
 

@@ -113,8 +113,8 @@ export default function Zoom({
         gridTemplateColumns: `repeat(${showResetButton ? '3' : '2'}, 1fr)`,
         gridGap: '6px',
         position: 'absolute',
-        top: '0px',
-        right: '0px',
+        top: '15px',
+        right: '5px',
       }}
     >
       {showResetButton && (

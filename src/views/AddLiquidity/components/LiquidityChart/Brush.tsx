@@ -204,18 +204,40 @@ export const Brush = ({
                 }, 1)`}
               >
                 <g>
-                  <path color={westHandleColor} d={brushHandlePath(innerHeight)} />
-                  <path d={brushHandleAccentPath()} />
+                  <path
+                    sx={{
+                      cursor: 'ewResize',
+                      pointerEvents: 'none',
+                      strokeWidth: 3,
+                      stroke: westHandleColor,
+                      fill: westHandleColor,
+                    }}
+                    d={brushHandlePath(innerHeight)}
+                  />
+                  <path
+                    sx={{
+                      cursor: 'ewResize',
+                      pointerEvents: 'none',
+                      strokeWidth: 1.5,
+                      stroke: 'primaryBright',
+                    }}
+                    d={brushHandleAccentPath()}
+                  />
                 </g>
 
                 <g
                   transform={`translate(50,0), scale(${flipWestHandle ? '1' : '-1'}, 1)`}
-                  // visible={showLabels || hovering}
+                  sx={{ opacity: showLabels || hovering ? 1 : 0, transition: ' opacity 300ms' }}
                 >
-                  <rect y="0" x="-30" height="30" width="60" rx="8" />
-                  <Text transform="scale(-1, 1)" y="15" dominantBaseline="middle">
+                  <rect y="0" x="-30" height="30" width="60" rx="8" sx={{ fill: 'white4' }} />
+                  <text
+                    transform="scale(-1, 1)"
+                    y="15"
+                    dominantBaseline="middle"
+                    sx={{ fill: 'text', textAnchor: 'middle', fontSize: '13px' }}
+                  >
                     {brushLabelValue('w', localBrushExtent[0])}
-                  </Text>
+                  </text>
                 </g>
               </g>
             ) : null}
@@ -224,18 +246,35 @@ export const Brush = ({
             {eastHandleInView ? (
               <g transform={`translate(${xScale(localBrushExtent[1])}, 0), scale(${flipEastHandle ? '-1' : '1'}, 1)`}>
                 <g>
-                  <path color={eastHandleColor} d={brushHandlePath(innerHeight)} />
-                  <path d={brushHandleAccentPath()} />
+                  <path
+                    sx={{
+                      cursor: 'ewResize',
+                      pointerEvents: 'none',
+                      strokeWidth: 3,
+                      stroke: eastHandleColor,
+                      fill: eastHandleColor,
+                    }}
+                    d={brushHandlePath(innerHeight)}
+                  />
+                  <path
+                    sx={{
+                      cursor: 'ewResize',
+                      pointerEvents: 'none',
+                      strokeWidth: 1.5,
+                      stroke: 'primaryBright',
+                    }}
+                    d={brushHandleAccentPath()}
+                  />
                 </g>
 
                 <g
                   transform={`translate(50,0), scale(${flipEastHandle ? '-1' : '1'}, 1)`}
-                  // visible={showLabels || hovering}
+                  sx={{ opacity: showLabels || hovering ? 1 : 0, transition: ' opacity 300ms' }}
                 >
-                  <rect y="0" x="-30" height="30" width="60" rx="8" />
-                  <Text y="15" dominantBaseline="middle">
+                  <rect y="0" x="-30" height="30" width="60" rx="8" sx={{ fill: 'white4' }} />
+                  <text y="15" dominantBaseline="middle" sx={{ fill: 'text', textAnchor: 'middle', fontSize: '13px' }}>
                     {brushLabelValue('e', localBrushExtent[1])}
-                  </Text>
+                  </text>
                 </g>
               </g>
             ) : null}

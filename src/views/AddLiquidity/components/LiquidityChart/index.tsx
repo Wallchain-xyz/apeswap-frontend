@@ -71,7 +71,7 @@ const LiquidityChart = ({
   const isSorted = currencyA && currencyB && currencyA?.wrapped.sortsBefore(currencyB?.wrapped)
 
   const { theme } = useThemeUI()
-  console.log(theme.colors?.text)
+  console.log(theme.colors?.primary)
 
   console.log(isLoading, error, formattedData)
 
@@ -136,10 +136,10 @@ const LiquidityChart = ({
     <Flex
       sx={{
         position: 'relative',
-        mt: '20px',
+        mb: '20px',
         width: '100%',
         background: 'white3',
-        height: '137px',
+        height: '180px',
         borderRadius: '10px',
       }}
     >
@@ -148,7 +148,7 @@ const LiquidityChart = ({
       ) : (
         <Chart
           data={{ series: formattedData, current: price }}
-          dimensions={{ width: 400, height: 200 }}
+          dimensions={{ width: 800, height: 235 }}
           margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
           styles={{
             area: {
@@ -156,8 +156,8 @@ const LiquidityChart = ({
             },
             brush: {
               handle: {
-                west: saturate(0.1, 'green') ?? 'error',
-                east: saturate(0.1, 'blue') ?? 'error',
+                west: saturate(1, theme.rawColors?.yellow?.toString() || 'gold') ?? 'error',
+                east: saturate(0.1, theme.rawColors?.yellow?.toString() || 'gold') ?? 'error',
               },
             },
           }}
