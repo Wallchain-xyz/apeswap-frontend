@@ -40,8 +40,6 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
     [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   }
 
-  console.log(error, pair)
-
   // Action handlers
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)

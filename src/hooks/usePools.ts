@@ -30,16 +30,7 @@ class PoolCache {
     const { address: addressB } = tokenB
     const key = `${factoryAddress}:${addressA}:${addressB}:${fee.toString()}`
     const found = this.addresses.find((address) => address.key === key)
-    console.warn("ASDASDASDASDASDASDASDAS")
-    console.log(found)
     if (found) return found.address
-
-    console.log({
-      factoryAddress,
-      tokenA,
-      tokenB,
-      fee,
-    })
     const address = {
       key,
       address: computePoolAddress({
@@ -111,7 +102,6 @@ export function usePools(
 
   const poolAddresses: (string | undefined)[] = useMemo(() => {
     const v3CoreFactoryAddress = chainId && V3_FACTORY_ADDRESSES[chainId]
-    console.log(v3CoreFactoryAddress)
     if (!v3CoreFactoryAddress) return new Array(poolTokens.length)
 
     return poolTokens.map((value) => value && PoolCache.getPoolAddress(v3CoreFactoryAddress, ...value))

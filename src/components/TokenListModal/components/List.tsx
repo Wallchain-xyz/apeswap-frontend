@@ -25,8 +25,6 @@ const List = ({
   const debouncedQuery = useDebounce(searchQuery, 200)
   const defaultTokens = useAllTokens()
   const [balances, balancesAreLoading] = useAllTokenBalances()
-  console.log(defaultTokens)
-  console.log(balances)
   const filteredTokens: Token[] = useMemo(() => {
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
   }, [defaultTokens, debouncedQuery])

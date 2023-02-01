@@ -6,23 +6,24 @@ import { useMemo } from 'react'
 import { getContract } from 'utils'
 
 // ABIS
-
 import multicallV3Abi from 'config/abi/multicallv3.json'
 import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
+import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
 import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
-import { NonfungiblePositionManager } from 'config/abi/types/v3'
-import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
+import { NonfungiblePositionManager, TickLens } from 'config/abi/types/v3'
+import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES, TICK_LENS_ADDRESSES } from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
+const { abi: TickLensABI } = TickLensJson
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -83,4 +84,10 @@ export function useV3NFTPositionManagerContract(withSignerIfPossible?: boolean):
     NFTPositionManagerABI,
     withSignerIfPossible,
   )
+}
+
+export function useTickLens(): TickLens | null {
+  const { chainId } = useWeb3React()
+  const address = chainId ? TICK_LENS_ADDRESSES[chainId] : undefined
+  return useContract(address, TickLensABI) as TickLens | null
 }

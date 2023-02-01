@@ -44,9 +44,6 @@ const RangeSelectors = ({
   const maxPriceDisabled = ticksAtLimit[isSorted ? Bound.UPPER : Bound.LOWER]
   const maxPriceValue = maxPriceDisabled ? '∞' : rightPrice?.toSignificant(5) ?? ''
 
-  console.log(ticksAtLimit)
-  console.log(maxPriceDisabled)
-
   return (
     <Flex sx={{ justifyContent: 'space-between' }}>
       <RangeSelector

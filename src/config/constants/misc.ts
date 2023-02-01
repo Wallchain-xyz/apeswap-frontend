@@ -1,6 +1,9 @@
 import { Percent } from "@ape.swap/sdk-core";
 import JSBI from "jsbi";
 
+
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 export const BIG_INT_ZERO = JSBI.BigInt(0)
 
 

@@ -69,6 +69,7 @@
     "multicodec": "^3.2.1",
     "next": "^13.1.1",
     "numbro": "^2.3.6",
+    "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-countup": "^6.4.0",

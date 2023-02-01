@@ -55,7 +55,6 @@ const AddLiquidity = ({
       ? parseFloat(feeAmountFromUrl)
       : undefined
 
-  console.log(feeAmountFromUrl, feeAmount)
   // prevent an error if they input ETH/WETH
   const quoteCurrency =
     baseCurrency && currencyB && baseCurrency.wrapped.equals(currencyB.wrapped) ? undefined : currencyB
@@ -63,11 +62,6 @@ const AddLiquidity = ({
   // mint state
   const { independentField, typedValue, startPriceTypedValue, rightRangeTypedValue, leftRangeTypedValue } =
     useV3MintState()
-
-  console.error('sd')
-  console.log(startPriceTypedValue)
-  console.log(startPriceTypedValue)
-  console.log(independentField, typedValue, startPriceTypedValue, rightRangeTypedValue, leftRangeTypedValue)
 
   const {
     pool,
@@ -96,34 +90,6 @@ const AddLiquidity = ({
     existingPosition,
   )
 
-  console.log(
-    baseCurrency ?? undefined,
-    quoteCurrency ?? undefined,
-    feeAmount,
-    baseCurrency ?? undefined,
-    existingPosition,
-  )
-  console.log(
-    pool,
-    ticks,
-    dependentField,
-    price,
-    pricesAtTicks,
-    parsedAmounts,
-    currencyBalances,
-    position,
-    noLiquidity,
-    currencies,
-    errorMessage,
-    invalidPool,
-    invalidRange,
-    outOfRange,
-    depositADisabled,
-    depositBDisabled,
-    invertPrice,
-    ticksAtLimit,
-  )
-
   const { onFieldAInput, onFieldBInput, onLeftRangeInput, onRightRangeInput, onStartPriceInput } =
     useV3MintActionHandlers(noLiquidity)
 
@@ -133,26 +99,18 @@ const AddLiquidity = ({
     [dependentField]: parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   }
 
-  console.log(formattedAmounts)
-
   const handleCurrencyASelect = useHandleCurrencyASelect({ currencyIdB, currencyIdA })
   const handleCurrencyBSelect = useHandleCurrencyBSelect({ currencyIdA, currencyIdB })
   const handleFeeSelect = useHandleFeeSelect({ currencyIdA, currencyIdB, onLeftRangeInput, onRightRangeInput })
 
   useEffect(() => {
-    if (
-      query.minPrice &&
-      typeof query.minPrice === 'string' &&
-      query.minPrice !== leftRangeTypedValue &&
-      !isNaN(query.minPrice as any)
-    ) {
+    if (query.minPrice && typeof query.minPrice === 'string' && !leftRangeTypedValue && !isNaN(query.minPrice as any)) {
       onLeftRangeInput(query.minPrice)
     }
-
     if (
       query.maxPrice &&
       typeof query.maxPrice === 'string' &&
-      query.maxPrice !== rightRangeTypedValue &&
+      !rightRangeTypedValue &&
       !isNaN(query.maxPrice as any)
     ) {
       onRightRangeInput(query.maxPrice)
@@ -201,7 +159,7 @@ const AddLiquidity = ({
         <FeeSelector
           feeAmount={feeAmount}
           currencyIdA={currencyIdA}
-          currencyIdB={currencyIdB}
+          currencyIdB={currencyIdB}x
           onHandleFeeSelect={handleFeeSelect}
         />
         <RangeSelectors
@@ -217,8 +175,18 @@ const AddLiquidity = ({
           onLeftRangeInput={onLeftRangeInput}
           onRightRangeInput={onRightRangeInput}
         />
-        {/* <LiquidityChart /> */}
-        <Flex sx={{ mt: '20px', width: '100%', background: 'white3', height: '126px', borderRadius: '10px' }} />
+        <LiquidityChart
+          currencyA={baseCurrency ?? undefined}
+          currencyB={quoteCurrency ?? undefined}
+          feeAmount={feeAmount}
+          ticksAtLimit={ticksAtLimit}
+          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+          interactive={!hasExistingPosition}
+        />
       </Flex>
       {/* </motion.div>
       </AnimatePresence> */}

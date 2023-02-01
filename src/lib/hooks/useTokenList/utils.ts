@@ -16,7 +16,6 @@ export function tokensToChainTokenMap(tokens: TokenList | TokenInfo[]): ChainTok
 
   const [list, infos] = Array.isArray(tokens) ? [undefined, tokens] : [tokens, tokens.tokens]
   const map = infos.reduce<Mutable<ChainTokenMap>>((map, info) => {
-    console.log(map)
     try {
       const token = new WrappedTokenInfo(info, list)
       if (map[token.chainId]?.[token.address] !== undefined) {
