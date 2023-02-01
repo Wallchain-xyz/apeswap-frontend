@@ -10,10 +10,6 @@ import ConenctWallet from '../../components/ConnectWallet'
 
 const Home = () => {
   const { account, connector, chainId } = useWeb3React()
-  console.log(useV3MintState())
-  console.log(useCombinedActiveList())
-  console.log(useAllTokens())
-  console.log(chainId)
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {
       connector.deactivate()
@@ -33,7 +29,6 @@ const Home = () => {
       <Flex sx={{ background: 'white3', padding: '20px', borderRadius: '10px' }}>
         <ConenctWallet />
       </Flex>
-      <TokenListModal />
       {account && (
         <>
           <Button onClick={disconnect} margin="10px 0px">

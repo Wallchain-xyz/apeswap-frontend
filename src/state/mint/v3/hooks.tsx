@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Price, Rounding, Token } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Price, Rounding, Token } from '@ape.swap/sdk-core'
 import {
   encodeSqrtRatioX96,
   FeeAmount,
@@ -46,7 +46,7 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   onStartPriceInput: (typedValue: string) => void
 } {
   const dispatch = useAppDispatch()
-  const { replace, pathname } = useRouter()
+  const { replace, query } = useRouter()
 
   const onFieldAInput = useCallback(
     (typedValue: string) => {
@@ -65,17 +65,17 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onLeftRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeLeftRangeInput({ typedValue }))
-      replace({ search: replaceURLParam(pathname, 'minPrice', typedValue) })
+      replace({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
     },
-    [dispatch, replace, pathname],
+    [dispatch, replace, query],
   )
 
   const onRightRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeRightRangeInput({ typedValue }))
-      replace({ search: replaceURLParam(pathname, 'maxPrice', typedValue) })
+      replace({ query: { ...query, maxPrice: typedValue } })
     },
-    [dispatch, replace, pathname],
+    [dispatch, replace, query],
   )
 
   const onStartPriceInput = useCallback(
@@ -268,7 +268,6 @@ export function useV3DerivedMintInfo(
     token1,
     tickSpaceLimits,
   ])
-
   const { [Bound.LOWER]: tickLower, [Bound.UPPER]: tickUpper } = ticks || {}
 
   // specifies whether the lower and upper ticks is at the exteme bounds

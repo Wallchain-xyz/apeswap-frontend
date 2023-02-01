@@ -1,14 +1,13 @@
 import { Interface } from '@ethersproject/abi'
-import { BigintIsh, Currency, Token } from '@uniswap/sdk-core'
+import { BigintIsh, Currency, Token } from '@ape.swap/sdk-core'
 import IUniswapV3PoolStateABI from '@uniswap/v3-core/artifacts/contracts/interfaces/pool/IUniswapV3PoolState.sol/IUniswapV3PoolState.json'
 import { IUniswapV3PoolStateInterface } from 'config/abi/types/v3/v3-core/artifacts/contracts/interfaces/pool/IUniswapV3PoolState'
-import { computePoolAddress } from '@ape.swap/v3-sdk'
-import { FeeAmount, Pool } from '@ape.swap/v3-sdk'
+import { FeeAmount, Pool, computePoolAddress } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import JSBI from 'jsbi'
 import { useMultipleContractSingleData } from 'lib/hooks/multicall'
 import { useMemo } from 'react'
-import { FACTORY_ADDRESS as V3_CORE_FACTORY_ADDRESSES } from '@ape.swap/v3-sdk'
+import { V3_FACTORY_ADDRESSES } from 'config/constants/addresses'
 
 const POOL_STATE_INTERFACE = new Interface(IUniswapV3PoolStateABI.abi) as IUniswapV3PoolStateInterface
 
@@ -32,7 +31,6 @@ class PoolCache {
     const key = `${factoryAddress}:${addressA}:${addressB}:${fee.toString()}`
     const found = this.addresses.find((address) => address.key === key)
     if (found) return found.address
-
     const address = {
       key,
       address: computePoolAddress({
@@ -103,7 +101,7 @@ export function usePools(
   }, [chainId, poolKeys])
 
   const poolAddresses: (string | undefined)[] = useMemo(() => {
-    const v3CoreFactoryAddress = chainId && V3_CORE_FACTORY_ADDRESSES[chainId]
+    const v3CoreFactoryAddress = chainId && V3_FACTORY_ADDRESSES[chainId]
     if (!v3CoreFactoryAddress) return new Array(poolTokens.length)
 
     return poolTokens.map((value) => value && PoolCache.getPoolAddress(v3CoreFactoryAddress, ...value))
