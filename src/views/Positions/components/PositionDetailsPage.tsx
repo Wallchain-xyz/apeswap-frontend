@@ -8,6 +8,7 @@ import { useTranslation } from 'contexts/Localization'
 import { BigNumber } from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import useIsTickAtLimit from 'hooks/useIsTickAtLimit'
+import useModal from 'hooks/useModal'
 import { usePool } from 'hooks/usePools'
 import { usePositionTokenURI } from 'hooks/usePositionTokenURI'
 import { useV3PositionFees } from 'hooks/useV3PositionFees'
@@ -20,6 +21,7 @@ import { Switch } from 'theme-ui'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 import { formatTickPrice } from 'utils/formatTickPrice'
 import { unwrappedToken } from 'utils/unwrappedToken'
+import RemoveLiquidity from 'views/RemoveLiquidity'
 import Claim from '../actions/Claim'
 import { getPriceOrderingFromPosition, getRatio, positionInverter } from '../helpers'
 import RangeTag from './RangeTag'
@@ -110,6 +112,19 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const feeValueUpper = inverted ? feeValue0 : feeValue1
   const feeValueLower = inverted ? feeValue1 : feeValue0
 
+  const [onPresentRemoveLiquidityModal] = useModal(
+    <RemoveLiquidity
+      tokenId={tokenId?.toString()}
+      token0Address={token0Address}
+      token1Address={token1Address}
+      feeAmount={feeAmount}
+      inRange={inRange}
+    />,
+    true,
+    true,
+    'RemoveLiquidityModal',
+  )
+
   console.log(loading, pool)
 
   return (
@@ -127,7 +142,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           </Flex>
         </Flex>
         <Flex sx={{ alignItems: 'center' }}>
-          <Button size="sm" mr="10px">
+          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal}>
             Remove
           </Button>
           <Button size="sm" mr="10px">
