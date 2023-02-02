@@ -335,6 +335,12 @@ const components = {
         transform: 'scale(0.9)',
       },
     },
+    tag: {
+      padding: '5px',
+      borderRadius: '5px',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   },
 }
 

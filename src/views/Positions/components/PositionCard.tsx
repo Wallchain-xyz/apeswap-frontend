@@ -6,12 +6,13 @@ import { useToken } from 'hooks/Tokens'
 import useIsTickAtLimit from 'hooks/useIsTickAtLimit'
 import { usePool } from 'hooks/usePools'
 import { PositionDetails } from 'lib/types/position'
-import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { Bound } from 'state/mint/v3/actions'
 import { formatTickPrice } from 'utils/formatTickPrice'
 import { unwrappedToken } from 'utils/unwrappedToken'
 import { getPriceOrderingFromPosition } from '../helpers'
+import RangeTag from './RangeTag'
+import styles from './styles'
 
 const PositionCard = ({
   positionItem,
@@ -31,7 +32,6 @@ const PositionCard = ({
     tickUpper,
     tokenId,
   } = positionItem
-  const { push } = useRouter()
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
   const currency0 = token0 ? unwrappedToken(token0) : undefined
@@ -63,17 +63,7 @@ const PositionCard = ({
 
   return (
     <Flex
-      sx={{
-        height: '80px',
-        background: 'white3',
-        borderRadius: '10px',
-        justifyContent: 'center',
-        padding: '10px',
-        margin: '5px 0px',
-        flexDirection: 'column',
-        cursor: 'pointer',
-        border: isSelected && '1px solid red',
-      }}
+      sx={{ ...styles.positionCardContainer, boxShadow: isSelected && '0px 0px 8px' }}
       onClick={() => handleSelectedTokenId(tokenId.toString())}
     >
       <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '100%' }}>
@@ -82,35 +72,13 @@ const PositionCard = ({
           <Text weight={600}>
             &nbsp;{currencyQuote?.symbol}&nbsp;/&nbsp;{currencyBase?.symbol}
           </Text>
-          <Flex
-            sx={{
-              padding: '5px',
-              borderRadius: '5px',
-              background: 'white4',
-              alignItems: 'center',
-              justifyContent: 'center',
-              ml: '5px',
-            }}
-          >
+          <Flex variant="flex.tag" sx={{ background: 'white4', ml: '5px' }}>
             <Text size="10px" sx={{ lineHeight: '9px' }}>
               {new Percent(feeAmount, 1_000_000).toSignificant()}%
             </Text>
           </Flex>
         </Flex>
-        <Flex
-          sx={{
-            padding: '5px',
-            borderRadius: '5px',
-            background: 'white4',
-            alignItems: 'center',
-            justifyContent: 'center',
-            ml: '5px',
-          }}
-        >
-          <Text size="10px" sx={{ lineHeight: '9px' }}>
-            {removed ? 'Closed' : inRange ? 'In range' : 'Out of range'}
-          </Text>
-        </Flex>
+        <RangeTag removed={removed} inRange={inRange} />
       </Flex>
       <Flex sx={{ alignItems: 'flex-end', height: '100%' }}>
         <Text size="14px" sx={{ lineHeight: '12px' }}>

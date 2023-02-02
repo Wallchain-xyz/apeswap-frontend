@@ -1,3 +1,4 @@
+import { useTranslation } from 'contexts/Localization'
 import React from 'react'
 import { Text as ThemeUIText } from 'theme-ui'
 import { TextProps, variants } from './types'
@@ -7,7 +8,7 @@ const Text: React.FC<TextProps> = ({
   weight = variants.NORMAL,
   size,
   children,
-  color,
+  color = 'text',
   ...props
 }) => {
   return (
