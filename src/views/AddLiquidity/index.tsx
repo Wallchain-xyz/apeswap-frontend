@@ -23,6 +23,7 @@ import FeeSelector from './components/FeeSelector'
 import RangeSelectors from './components/RangeSelectors'
 import LiquidityChart from './components/LiquidityChart'
 import Actions from './actions'
+import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -129,6 +130,7 @@ const AddLiquidity = ({
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
         <DexNav />
+        <V3LiquiditySubNav />
         <Flex sx={{ mt: '30px' }} />
         <DexPanel
           panelText="Token 1"

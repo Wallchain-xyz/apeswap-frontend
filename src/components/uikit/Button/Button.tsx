@@ -87,7 +87,7 @@ const Button: React.FC<ButtonProps> = ({
       }}
     >
       {React.isValidElement(startIcon) && React.cloneElement(startIcon)}
-      {children} {load && <Spinner />}
+      {children} {load && <Spinner size={15} ml='5px' />}
       {React.isValidElement(endIcon) && React.cloneElement(endIcon)}
     </ThemeUIButton>
   )

@@ -1,4 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
+import DexNav from 'components/DexNav'
+import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import { Flex } from 'components/uikit'
 import { BigNumber } from 'ethers'
 import { useV3PositionFromTokenId, useV3Positions } from 'hooks/useV3Positions'
@@ -32,6 +34,8 @@ const Positions = () => {
   return (
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
+        <DexNav />
+        <V3LiquiditySubNav />
         {filteredPositions?.map((position) => {
           return (
             <PositionCard

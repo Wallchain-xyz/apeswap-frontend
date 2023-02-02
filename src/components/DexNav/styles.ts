@@ -2,7 +2,14 @@ import { ThemeUIStyleObject } from 'theme-ui'
 // import { textUnderlineHover } from 'views/Dex/styles'
 
 const styles: Record<
-  'dexNavContainer' | 'navLinkContainer' | 'navIconContainer' | 'underline' | 'navLink',
+  | 'dexNavContainer'
+  | 'navLinkContainer'
+  | 'navIconContainer'
+  | 'underline'
+  | 'navLink'
+  | 'liquiditySelector'
+  | 'liquiditySelectorContainer'
+  | 'migrate',
   ThemeUIStyleObject
 > = {
   // Token selector container
@@ -42,7 +49,25 @@ const styles: Record<
     textDecoration: 'none',
     // ...textUnderlineHover,
   },
+  liquiditySelector: {
+    position: 'relative',
+    alignItems: 'center',
+    fontSize: '14px',
+    cursor: 'pointer',
+    '@media (max-width: 350px)': {
+      fontSize: '12px',
+    },
+    // ...textUnderlineHover,
+  },
+  liquiditySelectorContainer: {
+    marginBottom: '20px',
+    justifyContent: 'center',
+    fontSize: '14px',
+    alignItems: 'space-between',
+    justifyItems: 'space-between',
+    marginTop: '20px',
+  },
+  migrate: { margin: '0 15px', position: 'relative', alignItems: 'center', color: 'textDisabled' },
 }
-
 
 export default styles

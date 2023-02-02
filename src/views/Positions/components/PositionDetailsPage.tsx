@@ -20,6 +20,7 @@ import { Switch } from 'theme-ui'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 import { formatTickPrice } from 'utils/formatTickPrice'
 import { unwrappedToken } from 'utils/unwrappedToken'
+import Claim from '../actions/Claim'
 import { getPriceOrderingFromPosition, getRatio, positionInverter } from '../helpers'
 import RangeTag from './RangeTag'
 import styles from './styles'
@@ -223,9 +224,13 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
               <Text size="22px" weight={700}>
                 $20
               </Text>
-              <Button size="sm" sx={{ height: '27px', lineHeight: '12px' }}>
-                {t('Claim')}
-              </Button>
+              <Claim
+                currency0ForFeeCollectionPurposes={currency0ForFeeCollectionPurposes}
+                currency1ForFeeCollectionPurposes={currency1ForFeeCollectionPurposes}
+                tokenId={tokenId}
+                feeValue0={feeValue0}
+                feeValue1={feeValue1}
+              />
             </Flex>
             <Flex sx={styles.subContainer}>
               <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '25px' }}>
