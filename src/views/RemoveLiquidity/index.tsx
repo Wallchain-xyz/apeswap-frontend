@@ -69,7 +69,7 @@ const RemoveLiquidity = ({
   )
 
   return (
-    <Modal title="Remove Liquidity" minWidth="300px" maxWidth="95%">
+    <Modal title="Decrease Position" minWidth="300px" maxWidth="95%">
       <Flex sx={{ maxWidth: '100%', width: '420px', flexDirection: 'column' }}>
         <Flex
           sx={{

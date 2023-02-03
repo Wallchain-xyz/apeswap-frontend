@@ -73,6 +73,7 @@ const DexPanel = ({
           currency={currency}
           otherCurrency={otherCurrency}
           onCurrencySelect={onCurrencySelect}
+          disableTokenSelect={disableTokenSelect}
           // showCommonBases={showCommonBases}
           // disableTokenSelect={disableTokenSelect}
           // isRemoveLiquidity={isRemoveLiquidity}

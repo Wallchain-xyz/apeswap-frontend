@@ -3,7 +3,7 @@ import { Position } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
-import { Button, Flex, Svg, Text } from 'components/uikit'
+import { Button, Flex, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { BigNumber } from 'ethers'
 import { useToken } from 'hooks/Tokens'
@@ -15,15 +15,15 @@ import { useV3PositionFees } from 'hooks/useV3PositionFees'
 import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
-import { Bound } from 'state/mint/v3/actions'
+import { useCallback, useMemo, useState } from 'react'
 import { Switch } from 'theme-ui'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
-import { formatTickPrice } from 'utils/formatTickPrice'
 import { unwrappedToken } from 'utils/unwrappedToken'
+import IncreaseLiquidity from 'views/IncreaseLiquidity'
 import RemoveLiquidity from 'views/RemoveLiquidity'
 import Claim from '../actions/Claim'
 import { getPriceOrderingFromPosition, getRatio, positionInverter } from '../helpers'
+import PriceRangeSection from './PriceRangeSection'
 import RangeTag from './RangeTag'
 import styles from './styles'
 
@@ -70,6 +70,10 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const pricesFromPosition = getPriceOrderingFromPosition(position)
 
   const [manuallyInverted, setManuallyInverted] = useState(false)
+
+  const onHandleSetManuallyInverted = useCallback(() => {
+    setManuallyInverted((prev) => !prev)
+  }, [])
 
   // handle manual inversion
   const { priceLower, priceUpper, base } = positionInverter({
@@ -125,6 +129,27 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
     'RemoveLiquidityModal',
   )
 
+  const [onPresentIncreaseLiquidityModal] = useModal(
+    <IncreaseLiquidity
+      quoteCurrency={currencyQuote}
+      baseCurrency={currencyBase}
+      removed={removed}
+      inRange={inRange}
+      inverted={inverted}
+      manuallyInverted={manuallyInverted}
+      priceUpper={priceUpper}
+      priceLower={priceLower}
+      currentPosition={position}
+      tickAtLimit={tickAtLimit}
+      feeAmount={feeAmount}
+      tokenId={tokenId}
+      setManuallyInverted={onHandleSetManuallyInverted}
+    />,
+    true,
+    true,
+    'IncreaseLiquidityModal',
+  )
+
   console.log(loading, pool)
 
   return (
@@ -145,7 +170,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal}>
             Remove
           </Button>
-          <Button size="sm" mr="10px">
+          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal}>
             Add
           </Button>
           <RangeTag removed={removed} inRange={inRange} />
@@ -296,85 +321,19 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           </Flex>
         </Flex>
       </Flex>
-      <Flex
-        sx={{
-          height: '30px',
-          margin: '20px 0px',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Flex sx={{ alignItems: 'center' }}>
-          <Text mr="5px"> {t('Price Range')} </Text>
-          <RangeTag removed={removed} inRange={inRange} />
-        </Flex>
-        <Flex onClick={() => setManuallyInverted(!manuallyInverted)}>
-          <Svg icon="trade" width="20px" />
-        </Flex>
-      </Flex>
-      <Flex sx={{ height: '123px' }}>
-        <Flex sx={{ width: '100%', flexDirection: 'column', mr: '10px' }}>
-          <Flex
-            sx={{
-              height: '100%',
-              mb: '10px',
-              borderRadius: '10px',
-              background: 'white3',
-              padding: '5px 10px',
-              flexDirection: 'column',
-            }}
-          >
-            <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Text> {t('Min Price')} </Text>
-              <Text> {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}</Text>
-            </Flex>
-            <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '10px' }}>
-              <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
-                {currencyQuote?.symbol} per {currencyBase?.symbol}
-              </Text>
-            </Flex>
-          </Flex>
-          <Flex
-            sx={{
-              height: '100%',
-              mt: '10px',
-              borderRadius: '10px',
-              background: 'white3',
-              padding: '5px 10px',
-              flexDirection: 'column',
-            }}
-          >
-            <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Text> {t('Max Price')} </Text>
-              <Text> {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}</Text>
-            </Flex>
-            <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '10px' }}>
-              <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
-                {currencyQuote?.symbol} per {currencyBase?.symbol}
-              </Text>
-            </Flex>
-          </Flex>
-        </Flex>
-        <Flex
-          sx={{
-            width: '100%',
-            borderRadius: '10px',
-            ml: '10px',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            backgroundColor: 'white3',
-          }}
-        >
-          <Text>Current Price</Text>
-          <Text size="20px" weight={700} margin="5px 0px">
-            {(inverted ? pool?.token1Price : pool?.token0Price)?.toSignificant(6)}{' '}
-          </Text>
-          <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
-            {currencyQuote?.symbol} per {currencyBase?.symbol}
-          </Text>
-        </Flex>
-      </Flex>
+      <PriceRangeSection
+        currencyQuote={currencyQuote}
+        currencyBase={currencyBase}
+        removed={removed}
+        inRange={inRange}
+        inverted={inverted}
+        manuallyInverted={manuallyInverted}
+        pool={pool}
+        priceUpper={priceUpper}
+        priceLower={priceLower}
+        tickAtLimit={tickAtLimit}
+        setManuallyInverted={onHandleSetManuallyInverted}
+      />
     </Flex>
   )
 }
