@@ -18,10 +18,6 @@ import DexPanel from 'components/DexPanel'
 import { Bound, Field } from 'state/mint/v3/actions'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { AnimatePresence, motion } from 'framer-motion'
-import FeeSelector from './components/FeeSelector'
-import RangeSelectors from './components/RangeSelectors'
-import LiquidityChart from './components/LiquidityChart'
 import Actions from './actions'
 import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import DesktopLiquidityParams from './components/DesktopLiquidityParams'
@@ -148,18 +144,19 @@ const AddLiquidity = ({
           onHandleFeeSelect={handleFeeSelect}
           onLeftRangeInput={onLeftRangeInput}
           onRightRangeInput={onRightRangeInput}
+          handleCurrencyASelect={handleCurrencyASelect}
+          handleCurrencyBSelect={handleCurrencyBSelect}
         />
+        <Flex sx={{ mt: ['20px', '20px', '20px', '20px', '20px', '0px'] }} />
         <DexPanel
-          panelText="Token 1"
           onCurrencySelect={handleCurrencyASelect}
           onUserInput={onFieldAInput}
           value={formattedAmounts[Field.CURRENCY_A]}
           currency={currencies[Field.CURRENCY_A] ?? null}
           otherCurrency={currencies[Field.CURRENCY_B] ?? null}
         />
-        <Flex sx={{ mt: '60px' }} />
+        <Flex sx={{ mt: '20px' }} />
         <DexPanel
-          panelText="Token 2"
           onCurrencySelect={handleCurrencyBSelect}
           onUserInput={onFieldBInput}
           value={formattedAmounts[Field.CURRENCY_B]}
@@ -175,14 +172,6 @@ const AddLiquidity = ({
           noLiquidity={noLiquidity}
         />
       </Flex>
-      {/* <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, width: '0px' }}
-          animate={{ width: 'fit-content', opacity: 1 }}
-          transition={{ opacity: { duration: 0.3 }, width: { duration: 0.3 } }}
-          exit={{ width: '0px', opacity: 0 }}
-          sx={{ overflow: 'hidden' }}
-        > */}
       <DesktopLiquidityParams
         feeAmount={feeAmount}
         price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
@@ -199,25 +188,8 @@ const AddLiquidity = ({
         onLeftRangeInput={onLeftRangeInput}
         onRightRangeInput={onRightRangeInput}
       />
-      {/* </motion.div>
-      </AnimatePresence> */}
     </Flex>
   )
 }
 
 export default AddLiquidity
-
-{
-  /* <LiquidityChart
-currencyA={baseCurrency ?? undefined}
-currencyB={quoteCurrency ?? undefined}
-feeAmount={feeAmount}
-ticksAtLimit={ticksAtLimit}
-price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
-priceLower={priceLower}
-priceUpper={priceUpper}
-onLeftRangeInput={onLeftRangeInput}
-onRightRangeInput={onRightRangeInput}
-interactive={!hasExistingPosition}
-/> */
-}

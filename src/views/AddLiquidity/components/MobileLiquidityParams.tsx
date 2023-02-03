@@ -1,9 +1,16 @@
-import { Flex } from 'components/uikit'
+import { Currency } from '@ape.swap/sdk-core'
+import TokenSelector from 'components/TokenSelector'
+import { Flex, Text } from 'components/uikit'
 import FeeSelector from './FeeSelector'
 import LiquidityChart from './LiquidityChart'
 import RangeSelector from './RangeSelectors'
 import { MOBILE_DISPLAY } from './styles'
 import { LiquidityParamsInterface } from './types'
+
+interface MobileParamsInterface extends LiquidityParamsInterface {
+  handleCurrencyASelect: (currencyA: Currency) => void
+  handleCurrencyBSelect: (currencyB: Currency) => void
+}
 
 const MobileLiquidityParams = ({
   feeAmount,
@@ -20,9 +27,27 @@ const MobileLiquidityParams = ({
   onHandleFeeSelect,
   onLeftRangeInput,
   onRightRangeInput,
-}: LiquidityParamsInterface) => {
+  handleCurrencyASelect,
+  handleCurrencyBSelect,
+}: MobileParamsInterface) => {
   return (
-    <Flex sx={{ flexDirection: 'column', display: MOBILE_DISPLAY }} key="mobileParams" id="mobileParams">
+    <Flex sx={{ flexDirection: 'column', display: MOBILE_DISPLAY }}>
+      <Flex
+        sx={{
+          padding: '20px',
+          background: 'white3',
+          borderRadius: '10px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: '20px',
+        }}
+      >
+        <TokenSelector onCurrencySelect={handleCurrencyASelect} currency={currencyA} otherCurrency={currencyB} />
+        <Flex sx={{ background: 'white4', borderRadius: '10px', padding: '2.5px 7.5px', margin: '0px 10px' }}>
+          <Text weight={700}>+</Text>
+        </Flex>
+        <TokenSelector onCurrencySelect={handleCurrencyBSelect} currency={currencyB} otherCurrency={currencyA} />
+      </Flex>
       <FeeSelector
         feeAmount={feeAmount}
         currencyA={currencyA}

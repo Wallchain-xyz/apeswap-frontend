@@ -17,4 +17,5 @@ export interface LiquidityParamsInterface {
   onHandleFeeSelect: (fee: FeeAmount) => void
   onLeftRangeInput: (typedValue: string) => void
   onRightRangeInput: (typedValue: string) => void
+  handleCurrencyASelect?: (currencyA: Currency) => void
 }
