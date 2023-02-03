@@ -24,6 +24,8 @@ import RangeSelectors from './components/RangeSelectors'
 import LiquidityChart from './components/LiquidityChart'
 import Actions from './actions'
 import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
+import DesktopLiquidityParams from './components/DesktopLiquidityParams'
+import MobileLiquidityParams from './components/MobileLiquidityParams'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -131,7 +133,22 @@ const AddLiquidity = ({
       <Flex variant="flex.dexContainer">
         <DexNav />
         <V3LiquiditySubNav />
-        <Flex sx={{ mt: '30px' }} />
+        <MobileLiquidityParams
+          feeAmount={feeAmount}
+          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+          currencyA={currencies[Field.CURRENCY_A] ?? undefined}
+          currencyB={currencies[Field.CURRENCY_B] ?? undefined}
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          ticksAtLimit={ticksAtLimit}
+          getDecrementLower={getDecrementLower}
+          getIncrementLower={getIncrementLower}
+          getDecrementUpper={getDecrementUpper}
+          getIncrementUpper={getIncrementUpper}
+          onHandleFeeSelect={handleFeeSelect}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+        />
         <DexPanel
           panelText="Token 1"
           onCurrencySelect={handleCurrencyASelect}
@@ -155,9 +172,7 @@ const AddLiquidity = ({
           quoteCurrency={currencies[Field.CURRENCY_B]}
           position={position}
           outOfRange={outOfRange}
-          hasExistingPosition={hasExistingPosition}
           noLiquidity={noLiquidity}
-          tokenId={tokenId}
         />
       </Flex>
       {/* <AnimatePresence>
@@ -168,39 +183,22 @@ const AddLiquidity = ({
           exit={{ width: '0px', opacity: 0 }}
           sx={{ overflow: 'hidden' }}
         > */}
-      <Flex variant="flex.v3SubDexContainer">
-        <FeeSelector
-          feeAmount={feeAmount}
-          currencyIdA={currencyIdA}
-          currencyIdB={currencyIdB}
-          onHandleFeeSelect={handleFeeSelect}
-        />
-        <LiquidityChart
-          currencyA={baseCurrency ?? undefined}
-          currencyB={quoteCurrency ?? undefined}
-          feeAmount={feeAmount}
-          ticksAtLimit={ticksAtLimit}
-          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
-          priceLower={priceLower}
-          priceUpper={priceUpper}
-          onLeftRangeInput={onLeftRangeInput}
-          onRightRangeInput={onRightRangeInput}
-          interactive={!hasExistingPosition}
-        />
-        <RangeSelectors
-          priceLower={priceLower}
-          priceUpper={priceUpper}
-          currencyA={currencies[Field.CURRENCY_A] ?? null}
-          currencyB={currencies[Field.CURRENCY_B] ?? null}
-          ticksAtLimit={ticksAtLimit}
-          getDecrementLower={getDecrementLower}
-          getIncrementLower={getIncrementLower}
-          getDecrementUpper={getDecrementUpper}
-          getIncrementUpper={getIncrementUpper}
-          onLeftRangeInput={onLeftRangeInput}
-          onRightRangeInput={onRightRangeInput}
-        />
-      </Flex>
+      <DesktopLiquidityParams
+        feeAmount={feeAmount}
+        price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+        currencyA={currencies[Field.CURRENCY_A] ?? undefined}
+        currencyB={currencies[Field.CURRENCY_B] ?? undefined}
+        priceLower={priceLower}
+        priceUpper={priceUpper}
+        ticksAtLimit={ticksAtLimit}
+        getDecrementLower={getDecrementLower}
+        getIncrementLower={getIncrementLower}
+        getDecrementUpper={getDecrementUpper}
+        getIncrementUpper={getIncrementUpper}
+        onHandleFeeSelect={handleFeeSelect}
+        onLeftRangeInput={onLeftRangeInput}
+        onRightRangeInput={onRightRangeInput}
+      />
       {/* </motion.div>
       </AnimatePresence> */}
     </Flex>
@@ -208,3 +206,18 @@ const AddLiquidity = ({
 }
 
 export default AddLiquidity
+
+{
+  /* <LiquidityChart
+currencyA={baseCurrency ?? undefined}
+currencyB={quoteCurrency ?? undefined}
+feeAmount={feeAmount}
+ticksAtLimit={ticksAtLimit}
+price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+priceLower={priceLower}
+priceUpper={priceUpper}
+onLeftRangeInput={onLeftRangeInput}
+onRightRangeInput={onRightRangeInput}
+interactive={!hasExistingPosition}
+/> */
+}

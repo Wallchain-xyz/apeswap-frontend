@@ -1,23 +1,23 @@
+import { useWeb3React } from '@web3-react/core'
 import PageContainer from 'components/PageContainer'
-import { BigNumber } from 'ethers'
+import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { useRouter } from 'next/router'
 import AddLiquidity from 'views/AddLiquidity'
-import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
-import { useV3DerivedMintInfo, useV3MintState } from 'state/mint/v3/hooks'
 
 const AddLiquidityPage = () => {
+  const { chainId } = useWeb3React()
   const { query } = useRouter()
+  const bananaAddress = BANANA_ADDRESSES[chainId || 56]
   // TODO: Default to whatever pair we want
-  const [currencyIdA, currencyIdB, feeAmountFromUrl, tokenId] = (query.currency as string[]) || ['', '', '', '']
+  const [currencyIdA, currencyIdB, feeAmountFromUrl] = (query.currency as string[]) || [undefined, undefined, '']
   // check for existing position if tokenId in url
 
   return (
     <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
       <AddLiquidity
-        currencyIdA={currencyIdA}
-        currencyIdB={currencyIdB}
+        currencyIdA={currencyIdA ?? 'ETH'}
+        currencyIdB={currencyIdB ?? bananaAddress}
         feeAmountFromUrl={feeAmountFromUrl}
-        tokenId={tokenId}
       />
     </PageContainer>
   )

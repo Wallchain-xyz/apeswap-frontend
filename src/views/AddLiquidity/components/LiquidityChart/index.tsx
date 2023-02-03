@@ -42,25 +42,27 @@ const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
 const LiquidityChart = ({
   currencyA,
   currencyB,
-  feeAmount,
   ticksAtLimit,
   price,
+  interactive,
+  id,
+  feeAmount,
   priceLower,
   priceUpper,
   onLeftRangeInput,
   onRightRangeInput,
-  interactive,
 }: {
   currencyA: Currency | undefined
   currencyB: Currency | undefined
-  feeAmount?: FeeAmount
   ticksAtLimit: { [bound in Bound]?: boolean | undefined }
   price: number | undefined
+  interactive: boolean
+  id?: string
+  feeAmount?: FeeAmount
   priceLower?: Price<Token, Token>
   priceUpper?: Price<Token, Token>
   onLeftRangeInput: (typedValue: string) => void
   onRightRangeInput: (typedValue: string) => void
-  interactive: boolean
 }) => {
   const { isLoading, error, formattedData } = useDensityChartData({
     currencyA,
@@ -147,6 +149,7 @@ const LiquidityChart = ({
         <></>
       ) : (
         <Chart
+          id={id}
           data={{ series: formattedData, current: price }}
           dimensions={{ width: 800, height: 235 }}
           margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
