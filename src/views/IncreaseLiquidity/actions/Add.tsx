@@ -3,17 +3,34 @@ import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/address
 import type { TransactionResponse } from '@ethersproject/providers'
 import { useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
-import { Percent } from '@ape.swap/sdk-core'
+import { Currency, Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { ZERO_PERCENT } from 'config/constants/misc'
-import { AddInterface } from './types'
 import { Button } from 'components/uikit'
 
 const DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
-const Add = ({ positionManager, baseCurrency, quoteCurrency, position, outOfRange, noLiquidity }: AddInterface) => {
+const Add = ({
+  positionManager,
+  baseCurrency,
+  quoteCurrency,
+  position,
+  outOfRange,
+  hasExistingPosition,
+  noLiquidity,
+  tokenId,
+}: {
+  positionManager: NonfungiblePositionManager | null
+  baseCurrency: Currency | null | undefined
+  quoteCurrency: Currency | null | undefined
+  position: Position | undefined
+  outOfRange: boolean
+  hasExistingPosition: boolean
+  noLiquidity: boolean | undefined
+  tokenId: string | undefined
+}) => {
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
@@ -33,13 +50,21 @@ const Add = ({ positionManager, baseCurrency, quoteCurrency, position, outOfRang
 
     if (position && account && deadline) {
       const useNative = baseCurrency.isNative ? baseCurrency : quoteCurrency.isNative ? quoteCurrency : undefined
-      const { calldata, value } = NonfungiblePositionManager.addCallParameters(position, {
-        slippageTolerance: allowedSlippage,
-        recipient: account,
-        deadline: deadline.toString(),
-        useNative,
-        createPool: noLiquidity,
-      })
+      const { calldata, value } =
+        hasExistingPosition && tokenId
+          ? NonfungiblePositionManager.addCallParameters(position, {
+              tokenId,
+              slippageTolerance: allowedSlippage,
+              deadline: deadline.toString(),
+              useNative,
+            })
+          : NonfungiblePositionManager.addCallParameters(position, {
+              slippageTolerance: allowedSlippage,
+              recipient: account,
+              deadline: deadline.toString(),
+              useNative,
+              createPool: noLiquidity,
+            })
 
       let txn: { to: string; data: string; value: string } = {
         to: NONFUNGIBLE_POSITION_MANAGER_ADDRESSES[chainId],
@@ -117,7 +142,7 @@ const Add = ({ positionManager, baseCurrency, quoteCurrency, position, outOfRang
     }
   }
   return (
-    <Button fullWidth onClick={onAdd}>
+    <Button fullWidth onClick={onAdd} mt="10px">
       Add
     </Button>
   )

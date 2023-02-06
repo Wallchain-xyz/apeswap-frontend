@@ -25,9 +25,14 @@ const NumericInput = ({
         ...style,
       }}
       value={value}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => onUserInput(e.target.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+        onUserInput(e.target.value)
+      }}
       placeholder={0}
       onInput={(v: FormEvent<HTMLInputElement>) => {
+        if (v.currentTarget.value.includes('%')) {
+          v.currentTarget.value = v.currentTarget.value.replace(/[^0-9]/g, '')
+        }
         if (v.currentTarget.value === '.') {
           v.currentTarget.value = '0.'
         }

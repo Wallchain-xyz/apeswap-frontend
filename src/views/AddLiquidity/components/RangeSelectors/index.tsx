@@ -17,8 +17,8 @@ const RangeSelectors = ({
   onLeftRangeInput,
   onRightRangeInput,
 }: {
-  priceLower?: Price<Token, Token>
-  priceUpper?: Price<Token, Token>
+  priceLower?: Price<Token, Token> | undefined
+  priceUpper?: Price<Token, Token> | undefined
   currencyA?: Currency | null
   currencyB?: Currency | null
   ticksAtLimit: Partial<Record<Bound, boolean | undefined>>
@@ -56,6 +56,7 @@ const RangeSelectors = ({
         onDecrementRange={isSorted ? getDecrementLower : getIncrementUpper}
         onIncrementRange={isSorted ? getIncrementLower : getDecrementUpper}
       />
+      <Flex sx={{ margin: '0px 2.5px' }} />
       <RangeSelector
         rangeType="Max Price"
         value={maxPriceValue}

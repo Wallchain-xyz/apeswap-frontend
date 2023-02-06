@@ -8,21 +8,21 @@ const useModal = (
   updateOnPropsChange = false,
   modalId = 'defaultNodeId',
 ): [() => void, () => void] => {
-  const { isOpen, nodeId, modalNode, setModalNode, onPresent, handleClose, setCloseOnOverlayClick } =
-    useContext(Context)
+  const { nodeId, modalNode, setModalNode, onPresent, handleClose, setCloseOnOverlayClick } = useContext(Context)
   const onPresentCallback = useCallback(() => {
     onPresent(modal, modalId)
   }, [modal, modalId, onPresent])
+  const nodeIdIndex = nodeId.indexOf(modalId)
   useEffect(() => {
     // NodeId is needed in case there are 2 useModal hooks on the same page and one has updateOnPropsChange
-    if (updateOnPropsChange && isOpen && nodeId === modalId) {
+    if (updateOnPropsChange) {
       const modalProps = get(modal, 'props')
-      const oldModalProps = get(modalNode, 'props')
+      const oldModalProps = get(modalNode[nodeIdIndex], 'props')
       if (modalProps && oldModalProps && JSON.stringify(modalProps) !== JSON.stringify(oldModalProps)) {
-        setModalNode(modal)
+        setModalNode((prev) => [...prev.filter((_, i) => i !== nodeIdIndex), modal])
       }
     }
-  }, [updateOnPropsChange, nodeId, modalId, isOpen, modal, modalNode, setModalNode])
+  }, [updateOnPropsChange, nodeId, modalId, modal, nodeIdIndex, modalNode, setModalNode])
 
   useEffect(() => {
     setCloseOnOverlayClick(closeOnOverlayClick)

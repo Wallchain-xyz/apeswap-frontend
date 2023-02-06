@@ -18,11 +18,10 @@ import DexPanel from 'components/DexPanel'
 import { Bound, Field } from 'state/mint/v3/actions'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { AnimatePresence, motion } from 'framer-motion'
-import FeeSelector from './components/FeeSelector'
-import RangeSelectors from './components/RangeSelectors'
-import LiquidityChart from './components/LiquidityChart'
 import Actions from './actions'
+import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
+import DesktopLiquidityParams from './components/DesktopLiquidityParams'
+import MobileLiquidityParams from './components/MobileLiquidityParams'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -129,18 +128,35 @@ const AddLiquidity = ({
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
         <DexNav />
-        <Flex sx={{ mt: '30px' }} />
+        <V3LiquiditySubNav />
+        <MobileLiquidityParams
+          feeAmount={feeAmount}
+          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+          currencyA={currencies[Field.CURRENCY_A] ?? undefined}
+          currencyB={currencies[Field.CURRENCY_B] ?? undefined}
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          ticksAtLimit={ticksAtLimit}
+          getDecrementLower={getDecrementLower}
+          getIncrementLower={getIncrementLower}
+          getDecrementUpper={getDecrementUpper}
+          getIncrementUpper={getIncrementUpper}
+          onHandleFeeSelect={handleFeeSelect}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+          handleCurrencyASelect={handleCurrencyASelect}
+          handleCurrencyBSelect={handleCurrencyBSelect}
+        />
+        <Flex sx={{ mt: ['20px', '20px', '20px', '20px', '20px', '0px'] }} />
         <DexPanel
-          panelText="Token 1"
           onCurrencySelect={handleCurrencyASelect}
           onUserInput={onFieldAInput}
           value={formattedAmounts[Field.CURRENCY_A]}
           currency={currencies[Field.CURRENCY_A] ?? null}
           otherCurrency={currencies[Field.CURRENCY_B] ?? null}
         />
-        <Flex sx={{ mt: '60px' }} />
+        <Flex sx={{ mt: '20px' }} />
         <DexPanel
-          panelText="Token 2"
           onCurrencySelect={handleCurrencyBSelect}
           onUserInput={onFieldBInput}
           value={formattedAmounts[Field.CURRENCY_B]}
@@ -153,54 +169,25 @@ const AddLiquidity = ({
           quoteCurrency={currencies[Field.CURRENCY_B]}
           position={position}
           outOfRange={outOfRange}
-          hasExistingPosition={hasExistingPosition}
           noLiquidity={noLiquidity}
-          tokenId={tokenId}
         />
       </Flex>
-      {/* <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, width: '0px' }}
-          animate={{ width: 'fit-content', opacity: 1 }}
-          transition={{ opacity: { duration: 0.3 }, width: { duration: 0.3 } }}
-          exit={{ width: '0px', opacity: 0 }}
-          sx={{ overflow: 'hidden' }}
-        > */}
-      <Flex variant="flex.v3SubDexContainer">
-        <FeeSelector
-          feeAmount={feeAmount}
-          currencyIdA={currencyIdA}
-          currencyIdB={currencyIdB}
-          onHandleFeeSelect={handleFeeSelect}
-        />
-        <LiquidityChart
-          currencyA={baseCurrency ?? undefined}
-          currencyB={quoteCurrency ?? undefined}
-          feeAmount={feeAmount}
-          ticksAtLimit={ticksAtLimit}
-          price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
-          priceLower={priceLower}
-          priceUpper={priceUpper}
-          onLeftRangeInput={onLeftRangeInput}
-          onRightRangeInput={onRightRangeInput}
-          interactive={!hasExistingPosition}
-        />
-        <RangeSelectors
-          priceLower={priceLower}
-          priceUpper={priceUpper}
-          currencyA={currencies[Field.CURRENCY_A] ?? null}
-          currencyB={currencies[Field.CURRENCY_B] ?? null}
-          ticksAtLimit={ticksAtLimit}
-          getDecrementLower={getDecrementLower}
-          getIncrementLower={getIncrementLower}
-          getDecrementUpper={getDecrementUpper}
-          getIncrementUpper={getIncrementUpper}
-          onLeftRangeInput={onLeftRangeInput}
-          onRightRangeInput={onRightRangeInput}
-        />
-      </Flex>
-      {/* </motion.div>
-      </AnimatePresence> */}
+      <DesktopLiquidityParams
+        feeAmount={feeAmount}
+        price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+        currencyA={currencies[Field.CURRENCY_A] ?? undefined}
+        currencyB={currencies[Field.CURRENCY_B] ?? undefined}
+        priceLower={priceLower}
+        priceUpper={priceUpper}
+        ticksAtLimit={ticksAtLimit}
+        getDecrementLower={getDecrementLower}
+        getIncrementLower={getIncrementLower}
+        getDecrementUpper={getDecrementUpper}
+        getIncrementUpper={getIncrementUpper}
+        onHandleFeeSelect={handleFeeSelect}
+        onLeftRangeInput={onLeftRangeInput}
+        onRightRangeInput={onRightRangeInput}
+      />
     </Flex>
   )
 }

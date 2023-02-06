@@ -2,19 +2,17 @@ import { Flex } from 'components/uikit'
 import React, { createContext, useState } from 'react'
 
 interface ModalsContext {
-  isOpen: boolean
-  nodeId: string
-  modalNode: React.ReactNode
-  setModalNode: React.Dispatch<React.SetStateAction<React.ReactNode>>
+  nodeId: string[]
+  modalNode: React.ReactNode[]
+  setModalNode: React.Dispatch<React.SetStateAction<React.ReactNode[]>>
   onPresent: (node: React.ReactNode, newNodeId: string) => void
   handleClose: () => void
   setCloseOnOverlayClick: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const Context = createContext<ModalsContext>({
-  isOpen: false,
-  nodeId: '',
-  modalNode: null,
+  nodeId: [],
+  modalNode: [],
   setModalNode: () => null,
   onPresent: () => null,
   handleClose: () => null,
@@ -22,22 +20,24 @@ export const Context = createContext<ModalsContext>({
 })
 
 const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [nodeId, setNodeId] = useState('')
-  const [modalNode, setModalNode] = useState<React.ReactNode>()
+  const [nodeId, setNodeId] = useState<string[]>([])
+  const [modalNode, setModalNode] = useState<React.ReactNode[]>([])
   const [closeOnOverlayClick, setCloseOnOverlayClick] = useState(true)
 
   const handlePresent = (node: React.ReactNode, newNodeId: string) => {
-    setModalNode(node)
-    setIsOpen(true)
-    setNodeId(newNodeId)
+    setModalNode((prev) => [...prev, node])
+    setNodeId((prev) => [...prev, newNodeId])
   }
 
   const handleDismiss = () => {
-    if (React.isValidElement(modalNode)) modalNode.props?.onDismiss?.()
-    setModalNode(undefined)
-    setIsOpen(false)
-    setNodeId('')
+    if (modalNode.length > 0) {
+      if (React.isValidElement(modalNode[modalNode.length - 1])) {
+        // @ts-ignore
+        modalNode[modalNode.length - 1].props.onDismiss?.()
+      }
+    }
+    setModalNode(modalNode.slice(0, modalNode.length - 1))
+    setNodeId(nodeId.slice(0, nodeId.length - 1))
   }
 
   const handleOverlayDismiss = () => {
@@ -49,7 +49,6 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <Context.Provider
       value={{
-        isOpen,
         nodeId,
         modalNode,
         setModalNode,
@@ -58,16 +57,18 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         setCloseOnOverlayClick,
       }}
     >
-      {isOpen && (
-        <Flex>
-          <Flex onClick={handleOverlayDismiss} />
-          {React.isValidElement(modalNode) &&
-            React.cloneElement(modalNode, {
-              // @ts-ignore
-              onDismiss: handleDismiss,
-            })}
-        </Flex>
-      )}
+      {modalNode.map((modal, i) => {
+        return (
+          <Flex key={nodeId[i]}>
+            <Flex onClick={handleOverlayDismiss} />
+            {React.isValidElement(modal) &&
+              React.cloneElement(modal, {
+                // @ts-ignore
+                onDismiss: handleDismiss,
+              })}
+          </Flex>
+        )
+      })}
       {children}
     </Context.Provider>
   )

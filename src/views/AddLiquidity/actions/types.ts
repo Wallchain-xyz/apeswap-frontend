@@ -7,7 +7,5 @@ export interface AddInterface {
   quoteCurrency: Currency | null | undefined
   position: Position | undefined
   outOfRange: boolean
-  hasExistingPosition: boolean
   noLiquidity: boolean | undefined
-  tokenId: string | undefined
 }
