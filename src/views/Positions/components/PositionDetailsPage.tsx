@@ -25,7 +25,7 @@ import Claim from '../actions/Claim'
 import { getPriceOrderingFromPosition, getRatio, positionInverter } from '../helpers'
 import PriceRangeSection from './PriceRangeSection'
 import RangeTag from './RangeTag'
-import styles from './styles'
+import styles, { DESKTOP_DISPLAY } from './styles'
 
 const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) => {
   const { chainId, account, provider } = useWeb3React()
@@ -153,7 +153,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   console.log(loading, pool)
 
   return (
-    <Flex variant="flex.v3SubDexContainer">
+    <Flex variant="flex.v3SubDexContainer" sx={{ display: DESKTOP_DISPLAY }}>
       <Flex sx={{ height: '30px', alignItems: 'center', justifyContent: 'space-between' }}>
         <Flex sx={{ alignItems: 'center' }}>
           <DoubleCurrencyLogo currency0={currency0} currency1={currency1} />
