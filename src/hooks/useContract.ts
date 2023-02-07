@@ -16,14 +16,22 @@ import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLen
 import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
-import { NonfungiblePositionManager, TickLens } from 'config/abi/types/v3'
-import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES, TICK_LENS_ADDRESSES } from 'config/constants/addresses'
+import { NonfungiblePositionManager, Quoter, QuoterV2, TickLens } from 'config/abi/types/v3'
+import {
+  NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
+  TICK_LENS_ADDRESSES,
+  QUOTER_ADDRESSES,
+} from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
+import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
+import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
 const { abi: TickLensABI } = TickLensJson
+const { abi: QuoterABI } = QuoterJson
+const { abi: QuoterV2ABI } = QuoterV2Json
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -90,4 +98,8 @@ export function useTickLens(): TickLens | null {
   const { chainId } = useWeb3React()
   const address = chainId ? TICK_LENS_ADDRESSES[chainId] : undefined
   return useContract(address, TickLensABI) as TickLens | null
+}
+
+export function useQuoter(useQuoterV2: boolean) {
+  return useContract<Quoter | QuoterV2>(QUOTER_ADDRESSES, useQuoterV2 ? QuoterV2ABI : QuoterABI)
 }

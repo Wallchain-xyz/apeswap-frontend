@@ -7,9 +7,18 @@ import { BigNumber } from 'ethers'
 
 // TODO: Clean this file up a bit
 
+export const AVERAGE_L1_BLOCK_TIME = 12000
+
 // List of mainnet chains
 // This is currently used for the info page
 export const MAINNET_CHAINS = [
+  SupportedChainId.BSC,
+  SupportedChainId.POLYGON,
+  SupportedChainId.MAINNET,
+  SupportedChainId.TLOS,
+]
+
+export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
@@ -56,7 +65,6 @@ export const NETWORK_RPC: Record<SupportedChainId, string[]> = {
   [SupportedChainId.MAINNET]: ['https://eth-mainnet.nodereal.io/v1/43f9100965104de49b580d1fa1ab28c0'],
   [SupportedChainId.TLOS]: ['https://mainnet.telos.net/evm'],
 }
-
 
 // RPC Providers
 export const RPC_PROVIDERS: Record<SupportedChainId, StaticJsonRpcProvider> = {

@@ -12,8 +12,8 @@ import lists from './lists/reducer'
 // import logs from './logs/slice'
 import mint from './mint/v2/reducer'
 import mintV3 from './mint/v3/reducer'
-// import { routingApi } from './routing/slice'
-// import swap from './swap/reducer'
+import { routingApi } from './routing/slice'
+import swap from './swap/reducer'
 // import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
@@ -27,7 +27,7 @@ const store = configureStore({
     // connection,
     // transactions,
     wallets,
-    // swap,
+    swap,
     mint,
     mintV3,
     burn,
@@ -35,16 +35,16 @@ const store = configureStore({
     multicall: multicall.reducer,
     lists,
     // logs,
-    // [routingApi.reducerPath]: routingApi.reducer,
+    [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: true })
-      // .concat(routingApi.middleware)
+      .concat(routingApi.middleware)
       .concat(save({ states: PERSISTED_KEYS, debounce: 1000 })),
   preloadedState: load({ states: PERSISTED_KEYS, disableWarnings: true }),
 })
 
-// store.dispatch(updateVersion())
+store.dispatch(updateVersion())
 
 setupListeners(store.dispatch)
 

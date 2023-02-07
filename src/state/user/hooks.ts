@@ -3,7 +3,12 @@ import { useWeb3React } from '@web3-react/core'
 import JSBI from 'jsbi'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { addSerializedToken, updateHideClosedPositions, updateUserSlippageTolerance } from './reducer'
+import {
+  addSerializedToken,
+  updateHideClosedPositions,
+  updateUserClientSideRouter,
+  updateUserSlippageTolerance,
+} from './reducer'
 import { SerializedToken, UserAddedToken } from './types'
 
 const serializeToken = (token: Token): SerializedToken => {
@@ -115,4 +120,19 @@ export function useUserHideClosedPositions(): [boolean, (newHideClosedPositions:
   )
 
   return [hideClosedPositions, setHideClosedPositions]
+}
+
+export function useClientSideRouter(): [boolean, (userClientSideRouter: boolean) => void] {
+  const dispatch = useAppDispatch()
+
+  const clientSideRouter = useAppSelector((state) => Boolean(state.user.userClientSideRouter))
+
+  const setClientSideRouter = useCallback(
+    (newClientSideRouter: boolean) => {
+      dispatch(updateUserClientSideRouter({ userClientSideRouter: newClientSideRouter }))
+    },
+    [dispatch],
+  )
+
+  return [clientSideRouter, setClientSideRouter]
 }
