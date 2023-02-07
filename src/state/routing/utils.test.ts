@@ -1,4 +1,4 @@
-import { Token, TradeType } from '@uniswap/sdk-core'
+import { Token, TradeType } from '@ape.swap/sdk-core'
 
 import { nativeOnChain } from 'config/constants/tokens'
 import { computeRoutes } from './utils'

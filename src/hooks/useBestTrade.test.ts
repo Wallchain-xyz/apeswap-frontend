@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { CurrencyAmount, TradeType } from '@uniswap/sdk-core'
-import { DAI, USDC_MAINNET } from 'constants/tokens'
+import { DAI, USDC_MAINNET } from 'config/constants/tokens'
 import { RouterPreference } from 'state/routing/slice'
 import { TradeState } from 'state/routing/types'
 import { useClientSideRouter } from 'state/user/hooks'
@@ -136,7 +136,7 @@ describe('#useBestV3Trade ExactOut', () => {
       TradeType.EXACT_OUTPUT,
       undefined,
       USDC_MAINNET,
-      RouterPreference.CLIENT
+      RouterPreference.CLIENT,
     )
     expect(mockUseClientSideV3Trade).toHaveBeenCalledWith(TradeType.EXACT_OUTPUT, DAIAmount, USDC_MAINNET)
     expect(result.current).toEqual({ state: TradeState.VALID, trade: undefined })
@@ -153,7 +153,7 @@ describe('#useBestV3Trade ExactOut', () => {
       TradeType.EXACT_OUTPUT,
       undefined,
       USDC_MAINNET,
-      RouterPreference.CLIENT
+      RouterPreference.CLIENT,
     )
     expect(mockUseClientSideV3Trade).toHaveBeenCalledWith(TradeType.EXACT_OUTPUT, DAIAmount, USDC_MAINNET)
     expect(result.current).toEqual({ state: TradeState.VALID, trade: undefined })
