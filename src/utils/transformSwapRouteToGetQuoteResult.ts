@@ -1,4 +1,4 @@
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ape.swap/router-sdk'
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import { routeAmountsToString, SwapRoute } from '@uniswap/smart-order-router'
 import { Pool } from '@uniswap/v3-sdk'

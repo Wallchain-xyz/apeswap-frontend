@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Fraction, Price } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Fraction, Price } from '@ape.swap/sdk-core'
 import JSBI from 'jsbi'
 import formatLocaleNumber from 'lib/utils/formatLocaleNumber'
 

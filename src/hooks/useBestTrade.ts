@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { isSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import { useMemo } from 'react'
@@ -50,6 +50,8 @@ export function useBestTrade(
     useFallback ? debouncedAmount : undefined,
     useFallback ? debouncedOtherCurrency : undefined,
   )
+
+  console.log(routingAPITrade)
 
   // only return gas estimate from api if routing api trade is used
   return useMemo(

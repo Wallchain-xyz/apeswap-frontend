@@ -1,4 +1,4 @@
-import { MixedRouteSDK, Trade } from '@uniswap/router-sdk'
+import { MixedRouteSDK, Trade } from '@ape.swap/router-sdk'
 import { Currency, CurrencyAmount, Token, TradeType } from '@ape.swap/sdk-core'
 import { Route as V2Route } from '@ape.swap/v2-sdk'
 import { Route as V3Route } from '@ape.swap/v3-sdk'
@@ -100,7 +100,6 @@ export class InterfaceTrade<
       outputAmount: CurrencyAmount<TOutput>
     }[]
   }) {
-    /* @ts-ignore */
     super(routes)
     this.blockNumber = blockNumber
     this.gasUseEstimateUSD = gasUseEstimateUSD

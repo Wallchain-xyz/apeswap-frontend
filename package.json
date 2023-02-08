@@ -36,10 +36,11 @@
     "ts-jest": "^29.0.5",
     "ts-transform-graphql-tag": "^0.2.1",
     "typechain": "^8.1.1",
-    "yalc": "^1.0.0-pre.53",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.3",
+    "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
+    "@ape.swap/router-sdk": "^1.0.0",
     "@ape.swap/sdk-core": "^1.0.1",
     "@ape.swap/token-lists": "^1.0.0",
     "@ape.swap/v2-sdk": "^1.0.0",

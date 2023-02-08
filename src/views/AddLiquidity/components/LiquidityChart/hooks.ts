@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import { FeeAmount } from '@ape.swap/v3-sdk'
 import { TickProcessed, usePoolActiveLiquidity } from 'hooks/usePoolTickData'
 import { useCallback, useMemo } from 'react'

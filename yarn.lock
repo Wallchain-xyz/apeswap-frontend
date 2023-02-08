@@ -10,6 +10,17 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@ape.swap/router-sdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.0.0.tgz#e8b524fe3c81dba58164ec4da63d9bf0a3a4c35e"
+  integrity sha512-v5oSdfumh5ByZM2G4iI03XYS0MKVbx6831uUroe+9cEqf4IzehjdQFszMtTgM1n6FwBGh32an0B/P1GxeSbOAg==
+  dependencies:
+    "@ape.swap/sdk-core" "^1.0.1"
+    "@ape.swap/v2-sdk" "^1.0.0"
+    "@ape.swap/v3-sdk" "^1.0.0"
+    "@ethersproject/abi" "^5.5.0"
+    "@uniswap/swap-router-contracts" "1.1.0"
+
 "@ape.swap/sdk-core@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@ape.swap/sdk-core/-/sdk-core-1.0.1.tgz#d6be6dfeda00177ab70c0d2ad670b75b8ce4ea3c"
