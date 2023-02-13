@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
-import { AlphaRouter, ChainId } from '@uniswap/smart-order-router'
+import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
 import { RPC_PROVIDERS } from 'config/constants/chains'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import qs from 'qs'

@@ -6,7 +6,7 @@ import { computeRealizedPriceImpact } from 'utils/prices'
 import { AnimatePresence, motion } from 'framer-motion'
 import styles from './styles'
 import TradePrice from './TradePrice'
-import { formatPriceImpact } from '../utils'
+import { formatPriceImpact, getTokenPath } from '../utils'
 
 const TradeDetails = ({ trade }: { trade: InterfaceTrade<Currency, Currency, TradeType> | undefined }) => {
   console.log(trade)
@@ -25,6 +25,10 @@ const TradeDetails = ({ trade }: { trade: InterfaceTrade<Currency, Currency, Tra
     }
   }, [trade])
 
+  const routes = trade ? getTokenPath(trade) : []
+
+  console.log(routes)
+
   return (
     <Flex sx={styles.dexTradeInfoContainer}>
       <Flex sx={{ width: '100%' }} onClick={() => setIsOpen((prev) => !prev)}>
@@ -39,11 +43,11 @@ const TradeDetails = ({ trade }: { trade: InterfaceTrade<Currency, Currency, Tra
             exit={{ height: 0 }}
             sx={{ overflow: 'hidden', width: '100%' }}
           >
-            <Flex sx={{ alignItems: 'center', justifyContent: 'space-between'}}>
+            <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text> Estimated Gas </Text>
               <Text> {formattedGasPriceString} </Text>
             </Flex>
-            <Flex sx={{ alignItems: 'center', justifyContent: 'space-between'}}>
+            <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text>Expected Output</Text>
               <Text>
                 {' '}
@@ -52,10 +56,23 @@ const TradeDetails = ({ trade }: { trade: InterfaceTrade<Currency, Currency, Tra
                   : '-'}
               </Text>
             </Flex>
-            <Flex sx={{ alignItems: 'center', justifyContent: 'space-between'}}>
+            <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text>Price Impact</Text>
               <Text>{priceImpact ? formatPriceImpact(priceImpact) : '-'}</Text>
             </Flex>
+            <br />
+            <Flex sx={{ flexDirection: 'column' }}>
+              {routes.map(({ path, protocol }) => {
+                return path.map(([currency0, currency1, feeAmount]) => {
+                  return (
+                    <Text key={feeAmount}>
+                      {currency0.symbol} {'->'} {currency1.symbol} {'---'} {protocol}
+                    </Text>
+                  )
+                })
+              })}
+            </Flex>
+            <br />
           </motion.div>
         )}
       </AnimatePresence>

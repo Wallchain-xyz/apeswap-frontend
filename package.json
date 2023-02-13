@@ -40,11 +40,12 @@
     "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
-    "@ape.swap/router-sdk": "^1.0.0",
+    "@ape.swap/router-sdk": "^1.0.1-alpha.0",
     "@ape.swap/sdk-core": "^1.0.1",
     "@ape.swap/token-lists": "^1.0.0",
-    "@ape.swap/v2-sdk": "^1.0.0",
+    "@ape.swap/v2-sdk": "^1.0.1-alpha.0",
     "@ape.swap/v3-sdk": "^1.0.0",
+    "@ape.swap/smart-order-router": "^1.0.0-alpha.1",
     "@apollo/client": "^3.7.6",
     "@coinbase/wallet-sdk": "^3.3.0",
     "@emotion/react": "^11.10.5",
@@ -53,7 +54,6 @@
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@uniswap/redux-multicall": "^1.1.8",
-    "@uniswap/smart-order-router": "^3.5.0",
     "@uniswap/token-lists": "^1.0.0-beta.31",
     "@walletconnect/ethereum-provider": "1.7.1",
     "@web3-react/coinbase-wallet": "^8.0.35-beta.0",

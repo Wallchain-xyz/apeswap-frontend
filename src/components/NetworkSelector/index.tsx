@@ -30,7 +30,7 @@ const NetworkSelector = () => {
   return (
     <Flex variant="flex.navContainer" onClick={onPresentWalletConnectModal}>
       {requestPending ? (
-        <Spinner size="22px" />
+        <Spinner size={22} />
       ) : (
         <Svg
           icon={!chainId ? NETWORK_ICONS[SupportedChainId.BSC] : isSupported ? NETWORK_ICONS[chainId] : 'error'}
