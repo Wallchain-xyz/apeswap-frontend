@@ -1,9 +1,10 @@
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
+import { IMetric, MetricLoggerUnit, setGlobalMetric } from '@ape.swap/smart-order-router'
 import { AVERAGE_L1_BLOCK_TIME } from 'config/constants/chains'
 import { useStablecoinAmountFromFiatValue } from 'hooks/useStablecoinPrice'
 import { useRoutingAPIArguments } from 'lib/hooks/routing/useRoutingAPIArguments'
-// import useIsValidBlock from 'lib/hooks/useIsValidBlock'
+import useIsValidBlock from 'lib/hooks/useIsValidBlock'
 import { useMemo } from 'react'
 import { RouterPreference, useGetQuoteQuery } from 'state/routing/slice'
 
@@ -46,9 +47,11 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     pollingInterval: routerPreference === RouterPreference.PRICE ? 120000 : AVERAGE_L1_BLOCK_TIME,
   })
 
-  // TODO: Add is block valid check
-  // const quoteResult: GetQuoteResult | undefined = useIsValidBlock(Number(data?.blockNumber) || 0) ? data : undefined
-  const quoteResult: GetQuoteResult | undefined = Number(data?.blockNumber) || 0 ? data : undefined
+  console.log(isLoading, isError, data, currentData)
+
+  const quoteResult: GetQuoteResult | undefined = useIsValidBlock(Number(data?.blockNumber) || 0) ? data : undefined
+
+  console.log(quoteResult)
 
   const route = useMemo(
     () => computeRoutes(currencyIn, currencyOut, tradeType, quoteResult),
@@ -56,7 +59,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   )
 
   // get USD gas cost of trade in active chains stablecoin amount
-  // TODO: bring in stable prices
   const gasUseEstimateUSD = useStablecoinAmountFromFiatValue(quoteResult?.gasUseEstimateUSD) ?? null
 
   const isSyncing = currentData !== data
@@ -103,7 +105,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
         trade,
       }
     } catch (e) {
-      console.log(e)
       return { state: TradeState.INVALID, trade: undefined }
     }
   }, [

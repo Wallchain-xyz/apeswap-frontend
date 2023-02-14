@@ -1,11 +1,11 @@
 import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
-import { useWeb3React } from '@web3-react/core'
-import { isSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import { useMemo } from 'react'
 import { RouterPreference } from 'state/routing/slice'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
 import { useClientSideRouter } from 'state/user/hooks'
+
+import useAutoRouterSupported from './useAutoRouterSupported'
 import { useClientSideV3Trade } from './useClientSideV3Trade'
 import useDebounce from './useDebounce'
 import useIsWindowVisible from './useIsWindowVisible'
@@ -24,8 +24,8 @@ export function useBestTrade(
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
 } {
-  const { chainId } = useWeb3React()
-  const autoRouterSupported = isSupportedChainId(chainId)
+  const autoRouterSupported = useAutoRouterSupported()
+  console.log(autoRouterSupported)
   const isWindowVisible = useIsWindowVisible()
 
   const [debouncedAmount, debouncedOtherCurrency] = useDebounce(
@@ -33,7 +33,7 @@ export function useBestTrade(
     200,
   )
 
-  const [clientSideRouter] = useClientSideRouter()
+  const [clientSideRouter] = [true] // useClientSideRouter()
   const routingAPITrade = useRoutingAPITrade(
     tradeType,
     autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,
@@ -50,8 +50,6 @@ export function useBestTrade(
     useFallback ? debouncedAmount : undefined,
     useFallback ? debouncedOtherCurrency : undefined,
   )
-
-  console.log(routingAPITrade)
 
   // only return gas estimate from api if routing api trade is used
   return useMemo(

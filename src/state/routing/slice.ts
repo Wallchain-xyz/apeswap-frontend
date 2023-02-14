@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
 import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
-import { RPC_PROVIDERS } from 'config/constants/chains'
+import { RPC_PROVIDERS } from 'config/constants/providers'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import qs from 'qs'
 
@@ -38,7 +38,6 @@ const CLIENT_PARAMS = {
 }
 // Price queries are tuned down to minimize the required RPCs to respond to them.
 // TODO(zzmp): This will be used after testing router caching.
-// @typescript-eslint/no-unused-vars
 const PRICE_PARAMS = {
   protocols: [Protocol.V2, Protocol.V3],
   v2PoolSelection: {
@@ -121,7 +120,7 @@ export const routingApi = createApi({
           return { error: e as FetchBaseQueryError }
         }
       },
-      keepUnusedDataFor: 10000,
+      keepUnusedDataFor: 100000,
       extraOptions: {
         maxRetries: 0,
       },

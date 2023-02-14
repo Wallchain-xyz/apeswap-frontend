@@ -10,13 +10,13 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ape.swap/router-sdk@^1.0.1-alpha.0":
-  version "1.0.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.0.1-alpha.0.tgz#a376a267f92f429f87b94b49a14c84825ab9ca92"
-  integrity sha512-qdysx0rYvtacC0cvItTVyfNCzZNbzjvM6kqJNUDi/plSLmoNd4QUaibNcW/IAEmeaJF8LyacI2WJVSmRdkg3nA==
+"@ape.swap/router-sdk@^1.0.1-alpha.1":
+  version "1.0.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.0.1-alpha.1.tgz#bd2090207a1aa04f9393e39c8fac25a84b218b50"
+  integrity sha512-EnpklQBsQjg21Jv2gkyBk7HSg+V9uvtjcw3bnxWcKtlv711jIMtjDnKG6zCeaQCbHQBLRBjnE6o9NCDHQkIGLQ==
   dependencies:
     "@ape.swap/sdk-core" "^1.0.1"
-    "@ape.swap/v2-sdk" "^1.0.1-alpha.0"
+    "@ape.swap/v2-sdk" "^1.0.1-alpha.1"
     "@ape.swap/v3-sdk" "^1.0.0"
     "@ethersproject/abi" "^5.5.0"
     "@uniswap/swap-router-contracts" "1.1.0"
@@ -33,13 +33,14 @@
     tiny-invariant "^1.1.0"
     toformat "^2.0.0"
 
-"@ape.swap/smart-order-router@^1.0.0-alpha.1":
-  version "1.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.0.0-alpha.1.tgz#220b638d68aff036df0092dff6b98b44a2830c2d"
-  integrity sha512-9NY72LPSP8KxSXcugmEtx6/s+YflJOAf7+pW6KsXGuHYH89SbHlkftDgj/K/JKrqVzsuE0Qcjxlr+AsSdVR8WQ==
+"@ape.swap/smart-order-router@^1.0.0-alpha.15":
+  version "1.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.0.0-alpha.15.tgz#d7020d954da5826a1961871bd412b1bc9e0e33c2"
+  integrity sha512-E+/BqL+hMFqKMNe+62fFbpuylgktBZJDOEAQ+P+CBlqhj2rZPgnKNQzNKToYuggKWLEyGbuESk/G2Kr2uNSu/w==
   dependencies:
-    "@ape.swap/router-sdk" "^1.0.1-alpha.0"
-    "@ape.swap/v2-sdk" "^1.0.1-alpha.0"
+    "@ape.swap/router-sdk" "^1.0.1-alpha.1"
+    "@ape.swap/token-lists" "^1.0.6"
+    "@ape.swap/v2-sdk" "^1.0.1-alpha.1"
     "@ape.swap/v3-sdk" "^1.0.0"
     "@uniswap/default-token-list" "^2.0.0"
     "@uniswap/swap-router-contracts" "^1.3.0"
@@ -62,10 +63,15 @@
   resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.5.tgz#683ea42b24b10892f5d16b5f8d0b20153a9e1b36"
   integrity sha512-S0boEEU1gYS8QIjAL6hC+Vul5L+4rzBSB7NSINBlZjGGoJaA8DJQW+dbSOjO7ty0BOFcz1WBCd5i+DePjua99Q==
 
-"@ape.swap/v2-sdk@^1.0.1-alpha.0":
-  version "1.0.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@ape.swap/v2-sdk/-/v2-sdk-1.0.1-alpha.0.tgz#3731d6493aceb6faa0b1cfc86c711d946a1010c0"
-  integrity sha512-pvzwo1EwRWqZPSAG2vZsRhm2Cydut3BKvB22W1uR7mShE9ZbS8Wuc1MQqJJns5mWc3hKPV9tM0RniFUFWTlG6g==
+"@ape.swap/token-lists@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.6.tgz#b87dd0894bf61b500d255ea2f8b7022d7beea84c"
+  integrity sha512-ysbVF+wzF59ZAe4V+YufHKJgWEzvSIGx5pSazzg+XeYJ3bXEnwGuSrG6Sd85PsV7JhmyOUf3pj1D3AI8XTtW9A==
+
+"@ape.swap/v2-sdk@^1.0.1-alpha.1":
+  version "1.0.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@ape.swap/v2-sdk/-/v2-sdk-1.0.1-alpha.1.tgz#93ab785de3f9af4a3b21a0e8b89992310906533a"
+  integrity sha512-LCkEmbjztzgs3uPnBH6DXN5txyRo1uCCIeIV9Hq6PSjzrSPjfM27WLFmEpt283+x7FIx8/TvofNPBJyj15Sj8w==
   dependencies:
     "@ape.swap/sdk-core" "^1.0.1"
     "@ethersproject/address" "^5.0.0"
@@ -5167,7 +5173,7 @@ ignore@^5.0.4, ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-immer@^9.0.16:
+immer@^9.0.16, immer@^9.0.19:
   version "9.0.19"
   resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.19.tgz#67fb97310555690b5f9cd8380d38fc0aabb6b38b"
   integrity sha512-eY+Y0qcsB4TZKwgQzLaE/lqYMlKhv5J9dyd2RhhtGhNo2njPXDqU9XPfcNfa3MIDsdtZt5KlkIsirlo4dHsWdQ==
@@ -5914,10 +5920,10 @@ jotai-immer@^0.2.0:
   resolved "https://registry.yarnpkg.com/jotai-immer/-/jotai-immer-0.2.0.tgz#9bfa1a5a7911c5b222d22a8388a801c05bc06c65"
   integrity sha512-hahK8EPiROS9RoNWmX/Z8rY9WkAijspX4BZ1O7umpcwI4kPNkbcCpu/PhiQ8FMcpEcF6KmbpbMpSSj/GFmo8NA==
 
-jotai@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.0.0.tgz#3938ad0166130417811bb57ec2de8abeb24bd948"
-  integrity sha512-04G0CRZQgp3xrFAezd6X14psZ2TRGekHeYMBcbDJ/BR8ZJQPS+j0YkMTxUxyG58HJnN2+adfj5sWQWoqgtp1XQ==
+jotai@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.0.1.tgz#9cc3433a068d6e5f7f2dbb3fe0a3febc5118fc42"
+  integrity sha512-b/BpBFkv3nq8HgT6YX5h5/y9VfKIn9OL1dO6gd9bWTgKt6LLe24VIMURTDwSYS888XfubuRQlbepb5IQGAtmcQ==
 
 js-sdsl@^4.1.4:
   version "4.3.0"

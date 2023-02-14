@@ -24,10 +24,7 @@ const TradePrice = ({ price }: { price: Price<Currency, Currency> | undefined })
   const text = `${'1 ' + labelInverted + ' = ' + formattedPrice ?? '-'} ${label}`
 
   return (
-    <Flex
-      onClick={() => setShowInverted((prev) => !prev)}
-      sx={{ border: '1px solid red', width: 'fit-content', zIndex: 1 }}
-    >
+    <Flex onClick={() => setShowInverted((prev) => !prev)} sx={{ width: 'fit-content', zIndex: 1 }}>
       <Text>{text}</Text>
     </Flex>
   )

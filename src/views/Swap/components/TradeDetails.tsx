@@ -1,5 +1,5 @@
 import { Currency, TradeType } from '@ape.swap/sdk-core'
-import { Flex, Text } from 'components/uikit'
+import { Flex, Svg, Text } from 'components/uikit'
 import { useMemo, useState } from 'react'
 import { InterfaceTrade } from 'state/routing/types'
 import { computeRealizedPriceImpact } from 'utils/prices'
@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import styles from './styles'
 import TradePrice from './TradePrice'
 import { formatPriceImpact, getTokenPath } from '../utils'
+import RouteDiagram from './RouteDiagram'
 
 const TradeDetails = ({ trade }: { trade: InterfaceTrade<Currency, Currency, TradeType> | undefined }) => {
   console.log(trade)
@@ -60,19 +61,25 @@ const TradeDetails = ({ trade }: { trade: InterfaceTrade<Currency, Currency, Tra
               <Text>Price Impact</Text>
               <Text>{priceImpact ? formatPriceImpact(priceImpact) : '-'}</Text>
             </Flex>
-            <br />
-            <Flex sx={{ flexDirection: 'column' }}>
-              {routes.map(({ path, protocol }) => {
-                return path.map(([currency0, currency1, feeAmount]) => {
-                  return (
-                    <Text key={feeAmount}>
-                      {currency0.symbol} {'->'} {currency1.symbol} {'---'} {protocol}
-                    </Text>
-                  )
-                })
-              })}
+            <Flex
+              sx={{
+                background: 'white4',
+                padding: '10px',
+                borderRadius: '10px',
+                mt: '5px',
+                flexDirection: 'column',
+              }}
+            >
+              <Flex sx={{ mb: '10px', alignItems: 'center', justifyContent: 'space-between' }} weight={700}>
+                <Text>Alpha Router</Text>
+                <Svg icon="question" width={15}/>
+              </Flex>
+              <RouteDiagram
+                currencyIn={trade?.inputAmount.currency}
+                currencyOut={trade?.outputAmount.currency}
+                routes={routes}
+              />
             </Flex>
-            <br />
           </motion.div>
         )}
       </AnimatePresence>

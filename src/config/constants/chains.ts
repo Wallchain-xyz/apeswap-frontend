@@ -18,6 +18,15 @@ export const MAINNET_CHAINS = [
   SupportedChainId.TLOS,
 ]
 
+export const CHAIN_NAMES: Record<SupportedChainId, string> = {
+  [SupportedChainId.BSC]: 'bnb_chain',
+  [SupportedChainId.BSC_TESTNET]: 'bnb_chain_testnet',
+  [SupportedChainId.POLYGON]: 'polygon',
+  [SupportedChainId.POLYGON_MUMBAI]: 'polygon_mumbai',
+  [SupportedChainId.MAINNET]: 'mainnet',
+  [SupportedChainId.TLOS]: 'telos',
+}
+
 export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
