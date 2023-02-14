@@ -1,15 +1,33 @@
 // Network chain ids
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { SmartRouter } from '@ape.swap/sdk'
+// import { SmartRouter } from '@ape.swap/sdk'
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { icons } from 'components/uikit/Svg/types'
 import { BigNumber } from 'ethers'
 
 // TODO: Clean this file up a bit
 
+export const AVERAGE_L1_BLOCK_TIME = 12000
+
 // List of mainnet chains
 // This is currently used for the info page
 export const MAINNET_CHAINS = [
+  SupportedChainId.BSC,
+  SupportedChainId.POLYGON,
+  SupportedChainId.MAINNET,
+  SupportedChainId.TLOS,
+]
+
+export const CHAIN_NAMES: Record<SupportedChainId, string> = {
+  [SupportedChainId.BSC]: 'bnb_chain',
+  [SupportedChainId.BSC_TESTNET]: 'bnb_chain_testnet',
+  [SupportedChainId.POLYGON]: 'polygon',
+  [SupportedChainId.POLYGON_MUMBAI]: 'polygon_mumbai',
+  [SupportedChainId.MAINNET]: 'mainnet',
+  [SupportedChainId.TLOS]: 'telos',
+}
+
+export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
@@ -56,7 +74,6 @@ export const NETWORK_RPC: Record<SupportedChainId, string[]> = {
   [SupportedChainId.MAINNET]: ['https://eth-mainnet.nodereal.io/v1/43f9100965104de49b580d1fa1ab28c0'],
   [SupportedChainId.TLOS]: ['https://mainnet.telos.net/evm'],
 }
-
 
 // RPC Providers
 export const RPC_PROVIDERS: Record<SupportedChainId, StaticJsonRpcProvider> = {
@@ -170,70 +187,70 @@ export const APE_PRICE_IMPACT = 15
 
 // This sets the priority of when a router is used
 // After APE router should be in order of highest liquidity
-export const PRIORITY_SMART_ROUTERS: Partial<Record<SupportedChainId, SmartRouter[]>> = {
-  [SupportedChainId.MAINNET]: [SmartRouter.APE, SmartRouter.SUSHISWAP, SmartRouter.UNISWAP],
-  [SupportedChainId.BSC]: [SmartRouter.APE, SmartRouter.PANCAKE, SmartRouter.BISWAP],
-  [SupportedChainId.POLYGON]: [SmartRouter.APE, SmartRouter.QUICKSWAP],
-  [SupportedChainId.BSC_TESTNET]: [SmartRouter.APE],
-  [SupportedChainId.TLOS]: [SmartRouter.APE],
-}
+// export const PRIORITY_SMART_ROUTERS: Partial<Record<SupportedChainId, SmartRouter[]>> = {
+//   [SupportedChainId.MAINNET]: [SmartRouter.APE, SmartRouter.SUSHISWAP, SmartRouter.UNISWAP],
+//   [SupportedChainId.BSC]: [SmartRouter.APE, SmartRouter.PANCAKE, SmartRouter.BISWAP],
+//   [SupportedChainId.POLYGON]: [SmartRouter.APE, SmartRouter.QUICKSWAP],
+//   [SupportedChainId.BSC_TESTNET]: [SmartRouter.APE],
+//   [SupportedChainId.TLOS]: [SmartRouter.APE],
+// }
 
 // Wallchain Configs
 // If a router is in the priority list for a certain chain it must be added to the wallchain params
-export const WALLCHAIN_PARAMS: Partial<
-  Record<SupportedChainId, Partial<Record<SmartRouter, { apiUrl: string; apiKey: string }>>>
-> = {
-  [SupportedChainId.BSC]: {
-    [SmartRouter.APE]: {
-      apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
-      apiKey: '85c578a5-ecb0-445c-8a95-4c0eba2f33b6',
-    },
-    [SmartRouter.PANCAKE]: {
-      apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
-      apiKey: 'c5f0eb9a-180b-4787-a5c0-db68292f6926',
-    },
-    [SmartRouter.BISWAP]: {
-      apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
-      apiKey: '1cdb6a88-fc95-4831-906a-9ed0e16c9c52',
-    },
-  },
-  [SupportedChainId.BSC_TESTNET]: {
-    [SmartRouter.APE]: {
-      apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
-      apiKey: '85c578a5-ecb0-445c-8a95-4c0eba2f33b6',
-    },
-  },
-  [SupportedChainId.POLYGON]: {
-    [SmartRouter.APE]: {
-      apiUrl: 'https://matic.wallchains.com/upgrade_txn/',
-      apiKey: '5cf2b177-5fa5-477a-8cea-f2b54859af2a',
-    },
-    [SmartRouter.QUICKSWAP]: {
-      apiUrl: 'https://matic.wallchains.com/upgrade_txn/',
-      apiKey: '31f565ed-7bc1-44f4-8ca7-331897d65132',
-    },
-  },
-  [SupportedChainId.MAINNET]: {
-    [SmartRouter.APE]: {
-      apiUrl: 'https://eth.wallchains.com/upgrade_txn/',
-      apiKey: '498288e3-4c04-40e9-95a7-3ceb3f75096c',
-    },
-    [SmartRouter.UNISWAP]: {
-      apiUrl: 'https://eth.wallchains.com/upgrade_txn/',
-      apiKey: 'ff1e792c-b199-4393-8385-40e533e3687a',
-    },
-    [SmartRouter.SUSHISWAP]: {
-      apiUrl: 'https://eth.wallchains.com/upgrade_txn/',
-      apiKey: 'e04868d1-c99d-4bb3-9af9-fb2336310eaa',
-    },
-  },
-  [SupportedChainId.TLOS]: {
-    [SmartRouter.APE]: {
-      apiUrl: 'https://tlos.wallchains.com/upgrade_txn/',
-      apiKey: '1717a226-bb5a-42c4-ad37-6de5229f9e28',
-    },
-  },
-}
+// export const WALLCHAIN_PARAMS: Partial<
+//   Record<SupportedChainId, Partial<Record<SmartRouter, { apiUrl: string; apiKey: string }>>>
+// > = {
+//   [SupportedChainId.BSC]: {
+//     [SmartRouter.APE]: {
+//       apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
+//       apiKey: '85c578a5-ecb0-445c-8a95-4c0eba2f33b6',
+//     },
+//     [SmartRouter.PANCAKE]: {
+//       apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
+//       apiKey: 'c5f0eb9a-180b-4787-a5c0-db68292f6926',
+//     },
+//     [SmartRouter.BISWAP]: {
+//       apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
+//       apiKey: '1cdb6a88-fc95-4831-906a-9ed0e16c9c52',
+//     },
+//   },
+//   [SupportedChainId.BSC_TESTNET]: {
+//     [SmartRouter.APE]: {
+//       apiUrl: 'https://bsc.wallchains.com/upgrade_txn/',
+//       apiKey: '85c578a5-ecb0-445c-8a95-4c0eba2f33b6',
+//     },
+//   },
+//   [SupportedChainId.POLYGON]: {
+//     [SmartRouter.APE]: {
+//       apiUrl: 'https://matic.wallchains.com/upgrade_txn/',
+//       apiKey: '5cf2b177-5fa5-477a-8cea-f2b54859af2a',
+//     },
+//     [SmartRouter.QUICKSWAP]: {
+//       apiUrl: 'https://matic.wallchains.com/upgrade_txn/',
+//       apiKey: '31f565ed-7bc1-44f4-8ca7-331897d65132',
+//     },
+//   },
+//   [SupportedChainId.MAINNET]: {
+//     [SmartRouter.APE]: {
+//       apiUrl: 'https://eth.wallchains.com/upgrade_txn/',
+//       apiKey: '498288e3-4c04-40e9-95a7-3ceb3f75096c',
+//     },
+//     [SmartRouter.UNISWAP]: {
+//       apiUrl: 'https://eth.wallchains.com/upgrade_txn/',
+//       apiKey: 'ff1e792c-b199-4393-8385-40e533e3687a',
+//     },
+//     [SmartRouter.SUSHISWAP]: {
+//       apiUrl: 'https://eth.wallchains.com/upgrade_txn/',
+//       apiKey: 'e04868d1-c99d-4bb3-9af9-fb2336310eaa',
+//     },
+//   },
+//   [SupportedChainId.TLOS]: {
+//     [SmartRouter.APE]: {
+//       apiUrl: 'https://tlos.wallchains.com/upgrade_txn/',
+//       apiKey: '1717a226-bb5a-42c4-ad37-6de5229f9e28',
+//     },
+//   },
+// }
 
 // Dont use bonus router if the bonus is lower than the cutoff
 export const BONUS_CUTOFF_AMOUNT: Partial<Record<SupportedChainId, number>> = {
@@ -246,51 +263,51 @@ export const BONUS_CUTOFF_AMOUNT: Partial<Record<SupportedChainId, number>> = {
 
 // To display correct prices for each liquidity pool when need to swap the contract out
 // Routers in prioirty list must be in here
-export const SMART_PRICE_GETTERS: Partial<Record<SupportedChainId, Partial<Record<SmartRouter, string>>>> = {
-  [SupportedChainId.BSC]: {
-    [SmartRouter.APE]: '0x5e545322b83626c745FE46144a15C00C94cBD803',
-    [SmartRouter.PANCAKE]: '0xF724471B00B5fACBA78D195bD241d090350a04Bd',
-    [SmartRouter.BISWAP]: '0x1828e426fF3ec9E037cff888CB13f84d5e95F4eF',
-  },
-  [SupportedChainId.BSC_TESTNET]: {
-    [SmartRouter.APE]: '0xd722f9A2950E35Ab3EeD1d013c214671750A638B',
-  },
-  [SupportedChainId.POLYGON]: {
-    [SmartRouter.APE]: '0x05D6C73D7de6E02B3f57677f849843c03320681c',
-    [SmartRouter.QUICKSWAP]: '0xEe57c38d678CaE0cE16168189dB47238d8fe6553',
-  },
-  [SupportedChainId.MAINNET]: {
-    [SmartRouter.APE]: '0x5fbFd1955EeA2F62F1AfD6d6E92223Ae859F7887',
-    [SmartRouter.UNISWAP]: '0x0187D959A28B0D3B490c2D898fA1CcD054cCC3cd',
-    [SmartRouter.SUSHISWAP]: '0x51FA9ed2908C76f51fDDA7fa0F6a1d57557668b2',
-  },
-  [SupportedChainId.TLOS]: {
-    [SmartRouter.APE]: '0x29392efed565c13a0901aeb88e32bf58eeb8a067',
-  },
-}
+// export const SMART_PRICE_GETTERS: Partial<Record<SupportedChainId, Partial<Record<SmartRouter, string>>>> = {
+//   [SupportedChainId.BSC]: {
+//     [SmartRouter.APE]: '0x5e545322b83626c745FE46144a15C00C94cBD803',
+//     [SmartRouter.PANCAKE]: '0xF724471B00B5fACBA78D195bD241d090350a04Bd',
+//     [SmartRouter.BISWAP]: '0x1828e426fF3ec9E037cff888CB13f84d5e95F4eF',
+//   },
+//   [SupportedChainId.BSC_TESTNET]: {
+//     [SmartRouter.APE]: '0xd722f9A2950E35Ab3EeD1d013c214671750A638B',
+//   },
+//   [SupportedChainId.POLYGON]: {
+//     [SmartRouter.APE]: '0x05D6C73D7de6E02B3f57677f849843c03320681c',
+//     [SmartRouter.QUICKSWAP]: '0xEe57c38d678CaE0cE16168189dB47238d8fe6553',
+//   },
+//   [SupportedChainId.MAINNET]: {
+//     [SmartRouter.APE]: '0x5fbFd1955EeA2F62F1AfD6d6E92223Ae859F7887',
+//     [SmartRouter.UNISWAP]: '0x0187D959A28B0D3B490c2D898fA1CcD054cCC3cd',
+//     [SmartRouter.SUSHISWAP]: '0x51FA9ed2908C76f51fDDA7fa0F6a1d57557668b2',
+//   },
+//   [SupportedChainId.TLOS]: {
+//     [SmartRouter.APE]: '0x29392efed565c13a0901aeb88e32bf58eeb8a067',
+//   },
+// }
 
-export const SMART_LP_FEES: Partial<Record<SupportedChainId, Partial<Record<SmartRouter, number>>>> = {
-  [SupportedChainId.BSC]: {
-    [SmartRouter.APE]: 20,
-    [SmartRouter.PANCAKE]: 25,
-    [SmartRouter.BISWAP]: 10,
-  },
-  [SupportedChainId.BSC_TESTNET]: {
-    [SmartRouter.APE]: 20,
-  },
-  [SupportedChainId.POLYGON]: {
-    [SmartRouter.APE]: 20,
-    [SmartRouter.QUICKSWAP]: 30,
-  },
-  [SupportedChainId.MAINNET]: {
-    [SmartRouter.APE]: 20,
-    [SmartRouter.UNISWAP]: 30,
-    [SmartRouter.SUSHISWAP]: 25,
-  },
-  [SupportedChainId.TLOS]: {
-    [SmartRouter.APE]: 20,
-  },
-}
+// export const SMART_LP_FEES: Partial<Record<SupportedChainId, Partial<Record<SmartRouter, number>>>> = {
+//   [SupportedChainId.BSC]: {
+//     [SmartRouter.APE]: 20,
+//     [SmartRouter.PANCAKE]: 25,
+//     [SmartRouter.BISWAP]: 10,
+//   },
+//   [SupportedChainId.BSC_TESTNET]: {
+//     [SmartRouter.APE]: 20,
+//   },
+//   [SupportedChainId.POLYGON]: {
+//     [SmartRouter.APE]: 20,
+//     [SmartRouter.QUICKSWAP]: 30,
+//   },
+//   [SupportedChainId.MAINNET]: {
+//     [SmartRouter.APE]: 20,
+//     [SmartRouter.UNISWAP]: 30,
+//     [SmartRouter.SUSHISWAP]: 25,
+//   },
+//   [SupportedChainId.TLOS]: {
+//     [SmartRouter.APE]: 20,
+//   },
+// }
 
 // Block times
 export const CHAIN_BLOCKS_PER_YEAR: Partial<Record<SupportedChainId, BigNumber>> = {
@@ -300,18 +317,18 @@ export const CHAIN_BLOCKS_PER_YEAR: Partial<Record<SupportedChainId, BigNumber>>
   [SupportedChainId.TLOS]: BigNumber.from(63072000),
 }
 
-// Chef addresses for the LP migrator
-export const CHEF_ADDRESSES = {
-  [SupportedChainId.BSC]: {
-    '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652': SmartRouter.PANCAKE,
-    '0xDbc1A13490deeF9c3C12b44FE77b503c1B061739': SmartRouter.BISWAP,
-  },
-}
+// // Chef addresses for the LP migrator
+// export const CHEF_ADDRESSES = {
+//   [SupportedChainId.BSC]: {
+//     '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652': SmartRouter.PANCAKE,
+//     '0xDbc1A13490deeF9c3C12b44FE77b503c1B061739': SmartRouter.BISWAP,
+//   },
+// }
 
-export const SMART_ROUTER_FULL_NAME = {
-  [SmartRouter.PANCAKE]: 'PancakeSwap',
-  [SmartRouter.BISWAP]: 'Biswap',
-}
+// export const SMART_ROUTER_FULL_NAME = {
+//   [SmartRouter.PANCAKE]: 'PancakeSwap',
+//   [SmartRouter.BISWAP]: 'Biswap',
+// }
 
 // enum to corresponding url
 export enum LIST_VIEW_PRODUCTS {

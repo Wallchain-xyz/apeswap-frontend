@@ -5,10 +5,12 @@ const DoubleCurrencyLogo = ({
   currency0,
   currency1,
   size = 30,
+  spacing = '-13px',
 }: {
   currency0?: Currency
   currency1?: Currency
   size?: number
+  spacing?: string
 }) => {
   return (
     <>
@@ -16,7 +18,7 @@ const DoubleCurrencyLogo = ({
       <CurrencyLogo
         currency={currency1}
         size={size}
-        style={{ transform: 'translate(-13px, 0px)', marginRight: '-13px' }}
+        style={{ transform: `translate(${spacing}, 0px)`, marginRight: spacing }}
       />
     </>
   )

@@ -1,5 +1,5 @@
 // import track from 'utils/track'
-import { ChainId } from '@ape.swap/sdk'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useTranslation } from 'contexts/Localization'
 import React from 'react'
 // import MoonPayModal from 'views/Topup/MoonpayModal'
@@ -53,7 +53,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             ...styles.navLink,
             color: !onLiquidity && 'textDisabled',
           }}
-          onClick={() => push(ChainId.MAINNET ? '/add-liquidity' : '/zap')}
+          onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
           id="liquidity-link"
           className="liquidity"
         >

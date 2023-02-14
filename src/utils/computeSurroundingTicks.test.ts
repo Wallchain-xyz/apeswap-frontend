@@ -1,4 +1,4 @@
-import { Token } from '@uniswap/sdk-core'
+import { Token } from '@ape.swap/sdk-core'
 import { FeeAmount, TICK_SPACINGS } from '@ape.swap/v3-sdk'
 import { TickData, TickProcessed } from 'hooks/usePoolTickData'
 import JSBI from 'jsbi'

@@ -38,3 +38,8 @@ export const TICK_LENS_ADDRESSES: AddressMap = {
   [SupportedChainId.MAINNET]: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573',
   [SupportedChainId.POLYGON]: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573',
 }
+
+export const QUOTER_ADDRESSES: AddressMap = {
+  [SupportedChainId.MAINNET]: '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6',
+  [SupportedChainId.POLYGON]: '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6',
+}
