@@ -1,5 +1,5 @@
 import { Interface } from '@ethersproject/abi'
-import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import ERC20ABI from 'config/abi/erc20.json'
 

@@ -1,27 +1,25 @@
 import { FeeAmount } from '@ape.swap/v3-sdk'
 import { Button, Flex, Svg, Text } from 'components/uikit'
-import { useCurrency } from 'hooks/Tokens'
 import { PoolState, usePools } from 'hooks/usePools'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FEE_AMOUNT_DETAIL } from './constants'
 import { useFeeTierDistribution } from 'hooks/useFeeTierDistribution'
+import { Currency } from '@ape.swap/sdk-core'
+import { DESKTOP_DISPLAY } from '../styles'
 
 const FeeSelector = ({
   feeAmount,
-  currencyIdA,
-  currencyIdB,
+  currencyA,
+  currencyB,
   onHandleFeeSelect,
 }: {
   feeAmount: FeeAmount | undefined
-  currencyIdA: string
-  currencyIdB: string
+  currencyA: Currency | undefined
+  currencyB: Currency | undefined
   onHandleFeeSelect: (fee: FeeAmount) => void
 }) => {
   const [hide, setHide] = useState(true)
-
-  const currencyA = useCurrency(currencyIdA) ?? undefined
-  const currencyB = useCurrency(currencyIdB) ?? undefined
 
   const pools = usePools([
     [currencyA, currencyB, FeeAmount.LOWEST],
@@ -96,11 +94,19 @@ const FeeSelector = ({
         {!hide && (
           <motion.div
             initial={{ opacity: 0, height: '0px', marginBottom: '0px' }}
-            animate={{ height: 'fit-content', marginBottom: '20px', opacity: 1 }}
+            animate={{
+              height: 'fit-content',
+              marginBottom: '20px',
+              opacity: 1,
+              transitionEnd: {
+                overflow: 'visible',
+              },
+            }}
             transition={{ opacity: { duration: 0.2 }, height: { duration: 0.3 } }}
             exit={{ opacity: 0, height: '0px', marginBottom: '0px' }}
             sx={{
               display: 'flex',
+              flexDirection: ['column', 'column', 'column', 'column', 'column', 'row'],
               justifyContent: 'space-between',
               width: '100%',
               overflow: 'hidden',
@@ -113,39 +119,54 @@ const FeeSelector = ({
                   key={curFeeAmount}
                   sx={{
                     position: 'relative',
-                    flexDirection: 'column',
-                    width: '130px',
+                    flexDirection: ['row', 'row', 'row', 'row', 'row', 'column'],
+                    width: ['100%', '100%', '100%', '100%', '100%', '130px'],
                     maxWidth: '100%',
-                    height: '87px',
+                    height: ['30px', '30px', '30px', '30px', '30px', '87px'],
                     maxHeight: '100%',
                     background: 'white3',
                     boxShadow: feeAmount === curFeeAmount && '0px 0px 1px 1px',
                     color: 'yellow',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    borderRadius: '10px',
-                    padding: '7.5px 5px',
+                    borderRadius: ['5px', '5px', '5px', '5px', '5px', '10px'],
+                    margin: ['5px 0px', '5px 0px', '5px 0px', '5px 0px', '5px 0px', '0px'],
+                    padding: ['0px 10px', '0px 10px', '0px 10px', '0px 10px', '0px 10px', '7.5px 5px'],
                     cursor: 'pointer',
-                    margin: '0px 2px',
                   }}
                   onClick={() => onHandleFeeSelect(curFeeAmount)}
                 >
                   {feeAmount === curFeeAmount && (
-                    <Flex sx={{ position: 'absolute', top: '5px', right: '5px' }}>
+                    <Flex sx={{ position: 'absolute', top: '5px', right: '5px', display: DESKTOP_DISPLAY }}>
                       <Svg icon="success" color="yellow" width="15px" />
                     </Flex>
                   )}
-                  <Text color="text" size="18px" weight={700}>
-                    {FEE_AMOUNT_DETAIL[curFeeAmount].label}%
-                  </Text>
                   <Text
                     color="text"
-                    size="10px"
-                    weight={400}
-                    sx={{ lineHeight: '12px', mt: '5px', textAlign: 'center' }}
+                    size="18px"
+                    weight={700}
+                    sx={{
+                      width: ['60px', '60px', '60px', '60px', '60px', '100%'],
+                      textAlign: ['start', 'start', 'start', 'start', 'start', 'center'],
+                    }}
                   >
-                    {FEE_AMOUNT_DETAIL[curFeeAmount].description}
+                    {FEE_AMOUNT_DETAIL[curFeeAmount].label}%
                   </Text>
+                  <Flex
+                    sx={{
+                      justifyContent: ['flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'center'],
+                      width: ['130px', '130px', '130px', '130px', '130px', '100%'],
+                    }}
+                  >
+                    <Text
+                      color="text"
+                      size="10px"
+                      weight={400}
+                      sx={{ lineHeight: '12px', mt: '3px', textAlign: 'center' }}
+                    >
+                      {FEE_AMOUNT_DETAIL[curFeeAmount].description}
+                    </Text>
+                  </Flex>
                   <Text color="text" size="10px" weight={700}>
                     {!distributions ||
                     poolsByFeeTier[curFeeAmount] === PoolState.NOT_EXISTS ||

@@ -142,7 +142,7 @@ export const SWISE = new Token(
   'StakeWise',
 )
 
-export const WETH_MATIC = new Token(
+export const WETH_POLYGON = new Token(
   SupportedChainId.POLYGON,
   '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
   18,

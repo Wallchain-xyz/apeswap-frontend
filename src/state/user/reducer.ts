@@ -15,6 +15,7 @@ export interface UserState {
   lastUpdateVersionTimestamp?: number
   // deadline set by user in minutes, used in all txns
   userDeadline: number
+  userClientSideRouter: boolean // whether routes should be calculated with the client side router only
   tokens: {
     [chainId: number]: {
       [address: string]: SerializedToken
@@ -23,6 +24,8 @@ export interface UserState {
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number | 'auto'
   userSlippageToleranceHasBeenMigratedToAuto: boolean // temporary flag for migration status
+  // hides closed (inactive) positions across the app
+  userHideClosedPositions: boolean
 }
 
 export const initialState: UserState = {
@@ -32,6 +35,8 @@ export const initialState: UserState = {
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
   userSlippageToleranceHasBeenMigratedToAuto: false,
+  userClientSideRouter: false,
+  userHideClosedPositions: false,
   tokens: {},
 }
 
@@ -52,6 +57,12 @@ const userSlice = createSlice({
     updateUserSlippageTolerance(state, action) {
       state.userSlippageTolerance = action.payload.userSlippageTolerance
       state.timestamp = currentTimestamp()
+    },
+    updateUserClientSideRouter(state, action) {
+      state.userClientSideRouter = action.payload.userClientSideRouter
+    },
+    updateHideClosedPositions(state, action) {
+      state.userHideClosedPositions = action.payload.userHideClosedPositions
     },
     addSerializedToken(state, { payload: { serializedToken } }) {
       if (!state.tokens) {
@@ -105,5 +116,7 @@ export const {
   addSerializedToken,
   updateUserSlippageTolerance,
   updateUserDeadline,
+  updateHideClosedPositions,
+  updateUserClientSideRouter,
 } = userSlice.actions
 export default userSlice.reducer

@@ -37,6 +37,7 @@ const Colors = {
   hoveredSuccess: '#38A611B3',
   hoveredDanger: '#DF4141B3',
   modalOverlay: 'rgba(66, 66, 66, 0.5)',
+  opacityBadge: 'rgba(66, 66, 66, 0.5)',
   modes: {
     dark: {
       background: '#0B0B0B',
@@ -64,6 +65,7 @@ const Colors = {
       footer: '#0B0B0B',
       hoveredYellow: '#FFDA00',
       modalOverlay: 'rgba(66, 66, 66, 0.5)',
+      opacityBadge: 'rgba(253, 251, 245, 0.5)',
     },
   },
 }

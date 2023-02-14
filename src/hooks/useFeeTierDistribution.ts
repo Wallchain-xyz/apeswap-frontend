@@ -1,4 +1,4 @@
-import { Currency, Token } from '@uniswap/sdk-core'
+import { Currency, Token } from '@ape.swap/sdk-core'
 import { FeeAmount } from '@ape.swap/v3-sdk'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import { useMemo } from 'react'

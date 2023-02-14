@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 
 import { nativeOnChain, WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { supportedChainId } from './supportedChainId'

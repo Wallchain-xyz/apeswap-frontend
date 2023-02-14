@@ -305,9 +305,8 @@ const components = {
       maxWidth: '420px',
       height: 'fit-content',
       background: 'white2',
-      padding: '15px',
+      padding: ['15px 5px', '15px 10px', '15px'],
       borderRadius: '10px',
-      margin: '0px 10px',
       flexDirection: 'column',
     },
     v3SubDexContainer: {
@@ -315,7 +314,7 @@ const components = {
       maxWidth: '600px',
       height: 'fit-content',
       background: 'white2',
-      padding: '15px',
+      padding: ['15px 5px', '15px 10px', '15px'],
       borderRadius: '10px',
       margin: '0px 10px',
       flexDirection: 'column',
@@ -334,6 +333,12 @@ const components = {
       '&:active': {
         transform: 'scale(0.9)',
       },
+    },
+    tag: {
+      padding: '5px',
+      borderRadius: '5px',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   },
 }

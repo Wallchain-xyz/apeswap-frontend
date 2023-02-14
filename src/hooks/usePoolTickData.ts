@@ -1,4 +1,4 @@
-import { Currency } from '@uniswap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import { FeeAmount, nearestUsableTick, Pool, TICK_SPACINGS, tickToPrice } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { ZERO_ADDRESS } from 'config/constants/misc'
