@@ -56,6 +56,10 @@ import {
   Moon,
   AccountMonkey,
   Card,
+  Cog,
+  Bridge,
+  Docs,
+  Quiz,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from './tokens'
 import {
@@ -212,6 +216,14 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <AccountMonkey {...props} getStyles={getStyles} />
     case icons.CARD:
       return <Card {...props} getStyles={getStyles} />
+    case icons.COG:
+      return <Cog {...props} getStyles={getStyles} />
+    case icons.BRIDGE:
+      return <Bridge {...props} getStyles={getStyles} />
+    case icons.DOCS:
+      return <Docs {...props} getStyles={getStyles} />
+    case icons.QUIZ:
+      return <Quiz {...props} getStyles={getStyles} />
     // Wallet Icons
     case icons.BINANCE_CHAIN:
       return <BinanceChain {...props} getStyles={getStyles} />
