@@ -84,10 +84,11 @@ const Button: React.FC<ButtonProps> = ({
         },
         ...hoverStyle,
         width: fullWidth ? '100%' : 'max-content',
+        color: 'primaryBright',
       }}
     >
       {React.isValidElement(startIcon) && React.cloneElement(startIcon)}
-      {children} {load && <Spinner size={15} ml='5px' />}
+      {children} {load && <Spinner size={15} ml="5px" />}
       {React.isValidElement(endIcon) && React.cloneElement(endIcon)}
     </ThemeUIButton>
   )

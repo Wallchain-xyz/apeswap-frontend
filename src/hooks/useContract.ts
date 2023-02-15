@@ -10,6 +10,7 @@ import multicallV3Abi from 'config/abi/multicallv3.json'
 import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
+import EIP_2612 from 'config/abi/eip_2612.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
@@ -102,4 +103,8 @@ export function useTickLens(): TickLens | null {
 
 export function useQuoter(useQuoterV2: boolean) {
   return useContract<Quoter | QuoterV2>(QUOTER_ADDRESSES, useQuoterV2 ? QuoterV2ABI : QuoterABI)
+}
+
+export function useEIP2612Contract(tokenAddress?: string): Contract | null {
+  return useContract(tokenAddress, EIP_2612, false)
 }

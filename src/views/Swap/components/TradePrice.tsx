@@ -25,7 +25,7 @@ const TradePrice = ({ price }: { price: Price<Currency, Currency> | undefined })
 
   return (
     <Flex onClick={() => setShowInverted((prev) => !prev)} sx={{ width: 'fit-content', zIndex: 1 }}>
-      <Text>{text}</Text>
+      <Text size="14px">{text}</Text>
     </Flex>
   )
 }

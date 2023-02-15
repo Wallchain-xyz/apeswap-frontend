@@ -11,7 +11,6 @@ import DesktopMenu from './components/DesktopMenu'
 import MobileMenu from './components/MobileMenu'
 import styles, { NAV_DESKTOP_DISPLAY, NAV_MOBILE_DISPLAY } from './components/styles'
 
-// TODO: Make sure navbar has no jump to it. Figure out a way to display component based on css media rather than hook
 const NavBar = () => {
   const { account } = useWeb3React()
   const [dropdownFlag, setDropdownFlag] = useState(false)
@@ -40,7 +39,7 @@ const NavBar = () => {
             <NetworkSelector />
           </span>
         </Flex>
-        {account ? <AccountLoggedInDisplay /> : <ConnectWalletButton />}
+        {account ? <AccountLoggedInDisplay /> : <ConnectWalletButton navBarFlag />}
         <Flex
           sx={{
             alignItems: 'center',

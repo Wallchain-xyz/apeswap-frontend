@@ -20,6 +20,7 @@ const IconButton: React.FC<IconButtonProps> = ({
       variant={variant}
       sx={{
         variant: `buttons.${variant}`,
+        color: 'primaryBright',
         background,
         ...(variant === variants.PRIMARY ? style.primary : {}),
         ...(variant === variants.TRANSPARENT ? style.transparent : {}),

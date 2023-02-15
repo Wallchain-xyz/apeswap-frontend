@@ -87,7 +87,7 @@ const FeeSelector = ({
           </Text>
         </Flex>
         <Button size="sm" onClick={() => setHide((prev) => !prev)} sx={{ padding: '2px 10px', height: '30px' }}>
-          <Text sx={{ lineHeight: '20px' }}>{hide ? 'Edit' : 'Hide'}</Text>
+          <Text color='primaryBright' sx={{ lineHeight: '20px' }}>{hide ? 'Edit' : 'Hide'}</Text>
         </Button>
       </Flex>
       <AnimatePresence>

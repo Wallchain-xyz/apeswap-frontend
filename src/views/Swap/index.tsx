@@ -6,12 +6,15 @@ import { Flex } from 'components/uikit'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import useENSAddress from 'hooks/useENSAddress'
+import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
+import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useCallback, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/formatNumbers'
 import { supportedChainId } from 'utils/supportedChainId'
+import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import TradeDetails from './components/TradeDetails'
@@ -21,6 +24,7 @@ const Swap = () => {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const [newSwapQuoteNeedsLogging, setNewSwapQuoteNeedsLogging] = useState<boolean>(true)
   const [fetchingSwapQuoteStartTime, setFetchingSwapQuoteStartTime] = useState<Date | undefined>()
+  const transactionDeadline = useTransactionDeadline()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -78,6 +82,12 @@ const Swap = () => {
     inputError: swapInputError,
   })
 
+  const {
+    state: signatureState,
+    signatureData,
+    gatherPermitSignature,
+  } = useERC20PermitFromTrade(trade, allowedSlippage, transactionDeadline)
+
   //   const {
   //     wrapType,
   //     execute: onWrap,
@@ -119,6 +129,10 @@ const Swap = () => {
     [dependentField, independentField, parsedAmounts, showWrap, typedValue],
   )
 
+  // const stablecoinPriceImpact = useMemo(
+  //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
+  //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
+  // )
   console.log(trade)
 
   return (
@@ -142,10 +156,17 @@ const Swap = () => {
         currency={currencies[Field.OUTPUT]}
         otherCurrency={currencies[Field.INPUT]}
       />
+      <Actions
+        trade={trade}
+        allowedSlippage={allowedSlippage}
+        signatureData={signatureData}
+        recipient={recipient}
+        stablecoinPriceImpact={null}
+      />
       {routeIsLoading || routeIsSyncing ? (
         <LoadingBestRoute />
       ) : !routeNotFound ? (
-        <TradeDetails trade={trade} />
+        <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
       ) : (
         <></>
       )}
