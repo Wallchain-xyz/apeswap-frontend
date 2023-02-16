@@ -14,18 +14,18 @@ import mint from './mint/v2/reducer'
 import mintV3 from './mint/v3/reducer'
 import { routingApi } from './routing/slice'
 import swap from './swap/reducer'
-// import transactions from './transactions/reducer'
+import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
 
-const PERSISTED_KEYS: string[] = ['user', 'lists'] //, 'transactions',
+const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
 const store = configureStore({
   reducer: {
     // application,
     user,
     // connection,
-    // transactions,
+    transactions,
     wallets,
     swap,
     mint,

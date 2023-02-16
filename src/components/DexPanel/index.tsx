@@ -15,6 +15,11 @@ import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import TokenSelector from 'components/TokenSelector'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
+import { Token } from '@ape.swap/sdk-core'
+import { BigNumber } from 'ethers'
+import JSBI from 'jsbi'
+import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 
 const DexPanel = ({
   value,
@@ -38,10 +43,13 @@ const DexPanel = ({
 }: DexPanelProps) => {
   const { chainId, account } = useWeb3React()
   // const isRemoveLiquidity = !!lpPair
+  // TODO: Fix usd balance calculation
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const currencyBalance = userBalance ? userBalance?.toFixed(6) : selectedCurrencyBalance?.toSignificant(6) || '0'
 
   const { t } = useTranslation()
+
+  const [usdVal, loadingUsdValue] = useTokenPriceUsd(currency ?? undefined)
 
   // const usdVal = useTokenPriceUsd(chainId, lpPair?.liquidityToken || currency, isRemoveLiquidity, smartRouter)
 
@@ -90,17 +98,20 @@ const DexPanel = ({
             opacity: independentField && independentField !== fieldType && disabled && 0.4,
           }}
         >
-          {/* {!usdVal && (value || value === '.') && <Spinner width="15px" height="15px" />}
-          <Text size="12px" sx={styles.panelBottomText}>
-            {usdVal !== null &&
-              value !== '.' &&
-              usdVal !== 0 &&
-              value &&
-              `$${(lpPair
-                ? usdVal * parseFloat(currencyBalance) * (parseFloat(value) / 100)
-                : usdVal * parseFloat(value)
-              ).toFixed(2)}`}
-          </Text> */}
+          {loadingUsdValue ? (
+            <Spinner width="15px" height="15px" />
+          ) : (
+            <Text size="12px" sx={styles.panelBottomText}>
+              {value !== '.' &&
+                value &&
+                // `$${(lpPair
+                //   ? usdVal * parseFloat(currencyBalance) * (parseFloat(value) / 100)
+                //   : usdVal * parseFloat(value)
+                // ).toFixed(2)}`}
+
+                `$${(parseFloat(usdVal?.toExact() ?? '0') * parseFloat(value)).toFixed(2)}`}
+            </Text>
+          )}
         </Flex>
         {account && (
           <Flex sx={{ alignItems: 'center' }}>

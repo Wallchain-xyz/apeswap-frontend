@@ -11,6 +11,7 @@ import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
 import EIP_2612 from 'config/abi/eip_2612.json'
+import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
@@ -22,12 +23,15 @@ import {
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
   TICK_LENS_ADDRESSES,
   QUOTER_ADDRESSES,
+  PRICE_GETTER_ADDRESSES,
 } from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
 import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
+import { Price_getter, Price_getterInterface } from 'config/abi/types/Price_getter'
+import { PriceGetter } from 'config/abi/types/PriceGetter'
 
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
 const { abi: TickLensABI } = TickLensJson
@@ -107,4 +111,9 @@ export function useQuoter(useQuoterV2: boolean) {
 
 export function useEIP2612Contract(tokenAddress?: string): Contract | null {
   return useContract(tokenAddress, EIP_2612, false)
+}
+
+export function usePriceGetter() {
+  const { chainId } = useWeb3React()
+  return useContract<PriceGetter>(chainId ? PRICE_GETTER_ADDRESSES[chainId] : undefined, PRICE_GETTER_ABI)
 }

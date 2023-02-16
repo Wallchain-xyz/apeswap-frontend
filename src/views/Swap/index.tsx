@@ -157,9 +157,10 @@ const Swap = () => {
         otherCurrency={currencies[Field.INPUT]}
       />
       <Actions
+        tradeState={tradeState}
+        swapInputError={swapInputError}
         trade={trade}
         allowedSlippage={allowedSlippage}
-        signatureData={signatureData}
         recipient={recipient}
         stablecoinPriceImpact={null}
       />

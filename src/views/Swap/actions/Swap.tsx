@@ -6,18 +6,20 @@ import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import { useCallback, useState } from 'react'
-import { InterfaceTrade } from 'state/routing/types'
+import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { confirmPriceImpactWithoutFee } from '../utils'
 
 const TRADE_STRING = 'SwapRouter'
 
 const Swap = ({
+  tradeState,
   trade,
   allowedSlippage,
   signatureData,
   recipient,
   stablecoinPriceImpact,
 }: {
+  tradeState: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
   allowedSlippage: Percent
   signatureData: SignatureData | null
@@ -100,7 +102,11 @@ const Swap = ({
   ])
 
   return (
-    <Button fullWidth onClick={handleSwap}>
+    <Button
+      fullWidth
+      onClick={handleSwap}
+      disabled={tradeState === TradeState.LOADING || tradeState === TradeState.SYNCING}
+    >
       Swap
     </Button>
   )
