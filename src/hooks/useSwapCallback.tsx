@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 import { SwapCallbackState, useSwapCallback as useLibSwapCallBack } from 'lib/hooks/swap/useSwapCallback'
 import { ReactNode, useMemo } from 'react'
 
-// import { useTransactionAdder } from '../state/transactions/hooks'
+import { useTransactionAdder } from '../state/transactions/hooks'
 import { TransactionType } from '../state/transactions/types'
 import { currencyId } from '../utils/currencyId'
 import useENS from './useENS'
@@ -23,7 +23,7 @@ export function useSwapCallback(
 
   const deadline = useTransactionDeadline()
 
-  // const addTransaction = useTransactionAdder()
+  const addTransaction = useTransactionAdder()
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
@@ -46,31 +46,31 @@ export function useSwapCallback(
     }
     return () =>
       libCallback().then((response) => {
-        // addTransaction(
-        //   response,
-        //   trade.tradeType === TradeType.EXACT_INPUT
-        //     ? {
-        //         type: TransactionType.SWAP,
-        //         tradeType: TradeType.EXACT_INPUT,
-        //         inputCurrencyId: currencyId(trade.inputAmount.currency),
-        //         inputCurrencyAmountRaw: trade.inputAmount.quotient.toString(),
-        //         expectedOutputCurrencyAmountRaw: trade.outputAmount.quotient.toString(),
-        //         outputCurrencyId: currencyId(trade.outputAmount.currency),
-        //         minimumOutputCurrencyAmountRaw: trade.minimumAmountOut(allowedSlippage).quotient.toString(),
-        //       }
-        //     : {
-        //         type: TransactionType.SWAP,
-        //         tradeType: TradeType.EXACT_OUTPUT,
-        //         inputCurrencyId: currencyId(trade.inputAmount.currency),
-        //         maximumInputCurrencyAmountRaw: trade.maximumAmountIn(allowedSlippage).quotient.toString(),
-        //         outputCurrencyId: currencyId(trade.outputAmount.currency),
-        //         outputCurrencyAmountRaw: trade.outputAmount.quotient.toString(),
-        //         expectedInputCurrencyAmountRaw: trade.inputAmount.quotient.toString(),
-        //       }
-        // )
+        addTransaction(
+          response,
+          trade.tradeType === TradeType.EXACT_INPUT
+            ? {
+                type: TransactionType.SWAP,
+                tradeType: TradeType.EXACT_INPUT,
+                inputCurrencyId: currencyId(trade.inputAmount.currency),
+                inputCurrencyAmountRaw: trade.inputAmount.quotient.toString(),
+                expectedOutputCurrencyAmountRaw: trade.outputAmount.quotient.toString(),
+                outputCurrencyId: currencyId(trade.outputAmount.currency),
+                minimumOutputCurrencyAmountRaw: trade.minimumAmountOut(allowedSlippage).quotient.toString(),
+              }
+            : {
+                type: TransactionType.SWAP,
+                tradeType: TradeType.EXACT_OUTPUT,
+                inputCurrencyId: currencyId(trade.inputAmount.currency),
+                maximumInputCurrencyAmountRaw: trade.maximumAmountIn(allowedSlippage).quotient.toString(),
+                outputCurrencyId: currencyId(trade.outputAmount.currency),
+                outputCurrencyAmountRaw: trade.outputAmount.quotient.toString(),
+                expectedInputCurrencyAmountRaw: trade.inputAmount.quotient.toString(),
+              },
+        )
         return response.hash
       })
-  }, [allowedSlippage, libCallback, trade])
+  }, [allowedSlippage, addTransaction, libCallback, trade])
 
   return {
     state,

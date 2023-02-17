@@ -6,7 +6,10 @@ import { Button } from 'components/uikit'
 import { BigNumber } from 'ethers'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import { useCallback, useState } from 'react'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
+import { currencyId } from 'utils/currencyId'
 
 const Claim = ({
   currency0ForFeeCollectionPurposes,
@@ -23,6 +26,8 @@ const Claim = ({
 }) => {
   const { account, provider, chainId } = useWeb3React()
   const positionManager = useV3NFTPositionManagerContract()
+  const addTransaction = useTransactionAdder()
+
   const [claimPending, setClaimPending] = useState<boolean>(false)
   const onClaim = useCallback(() => {
     if (
@@ -80,13 +85,13 @@ const Claim = ({
             //   label: [currency0ForFeeCollectionPurposes.symbol, currency1ForFeeCollectionPurposes.symbol].join('/'),
             // })
 
-            // addTransaction(response, {
-            //   type: TransactionType.COLLECT_FEES,
-            //   currencyId0: currencyId(currency0ForFeeCollectionPurposes),
-            //   currencyId1: currencyId(currency1ForFeeCollectionPurposes),
-            //   expectedCurrencyOwed0: CurrencyAmount.fromRawAmount(currency0ForFeeCollectionPurposes, 0).toExact(),
-            //   expectedCurrencyOwed1: CurrencyAmount.fromRawAmount(currency1ForFeeCollectionPurposes, 0).toExact(),
-            // })
+            addTransaction(response, {
+              type: TransactionType.COLLECT_FEES,
+              currencyId0: currencyId(currency0ForFeeCollectionPurposes),
+              currencyId1: currencyId(currency1ForFeeCollectionPurposes),
+              expectedCurrencyOwed0: CurrencyAmount.fromRawAmount(currency0ForFeeCollectionPurposes, 0).toExact(),
+              expectedCurrencyOwed1: CurrencyAmount.fromRawAmount(currency1ForFeeCollectionPurposes, 0).toExact(),
+            })
           })
       })
       .catch((error) => {
@@ -100,9 +105,9 @@ const Claim = ({
     currency0ForFeeCollectionPurposes,
     currency1ForFeeCollectionPurposes,
     positionManager,
+    addTransaction,
     account,
     tokenId,
-    // addTransaction,
     provider,
   ])
 

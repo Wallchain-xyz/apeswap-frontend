@@ -6,6 +6,7 @@ const MISSING_PROVIDER = Symbol()
 const BlockNumberContext = createContext<
   | {
       value?: number
+      fastForward(block: number): void
     }
   | typeof MISSING_PROVIDER
 >(MISSING_PROVIDER)
@@ -23,12 +24,13 @@ export default function useBlockNumber(): number | undefined {
   return useBlockNumberContext().value
 }
 
+export function useFastForwardBlockNumber(): (block: number) => void {
+  return useBlockNumberContext().fastForward
+}
+
 export function BlockNumberProvider({ children }: { children: ReactNode }) {
   const { chainId: activeChainId, provider } = useWeb3React()
-  const [{ chainId, block }, setChainBlock] = useState<{
-    chainId?: number
-    block?: number
-  }>({ chainId: activeChainId })
+  const [{ chainId, block }, setChainBlock] = useState<{ chainId?: number; block?: number }>({ chainId: activeChainId })
 
   const onBlock = useCallback(
     (block: number) => {
@@ -71,7 +73,16 @@ export function BlockNumberProvider({ children }: { children: ReactNode }) {
     return void 0
   }, [activeChainId, provider, onBlock, setChainBlock, windowVisible])
 
-  const blockValue = useMemo(() => (chainId === activeChainId ? block : undefined), [activeChainId, block, chainId])
-  const value = useMemo(() => ({ value: blockValue }), [blockValue])
+  const value = useMemo(
+    () => ({
+      value: chainId === activeChainId ? block : undefined,
+      fastForward: (update: number) => {
+        if (block && update > block) {
+          setChainBlock({ chainId: activeChainId, block: update })
+        }
+      },
+    }),
+    [activeChainId, block, chainId],
+  )
   return <BlockNumberContext.Provider value={value}>{children}</BlockNumberContext.Provider>
 }

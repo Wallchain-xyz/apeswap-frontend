@@ -15,7 +15,7 @@ const styles: Record<
 > = {
   container: {
     position: 'fixed',
-    zIndex: 999,
+    zIndex: 99,
     padding: '0px 25px',
     alignContent: 'center',
     justifyContent: 'space-between',

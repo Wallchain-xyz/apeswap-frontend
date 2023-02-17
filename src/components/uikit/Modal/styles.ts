@@ -24,7 +24,7 @@ const styles: Record<string, ThemeUIStyleObject> = {
     background: 'modalOverlay',
     width: '100%',
     height: '100%',
-    zIndex: '9',
+    zIndex: 100,
     transition: 'all 1s ease',
   },
   modalHead: {

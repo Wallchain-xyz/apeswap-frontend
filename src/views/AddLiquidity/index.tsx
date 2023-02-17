@@ -164,6 +164,7 @@ const AddLiquidity = ({
           otherCurrency={currencies[Field.CURRENCY_A] ?? null}
         />
         <Actions
+          parsedAmounts={parsedAmounts}
           positionManager={positionManager}
           baseCurrency={currencies[Field.CURRENCY_A]}
           quoteCurrency={currencies[Field.CURRENCY_B]}

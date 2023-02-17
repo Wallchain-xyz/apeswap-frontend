@@ -3,16 +3,21 @@ import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/address
 import type { TransactionResponse } from '@ethersproject/providers'
 import { useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
-import { Currency, Percent } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { ZERO_PERCENT } from 'config/constants/misc'
 import { Button } from 'components/uikit'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
+import { currencyId } from 'utils/currencyId'
+import { Field } from 'state/mint/v3/actions'
 
 const DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
 const Add = ({
+  parsedAmounts,
   positionManager,
   baseCurrency,
   quoteCurrency,
@@ -22,6 +27,10 @@ const Add = ({
   noLiquidity,
   tokenId,
 }: {
+  parsedAmounts: {
+    CURRENCY_A?: CurrencyAmount<Currency> | undefined
+    CURRENCY_B?: CurrencyAmount<Currency> | undefined
+  }
   positionManager: NonfungiblePositionManager | null
   baseCurrency: Currency | null | undefined
   quoteCurrency: Currency | null | undefined
@@ -35,6 +44,8 @@ const Add = ({
   const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
   const { chainId, provider, account } = useWeb3React()
+  const addTransaction = useTransactionAdder()
+
   const allowedSlippage = useUserSlippageToleranceWithDefault(
     outOfRange ? ZERO_PERCENT : DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE,
   )
@@ -112,15 +123,15 @@ const Add = ({
             .sendTransaction(newTxn)
             .then((response: TransactionResponse) => {
               setAttemptingTxn(false)
-              //   addTransaction(response, {
-              //     type: TransactionType.ADD_LIQUIDITY_V3_POOL,
-              //     baseCurrencyId: currencyId(baseCurrency),
-              //     quoteCurrencyId: currencyId(quoteCurrency),
-              //     createPool: Boolean(noLiquidity),
-              //     expectedAmountBaseRaw: parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
-              //     expectedAmountQuoteRaw: parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
-              //     feeAmount: position.pool.fee,
-              //   })
+              addTransaction(response, {
+                type: TransactionType.ADD_LIQUIDITY_V3_POOL,
+                baseCurrencyId: currencyId(baseCurrency),
+                quoteCurrencyId: currencyId(quoteCurrency),
+                createPool: Boolean(noLiquidity),
+                expectedAmountBaseRaw: parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
+                expectedAmountQuoteRaw: parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
+                feeAmount: position.pool.fee,
+              })
               setTxHash(response.hash)
               //   sendEvent({
               //     category: 'Liquidity',

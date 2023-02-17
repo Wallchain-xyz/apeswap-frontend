@@ -191,6 +191,7 @@ const IncreaseLiquidity = ({
         />
       </Flex>
       <Add
+        parsedAmounts={parsedAmounts}
         positionManager={positionManager}
         baseCurrency={currencies[Field.CURRENCY_A]}
         quoteCurrency={currencies[Field.CURRENCY_B]}
