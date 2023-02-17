@@ -1,4 +1,4 @@
-import { Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import DexPanel from 'components/DexPanel'
@@ -13,6 +13,7 @@ import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/formatNumbers'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { supportedChainId } from 'utils/supportedChainId'
 import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
@@ -129,6 +130,12 @@ const Swap = () => {
     [dependentField, independentField, parsedAmounts, showWrap, typedValue],
   )
 
+  const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
+    () => maxAmountSpend(currencyBalances[Field.INPUT]),
+    [currencyBalances],
+  )
+  const showMaxButton = Boolean(maxInputAmount?.greaterThan(0) && !parsedAmounts[Field.INPUT]?.equalTo(maxInputAmount))
+
   // const stablecoinPriceImpact = useMemo(
   //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
   //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
@@ -143,6 +150,7 @@ const Swap = () => {
         panelText="From"
         onCurrencySelect={(currency) => onCurrencySelection(Field.INPUT, currency)}
         onUserInput={(val) => onUserInput(Field.INPUT, val)}
+        handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
         value={formattedAmounts[Field.INPUT]}
         currency={currencies[Field.INPUT]}
         otherCurrency={currencies[Field.OUTPUT]}
@@ -174,5 +182,4 @@ const Swap = () => {
     </Flex>
   )
 }
-
 export default Swap

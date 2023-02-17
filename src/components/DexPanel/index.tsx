@@ -109,6 +109,7 @@ const DexPanel = ({
                 //   : usdVal * parseFloat(value)
                 // ).toFixed(2)}`}
 
+                
                 `$${(parseFloat(usdVal?.toExact() ?? '0') * parseFloat(value)).toFixed(2)}`}
             </Text>
           )}
@@ -119,17 +120,13 @@ const DexPanel = ({
               {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
               {/* {!currencyBalance && <Dots />} */}
             </Text>
-            {/* {(fieldType === Field.INPUT ||
-              fieldType === MintField.CURRENCY_A ||
-              fieldType === MintField.CURRENCY_B ||
-              isRemoveLiquidity) &&
-              parseFloat(currencyBalance) > 0 && (
-                <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
-                  <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
-                    {t('MAX')}
-                  </Text>
-                </Flex>
-              )} */}
+            {parseFloat(currencyBalance) > 0 && handleMaxInput && (
+              <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
+                <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
+                  {t('MAX')}
+                </Text>
+              </Flex>
+            )}
           </Flex>
         )}
       </Flex>
@@ -138,3 +135,4 @@ const DexPanel = ({
 }
 
 export default React.memo(DexPanel)
+
