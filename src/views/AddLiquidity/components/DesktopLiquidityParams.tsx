@@ -30,7 +30,7 @@ const DesktopLiquidityParams = ({
         onHandleFeeSelect={onHandleFeeSelect}
       />
       <LiquidityChart
-        id="mobileLiquidityChart"
+        id="desktopLiquidityChart"
         currencyA={currencyA ?? undefined}
         currencyB={currencyB ?? undefined}
         feeAmount={feeAmount}

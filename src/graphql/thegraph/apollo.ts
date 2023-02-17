@@ -8,21 +8,20 @@ const CHAIN_SUBGRAPH_URL: Record<number, string> = {
   [SupportedChainId.POLYGON]: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
 }
 
-const httpLink = new HttpLink({ uri: CHAIN_SUBGRAPH_URL[SupportedChainId.MAINNET] })
+const httpLink = new HttpLink({ uri: CHAIN_SUBGRAPH_URL[SupportedChainId.POLYGON] })
 
 // This middleware will allow us to dynamically update the uri for the requests based off chainId
 // For more information: https://www.apollographql.com/docs/react/networking/advanced-http-networking/
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
   // TODO: Add applciation chainId
-  // const chainId = (store.getState() as AppState).application.chainId
+  const chainId = (store.getState() as AppState).application.chainId
 
-  const chainId = 137
   operation.setContext(() => ({
     uri:
       chainId && CHAIN_SUBGRAPH_URL[chainId]
         ? CHAIN_SUBGRAPH_URL[chainId]
-        : CHAIN_SUBGRAPH_URL[SupportedChainId.MAINNET],
+        : CHAIN_SUBGRAPH_URL[SupportedChainId.POLYGON],
   }))
 
   return forward(operation)

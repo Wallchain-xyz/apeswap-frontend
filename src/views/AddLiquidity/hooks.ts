@@ -50,24 +50,12 @@ export const useHandleCurrencyBSelect = ({
   )
 }
 
-export const useHandleFeeSelect = ({
-  currencyIdA,
-  currencyIdB,
-  onLeftRangeInput,
-  onRightRangeInput,
-}: {
-  currencyIdA: string
-  currencyIdB: string
-  onLeftRangeInput: (input: string) => void
-  onRightRangeInput: (input: string) => void
-}) => {
+export const useHandleFeeSelect = ({ currencyIdA, currencyIdB }: { currencyIdA: string; currencyIdB: string }) => {
   const { push } = useRouter()
   return useCallback(
     (newFeeAmount: FeeAmount) => {
-      onLeftRangeInput('')
-      onRightRangeInput('')
-      push(`/add-liquidity/${currencyIdA}/${currencyIdB}/${newFeeAmount}`)
+      push(`/add-liquidity/${currencyIdA}/${currencyIdB}/${newFeeAmount}`, undefined, { shallow: true })
     },
-    [currencyIdA, currencyIdB, push, onLeftRangeInput, onRightRangeInput],
+    [currencyIdA, currencyIdB, push],
   )
 }

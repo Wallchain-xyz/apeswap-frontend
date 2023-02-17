@@ -3,7 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query/react'
 import multicall from 'lib/state/multicall'
 import { load, save } from 'redux-localstorage-simple'
 // import { isTestEnv } from 'utils/env'
-// import application from './application/reducer'
+import application from './application/reducer'
 import burn from './burn/v2/reducer'
 import burnV3 from './burn/v3/reducer'
 // import connection from './connection/reducer'
@@ -22,7 +22,7 @@ const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
 const store = configureStore({
   reducer: {
-    // application,
+    application,
     user,
     // connection,
     transactions,

@@ -109,6 +109,8 @@ const LiquidityChart = ({
     [isSorted, onLeftRangeInput, onRightRangeInput, ticksAtLimit],
   )
 
+  interactive = interactive && Boolean(formattedData?.length)
+
   const brushLabelValue = useCallback(
     (d: 'w' | 'e', x: number) => {
       if (!price) return ''
