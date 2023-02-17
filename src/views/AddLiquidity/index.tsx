@@ -171,6 +171,8 @@ const AddLiquidity = ({
           position={position}
           outOfRange={outOfRange}
           noLiquidity={noLiquidity}
+          errorMessage={errorMessage}
+          invalidRange={invalidRange}
         />
       </Flex>
       <DesktopLiquidityParams
