@@ -12,7 +12,7 @@ const styles: Record<'subContainer' | 'positionCardContainer', ThemeUIStyleObjec
     padding: '7.5px 10px',
   },
   positionCardContainer: {
-    height: '80px',
+    minHeight: '80px',
     background: 'white3',
     borderRadius: '10px',
     justifyContent: 'center',

@@ -1,7 +1,5 @@
-import { Currency, CurrencyAmount, Price, Token } from '@ape.swap/sdk-core'
-import { BigNumber } from 'ethers'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import { useSingleCallResult } from 'lib/hooks/multicall'
-import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { usePriceGetter } from './useContract'
 
 const useTokenPriceUsd = (token: Currency | undefined): [CurrencyAmount<Currency> | null, boolean] => {

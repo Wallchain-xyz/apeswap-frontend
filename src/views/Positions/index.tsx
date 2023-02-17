@@ -1,12 +1,13 @@
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
-import { Flex } from 'components/uikit'
+import { Flex, Text } from 'components/uikit'
 import { BigNumber } from 'ethers'
 import { useV3PositionFromTokenId, useV3Positions } from 'hooks/useV3Positions'
 import { PositionDetails } from 'lib/types/position'
 import { useCallback, useState } from 'react'
 import { useUserHideClosedPositions } from 'state/user/hooks'
+import { Switch } from 'theme-ui'
 import PositionCard from './components/PositionCard'
 import PositionDetailsPage from './components/PositionDetailsPage'
 
@@ -36,18 +37,31 @@ const Positions = () => {
       <Flex variant="flex.dexContainer">
         <DexNav />
         <V3LiquiditySubNav />
-        {filteredPositions?.map((position) => {
-          return (
-            <PositionCard
-              key={position.tokenId.toString()}
-              positionItem={position}
-              selectedTokenId={selectedTokenId}
-              handleSelectedTokenId={handleSelectedTokenId}
+        <Flex sx={{ justifyContent: 'flex-end', width: '100%', mb: '5px' }}>
+          <Flex sx={{ alignItems: 'center' }}>
+            <Text mr="5px" sx={{ minWidth: 'fit-content' }}>
+              Hide closed positions{' '}
+            </Text>
+            <Switch
+              checked={userHideClosedPositions}
+              onChange={() => setUserHideClosedPositions(!userHideClosedPositions)}
             />
-          )
-        })}
+          </Flex>
+        </Flex>
+        <Flex sx={{ overflowY: 'scroll', height: '481px', flexDirection: 'column', padding: '0px 4px' }}>
+          {filteredPositions?.map((position) => {
+            return (
+              <PositionCard
+                key={position.tokenId.toString()}
+                positionItem={position}
+                selectedTokenId={selectedTokenId}
+                handleSelectedTokenId={handleSelectedTokenId}
+              />
+            )
+          })}
+        </Flex>
       </Flex>
-      <PositionDetailsPage selectedTokenId={selectedTokenId} />
+      {selectedTokenId && <PositionDetailsPage selectedTokenId={selectedTokenId} />}
     </Flex>
   )
 }
