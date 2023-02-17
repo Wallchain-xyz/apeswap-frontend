@@ -42,9 +42,9 @@ const Actions = ({
     <Flex sx={{ mt: '10px' }}>
       {!account ? (
         <ConnectWalletButton />
-      ) : swapInputError ? (
+      ) : swapInputError || tradeState === TradeState.NO_ROUTE_FOUND ? (
         <Button fullWidth disabled>
-          {swapInputError}
+          {tradeState === TradeState.NO_ROUTE_FOUND ? 'No Route Found' : swapInputError}
         </Button>
       ) : showApproveFlow ? (
         <Approval
@@ -54,7 +54,7 @@ const Actions = ({
         />
       ) : (
         <Swap
-        tradeState={tradeState}
+          tradeState={tradeState}
           trade={trade}
           allowedSlippage={allowedSlippage}
           signatureData={signatureData}

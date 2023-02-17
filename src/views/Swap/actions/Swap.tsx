@@ -105,7 +105,12 @@ const Swap = ({
     <Button
       fullWidth
       onClick={handleSwap}
-      disabled={tradeState === TradeState.LOADING || tradeState === TradeState.SYNCING}
+      disabled={
+        tradeState === TradeState.LOADING ||
+        tradeState === TradeState.SYNCING ||
+        tradeState === TradeState.INVALID ||
+        tradeState === TradeState.NO_ROUTE_FOUND
+      }
     >
       Swap
     </Button>
