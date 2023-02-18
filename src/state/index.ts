@@ -9,7 +9,6 @@ import burnV3 from './burn/v3/reducer'
 // import connection from './connection/reducer'
 import { updateVersion } from './global/actions'
 import lists from './lists/reducer'
-// import logs from './logs/slice'
 import mint from './mint/v2/reducer'
 import mintV3 from './mint/v3/reducer'
 import { routingApi } from './routing/slice'
@@ -34,7 +33,6 @@ const store = configureStore({
     burnV3,
     multicall: multicall.reducer,
     lists,
-    // logs,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

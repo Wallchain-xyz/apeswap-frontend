@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import type { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers'
 import { Trade } from '@ape.swap/router-sdk'
-import { Currency, TradeType } from '@uniswap/sdk-core'
+import { Currency, TradeType } from '@ape.swap/sdk-core'
 import { useMemo } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import isZero from 'utils/isZero'

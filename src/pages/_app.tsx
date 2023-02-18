@@ -11,6 +11,7 @@ import Web3Provider from 'contexts/Web3Provider'
 import { MatchBreakpointsProvider } from 'contexts/MatchBreakpoints'
 import ListsUpdater from 'state/lists/updater'
 import TransactionUpdater from 'state/transactions/updater'
+import ApplicationUpdater from 'state/application/updater'
 import { MulticallUpdater } from 'lib/state/multicall'
 import { BlockNumberProvider } from 'lib/hooks/useBlockNumber'
 
@@ -21,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ListsUpdater />
         <MulticallUpdater />
         <TransactionUpdater />
+        <ApplicationUpdater />
       </>
     )
   }

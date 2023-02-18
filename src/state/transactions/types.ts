@@ -1,4 +1,4 @@
-import { TradeType } from '@uniswap/sdk-core'
+import { TradeType } from '@ape.swap/sdk-core'
 
 export interface SerializableTransactionReceipt {
   to: string

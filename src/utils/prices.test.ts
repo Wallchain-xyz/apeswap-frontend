@@ -1,5 +1,5 @@
 import { Trade } from '@ape.swap/router-sdk'
-import { CurrencyAmount, Percent, Token, TradeType } from '@uniswap/sdk-core'
+import { CurrencyAmount, Percent, Token, TradeType } from '@ape.swap/sdk-core'
 import { Pair, Route as V2Route } from '@ape.swap/v2-sdk'
 import { FeeAmount, Pool, Route as V3Route } from '@ape.swap/v3-sdk'
 import JSBI from 'jsbi'
