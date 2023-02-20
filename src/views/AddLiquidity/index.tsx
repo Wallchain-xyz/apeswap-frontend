@@ -169,6 +169,7 @@ const AddLiquidity = ({
           handleMaxInput={() => {
             onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
           }}
+          locked={depositADisabled}
         />
         {/* <SwapSwitchButton onClick={onSwitchTokens} /> */}
         <Flex sx={{ mt: '20px' }} />
@@ -181,6 +182,7 @@ const AddLiquidity = ({
           handleMaxInput={() => {
             onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
           }}
+          locked={depositBDisabled}
         />
         <Actions
           parsedAmounts={parsedAmounts}

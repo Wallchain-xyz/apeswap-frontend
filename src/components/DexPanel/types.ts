@@ -22,4 +22,5 @@ export interface DexPanelProps {
   disableTokenSelect?: boolean
   isZapInput?: boolean
   userBalance?: number
+  locked?: boolean
 }

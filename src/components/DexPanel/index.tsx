@@ -40,6 +40,7 @@ const DexPanel = ({
   showCommonBases = false,
   isZapInput,
   userBalance,
+  locked,
 }: DexPanelProps) => {
   const { chainId, account } = useWeb3React()
   // const isRemoveLiquidity = !!lpPair
@@ -65,6 +66,22 @@ const DexPanel = ({
 
   return (
     <Flex sx={styles.dexPanelContainer}>
+      {locked && (
+        <Flex
+          sx={{
+            zIndex: 10,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'white3',
+            opacity: 0.7,
+            borderRadius: '10px',
+            cursor: 'not-allowed',
+          }}
+        />
+      )}
       <Flex sx={styles.panelTopContainer}>
         <Text sx={styles.swapDirectionText}>{panelText}</Text>
         <NumericInput onUserInput={onUserInput} value={value} />
@@ -109,7 +126,6 @@ const DexPanel = ({
                 //   : usdVal * parseFloat(value)
                 // ).toFixed(2)}`}
 
-                
                 `$${(parseFloat(usdVal?.toExact() ?? '0') * parseFloat(value)).toFixed(2)}`}
             </Text>
           )}
@@ -135,4 +151,3 @@ const DexPanel = ({
 }
 
 export default React.memo(DexPanel)
-
