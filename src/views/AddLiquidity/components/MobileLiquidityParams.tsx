@@ -3,6 +3,7 @@ import TokenSelector from 'components/TokenSelector'
 import { Flex, Text } from 'components/uikit'
 import FeeSelector from './FeeSelector'
 import LiquidityChart from './LiquidityChart'
+import NewPool from './NewPool'
 import RangeSelector from './RangeSelectors'
 import { MOBILE_DISPLAY } from './styles'
 import { LiquidityParamsInterface } from './types'
@@ -20,6 +21,8 @@ const MobileLiquidityParams = ({
   priceLower,
   priceUpper,
   ticksAtLimit,
+  noLiquidity,
+  startPriceTypedValue,
   getDecrementLower,
   getIncrementLower,
   getDecrementUpper,
@@ -29,6 +32,7 @@ const MobileLiquidityParams = ({
   onRightRangeInput,
   handleCurrencyASelect,
   handleCurrencyBSelect,
+  onStartPriceInput,
 }: MobileParamsInterface) => {
   return (
     <Flex sx={{ flexDirection: 'column', display: MOBILE_DISPLAY }}>
@@ -54,19 +58,28 @@ const MobileLiquidityParams = ({
         currencyB={currencyB}
         onHandleFeeSelect={onHandleFeeSelect}
       />
-      <LiquidityChart
-        id="mobileLiquidityChart"
-        currencyA={currencyA ?? undefined}
-        currencyB={currencyB ?? undefined}
-        feeAmount={feeAmount}
-        ticksAtLimit={ticksAtLimit}
-        price={price}
-        priceLower={priceLower}
-        priceUpper={priceUpper}
-        onLeftRangeInput={onLeftRangeInput}
-        onRightRangeInput={onRightRangeInput}
-        interactive={true}
-      />
+      {noLiquidity ? (
+        <NewPool
+          startPriceTypedValue={startPriceTypedValue}
+          currencyA={currencyA}
+          currencyB={currencyB}
+          onStartPriceInput={onStartPriceInput}
+        />
+      ) : (
+        <LiquidityChart
+          id="mobileLiquidityChart"
+          currencyA={currencyA ?? undefined}
+          currencyB={currencyB ?? undefined}
+          feeAmount={feeAmount}
+          ticksAtLimit={ticksAtLimit}
+          price={price}
+          priceLower={priceLower}
+          priceUpper={priceUpper}
+          onLeftRangeInput={onLeftRangeInput}
+          onRightRangeInput={onRightRangeInput}
+          interactive={true}
+        />
+      )}
       <RangeSelector
         priceLower={priceLower}
         priceUpper={priceUpper}

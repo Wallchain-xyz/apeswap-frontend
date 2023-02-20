@@ -83,11 +83,18 @@ const FeeSelector = ({
             {feeAmount && FEE_AMOUNT_DETAIL[feeAmount].label}% fee tier
           </Text>
           <Text size="10px" weight={500} sx={{ lineHeight: '15px' }}>
-            {distributions && feeAmount && distributions[feeAmount]?.toFixed(0)}% Selected
+            {feeAmount &&
+              (!distributions ||
+              poolsByFeeTier[feeAmount] === PoolState.NOT_EXISTS ||
+              poolsByFeeTier[feeAmount] === PoolState.INVALID
+                ? 'Not created'
+                : `${distributions && distributions[feeAmount]?.toFixed(0)}% Selected `)}
           </Text>
         </Flex>
         <Button size="sm" onClick={() => setHide((prev) => !prev)} sx={{ padding: '2px 10px', height: '30px' }}>
-          <Text color='primaryBright' sx={{ lineHeight: '20px' }}>{hide ? 'Edit' : 'Hide'}</Text>
+          <Text color="primaryBright" sx={{ lineHeight: '20px' }}>
+            {hide ? 'Edit' : 'Hide'}
+          </Text>
         </Button>
       </Flex>
       <AnimatePresence>

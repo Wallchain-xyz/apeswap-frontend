@@ -92,6 +92,7 @@ const Chart = ({
           height: '160px',
           paddingBottom: '10px',
           borderRadius: '10px',
+          overflow: 'hidden',
         }}
       >
         <svg sx={{ overflow: 'visible' }} width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>

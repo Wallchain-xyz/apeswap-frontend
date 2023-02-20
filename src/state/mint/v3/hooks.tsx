@@ -64,9 +64,7 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onLeftRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeLeftRangeInput({ typedValue }))
-      console.log(typedValue)
-      console.log('THIS IS THE VALUE COMING IN LEFT')
-      push({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
+      // push({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
     },
     [dispatch, push, query],
   )
@@ -74,9 +72,7 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onRightRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeRightRangeInput({ typedValue }))
-      console.log(typedValue)
-      console.log('THIS IS THE VALUE COMING IN RIGHT')
-      push({ query: { ...query, maxPrice: typedValue } }, undefined, { shallow: true })
+      // push({ query: { ...query, maxPrice: typedValue } }, undefined, { shallow: true })
     },
     [dispatch, push, query],
   )

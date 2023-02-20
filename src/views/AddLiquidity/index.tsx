@@ -90,7 +90,7 @@ const AddLiquidity = ({
 
   const handleCurrencyASelect = useHandleCurrencyASelect({ currencyIdB, currencyIdA })
   const handleCurrencyBSelect = useHandleCurrencyBSelect({ currencyIdA, currencyIdB })
-  const handleFeeSelect = useHandleFeeSelect({ currencyIdA, currencyIdB })
+  const handleFeeSelect = useHandleFeeSelect({ currencyIdA, currencyIdB, onLeftRangeInput, onRightRangeInput })
 
   // get value and prices at ticks
   const { [Bound.LOWER]: tickLower, [Bound.UPPER]: tickUpper } = ticks
@@ -123,18 +123,28 @@ const AddLiquidity = ({
     useRangeHopCallbacks(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, tickLower, tickUpper, pool)
 
   useEffect(() => {
-    if (query.minPrice && typeof query.minPrice === 'string' && !leftRangeTypedValue && !isNaN(query.minPrice as any)) {
+    if (
+      query.minPrice &&
+      typeof query.minPrice === 'string' &&
+      query.minPrice !== leftRangeTypedValue &&
+      !isNaN(query.minPrice as any)
+    ) {
       onLeftRangeInput(query.minPrice)
     }
+
     if (
       query.maxPrice &&
       typeof query.maxPrice === 'string' &&
-      !rightRangeTypedValue &&
+      query.maxPrice !== rightRangeTypedValue &&
       !isNaN(query.maxPrice as any)
     ) {
       onRightRangeInput(query.maxPrice)
     }
   }, [query, rightRangeTypedValue, leftRangeTypedValue, onRightRangeInput, onLeftRangeInput])
+
+  useEffect(() => {
+    noLiquidity && (onRightRangeInput(''), onLeftRangeInput(''))
+  }, [noLiquidity, onRightRangeInput, onLeftRangeInput])
 
   return (
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
@@ -149,6 +159,8 @@ const AddLiquidity = ({
           priceLower={priceLower}
           priceUpper={priceUpper}
           ticksAtLimit={ticksAtLimit}
+          noLiquidity={noLiquidity}
+          startPriceTypedValue={startPriceTypedValue}
           getDecrementLower={getDecrementLower}
           getIncrementLower={getIncrementLower}
           getDecrementUpper={getDecrementUpper}
@@ -158,6 +170,7 @@ const AddLiquidity = ({
           onRightRangeInput={onRightRangeInput}
           handleCurrencyASelect={handleCurrencyASelect}
           handleCurrencyBSelect={handleCurrencyBSelect}
+          onStartPriceInput={onStartPriceInput}
         />
         <Flex sx={{ mt: ['20px', '20px', '20px', '20px', '20px', '0px'] }} />
         <DexPanel
@@ -204,6 +217,8 @@ const AddLiquidity = ({
         priceLower={priceLower}
         priceUpper={priceUpper}
         ticksAtLimit={ticksAtLimit}
+        noLiquidity={noLiquidity}
+        startPriceTypedValue={startPriceTypedValue}
         getDecrementLower={getDecrementLower}
         getIncrementLower={getIncrementLower}
         getDecrementUpper={getDecrementUpper}
@@ -211,6 +226,7 @@ const AddLiquidity = ({
         onHandleFeeSelect={handleFeeSelect}
         onLeftRangeInput={onLeftRangeInput}
         onRightRangeInput={onRightRangeInput}
+        onStartPriceInput={onStartPriceInput}
       />
     </Flex>
   )
