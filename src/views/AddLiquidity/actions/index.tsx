@@ -1,4 +1,4 @@
-import { Button, Flex } from 'components/uikit'
+import { Button, Flex, Svg, Text } from 'components/uikit'
 import Add from './Add'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { AddInterface } from './types'
@@ -12,7 +12,7 @@ interface ActionsInterface extends AddInterface {}
 
 const Actions = (props: ActionsInterface) => {
   const { chainId, account } = useWeb3React()
-  const { parsedAmounts, errorMessage, invalidRange } = props
+  const { parsedAmounts, errorMessage, invalidRange, outOfRange } = props
 
   const isValid = !errorMessage && !invalidRange
 
@@ -31,12 +31,27 @@ const Actions = (props: ActionsInterface) => {
 
   console.log(approvalA, approvalB, isValid)
   return (
-    <Flex sx={{ mt: '10px' }}>
+    <Flex sx={{ mt: '10px', flexDirection: 'column' }}>
+      {(outOfRange || invalidRange) && (
+        <Flex sx={{ borderRadius: '10px', background: 'opacityBadge', padding: '5px 10px', mb: '10px' }}>
+          <Svg icon="info" color="primaryBright" />
+          {invalidRange && (
+            <Text size="14px" sx={{ lineHeight: '20px', ml: '15px' }}>
+              Invalid range selected. The min price must be lower than the max price.
+            </Text>
+          )}
+          {outOfRange && (
+            <Text size="14px" color="primaryBright" sx={{ lineHeight: '20px', ml: '15px' }}>
+              Your position will not earn fees or be used in trades until the market price moves into your range.
+            </Text>
+          )}
+        </Flex>
+      )}
       {!account ? (
         <ConnectWalletButton />
-      ) : errorMessage ? (
+      ) : errorMessage || invalidRange ? (
         <Button fullWidth disabled>
-          {errorMessage}
+          {invalidRange ? 'ADD' : errorMessage}
         </Button>
       ) : (approvalA === ApprovalState.NOT_APPROVED ||
           approvalA === ApprovalState.PENDING ||

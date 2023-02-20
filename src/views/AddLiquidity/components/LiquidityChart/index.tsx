@@ -122,7 +122,7 @@ const LiquidityChart = ({
 
       return price ? `${format(Math.abs(percent) > 1 ? '.2~s' : '.2~f')(percent)}%` : ''
     },
-    [isSorted, price, ticksAtLimit],
+    [isSorted, price, ticksAtLimit]
   )
 
   const brushDomain: [number, number] | undefined = useMemo(() => {
@@ -137,23 +137,14 @@ const LiquidityChart = ({
   // TODO: Figure out token colros
 
   return (
-    <Flex
-      sx={{
-        position: 'relative',
-        mb: '20px',
-        width: '100%',
-        background: 'white3',
-        height: '180px',
-        borderRadius: '10px',
-      }}
-    >
+    <Flex>
       {!formattedData || formattedData.length === 0 || !price ? (
         <></>
       ) : (
         <Chart
           id={id}
           data={{ series: formattedData, current: price }}
-          dimensions={{ width: 800, height: 235 }}
+          dimensions={{ width: 700, height: 170 }}
           margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
           styles={{
             area: {

@@ -64,6 +64,8 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onLeftRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeLeftRangeInput({ typedValue }))
+      console.log(typedValue)
+      console.log('THIS IS THE VALUE COMING IN LEFT')
       push({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
     },
     [dispatch, push, query],
@@ -72,6 +74,8 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onRightRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeRightRangeInput({ typedValue }))
+      console.log(typedValue)
+      console.log('THIS IS THE VALUE COMING IN RIGHT')
       push({ query: { ...query, maxPrice: typedValue } }, undefined, { shallow: true })
     },
     [dispatch, push, query],
@@ -163,6 +167,8 @@ export function useV3DerivedMintInfo(
 
   // pool
   const [poolState, pool] = usePool(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B], feeAmount)
+  console.log(pool)
+  console.log(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B], feeAmount)
   const noLiquidity = poolState === PoolState.NOT_EXISTS
 
   // note to parse inputs in reverse
@@ -232,6 +238,8 @@ export function useV3DerivedMintInfo(
     [feeAmount],
   )
 
+  console.log(tickSpaceLimits)
+
   // parse typed range values and determine closest ticks
   // lower should always be a smaller tick
   const ticks: {
@@ -283,6 +291,7 @@ export function useV3DerivedMintInfo(
 
   // always returns the price with 0 as base token
   // TODO: Figure out how to not use any here
+  console.log(ticks)
   const pricesAtTicks: any = useMemo(() => {
     return {
       [Bound.LOWER]: getTickToPrice(token0, token1, ticks[Bound.LOWER]),

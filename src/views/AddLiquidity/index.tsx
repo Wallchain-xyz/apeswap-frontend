@@ -21,6 +21,7 @@ import DesktopLiquidityParams from './components/DesktopLiquidityParams'
 import MobileLiquidityParams from './components/MobileLiquidityParams'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
+import SwapSwitchButton from 'views/Swap/components/SwapSwitchButton'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -76,6 +77,8 @@ const AddLiquidity = ({
     ticksAtLimit,
   } = useV3DerivedMintInfo(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, baseCurrency ?? undefined)
 
+  console.log(ticks)
+
   const { onFieldAInput, onFieldBInput, onLeftRangeInput, onRightRangeInput, onStartPriceInput } =
     useV3MintActionHandlers(noLiquidity)
 
@@ -88,20 +91,6 @@ const AddLiquidity = ({
   const handleCurrencyASelect = useHandleCurrencyASelect({ currencyIdB, currencyIdA })
   const handleCurrencyBSelect = useHandleCurrencyBSelect({ currencyIdA, currencyIdB })
   const handleFeeSelect = useHandleFeeSelect({ currencyIdA, currencyIdB })
-
-  useEffect(() => {
-    if (query.minPrice && typeof query.minPrice === 'string' && !leftRangeTypedValue && !isNaN(query.minPrice as any)) {
-      onLeftRangeInput(query.minPrice)
-    }
-    if (
-      query.maxPrice &&
-      typeof query.maxPrice === 'string' &&
-      !rightRangeTypedValue &&
-      !isNaN(query.maxPrice as any)
-    ) {
-      onRightRangeInput(query.maxPrice)
-    }
-  }, [query, rightRangeTypedValue, leftRangeTypedValue, onRightRangeInput, onLeftRangeInput])
 
   // get value and prices at ticks
   const { [Bound.LOWER]: tickLower, [Bound.UPPER]: tickUpper } = ticks
@@ -128,8 +117,24 @@ const AddLiquidity = ({
     {},
   )
 
+  console.log(ticks)
+
   const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper, getSetFullRange } =
     useRangeHopCallbacks(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, tickLower, tickUpper, pool)
+
+  useEffect(() => {
+    if (query.minPrice && typeof query.minPrice === 'string' && !leftRangeTypedValue && !isNaN(query.minPrice as any)) {
+      onLeftRangeInput(query.minPrice)
+    }
+    if (
+      query.maxPrice &&
+      typeof query.maxPrice === 'string' &&
+      !rightRangeTypedValue &&
+      !isNaN(query.maxPrice as any)
+    ) {
+      onRightRangeInput(query.maxPrice)
+    }
+  }, [query, rightRangeTypedValue, leftRangeTypedValue, onRightRangeInput, onLeftRangeInput])
 
   return (
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
@@ -165,6 +170,7 @@ const AddLiquidity = ({
             onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
           }}
         />
+        {/* <SwapSwitchButton onClick={onSwitchTokens} /> */}
         <Flex sx={{ mt: '20px' }} />
         <DexPanel
           onCurrencySelect={handleCurrencyBSelect}

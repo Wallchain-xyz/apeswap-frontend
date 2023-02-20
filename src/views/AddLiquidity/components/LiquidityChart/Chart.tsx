@@ -1,5 +1,4 @@
 import { max, scaleLinear, ZoomTransform } from 'd3'
-import { Chart as ChartJS, LinearScale, LineElement, Tooltip, Legend, CategoryScale, BarElement } from 'chart.js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChartEntry, LiquidityChartRangeInputProps } from './types'
 import { Area } from './Area'
@@ -8,8 +7,7 @@ import { Brush } from './Brush'
 import { AxisBottom } from './AxisBottom'
 import Zoom from './Zoom'
 import { Bound } from 'state/mint/v3/actions'
-import { Flex } from 'components/uikit'
-ChartJS.register(LinearScale, CategoryScale, LineElement, BarElement, Tooltip, Legend)
+import { Flex, Text } from 'components/uikit'
 
 const xAccessor = (d: ChartEntry) => d.price0
 const yAccessor = (d: ChartEntry) => d.activeLiquidity
@@ -53,6 +51,7 @@ const Chart = ({
 
     return scales
   }, [current, zoomLevels.initialMin, zoomLevels.initialMax, innerWidth, series, innerHeight, zoom])
+
   useEffect(() => {
     // reset zoom as necessary
     setZoom(null)
@@ -64,92 +63,105 @@ const Chart = ({
     }
   }, [brushDomain, onBrushDomainChange, xScale])
   return (
-    <Flex sx={{ transform: 'translate(0px, -10px)' }}>
-      <Zoom
-        svg={zoomRef.current}
-        xScale={xScale}
-        setZoom={setZoom}
-        width={innerWidth}
-        height={
-          // allow zooming inside the x-axis
-          height
-        }
-        resetBrush={() => {
-          onBrushDomainChange(
-            [current * zoomLevels.initialMin, current * zoomLevels.initialMax] as [number, number],
-            'reset',
-          )
+    <Flex sx={{ position: 'relative', flexDirection: 'column' }}>
+      <Flex sx={{ height: '20px', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text> Select Range </Text>
+        <Zoom
+          svg={zoomRef.current}
+          xScale={xScale}
+          setZoom={setZoom}
+          width={innerWidth}
+          height={height}
+          resetBrush={() => {
+            onBrushDomainChange(
+              [current * zoomLevels.initialMin, current * zoomLevels.initialMax] as [number, number],
+              'reset',
+            )
+          }}
+          showResetButton // ={Boolean(ticksAtLimit[Bound.LOWER] || ticksAtLimit[Bound.UPPER])}
+          zoomLevels={zoomLevels}
+        />
+      </Flex>
+      <Flex
+        sx={{
+          position: 'relative',
+          mb: '20px',
+          mt: '10px',
+          width: '100%',
+          background: 'white3',
+          height: '160px',
+          paddingBottom: '10px',
+          borderRadius: '10px',
         }}
-        showResetButton={Boolean(ticksAtLimit[Bound.LOWER] || ticksAtLimit[Bound.UPPER])}
-        zoomLevels={zoomLevels}
-      />
-      <svg sx={{ overflow: 'visible' }} width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
-        <defs>
-          <clipPath id={`${id}-chart-clip`}>
-            <rect x="0" y="0" width={innerWidth} height={height} />
-          </clipPath>
-          {brushDomain && (
-            // mask to highlight selected area
-            <mask id={`${id}-chart-area-mask`}>
-              <rect
-                fill="white"
-                x={xScale(brushDomain[0])}
-                y="0"
-                width={xScale(brushDomain[1]) - xScale(brushDomain[0])}
-                height={innerHeight}
-              />
-            </mask>
-          )}
-        </defs>
-        <g transform={`translate(${margins.left},${margins.top})`} sx={{ border: '1px solid red' }}>
-          <g clipPath={`url(#${id}-chart-clip)`}>
-            <Area series={series} xScale={xScale} yScale={yScale} xValue={xAccessor} yValue={yAccessor} />
-
+      >
+        <svg sx={{ overflow: 'visible' }} width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+          <defs>
+            <clipPath id={`${id}-chart-clip`}>
+              <rect x="0" y="0" width={innerWidth} height={height} />
+            </clipPath>
             {brushDomain && (
-              // duplicate area chart with mask for selected area
-              <g mask={`url(#${id}-chart-area-mask)`}>
-                <Area
-                  series={series}
-                  xScale={xScale}
-                  yScale={yScale}
-                  xValue={xAccessor}
-                  yValue={yAccessor}
-                  fill={styles.area.selection}
+              // mask to highlight selected area
+              <mask id={`${id}-chart-area-mask`}>
+                <rect
+                  fill="white"
+                  x={xScale(brushDomain[0])}
+                  y="0"
+                  width={xScale(brushDomain[1]) - xScale(brushDomain[0])}
+                  height={innerHeight}
                 />
-              </g>
+              </mask>
             )}
-            <Line value={current} xScale={xScale} innerHeight={innerHeight} />
+          </defs>
+          <g transform={`translate(${margins.left},${margins.top})`} sx={{ border: '1px solid red' }}>
+            <g clipPath={`url(#${id}-chart-clip)`}>
+              <Area series={series} xScale={xScale} yScale={yScale} xValue={xAccessor} yValue={yAccessor} />
 
-            <AxisBottom xScale={xScale} innerHeight={innerHeight} />
+              {brushDomain && (
+                // duplicate area chart with mask for selected area
+                <g mask={`url(#${id}-chart-area-mask)`}>
+                  <Area
+                    series={series}
+                    xScale={xScale}
+                    yScale={yScale}
+                    xValue={xAccessor}
+                    yValue={yAccessor}
+                    fill={styles.area.selection}
+                  />
+                </g>
+              )}
+              <Line value={current} xScale={xScale} innerHeight={innerHeight} />
+
+              <AxisBottom xScale={xScale} innerHeight={innerHeight} />
+            </g>
+
+            <rect
+              sx={{
+                width: innerWidth,
+                height: height,
+                cursor: 'grab',
+                fill: 'transparent',
+                ':active': {
+                  cursor: 'grabbing',
+                },
+              }}
+              ref={zoomRef}
+            />
+
+            <Brush
+              id={id}
+              xScale={xScale}
+              interactive={interactive}
+              brushLabelValue={brushLabels}
+              brushExtent={brushDomain ?? (xScale.domain() as [number, number])}
+              innerWidth={innerWidth}
+              innerHeight={innerHeight}
+              setBrushExtent={onBrushDomainChange}
+              westHandleColor={styles.brush.handle.west}
+              eastHandleColor={styles.brush.handle.east}
+            />
           </g>
-
-          <rect
-            sx={{
-              width: innerWidth,
-              height: height,
-              cursor: 'grab',
-              fill: 'transparent',
-              ':active': {
-                cursor: 'grabbing',
-              },
-            }}
-            ref={zoomRef}
-          />
-
-          <Brush
-            id={id}
-            xScale={xScale}
-            interactive={interactive}
-            brushLabelValue={brushLabels}
-            brushExtent={brushDomain ?? (xScale.domain() as [number, number])}
-            innerWidth={innerWidth}
-            innerHeight={innerHeight}
-            setBrushExtent={onBrushDomainChange}
-            westHandleColor={styles.brush.handle.west}
-            eastHandleColor={styles.brush.handle.east}
-          />
-        </g>
-      </svg>
+        </svg>
+      </Flex>
     </Flex>
   )
 }

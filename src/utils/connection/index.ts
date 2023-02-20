@@ -6,7 +6,8 @@ import { Network } from '@web3-react/network'
 import { WalletConnect } from '@web3-react/walletconnect'
 import { Connection, ConnectionType } from './types'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { NETWORK_RPC, RPC_PROVIDERS } from 'config/constants/chains'
+import { RPC_URLS } from 'config/constants/networks'
+import { RPC_PROVIDERS } from 'config/constants/providers'
 
 // Connections based from uniswap interface
 // https://github.com/Uniswap/interface/blob/main/src/connection/index.ts
@@ -46,7 +47,7 @@ export const gnosisSafeConnection: Connection = {
 const [web3WalletConnect, web3WalletConnectHooks] = initializeConnector<WalletConnect>((actions) => {
   // Avoid testing for the best URL by only passing a single URL per chain.
   // Otherwise, WC will not initialize until all URLs have been tested (see getBestUrl in web3-react).
-  const RPC_URLS_WITHOUT_FALLBACKS = Object.entries(NETWORK_RPC).reduce(
+  const RPC_URLS_WITHOUT_FALLBACKS = Object.entries(RPC_URLS).reduce(
     (map, [chainId, urls]) => ({
       ...map,
       [chainId]: urls[0],
@@ -73,7 +74,7 @@ const [web3CoinbaseWallet, web3CoinbaseWalletHooks] = initializeConnector<Coinba
     new CoinbaseWallet({
       actions,
       options: {
-        url: NETWORK_RPC[SupportedChainId.BSC][0],
+        url: RPC_URLS[SupportedChainId.BSC][0],
         appName: 'YourAppHere',
         appLogoUrl: 'Yourlogohere.png',
         reloadOnDisconnect: false,

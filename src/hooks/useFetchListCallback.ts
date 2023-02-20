@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { nanoid } from '@reduxjs/toolkit'
 import { TokenList } from '@uniswap/token-lists'
-import { RPC_PROVIDERS } from 'config/constants/chains'
+import { RPC_PROVIDERS } from 'config/constants/providers'
 import getTokenList from 'lib/hooks/useTokenList/fetchTokenList'
 import resolveENSContentHash from 'lib/utils/resolveENSContentHash'
 import { useCallback } from 'react'
