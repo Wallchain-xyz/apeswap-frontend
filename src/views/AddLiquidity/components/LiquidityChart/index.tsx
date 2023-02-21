@@ -1,7 +1,7 @@
 import { Currency, Price, Token } from '@ape.swap/sdk-core'
 import { format } from 'd3'
 import { FeeAmount } from '@ape.swap/v3-sdk'
-import { Flex } from 'components/uikit'
+import { Flex, Text } from 'components/uikit'
 import { saturate } from 'polished'
 import { Bound } from 'state/mint/v3/actions'
 import Chart from './Chart'
@@ -9,7 +9,7 @@ import { ZoomLevels } from './types'
 import { useDensityChartData } from './hooks'
 import { useCallback, useMemo } from 'react'
 import { batch } from 'react-redux'
-import { useThemeUI } from 'theme-ui'
+import { Spinner, useThemeUI } from 'theme-ui'
 
 // TODO: Move to constants file
 const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
@@ -38,6 +38,8 @@ const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
     max: 20,
   },
 }
+
+export const CHART_DESKTOP_HEIGHT = 160
 
 const LiquidityChart = ({
   currencyA,
@@ -73,7 +75,6 @@ const LiquidityChart = ({
   const isSorted = currencyA && currencyB && currencyA?.wrapped.sortsBefore(currencyB?.wrapped)
 
   const { theme } = useThemeUI()
-  console.log(theme.colors?.primary)
 
   console.log(isLoading, error, formattedData)
 
@@ -122,7 +123,7 @@ const LiquidityChart = ({
 
       return price ? `${format(Math.abs(percent) > 1 ? '.2~s' : '.2~f')(percent)}%` : ''
     },
-    [isSorted, price, ticksAtLimit]
+    [isSorted, price, ticksAtLimit],
   )
 
   const brushDomain: [number, number] | undefined = useMemo(() => {
@@ -138,8 +139,33 @@ const LiquidityChart = ({
 
   return (
     <Flex>
-      {!formattedData || formattedData.length === 0 || !price ? (
-        <></>
+      {!formattedData || formattedData.length === 0 || !price || isUninitialized || isLoading || error ? (
+        <Flex sx={{ flexDirection: 'column', width: '100%', mb: '10px' }}>
+          <Flex sx={{ height: '30px' }}>
+            <Text sx={{ lineHeight: '20px' }}>Select Range</Text>
+          </Flex>
+          <Flex
+            sx={{
+              height: CHART_DESKTOP_HEIGHT,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '10px',
+              background: 'white3',
+            }}
+          >
+            {isLoading ? (
+              <Flex>
+                <Spinner size="80px" />
+              </Flex>
+            ) : isUninitialized ? (
+              <Text>Your position will appear here.</Text>
+            ) : !formattedData || formattedData.length === 0 || !price ? (
+              <Text>Liquidity data not available.</Text>
+            ) : (
+              <Text>There is no liquidity data.</Text>
+            )}
+          </Flex>
+        </Flex>
       ) : (
         <Chart
           id={id}

@@ -83,7 +83,7 @@ const RangeSelector = ({
         maxWidth: '100%',
         maxHeight: '100%',
         height: '85px',
-        width: '275px',
+        width: '280px',
         background: 'white3',
         borderRadius: '10px',
         flexDirection: 'column',

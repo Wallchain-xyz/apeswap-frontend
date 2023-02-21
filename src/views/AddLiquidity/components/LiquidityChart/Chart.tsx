@@ -8,6 +8,7 @@ import { AxisBottom } from './AxisBottom'
 import Zoom from './Zoom'
 import { Bound } from 'state/mint/v3/actions'
 import { Flex, Text } from 'components/uikit'
+import { CHART_DESKTOP_HEIGHT } from '.'
 
 const xAccessor = (d: ChartEntry) => d.price0
 const yAccessor = (d: ChartEntry) => d.activeLiquidity
@@ -85,11 +86,11 @@ const Chart = ({
       <Flex
         sx={{
           position: 'relative',
-          mb: '20px',
+          mb: '10px',
           mt: '10px',
           width: '100%',
           background: 'white3',
-          height: '160px',
+          height: CHART_DESKTOP_HEIGHT,
           paddingBottom: '10px',
           borderRadius: '10px',
           overflow: 'hidden',

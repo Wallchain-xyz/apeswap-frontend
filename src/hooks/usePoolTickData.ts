@@ -13,7 +13,7 @@ import { useTickLens } from './useContract'
 import { PoolState, usePool } from './usePools'
 
 const PRICE_FIXED_DIGITS = 8
-// const CHAIN_IDS_MISSING_SUBGRAPH_DATA = [SupportedChainId.ARBITRUM_ONE, SupportedChainId.ARBITRUM_RINKEBY]
+const CHAIN_IDS_MISSING_SUBGRAPH_DATA = ['']
 
 // Tick with fields parsed to JSBIs, and active liquidity computed.
 export interface TickProcessed {
@@ -167,7 +167,7 @@ function useAllV3Ticks(
   error: unknown
   ticks: TickData[] | undefined
 } {
-  const useSubgraph = true // currencyA ? !CHAIN_IDS_MISSING_SUBGRAPH_DATA.includes(currencyA.chainId) : true
+  const useSubgraph = currencyA ? !CHAIN_IDS_MISSING_SUBGRAPH_DATA.includes(currencyA.chainId) : true
 
   const tickLensTickData = useTicksFromTickLens(!useSubgraph ? currencyA : undefined, currencyB, feeAmount)
 

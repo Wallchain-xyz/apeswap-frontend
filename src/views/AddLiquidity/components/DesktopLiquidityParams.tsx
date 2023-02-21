@@ -56,6 +56,7 @@ const DesktopLiquidityParams = ({
         />
       )}
       <RangeSelector
+        price={price}
         priceLower={priceLower}
         priceUpper={priceUpper}
         currencyA={currencyA ?? undefined}

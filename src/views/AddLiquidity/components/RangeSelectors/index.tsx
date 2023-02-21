@@ -5,6 +5,7 @@ import { Bound } from 'state/mint/v3/actions'
 import RangeSelector from './RangeSelector'
 
 const RangeSelectors = ({
+  price,
   priceLower,
   priceUpper,
   currencyA,
@@ -17,6 +18,7 @@ const RangeSelectors = ({
   onLeftRangeInput,
   onRightRangeInput,
 }: {
+  price?: number | undefined
   priceLower?: Price<Token, Token> | undefined
   priceUpper?: Price<Token, Token> | undefined
   currencyA?: Currency | null
@@ -45,28 +47,38 @@ const RangeSelectors = ({
   const maxPriceValue = maxPriceDisabled ? '∞' : rightPrice?.toSignificant(5) ?? ''
 
   return (
-    <Flex sx={{ justifyContent: 'space-between' }}>
-      <RangeSelector
-        rangeType="Min Price"
-        value={minPriceValue}
-        disabled={minPriceDisbaled}
-        tokenASymbol={currencyA?.symbol}
-        tokenBSymbol={currencyB?.symbol}
-        onRangeInput={onLeftRangeInput}
-        onDecrementRange={isSorted ? getDecrementLower : getIncrementUpper}
-        onIncrementRange={isSorted ? getIncrementLower : getDecrementUpper}
-      />
-      <Flex sx={{ margin: '0px 2.5px' }} />
-      <RangeSelector
-        rangeType="Max Price"
-        value={maxPriceValue}
-        disabled={maxPriceDisabled}
-        tokenASymbol={currencyA?.symbol}
-        tokenBSymbol={currencyB?.symbol}
-        onRangeInput={onRightRangeInput}
-        onDecrementRange={isSorted ? getDecrementUpper : getIncrementLower}
-        onIncrementRange={isSorted ? getIncrementUpper : getDecrementLower}
-      />
+    <Flex sx={{ justifyContent: 'space-between', flexDirection: 'column' }}>
+      <Flex sx={{ height: '30px', alignItems: 'center', pb: '2px' }}>
+        <Text size="13px" weight={700}>
+          Current Price:
+        </Text>
+        <Text size="13px" ml="10px">
+          {price} {currencyB?.symbol} per {currencyA?.symbol}
+        </Text>
+      </Flex>
+      <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+        <RangeSelector
+          rangeType="Min Price"
+          value={minPriceValue}
+          disabled={minPriceDisbaled}
+          tokenASymbol={currencyA?.symbol}
+          tokenBSymbol={currencyB?.symbol}
+          onRangeInput={onLeftRangeInput}
+          onDecrementRange={isSorted ? getDecrementLower : getIncrementUpper}
+          onIncrementRange={isSorted ? getIncrementLower : getDecrementUpper}
+        />
+        <Flex sx={{ margin: '0px 2.5px' }} />
+        <RangeSelector
+          rangeType="Max Price"
+          value={maxPriceValue}
+          disabled={maxPriceDisabled}
+          tokenASymbol={currencyA?.symbol}
+          tokenBSymbol={currencyB?.symbol}
+          onRangeInput={onRightRangeInput}
+          onDecrementRange={isSorted ? getDecrementUpper : getIncrementLower}
+          onIncrementRange={isSorted ? getIncrementUpper : getDecrementLower}
+        />
+      </Flex>
     </Flex>
   )
 }

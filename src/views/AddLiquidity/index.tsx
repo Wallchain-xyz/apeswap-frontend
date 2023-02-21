@@ -172,7 +172,7 @@ const AddLiquidity = ({
           handleCurrencyBSelect={handleCurrencyBSelect}
           onStartPriceInput={onStartPriceInput}
         />
-        <Flex sx={{ mt: ['20px', '20px', '20px', '20px', '20px', '0px'] }} />
+        <Flex sx={{ mt: ['10px', '10px', '10px', '10px', '10px', '0px'] }} />
         <DexPanel
           onCurrencySelect={handleCurrencyASelect}
           onUserInput={onFieldAInput}
@@ -185,7 +185,7 @@ const AddLiquidity = ({
           locked={depositADisabled}
         />
         {/* <SwapSwitchButton onClick={onSwitchTokens} /> */}
-        <Flex sx={{ mt: '20px' }} />
+        <Flex sx={{ mt: '48px' }} />
         <DexPanel
           onCurrencySelect={handleCurrencyBSelect}
           onUserInput={onFieldBInput}
@@ -211,7 +211,7 @@ const AddLiquidity = ({
       </Flex>
       <DesktopLiquidityParams
         feeAmount={feeAmount}
-        price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+        price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(6)) : undefined}
         currencyA={currencies[Field.CURRENCY_A] ?? undefined}
         currencyB={currencies[Field.CURRENCY_B] ?? undefined}
         priceLower={priceLower}
