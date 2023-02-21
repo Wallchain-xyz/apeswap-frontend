@@ -82,7 +82,8 @@ export enum icons {
   COG = 'cog',
   BRIDGE = 'bridge',
   DOCS = 'docs',
-  QUIZ = 'quiz'
+  QUIZ = 'quiz',
+  PLACEHOLDER_MONKEY = 'placeholderMonkey',
 }
 
 export enum directions {

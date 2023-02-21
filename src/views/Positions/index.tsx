@@ -8,8 +8,10 @@ import { PositionDetails } from 'lib/types/position'
 import { useCallback, useState } from 'react'
 import { useUserHideClosedPositions } from 'state/user/hooks'
 import { Switch } from 'theme-ui'
+import NoPositionSelectedPage from './components/NoPositionSelectedPage'
 import PositionCard from './components/PositionCard'
 import PositionDetailsPage from './components/PositionDetailsPage'
+import PositionsLoading from './components/PositionsLoading'
 
 const Positions = () => {
   const { chainId, account } = useWeb3React()
@@ -49,19 +51,23 @@ const Positions = () => {
           </Flex>
         </Flex>
         <Flex sx={{ overflowY: 'scroll', height: '481px', flexDirection: 'column', padding: '0px 4px' }}>
-          {filteredPositions?.map((position) => {
-            return (
-              <PositionCard
-                key={position.tokenId.toString()}
-                positionItem={position}
-                selectedTokenId={selectedTokenId}
-                handleSelectedTokenId={handleSelectedTokenId}
-              />
-            )
-          })}
+          {positionsLoading ? (
+            <PositionsLoading />
+          ) : (
+            filteredPositions?.map((position) => {
+              return (
+                <PositionCard
+                  key={position.tokenId.toString()}
+                  positionItem={position}
+                  selectedTokenId={selectedTokenId}
+                  handleSelectedTokenId={handleSelectedTokenId}
+                />
+              )
+            })
+          )}
         </Flex>
       </Flex>
-      {selectedTokenId && <PositionDetailsPage selectedTokenId={selectedTokenId} />}
+      {selectedTokenId ? <PositionDetailsPage selectedTokenId={selectedTokenId} /> : <NoPositionSelectedPage />}
     </Flex>
   )
 }

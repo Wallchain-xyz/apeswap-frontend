@@ -60,6 +60,7 @@ import {
   Bridge,
   Docs,
   Quiz,
+  PlaceholderMonkey,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS } from './tokens'
 import {
@@ -224,6 +225,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Docs {...props} getStyles={getStyles} />
     case icons.QUIZ:
       return <Quiz {...props} getStyles={getStyles} />
+    case icons.PLACEHOLDER_MONKEY:
+      return <PlaceholderMonkey {...props} getStyles={getStyles} />
     // Wallet Icons
     case icons.BINANCE_CHAIN:
       return <BinanceChain {...props} getStyles={getStyles} />
