@@ -47,8 +47,20 @@ const PriceRangeSection = ({
           <Text mr="5px"> Price Range </Text>
           <RangeTag removed={removed} inRange={inRange} />
         </Flex>
-        <Flex onClick={() => setManuallyInverted(!manuallyInverted)}>
-          <Svg icon="trade" width="20px" />
+        <Flex
+          onClick={() => setManuallyInverted(!manuallyInverted)}
+          sx={{
+            padding: '5px',
+            background: 'white3',
+            borderRadius: '15px',
+            cursor: 'pointer',
+            width: '25px',
+            height: '25px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Svg icon="switchArrows" width="15px" />
         </Flex>
       </Flex>
       <Flex sx={{ height: '123px' }}>

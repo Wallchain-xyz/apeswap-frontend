@@ -13,7 +13,8 @@ import { useTickLens } from './useContract'
 import { PoolState, usePool } from './usePools'
 
 const PRICE_FIXED_DIGITS = 8
-const CHAIN_IDS_MISSING_SUBGRAPH_DATA = ['']
+// TODO: Add chains to not use subgraph for
+const CHAIN_IDS_MISSING_SUBGRAPH_DATA = [999]
 
 // Tick with fields parsed to JSBIs, and active liquidity computed.
 export interface TickProcessed {

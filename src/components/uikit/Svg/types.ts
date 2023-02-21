@@ -84,6 +84,7 @@ export enum icons {
   DOCS = 'docs',
   QUIZ = 'quiz',
   PLACEHOLDER_MONKEY = 'placeholderMonkey',
+  SWITCH_ARROWS = 'switchArrows',
 }
 
 export enum directions {
