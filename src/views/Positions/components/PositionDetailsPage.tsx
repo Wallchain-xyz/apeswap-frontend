@@ -196,17 +196,20 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
         </Flex>
       </Flex>
       <Flex sx={{ height: '362px', mt: '20px' }}>
-        <Flex sx={{ width: '100%', mr: '10px', borderRadius: '10px' }}>
-          {'result' in metadata && (
+        <Flex sx={{ width: '100%', mr: '10px', borderRadius: '10px', background: 'white3' }}>
+          {'result' in metadata ? (
             <Image
               src={metadata.result.image || ''}
               alt={selectedTokenId || ''}
+              onLoadingComplete={() => {
+                return <Flex sx={{ height: '100%', width: '100%', border: '1px solid red' }}>loading</Flex>
+              }}
               height={100}
               width={100}
-              // height="100%"
-              // width="100%"
               sx={{ height: '100%', width: '100%' }}
             />
+          ) : (
+            <Skeleton sx={{ height: '100%', width: '100%' }} animation="waves" />
           )}
         </Flex>
         <Flex sx={{ width: '100%', ml: '10x', flexDirection: 'column' }}>

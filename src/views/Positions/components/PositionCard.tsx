@@ -1,10 +1,11 @@
 import { Percent } from '@ape.swap/sdk-core'
 import { Position } from '@ape.swap/v3-sdk'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
-import { Flex, Text } from 'components/uikit'
+import { Flex, Skeleton, Text } from 'components/uikit'
 import { useToken } from 'hooks/Tokens'
 import useIsTickAtLimit from 'hooks/useIsTickAtLimit'
 import { usePool } from 'hooks/usePools'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { PositionDetails } from 'lib/types/position'
 import { useMemo } from 'react'
 import { Bound } from 'state/mint/v3/actions'
@@ -61,6 +62,18 @@ const PositionCard = ({
 
   const isSelected = tokenId.toString() === selectedTokenId
 
+  const [token0PriceUsd, token0PriceUsdLoading] = useTokenPriceUsd(token0)
+  const [token1PriceUsd, token1PriceUsdLoading] = useTokenPriceUsd(token1)
+
+  const liquidityUsdAmount = useMemo(() => {
+    if (!position || !token0PriceUsd || !token1PriceUsd) return null
+    const amount0 = token0PriceUsd * parseFloat(position.amount0.toSignificant(6))
+    const amount1 = token1PriceUsd * parseFloat(position.amount1.toSignificant(6))
+    return amount0 + amount1
+  }, [position, token0PriceUsd, token1PriceUsd])
+
+  const valuesLoading = token0PriceUsdLoading || token1PriceUsdLoading || !position
+
   return (
     <Flex
       sx={{ ...styles.positionCardContainer, boxShadow: isSelected && '0px 0px 8px' }}
@@ -80,13 +93,37 @@ const PositionCard = ({
         </Flex>
         <RangeTag removed={removed} inRange={inRange} />
       </Flex>
-      <Flex sx={{ alignItems: 'flex-end', height: '100%' }}>
-        <Text size="14px" sx={{ lineHeight: '12px' }}>
-          {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}-
-        </Text>
-        <Text size="14px" sx={{ lineHeight: '12px' }}>
-          {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}
-        </Text>
+      <Flex sx={{ alignItems: 'flex-end', height: '100%', justifyContent: 'space-between' }}>
+        <Flex>
+          {valuesLoading ? (
+            <Skeleton width={200} height={20} animation="waves" />
+          ) : (
+            <>
+              <Text size="12px" sx={{ lineHeight: '12px' }}>
+                {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}
+              </Text>
+              <Text size="12px" sx={{ lineHeight: '12px' }} margin="0px 2.5px">
+                {' '}
+                -{' '}
+              </Text>
+              <Text size="12px" sx={{ lineHeight: '12px' }}>
+                {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}
+              </Text>
+              <Text size="12px" sx={{ lineHeight: '12px' }} ml="5px">
+                {currencyQuote?.symbol} / {currencyQuote?.symbol}
+              </Text>
+            </>
+          )}
+        </Flex>
+        <Flex>
+          <Text size="14px" weight={700} sx={{ lineHeight: '18px' }} ml="10px">
+            {valuesLoading ? (
+              <Skeleton width={50} height={20} animation="waves" />
+            ) : (
+              `$${liquidityUsdAmount?.toFixed(2)}`
+            )}
+          </Text>
+        </Flex>
       </Flex>
     </Flex>
   )
