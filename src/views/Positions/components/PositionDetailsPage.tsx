@@ -3,7 +3,7 @@ import { Position } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
-import { Button, Flex, Text } from 'components/uikit'
+import { Button, Flex, Skeleton, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { BigNumber } from 'ethers'
 import { useToken } from 'hooks/Tokens'
@@ -11,6 +11,7 @@ import useIsTickAtLimit from 'hooks/useIsTickAtLimit'
 import useModal from 'hooks/useModal'
 import { usePool } from 'hooks/usePools'
 import { usePositionTokenURI } from 'hooks/usePositionTokenURI'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { useV3PositionFees } from 'hooks/useV3PositionFees'
 import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
@@ -49,6 +50,9 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
 
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
+
+  const [token0PriceUsd, token0PriceUsdLoading] = useTokenPriceUsd(token0)
+  const [token1PriceUsd, token1PriceUsdLoading] = useTokenPriceUsd(token1)
 
   const currency0 = token0 ? unwrappedToken(token0) : undefined
   const currency1 = token1 ? unwrappedToken(token1) : undefined
@@ -116,6 +120,20 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const feeValueUpper = inverted ? feeValue0 : feeValue1
   const feeValueLower = inverted ? feeValue1 : feeValue0
 
+  const feesUsdAmount = useMemo(() => {
+    if (!feeValue0 || !feeValue1 || !token0PriceUsd || !token1PriceUsd) return null
+    const amount0 = parseFloat(token0PriceUsd.toSignificant(6)) * parseFloat(feeValue0.toSignificant(6))
+    const amount1 = parseFloat(token1PriceUsd.toSignificant(6)) * parseFloat(feeValue1.toSignificant(6))
+    return amount0 + amount1
+  }, [feeValue0, feeValue1, token0PriceUsd, token1PriceUsd])
+
+  const liquidityUsdAmount = useMemo(() => {
+    if (!position || !token0PriceUsd || !token1PriceUsd) return null
+    const amount0 = parseFloat(token0PriceUsd.toSignificant(6)) * parseFloat(position.amount0.toSignificant(6))
+    const amount1 = parseFloat(token1PriceUsd.toSignificant(6)) * parseFloat(position.amount1.toSignificant(6))
+    return amount0 + amount1
+  }, [position, token0PriceUsd, token1PriceUsd])
+
   const [onPresentRemoveLiquidityModal] = useModal(
     <RemoveLiquidity
       tokenId={tokenId?.toString()}
@@ -151,6 +169,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   )
 
   console.log(loading, pool)
+  console.log(token0PriceUsd)
 
   return (
     <Flex variant="flex.v3SubDexContainer" sx={{ display: DESKTOP_DISPLAY }}>
@@ -204,7 +223,11 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           >
             <Text size="16px">{t('Liquidity')}</Text>
             <Text size="22px" weight={700}>
-              $20
+              {token0PriceUsdLoading || token1PriceUsdLoading ? (
+                <Skeleton width={80} animation="waves" />
+              ) : (
+                `$${liquidityUsdAmount?.toFixed(2)}`
+              )}
             </Text>
             <Flex sx={styles.subContainer}>
               <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '25px' }}>
@@ -262,7 +285,11 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
             <Text size="16px">{t('Unclaimed Fees')}</Text>
             <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text size="22px" weight={700}>
-                $20
+                {token0PriceUsdLoading || token1PriceUsdLoading ? (
+                  <Skeleton width={80} animation="waves" />
+                ) : (
+                  `$${feesUsdAmount?.toFixed(2)}`
+                )}
               </Text>
               <Claim
                 currency0ForFeeCollectionPurposes={currency0ForFeeCollectionPurposes}
