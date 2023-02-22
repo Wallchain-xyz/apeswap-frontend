@@ -20,6 +20,7 @@ import { Token } from '@ape.swap/sdk-core'
 import { BigNumber } from 'ethers'
 import JSBI from 'jsbi'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
+import Dots from 'components/Dots'
 
 const DexPanel = ({
   value,
@@ -126,7 +127,7 @@ const DexPanel = ({
                 //   : usdVal * parseFloat(value)
                 // ).toFixed(2)}`}
 
-                `$${(parseFloat(usdVal?.toExact() ?? '0') * parseFloat(value)).toFixed(2)}`}
+                `$${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
             </Text>
           )}
         </Flex>
@@ -134,8 +135,8 @@ const DexPanel = ({
           <Flex sx={{ alignItems: 'center' }}>
             <Text size="12px" sx={styles.panelBottomText}>
               {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
-              {/* {!currencyBalance && <Dots />} */}
             </Text>
+            {!currencyBalance && <Dots />}
             {parseFloat(currencyBalance) > 0 && handleMaxInput && (
               <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
                 <Text color="primaryBright" sx={{ lineHeight: '0px' }}>

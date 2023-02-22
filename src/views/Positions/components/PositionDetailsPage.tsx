@@ -122,15 +122,15 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
 
   const feesUsdAmount = useMemo(() => {
     if (!feeValue0 || !feeValue1 || !token0PriceUsd || !token1PriceUsd) return null
-    const amount0 = parseFloat(token0PriceUsd.toSignificant(6)) * parseFloat(feeValue0.toSignificant(6))
-    const amount1 = parseFloat(token1PriceUsd.toSignificant(6)) * parseFloat(feeValue1.toSignificant(6))
+    const amount0 = token0PriceUsd * parseFloat(feeValue0.toSignificant(6))
+    const amount1 = token1PriceUsd * parseFloat(feeValue1.toSignificant(6))
     return amount0 + amount1
   }, [feeValue0, feeValue1, token0PriceUsd, token1PriceUsd])
 
   const liquidityUsdAmount = useMemo(() => {
     if (!position || !token0PriceUsd || !token1PriceUsd) return null
-    const amount0 = parseFloat(token0PriceUsd.toSignificant(6)) * parseFloat(position.amount0.toSignificant(6))
-    const amount1 = parseFloat(token1PriceUsd.toSignificant(6)) * parseFloat(position.amount1.toSignificant(6))
+    const amount0 = token0PriceUsd * parseFloat(position.amount0.toSignificant(6))
+    const amount1 = token1PriceUsd * parseFloat(position.amount1.toSignificant(6))
     return amount0 + amount1
   }, [position, token0PriceUsd, token1PriceUsd])
 
