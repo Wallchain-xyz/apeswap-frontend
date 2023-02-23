@@ -171,11 +171,13 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   console.log(loading, pool)
   console.log(token0PriceUsd)
 
+  const valuesLoading = token0PriceUsdLoading || token1PriceUsdLoading || !position || !feeValue0 || !feeValue1
+
   return (
     <Flex variant="flex.v3SubDexContainer" sx={{ display: DESKTOP_DISPLAY }}>
       <Flex sx={{ height: '30px', alignItems: 'center', justifyContent: 'space-between' }}>
         <Flex sx={{ alignItems: 'center' }}>
-          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} />
+          <DoubleCurrencyLogo currency0={currencyQuote} currency1={currencyBase} />
           <Text weight={600}>
             &nbsp;{currencyQuote?.symbol}&nbsp;/&nbsp;{currencyBase?.symbol}
           </Text>
@@ -226,11 +228,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           >
             <Text size="16px">{t('Liquidity')}</Text>
             <Text size="22px" weight={700}>
-              {token0PriceUsdLoading || token1PriceUsdLoading ? (
-                <Skeleton width={80} animation="waves" />
-              ) : (
-                `$${liquidityUsdAmount?.toFixed(2)}`
-              )}
+              {valuesLoading ? <Skeleton width={80} animation="waves" /> : `$${liquidityUsdAmount?.toFixed(2)}`}
             </Text>
             <Flex sx={styles.subContainer}>
               <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '25px' }}>
@@ -241,12 +239,18 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                   </Text>
                 </Flex>
                 <Flex>
-                  <Text size="14px" mr="10px">
-                    {inverted ? position?.amount0.toSignificant(4) : position?.amount1.toSignificant(4)}
-                  </Text>
-                  <Text size="12px" opacity={0.7}>
-                    {typeof ratio === 'number' && !removed ? <Text>{inverted ? ratio : 100 - ratio}%</Text> : null}
-                  </Text>
+                  {valuesLoading ? (
+                    <Skeleton width={100} animation="waves" />
+                  ) : (
+                    <>
+                      <Text size="14px" mr="10px">
+                        {inverted ? position?.amount0.toSignificant(4) : position?.amount1.toSignificant(4)}
+                      </Text>
+                      <Text size="12px" opacity={0.7}>
+                        {typeof ratio === 'number' && !removed ? <Text>{inverted ? ratio : 100 - ratio}%</Text> : null}
+                      </Text>
+                    </>
+                  )}
                 </Flex>
               </Flex>
               <Flex
@@ -263,12 +267,18 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                   </Text>
                 </Flex>
                 <Flex>
-                  <Text size="14px" mr="10px">
-                    {inverted ? position?.amount1.toSignificant(4) : position?.amount0.toSignificant(4)}
-                  </Text>
-                  <Text size="12px" opacity={0.7}>
-                    {typeof ratio === 'number' && !removed ? <Text>{inverted ? 100 - ratio : ratio}%</Text> : null}
-                  </Text>
+                  {valuesLoading ? (
+                    <Skeleton width={100} animation="waves" />
+                  ) : (
+                    <>
+                      <Text size="14px" mr="10px">
+                        {inverted ? position?.amount1.toSignificant(4) : position?.amount0.toSignificant(4)}
+                      </Text>
+                      <Text size="12px" opacity={0.7}>
+                        {typeof ratio === 'number' && !removed ? <Text>{inverted ? 100 - ratio : ratio}%</Text> : null}
+                      </Text>
+                    </>
+                  )}
                 </Flex>
               </Flex>
             </Flex>
@@ -288,11 +298,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
             <Text size="16px">{t('Unclaimed Fees')}</Text>
             <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text size="22px" weight={700}>
-                {token0PriceUsdLoading || token1PriceUsdLoading ? (
-                  <Skeleton width={80} animation="waves" />
-                ) : (
-                  `$${feesUsdAmount?.toFixed(2)}`
-                )}
+                {valuesLoading ? <Skeleton width={80} animation="waves" /> : `$${feesUsdAmount?.toFixed(2)}`}
               </Text>
               <Claim
                 currency0ForFeeCollectionPurposes={currency0ForFeeCollectionPurposes}
@@ -312,7 +318,13 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                 </Flex>
                 <Flex>
                   <Text size="14px" mr="10px">
-                    {feeValueUpper ? formatCurrencyAmount(feeValueUpper, 4) : '-'}
+                    {valuesLoading ? (
+                      <Skeleton width={80} animation="waves" />
+                    ) : feeValueUpper ? (
+                      formatCurrencyAmount(feeValueUpper, 4)
+                    ) : (
+                      '-'
+                    )}
                   </Text>
                 </Flex>
               </Flex>
@@ -331,7 +343,13 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                 </Flex>
                 <Flex>
                   <Text size="14px" mr="10px">
-                    {feeValueLower ? formatCurrencyAmount(feeValueLower, 4) : '-'}
+                    {valuesLoading ? (
+                      <Skeleton width={80} animation="waves" />
+                    ) : feeValueLower ? (
+                      formatCurrencyAmount(feeValueLower, 4)
+                    ) : (
+                      '-'
+                    )}
                   </Text>
                 </Flex>
               </Flex>

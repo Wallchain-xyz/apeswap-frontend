@@ -7,9 +7,10 @@ import Input from 'components/uikit/Input/Input'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { BigNumber } from 'ethers'
 import { useToken } from 'hooks/Tokens'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useBurnV3ActionHandlers, useBurnV3State, useDerivedV3BurnInfo } from 'state/burn/v3/hooks'
 import { Switch } from 'theme-ui'
 import { unwrappedToken } from 'utils/unwrappedToken'
@@ -37,6 +38,9 @@ const RemoveLiquidity = ({
   const token1 = useToken(token1Address)
   const currency0 = token0 ? unwrappedToken(token0) : undefined
   const currency1 = token1 ? unwrappedToken(token1) : undefined
+
+  const [token0PriceUsd, token0PriceUsdLoading] = useTokenPriceUsd(token0)
+  const [token1PriceUsd, token1PriceUsdLoading] = useTokenPriceUsd(token1)
 
   // flag for receiving WETH
   const [receiveWETH, setReceiveWETH] = useState(false)
@@ -67,6 +71,13 @@ const RemoveLiquidity = ({
         WRAPPED_NATIVE_CURRENCY[liquidityValue0.currency.chainId]?.equals(liquidityValue0.currency.wrapped) ||
         WRAPPED_NATIVE_CURRENCY[liquidityValue1.currency.chainId]?.equals(liquidityValue1.currency.wrapped)),
   )
+
+  const liquidityUsdAmount = useMemo(() => {
+    if (!liquidityValue0 || !liquidityValue1 || !token0PriceUsd || !token1PriceUsd) return null
+    const amount0 = token0PriceUsd * parseFloat(liquidityValue0.toSignificant(6))
+    const amount1 = token1PriceUsd * parseFloat(liquidityValue1.toSignificant(6))
+    return amount0 + amount1
+  }, [liquidityValue0, liquidityValue1, token0PriceUsd, token1PriceUsd])
 
   return (
     <Modal title="Decrease Position" minWidth="300px" maxWidth="95%">
@@ -116,7 +127,7 @@ const RemoveLiquidity = ({
             />
           </Flex>
           <Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <></>sd
+            <Text mt="10px">${liquidityUsdAmount?.toFixed(2)}</Text>
             <Button size="sm" onClick={() => onPercentSelect(100)}>
               Max
             </Button>

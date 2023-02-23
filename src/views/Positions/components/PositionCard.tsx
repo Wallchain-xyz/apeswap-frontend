@@ -81,7 +81,7 @@ const PositionCard = ({
     >
       <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '100%' }}>
         <Flex sx={{ alignItems: 'center' }}>
-          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} />
+          <DoubleCurrencyLogo currency0={currencyQuote} currency1={currencyBase} />
           <Text weight={600}>
             &nbsp;{currencyQuote?.symbol}&nbsp;/&nbsp;{currencyBase?.symbol}
           </Text>

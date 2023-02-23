@@ -1,6 +1,6 @@
 import { Currency, Price, Token } from '@ape.swap/sdk-core'
 import { Pool } from '@ape.swap/v3-sdk'
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Skeleton, Svg, Text } from 'components/uikit'
 import { Bound } from 'state/mint/v3/actions'
 import { formatTickPrice } from 'utils/formatTickPrice'
 import RangeTag from './RangeTag'
@@ -33,6 +33,7 @@ const PriceRangeSection = ({
   }
   setManuallyInverted: (manuallyInverted: boolean) => void
 }) => {
+  const valuesLoading = !pool || !priceLower || !priceUpper
   return (
     <>
       <Flex
@@ -77,7 +78,11 @@ const PriceRangeSection = ({
           >
             <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
               <Text> Min Price </Text>
-              <Text> {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}</Text>
+              {valuesLoading ? (
+                <Skeleton width={50} animation="waves" />
+              ) : (
+                <Text> {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}</Text>
+              )}
             </Flex>
             <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '10px' }}>
               <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
@@ -97,7 +102,11 @@ const PriceRangeSection = ({
           >
             <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
               <Text> Max Price </Text>
-              <Text> {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}</Text>
+              {valuesLoading ? (
+                <Skeleton width={50} />
+              ) : (
+                <Text> {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}</Text>
+              )}
             </Flex>
             <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '10px' }}>
               <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
@@ -119,7 +128,11 @@ const PriceRangeSection = ({
         >
           <Text>Current Price</Text>
           <Text size="20px" weight={700} margin="5px 0px">
-            {(inverted ? pool?.token1Price : pool?.token0Price)?.toSignificant(6)}{' '}
+            {valuesLoading ? (
+              <Skeleton width={100} animation="waves" />
+            ) : (
+              (inverted ? pool?.token1Price : pool?.token0Price)?.toSignificant(6)
+            )}
           </Text>
           <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
             {currencyQuote?.symbol} per {currencyBase?.symbol}
