@@ -147,7 +147,15 @@ export default function PoolFinder() {
             </Flex>
           </Box>
           {hasPosition && (
-            <Flex style={{ justifyItems: 'center', backgroundColor: '', margin: '20px 0px', borderRadius: '12px' }}>
+            <Flex
+              style={{
+                justifyItems: 'center',
+                alignItems: 'center',
+                margin: '20px 0px',
+                borderRadius: '12px',
+                flexDirection: 'column',
+              }}
+            >
               <Text textAlign="center">{t('Pool Found!')}</Text>
               <Link href="/liquidity/v2">
                 <Text textAlign="center" style={{ textDecoration: 'underline' }}>
@@ -172,7 +180,7 @@ export default function PoolFinder() {
                 </Flex>
               )
             ) : validPairNoLiquidity ? (
-              <Flex gap="sm" justify="center" style={{ margin: '20px 0px' }}>
+              <Flex style={{ margin: '20px 0px', alignItems: 'center', justifyContent: 'center' }}>
                 <Text textAlign="center">No pool found.</Text>
                 <Link
                   href={`/add-liquidity/v2/${currencyId(currency0)}/${currencyId(currency1)}`}
