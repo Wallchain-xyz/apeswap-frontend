@@ -13,6 +13,7 @@ import ENS_ABI from 'config/abi/ens-registrar.json'
 import EIP_2612 from 'config/abi/eip_2612.json'
 import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
+import IUniswapV2PairJson from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
 import { Multicallv3 } from 'config/abi/types'
@@ -34,6 +35,7 @@ import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/len
 import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 import { PriceGetter } from 'config/abi/types/PriceGetter'
 
+const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
 const { abi: IUniswapV2Router02ABI } = IUniswapV2Router02Json
 const { abi: TickLensABI } = TickLensJson
@@ -122,4 +124,8 @@ export function useV2RouterContract(): Contract | null {
 export function usePriceGetter() {
   const { chainId } = useWeb3React()
   return useContract<PriceGetter>(chainId ? PRICE_GETTER_ADDRESSES[chainId] : undefined, PRICE_GETTER_ABI)
+}
+
+export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(pairAddress, IUniswapV2PairABI, withSignerIfPossible)
 }

@@ -142,7 +142,7 @@ export default function FullPositionCard({ pair, mb }: { pair: Pair; showUnwrapp
                 <Flex mt="10px">
                   <Button
                     as={Link}
-                    href={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
+                    href={`/add-liquidity/v2/${currencyId(currency0)}/${currencyId(currency1)}`}
                     fullWidth
                     mb="8px"
                     mr="10px"
@@ -151,7 +151,7 @@ export default function FullPositionCard({ pair, mb }: { pair: Pair; showUnwrapp
                   </Button>
                   <Button
                     as={Link}
-                    href={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}
+                    href={`/remove/v2/${currencyId(currency0)}/${currencyId(currency1)}`}
                     mb="8px"
                     fullWidth
                   >

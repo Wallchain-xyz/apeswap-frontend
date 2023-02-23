@@ -1,15 +1,18 @@
+import { useWeb3React } from '@web3-react/core'
 import PageContainer from 'components/PageContainer'
+import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { useRouter } from 'next/router'
 import AddLiquidityV2 from 'views/V2/AddLiquidityV2'
 
 const AddLiquidityPageV2 = () => {
+  const { chainId } = useWeb3React()
   const { query } = useRouter()
-  // TODO: Default to whatever pair we want
-  const [currencyIdA, currencyIdB] = (query.currency as string[]) || ['', '']
+  const [currencyIdA, currencyIdB] = (query.currency as string[]) || [undefined, undefined]
+  const bananaAddress = BANANA_ADDRESSES[chainId || 56]
 
   return (
     <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
-      <AddLiquidityV2 currencyIdA={currencyIdA} currencyIdB={currencyIdB} />
+      <AddLiquidityV2 currencyIdA={currencyIdA ?? 'ETH'} currencyIdB={currencyIdB ?? bananaAddress} />
     </PageContainer>
   )
 }
