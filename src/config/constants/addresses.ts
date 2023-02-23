@@ -20,6 +20,15 @@ export const V2_FACTORY_ADDRESSES: AddressMap = {
   [SupportedChainId.TLOS]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
 }
 
+export const V2_ROUTER_ADDRESSES: AddressMap = {
+  [SupportedChainId.MAINNET]: '0x5f509a3C3F16dF2Fba7bF84dEE1eFbce6BB85587',
+  [SupportedChainId.POLYGON]: '0xC0788A3aD43d79aa53B09c2EaCc313A787d1d607',
+  [SupportedChainId.POLYGON_MUMBAI]: '0x8fCf4B197A9Df7ab4ed511932cA6c8E1a8fe2F1d',
+  [SupportedChainId.BSC]: '0xcf0febd3f17cef5b47b0cd257acf6025c5bff3b7',
+  [SupportedChainId.BSC_TESTNET]: '0x3380ae82e39e42ca34ebed69af67faa0683bb5c1',
+  [SupportedChainId.TLOS]: '0xb9667Cf9A495A123b0C43B924f6c2244f42817BE',
+}
+
 // TODO: Change this to actual addresses
 export const V3_FACTORY_ADDRESSES: AddressMap = {
   [SupportedChainId.BSC_TESTNET]: '0x1F98431c8aD98523631AE4a59f267346ea31F984',

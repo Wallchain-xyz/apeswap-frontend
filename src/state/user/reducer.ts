@@ -22,6 +22,8 @@ export interface UserState {
     }
   }
 
+  userExpertMode: boolean
+
   pairs: {
     [chainId: number]: {
       // keyed by token0Address:token1Address
@@ -49,6 +51,7 @@ export const initialState: UserState = {
   userSlippageToleranceHasBeenMigratedToAuto: false,
   userClientSideRouter: false,
   userHideClosedPositions: false,
+  userExpertMode: false,
   tokens: {},
   pairs: {},
 }
@@ -76,6 +79,10 @@ const userSlice = createSlice({
     },
     updateHideClosedPositions(state, action) {
       state.userHideClosedPositions = action.payload.userHideClosedPositions
+    },
+    updateUserExpertMode(state, action) {
+      state.userExpertMode = action.payload.userExpertMode
+      state.timestamp = currentTimestamp()
     },
     addSerializedToken(state, { payload: { serializedToken } }) {
       if (!state.tokens) {
