@@ -97,7 +97,7 @@ export default function Pool() {
         {account && !v2IsLoading && (
           <Flex sx={{ flexDirection: 'column', alignItems: 'center', margin: '20px 0px 10px 0px' }}>
             <Text mb="8px">{t('Missing LPs?')}</Text>
-            <Text style={{ textDecoration: 'underline' }} mb="8px" as={Link} href="/find">
+            <Text style={{ textDecoration: 'underline' }} mb="8px" as={Link} href="/find/v2">
               {t('Find other LP tokens')}
             </Text>
             <Text mb="8px">{t('or')}</Text>

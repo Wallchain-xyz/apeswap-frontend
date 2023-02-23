@@ -1,6 +1,6 @@
 import PageContainer from 'components/PageContainer'
 import { useRouter } from 'next/router'
-import AddLiquidityV2 from 'views/AddLiquidityV2'
+import AddLiquidityV2 from 'views/V2/AddLiquidityV2'
 
 const AddLiquidityPageV2 = () => {
   const { query } = useRouter()

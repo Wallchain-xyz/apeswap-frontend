@@ -1,5 +1,5 @@
 import PageContainer from 'components/PageContainer'
-import PoolFinder from 'views/PoolFinder'
+import PoolFinder from 'views/V2/PoolFinder'
 
 const Find = () => {
   return (
