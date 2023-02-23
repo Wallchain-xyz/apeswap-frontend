@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { DEFAULT_DEADLINE_FROM_NOW } from 'config/constants/misc'
 import { ConnectionType } from 'utils/connection/types'
 import { updateVersion } from '../global/actions'
-import { SerializedToken } from './types'
+import { SerializedPair, SerializedToken } from './types'
 
 const currentTimestamp = () => new Date().getTime()
 
@@ -21,11 +21,23 @@ export interface UserState {
       [address: string]: SerializedToken
     }
   }
+
+  pairs: {
+    [chainId: number]: {
+      // keyed by token0Address:token1Address
+      [key: string]: SerializedPair
+    }
+  }
+
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number | 'auto'
   userSlippageToleranceHasBeenMigratedToAuto: boolean // temporary flag for migration status
   // hides closed (inactive) positions across the app
   userHideClosedPositions: boolean
+}
+
+function pairKey(token0Address: string, token1Address: string) {
+  return `${token0Address};${token1Address}`
 }
 
 export const initialState: UserState = {
@@ -38,6 +50,7 @@ export const initialState: UserState = {
   userClientSideRouter: false,
   userHideClosedPositions: false,
   tokens: {},
+  pairs: {},
 }
 
 const userSlice = createSlice({
@@ -70,6 +83,17 @@ const userSlice = createSlice({
       }
       state.tokens[serializedToken.chainId] = state.tokens[serializedToken.chainId] || {}
       state.tokens[serializedToken.chainId][serializedToken.address] = serializedToken
+      state.timestamp = currentTimestamp()
+    },
+    addSerializedPair(state, { payload: { serializedPair } }) {
+      if (
+        serializedPair.token0.chainId === serializedPair.token1.chainId &&
+        serializedPair.token0.address !== serializedPair.token1.address
+      ) {
+        const chainId = serializedPair.token0.chainId
+        state.pairs[chainId] = state.pairs[chainId] || {}
+        state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] = serializedPair
+      }
       state.timestamp = currentTimestamp()
     },
   },

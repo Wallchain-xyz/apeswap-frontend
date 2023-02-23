@@ -1,4 +1,5 @@
 import DexNav from 'components/DexNav'
+import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import DexPanel from 'components/DexPanel'
 import { Flex, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
@@ -47,6 +48,8 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
   return (
     <Flex variant="flex.dexContainer">
       <DexNav />
+      <V2LiquiditySubNav />
+
       {noLiquidity && (
         <Flex sx={styles.warningMessageContainer}>
           <Text size="14px" weight={700} mb="10px" color="primaryBright">
