@@ -64,8 +64,8 @@ export function MinimalPositionCard({
         <Flex sx={{ flexDirection: 'column' }}>
           <Flex sx={{ flexDirection: 'column' }}>
             <Flex sx={{ flexDirection: 'column' }}>
-              <Flex>
-                <Text weight={500} size='18px'>
+              <Flex sx={{ alignItems: 'center', justifyContent: 'center', mb: '5px' }}>
+                <Text weight={500} size="18px">
                   Your position
                 </Text>
               </Flex>
@@ -73,7 +73,7 @@ export function MinimalPositionCard({
             <Flex onClick={() => setShowMore(!showMore)} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Flex>
                 <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={20} />
-                <Text fontWeight={500} fontSize={20}>
+                <Text fontWeight={500} fontSize={20} ml="10px">
                   {currency0.symbol}/{currency1.symbol}
                 </Text>
               </Flex>
@@ -83,8 +83,8 @@ export function MinimalPositionCard({
                 </Text>
               </Flex>
             </Flex>
-            <Flex>
-              <Flex>
+            <Flex sx={{ flexDirection: 'column' }}>
+              <Flex sx={{ justifyContent: 'space-between' }}>
                 <Text fontSize={16} fontWeight={500}>
                   Your pool share:
                 </Text>
@@ -92,7 +92,7 @@ export function MinimalPositionCard({
                   {poolTokenPercentage ? poolTokenPercentage.toFixed(6) + '%' : '-'}
                 </Text>
               </Flex>
-              <Flex>
+              <Flex sx={{ justifyContent: 'space-between' }}>
                 <Text fontSize={16} fontWeight={500}>
                   {currency0.symbol}:
                 </Text>
@@ -106,7 +106,7 @@ export function MinimalPositionCard({
                   '-'
                 )}
               </Flex>
-              <Flex>
+              <Flex sx={{ justifyContent: 'space-between' }}>
                 <Text fontSize={16} fontWeight={500}>
                   {currency1.symbol}:
                 </Text>
