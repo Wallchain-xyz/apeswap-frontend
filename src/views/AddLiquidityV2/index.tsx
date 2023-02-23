@@ -1,3 +1,4 @@
+import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import DexPanel from 'components/DexPanel'
@@ -6,6 +7,8 @@ import { useTranslation } from 'contexts/Localization'
 import { useCurrency } from 'hooks/Tokens'
 import { Field } from 'state/mint/v2/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/v2/hooks'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
+import Actions from './components/Actions'
 import AddLiquiditySign from './components/AddLiquiditySign'
 import PoolInfo from './components/PoolInfo'
 import { useHandleCurrencyASelect, useHandleCurrencyBSelect } from './hooks'
@@ -41,6 +44,17 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
     [dependentField]: noLiquidity ? otherTypedValue : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   }
 
+  // get the max amounts user can add
+  const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+    (accumulator, field) => {
+      return {
+        ...accumulator,
+        [field]: maxAmountSpend(currencyBalances[field]),
+      }
+    },
+    {},
+  )
+
   // Action handlers
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
@@ -67,6 +81,9 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
         panelText="Token 1"
         onCurrencySelect={handleCurrencyASelect}
         onUserInput={onFieldAInput}
+        handleMaxInput={() => {
+          onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+        }}
         value={formattedAmounts[Field.CURRENCY_A]}
         currency={currencyA}
         otherCurrency={currencyB}
@@ -76,6 +93,9 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
         panelText="Token 2"
         onCurrencySelect={handleCurrencyBSelect}
         onUserInput={onFieldBInput}
+        handleMaxInput={() => {
+          onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+        }}
         value={formattedAmounts[Field.CURRENCY_B]}
         currency={currencyB}
         otherCurrency={currencyA}
@@ -85,6 +105,15 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
         poolTokenPercentage={poolTokenPercentage}
         noLiquidity={noLiquidity}
         price={price}
+        liquidityMinted={liquidityMinted}
+      />
+      <Actions
+        currencies={currencies}
+        parsedAmounts={parsedAmounts}
+        error={error}
+        noLiquidity={noLiquidity}
+        price={price}
+        poolTokenPercentage={poolTokenPercentage}
         liquidityMinted={liquidityMinted}
       />
     </Flex>

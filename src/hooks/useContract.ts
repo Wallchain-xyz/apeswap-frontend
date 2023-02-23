@@ -19,11 +19,13 @@ import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 import { NonfungiblePositionManager, Quoter, QuoterV2, TickLens } from 'config/abi/types/v3'
+import IUniswapV2Router02Json from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 import {
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
   TICK_LENS_ADDRESSES,
   QUOTER_ADDRESSES,
   PRICE_GETTER_ADDRESSES,
+  V2_ROUTER_ADDRESSES,
 } from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
@@ -33,6 +35,7 @@ import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.so
 import { PriceGetter } from 'config/abi/types/PriceGetter'
 
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
+const { abi: IUniswapV2Router02ABI } = IUniswapV2Router02Json
 const { abi: TickLensABI } = TickLensJson
 const { abi: QuoterABI } = QuoterJson
 const { abi: QuoterV2ABI } = QuoterV2Json
@@ -110,6 +113,10 @@ export function useQuoter(useQuoterV2: boolean) {
 
 export function useEIP2612Contract(tokenAddress?: string): Contract | null {
   return useContract(tokenAddress, EIP_2612, false)
+}
+
+export function useV2RouterContract(): Contract | null {
+  return useContract(V2_ROUTER_ADDRESSES, IUniswapV2Router02ABI, true)
 }
 
 export function usePriceGetter() {

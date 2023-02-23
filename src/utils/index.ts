@@ -3,6 +3,7 @@ import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import type { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
+import { BLOCK_EXPLORER } from 'config/constants/chains'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -36,4 +37,28 @@ export function getContract(address: string, ABI: any, provider: JsonRpcProvider
 
 export function isSupportedChain(chainId: number | null | undefined): chainId is SupportedChainId {
   return !!chainId && !!SupportedChainId[chainId]
+}
+
+export function getEtherscanLink(
+  data: string | number,
+  type: 'transaction' | 'token' | 'address' | 'block' | 'countdown',
+  chainId: SupportedChainId,
+): string {
+  switch (type) {
+    case 'transaction': {
+      return `${BLOCK_EXPLORER[chainId]}/tx/${data}`
+    }
+    case 'token': {
+      return `${BLOCK_EXPLORER[chainId]}/token/${data}`
+    }
+    case 'block': {
+      return `${BLOCK_EXPLORER[chainId]}/block/${data}`
+    }
+    case 'countdown': {
+      return `${BLOCK_EXPLORER[chainId]}/block/countdown/${data}`
+    }
+    default: {
+      return `${BLOCK_EXPLORER[chainId]}/address/${data}`
+    }
+  }
 }

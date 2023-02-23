@@ -22,8 +22,9 @@ import { currencyId } from 'utils/currencyId'
 import { Percent } from '@ape.swap/sdk-core'
 import { useIsSwapUnsupported } from 'hooks/useIsSwapUnsupported'
 import { useWeb3React } from '@web3-react/core'
+import AddLiquidityModal from '../AddLiquidityModal'
 
-const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
+export const DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
 const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
   currencies,
@@ -32,7 +33,6 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
   noLiquidity,
   liquidityMinted,
   poolTokenPercentage,
-  tradeValueUsd,
   price,
 }) => {
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
@@ -151,20 +151,19 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
   }, [])
 
   const [onPresentAddLiquidityModal] = useModal(
-    <></>,
-    // <AddLiquidityModal
-    //   title={noLiquidity ? t('You are creating a pool') : t('Confirm Add Liquidity')}
-    //   currencies={currencies}
-    //   noLiquidity={noLiquidity}
-    //   liquidityMinted={liquidityMinted}
-    //   parsedAmounts={parsedAmounts}
-    //   price={price}
-    //   poolTokenPercentage={poolTokenPercentage}
-    //   txHash={txHash}
-    //   attemptingTxn={attemptingTxn}
-    //   onDismiss={handleDismissConfirmation}
-    //   onAdd={onAdd}
-    // />,
+    <AddLiquidityModal
+      title={noLiquidity ? t('You are creating a pool') : t('Confirm Add Liquidity')}
+      currencies={currencies}
+      noLiquidity={noLiquidity}
+      liquidityMinted={liquidityMinted}
+      parsedAmounts={parsedAmounts}
+      price={price}
+      poolTokenPercentage={poolTokenPercentage}
+      txHash={txHash}
+      attemptingTxn={attemptingTxn}
+      onDismiss={handleDismissConfirmation}
+      onAdd={onAdd}
+    />,
     true,
     true,
     'addLiquidityModal',

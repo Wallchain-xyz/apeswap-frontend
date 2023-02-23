@@ -11,13 +11,13 @@ export const BANANA_ADDRESSES: AddressMap = {
   [SupportedChainId.TLOS]: '0x667fd83e24ca1d935d36717d305d54fa0cac991c',
 }
 
-// TODO: Change this to actual addresses
 export const V2_FACTORY_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC_TESTNET]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-  [SupportedChainId.BSC]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-  [SupportedChainId.POLYGON]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-  [SupportedChainId.MAINNET]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-  [SupportedChainId.TLOS]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
+  [SupportedChainId.MAINNET]: '0xBAe5dc9B19004883d0377419FeF3c2C8832d7d7B',
+  [SupportedChainId.POLYGON]: '0xCf083Be4164828f00cAE704EC15a36D711491284',
+  [SupportedChainId.POLYGON_MUMBAI]: '0xe145a77c21437e3FD32ce2731833114F0B53405b',
+  [SupportedChainId.BSC]: '0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6',
+  [SupportedChainId.BSC_TESTNET]: '0x152349604d49c2af10adee94b918b051104a143e',
+  [SupportedChainId.TLOS]: '0x411172Dfcd5f68307656A1ff35520841C2F7fAec',
 }
 
 export const V2_ROUTER_ADDRESSES: AddressMap = {

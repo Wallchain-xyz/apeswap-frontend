@@ -225,3 +225,9 @@ export function useTrackedTokenPairs(): [Token, Token][] {
     return Object.keys(keyed).map((key) => keyed[key])
   }, [combinedList])
 }
+
+
+
+export function useIsExpertMode(): boolean {
+  return useAppSelector((state) => state.user.userExpertMode)
+}
