@@ -144,10 +144,12 @@ const userSlice = createSlice({
 export const {
   updateSelectedWallet,
   updateSelectedNetwork,
-  addSerializedToken,
   updateUserSlippageTolerance,
   updateUserDeadline,
   updateHideClosedPositions,
   updateUserClientSideRouter,
+  updateUserExpertMode,
+  addSerializedPair,
+  addSerializedToken,
 } = userSlice.actions
 export default userSlice.reducer

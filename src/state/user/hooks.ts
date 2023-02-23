@@ -1,5 +1,5 @@
 import { Percent, Token } from '@ape.swap/sdk-core'
-import { computePairAddress } from '@ape.swap/v2-sdk'
+import { computePairAddress, Pair } from '@ape.swap/v2-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { V2_FACTORY_ADDRESSES } from 'config/constants/addresses'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from 'config/constants/routing'
@@ -8,12 +8,13 @@ import JSBI from 'jsbi'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import {
+  addSerializedPair,
   addSerializedToken,
   updateHideClosedPositions,
   updateUserClientSideRouter,
   updateUserSlippageTolerance,
 } from './reducer'
-import { SerializedToken, UserAddedToken } from './types'
+import { SerializedPair, SerializedToken, UserAddedToken } from './types'
 
 const serializeToken = (token: Token): SerializedToken => {
   return {
@@ -226,8 +227,24 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   }, [combinedList])
 }
 
-
-
 export function useIsExpertMode(): boolean {
   return useAppSelector((state) => state.user.userExpertMode)
+}
+
+function serializePair(pair: Pair): SerializedPair {
+  return {
+    token0: serializeToken(pair.token0),
+    token1: serializeToken(pair.token1),
+  }
+}
+
+export function usePairAdder(): (pair: Pair) => void {
+  const dispatch = useAppDispatch()
+
+  return useCallback(
+    (pair: Pair) => {
+      dispatch(addSerializedPair({ serializedPair: serializePair(pair) }))
+    },
+    [dispatch],
+  )
 }
