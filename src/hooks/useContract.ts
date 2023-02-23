@@ -30,7 +30,6 @@ import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
 import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
-import { Price_getter, Price_getterInterface } from 'config/abi/types/Price_getter'
 import { PriceGetter } from 'config/abi/types/PriceGetter'
 
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
