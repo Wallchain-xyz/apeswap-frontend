@@ -1,4 +1,4 @@
-import { createMulticall, ListenerOptions } from '@uniswap/redux-multicall'
+import { createMulticall, ListenerOptionsWithGas } from '@uniswap/redux-multicall'
 import { useWeb3React } from '@web3-react/core'
 import { useInterfaceMulticall } from 'hooks/useContract'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
@@ -12,7 +12,7 @@ export function MulticallUpdater() {
   const { chainId } = useWeb3React()
   const latestBlockNumber = useBlockNumber()
   const contract = useInterfaceMulticall()
-  const listenerOptions: ListenerOptions = useMemo(
+  const listenerOptions: ListenerOptionsWithGas = useMemo(
     () => ({
       blocksPerFetch: 1,
     }),
