@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Percent } from '@ape.swap/sdk-core'
 import { Pair } from '@ape.swap/v2-sdk'
-import { Text, Flex, Button, Svg } from 'components/uikit'
+import { Text, Flex, Button, Svg, Skeleton } from 'components/uikit'
 import { Divider } from 'theme-ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'contexts/Localization'
@@ -17,12 +17,16 @@ import CurrencyLogo from 'components/CurrencyLogo'
 import { currencyId } from 'utils/currencyId'
 import { BIG_INT_ZERO } from 'config/constants/misc'
 import Link from 'next/link'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 
 export default function FullPositionCard({ pair, mb }: { pair: Pair; showUnwrapped?: boolean; mb?: string }) {
   const { account } = useWeb3React()
 
   const currency0 = unwrappedToken(pair.token0)
   const currency1 = unwrappedToken(pair.token1)
+
+  const [currency0PriceUsd, currency0PriceUsdLoading] = useTokenPriceUsd(currency0)
+  const [currency1PriceUsd, currency1PriceUsdLoading] = useTokenPriceUsd(currency1)
 
   const [showMore, setShowMore] = useState(false)
   const { t } = useTranslation()
@@ -51,6 +55,15 @@ export default function FullPositionCard({ pair, mb }: { pair: Pair; showUnwrapp
         ]
       : [undefined, undefined]
 
+  const usdPrice = useMemo(() => {
+    if (!currency0PriceUsd || !currency1PriceUsd || !token0Deposited || !token1Deposited) return null
+    const currency0TotalPrice = parseFloat(token0Deposited.toSignificant(6)) * currency0PriceUsd
+    const currency1TotalPrice = parseFloat(token1Deposited.toSignificant(6)) * currency1PriceUsd
+    return currency0TotalPrice + currency1TotalPrice
+  }, [currency0PriceUsd, currency1PriceUsd, token0Deposited, token1Deposited])
+
+  const valueLoading = currency0PriceUsdLoading || currency1PriceUsdLoading || !token0Deposited || !token1Deposited
+
   return (
     <Flex sx={{ ...styles.poolContainer, mb: mb }} onClick={() => setShowMore((prev) => !prev)}>
       <Flex sx={styles.innerContainer}>
@@ -68,9 +81,7 @@ export default function FullPositionCard({ pair, mb }: { pair: Pair; showUnwrapp
         </Flex>
         <Flex sx={{ alignItems: 'center' }}>
           <Text mr="10px" weight={700}>
-            {currencyPrice
-              ? `$${(currencyPrice * parseFloat(userPoolBalance?.toSignificant(4) || '0')).toFixed(2)}`
-              : '-'}
+            {valueLoading ? <Skeleton width="50px" animation="waves" /> : `$${usdPrice?.toFixed(2)}`}
           </Text>
           <Svg icon="caret" width="8px" direction={showMore ? 'up' : 'down'} />
         </Flex>

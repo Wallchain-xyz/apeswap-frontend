@@ -4,10 +4,11 @@ import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import DexPanel from 'components/DexPanel'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
-import { Button, Flex, NumericInput, Text } from 'components/uikit'
+import { Button, Flex, NumericInput, Skeleton, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrency } from 'hooks/Tokens'
-import { useCallback, useState } from 'react'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
+import { useCallback, useMemo } from 'react'
 import { Field } from 'state/burn/v2/actions'
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from 'state/burn/v2/hooks'
 import Actions from './Actions'
@@ -21,27 +22,36 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
+  const [currency0PriceUsd, currency0PriceUsdLoading] = useTokenPriceUsd(currencyA)
+  const [currency1PriceUsd, currency1PriceUsdLoading] = useTokenPriceUsd(currencyB)
+
   // burn state
   const { independentField, typedValue } = useBurnState()
   const { pair, parsedAmounts, error } = useDerivedBurnInfo(currencyA ?? undefined, currencyB ?? undefined)
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
 
-  const formattedAmounts = {
-    [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
-      ? '0'
-      : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent('1', '100'))
-      ? '<1'
-      : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
-    [Field.LIQUIDITY]:
-      independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
-    [Field.CURRENCY_A]:
-      independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
-    [Field.CURRENCY_B]:
-      independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? '',
-  }
+  const formattedAmounts = useMemo(() => {
+    return {
+      [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo('0')
+        ? '0'
+        : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent('1', '100'))
+        ? '<1'
+        : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+      [Field.LIQUIDITY]:
+        independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? '',
+      [Field.CURRENCY_A]:
+        independentField === Field.CURRENCY_A ? typedValue : parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) ?? '',
+      [Field.CURRENCY_B]:
+        independentField === Field.CURRENCY_B ? typedValue : parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? '',
+    }
+  }, [parsedAmounts, independentField, typedValue])
 
-  console.log(parsedAmounts, formattedAmounts)
-
+  const usdPrice = useMemo(() => {
+    if (!currency0PriceUsd || !currency1PriceUsd || !formattedAmounts) return null
+    const currency0TotalPrice = parseFloat(formattedAmounts[Field.CURRENCY_A]) * currency0PriceUsd
+    const currency1TotalPrice = parseFloat(formattedAmounts[Field.CURRENCY_B]) * currency1PriceUsd
+    return currency0TotalPrice + currency1TotalPrice
+  }, [currency0PriceUsd, currency1PriceUsd, formattedAmounts])
   // wrapped onUserInput to clear signatures
   const onUserInput = useCallback(
     (field: Field, typedValue: string) => {
@@ -58,7 +68,9 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
   const handleMaxInput = useCallback(() => {
     onUserInput(Field.LIQUIDITY_PERCENT, '100')
   }, [onUserInput])
-  //${liquidityUsdAmount?.toFixed(2)}
+
+  const valueLoading = currency0PriceUsdLoading || currency1PriceUsdLoading
+
   return (
     <Flex variant="flex.dexContainer">
       <DexNav />
@@ -105,7 +117,9 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
             </Flex>
           </Flex>
           <Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text mt="10px">$0</Text>
+            <Text mt="10px">
+              {valueLoading || !usdPrice ? <Skeleton width="50px" animation="waves" /> : `$${usdPrice?.toFixed(2)}`}
+            </Text>
             <Button size="sm" onClick={handleMaxInput}>
               Max
             </Button>
