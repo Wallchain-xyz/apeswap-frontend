@@ -3,7 +3,7 @@ import Positions from 'views/Positions'
 
 const LiquidityPage = () => {
   return (
-    <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
+    <PageContainer variant="dex">
       <Positions />
     </PageContainer>
   )

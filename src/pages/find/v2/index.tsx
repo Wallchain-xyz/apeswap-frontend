@@ -3,7 +3,7 @@ import PoolFinder from 'views/V2/PoolFinder'
 
 const Find = () => {
   return (
-    <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
+    <PageContainer variant="dex">
       <PoolFinder />
     </PageContainer>
   )

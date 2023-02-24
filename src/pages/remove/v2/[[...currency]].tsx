@@ -7,7 +7,7 @@ const RemoveLiquidityPage = () => {
   const [currencyIdA, currencyIdB] = (query.currency as string[]) || [undefined, undefined]
 
   return (
-    <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
+    <PageContainer variant="dex">
       <RemoveLiquidityV2 currencyIdA={currencyIdA} currencyIdB={currencyIdB} />
     </PageContainer>
   )

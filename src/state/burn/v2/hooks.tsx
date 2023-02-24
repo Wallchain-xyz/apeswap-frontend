@@ -5,7 +5,6 @@ import JSBI from 'jsbi'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ReactNode, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-
 import { useTotalSupply } from 'hooks/useTotalSupply'
 import { useV2Pair } from 'hooks/useV2Pairs'
 import { useTokenBalances } from 'lib/hooks/useCurrencyBalance'

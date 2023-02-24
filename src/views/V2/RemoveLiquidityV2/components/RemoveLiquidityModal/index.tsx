@@ -20,7 +20,6 @@ const RemoveLiquidityModal: React.FC<RemoveLiquidityModalProps> = ({
   onDismiss,
   onRemove,
 }) => {
-  const { chainId } = useWeb3React()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE)
   const { t } = useTranslation()
   const currencyA = pair?.token0
@@ -29,38 +28,40 @@ const RemoveLiquidityModal: React.FC<RemoveLiquidityModalProps> = ({
     currencyA?.symbol ?? ''
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''} ${currencyB?.symbol ?? ''}`
   return (
-    <Modal title={title} maxWidth="420px" onDismiss={onDismiss}>
-      {attemptingTxn ? (
-        <ConfirmationPendingContent pendingText={pendingText} />
-      ) : txHash ? (
-        <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} />
-      ) : (
-        <Flex sx={{ ...styles.modalWrapper }}>
-          <>
-            <Flex sx={{ ...styles.confirmDisabledInputContainer, marginTop: '10px' }}>
-              <Text size="22px" weight={700}>
-                {parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}
-              </Text>
-              <Flex sx={{ alignItems: 'center' }}>
-                <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} size={30} />
-                <Text size="14px" weight={700} ml="5px">
-                  {`${currencyA?.symbol} - ${currencyB?.symbol}`}
+    <Modal title={title} maxWidth="95%" minWidth="300px" onDismiss={onDismiss}>
+      <Flex sx={{ maxWidth: '100%', width: '420px' }}>
+        {attemptingTxn ? (
+          <ConfirmationPendingContent pendingText={pendingText} />
+        ) : txHash ? (
+          <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} />
+        ) : (
+          <Flex sx={styles.modalWrapper}>
+            <>
+              <Flex sx={{ ...styles.confirmDisabledInputContainer, marginTop: '10px' }}>
+                <Text size="22px" weight={700}>
+                  {parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}
                 </Text>
+                <Flex sx={{ alignItems: 'center' }}>
+                  <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} size={30} />
+                  <Text size="14px" weight={700} ml="5px">
+                    {`${currencyA?.symbol} - ${currencyB?.symbol}`}
+                  </Text>
+                </Flex>
               </Flex>
-            </Flex>
-            <Text size="14px" textAlign="left" mt="15px" weight={500} style={{ textAlign: 'center' }}>
-              {t(
-                'Output is estimated. If the price changes by more than %allowedSlippage%% your transaction will revert.',
-                { allowedSlippage: allowedSlippage.toFixed(2) },
-              )}
-            </Text>
-            <PoolInfo pair={pair} parsedAmounts={parsedAmounts} chainId={chainId} />
-            <Button onClick={onRemove} fullWidth mt="15px">
-              {t('Confirm Remove Liquidity')}
-            </Button>
-          </>
-        </Flex>
-      )}
+              <Text size="14px" textAlign="left" mt="15px" weight={500} style={{ textAlign: 'center' }}>
+                {t(
+                  'Output is estimated. If the price changes by more than %allowedSlippage%% your transaction will revert.',
+                  { allowedSlippage: allowedSlippage?.toFixed(2) },
+                )}
+              </Text>
+              <PoolInfo pair={pair} parsedAmounts={parsedAmounts} />
+              <Button onClick={onRemove} fullWidth mt="15px">
+                {t('Confirm Remove Liquidity')}
+              </Button>
+            </>
+          </Flex>
+        )}
+      </Flex>
     </Modal>
   )
 }

@@ -16,8 +16,7 @@ const PoolInfo: React.FC<{
     CURRENCY_A?: CurrencyAmount<Currency> | undefined
     CURRENCY_B?: CurrencyAmount<Currency> | undefined
   }
-  chainId?: number
-}> = ({ pair, parsedAmounts, chainId }) => {
+}> = ({ pair, parsedAmounts }) => {
   const { t } = useTranslation()
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
   const lpAmount = parsedAmounts[Field.LIQUIDITY]?.divide(totalPoolTokens || '0')?.multiply('100')

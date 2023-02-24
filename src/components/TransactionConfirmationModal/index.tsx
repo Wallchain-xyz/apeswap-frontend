@@ -83,26 +83,28 @@ export function TransactionSubmittedContent({
   }, [connector, logoURL, token])
 
   return (
-    <Flex sx={{ flexDirection: 'column', alignItems: 'center' }}>
-      <ArrowUpCircle strokeWidth={1} size={97} color="rgba(255, 179, 0, 1)" />
-      <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '20px' }}>
-        <Text size="20px">{t('Transaction Submitted')}</Text>
-        {chainId && hash && (
-          <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)}>
-            {t('View on explorer')}
-          </Link>
-        )}
-        {currencyToAdd && connector.watchAsset && (
-          <Button variant="tertiary" mt="20px" onClick={addToken}>
-            <Flex>
-              <Text>{t(`Add %symbol% to Metamask`, { symbol: currencyToAdd.symbol || '' })}</Text>
-              <Svg icon="metamask" width="16px" />
-            </Flex>{' '}
+    <Flex sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <ArrowUpCircle strokeWidth={1} size={97} color="rgba(255, 179, 0, 1)" />
+        <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '20px' }}>
+          <Text size="20px">{t('Transaction Submitted')}</Text>
+          {chainId && hash && (
+            <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)}>
+              {t('View on explorer')}
+            </Link>
+          )}
+          {currencyToAdd && connector.watchAsset && (
+            <Button variant="tertiary" mt="20px" onClick={addToken}>
+              <Flex>
+                <Text>{t(`Add %symbol% to Metamask`, { symbol: currencyToAdd.symbol || '' })}</Text>
+                <Svg icon="metamask" width="16px" />
+              </Flex>{' '}
+            </Button>
+          )}
+          <Button fullWidth onClick={onDismiss} style={{ height: '50px', fontSize: '20px' }} mt="20px">
+            {t('Close')}
           </Button>
-        )}
-        <Button fullWidth onClick={onDismiss} style={{ height: '50px', fontSize: '20px' }} mt="20px">
-          {t('Close')}
-        </Button>
+        </Flex>
       </Flex>
     </Flex>
   )

@@ -11,7 +11,7 @@ const AddLiquidityPageV2 = () => {
   const bananaAddress = BANANA_ADDRESSES[chainId || 56]
 
   return (
-    <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
+    <PageContainer variant="dex">
       <AddLiquidityV2 currencyIdA={currencyIdA ?? 'ETH'} currencyIdB={currencyIdB ?? bananaAddress} />
     </PageContainer>
   )
