@@ -61,7 +61,7 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
   )
 
   const onLiquidityInput = useCallback(
-    (typedValue: string): void => onUserInput(Field.LIQUIDITY, typedValue),
+    (typedValue: string): void => onUserInput(Field.LIQUIDITY_PERCENT, typedValue),
     [onUserInput],
   )
 

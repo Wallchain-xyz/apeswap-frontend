@@ -34,8 +34,6 @@ export default function FullPositionCard({ pair, mb }: { pair: Pair; showUnwrapp
   const userPoolBalance = useTokenBalance(account ?? undefined, pair.liquidityToken)
   const totalPoolTokens = useTotalSupply(pair.liquidityToken)
 
-  const currencyPrice = 0
-
   const poolTokenPercentage =
     !!userPoolBalance &&
     !!totalPoolTokens &&

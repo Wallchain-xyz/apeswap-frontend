@@ -7,6 +7,7 @@ import { styles } from './styles'
 import { Pair } from '@ape.swap/v2-sdk'
 import { useTotalSupply } from 'hooks/useTotalSupply'
 import CurrencyLogo from 'components/CurrencyLogo'
+import JSBI from 'jsbi'
 
 const PoolInfo: React.FC<{
   pair: Pair | undefined | null
@@ -19,7 +20,14 @@ const PoolInfo: React.FC<{
 }> = ({ pair, parsedAmounts }) => {
   const { t } = useTranslation()
   const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
-  const lpAmount = parsedAmounts[Field.LIQUIDITY]?.divide(totalPoolTokens || '0')?.multiply('100')
+  const userPoolBalance = parsedAmounts[Field.LIQUIDITY]
+  const poolTokenPercentage =
+    !!userPoolBalance &&
+    !!totalPoolTokens &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.quotient, userPoolBalance.quotient)
+      ? new Percent(userPoolBalance.quotient, totalPoolTokens.quotient)
+      : undefined
+
   return (
     <Flex sx={{ ...styles.poolInfoContainer }}>
       <Flex sx={{ justifyContent: 'space-between' }}>
@@ -35,7 +43,7 @@ const PoolInfo: React.FC<{
           {t('Share of Pool')}
         </Text>
         <Text size="12px" weight={700}>
-          {lpAmount ? `${lpAmount.toSignificant(2)}%` : '-'}
+          {poolTokenPercentage ? `${poolTokenPercentage.toSignificant(2)}%` : '-'}
         </Text>
       </Flex>
       <Flex sx={{ justifyContent: 'space-between' }}>
