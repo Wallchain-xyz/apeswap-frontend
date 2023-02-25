@@ -103,7 +103,7 @@ const PriceRangeSection = ({
             <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
               <Text> Max Price </Text>
               {valuesLoading ? (
-                <Skeleton width={50} />
+                <Skeleton width={50} animation="waves" />
               ) : (
                 <Text> {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}</Text>
               )}

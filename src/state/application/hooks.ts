@@ -174,3 +174,8 @@ export function useActivePopups(): AppState['application']['popupList'] {
   const list = useAppSelector((state: AppState) => state.application.popupList)
   return useMemo(() => list.filter((item) => item.show), [list])
 }
+
+export function useBananaPrice(): AppState['application']['bananaPrice'] {
+  const bananaPrice = useAppSelector((state: AppState) => state.application.bananaPrice)
+  return bananaPrice
+}

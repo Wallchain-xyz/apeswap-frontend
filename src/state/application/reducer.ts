@@ -44,6 +44,7 @@ export interface ApplicationState {
   readonly fiatOnramp: { available: boolean; availabilityChecked: boolean }
   readonly openModal: ApplicationModal | null
   readonly popupList: PopupList
+  readonly bananaPrice: string | null
 }
 
 const initialState: ApplicationState = {
@@ -51,6 +52,7 @@ const initialState: ApplicationState = {
   chainId: null,
   openModal: null,
   popupList: [],
+  bananaPrice: null,
 }
 
 const applicationSlice = createSlice({
@@ -66,6 +68,9 @@ const applicationSlice = createSlice({
     },
     setOpenModal(state, action) {
       state.openModal = action.payload
+    },
+    setBananaPrice(state, action) {
+      state.bananaPrice = action.payload
     },
     addPopup(state, { payload: { content, key, removeAfterMs = DEFAULT_TXN_DISMISS_MS } }) {
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
@@ -87,6 +92,6 @@ const applicationSlice = createSlice({
   },
 })
 
-export const { updateChainId, setFiatOnrampAvailability, setOpenModal, addPopup, removePopup } =
+export const { updateChainId, setFiatOnrampAvailability, setBananaPrice, setOpenModal, addPopup, removePopup } =
   applicationSlice.actions
 export default applicationSlice.reducer
