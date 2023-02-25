@@ -168,9 +168,6 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
     'IncreaseLiquidityModal',
   )
 
-  console.log(loading, pool)
-  console.log(token0PriceUsd)
-
   const valuesLoading = token0PriceUsdLoading || token1PriceUsdLoading || !position || !feeValue0 || !feeValue1
 
   return (
@@ -203,9 +200,6 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
             <Image
               src={metadata.result.image || ''}
               alt={selectedTokenId || ''}
-              onLoadingComplete={() => {
-                return <Flex sx={{ height: '100%', width: '100%', border: '1px solid red' }}>loading</Flex>
-              }}
               height={100}
               width={100}
               sx={{ height: '100%', width: '100%' }}

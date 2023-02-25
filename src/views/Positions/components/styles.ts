@@ -1,7 +1,7 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const MOBILE_DISPLAY = ['flex', 'flex', 'flex', 'flex', 'flex', 'none']
-export const DESKTOP_DISPLAY = ['none', 'none', 'none', 'none', 'none', 'flex']
+export const DESKTOP_DISPLAY = ['none', 'none', 'none', 'none', 'flex', 'flex']
 
 const styles: Record<'subContainer' | 'positionCardContainer', ThemeUIStyleObject> = {
   subContainer: {
@@ -12,11 +12,10 @@ const styles: Record<'subContainer' | 'positionCardContainer', ThemeUIStyleObjec
     padding: '7.5px 10px',
   },
   positionCardContainer: {
-    minHeight: '80px',
+    minHeight: 'fit-content',
     background: 'white3',
     borderRadius: '10px',
     justifyContent: 'center',
-    padding: '10px',
     margin: '5px 0px',
     flexDirection: 'column',
     cursor: 'pointer',

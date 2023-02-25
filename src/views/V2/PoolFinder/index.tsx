@@ -17,7 +17,7 @@ import useModal from 'hooks/useModal'
 import TokenListModal from 'components/TokenListModal'
 import CurrencyLogo from 'components/CurrencyLogo'
 import Link from 'next/link'
-import { MinimalPositionCard } from 'views/Positions/components/PositionCard'
+import { MinimalPositionCard } from '../PositionsV2/components/PositionCard'
 
 enum Fields {
   TOKEN0 = 0,

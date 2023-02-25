@@ -17,12 +17,14 @@ const Claim = ({
   tokenId,
   feeValue0,
   feeValue1,
+  fullWidth,
 }: {
   currency0ForFeeCollectionPurposes: Currency | undefined
   currency1ForFeeCollectionPurposes: Currency | undefined
   tokenId: BigNumber | undefined
   feeValue0: CurrencyAmount<Currency> | undefined
   feeValue1: CurrencyAmount<Currency> | undefined
+  fullWidth?: boolean
 }) => {
   const { account, provider, chainId } = useWeb3React()
   const positionManager = useV3NFTPositionManagerContract()
@@ -112,7 +114,7 @@ const Claim = ({
   ])
 
   return (
-    <Button size="sm" onClick={onClaim} load={claimPending} disabled={claimPending}>
+    <Button size="sm" onClick={onClaim} load={claimPending} disabled={claimPending} fullWidth={fullWidth}>
       Claim
     </Button>
   )

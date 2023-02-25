@@ -2,8 +2,8 @@ import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import { Flex, Text } from 'components/uikit'
-import { BigNumber } from 'ethers'
-import { useV3PositionFromTokenId, useV3Positions } from 'hooks/useV3Positions'
+import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
+import { useV3Positions } from 'hooks/useV3Positions'
 import { PositionDetails } from 'lib/types/position'
 import { useCallback, useState } from 'react'
 import { useUserHideClosedPositions } from 'state/user/hooks'
@@ -34,6 +34,8 @@ const Positions = () => {
     setSelectedTokenId(tokenId)
   }, [])
 
+  const { isDesktop } = useMatchBreakpoints()
+
   return (
     <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
@@ -50,7 +52,14 @@ const Positions = () => {
             />
           </Flex>
         </Flex>
-        <Flex sx={{ overflowY: 'scroll', height: '481px', flexDirection: 'column', padding: '0px 4px' }}>
+        <Flex
+          sx={{
+            overflowY: 'scroll',
+            height: '481px',
+            flexDirection: 'column',
+            padding: '0px 4px',
+          }}
+        >
           {positionsLoading ? (
             <PositionsLoading />
           ) : (
@@ -67,7 +76,11 @@ const Positions = () => {
           )}
         </Flex>
       </Flex>
-      {selectedTokenId ? <PositionDetailsPage selectedTokenId={selectedTokenId} /> : <NoPositionSelectedPage />}
+      {selectedTokenId ? (
+        isDesktop && <PositionDetailsPage selectedTokenId={selectedTokenId} />
+      ) : (
+        <NoPositionSelectedPage />
+      )}
     </Flex>
   )
 }
