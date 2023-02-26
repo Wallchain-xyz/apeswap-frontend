@@ -2,8 +2,8 @@ import { Percent } from '@ape.swap/sdk-core'
 import { Position } from '@ape.swap/v3-sdk'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { Flex, Skeleton, Text } from 'components/uikit'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useToken } from 'hooks/Tokens'
-import useIsMobile from 'hooks/useIsMobile'
 import useIsTickAtLimit from 'hooks/useIsTickAtLimit'
 import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { usePool } from 'hooks/usePools'
@@ -36,6 +36,9 @@ const PositionCard = ({
     tickUpper,
     tokenId,
   } = positionItem
+  // For mobile positions
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
   const currency0 = token0 ? unwrappedToken(token0) : undefined
@@ -83,7 +86,9 @@ const PositionCard = ({
   return (
     <Flex
       sx={{ ...styles.positionCardContainer, boxShadow: isSelected && isDesktop && '0px 0px 8px' }}
-      onClick={() => handleSelectedTokenId(tokenId.toString())}
+      onClick={() => {
+        handleSelectedTokenId(tokenId.toString()), setIsOpen((prev) => !prev)
+      }}
     >
       <Flex sx={{ padding: '10px', flexDirection: 'column' }}>
         <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -134,9 +139,21 @@ const PositionCard = ({
         </Flex>
       </Flex>
       <Flex>
-        {(isMobile || isTablet) && tokenId.toString() === selectedTokenId && (
-          <MobileLiquidityDetails selectedTokenId={selectedTokenId} />
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: 'fit-content' }}
+              transition={{ opacity: { duration: 0.2 } }}
+              exit={{ height: 0 }}
+              sx={{ overflow: 'hidden', width: '100%' }}
+            >
+              {(isMobile || isTablet) && tokenId.toString() === selectedTokenId && (
+                <MobileLiquidityDetails selectedTokenId={selectedTokenId} />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Flex>
     </Flex>
   )
