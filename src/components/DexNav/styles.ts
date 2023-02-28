@@ -31,7 +31,6 @@ const styles: Record<
 
   navIconContainer: {
     width: '100%',
-    maxWidth: '60px',
     justifyContent: 'flex-end',
     alignItems: 'center',
   },

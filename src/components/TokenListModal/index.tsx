@@ -1,5 +1,5 @@
 import { Currency } from '@ape.swap/sdk-core'
-import { Flex, Modal } from 'components/uikit'
+import { Flex, Modal, Svg } from 'components/uikit'
 import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
@@ -29,10 +29,33 @@ const TokenListModal = ({
     setSearchQuery(checksummedInput || input)
   }, [])
   return (
-    <Modal title="Tokens" minWidth="320px" onDismiss={onDismiss}>
-      <Input onChange={handleInput} />
+    <Modal title="Tokens" minWidth="300px" maxWidth="95%" onDismiss={onDismiss}>
+      <Flex sx={{ position: 'relative', margin: '0px 5px', mb: '10px' }}>
+        <Input
+          onChange={handleInput}
+          sx={{
+            background: 'white3',
+            height: '40px',
+            border: '0px',
+            ':focus': { outline: 'none' },
+          }}
+          placeholder="Name or Address"
+        />
+        <Flex sx={{ position: 'absolute', right: 5, justifyContent: 'center', height: '100%' }}>
+          <Svg icon="search" />
+        </Flex>
+      </Flex>
       <Flex sx={{ maxWidth: '100%', width: '400px' }}>
-        <List searchQuery={searchQuery} onCurrencySelect={onCurrencySelect} onDismiss={onDismiss}/>
+        <List
+          searchQuery={searchQuery}
+          onCurrencySelect={onCurrencySelect}
+          onDismiss={onDismiss}
+          selectedCurrency={selectedCurrency}
+          otherSelectedCurrency={otherSelectedCurrency}
+          showCommonBases={showCommonBases}
+          showCurrencyAmount={showCurrencyAmount}
+          disableNonToken={disableNonToken}
+        />
       </Flex>
     </Modal>
   )

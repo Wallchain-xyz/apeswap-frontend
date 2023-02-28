@@ -1,7 +1,7 @@
 import { Currency, Price, Token } from '@ape.swap/sdk-core'
 import { format } from 'd3'
 import { FeeAmount } from '@ape.swap/v3-sdk'
-import { Flex } from 'components/uikit'
+import { Flex, Text } from 'components/uikit'
 import { saturate } from 'polished'
 import { Bound } from 'state/mint/v3/actions'
 import Chart from './Chart'
@@ -9,7 +9,7 @@ import { ZoomLevels } from './types'
 import { useDensityChartData } from './hooks'
 import { useCallback, useMemo } from 'react'
 import { batch } from 'react-redux'
-import { useThemeUI } from 'theme-ui'
+import { Spinner, useThemeUI } from 'theme-ui'
 
 // TODO: Move to constants file
 const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
@@ -39,6 +39,8 @@ const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
   },
 }
 
+export const CHART_DESKTOP_HEIGHT = 160
+
 const LiquidityChart = ({
   currencyA,
   currencyB,
@@ -49,6 +51,7 @@ const LiquidityChart = ({
   feeAmount,
   priceLower,
   priceUpper,
+  locked,
   onLeftRangeInput,
   onRightRangeInput,
 }: {
@@ -61,6 +64,7 @@ const LiquidityChart = ({
   feeAmount?: FeeAmount
   priceLower?: Price<Token, Token>
   priceUpper?: Price<Token, Token>
+  locked?: boolean
   onLeftRangeInput: (typedValue: string) => void
   onRightRangeInput: (typedValue: string) => void
 }) => {
@@ -73,9 +77,6 @@ const LiquidityChart = ({
   const isSorted = currencyA && currencyB && currencyA?.wrapped.sortsBefore(currencyB?.wrapped)
 
   const { theme } = useThemeUI()
-  console.log(theme.colors?.primary)
-
-  console.log(isLoading, error, formattedData)
 
   const isUninitialized = !currencyA || !currencyB || (formattedData === undefined && !isLoading)
 
@@ -109,6 +110,8 @@ const LiquidityChart = ({
     [isSorted, onLeftRangeInput, onRightRangeInput, ticksAtLimit],
   )
 
+  interactive = interactive && Boolean(formattedData?.length)
+
   const brushLabelValue = useCallback(
     (d: 'w' | 'e', x: number) => {
       if (!price) return ''
@@ -135,23 +138,54 @@ const LiquidityChart = ({
   // TODO: Figure out token colros
 
   return (
-    <Flex
-      sx={{
-        position: 'relative',
-        mb: '20px',
-        width: '100%',
-        background: 'white3',
-        height: '180px',
-        borderRadius: '10px',
-      }}
-    >
-      {!formattedData || formattedData.length === 0 || !price ? (
-        <></>
+    <Flex>
+      {!formattedData || formattedData.length === 0 || !price || isUninitialized || isLoading || error ? (
+        <Flex sx={{ flexDirection: 'column', width: '100%', mb: '10px' }}>
+          <Flex sx={{ height: '30px' }}>
+            <Text sx={{ lineHeight: '20px', opacity: locked && 0.4 }}>Select Range</Text>
+          </Flex>
+          <Flex
+            sx={{
+              position: 'relative',
+              height: CHART_DESKTOP_HEIGHT,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '10px',
+              background: 'white3',
+            }}
+          >
+            {locked && (
+              <Flex
+                sx={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  background: 'white3',
+                  opacity: 0.7,
+                  top: 0,
+                  left: 0,
+                  borderRadius: '10px',
+                }}
+              />
+            )}
+            {isLoading ? (
+              <Flex>
+                <Spinner size="80px" />
+              </Flex>
+            ) : isUninitialized ? (
+              <Text>Your position will appear here.</Text>
+            ) : !formattedData || formattedData.length === 0 || !price ? (
+              <Text>Liquidity data not available.</Text>
+            ) : (
+              <Text>There is no liquidity data.</Text>
+            )}
+          </Flex>
+        </Flex>
       ) : (
         <Chart
           id={id}
           data={{ series: formattedData, current: price }}
-          dimensions={{ width: 800, height: 235 }}
+          dimensions={{ width: 700, height: 170 }}
           margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
           styles={{
             area: {
@@ -170,6 +204,9 @@ const LiquidityChart = ({
           onBrushDomainChange={onBrushDomainChangeEnded}
           zoomLevels={ZOOM_LEVELS[feeAmount ?? FeeAmount.MEDIUM]}
           ticksAtLimit={ticksAtLimit}
+          feeAmount={feeAmount}
+          currencyA={currencyA}
+          currencyB={currencyB}
         />
       )}
     </Flex>

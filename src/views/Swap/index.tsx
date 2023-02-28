@@ -1,4 +1,4 @@
-import { Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import DexPanel from 'components/DexPanel'
@@ -6,12 +6,16 @@ import { Flex } from 'components/uikit'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import useENSAddress from 'hooks/useENSAddress'
+import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
+import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useCallback, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/formatNumbers'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { supportedChainId } from 'utils/supportedChainId'
+import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import TradeDetails from './components/TradeDetails'
@@ -21,6 +25,7 @@ const Swap = () => {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const [newSwapQuoteNeedsLogging, setNewSwapQuoteNeedsLogging] = useState<boolean>(true)
   const [fetchingSwapQuoteStartTime, setFetchingSwapQuoteStartTime] = useState<Date | undefined>()
+  const transactionDeadline = useTransactionDeadline()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -69,14 +74,12 @@ const Swap = () => {
     currencies,
     inputError: swapInputError,
   } = useDerivedSwapInfo()
-  console.log({
-    trade: { state: tradeState, trade },
-    allowedSlippage,
-    currencyBalances,
-    parsedAmount,
-    currencies,
-    inputError: swapInputError,
-  })
+
+  const {
+    state: signatureState,
+    signatureData,
+    gatherPermitSignature,
+  } = useERC20PermitFromTrade(trade, allowedSlippage, transactionDeadline)
 
   //   const {
   //     wrapType,
@@ -119,7 +122,16 @@ const Swap = () => {
     [dependentField, independentField, parsedAmounts, showWrap, typedValue],
   )
 
-  console.log(trade)
+  const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
+    () => maxAmountSpend(currencyBalances[Field.INPUT]),
+    [currencyBalances],
+  )
+  const showMaxButton = Boolean(maxInputAmount?.greaterThan(0) && !parsedAmounts[Field.INPUT]?.equalTo(maxInputAmount))
+
+  // const stablecoinPriceImpact = useMemo(
+  //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
+  //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
+  // )
 
   return (
     <Flex variant="flex.dexContainer">
@@ -129,6 +141,7 @@ const Swap = () => {
         panelText="From"
         onCurrencySelect={(currency) => onCurrencySelection(Field.INPUT, currency)}
         onUserInput={(val) => onUserInput(Field.INPUT, val)}
+        handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
         value={formattedAmounts[Field.INPUT]}
         currency={currencies[Field.INPUT]}
         otherCurrency={currencies[Field.OUTPUT]}
@@ -142,15 +155,22 @@ const Swap = () => {
         currency={currencies[Field.OUTPUT]}
         otherCurrency={currencies[Field.INPUT]}
       />
+      <Actions
+        tradeState={tradeState}
+        swapInputError={swapInputError}
+        trade={trade}
+        allowedSlippage={allowedSlippage}
+        recipient={recipient}
+        stablecoinPriceImpact={null}
+      />
       {routeIsLoading || routeIsSyncing ? (
         <LoadingBestRoute />
       ) : !routeNotFound ? (
-        <TradeDetails trade={trade} />
+        <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
       ) : (
         <></>
       )}
     </Flex>
   )
 }
-
 export default Swap

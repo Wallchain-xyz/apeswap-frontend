@@ -11,7 +11,7 @@ const maticConfig = [
       },
       {
         label: 'Liquidity',
-        href: '/zap',
+        href: '/add-liquidity',
         isNew: false,
       },
       {
@@ -23,12 +23,12 @@ const maticConfig = [
   },
   {
     label: 'Farms',
-    href: '/farms',
+    href: 'https://apeswap.finance/farms',
     isNew: false,
   },
   {
     label: 'Bills',
-    href: '/treasury-bills',
+    href: 'https://apeswap.finance/treasury-bills',
     isNew: true,
   },
   {
@@ -38,12 +38,12 @@ const maticConfig = [
     items: [
       {
         label: 'ApeStats',
-        href: '/apestats',
+        href: 'https://apeswap.finance/apestats',
         isNew: false,
       },
       {
         label: 'Dashboard',
-        href: 'protocol-dashboard',
+        href: 'https://apeswap.finance/protocol-dashboard',
         isNew: false,
       },
       {
@@ -53,7 +53,7 @@ const maticConfig = [
       },
       {
         label: 'Charts',
-        href: '/info',
+        href: 'https://apeswap.finance/info',
         isNew: false,
       },
       {
@@ -63,7 +63,7 @@ const maticConfig = [
       },
       {
         label: 'Newsletter',
-        href: '?modal=newsletter',
+        href: 'https://apeswap.finance/?modal=newsletter',
         isNew: true,
       },
     ],

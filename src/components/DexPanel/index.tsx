@@ -15,6 +15,12 @@ import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import TokenSelector from 'components/TokenSelector'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
+import { Token } from '@ape.swap/sdk-core'
+import { BigNumber } from 'ethers'
+import JSBI from 'jsbi'
+import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
+import Dots from 'components/Dots'
 
 const DexPanel = ({
   value,
@@ -35,13 +41,17 @@ const DexPanel = ({
   showCommonBases = false,
   isZapInput,
   userBalance,
+  locked,
 }: DexPanelProps) => {
   const { chainId, account } = useWeb3React()
   // const isRemoveLiquidity = !!lpPair
+  // TODO: Fix usd balance calculation
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const currencyBalance = userBalance ? userBalance?.toFixed(6) : selectedCurrencyBalance?.toSignificant(6) || '0'
 
   const { t } = useTranslation()
+
+  const [usdVal, loadingUsdValue] = useTokenPriceUsd(currency ?? undefined)
 
   // const usdVal = useTokenPriceUsd(chainId, lpPair?.liquidityToken || currency, isRemoveLiquidity, smartRouter)
 
@@ -57,6 +67,22 @@ const DexPanel = ({
 
   return (
     <Flex sx={styles.dexPanelContainer}>
+      {locked && (
+        <Flex
+          sx={{
+            zIndex: 10,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'white3',
+            opacity: 0.7,
+            borderRadius: '10px',
+            cursor: 'not-allowed',
+          }}
+        />
+      )}
       <Flex sx={styles.panelTopContainer}>
         <Text sx={styles.swapDirectionText}>{panelText}</Text>
         <NumericInput onUserInput={onUserInput} value={value} />
@@ -90,35 +116,34 @@ const DexPanel = ({
             opacity: independentField && independentField !== fieldType && disabled && 0.4,
           }}
         >
-          {/* {!usdVal && (value || value === '.') && <Spinner width="15px" height="15px" />}
-          <Text size="12px" sx={styles.panelBottomText}>
-            {usdVal !== null &&
-              value !== '.' &&
-              usdVal !== 0 &&
-              value &&
-              `$${(lpPair
-                ? usdVal * parseFloat(currencyBalance) * (parseFloat(value) / 100)
-                : usdVal * parseFloat(value)
-              ).toFixed(2)}`}
-          </Text> */}
+          {loadingUsdValue ? (
+            <Spinner width="15px" height="15px" />
+          ) : (
+            <Text size="12px" sx={styles.panelBottomText}>
+              {value !== '.' &&
+                value &&
+                // `$${(lpPair
+                //   ? usdVal * parseFloat(currencyBalance) * (parseFloat(value) / 100)
+                //   : usdVal * parseFloat(value)
+                // ).toFixed(2)}`}
+
+                `$${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
+            </Text>
+          )}
         </Flex>
         {account && (
           <Flex sx={{ alignItems: 'center' }}>
             <Text size="12px" sx={styles.panelBottomText}>
               {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
-              {/* {!currencyBalance && <Dots />} */}
             </Text>
-            {/* {(fieldType === Field.INPUT ||
-              fieldType === MintField.CURRENCY_A ||
-              fieldType === MintField.CURRENCY_B ||
-              isRemoveLiquidity) &&
-              parseFloat(currencyBalance) > 0 && (
-                <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
-                  <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
-                    {t('MAX')}
-                  </Text>
-                </Flex>
-              )} */}
+            {!currencyBalance && <Dots />}
+            {parseFloat(currencyBalance) > 0 && handleMaxInput && (
+              <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
+                <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
+                  {t('MAX')}
+                </Text>
+              </Flex>
+            )}
           </Flex>
         )}
       </Flex>

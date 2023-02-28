@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { RPC_URLS } from './networks'
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
-import { AVERAGE_L1_BLOCK_TIME, CHAIN_NAMES, CHAIN_PARAMS } from './chains'
+import { AVERAGE_L1_BLOCK_TIME, CHAIN_NAMES } from './chains'
 import { isPlain } from '@reduxjs/toolkit'
 import { deepCopy } from 'ethers/lib/utils'
 

@@ -6,11 +6,15 @@ import { CSSProperties } from 'theme-ui'
 const ListRow = ({
   currency,
   userBalance,
+  isSelected,
+  otherSelected,
   style,
   onSelect,
 }: {
   currency: Currency
   userBalance: string | undefined
+  isSelected: boolean
+  otherSelected: boolean
   style: CSSProperties
   onSelect: () => void
 }) => {
@@ -22,6 +26,7 @@ const ListRow = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         cursor: 'pointer',
+        opacity: (isSelected || otherSelected) && 0.5,
         ':hover': {
           backgroundColor: 'white3',
         },

@@ -17,7 +17,6 @@ import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ReactNode, useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { getTickToPrice } from 'lib/utils/getTickToPrice'
-import { replaceURLParam } from 'utils/routes'
 import { BIG_INT_ZERO } from 'config/constants/misc'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { AppState } from '../../index'
@@ -46,7 +45,7 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   onStartPriceInput: (typedValue: string) => void
 } {
   const dispatch = useAppDispatch()
-  const { replace, query } = useRouter()
+  const { push, query } = useRouter()
 
   const onFieldAInput = useCallback(
     (typedValue: string) => {
@@ -65,17 +64,17 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onLeftRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeLeftRangeInput({ typedValue }))
-      replace({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
+      // push({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
     },
-    [dispatch, replace, query],
+    [dispatch, push, query],
   )
 
   const onRightRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeRightRangeInput({ typedValue }))
-      replace({ query: { ...query, maxPrice: typedValue } })
+      // push({ query: { ...query, maxPrice: typedValue } }, undefined, { shallow: true })
     },
-    [dispatch, replace, query],
+    [dispatch, push, query],
   )
 
   const onStartPriceInput = useCallback(

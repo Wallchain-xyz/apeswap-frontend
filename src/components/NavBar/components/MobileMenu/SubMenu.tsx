@@ -4,6 +4,7 @@ import { Flex, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useState } from 'react'
 import styles from '../styles'
+import Link from 'next/link'
 
 const SubMenu = ({ label, menuItems }: { label: string; menuItems: MenuItem[] | undefined }) => {
   const [opened, setOpened] = useState(false)
@@ -23,9 +24,9 @@ const SubMenu = ({ label, menuItems }: { label: string; menuItems: MenuItem[] | 
             exit={{ height: 0 }}
             sx={{ overflow: 'hidden' }}
           >
-            {menuItems?.map(({ label }) => {
+            {menuItems?.map(({ label, href }) => {
               return (
-                <Flex sx={styles.mobileSubItemContainer} key={label}>
+                <Flex sx={styles.mobileSubItemContainer} key={label} as={Link} href={href}>
                   <Text>{label}</Text>
                 </Flex>
               )

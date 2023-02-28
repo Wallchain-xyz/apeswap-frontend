@@ -10,6 +10,7 @@ import AccountLoggedInDisplay from '../AccountLoggedInDisplay'
 import SubMenu from './SubMenu'
 import { getNavConfig } from '../../config/chains'
 import styles, { NAV_DESKTOP_DISPLAY } from '../styles'
+import Link from 'next/link'
 
 const DesktopMenu = () => {
   const { chainId } = useWeb3React()
@@ -24,7 +25,7 @@ const DesktopMenu = () => {
       }}
     >
       <Flex sx={{ width: 'fit-content' }}>
-        {getNavConfig(chainId).map(({ label, items }) => {
+        {getNavConfig(chainId).map(({ label, items, href }) => {
           return (
             <Flex
               key={label}
@@ -39,7 +40,9 @@ const DesktopMenu = () => {
                 },
               }}
             >
-              <Text weight={700}>{t(label)}</Text>
+              <Text sx={{ textDecoration: 'none' }} weight={700} as={href ? Link : 'p'} href={href}>
+                {t(label)}
+              </Text>
               {hoverLabel === label && items && <SubMenu label={label} menuItems={items} />}
             </Flex>
           )

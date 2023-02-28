@@ -10,25 +10,34 @@ import multicallV3Abi from 'config/abi/multicallv3.json'
 import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
+import EIP_2612 from 'config/abi/eip_2612.json'
+import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
+import IUniswapV2PairJson from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
 import { Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 import { NonfungiblePositionManager, Quoter, QuoterV2, TickLens } from 'config/abi/types/v3'
+import IUniswapV2Router02Json from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 import {
   NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
   TICK_LENS_ADDRESSES,
   QUOTER_ADDRESSES,
+  PRICE_GETTER_ADDRESSES,
+  V2_ROUTER_ADDRESSES,
 } from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
 import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
+import { PriceGetter } from 'config/abi/types/PriceGetter'
 
+const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
+const { abi: IUniswapV2Router02ABI } = IUniswapV2Router02Json
 const { abi: TickLensABI } = TickLensJson
 const { abi: QuoterABI } = QuoterJson
 const { abi: QuoterV2ABI } = QuoterV2Json
@@ -102,4 +111,21 @@ export function useTickLens(): TickLens | null {
 
 export function useQuoter(useQuoterV2: boolean) {
   return useContract<Quoter | QuoterV2>(QUOTER_ADDRESSES, useQuoterV2 ? QuoterV2ABI : QuoterABI)
+}
+
+export function useEIP2612Contract(tokenAddress?: string): Contract | null {
+  return useContract(tokenAddress, EIP_2612, false)
+}
+
+export function useV2RouterContract(): Contract | null {
+  return useContract(V2_ROUTER_ADDRESSES, IUniswapV2Router02ABI, true)
+}
+
+export function usePriceGetter() {
+  const { chainId } = useWeb3React()
+  return useContract<PriceGetter>(chainId ? PRICE_GETTER_ADDRESSES[chainId] : undefined, PRICE_GETTER_ABI)
+}
+
+export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(pairAddress, IUniswapV2PairABI, withSignerIfPossible)
 }

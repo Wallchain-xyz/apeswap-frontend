@@ -1,15 +1,17 @@
 import { LangaugeDropdown } from 'components/Langauge'
 import NetworkSelector from 'components/NetworkSelector'
 import ThemeSwitcher from 'components/ThemeSwitcher'
-import { Button, Flex, Svg, Text } from 'components/uikit'
+import { Button, Flex, Skeleton, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import CountUp from 'react-countup'
+import { useBananaPrice } from 'state/application/hooks'
 import MobileDropdown from './components/MobileDropdown'
 import { ACCESS_LINKS, ENGAGE_LINKS, SOCIAL_LINKS, SUPPORT_LINKS } from './config'
 import styles from './styles'
 
 const Footer = () => {
   const { t } = useTranslation()
+  const bananaPrice = useBananaPrice()
   return (
     <Flex sx={styles.container}>
       <Flex sx={styles.columnContainer}>
@@ -51,10 +53,14 @@ const Footer = () => {
           <Flex>
             <Flex sx={{ alignItems: 'center' }}>
               <Svg icon="banana_token" width={35} />
-              <Text color="primaryBright" ml="7px" weight={600}>
-                $
-                <CountUp start={0} end={42.0} decimals={2} duration={1} separator="," />
-              </Text>
+              {bananaPrice ? (
+                <Text color="primaryBright" ml="7px" weight={600}>
+                  $
+                  <CountUp end={parseFloat(bananaPrice)} decimals={4} duration={1} separator="," />
+                </Text>
+              ) : (
+                <Skeleton width="80px" animation="waves" ml="5px" />
+              )}
             </Flex>
             <Button size="sm" ml="20px">
               {t('Add Funds')}
@@ -109,8 +115,10 @@ const Footer = () => {
         </Flex>
       </Flex>
       <Flex sx={styles.allRightsReserved}>
-        <Text>©2023 All rights reserved</Text>
-        <Text size="12px"> Terms | Privacy Policy</Text>
+        <Text color="primaryBright">©2023 All rights reserved</Text>
+        <Text color="primaryBright" size="12px">
+          Terms | Privacy Policy
+        </Text>
       </Flex>
     </Flex>
   )

@@ -45,7 +45,6 @@ async function getQuote(
     /*swapConfig=*/ undefined,
     config,
   )
-  console.log(swapRoute)
 
   if (!swapRoute) throw new Error('Failed to generate client side quote')
 

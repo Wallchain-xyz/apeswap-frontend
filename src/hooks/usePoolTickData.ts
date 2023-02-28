@@ -2,7 +2,7 @@ import { Currency } from '@ape.swap/sdk-core'
 import { FeeAmount, nearestUsableTick, Pool, TICK_SPACINGS, tickToPrice } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { ZERO_ADDRESS } from 'config/constants/misc'
-import useAllV3TicksQuery, { TickData } from 'graphql/thegraph/AllV3TicksQuery'
+import useAllV3TicksQuery, { TickData, Ticks } from 'graphql/thegraph/AllV3TicksQuery'
 import JSBI from 'jsbi'
 import { useSingleContractMultipleData } from 'lib/hooks/multicall'
 import { useEffect, useMemo, useState } from 'react'
@@ -13,6 +13,8 @@ import { useTickLens } from './useContract'
 import { PoolState, usePool } from './usePools'
 
 const PRICE_FIXED_DIGITS = 8
+// TODO: Add chains to not use subgraph for
+const CHAIN_IDS_MISSING_SUBGRAPH_DATA = [999]
 
 // Tick with fields parsed to JSBIs, and active liquidity computed.
 export interface TickProcessed {
@@ -138,6 +140,7 @@ function useTicksFromSubgraph(
   currencyA: Currency | undefined,
   currencyB: Currency | undefined,
   feeAmount: FeeAmount | undefined,
+  skip = 0,
 ) {
   const { chainId } = useWeb3React()
   const poolAddress =
@@ -151,9 +154,10 @@ function useTicksFromSubgraph(
         )
       : undefined
 
-  return useAllV3TicksQuery(poolAddress, 0, 30000)
+  return useAllV3TicksQuery(poolAddress, skip, 30000)
 }
 
+const MAX_THE_GRAPH_TICK_FETCH_VALUE = 1000
 // Fetches all ticks for a given pool
 function useAllV3Ticks(
   currencyA: Currency | undefined,
@@ -164,15 +168,34 @@ function useAllV3Ticks(
   error: unknown
   ticks: TickData[] | undefined
 } {
-  const useSubgraph = currencyA
+  const useSubgraph = currencyA ? !CHAIN_IDS_MISSING_SUBGRAPH_DATA.includes(currencyA.chainId) : true
 
   const tickLensTickData = useTicksFromTickLens(!useSubgraph ? currencyA : undefined, currencyB, feeAmount)
-  const subgraphTickData = useTicksFromSubgraph(useSubgraph ? currencyA : undefined, currencyB, feeAmount)
+
+  const [skipNumber, setSkipNumber] = useState(0)
+  const [subgraphTickData, setSubgraphTickData] = useState<Ticks>([])
+  const { data, error, isLoading } = useTicksFromSubgraph(
+    useSubgraph ? currencyA : undefined,
+    currencyB,
+    feeAmount,
+    skipNumber,
+  )
+
+  useEffect(() => {
+    if (data?.ticks.length) {
+      setSubgraphTickData((tickData) => [...tickData, ...data.ticks])
+      if (data.ticks.length === MAX_THE_GRAPH_TICK_FETCH_VALUE) {
+        setSkipNumber((skipNumber) => skipNumber + MAX_THE_GRAPH_TICK_FETCH_VALUE)
+      }
+    }
+  }, [data?.ticks])
 
   return {
-    isLoading: useSubgraph ? subgraphTickData.isLoading : tickLensTickData.isLoading,
-    error: useSubgraph ? subgraphTickData.error : tickLensTickData.isError,
-    ticks: useSubgraph ? subgraphTickData.data?.ticks : tickLensTickData.tickData,
+    isLoading: useSubgraph
+      ? isLoading || data?.ticks.length === MAX_THE_GRAPH_TICK_FETCH_VALUE
+      : tickLensTickData.isLoading,
+    error: useSubgraph ? error : tickLensTickData.isError,
+    ticks: useSubgraph ? subgraphTickData : tickLensTickData.tickData,
   }
 }
 
@@ -192,6 +215,7 @@ export function usePoolActiveLiquidity(
   const activeTick = useMemo(() => getActiveTick(pool[1]?.tickCurrent, feeAmount), [pool, feeAmount])
 
   const { isLoading, error, ticks } = useAllV3Ticks(currencyA, currencyB, feeAmount)
+
 
   return useMemo(() => {
     if (

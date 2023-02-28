@@ -10,6 +10,8 @@ export interface LiquidityParamsInterface {
   priceLower: Price<Token, Token> | undefined
   priceUpper: Price<Token, Token> | undefined
   ticksAtLimit: Partial<Record<Bound, boolean | undefined>>
+  noLiquidity: boolean | undefined
+  startPriceTypedValue: string
   getDecrementLower: () => string
   getIncrementLower: () => string
   getDecrementUpper: () => string
@@ -17,4 +19,5 @@ export interface LiquidityParamsInterface {
   onHandleFeeSelect: (fee: FeeAmount) => void
   onLeftRangeInput: (typedValue: string) => void
   onRightRangeInput: (typedValue: string) => void
+  onStartPriceInput: (typedValue: string) => void
 }

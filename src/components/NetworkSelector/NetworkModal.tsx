@@ -2,8 +2,8 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Button, Flex, Modal, Svg, Text } from 'components/uikit'
 import { MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
 import useSelectChain from 'hooks/useSelectChain'
+import { updateChainId } from 'state/application/reducer'
 import { useAppDispatch } from 'state/hooks'
-import { updateSelectedNetwork } from 'state/user/reducer'
 
 const NetworkModal = ({
   onDismiss,
@@ -35,7 +35,7 @@ const NetworkModal = ({
                 selectChain(chainId)
                   .then(() => onSetRequestPending(false))
                   .catch(() => onSetRequestPending(false))
-                dispatch(updateSelectedNetwork({ chainId: chainId }))
+                dispatch(updateChainId({ chainId: chainId }))
                 onDismiss()
               }}
             >

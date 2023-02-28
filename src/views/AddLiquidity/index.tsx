@@ -2,8 +2,6 @@ import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import { Flex } from 'components/uikit'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
-import { BigNumber } from 'ethers'
-import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import {
   useRangeHopCallbacks,
   useV3DerivedMintInfo,
@@ -11,43 +9,41 @@ import {
   useV3MintState,
 } from 'state/mint/v3/hooks'
 import { useCurrency } from 'hooks/Tokens'
-import { useDerivedPositionInfo } from 'hooks/useDerivedPositionInfo'
 import { FeeAmount } from '@ape.swap/v3-sdk'
 import { useHandleCurrencyASelect, useHandleCurrencyBSelect, useHandleFeeSelect } from './hooks'
 import DexPanel from 'components/DexPanel'
 import { Bound, Field } from 'state/mint/v3/actions'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Actions from './actions'
 import { V3LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import DesktopLiquidityParams from './components/DesktopLiquidityParams'
 import MobileLiquidityParams from './components/MobileLiquidityParams'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
+import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
+import SwapSwitchButton from 'views/Swap/components/SwapSwitchButton'
+import { useFlipV3LayoutManager } from 'state/user/hooks'
 
 const AddLiquidity = ({
   currencyIdA,
   currencyIdB,
   feeAmountFromUrl,
-  tokenId,
 }: {
   currencyIdA: string
   currencyIdB: string
   feeAmountFromUrl?: string
-  tokenId?: string
 }) => {
   const { account, chainId, provider } = useWeb3React()
   const positionManager = useV3NFTPositionManagerContract()
-  const { query } = useRouter()
-
-  // check for existing position if tokenId in url
-  const { position: existingPositionDetails, loading: positionLoading } = useV3PositionFromTokenId(
-    tokenId ? BigNumber.from(tokenId) : undefined,
-  )
-
-  const hasExistingPosition = !!existingPositionDetails && !positionLoading
-  const { position: existingPosition } = useDerivedPositionInfo(existingPositionDetails)
+  const { query, push } = useRouter()
 
   const baseCurrency = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
+
+  const [flipV3Layout] = useFlipV3LayoutManager()
+
+  // capital efficiency warning
+  const [showCapitalEfficiencyWarning, setShowCapitalEfficiencyWarning] = useState(false)
 
   // fee selection from url
   const feeAmount: FeeAmount | undefined =
@@ -82,13 +78,7 @@ const AddLiquidity = ({
     depositBDisabled,
     invertPrice,
     ticksAtLimit,
-  } = useV3DerivedMintInfo(
-    baseCurrency ?? undefined,
-    quoteCurrency ?? undefined,
-    feeAmount,
-    baseCurrency ?? undefined,
-    existingPosition,
-  )
+  } = useV3DerivedMintInfo(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, baseCurrency ?? undefined)
 
   const { onFieldAInput, onFieldBInput, onLeftRangeInput, onRightRangeInput, onStartPriceInput } =
     useV3MintActionHandlers(noLiquidity)
@@ -103,29 +93,66 @@ const AddLiquidity = ({
   const handleCurrencyBSelect = useHandleCurrencyBSelect({ currencyIdA, currencyIdB })
   const handleFeeSelect = useHandleFeeSelect({ currencyIdA, currencyIdB, onLeftRangeInput, onRightRangeInput })
 
+  // get value and prices at ticks
+  const { [Bound.LOWER]: tickLower, [Bound.UPPER]: tickUpper } = ticks
+  const { [Bound.LOWER]: priceLower, [Bound.UPPER]: priceUpper } = pricesAtTicks
+
+  // get the max amounts user can add
+  const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+    (accumulator, field) => {
+      return {
+        ...accumulator,
+        [field]: maxAmountSpend(currencyBalances[field]),
+      }
+    },
+    {},
+  )
+
+  const atMaxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+    (accumulator, field) => {
+      return {
+        ...accumulator,
+        [field]: maxAmounts[field]?.equalTo(parsedAmounts[field] ?? '0'),
+      }
+    },
+    {},
+  )
+
+  const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper } = useRangeHopCallbacks(
+    baseCurrency ?? undefined,
+    quoteCurrency ?? undefined,
+    feeAmount,
+    tickLower,
+    tickUpper,
+    pool,
+  )
+
   useEffect(() => {
-    if (query.minPrice && typeof query.minPrice === 'string' && !leftRangeTypedValue && !isNaN(query.minPrice as any)) {
+    if (
+      query.minPrice &&
+      typeof query.minPrice === 'string' &&
+      query.minPrice !== leftRangeTypedValue &&
+      !isNaN(query.minPrice as any)
+    ) {
       onLeftRangeInput(query.minPrice)
     }
+
     if (
       query.maxPrice &&
       typeof query.maxPrice === 'string' &&
-      !rightRangeTypedValue &&
+      query.maxPrice !== rightRangeTypedValue &&
       !isNaN(query.maxPrice as any)
     ) {
       onRightRangeInput(query.maxPrice)
     }
   }, [query, rightRangeTypedValue, leftRangeTypedValue, onRightRangeInput, onLeftRangeInput])
 
-  // get value and prices at ticks
-  const { [Bound.LOWER]: tickLower, [Bound.UPPER]: tickUpper } = ticks
-  const { [Bound.LOWER]: priceLower, [Bound.UPPER]: priceUpper } = pricesAtTicks
-
-  const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper, getSetFullRange } =
-    useRangeHopCallbacks(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, tickLower, tickUpper, pool)
+  useEffect(() => {
+    noLiquidity && (onRightRangeInput(''), onLeftRangeInput(''))
+  }, [noLiquidity, onRightRangeInput, onLeftRangeInput])
 
   return (
-    <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
+    <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: flipV3Layout ? 'auto' : 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
         <DexNav />
         <V3LiquiditySubNav />
@@ -137,6 +164,8 @@ const AddLiquidity = ({
           priceLower={priceLower}
           priceUpper={priceUpper}
           ticksAtLimit={ticksAtLimit}
+          noLiquidity={noLiquidity}
+          startPriceTypedValue={startPriceTypedValue}
           getDecrementLower={getDecrementLower}
           getIncrementLower={getIncrementLower}
           getDecrementUpper={getDecrementUpper}
@@ -146,40 +175,67 @@ const AddLiquidity = ({
           onRightRangeInput={onRightRangeInput}
           handleCurrencyASelect={handleCurrencyASelect}
           handleCurrencyBSelect={handleCurrencyBSelect}
+          onStartPriceInput={onStartPriceInput}
         />
-        <Flex sx={{ mt: ['20px', '20px', '20px', '20px', '20px', '0px'] }} />
+        <Flex sx={{ mt: ['10px', '10px', '10px', '10px', '10px', '0px'] }} />
         <DexPanel
           onCurrencySelect={handleCurrencyASelect}
           onUserInput={onFieldAInput}
           value={formattedAmounts[Field.CURRENCY_A]}
           currency={currencies[Field.CURRENCY_A] ?? null}
           otherCurrency={currencies[Field.CURRENCY_B] ?? null}
+          handleMaxInput={() => {
+            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+          }}
+          locked={depositADisabled}
         />
-        <Flex sx={{ mt: '20px' }} />
+        <SwapSwitchButton
+          onClick={() => {
+            if (baseCurrency && quoteCurrency) {
+              if (!ticksAtLimit[Bound.LOWER] && !ticksAtLimit[Bound.UPPER]) {
+                onLeftRangeInput((invertPrice ? priceLower : priceUpper?.invert())?.toSignificant(6) ?? '')
+                onRightRangeInput((invertPrice ? priceUpper : priceLower?.invert())?.toSignificant(6) ?? '')
+                onFieldAInput(formattedAmounts[Field.CURRENCY_B] ?? '')
+              }
+              push(
+                `/add-liquidity/${currencyIdB as string}/${currencyIdA as string}${feeAmount ? '/' + feeAmount : ''}`,
+              )
+            }
+          }}
+        />
         <DexPanel
           onCurrencySelect={handleCurrencyBSelect}
           onUserInput={onFieldBInput}
           value={formattedAmounts[Field.CURRENCY_B]}
           currency={currencies[Field.CURRENCY_B] ?? null}
           otherCurrency={currencies[Field.CURRENCY_A] ?? null}
+          handleMaxInput={() => {
+            onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+          }}
+          locked={depositBDisabled}
         />
         <Actions
+          parsedAmounts={parsedAmounts}
           positionManager={positionManager}
           baseCurrency={currencies[Field.CURRENCY_A]}
           quoteCurrency={currencies[Field.CURRENCY_B]}
           position={position}
           outOfRange={outOfRange}
           noLiquidity={noLiquidity}
+          errorMessage={errorMessage}
+          invalidRange={invalidRange}
         />
       </Flex>
       <DesktopLiquidityParams
         feeAmount={feeAmount}
-        price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
+        price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(6)) : undefined}
         currencyA={currencies[Field.CURRENCY_A] ?? undefined}
         currencyB={currencies[Field.CURRENCY_B] ?? undefined}
         priceLower={priceLower}
         priceUpper={priceUpper}
         ticksAtLimit={ticksAtLimit}
+        noLiquidity={noLiquidity}
+        startPriceTypedValue={startPriceTypedValue}
         getDecrementLower={getDecrementLower}
         getIncrementLower={getIncrementLower}
         getDecrementUpper={getDecrementUpper}
@@ -187,6 +243,7 @@ const AddLiquidity = ({
         onHandleFeeSelect={handleFeeSelect}
         onLeftRangeInput={onLeftRangeInput}
         onRightRangeInput={onRightRangeInput}
+        onStartPriceInput={onStartPriceInput}
       />
     </Flex>
   )

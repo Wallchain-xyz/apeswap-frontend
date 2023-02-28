@@ -1,4 +1,4 @@
-import { Input as ThemeInput, ThemeUICSSObject } from 'theme-ui'
+import { Input as ThemeInput } from 'theme-ui'
 
 const Input = (props: any) => {
   return <ThemeInput {...props} />

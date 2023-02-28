@@ -17,7 +17,7 @@ const Colors = {
   dividerColor: '#E2E2E2',
   textareaColor: '#4D4040',
   text: '#4D4040',
-  textDisabled: '#BDC2C4',
+  textDisabled: 'rgba(66, 66, 66, 0.5)',
   heading: '#4D4040',
   black: '#000000',
   gradient: 'linear-gradient(53.53deg, #A16552 15.88%, #E1B242 92.56%)',
@@ -38,6 +38,8 @@ const Colors = {
   hoveredDanger: '#DF4141B3',
   modalOverlay: 'rgba(66, 66, 66, 0.5)',
   opacityBadge: 'rgba(66, 66, 66, 0.5)',
+  moon: '#7A7A7A',
+  island: '#4D4040',
   modes: {
     dark: {
       background: '#0B0B0B',
@@ -53,7 +55,7 @@ const Colors = {
       textareaColor: '#FAFAFA',
       text: '#FAFAFA',
       info: '#FAFAFA',
-      textDisabled: '#666171',
+      textDisabled: 'rgba(241, 234, 218, 0.5)',
       heading: '#FAFAFA',
       white1: '#0B0B0B',
       white2: '#212121',
@@ -66,6 +68,8 @@ const Colors = {
       hoveredYellow: '#FFDA00',
       modalOverlay: 'rgba(66, 66, 66, 0.5)',
       opacityBadge: 'rgba(253, 251, 245, 0.5)',
+      moon: '#FAFAFA',
+      island: '#7A7A7A',
     },
   },
 }

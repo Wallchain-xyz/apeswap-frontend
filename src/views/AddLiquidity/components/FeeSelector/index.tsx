@@ -12,11 +12,13 @@ const FeeSelector = ({
   feeAmount,
   currencyA,
   currencyB,
+  locked,
   onHandleFeeSelect,
 }: {
   feeAmount: FeeAmount | undefined
   currencyA: Currency | undefined
   currencyB: Currency | undefined
+  locked?: boolean
   onHandleFeeSelect: (fee: FeeAmount) => void
 }) => {
   const [hide, setHide] = useState(true)
@@ -29,6 +31,7 @@ const FeeSelector = ({
   ])
 
   // TODO: Add some sort of loading animation and handle error
+
   const { isLoading, isError, largestUsageFeeTier, distributions } = useFeeTierDistribution(currencyA, currencyB)
 
   useEffect(() => {
@@ -68,6 +71,7 @@ const FeeSelector = ({
     <Flex sx={{ flexDirection: 'column' }}>
       <Flex
         sx={{
+          position: 'relative',
           height: '55px',
           borderRadius: '10px',
           background: 'white3',
@@ -75,19 +79,41 @@ const FeeSelector = ({
           padding: '10px 20px',
           justifyContent: 'space-between',
           alignItems: 'center',
-          mb: '20px',
+          mb: '15px',
         }}
       >
+        {locked && (
+          <Flex
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              background: 'white3',
+              opacity: 0.7,
+              top: 0,
+              left: 0,
+              borderRadius: '10px',
+            }}
+          />
+        )}
+
         <Flex sx={{ flexDirection: 'column' }}>
           <Text size="18px" weight={700}>
             {feeAmount && FEE_AMOUNT_DETAIL[feeAmount].label}% fee tier
           </Text>
           <Text size="10px" weight={500} sx={{ lineHeight: '15px' }}>
-            {distributions && feeAmount && distributions[feeAmount]?.toFixed(0)}% Selected
+            {feeAmount &&
+              (!distributions ||
+              poolsByFeeTier[feeAmount] === PoolState.NOT_EXISTS ||
+              poolsByFeeTier[feeAmount] === PoolState.INVALID
+                ? 'Not created'
+                : `${distributions && distributions[feeAmount]?.toFixed(0)}% Selected `)}
           </Text>
         </Flex>
         <Button size="sm" onClick={() => setHide((prev) => !prev)} sx={{ padding: '2px 10px', height: '30px' }}>
-          <Text sx={{ lineHeight: '20px' }}>{hide ? 'Edit' : 'Hide'}</Text>
+          <Text color="primaryBright" sx={{ lineHeight: '20px' }}>
+            {hide ? 'Edit' : 'Hide'}
+          </Text>
         </Button>
       </Flex>
       <AnimatePresence>

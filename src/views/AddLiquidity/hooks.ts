@@ -66,7 +66,7 @@ export const useHandleFeeSelect = ({
     (newFeeAmount: FeeAmount) => {
       onLeftRangeInput('')
       onRightRangeInput('')
-      push(`/add-liquidity/${currencyIdA}/${currencyIdB}/${newFeeAmount}`)
+      push(`/add-liquidity/${currencyIdA}/${currencyIdB}/${newFeeAmount}`, undefined, { shallow: true })
     },
     [currencyIdA, currencyIdB, push, onLeftRangeInput, onRightRangeInput],
   )

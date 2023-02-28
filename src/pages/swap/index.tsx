@@ -3,7 +3,7 @@ import Swap from 'views/Swap'
 
 const SwapPage = () => {
   return (
-    <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
+    <PageContainer variant="dex">
       <Swap />
     </PageContainer>
   )

@@ -24,12 +24,12 @@ const styles: Record<string, ThemeUIStyleObject> = {
     '&:before': {
       content: `""`,
       position: 'absolute',
-      backgroundImage: 'linear-gradient(90deg, transparent, rgba(243, 243, 243, 0.5), transparent)',
+      backgroundImage: 'linear-gradient(90deg, transparent, rgba(243, 243, 243, 0.3), transparent)',
       top: 0,
       left: '-150px',
       height: '100%',
-      width: '150px',
-      animation: `${waves} 2s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
+      width: '250px',
+      animation: `${waves} 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
     },
   },
   pulse: {

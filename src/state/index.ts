@@ -3,29 +3,28 @@ import { setupListeners } from '@reduxjs/toolkit/query/react'
 import multicall from 'lib/state/multicall'
 import { load, save } from 'redux-localstorage-simple'
 // import { isTestEnv } from 'utils/env'
-// import application from './application/reducer'
+import application from './application/reducer'
 import burn from './burn/v2/reducer'
 import burnV3 from './burn/v3/reducer'
 // import connection from './connection/reducer'
 import { updateVersion } from './global/actions'
 import lists from './lists/reducer'
-// import logs from './logs/slice'
 import mint from './mint/v2/reducer'
 import mintV3 from './mint/v3/reducer'
 import { routingApi } from './routing/slice'
 import swap from './swap/reducer'
-// import transactions from './transactions/reducer'
+import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
 
-const PERSISTED_KEYS: string[] = ['user', 'lists'] //, 'transactions',
+const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
 const store = configureStore({
   reducer: {
-    // application,
+    application,
     user,
     // connection,
-    // transactions,
+    transactions,
     wallets,
     swap,
     mint,
@@ -34,7 +33,6 @@ const store = configureStore({
     burnV3,
     multicall: multicall.reducer,
     lists,
-    // logs,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

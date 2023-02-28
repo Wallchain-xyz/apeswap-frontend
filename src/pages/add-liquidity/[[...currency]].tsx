@@ -13,12 +13,8 @@ const AddLiquidityPage = () => {
   // check for existing position if tokenId in url
 
   return (
-    <PageContainer style={{ justifyContent: 'center', marginTop: '100px' }}>
-      <AddLiquidity
-        currencyIdA={currencyIdA ?? 'ETH'}
-        currencyIdB={currencyIdB ?? bananaAddress}
-        feeAmountFromUrl={feeAmountFromUrl}
-      />
+    <PageContainer variant="dex">
+      <AddLiquidity currencyIdA={currencyIdA ?? 'ETH'} currencyIdB={currencyIdB} feeAmountFromUrl={feeAmountFromUrl} />
     </PageContainer>
   )
 }

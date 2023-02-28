@@ -87,7 +87,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
         let interpolatedText = translatedText
         Object.keys(data).forEach((dataKey) => {
           const templateKey = new RegExp(`%${dataKey}%`, 'g')
-          interpolatedText = interpolatedText.replace(templateKey, data[dataKey].toString())
+          interpolatedText = interpolatedText.replace(templateKey, data[dataKey]?.toString())
         })
 
         return interpolatedText

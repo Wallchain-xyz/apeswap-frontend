@@ -26,6 +26,8 @@ enum colorValues {
   white2 = 'white2',
   white3 = 'white3',
   white4 = 'white4',
+  moon = 'moon',
+  island = 'island',
   navMenuLogo = 'navMenuLogo',
   footer = 'footer',
   gray = 'gray',

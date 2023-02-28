@@ -1,4 +1,4 @@
-import { Currency, Percent, Price, Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Percent, Price, Token } from '@ape.swap/sdk-core'
 import { Pool, Position } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import CurrencyLogo from 'components/CurrencyLogo'
@@ -17,6 +17,7 @@ import { useBurnV3ActionHandlers, useBurnV3State, useDerivedV3BurnInfo } from 's
 import { Field } from 'state/mint/v3/actions'
 import { useV3DerivedMintInfo, useV3MintActionHandlers, useV3MintState } from 'state/mint/v3/hooks'
 import { Switch } from 'theme-ui'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { unwrappedToken } from 'utils/unwrappedToken'
 import PriceRangeSection from 'views/Positions/components/PriceRangeSection'
 import RangeTag from 'views/Positions/components/RangeTag'
@@ -55,31 +56,20 @@ const IncreaseLiquidity = ({
   }
   setManuallyInverted: (manuallyInverted: boolean) => void
 }) => {
-  const { account, chainId, provider } = useWeb3React()
-
   // mint state
-  const { independentField, typedValue, startPriceTypedValue, rightRangeTypedValue, leftRangeTypedValue } =
-    useV3MintState()
+  const { independentField, typedValue } = useV3MintState()
 
   const {
     pool,
-    ticks,
     dependentField,
-    price,
-    pricesAtTicks,
     parsedAmounts,
-    currencyBalances,
     position,
     noLiquidity,
     currencies,
-    errorMessage,
-    invalidPool,
-    invalidRange,
     outOfRange,
+    currencyBalances,
     depositADisabled,
     depositBDisabled,
-    invertPrice,
-    ticksAtLimit,
   } = useV3DerivedMintInfo(
     baseCurrency ?? undefined,
     quoteCurrency ?? undefined,
@@ -88,8 +78,7 @@ const IncreaseLiquidity = ({
     currentPosition,
   )
 
-  const { onFieldAInput, onFieldBInput, onLeftRangeInput, onRightRangeInput, onStartPriceInput } =
-    useV3MintActionHandlers(noLiquidity)
+  const { onFieldAInput, onFieldBInput } = useV3MintActionHandlers(noLiquidity)
 
   // get formatted amounts
   const formattedAmounts = {
@@ -98,6 +87,17 @@ const IncreaseLiquidity = ({
   }
 
   const positionManager = useV3NFTPositionManagerContract()
+
+  // get the max amounts user can add
+  const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+    (accumulator, field) => {
+      return {
+        ...accumulator,
+        [field]: maxAmountSpend(currencyBalances[field]),
+      }
+    },
+    {},
+  )
 
   return (
     <Modal title="Increase Position" minWidth="300px" maxWidth="95%">
@@ -176,21 +176,30 @@ const IncreaseLiquidity = ({
         </Text>
         <DexPanel
           onUserInput={onFieldBInput}
+          handleMaxInput={() => {
+            onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+          }}
           value={formattedAmounts[Field.CURRENCY_B]}
           currency={currencies[Field.CURRENCY_B] ?? null}
           onCurrencySelect={() => null}
+          locked={depositBDisabled}
           disableTokenSelect
         />
         <Flex sx={{ mt: '10px' }} />
         <DexPanel
           onUserInput={onFieldAInput}
+          handleMaxInput={() => {
+            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+          }}
           value={formattedAmounts[Field.CURRENCY_A]}
           currency={currencies[Field.CURRENCY_A] ?? null}
           onCurrencySelect={() => null}
+          locked={depositADisabled}
           disableTokenSelect
         />
       </Flex>
       <Add
+        parsedAmounts={parsedAmounts}
         positionManager={positionManager}
         baseCurrency={currencies[Field.CURRENCY_A]}
         quoteCurrency={currencies[Field.CURRENCY_B]}

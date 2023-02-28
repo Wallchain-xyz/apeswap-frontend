@@ -1,5 +1,6 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import { TokenInfo } from '@uniswap/token-lists'
+import { Skeleton } from 'components/uikit'
 import useAssetLogoSource from 'hooks/useAssetLogoSource'
 import Image from 'next/image'
 import { CSSProperties } from 'theme-ui'
@@ -20,17 +21,17 @@ const CurrencyLogo = ({
     (currency as TokenInfo)?.logoURI,
   )
 
-  return (
-    <>
-      <Image
-        src={src || ''}
-        onError={nextSrc}
-        alt={currency?.name || ''}
-        height={size}
-        width={size}
-        sx={{ borderRadius: size / 2, ...style }}
-      />
-    </>
+  return src ? (
+    <Image
+      src={src}
+      onError={nextSrc}
+      alt={currency?.name || ''}
+      height={size}
+      width={size}
+      sx={{ borderRadius: size / 2, ...style }}
+    />
+  ) : (
+    <Skeleton height={size} width={size} sx={{ borderRadius: size / 2, ...style }} animation="waves" />
   )
 }
 

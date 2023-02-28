@@ -3,12 +3,14 @@ import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
-import { BigNumber } from 'ethers'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useCallback, useState } from 'react'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
+import { currencyId } from 'utils/currencyId'
 
 const DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
 
@@ -31,6 +33,7 @@ const Remove = ({
 }) => {
   const { account, chainId, provider } = useWeb3React()
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
+  const addTransaction = useTransactionAdder()
   const positionManager = useV3NFTPositionManagerContract()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE) // custom from users
   const deadline = useTransactionDeadline() // custom from users settings
@@ -100,13 +103,13 @@ const Remove = ({
             //   label: [liquidityValue0.currency.symbol, liquidityValue1.currency.symbol].join('/'),
             // })
             // setTxnHash(response.hash)
-            // addTransaction(response, {
-            //   type: TransactionType.REMOVE_LIQUIDITY_V3,
-            //   baseCurrencyId: currencyId(liquidityValue0.currency),
-            //   quoteCurrencyId: currencyId(liquidityValue1.currency),
-            //   expectedAmountBaseRaw: liquidityValue0.quotient.toString(),
-            //   expectedAmountQuoteRaw: liquidityValue1.quotient.toString(),
-            // })
+            addTransaction(response, {
+              type: TransactionType.REMOVE_LIQUIDITY_V3,
+              baseCurrencyId: currencyId(liquidityValue0.currency),
+              quoteCurrencyId: currencyId(liquidityValue1.currency),
+              expectedAmountBaseRaw: liquidityValue0.quotient.toString(),
+              expectedAmountQuoteRaw: liquidityValue1.quotient.toString(),
+            })
           })
       })
       .catch((error) => {
@@ -127,7 +130,7 @@ const Remove = ({
     provider,
     tokenId,
     allowedSlippage,
-    // addTransaction,
+    addTransaction,
   ])
   return (
     <Button fullWidth sx={{ mt: '10px' }} onClick={burn} load={attemptingTxn} disabled={attemptingTxn}>

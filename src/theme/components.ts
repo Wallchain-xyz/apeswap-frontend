@@ -341,6 +341,12 @@ const components = {
       justifyContent: 'center',
     },
   },
+  switch: {
+    backgroundColor: 'white4',
+    'input:checked ~ &': {
+      backgroundColor: 'yellow',
+    },
+  },
 }
 
 export default components

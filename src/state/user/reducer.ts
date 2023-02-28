@@ -3,13 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 import { DEFAULT_DEADLINE_FROM_NOW } from 'config/constants/misc'
 import { ConnectionType } from 'utils/connection/types'
 import { updateVersion } from '../global/actions'
-import { SerializedToken } from './types'
+import { SerializedPair, SerializedToken } from './types'
 
 const currentTimestamp = () => new Date().getTime()
 
 export interface UserState {
   selectedWallet?: ConnectionType
-  selectedNetwork: SupportedChainId
   timestamp: number
   // the timestamp of the last updateVersion action
   lastUpdateVersionTimestamp?: number
@@ -21,6 +20,18 @@ export interface UserState {
       [address: string]: SerializedToken
     }
   }
+
+  userExpertMode: boolean
+
+  flipV3Layout: boolean
+
+  pairs: {
+    [chainId: number]: {
+      // keyed by token0Address:token1Address
+      [key: string]: SerializedPair
+    }
+  }
+
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number | 'auto'
   userSlippageToleranceHasBeenMigratedToAuto: boolean // temporary flag for migration status
@@ -28,16 +39,22 @@ export interface UserState {
   userHideClosedPositions: boolean
 }
 
+function pairKey(token0Address: string, token1Address: string) {
+  return `${token0Address};${token1Address}`
+}
+
 export const initialState: UserState = {
   selectedWallet: undefined,
-  selectedNetwork: SupportedChainId.BSC,
   timestamp: currentTimestamp(),
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
   userSlippageToleranceHasBeenMigratedToAuto: false,
   userClientSideRouter: false,
   userHideClosedPositions: false,
+  userExpertMode: false,
+  flipV3Layout: false,
   tokens: {},
+  pairs: {},
 }
 
 const userSlice = createSlice({
@@ -46,9 +63,6 @@ const userSlice = createSlice({
   reducers: {
     updateSelectedWallet(state, { payload: { wallet } }) {
       state.selectedWallet = wallet
-    },
-    updateSelectedNetwork(state, { payload: { chainId } }) {
-      state.selectedNetwork = chainId
     },
     updateUserDeadline(state, action) {
       state.userDeadline = action.payload.userDeadline
@@ -60,9 +74,19 @@ const userSlice = createSlice({
     },
     updateUserClientSideRouter(state, action) {
       state.userClientSideRouter = action.payload.userClientSideRouter
+      state.timestamp = currentTimestamp()
     },
     updateHideClosedPositions(state, action) {
       state.userHideClosedPositions = action.payload.userHideClosedPositions
+      state.timestamp = currentTimestamp()
+    },
+    updateUserExpertMode(state, action) {
+      state.userExpertMode = action.payload.userExpertMode
+      state.timestamp = currentTimestamp()
+    },
+    updateUserFlipV3Layout(state, action) {
+      state.flipV3Layout = action.payload.flipV3Layout
+      state.timestamp = currentTimestamp()
     },
     addSerializedToken(state, { payload: { serializedToken } }) {
       if (!state.tokens) {
@@ -70,6 +94,17 @@ const userSlice = createSlice({
       }
       state.tokens[serializedToken.chainId] = state.tokens[serializedToken.chainId] || {}
       state.tokens[serializedToken.chainId][serializedToken.address] = serializedToken
+      state.timestamp = currentTimestamp()
+    },
+    addSerializedPair(state, { payload: { serializedPair } }) {
+      if (
+        serializedPair.token0.chainId === serializedPair.token1.chainId &&
+        serializedPair.token0.address !== serializedPair.token1.address
+      ) {
+        const chainId = serializedPair.token0.chainId
+        state.pairs[chainId] = state.pairs[chainId] || {}
+        state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] = serializedPair
+      }
       state.timestamp = currentTimestamp()
     },
   },
@@ -112,11 +147,13 @@ const userSlice = createSlice({
 
 export const {
   updateSelectedWallet,
-  updateSelectedNetwork,
-  addSerializedToken,
   updateUserSlippageTolerance,
   updateUserDeadline,
   updateHideClosedPositions,
+  updateUserFlipV3Layout,
   updateUserClientSideRouter,
+  updateUserExpertMode,
+  addSerializedPair,
+  addSerializedToken,
 } = userSlice.actions
 export default userSlice.reducer

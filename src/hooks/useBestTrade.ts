@@ -25,7 +25,6 @@ export function useBestTrade(
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
 } {
   const autoRouterSupported = useAutoRouterSupported()
-  console.log(autoRouterSupported)
   const isWindowVisible = useIsWindowVisible()
 
   const [debouncedAmount, debouncedOtherCurrency] = useDebounce(
@@ -33,7 +32,7 @@ export function useBestTrade(
     200,
   )
 
-  const [clientSideRouter] = [true] // useClientSideRouter()
+  const [clientSideRouter] = useClientSideRouter()
   const routingAPITrade = useRoutingAPITrade(
     tradeType,
     autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,

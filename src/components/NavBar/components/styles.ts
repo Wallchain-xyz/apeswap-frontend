@@ -15,6 +15,7 @@ const styles: Record<
 > = {
   container: {
     position: 'fixed',
+    zIndex: 99,
     padding: '0px 25px',
     alignContent: 'center',
     justifyContent: 'space-between',
@@ -31,6 +32,7 @@ const styles: Record<
     alignItems: 'center',
     padding: '2px 7.5px 0px 7.5px',
     margin: '0px 22.5px',
+    textDecoration: 'none',
     display: NAV_DESKTOP_DISPLAY,
   },
   desktopSubMenuContainer: {
@@ -47,6 +49,7 @@ const styles: Record<
     width: 'fit-content',
     margin: '5px',
     cursor: 'pointer',
+    textDecoration: 'none',
     ':hover': { boxShadow: '0px 2px 0px 0px', color: 'text' },
   },
   mobileSubMenuContainer: {
