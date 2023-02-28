@@ -14,11 +14,7 @@ const AddLiquidityPage = () => {
 
   return (
     <PageContainer variant="dex">
-      <AddLiquidity
-        currencyIdA={currencyIdA ?? 'ETH'}
-        currencyIdB={currencyIdB ?? bananaAddress}
-        feeAmountFromUrl={feeAmountFromUrl}
-      />
+      <AddLiquidity currencyIdA={currencyIdA ?? 'ETH'} currencyIdB={currencyIdB} feeAmountFromUrl={feeAmountFromUrl} />
     </PageContainer>
   )
 }

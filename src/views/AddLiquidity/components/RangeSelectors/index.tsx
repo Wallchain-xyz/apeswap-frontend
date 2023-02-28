@@ -11,6 +11,7 @@ const RangeSelectors = ({
   currencyA,
   currencyB,
   ticksAtLimit,
+  locked,
   getDecrementLower,
   getIncrementLower,
   getDecrementUpper,
@@ -23,6 +24,7 @@ const RangeSelectors = ({
   priceUpper?: Price<Token, Token> | undefined
   currencyA?: Currency | null
   currencyB?: Currency | null
+  locked?: boolean
   ticksAtLimit: Partial<Record<Bound, boolean | undefined>>
   getDecrementLower: () => string
   getIncrementLower: () => string
@@ -49,10 +51,10 @@ const RangeSelectors = ({
   return (
     <Flex sx={{ justifyContent: 'space-between', flexDirection: 'column' }}>
       <Flex sx={{ height: '30px', alignItems: 'center', pb: '2px' }}>
-        <Text size="13px" weight={700}>
+        <Text size="13px" weight={700} sx={{ opacity: locked && 0.4 }}>
           Current Price:
         </Text>
-        <Text size="13px" ml="10px">
+        <Text size="13px" ml="10px" sx={{ opacity: locked && 0.4 }}>
           {price} {currencyB?.symbol} per {currencyA?.symbol}
         </Text>
       </Flex>
@@ -63,6 +65,7 @@ const RangeSelectors = ({
           disabled={minPriceDisbaled}
           tokenASymbol={currencyA?.symbol}
           tokenBSymbol={currencyB?.symbol}
+          locked={locked}
           onRangeInput={onLeftRangeInput}
           onDecrementRange={isSorted ? getDecrementLower : getIncrementUpper}
           onIncrementRange={isSorted ? getIncrementLower : getDecrementUpper}
@@ -74,6 +77,7 @@ const RangeSelectors = ({
           disabled={maxPriceDisabled}
           tokenASymbol={currencyA?.symbol}
           tokenBSymbol={currencyB?.symbol}
+          locked={locked}
           onRangeInput={onRightRangeInput}
           onDecrementRange={isSorted ? getDecrementUpper : getIncrementLower}
           onIncrementRange={isSorted ? getIncrementUpper : getDecrementLower}

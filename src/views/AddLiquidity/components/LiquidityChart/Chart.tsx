@@ -18,6 +18,8 @@ const Chart = ({
   data: { series, current },
   ticksAtLimit,
   feeAmount,
+  currencyA,
+  currencyB,
   styles,
   dimensions: { width, height },
   margins,
@@ -65,7 +67,7 @@ const Chart = ({
     }
   }, [brushDomain, feeAmount, onBrushDomainChange, xScale])
 
-  // Reset the view only when the fee changes
+  // Reset the view only when the fee and currency changes
   useEffect(() => {
     if (feeAmount) {
       onBrushDomainChange(
@@ -73,7 +75,7 @@ const Chart = ({
         'reset',
       )
     }
-  }, [feeAmount]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [feeAmount, currencyA, currencyB]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Flex sx={{ position: 'relative', flexDirection: 'column' }}>

@@ -51,6 +51,7 @@ const LiquidityChart = ({
   feeAmount,
   priceLower,
   priceUpper,
+  locked,
   onLeftRangeInput,
   onRightRangeInput,
 }: {
@@ -63,6 +64,7 @@ const LiquidityChart = ({
   feeAmount?: FeeAmount
   priceLower?: Price<Token, Token>
   priceUpper?: Price<Token, Token>
+  locked?: boolean
   onLeftRangeInput: (typedValue: string) => void
   onRightRangeInput: (typedValue: string) => void
 }) => {
@@ -140,10 +142,11 @@ const LiquidityChart = ({
       {!formattedData || formattedData.length === 0 || !price || isUninitialized || isLoading || error ? (
         <Flex sx={{ flexDirection: 'column', width: '100%', mb: '10px' }}>
           <Flex sx={{ height: '30px' }}>
-            <Text sx={{ lineHeight: '20px' }}>Select Range</Text>
+            <Text sx={{ lineHeight: '20px', opacity: locked && 0.4 }}>Select Range</Text>
           </Flex>
           <Flex
             sx={{
+              position: 'relative',
               height: CHART_DESKTOP_HEIGHT,
               alignItems: 'center',
               justifyContent: 'center',
@@ -151,6 +154,20 @@ const LiquidityChart = ({
               background: 'white3',
             }}
           >
+            {locked && (
+              <Flex
+                sx={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  background: 'white3',
+                  opacity: 0.7,
+                  top: 0,
+                  left: 0,
+                  borderRadius: '10px',
+                }}
+              />
+            )}
             {isLoading ? (
               <Flex>
                 <Spinner size="80px" />
@@ -188,6 +205,8 @@ const LiquidityChart = ({
           zoomLevels={ZOOM_LEVELS[feeAmount ?? FeeAmount.MEDIUM]}
           ticksAtLimit={ticksAtLimit}
           feeAmount={feeAmount}
+          currencyA={currencyA}
+          currencyB={currencyB}
         />
       )}
     </Flex>

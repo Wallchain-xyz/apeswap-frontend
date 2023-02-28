@@ -32,6 +32,7 @@ const DesktopLiquidityParams = ({
         currencyA={currencyA}
         currencyB={currencyB}
         onHandleFeeSelect={onHandleFeeSelect}
+        locked={!currencyA || !currencyB}
       />
       {noLiquidity ? (
         <NewPool
@@ -53,6 +54,7 @@ const DesktopLiquidityParams = ({
           onLeftRangeInput={onLeftRangeInput}
           onRightRangeInput={onRightRangeInput}
           interactive={true}
+          locked={!currencyA || !currencyB || !feeAmount}
         />
       )}
       <RangeSelector
@@ -62,6 +64,7 @@ const DesktopLiquidityParams = ({
         currencyA={currencyA ?? undefined}
         currencyB={currencyB ?? undefined}
         ticksAtLimit={ticksAtLimit}
+        locked={!currencyA || !currencyB || !feeAmount}
         getDecrementLower={getDecrementLower}
         getIncrementLower={getIncrementLower}
         getDecrementUpper={getDecrementUpper}

@@ -35,7 +35,7 @@ const AddLiquidity = ({
 }) => {
   const { account, chainId, provider } = useWeb3React()
   const positionManager = useV3NFTPositionManagerContract()
-  const { query } = useRouter()
+  const { query, push } = useRouter()
 
   const baseCurrency = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
@@ -118,8 +118,14 @@ const AddLiquidity = ({
     {},
   )
 
-  const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper, getSetFullRange } =
-    useRangeHopCallbacks(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, tickLower, tickUpper, pool)
+  const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper } = useRangeHopCallbacks(
+    baseCurrency ?? undefined,
+    quoteCurrency ?? undefined,
+    feeAmount,
+    tickLower,
+    tickUpper,
+    pool,
+  )
 
   useEffect(() => {
     if (
@@ -183,8 +189,20 @@ const AddLiquidity = ({
           }}
           locked={depositADisabled}
         />
-        {/* <SwapSwitchButton onClick={onSwitchTokens} /> */}
-        <Flex sx={{ mt: '48px' }} />
+        <SwapSwitchButton
+          onClick={() => {
+            if (baseCurrency && quoteCurrency) {
+              if (!ticksAtLimit[Bound.LOWER] && !ticksAtLimit[Bound.UPPER]) {
+                onLeftRangeInput((invertPrice ? priceLower : priceUpper?.invert())?.toSignificant(6) ?? '')
+                onRightRangeInput((invertPrice ? priceUpper : priceLower?.invert())?.toSignificant(6) ?? '')
+                onFieldAInput(formattedAmounts[Field.CURRENCY_B] ?? '')
+              }
+              push(
+                `/add-liquidity/${currencyIdB as string}/${currencyIdA as string}${feeAmount ? '/' + feeAmount : ''}`,
+              )
+            }
+          }}
+        />
         <DexPanel
           onCurrencySelect={handleCurrencyBSelect}
           onUserInput={onFieldBInput}

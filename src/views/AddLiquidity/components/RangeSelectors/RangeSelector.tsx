@@ -23,6 +23,7 @@ const RangeSelector = ({
   disabled,
   tokenASymbol,
   tokenBSymbol,
+  locked,
   onRangeInput,
   onDecrementRange,
   onIncrementRange,
@@ -32,6 +33,7 @@ const RangeSelector = ({
   disabled?: boolean
   tokenASymbol?: string
   tokenBSymbol?: string
+  locked?: boolean
   onRangeInput: (input: string) => void
   onDecrementRange: () => string
   onIncrementRange: () => string
@@ -79,10 +81,11 @@ const RangeSelector = ({
       onBlur={handleOnBlur}
       onFocus={handleOnFocus}
       sx={{
+        position: 'relative',
         display: 'flex',
         maxWidth: '100%',
         maxHeight: '100%',
-        height: '85px',
+        height: '87.2px',
         width: '280px',
         background: 'white3',
         borderRadius: '10px',
@@ -95,6 +98,21 @@ const RangeSelector = ({
         color: 'yellow',
       }}
     >
+      {locked && (
+        <Flex
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            background: 'white3',
+            opacity: 0.7,
+            top: 0,
+            left: 0,
+            borderRadius: '10px',
+            zIndex: 10,
+          }}
+        />
+      )}
       <Text>{rangeType}</Text>
       <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
         <Flex

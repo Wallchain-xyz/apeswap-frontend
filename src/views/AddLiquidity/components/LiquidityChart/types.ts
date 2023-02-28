@@ -1,3 +1,4 @@
+import { Currency } from '@ape.swap/sdk-core'
 import { FeeAmount } from '@ape.swap/v3-sdk'
 import { Bound } from 'state/mint/v3/actions'
 
@@ -61,4 +62,6 @@ export interface LiquidityChartRangeInputProps {
   zoomLevels: ZoomLevels
 
   feeAmount?: FeeAmount
+  currencyA?: Currency | undefined
+  currencyB?: Currency | undefined
 }

@@ -12,11 +12,13 @@ const FeeSelector = ({
   feeAmount,
   currencyA,
   currencyB,
+  locked,
   onHandleFeeSelect,
 }: {
   feeAmount: FeeAmount | undefined
   currencyA: Currency | undefined
   currencyB: Currency | undefined
+  locked?: boolean
   onHandleFeeSelect: (fee: FeeAmount) => void
 }) => {
   const [hide, setHide] = useState(true)
@@ -69,6 +71,7 @@ const FeeSelector = ({
     <Flex sx={{ flexDirection: 'column' }}>
       <Flex
         sx={{
+          position: 'relative',
           height: '55px',
           borderRadius: '10px',
           background: 'white3',
@@ -79,6 +82,21 @@ const FeeSelector = ({
           mb: '15px',
         }}
       >
+        {locked && (
+          <Flex
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              background: 'white3',
+              opacity: 0.7,
+              top: 0,
+              left: 0,
+              borderRadius: '10px',
+            }}
+          />
+        )}
+
         <Flex sx={{ flexDirection: 'column' }}>
           <Text size="18px" weight={700}>
             {feeAmount && FEE_AMOUNT_DETAIL[feeAmount].label}% fee tier
