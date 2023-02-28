@@ -57,6 +57,7 @@ const MobileLiquidityParams = ({
         currencyA={currencyA}
         currencyB={currencyB}
         onHandleFeeSelect={onHandleFeeSelect}
+        locked={!currencyA || !currencyB}
       />
       {noLiquidity ? (
         <NewPool
@@ -75,6 +76,7 @@ const MobileLiquidityParams = ({
           price={price}
           priceLower={priceLower}
           priceUpper={priceUpper}
+          locked={!currencyA || !currencyB || !feeAmount}
           onLeftRangeInput={onLeftRangeInput}
           onRightRangeInput={onRightRangeInput}
           interactive={true}
@@ -87,6 +89,7 @@ const MobileLiquidityParams = ({
         currencyA={currencyA ?? undefined}
         currencyB={currencyB ?? undefined}
         ticksAtLimit={ticksAtLimit}
+        locked={!currencyA || !currencyB || !feeAmount}
         getDecrementLower={getDecrementLower}
         getIncrementLower={getIncrementLower}
         getDecrementUpper={getDecrementUpper}
