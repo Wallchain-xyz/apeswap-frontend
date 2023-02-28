@@ -24,7 +24,6 @@ export default function useEagerConnect() {
 
   const selectedWallet = useAppSelector((state) => state.user.selectedWallet)
   const selectedChainId = useAppSelector((state) => state.user.selectedNetwork)
-  console.log(selectedChainId)
 
   let selectedConnection: Connection | undefined
   if (selectedWallet) {
