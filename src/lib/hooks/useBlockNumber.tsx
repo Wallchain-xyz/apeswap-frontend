@@ -30,6 +30,7 @@ export function useFastForwardBlockNumber(): (block: number) => void {
 
 export function BlockNumberProvider({ children }: { children: ReactNode }) {
   const { chainId: activeChainId, provider } = useWeb3React()
+  console.log(provider)
   const [{ chainId, block }, setChainBlock] = useState<{ chainId?: number; block?: number }>({ chainId: activeChainId })
 
   const onBlock = useCallback(

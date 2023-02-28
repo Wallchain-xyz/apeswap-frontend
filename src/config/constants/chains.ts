@@ -1,7 +1,6 @@
 // Network chain ids
 import { SupportedChainId } from '@ape.swap/sdk-core'
 // import { SmartRouter } from '@ape.swap/sdk'
-import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { icons } from 'components/uikit/Svg/types'
 import { BigNumber } from 'ethers'
 
@@ -61,30 +60,6 @@ export const NETWORK_INFO_LINK: Partial<Record<SupportedChainId, string>> = {
   [SupportedChainId.TLOS]: 'https://telos.info.apeswap.finance',
 }
 
-// Network RPC nodes
-export const NETWORK_RPC: Record<SupportedChainId, string[]> = {
-  [SupportedChainId.BSC]: [
-    'https://bsc-dataseed1.ninicoin.io',
-    'https://bsc-dataseed.binance.org/',
-    'https://bsc-dataseed1.defibit.io',
-  ],
-  [SupportedChainId.BSC_TESTNET]: ['https://data-seed-prebsc-2-s3.binance.org:8545/'],
-  [SupportedChainId.POLYGON]: ['https://polygon-rpc.com/'],
-  [SupportedChainId.POLYGON_MUMBAI]: ['https://matic-mumbai.chainstacklabs.com'],
-  [SupportedChainId.MAINNET]: ['https://eth-mainnet.nodereal.io/v1/43f9100965104de49b580d1fa1ab28c0'],
-  [SupportedChainId.TLOS]: ['https://mainnet.telos.net/evm'],
-}
-
-// RPC Providers
-export const RPC_PROVIDERS: Record<SupportedChainId, StaticJsonRpcProvider> = {
-  [SupportedChainId.MAINNET]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.MAINNET][0]),
-  [SupportedChainId.POLYGON]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.POLYGON][0]),
-  [SupportedChainId.BSC]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.BSC][0]),
-  [SupportedChainId.TLOS]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.TLOS][0]),
-  [SupportedChainId.BSC_TESTNET]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.BSC_TESTNET][0]),
-  [SupportedChainId.POLYGON_MUMBAI]: new StaticJsonRpcProvider(NETWORK_RPC[SupportedChainId.POLYGON_MUMBAI][0]),
-}
-
 // Network block explorers
 export const BLOCK_EXPLORER: Record<SupportedChainId, string> = {
   [SupportedChainId.BSC]: 'https://bscscan.com',
@@ -102,7 +77,6 @@ export const CHAIN_PARAMS: Partial<
       chainId: string
       chainName: string
       nativeCurrency: { name: string; symbol: string; decimals: number }
-      rpcUrls: string[]
       blockExplorerUrls: string[]
     }
   >
@@ -115,7 +89,6 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'BNB',
       decimals: 18,
     },
-    rpcUrls: NETWORK_RPC[SupportedChainId.BSC],
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.BSC]],
   },
   [SupportedChainId.BSC_TESTNET]: {
@@ -126,7 +99,6 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'BNB',
       decimals: 18,
     },
-    rpcUrls: NETWORK_RPC[SupportedChainId.BSC_TESTNET],
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.BSC_TESTNET]],
   },
   [SupportedChainId.POLYGON]: {
@@ -137,7 +109,6 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'MATIC',
       decimals: 18,
     },
-    rpcUrls: NETWORK_RPC[SupportedChainId.POLYGON],
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.POLYGON]],
   },
   [SupportedChainId.POLYGON_MUMBAI]: {
@@ -148,7 +119,6 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'MATIC',
       decimals: 18,
     },
-    rpcUrls: NETWORK_RPC[SupportedChainId.POLYGON_MUMBAI],
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.POLYGON_MUMBAI]],
   },
   [SupportedChainId.MAINNET]: {
@@ -159,7 +129,6 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: NETWORK_RPC[SupportedChainId.MAINNET],
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.MAINNET]],
   },
   [SupportedChainId.TLOS]: {
@@ -170,7 +139,6 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'TLOS',
       decimals: 18,
     },
-    rpcUrls: NETWORK_RPC[SupportedChainId.TLOS],
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.TLOS]],
   },
 }
