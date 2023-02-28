@@ -9,6 +9,7 @@ const currentTimestamp = () => new Date().getTime()
 
 export interface UserState {
   selectedWallet?: ConnectionType
+  selectedNetwork: SupportedChainId
   timestamp: number
   // the timestamp of the last updateVersion action
   lastUpdateVersionTimestamp?: number
@@ -45,6 +46,7 @@ function pairKey(token0Address: string, token1Address: string) {
 
 export const initialState: UserState = {
   selectedWallet: undefined,
+  selectedNetwork: SupportedChainId.BSC,
   timestamp: currentTimestamp(),
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
@@ -63,6 +65,11 @@ const userSlice = createSlice({
   reducers: {
     updateSelectedWallet(state, { payload: { wallet } }) {
       state.selectedWallet = wallet
+      state.timestamp = currentTimestamp()
+    },
+    updateSelectedNetwork(state, { payload: { chainId } }) {
+      state.selectedNetwork = chainId
+      state.timestamp = currentTimestamp()
     },
     updateUserDeadline(state, action) {
       state.userDeadline = action.payload.userDeadline
@@ -150,6 +157,7 @@ export const {
   updateUserSlippageTolerance,
   updateUserDeadline,
   updateHideClosedPositions,
+  updateSelectedNetwork,
   updateUserFlipV3Layout,
   updateUserClientSideRouter,
   updateUserExpertMode,
