@@ -38,6 +38,8 @@ const Colors = {
   hoveredDanger: '#DF4141B3',
   modalOverlay: 'rgba(66, 66, 66, 0.5)',
   opacityBadge: 'rgba(66, 66, 66, 0.5)',
+  moon: '#7A7A7A',
+  island: '#4D4040',
   modes: {
     dark: {
       background: '#0B0B0B',
@@ -66,6 +68,8 @@ const Colors = {
       hoveredYellow: '#FFDA00',
       modalOverlay: 'rgba(66, 66, 66, 0.5)',
       opacityBadge: 'rgba(253, 251, 245, 0.5)',
+      moon: '#FAFAFA',
+      island: '#7A7A7A',
     },
   },
 }

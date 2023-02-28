@@ -12,6 +12,8 @@ import {
   addSerializedToken,
   updateHideClosedPositions,
   updateUserClientSideRouter,
+  updateUserExpertMode,
+  updateUserFlipV3Layout,
   updateUserSlippageTolerance,
 } from './reducer'
 import { SerializedPair, SerializedToken, UserAddedToken } from './types'
@@ -112,32 +114,26 @@ export function useUserSlippageToleranceWithDefault(defaultSlippageTolerance: Pe
   )
 }
 
-export function useUserHideClosedPositions(): [boolean, (newHideClosedPositions: boolean) => void] {
+export function useUserHideClosedPositions(): [boolean, () => void] {
   const dispatch = useAppDispatch()
 
   const hideClosedPositions = useAppSelector((state) => state.user.userHideClosedPositions)
 
-  const setHideClosedPositions = useCallback(
-    (newHideClosedPositions: boolean) => {
-      dispatch(updateHideClosedPositions({ userHideClosedPositions: newHideClosedPositions }))
-    },
-    [dispatch],
-  )
+  const setHideClosedPositions = useCallback(() => {
+    dispatch(updateHideClosedPositions({ userHideClosedPositions: !hideClosedPositions }))
+  }, [dispatch, hideClosedPositions])
 
   return [hideClosedPositions, setHideClosedPositions]
 }
 
-export function useClientSideRouter(): [boolean, (userClientSideRouter: boolean) => void] {
+export function useClientSideRouter(): [boolean, () => void] {
   const dispatch = useAppDispatch()
 
   const clientSideRouter = useAppSelector((state) => Boolean(state.user.userClientSideRouter))
 
-  const setClientSideRouter = useCallback(
-    (newClientSideRouter: boolean) => {
-      dispatch(updateUserClientSideRouter({ userClientSideRouter: newClientSideRouter }))
-    },
-    [dispatch],
-  )
+  const setClientSideRouter = useCallback(() => {
+    dispatch(updateUserClientSideRouter({ userClientSideRouter: !clientSideRouter }))
+  }, [dispatch, clientSideRouter])
 
   return [clientSideRouter, setClientSideRouter]
 }
@@ -229,6 +225,28 @@ export function useTrackedTokenPairs(): [Token, Token][] {
 
 export function useIsExpertMode(): boolean {
   return useAppSelector((state) => state.user.userExpertMode)
+}
+
+export function useExpertModeManager(): [boolean, () => void] {
+  const dispatch = useAppDispatch()
+  const expertMode = useIsExpertMode()
+
+  const toggleSetExpertMode = useCallback(() => {
+    dispatch(updateUserExpertMode({ userExpertMode: !expertMode }))
+  }, [expertMode, dispatch])
+
+  return [expertMode, toggleSetExpertMode]
+}
+
+export function useFlipV3LayoutManager(): [boolean, () => void] {
+  const dispatch = useAppDispatch()
+  const flipV3Layout = useAppSelector((state) => state.user.flipV3Layout)
+
+  const toggleSetFlipV3Layout = useCallback(() => {
+    dispatch(updateUserFlipV3Layout({ flipV3Layout: !flipV3Layout }))
+  }, [flipV3Layout, dispatch])
+
+  return [flipV3Layout, toggleSetFlipV3Layout]
 }
 
 function serializePair(pair: Pair): SerializedPair {

@@ -22,6 +22,7 @@ import MobileLiquidityParams from './components/MobileLiquidityParams'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import SwapSwitchButton from 'views/Swap/components/SwapSwitchButton'
+import { useFlipV3LayoutManager } from 'state/user/hooks'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -38,6 +39,8 @@ const AddLiquidity = ({
 
   const baseCurrency = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
+
+  const [flipV3Layout] = useFlipV3LayoutManager()
 
   // capital efficiency warning
   const [showCapitalEfficiencyWarning, setShowCapitalEfficiencyWarning] = useState(false)
@@ -77,8 +80,6 @@ const AddLiquidity = ({
     ticksAtLimit,
   } = useV3DerivedMintInfo(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, baseCurrency ?? undefined)
 
-  console.log(ticks)
-
   const { onFieldAInput, onFieldBInput, onLeftRangeInput, onRightRangeInput, onStartPriceInput } =
     useV3MintActionHandlers(noLiquidity)
 
@@ -117,8 +118,6 @@ const AddLiquidity = ({
     {},
   )
 
-  console.log(ticks)
-
   const { getDecrementLower, getIncrementLower, getDecrementUpper, getIncrementUpper, getSetFullRange } =
     useRangeHopCallbacks(baseCurrency ?? undefined, quoteCurrency ?? undefined, feeAmount, tickLower, tickUpper, pool)
 
@@ -147,7 +146,7 @@ const AddLiquidity = ({
   }, [noLiquidity, onRightRangeInput, onLeftRangeInput])
 
   return (
-    <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
+    <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: flipV3Layout ? 'auto' : 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
         <DexNav />
         <V3LiquiditySubNav />

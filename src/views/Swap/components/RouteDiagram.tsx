@@ -14,7 +14,6 @@ const RouteDiagram = ({
   currencyOut: Currency | undefined
   routes: RoutingDiagramEntry[]
 }) => {
-  console.log(routes)
   return (
     <Flex sx={{ position: 'relative', alignItems: 'center', flexDirection: 'column', width: '100%' }}>
       <Text weight={500} sx={{ alignSelf: 'flex-start', ml: '2px', mb: '2px' }}>

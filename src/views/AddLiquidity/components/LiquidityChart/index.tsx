@@ -76,8 +76,6 @@ const LiquidityChart = ({
 
   const { theme } = useThemeUI()
 
-  console.log(isLoading, error, formattedData)
-
   const isUninitialized = !currencyA || !currencyB || (formattedData === undefined && !isLoading)
 
   const onBrushDomainChangeEnded = useCallback(
@@ -189,6 +187,7 @@ const LiquidityChart = ({
           onBrushDomainChange={onBrushDomainChangeEnded}
           zoomLevels={ZOOM_LEVELS[feeAmount ?? FeeAmount.MEDIUM]}
           ticksAtLimit={ticksAtLimit}
+          feeAmount={feeAmount}
         />
       )}
     </Flex>

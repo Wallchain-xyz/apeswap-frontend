@@ -115,8 +115,10 @@ const Footer = () => {
         </Flex>
       </Flex>
       <Flex sx={styles.allRightsReserved}>
-        <Text>©2023 All rights reserved</Text>
-        <Text size="12px"> Terms | Privacy Policy</Text>
+        <Text color="primaryBright">©2023 All rights reserved</Text>
+        <Text color="primaryBright" size="12px">
+          Terms | Privacy Policy
+        </Text>
       </Flex>
     </Flex>
   )

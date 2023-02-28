@@ -74,14 +74,6 @@ const Swap = () => {
     currencies,
     inputError: swapInputError,
   } = useDerivedSwapInfo()
-  console.log({
-    trade: { state: tradeState, trade },
-    allowedSlippage,
-    currencyBalances,
-    parsedAmount,
-    currencies,
-    inputError: swapInputError,
-  })
 
   const {
     state: signatureState,
@@ -140,7 +132,6 @@ const Swap = () => {
   //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
   //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
   // )
-  console.log(trade)
 
   return (
     <Flex variant="flex.dexContainer">

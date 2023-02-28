@@ -29,7 +29,6 @@ const Actions = (props: ActionsInterface) => {
   const showApprovalA = approvalA !== ApprovalState.APPROVED && !!parsedAmounts[Field.CURRENCY_A]
   const showApprovalB = approvalB !== ApprovalState.APPROVED && !!parsedAmounts[Field.CURRENCY_B]
 
-  console.log(approvalA, approvalB, isValid)
   return (
     <Flex sx={{ mt: '10px', flexDirection: 'column' }}>
       {(outOfRange || invalidRange) && (

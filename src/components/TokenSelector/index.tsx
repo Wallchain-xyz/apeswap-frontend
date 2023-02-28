@@ -39,8 +39,8 @@ const TokenSelector = ({
     <TokenListModal
       onDismiss={() => null}
       onCurrencySelect={onCurrencySelect}
-      // selectedCurrency={currency}
-      // otherSelectedCurrency={otherCurrency}
+      selectedCurrency={currency}
+      otherSelectedCurrency={otherCurrency}
       // showCommonBases={showCommonBases}
       // isZapInput={isZapInput}
     />,

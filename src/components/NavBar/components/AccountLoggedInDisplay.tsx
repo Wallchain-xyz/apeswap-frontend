@@ -11,7 +11,6 @@ const AccountLoggedInDisplay = () => {
   const [onPresentAccountModal] = useModal(<AccountModal onDismiss={() => null} />)
   const transactions = useAllTransactions()
   const pendingTransactions = useMemo(() => Object.values(transactions).filter((tx) => !tx.receipt), [transactions])
-  console.log(transactions)
   return account ? (
     <Flex>
       <Flex variant="flex.navContainer" onClick={onPresentAccountModal}>

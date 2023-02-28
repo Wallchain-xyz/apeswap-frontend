@@ -6,7 +6,7 @@ import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { useV3Positions } from 'hooks/useV3Positions'
 import { PositionDetails } from 'lib/types/position'
 import { useCallback, useState } from 'react'
-import { useUserHideClosedPositions } from 'state/user/hooks'
+import { useFlipV3LayoutManager, useUserHideClosedPositions } from 'state/user/hooks'
 import { Switch } from 'theme-ui'
 import NoPositionSelectedPage from './components/NoPositionSelectedPage'
 import PositionCard from './components/PositionCard'
@@ -18,7 +18,8 @@ const Positions = () => {
   const { positions, loading: positionsLoading } = useV3Positions(account)
   const [selectedTokenId, setSelectedTokenId] = useState<string>('')
 
-  const [userHideClosedPositions, setUserHideClosedPositions] = useUserHideClosedPositions()
+  const [userHideClosedPositions] = useUserHideClosedPositions()
+  const [flipV3Layout] = useFlipV3LayoutManager()
 
   const [openPositions, closedPositions] = positions?.reduce<[PositionDetails[], PositionDetails[]]>(
     (acc, p) => {
@@ -37,25 +38,14 @@ const Positions = () => {
   const { isDesktop } = useMatchBreakpoints()
 
   return (
-    <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: 'row-reverse' }}>
+    <Flex sx={{ width: '100%', justifyContent: 'center', flexDirection: flipV3Layout ? 'auto' : 'row-reverse' }}>
       <Flex variant="flex.dexContainer">
         <DexNav />
         <V3LiquiditySubNav />
-        <Flex sx={{ justifyContent: 'flex-end', width: '100%', mb: '5px' }}>
-          <Flex sx={{ alignItems: 'center' }}>
-            <Text mr="5px" sx={{ minWidth: 'fit-content' }}>
-              Hide closed positions{' '}
-            </Text>
-            <Switch
-              checked={userHideClosedPositions}
-              onChange={() => setUserHideClosedPositions(!userHideClosedPositions)}
-            />
-          </Flex>
-        </Flex>
         <Flex
           sx={{
             overflowY: 'scroll',
-            height: '481px',
+            height: '511px',
             flexDirection: 'column',
             padding: '0px 4px',
           }}

@@ -17,7 +17,6 @@ const TradeDetails = ({
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
   allowedSlippage: Percent
 }) => {
-  console.log(trade)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const formattedGasPriceString = trade?.gasUseEstimateUSD
@@ -34,8 +33,6 @@ const TradeDetails = ({
   }, [trade])
 
   const routes = trade ? getTokenPath(trade) : []
-
-  console.log(routes)
 
   const priceImpactColor = useMemo(() => {
     if (!priceImpact) return undefined

@@ -51,8 +51,6 @@ const Add = ({
   )
 
   async function onAdd() {
-    console.log(!chainId || !provider || !account)
-    console.log(positionManager, baseCurrency, quoteCurrency)
     if (!chainId || !provider || !account) return
 
     if (!positionManager || !baseCurrency || !quoteCurrency) {

@@ -9,12 +9,8 @@ const bscConfig: NavConfig[] = [
         href: '/swap',
       },
       {
-        label: 'Orders',
-        href: '/limit-orders',
-      },
-      {
         label: 'Liquidity',
-        href: '/zap',
+        href: '/add-liquidity',
       },
       {
         label: 'Pro Trading',

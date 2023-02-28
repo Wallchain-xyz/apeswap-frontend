@@ -17,6 +17,7 @@ const Chart = ({
   id = 'liquidityChartRangeInput',
   data: { series, current },
   ticksAtLimit,
+  feeAmount,
   styles,
   dimensions: { width, height },
   margins,
@@ -62,7 +63,18 @@ const Chart = ({
     if (!brushDomain) {
       onBrushDomainChange(xScale.domain() as [number, number], undefined)
     }
-  }, [brushDomain, onBrushDomainChange, xScale])
+  }, [brushDomain, feeAmount, onBrushDomainChange, xScale])
+
+  // Reset the view only when the fee changes
+  useEffect(() => {
+    if (feeAmount) {
+      onBrushDomainChange(
+        [current * zoomLevels.initialMin, current * zoomLevels.initialMax] as [number, number],
+        'reset',
+      )
+    }
+  }, [feeAmount]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Flex sx={{ position: 'relative', flexDirection: 'column' }}>
       <Flex sx={{ height: '20px', alignItems: 'center', justifyContent: 'space-between' }}>

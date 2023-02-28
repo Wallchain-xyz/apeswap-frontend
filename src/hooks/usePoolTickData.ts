@@ -180,7 +180,6 @@ function useAllV3Ticks(
     feeAmount,
     skipNumber,
   )
-  console.log(data)
 
   useEffect(() => {
     if (data?.ticks.length) {
@@ -217,7 +216,6 @@ export function usePoolActiveLiquidity(
 
   const { isLoading, error, ticks } = useAllV3Ticks(currencyA, currencyB, feeAmount)
 
-  console.log(ticks)
 
   return useMemo(() => {
     if (
@@ -262,7 +260,6 @@ export function usePoolActiveLiquidity(
       liquidityNet: Number(ticks[pivot].tick) === activeTick ? JSBI.BigInt(ticks[pivot].liquidityNet) : JSBI.BigInt(0),
       price0: tickToPrice(token0, token1, activeTick).toFixed(PRICE_FIXED_DIGITS),
     }
-    console.log(activeTickProcessed)
 
     const subsequentTicks = computeSurroundingTicks(token0, token1, activeTickProcessed, ticks, pivot, true)
 

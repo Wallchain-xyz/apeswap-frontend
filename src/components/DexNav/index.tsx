@@ -11,6 +11,7 @@ import { Flex, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { Switch } from 'theme-ui'
+import DexSettings from 'components/DexSettings'
 
 interface DexNavProps {
   zapSettings?: boolean
@@ -33,9 +34,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
     pathname?.includes('migrate') ||
     pathname?.includes('unstake')
 
-  console.log(pathname)
-
-  // const [onPresentSettingsModal] = useModal(<SettingsModal zapSettings={zapSettings} />)
+  const [onPresentSettingsModal] = useModal(<DexSettings />)
   // const [onPresentModal] = useModal(<MoonPayModal />)
 
   return (
@@ -121,8 +120,12 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         )}
         <Flex sx={{ width: '90px', justifyContent: 'space-between' }}>
           <Svg icon="quiz" />
-          <Svg icon="bridge" />
-          <Svg icon="cog" />
+          <Link href="https://app.multichain.org/#/router" sx={{ height: '0px' }}>
+            <Svg icon="bridge" />
+          </Link>
+          <Flex onClick={onPresentSettingsModal} sx={{ cursor: 'pointer' }}>
+            <Svg icon="cog" />
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

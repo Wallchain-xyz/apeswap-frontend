@@ -9,7 +9,6 @@ const currentTimestamp = () => new Date().getTime()
 
 export interface UserState {
   selectedWallet?: ConnectionType
-  selectedNetwork: SupportedChainId
   timestamp: number
   // the timestamp of the last updateVersion action
   lastUpdateVersionTimestamp?: number
@@ -23,6 +22,8 @@ export interface UserState {
   }
 
   userExpertMode: boolean
+
+  flipV3Layout: boolean
 
   pairs: {
     [chainId: number]: {
@@ -44,7 +45,6 @@ function pairKey(token0Address: string, token1Address: string) {
 
 export const initialState: UserState = {
   selectedWallet: undefined,
-  selectedNetwork: SupportedChainId.BSC,
   timestamp: currentTimestamp(),
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
@@ -52,6 +52,7 @@ export const initialState: UserState = {
   userClientSideRouter: false,
   userHideClosedPositions: false,
   userExpertMode: false,
+  flipV3Layout: false,
   tokens: {},
   pairs: {},
 }
@@ -63,9 +64,6 @@ const userSlice = createSlice({
     updateSelectedWallet(state, { payload: { wallet } }) {
       state.selectedWallet = wallet
     },
-    updateSelectedNetwork(state, { payload: { chainId } }) {
-      state.selectedNetwork = chainId
-    },
     updateUserDeadline(state, action) {
       state.userDeadline = action.payload.userDeadline
       state.timestamp = currentTimestamp()
@@ -76,12 +74,18 @@ const userSlice = createSlice({
     },
     updateUserClientSideRouter(state, action) {
       state.userClientSideRouter = action.payload.userClientSideRouter
+      state.timestamp = currentTimestamp()
     },
     updateHideClosedPositions(state, action) {
       state.userHideClosedPositions = action.payload.userHideClosedPositions
+      state.timestamp = currentTimestamp()
     },
     updateUserExpertMode(state, action) {
       state.userExpertMode = action.payload.userExpertMode
+      state.timestamp = currentTimestamp()
+    },
+    updateUserFlipV3Layout(state, action) {
+      state.flipV3Layout = action.payload.flipV3Layout
       state.timestamp = currentTimestamp()
     },
     addSerializedToken(state, { payload: { serializedToken } }) {
@@ -143,10 +147,10 @@ const userSlice = createSlice({
 
 export const {
   updateSelectedWallet,
-  updateSelectedNetwork,
   updateUserSlippageTolerance,
   updateUserDeadline,
   updateHideClosedPositions,
+  updateUserFlipV3Layout,
   updateUserClientSideRouter,
   updateUserExpertMode,
   addSerializedPair,

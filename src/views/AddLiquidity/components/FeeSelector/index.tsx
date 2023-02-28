@@ -30,10 +30,7 @@ const FeeSelector = ({
 
   // TODO: Add some sort of loading animation and handle error
 
-  console.log('ASDASDASDASDAS')
-  console.log(feeAmount)
   const { isLoading, isError, largestUsageFeeTier, distributions } = useFeeTierDistribution(currencyA, currencyB)
-  console.log(isLoading, isError, largestUsageFeeTier, distributions)
 
   useEffect(() => {
     if (feeAmount || isLoading || isError) {
