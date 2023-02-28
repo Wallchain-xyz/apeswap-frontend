@@ -100,7 +100,6 @@
     "react-redux": "^8.0.5",
     "react-window": "^1.8.8",
     "redux-localstorage-simple": "^2.5.1",
-    "sharp": "^0.31.3",
     "theme-ui": "^0.15.3"
   }
 }

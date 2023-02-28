@@ -7,7 +7,6 @@ import { useV3Positions } from 'hooks/useV3Positions'
 import { PositionDetails } from 'lib/types/position'
 import { useCallback, useState } from 'react'
 import { useFlipV3LayoutManager, useUserHideClosedPositions } from 'state/user/hooks'
-import { Switch } from 'theme-ui'
 import NoPositionSelectedPage from './components/NoPositionSelectedPage'
 import PositionCard from './components/PositionCard'
 import PositionDetailsPage from './components/PositionDetailsPage'
@@ -51,7 +50,7 @@ const Positions = () => {
           }}
         >
           {positionsLoading ? (
-            <PositionsLoading />
+            <PositionsLoading key="positions-loading" />
           ) : (
             filteredPositions?.map((position) => {
               return (

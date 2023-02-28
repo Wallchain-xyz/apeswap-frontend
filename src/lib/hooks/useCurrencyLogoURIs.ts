@@ -1,7 +1,7 @@
 import useHttpLocations from 'hooks/useHttpLocations'
 import { useMemo } from 'react'
 import { isAddress } from 'utils'
-import { NATIVE_CHAIN_ID, nativeOnChain } from 'config/constants/tokens'
+import { NATIVE_CHAIN_ID } from 'config/constants/tokens'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 type Network = 'ethereum' | 'arbitrum' | 'optimism' | 'polygon'
@@ -21,9 +21,9 @@ export function getNativeLogoURI(chainId: SupportedChainId = SupportedChainId.MA
   switch (chainId) {
     case SupportedChainId.POLYGON:
     case SupportedChainId.POLYGON_MUMBAI:
-      return ''
+      return 'https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/polygon/assets/0x0000000000000000000000000000000000001010/logo.png'
     default:
-      return ''
+      return 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/ETH.svg'
   }
 }
 

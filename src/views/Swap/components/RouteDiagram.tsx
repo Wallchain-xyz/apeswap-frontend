@@ -17,8 +17,7 @@ const RouteDiagram = ({
   return (
     <Flex sx={{ position: 'relative', alignItems: 'center', flexDirection: 'column', width: '100%' }}>
       <Text weight={500} sx={{ alignSelf: 'flex-start', ml: '2px', mb: '2px' }}>
-        {' '}
-        Route{' '}
+        Route
       </Text>
       {routes.map(({ protocol, percent, path }, i) => {
         return (
@@ -41,9 +40,9 @@ const RouteDiagram = ({
                     x2="3000"
                     y1="100"
                     y2="100"
-                    stroke-width="20"
-                    stroke-linecap="round"
-                    stroke-dasharray="1, 45"
+                    strokeWidth="20"
+                    strokeLinecap="round"
+                    strokeDasharray="1, 45"
                     sx={{ stroke: 'opacityBadge' }}
                   />
                 </svg>
