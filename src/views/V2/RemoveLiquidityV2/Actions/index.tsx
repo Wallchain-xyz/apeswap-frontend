@@ -21,7 +21,7 @@ import { TransactionType } from 'state/transactions/types'
 import { currencyId } from 'utils/currencyId'
 import ConnectWalletButton from 'components/ConnectWallet'
 
-const DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
+export const DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
 
 const RemoveLiquidityActions: React.FC<RemoveLiquidityActionProps> = ({
   pair,
