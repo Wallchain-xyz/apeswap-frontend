@@ -15,4 +15,8 @@ export interface AddInterface {
   noLiquidity: boolean | undefined
   errorMessage: ReactNode
   invalidRange: boolean
+  ticksAtLimit: {
+    LOWER: boolean | undefined
+    UPPER: boolean | undefined
+  }
 }

@@ -4,9 +4,12 @@ import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
 import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
+import useModal from 'hooks/useModal'
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import { useCallback, useState } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
+import { useIsExpertMode } from 'state/user/hooks'
+import ConfirmSwap from '../components/ConfirmSwap'
 import { confirmPriceImpactWithoutFee } from '../utils'
 
 const TRADE_STRING = 'SwapRouter'
@@ -50,6 +53,8 @@ const Swap = ({
     signatureData,
   )
   const { address: recipientAddress } = useENSAddress(recipient)
+
+  const isExpertMode = useIsExpertMode()
 
   const handleSwap = useCallback(() => {
     if (!swapCallback) {
@@ -101,10 +106,33 @@ const Swap = ({
     trade?.outputAmount?.currency?.symbol,
   ])
 
+  const handleConfirmDismiss = useCallback(() => {
+    setSwapState((prevState) => ({ ...prevState, showConfirm: false })) // if there was a tx hash, we want to clear the input
+  }, [])
+
+  const [onPresentConfirmModal] = useModal(
+    <ConfirmSwap
+      trade={trade}
+      // originalTrade={tradeToConfirm}
+      // onAcceptChanges={handleAcceptChanges}
+      attemptingTxn={attemptingTxn}
+      txHash={txHash}
+      // bestRoute={bestRoute}
+      // recipient={recipient}
+      allowedSlippage={allowedSlippage}
+      onConfirm={handleSwap}
+      // swapErrorMessage={swapErrorMessage}
+      onDismiss={handleConfirmDismiss}
+    />,
+    true,
+    true,
+    'swapConfirmModal',
+  )
+
   return (
     <Button
       fullWidth
-      onClick={handleSwap}
+      onClick={isExpertMode ? handleSwap : onPresentConfirmModal}
       disabled={
         tradeState === TradeState.LOADING ||
         tradeState === TradeState.SYNCING ||

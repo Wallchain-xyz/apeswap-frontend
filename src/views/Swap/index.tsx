@@ -7,6 +7,7 @@ import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import useENSAddress from 'hooks/useENSAddress'
 import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
+import useModal from 'hooks/useModal'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useCallback, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
@@ -16,6 +17,7 @@ import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/for
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { supportedChainId } from 'utils/supportedChainId'
 import Actions from './actions'
+import ConfirmSwap from './components/ConfirmSwap'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import TradeDetails from './components/TradeDetails'
@@ -164,9 +166,13 @@ const Swap = () => {
         stablecoinPriceImpact={null}
       />
       {routeIsLoading || routeIsSyncing ? (
-        <LoadingBestRoute />
+        <Flex mt="10px">
+          <LoadingBestRoute />
+        </Flex>
       ) : !routeNotFound ? (
-        <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
+        <Flex mt="10px">
+          <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
+        </Flex>
       ) : (
         <></>
       )}

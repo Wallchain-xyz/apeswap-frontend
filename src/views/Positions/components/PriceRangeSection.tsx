@@ -18,8 +18,8 @@ const PriceRangeSection = ({
   tickAtLimit,
   setManuallyInverted,
 }: {
-  currencyQuote: Currency | undefined
-  currencyBase: Currency | undefined
+  currencyQuote: Currency | undefined | null
+  currencyBase: Currency | undefined | null
   removed: boolean | undefined
   inRange: boolean
   inverted: boolean | undefined
