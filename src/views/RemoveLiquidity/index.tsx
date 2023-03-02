@@ -175,6 +175,8 @@ const RemoveLiquidity = ({
           tokenId={tokenId}
           feeValue0={feeValue0}
           feeValue1={feeValue1}
+          feeAmount={feeAmount}
+          inRange={inRange}
         />
       </Flex>
       {showCollectAsWeth && (
