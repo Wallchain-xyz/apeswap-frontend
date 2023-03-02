@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
 import type { TransactionResponse } from '@ethersproject/providers'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
@@ -133,20 +133,27 @@ const Add = ({
     }
   }
 
+  const handleDismissConfirmation = useCallback(() => {
+    // if there was a tx hash, we want to clear the input
+    setTxHash('')
+  }, [])
+
   const [onConfirm] = useModal(
     <ConfirmAddLiquidity
-      parsedAmounts={parsedAmounts}
-      // positionManager={positionManager}
+      attemptingTxn={attemptingTxn}
+      txHash={txHash}
       ticksAtLimit={ticksAtLimit}
       baseCurrency={baseCurrency}
       quoteCurrency={quoteCurrency}
       position={position}
       outOfRange={outOfRange}
       noLiquidity={noLiquidity}
+      onAdd={onAdd}
+      onDismiss={handleDismissConfirmation}
     />,
     true,
     true,
-    'confirmAddLiquidit',
+    'confirmAddLiquidity',
   )
 
   return (
