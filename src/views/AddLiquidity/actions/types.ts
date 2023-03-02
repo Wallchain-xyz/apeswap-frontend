@@ -16,7 +16,7 @@ export interface AddInterface {
   errorMessage: ReactNode
   invalidRange: boolean
   ticksAtLimit: {
-    LOWER: boolean | undefined
-    UPPER: boolean | undefined
+    LOWER?: boolean | undefined
+    UPPER?: boolean | undefined
   }
 }

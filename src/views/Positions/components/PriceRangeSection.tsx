@@ -28,8 +28,8 @@ const PriceRangeSection = ({
   priceUpper: Price<Token, Token> | undefined
   priceLower: Price<Token, Token> | undefined
   tickAtLimit: {
-    LOWER: boolean | undefined
-    UPPER: boolean | undefined
+    LOWER?: boolean | undefined
+    UPPER?: boolean | undefined
   }
   setManuallyInverted: (manuallyInverted: boolean) => void
 }) => {

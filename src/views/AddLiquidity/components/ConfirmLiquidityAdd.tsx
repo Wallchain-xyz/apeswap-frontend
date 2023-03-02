@@ -23,8 +23,8 @@ const ConfirmAddLiquidity = ({
     CURRENCY_B?: CurrencyAmount<Currency> | undefined
   }
   ticksAtLimit: {
-    LOWER: boolean | undefined
-    UPPER: boolean | undefined
+    LOWER?: boolean | undefined
+    UPPER?: boolean | undefined
   }
   baseCurrency: Currency | undefined | null
   quoteCurrency: Currency | undefined | null
