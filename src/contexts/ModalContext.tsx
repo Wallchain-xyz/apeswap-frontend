@@ -23,6 +23,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [nodeId, setNodeId] = useState<string[]>([])
   const [modalNode, setModalNode] = useState<React.ReactNode[]>([])
   const [closeOnOverlayClick, setCloseOnOverlayClick] = useState(true)
+  
 
   const handlePresent = (node: React.ReactNode, newNodeId: string) => {
     setModalNode((prev) => [...prev, node])

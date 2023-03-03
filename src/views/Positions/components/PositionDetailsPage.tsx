@@ -134,6 +134,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
     return amount0 + amount1
   }, [position, token0PriceUsd, token1PriceUsd])
 
+
   const [onPresentRemoveLiquidityModal] = useModal(
     <RemoveLiquidity
       tokenId={tokenId?.toString()}

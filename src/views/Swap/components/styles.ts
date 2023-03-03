@@ -61,7 +61,6 @@ const styles: Record<
   },
   dexTradeInfoContainer: {
     border: '2px solid',
-    marginTop: '10px',
     borderRadius: '10px',
     borderColor: 'white3',
     background: 'white3',

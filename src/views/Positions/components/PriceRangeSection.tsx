@@ -18,8 +18,8 @@ const PriceRangeSection = ({
   tickAtLimit,
   setManuallyInverted,
 }: {
-  currencyQuote: Currency | undefined
-  currencyBase: Currency | undefined
+  currencyQuote: Currency | undefined | null
+  currencyBase: Currency | undefined | null
   removed: boolean | undefined
   inRange: boolean
   inverted: boolean | undefined
@@ -28,8 +28,8 @@ const PriceRangeSection = ({
   priceUpper: Price<Token, Token> | undefined
   priceLower: Price<Token, Token> | undefined
   tickAtLimit: {
-    LOWER: boolean | undefined
-    UPPER: boolean | undefined
+    LOWER?: boolean | undefined
+    UPPER?: boolean | undefined
   }
   setManuallyInverted: (manuallyInverted: boolean) => void
 }) => {
