@@ -70,13 +70,12 @@ const List = ({
     const s = debouncedQuery.toLowerCase().trim()
 
     const tokens = filteredSortedTokens.filter((t) => !(t.equals(wrapped) || (disableNonToken && t.isNative)))
-    const shouldShowWrapped = !balancesAreLoading && balances[wrapped.address]?.greaterThan(0)
-    const natives = (
-      disableNonToken || native.equals(wrapped) ? [wrapped] : shouldShowWrapped ? [native, wrapped] : [native]
-    ).filter((n) => n.symbol?.toLowerCase()?.indexOf(s) !== -1 || n.name?.toLowerCase()?.indexOf(s) !== -1)
+    const natives = (disableNonToken || native.equals(wrapped) ? [wrapped] : [native, wrapped]).filter(
+      (n) => n.symbol?.toLowerCase()?.indexOf(s) !== -1 || n.name?.toLowerCase()?.indexOf(s) !== -1,
+    )
 
     return [...natives, ...tokens]
-  }, [debouncedQuery, filteredSortedTokens, balancesAreLoading, balances, wrapped, disableNonToken, native])
+  }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native])
 
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
   useEffect(() => {
