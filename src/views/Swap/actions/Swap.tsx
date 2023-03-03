@@ -1,11 +1,12 @@
 import { Currency, Percent, TradeType } from '@ape.swap/sdk-core'
 import { Trade } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
-import { Button } from 'components/uikit'
+import { Button, Text } from 'components/uikit'
 import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
 import useModal from 'hooks/useModal'
 import { useSwapCallback } from 'hooks/useSwapCallback'
+import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useIsExpertMode } from 'state/user/hooks'
@@ -21,6 +22,10 @@ const Swap = ({
   signatureData,
   recipient,
   stablecoinPriceImpact,
+  wrapType,
+  showWrap,
+  wrapInputError,
+  onWrap,
 }: {
   tradeState: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
@@ -28,6 +33,10 @@ const Swap = ({
   signatureData: SignatureData | null
   recipient: string | null
   stablecoinPriceImpact: Percent | null
+  showWrap: boolean | undefined
+  wrapInputError: WrapInputError | undefined
+  wrapType: WrapType | undefined
+  onWrap: (() => Promise<void>) | undefined
 }) => {
   const { account } = useWeb3React()
   // modal and loading
@@ -129,7 +138,17 @@ const Swap = ({
     'swapConfirmModal',
   )
 
-  return (
+  return showWrap ? (
+    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fontWeight={600} fullWidth>
+      {wrapInputError ? (
+        <WrapErrorText wrapInputError={wrapInputError} />
+      ) : wrapType === WrapType.WRAP ? (
+        <Text>Wrap</Text>
+      ) : wrapType === WrapType.UNWRAP ? (
+        <Text>Unwrap</Text>
+      ) : null}
+    </Button>
+  ) : (
     <Button
       fullWidth
       onClick={isExpertMode ? handleSwap : onPresentConfirmModal}

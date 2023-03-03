@@ -9,6 +9,7 @@ import { ReactNode } from 'react'
 import { Button, Flex, Text } from 'components/uikit'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import Approval from './Approval'
+import { WrapInputError, WrapType } from 'hooks/useWrapCallback'
 
 const Actions = ({
   tradeState,
@@ -17,6 +18,10 @@ const Actions = ({
   allowedSlippage,
   recipient,
   stablecoinPriceImpact,
+  showWrap,
+  wrapType,
+  wrapInputError,
+  onWrap,
 }: {
   tradeState: TradeState
   swapInputError: ReactNode
@@ -24,6 +29,10 @@ const Actions = ({
   allowedSlippage: Percent
   recipient: string | null
   stablecoinPriceImpact: Percent | null
+  showWrap: boolean | undefined
+  wrapInputError: WrapInputError | undefined
+  wrapType: WrapType | undefined
+  onWrap: (() => Promise<void>) | undefined
 }) => {
   const { account } = useWeb3React()
   const transactionDeadline = useTransactionDeadline()
@@ -60,6 +69,10 @@ const Actions = ({
           signatureData={signatureData}
           recipient={recipient}
           stablecoinPriceImpact={stablecoinPriceImpact}
+          showWrap={showWrap}
+          wrapInputError={wrapInputError}
+          wrapType={wrapType}
+          onWrap={onWrap}
         />
       )}
     </Flex>

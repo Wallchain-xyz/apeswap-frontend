@@ -9,6 +9,7 @@ import useENSAddress from 'hooks/useENSAddress'
 import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
 import useModal from 'hooks/useModal'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
+import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
@@ -83,12 +84,14 @@ const Swap = () => {
     gatherPermitSignature,
   } = useERC20PermitFromTrade(trade, allowedSlippage, transactionDeadline)
 
-  //   const {
-  //     wrapType,
-  //     execute: onWrap,
-  //     inputError: wrapInputError,
-  //   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
-  const showWrap = false
+  const {
+    wrapType,
+    execute: onWrap,
+    inputError: wrapInputError,
+  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
+
+  const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
+
   const { address: recipientAddress } = useENSAddress(recipient)
 
   const parsedAmounts = useMemo(
@@ -163,19 +166,24 @@ const Swap = () => {
         trade={trade}
         allowedSlippage={allowedSlippage}
         recipient={recipient}
+        showWrap={showWrap}
+        wrapInputError={wrapInputError}
+        wrapType={wrapType}
+        onWrap={onWrap}
         stablecoinPriceImpact={null}
       />
-      {routeIsLoading || routeIsSyncing ? (
-        <Flex mt="10px">
-          <LoadingBestRoute />
-        </Flex>
-      ) : !routeNotFound ? (
-        <Flex mt="10px">
-          <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
-        </Flex>
-      ) : (
-        <></>
-      )}
+      {!showWrap &&
+        (routeIsLoading || routeIsSyncing ? (
+          <Flex mt="10px">
+            <LoadingBestRoute />
+          </Flex>
+        ) : !routeNotFound ? (
+          <Flex mt="10px">
+            <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
+          </Flex>
+        ) : (
+          <></>
+        ))}
     </Flex>
   )
 }
