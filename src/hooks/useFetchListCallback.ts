@@ -12,19 +12,17 @@ import { fetchTokenList } from '../state/lists/actions'
 export function useFetchListCallback(): (
   listUrl: string,
   sendDispatch?: boolean,
-  skipValidation?: boolean
+  skipValidation?: boolean,
 ) => Promise<TokenList> {
   const dispatch = useAppDispatch()
 
   // note: prevent dispatch if using for list search or unsupported list
   return useCallback(
-    async (listUrl: string, sendDispatch = true, skipValidation?: boolean) => {
+    async (listUrl: string, sendDispatch = true) => {
       const requestId = nanoid()
       sendDispatch && dispatch(fetchTokenList.pending({ requestId, url: listUrl }))
-      return getTokenList(
-        listUrl,
-        (ensName: string) => resolveENSContentHash(ensName, RPC_PROVIDERS[SupportedChainId.MAINNET]),
-        skipValidation
+      return getTokenList(listUrl, (ensName: string) =>
+        resolveENSContentHash(ensName, RPC_PROVIDERS[SupportedChainId.MAINNET]),
       )
         .then((tokenList) => {
           sendDispatch && dispatch(fetchTokenList.fulfilled({ url: listUrl, tokenList, requestId }))
@@ -36,6 +34,6 @@ export function useFetchListCallback(): (
           throw error
         })
     },
-    [dispatch]
+    [dispatch],
   )
 }
