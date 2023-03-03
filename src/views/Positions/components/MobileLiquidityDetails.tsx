@@ -137,6 +137,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
+      // handleDismiss={() => null}
     />,
     true,
     true,

@@ -10,7 +10,7 @@ import { useToken } from 'hooks/Tokens'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useBurnV3ActionHandlers, useBurnV3State, useDerivedV3BurnInfo } from 'state/burn/v3/hooks'
 import { Switch } from 'theme-ui'
 import { unwrappedToken } from 'utils/unwrappedToken'
@@ -32,7 +32,7 @@ const RemoveLiquidity = ({
   inRange: boolean
 }) => {
   const { account, chainId, provider } = useWeb3React()
-  const { position } = useV3PositionFromTokenId(BigNumber?.from(tokenId) || '')
+  const { position } = useV3PositionFromTokenId(tokenId ? BigNumber.from(tokenId) : undefined)
 
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)

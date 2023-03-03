@@ -18,7 +18,8 @@ const RemoveLiquidityConfirmation = ({
   txHash,
   burn,
   onDismiss,
-}: {
+}: //   handleParentDismiss,
+{
   feeValue0: CurrencyAmount<Currency> | undefined
   feeValue1: CurrencyAmount<Currency> | undefined
   liquidityValue0: CurrencyAmount<Currency> | undefined
@@ -29,6 +30,7 @@ const RemoveLiquidityConfirmation = ({
   txHash: string
   burn: () => void
   onDismiss: () => void
+  //   handleParentDismiss: () => void
 }) => {
   const { t } = useTranslation()
   const pendingText = `${t('Removing')} ${liquidityValue0?.toSignificant(4) ?? ''} ${
@@ -133,7 +135,13 @@ const RemoveLiquidityConfirmation = ({
                 </Flex>
               </Flex>
             </Flex>
-            <Button fullWidth mt="15px" onClick={burn}>
+            <Button
+              fullWidth
+              mt="15px"
+              onClick={() => {
+                burn() //handleParentDismiss()
+              }}
+            >
               Remove
             </Button>
           </>

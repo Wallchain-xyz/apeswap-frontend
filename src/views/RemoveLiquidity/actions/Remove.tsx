@@ -6,7 +6,7 @@ import { Button } from 'components/uikit'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import useModal from 'hooks/useModal'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
@@ -26,6 +26,7 @@ const Remove = ({
   feeValue1,
   feeAmount,
   inRange,
+  onDismiss,
 }: {
   liquidityValue0: CurrencyAmount<Currency> | undefined
   liquidityValue1: CurrencyAmount<Currency> | undefined
@@ -36,6 +37,7 @@ const Remove = ({
   feeValue1: CurrencyAmount<Currency> | undefined
   feeAmount: number | undefined
   inRange: boolean
+  onDismiss?: () => void
 }) => {
   const { account, chainId, provider } = useWeb3React()
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
@@ -145,7 +147,7 @@ const Remove = ({
     // if there was a tx hash, we want to clear the input
     setTxHash('')
   }, [])
-
+  
   const [onRemoveLiquidity] = useModal(
     <RemoveLiquidityConfirmation
       feeValue0={feeValue0}
@@ -158,6 +160,7 @@ const Remove = ({
       txHash={txHash}
       burn={burn}
       onDismiss={handleDismissConfirmation}
+      // handleParentDismiss={onDismiss}
     />,
     true,
     true,
