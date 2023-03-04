@@ -124,7 +124,7 @@ export const routingApi = createApi({
       },
       keepUnusedDataFor: 100000,
       extraOptions: {
-        maxRetries: 0,
+        maxRetries: 2,
       },
     }),
   }),
