@@ -10,6 +10,7 @@ import { RouterPreference, useGetQuoteQuery } from 'state/routing/slice'
 
 import { GetQuoteResult, InterfaceTrade, TradeState } from './types'
 import { computeRoutes, transformRoutesToTrade } from './utils'
+import { Protocol } from '@ape.swap/router-sdk'
 
 /**
  * Returns the best trade by invoking the routing api or the smart order router on the client
@@ -22,6 +23,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   amountSpecified: CurrencyAmount<Currency> | undefined,
   otherCurrency: Currency | undefined,
   routerPreference: RouterPreference,
+  protocols?: Protocol[],
 ): {
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TTradeType> | undefined
@@ -40,6 +42,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     amount: amountSpecified,
     tradeType,
     routerPreference,
+    protocols,
   })
 
   const { isLoading, isError, data, currentData } = useGetQuoteQuery(queryArgs ?? skipToken, {
@@ -94,10 +97,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     }
 
     try {
-      console.log(quoteResult?.blockNumber)
-      console.log(quoteResult?.blockNumber)
-      console.log(quoteResult?.blockNumber)
-      console.log(quoteResult?.blockNumber)
       const trade = transformRoutesToTrade(route, tradeType, quoteResult?.blockNumber, gasUseEstimateUSD)
       return {
         // always return VALID regardless of isFetching status

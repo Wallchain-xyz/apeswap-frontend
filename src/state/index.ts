@@ -16,6 +16,7 @@ import swap from './swap/reducer'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
+import zap from './zap/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
@@ -33,6 +34,7 @@ const store = configureStore({
     burnV3,
     multicall: multicall.reducer,
     lists,
+    zap,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
