@@ -10,6 +10,7 @@ import multicallV3Abi from 'config/abi/multicallv3.json'
 import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
+import ZAP_ABI from 'config/abi/zap.json'
 import EIP_2612 from 'config/abi/eip_2612.json'
 import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
@@ -36,7 +37,10 @@ import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/len
 import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 import { PriceGetter } from 'config/abi/types/PriceGetter'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
+import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
+
 import { Weth } from 'config/abi/types/Weth'
+import { Zap } from 'config/abi/types/Zap'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -140,4 +144,10 @@ export function useWETHContract(withSignerIfPossible?: boolean) {
     WETH_ABI,
     withSignerIfPossible,
   )
+}
+
+export function useZapContract(withSignerIfPossible?: boolean) {
+  const { chainId } = useWeb3React()
+  // TODO: fix this supported chain stuff
+  return useContract<Zap>(chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined, ZAP_ABI, withSignerIfPossible)
 }

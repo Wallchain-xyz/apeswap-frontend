@@ -17,7 +17,6 @@ import {
   typeInput,
 } from './actions'
 import { useUserSlippageTolerance } from '../user/hooks'
-import BigNumber from 'bignumber.js'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, CurrencyAmount, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
 import { useBestTrade } from 'hooks/useBestTrade'
@@ -29,10 +28,10 @@ import useENS from 'hooks/useENS'
 import JSBI from 'jsbi'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
-import { zapInputTokens } from '@ape.swap/apeswap-lists'
 import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
 import { RouterPreference } from 'state/routing/slice'
 import { Protocol } from '@ape.swap/router-sdk'
+import { BigNumber } from 'ethers'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -153,21 +152,25 @@ export function useDerivedZapInfo() {
   ])
 
   // Change to currency amount. Divide the typed input by 2 to get correct distributions
-  const halfTypedValue = new BigNumber(typedValue).div(2).toFixed(18, 5)
+  console.log(typedValue)
+  const halfTypedValue = typedValue && BigNumber.from(typedValue || '').div(2).toString()
 
   const parsedAmount = useMemo(
-    () => tryParseCurrencyAmount(typedValue, inputCurrency ?? undefined),
-    [inputCurrency, typedValue],
+    () => tryParseCurrencyAmount(halfTypedValue, inputCurrency ?? undefined),
+    [inputCurrency, halfTypedValue],
   )
 
   const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
   const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2])
 
+  console.log(bestZapOne)
+  console.log(bestZapTwo)
+
   const zap = useMemo(
     () =>
       mergeBestZap(
-        bestZapOne.trade,
-        bestZapTwo.trade,
+        bestZapOne?.trade,
+        bestZapTwo?.trade,
         out0 ?? undefined,
         out1 ?? undefined,
         outputPair,
@@ -292,7 +295,7 @@ export function useSetZapInputList() {
   const dispatch = useAppDispatch()
   useEffect(() => {
     const getZapInputList = () => {
-      dispatch(setInputList({ zapInputList: zapInputTokens as any }))
+      dispatch(setInputList({ zapInputList: [] as any }))
     }
     getZapInputList()
   }, [dispatch])

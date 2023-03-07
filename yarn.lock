@@ -103,10 +103,10 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-"@ape.swap/v2-zap-sdk@^1.0.0-alpha.7":
-  version "1.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@ape.swap/v2-zap-sdk/-/v2-zap-sdk-1.0.0-alpha.7.tgz#eb4e45594fc8db3f5de9c97187e09a4d41bfe2dd"
-  integrity sha512-H9DpaZaF/xW4s9sNRTXj1RT8FM4LCcdXMiWEFmweT4jAjrddKvS0UugkZ9QT8b/MIMMTe4Kq2ia6pByNeBy0qw==
+"@ape.swap/v2-zap-sdk@^1.0.0-alpha.11":
+  version "1.0.0-alpha.11"
+  resolved "https://registry.yarnpkg.com/@ape.swap/v2-zap-sdk/-/v2-zap-sdk-1.0.0-alpha.11.tgz#e5850b00ca3ef2fdd44d830f62fc15fcba98981a"
+  integrity sha512-h6SrZnZ+VY1S2sPF7XWNtuWBBrNR0TuF7Ga/M3Fn8dO5fKVrcbZRPzqs7rGJZ15rjOXgn/slpyMfw+mn4a8UTg==
   dependencies:
     "@ape.swap/router-sdk" "^1.0.1-alpha.1"
     "@ape.swap/sdk-core" "^1.0.1"
@@ -2945,7 +2945,7 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.191.tgz#09511e7f7cba275acd8b419ddac8da9a6a79e2fa"
   integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
 
-"@types/node@*", "@types/node@18.11.19":
+"@types/node@*":
   version "18.11.19"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.19.tgz#35e26df9ec441ab99d73e99e9aca82935eea216d"
   integrity sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw==
@@ -2954,6 +2954,11 @@
   version "12.20.55"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.55.tgz#c329cbd434c42164f846b909bd6f85b5537f6240"
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
+
+"@types/node@^18.14.6":
+  version "18.14.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.6.tgz#ae1973dd2b1eeb1825695bb11ebfb746d27e3e93"
+  integrity sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"

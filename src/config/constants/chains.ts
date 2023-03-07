@@ -70,16 +70,14 @@ export const BLOCK_EXPLORER: Record<SupportedChainId, string> = {
   [SupportedChainId.TLOS]: 'https://www.teloscan.io',
 }
 
-export const CHAIN_PARAMS: Partial<
-  Record<
-    SupportedChainId,
-    {
-      chainId: string
-      chainName: string
-      nativeCurrency: { name: string; symbol: string; decimals: number }
-      blockExplorerUrls: string[]
-    }
-  >
+export const CHAIN_PARAMS: Record<
+  SupportedChainId,
+  {
+    chainId: string
+    chainName: string
+    nativeCurrency: { name: string; symbol: string; decimals: number }
+    blockExplorerUrls: string[]
+  }
 > = {
   [SupportedChainId.BSC]: {
     chainId: '0x38',
@@ -143,7 +141,7 @@ export const CHAIN_PARAMS: Partial<
   },
 }
 
-export const getChainInfo = (chainId: SupportedChainId): any => {
+export const getChainInfo = (chainId: SupportedChainId | undefined | null): any => {
   if (chainId) {
     return CHAIN_PARAMS[chainId] ?? undefined
   }
