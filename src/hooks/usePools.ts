@@ -41,6 +41,7 @@ class PoolCache {
       }),
     }
     this.addresses.unshift(address)
+
     return address.address
   }
 
