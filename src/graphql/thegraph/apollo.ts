@@ -6,6 +6,7 @@ import store, { AppState } from '../../state/index'
 const CHAIN_SUBGRAPH_URL: Record<number, string> = {
   [SupportedChainId.MAINNET]: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
   [SupportedChainId.POLYGON]: 'https://api.thegraph.com/subgraphs/name/prof-sd/as-polygon-v3',
+  [SupportedChainId.BSC]: 'https://api.thegraph.com/subgraphs/name/prof-sd/as-bsc-v3',
 }
 
 const httpLink = new HttpLink({ uri: CHAIN_SUBGRAPH_URL[SupportedChainId.POLYGON] })

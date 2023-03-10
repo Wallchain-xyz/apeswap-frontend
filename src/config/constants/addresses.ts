@@ -1,5 +1,5 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { FACTORY_ADDRESS as V3_FACTORY_ADDRESS } from '@ape.swap/v3-sdk'
+import { FACTORY_ADDRESSES as V3_FACTORY_ADDRESS } from '@ape.swap/v3-sdk'
 
 type AddressMap = { [chainId: number]: string }
 
@@ -30,35 +30,32 @@ export const V2_ROUTER_ADDRESSES: AddressMap = {
 }
 
 // TODO: Change this to actual addresses
-export const V3_FACTORY_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC_TESTNET]: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
-  [SupportedChainId.BSC]: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
-  [SupportedChainId.POLYGON]: '0x86A2Ad3771ed3b4722238CEF303048AC44231987',
-  [SupportedChainId.MAINNET]: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
-  [SupportedChainId.TLOS]: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
-}
+export const V3_FACTORY_ADDRESSES = V3_FACTORY_ADDRESS
 
 export const NONFUNGIBLE_POSITION_MANAGER_ADDRESSES: AddressMap = {
-  [SupportedChainId.MAINNET]: '0xC36442b4a4522E871399CD717aBDD847Ab11FE88',
+  [SupportedChainId.MAINNET]: '',
   [SupportedChainId.POLYGON]: '0x01B8f5B6647E57607D8d5E323EdBDb3C7Efe86b6',
+  [SupportedChainId.BSC]: '0x3f0256533a4c4670B7E4b4CBcE990d7497216489',
 }
 
 export const TICK_LENS_ADDRESSES: AddressMap = {
-  [SupportedChainId.MAINNET]: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573',
+  [SupportedChainId.MAINNET]: '',
   [SupportedChainId.POLYGON]: '0x644a417cea95fcad595edb00db170c7bb5cc490d',
+  [SupportedChainId.BSC]: '0x87BfcF331c486e04f08070090fc8Cd5296Ad206D',
 }
 
 export const QUOTER_ADDRESSES: AddressMap = {
-  [SupportedChainId.MAINNET]: '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6',
+  [SupportedChainId.MAINNET]: '',
   [SupportedChainId.POLYGON]: '0x76F310F6e1d2D7d24827212762D0b68c1e367968',
+  [SupportedChainId.BSC]: '0xB8C30b21A817B993B1c20d005B80ab88Bb55b689',
 }
 
 export const SWAP_ROUTER_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC_TESTNET]: '0x0EED0E9723385c2584Ba0a38CDBc175072b42708',
-  [SupportedChainId.BSC]: '0x0EED0E9723385c2584Ba0a38CDBc175072b42708',
+  [SupportedChainId.BSC_TESTNET]: '',
+  [SupportedChainId.BSC]: '0x425D7a80B28a7217380B51A55724C8E19955a9d0',
   [SupportedChainId.POLYGON]: '0x352Aa8320b2F381AeBa358A7a7467035921de7Fd',
-  [SupportedChainId.MAINNET]: '0x0EED0E9723385c2584Ba0a38CDBc175072b42708',
-  [SupportedChainId.TLOS]: '0x0EED0E9723385c2584Ba0a38CDBc175072b42708',
+  [SupportedChainId.MAINNET]: '',
+  [SupportedChainId.TLOS]: '',
 }
 
 export const PRICE_GETTER_ADDRESSES: AddressMap = {
