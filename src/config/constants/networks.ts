@@ -6,6 +6,7 @@ export const RPC_URLS: Record<SupportedChainId, string[]> = {
     'https://bsc-dataseed.binance.org/',
     'https://bsc-dataseed1.defibit.io',
   ],
+  [SupportedChainId.ARBITRUM_ONE]: ['https://arb1.arbitrum.io/rpc'],
   [SupportedChainId.BSC_TESTNET]: ['https://data-seed-prebsc-2-s3.binance.org:8545/'],
   [SupportedChainId.POLYGON]: ['https://polygon.apeswap.dev/'],
   [SupportedChainId.POLYGON_MUMBAI]: ['https://matic-mumbai.chainstacklabs.com'],
