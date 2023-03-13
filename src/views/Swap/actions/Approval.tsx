@@ -1,13 +1,16 @@
 import { Button } from 'components/uikit'
+import { ApprovalState } from 'hooks/useApproveCallback'
 import { UseERC20PermitState } from 'hooks/useERC20Permit'
 import { useCallback, useState } from 'react'
 
 const Approval = ({
   signatureState,
+  approvalState,
   gatherPermitSignature,
   approveCallback,
 }: {
   signatureState: UseERC20PermitState
+  approvalState: ApprovalState
   gatherPermitSignature: (() => Promise<void>) | null
   approveCallback: () => Promise<void>
 }) => {
@@ -33,8 +36,14 @@ const Approval = ({
     }
   }, [signatureState, gatherPermitSignature, approveCallback])
 
+
   return (
-    <Button fullWidth onClick={handleApprove}>
+    <Button
+      fullWidth
+      onClick={handleApprove}
+      load={approvalPending || approvalState === ApprovalState.PENDING}
+      disabled={approvalPending || approvalState === ApprovalState.PENDING}
+    >
       Approve
     </Button>
   )
