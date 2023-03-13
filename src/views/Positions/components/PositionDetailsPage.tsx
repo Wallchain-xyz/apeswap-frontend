@@ -194,10 +194,10 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           </Flex>
         </Flex>
         <Flex sx={{ alignItems: 'center' }}>
-          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal}>
+          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal} disabled={removed}>
             Remove
           </Button>
-          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal}>
+          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal} disabled={removed}>
             Add
           </Button>
           <RangeTag removed={removed} inRange={inRange} />

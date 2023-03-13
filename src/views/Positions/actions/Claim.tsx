@@ -30,6 +30,8 @@ const Claim = ({
   const positionManager = useV3NFTPositionManagerContract()
   const addTransaction = useTransactionAdder()
 
+  const disabledClaim = feeValue0?.equalTo(0) && feeValue1?.equalTo(0)
+
   const [claimPending, setClaimPending] = useState<boolean>(false)
   const onClaim = useCallback(() => {
     if (
@@ -114,7 +116,13 @@ const Claim = ({
   ])
 
   return (
-    <Button size="sm" onClick={onClaim} load={claimPending} disabled={claimPending} fullWidth={fullWidth}>
+    <Button
+      size="sm"
+      onClick={onClaim}
+      load={claimPending}
+      disabled={claimPending || disabledClaim}
+      fullWidth={fullWidth}
+    >
       Claim
     </Button>
   )

@@ -43,6 +43,9 @@ const Add = ({
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
+  const disableAdd =
+    (parsedAmounts.CURRENCY_A?.equalTo(0) || !parsedAmounts.CURRENCY_A) &&
+    (parsedAmounts.CURRENCY_B?.equalTo(0) || !parsedAmounts.CURRENCY_B)
   const { chainId, provider, account } = useWeb3React()
   const addTransaction = useTransactionAdder()
 
@@ -151,7 +154,7 @@ const Add = ({
     }
   }
   return (
-    <Button fullWidth onClick={onAdd} mt="10px">
+    <Button fullWidth onClick={onAdd} mt="10px" disabled={disableAdd}>
       Add
     </Button>
   )

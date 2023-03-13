@@ -236,10 +236,10 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
         </Flex>
       </Flex>
       <Flex sx={{ padding: '10px 0px' }}>
-        <Button size="sm" fullWidth mr="10px" onClick={onPresentIncreaseLiquidityModal}>
+        <Button size="sm" fullWidth mr="10px" onClick={onPresentIncreaseLiquidityModal} disabled={removed}>
           Add
         </Button>
-        <Button size="sm" fullWidth onClick={onPresentRemoveLiquidityModal}>
+        <Button size="sm" fullWidth onClick={onPresentRemoveLiquidityModal} disabled={removed}>
           Remove
         </Button>
       </Flex>
