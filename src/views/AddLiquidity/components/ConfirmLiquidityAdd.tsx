@@ -106,15 +106,15 @@ const ConfirmAddLiquidity = ({
               </Flex>
             </Flex>
             <PriceRangeSection
-              currencyQuote={quoteCurrency}
-              currencyBase={baseCurrency}
+              currencyQuote={inverted ? baseCurrency : quoteCurrency}
+              currencyBase={inverted ? quoteCurrency : baseCurrency}
               removed={false}
               inRange={!outOfRange}
               inverted={inverted}
               manuallyInverted={false}
               pool={position?.pool}
-              priceUpper={inverted ? position?.token0PriceUpper?.invert() : position?.token0PriceUpper}
-              priceLower={inverted ? position?.token0PriceLower?.invert() : position?.token0PriceLower}
+              priceUpper={inverted ? position?.token0PriceLower?.invert() : position?.token0PriceUpper}
+              priceLower={inverted ? position?.token0PriceUpper?.invert() : position?.token0PriceLower}
               tickAtLimit={ticksAtLimit}
               setManuallyInverted={() => setInverted((prev) => !prev)}
             />
