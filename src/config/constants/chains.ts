@@ -33,6 +33,7 @@ export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
   SupportedChainId.TLOS,
+  SupportedChainId.ARBITRUM_ONE,
 ]
 
 // Network Icons
