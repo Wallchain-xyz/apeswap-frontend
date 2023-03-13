@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
 import type { TransactionResponse } from '@ethersproject/providers'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Currency, CurrencyAmount, Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
@@ -26,6 +26,8 @@ const Add = ({
   hasExistingPosition,
   noLiquidity,
   tokenId,
+  setAttemptingTxn,
+  setTxHash,
 }: {
   parsedAmounts: {
     CURRENCY_A?: CurrencyAmount<Currency> | undefined
@@ -39,9 +41,9 @@ const Add = ({
   hasExistingPosition: boolean
   noLiquidity: boolean | undefined
   tokenId: string | undefined
+  setAttemptingTxn: Dispatch<SetStateAction<boolean>>
+  setTxHash: Dispatch<SetStateAction<string>>
 }) => {
-  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
-  const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
   const disableAdd =
     (parsedAmounts.CURRENCY_A?.equalTo(0) || !parsedAmounts.CURRENCY_A) &&
