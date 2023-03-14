@@ -1,6 +1,8 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
+import TokenImportWarning from 'components/TokenImportWarning'
 import { Flex, Text } from 'components/uikit'
+import useModal from 'hooks/useModal'
 import { CSSProperties } from 'theme-ui'
 
 const ListRow = ({
@@ -8,16 +10,26 @@ const ListRow = ({
   userBalance,
   isSelected,
   otherSelected,
+  searchTokenIsAdded,
   style,
   onSelect,
+  onDismiss,
 }: {
   currency: Currency
   userBalance: string | undefined
   isSelected: boolean
   otherSelected: boolean
+  searchTokenIsAdded: boolean
   style: CSSProperties
   onSelect: () => void
+  onDismiss: () => void
 }) => {
+  const [onImportWarningModal] = useModal(
+    <TokenImportWarning currency={currency} onDismiss={onDismiss} onSelect={onSelect} />,
+    true,
+    true,
+    'tokenImportWarningModal',
+  )
   return (
     <Flex
       sx={{
@@ -31,7 +43,7 @@ const ListRow = ({
           backgroundColor: 'white3',
         },
       }}
-      onClick={onSelect}
+      onClick={() => (searchTokenIsAdded ? onSelect() : onDismiss(), onImportWarningModal())}
     >
       <Flex sx={{ alignItems: 'center' }}>
         <CurrencyLogo currency={currency} size={35} />

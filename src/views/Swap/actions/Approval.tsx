@@ -36,7 +36,6 @@ const Approval = ({
     }
   }, [signatureState, gatherPermitSignature, approveCallback])
 
-
   return (
     <Button
       fullWidth

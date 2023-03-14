@@ -1,7 +1,7 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
-import { useAllTokens } from 'hooks/Tokens'
+import { useAllTokens, useIsUserAddedToken, useToken } from 'hooks/Tokens'
 import useDebounce from 'hooks/useDebounce'
 import { useAllTokenBalances } from 'lib/hooks/useAllTokenBalances'
 import { getTokenFilter } from 'lib/hooks/useTokenList/filtering'
@@ -37,6 +37,8 @@ const List = ({
   const debouncedQuery = useDebounce(searchQuery, 200)
   const defaultTokens = useAllTokens()
   const [balances, balancesAreLoading] = useAllTokenBalances()
+  const searchToken = useToken(debouncedQuery)
+  const searchTokenIsAdded = useIsUserAddedToken(searchToken)
   const filteredTokens: Token[] = useMemo(() => {
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
   }, [defaultTokens, debouncedQuery])
@@ -74,8 +76,8 @@ const List = ({
       (n) => n.symbol?.toLowerCase()?.indexOf(s) !== -1 || n.name?.toLowerCase()?.indexOf(s) !== -1,
     )
 
-    return [...natives, ...tokens]
-  }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native])
+    return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
+  }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native, searchToken])
 
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
   useEffect(() => {
@@ -104,6 +106,7 @@ const List = ({
           currency={row}
           isSelected={isSelected}
           otherSelected={otherSelected}
+          searchTokenIsAdded={searchToken ? searchTokenIsAdded : true}
           userBalance={
             currency.isToken ? balances[currency.address]?.toSignificant(6) : nativeBalance?.toSignificant(6)
           }
@@ -112,10 +115,21 @@ const List = ({
           onSelect={() => {
             onCurrencySelect(row), onDismiss()
           }}
+          onDismiss={onDismiss}
         />
       )
     },
-    [balances, balancesAreLoading, nativeBalance, otherSelectedCurrency, selectedCurrency, onCurrencySelect, onDismiss],
+    [
+      balances,
+      balancesAreLoading,
+      nativeBalance,
+      searchTokenIsAdded,
+      searchToken,
+      otherSelectedCurrency,
+      selectedCurrency,
+      onCurrencySelect,
+      onDismiss,
+    ],
   )
 
   const itemKey = useCallback((index: number, data: Currency[]) => {
