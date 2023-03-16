@@ -1,8 +1,9 @@
-import { SvgProps } from '../types'
+import React from "react";
+import { SvgProps } from "../types";
 
-const TokenPocket = ({ width }: SvgProps) => {
+const Icon: React.FC<SvgProps> = (props) => {
   return (
-    <svg width={width || '32'} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" {...props}>
       <rect width="32" height="32" fill="url(#pattern1)" rx="16" />
       <defs>
         <pattern id="pattern1" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -16,7 +17,7 @@ const TokenPocket = ({ width }: SvgProps) => {
         />
       </defs>
     </svg>
-  )
-}
+  );
+};
 
-export default TokenPocket
+export default Icon;

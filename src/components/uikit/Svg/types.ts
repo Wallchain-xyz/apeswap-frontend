@@ -80,6 +80,7 @@ export enum icons {
   TRUST_WALLET = 'trustWallet',
   UNSTOPPABLE = 'unstoppable',
   WALLET_CONNECT = 'walletConnect',
+  WALLET_IMAGE = 'walletImage',
   COG = 'cog',
   BRIDGE = 'bridge',
   DOCS = 'docs',

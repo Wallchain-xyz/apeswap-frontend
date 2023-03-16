@@ -80,6 +80,7 @@ import {
   TrustWallet,
   Unstoppable,
   WalletConnect,
+  WalletImage,
 } from './walletIcons'
 import { IconStyles } from './Icons/types'
 import Language from './Icons/LanguageIcon'
@@ -263,6 +264,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Unstoppable {...props} getStyles={getStyles} />
     case icons.WALLET_CONNECT:
       return <WalletConnect {...props} getStyles={getStyles} />
+    case icons.WALLET_IMAGE:
+      return <WalletImage {...props} getStyles={getStyles} />
     default:
       return null
   }

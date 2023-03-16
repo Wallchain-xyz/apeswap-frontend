@@ -1,8 +1,9 @@
+import React from 'react'
 import { SvgProps } from '../types'
 
-const Coinbase = ({ width }: SvgProps) => {
+const Icon: React.FC<SvgProps> = (props) => {
   return (
-    <svg width={width || '24'} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill="url(#pattern0)" />
       <defs>
         <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -19,4 +20,4 @@ const Coinbase = ({ width }: SvgProps) => {
   )
 }
 
-export default Coinbase
+export default Icon

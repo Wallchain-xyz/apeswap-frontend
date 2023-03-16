@@ -18,6 +18,11 @@ const connectors: Config[] = [
     icon: icons.TRUST_WALLET,
     connection: injectedConnection,
   },
+  {
+    label: 'Wallet Connect',
+    icon: icons.WALLET_CONNECT,
+    connection: walletConnectConnection,
+  },
   // TODO: Add torus login
   {
     label: 'Social Login',
@@ -28,11 +33,6 @@ const connectors: Config[] = [
     label: 'Brave Wallet',
     icon: icons.BRAVE,
     connection: injectedConnection,
-  },
-  {
-    label: 'WalletConnect',
-    icon: icons.WALLET_CONNECT,
-    connection: walletConnectConnection,
   },
   {
     label: 'SafePal Wallet',
