@@ -1,14 +1,10 @@
-import { Button, Flex, Modal, Svg, Text } from 'components/uikit'
+import { Flex, Modal, Svg, Text } from 'components/uikit'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'contexts/Localization'
 import { useState } from 'react'
-import { useAppDispatch } from 'state/hooks'
-import { updateSelectedWallet } from 'state/user/reducer'
-import useActivate from 'utils/connection/activate'
 import AllWallets from './components/AllWallets'
 import PrioritizedWallets from './components/PrioritizedWallets'
-import connectors from './config'
 
 const modalProps = {
   sx: {
@@ -47,8 +43,6 @@ const variants = {
 const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
-  const activate = useActivate()
-  const dispatch = useAppDispatch()
   return (
     <Modal {...modalProps}>
       <ModalHeader {...{ sx: { height: '24px' } }}>
@@ -82,37 +76,11 @@ const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
             dragElastic={1}
             sx={{ width: '100%' }}
           >
-            <>
-              {!open ? (
-                <PrioritizedWallets setOpen={setOpen} onDismiss={onDismiss} />
-              ) : (
-                <AllWallets onDismiss={onDismiss} />
-              )}
-            </>
-            {/* {connectors.map(({ label, icon, connection }) => {
-          return (
-            <Button
-              fullWidth
-              variant="tertiary"
-              key={label}
-              sx={{
-                justifyContent: 'space-between',
-                margin: '3.5px 0px',
-                height: '45px',
-                alignItems: 'center',
-                background: 'white4',
-              }}
-              onClick={() => {
-                activate(connection), dispatch(updateSelectedWallet({ wallet: connection.type })), onDismiss()
-              }}
-            >
-              <Text weight="normal" size="15px">
-                {label}
-              </Text>
-              <Svg icon={icon} width="30px" />
-            </Button>
-          )
-        })} */}
+            {!open ? (
+              <PrioritizedWallets setOpen={setOpen} onDismiss={onDismiss} />
+            ) : (
+              <AllWallets onDismiss={onDismiss} />
+            )}
           </motion.div>
         </AnimatePresence>
       </Flex>

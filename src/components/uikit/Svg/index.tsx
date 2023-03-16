@@ -62,6 +62,7 @@ import {
   Quiz,
   PlaceholderMonkey,
   SwitchArrows,
+  Copy,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -221,6 +222,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Card {...props} getStyles={getStyles} />
     case icons.COG:
       return <Cog {...props} getStyles={getStyles} />
+    case icons.COPY:
+      return <Copy {...props} getStyles={getStyles} />
     case icons.BRIDGE:
       return <Bridge {...props} getStyles={getStyles} />
     case icons.DOCS:
