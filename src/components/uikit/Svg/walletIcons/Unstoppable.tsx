@@ -1,23 +1,27 @@
-import { SvgProps } from '../types'
+import React from "react";
+import { SvgProps } from "../types";
 
-const Unstoppable = ({ width }: SvgProps) => {
+const Icon: React.FC<SvgProps> = (props) => {
   return (
-    <svg width={width || '38'} viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <title>Unstoppable Domains Logo</title>
-      <g clipPath="url(#clip0_397_9586)">
-        <path d="M36.6855 3.52722V15.6759L1 30.0309L36.6855 3.52722Z" fill="#00C9FF" />
-        <path
-          d="M29.9957 3V23.9573C29.9957 26.8859 28.8208 29.6947 26.7293 31.7656C24.6378 33.8366 21.8011 35 18.8433 35C15.8855 35 13.0489 33.8366 10.9574 31.7656C8.8659 29.6947 7.69092 26.8859 7.69092 23.9573V15.1264L14.3812 11.4807V23.9573C14.3186 24.5018 14.3728 25.0533 14.5404 25.5756C14.708 26.0979 14.9851 26.5792 15.3537 26.9881C15.7223 27.397 16.1739 27.7241 16.679 27.9481C17.1842 28.1721 17.7314 28.288 18.2849 28.288C18.8383 28.288 19.3856 28.1721 19.8907 27.9481C20.3958 27.7241 20.8475 27.397 21.216 26.9881C21.5846 26.5792 21.8617 26.0979 22.0293 25.5756C22.1969 25.0533 22.2512 24.5018 22.1885 23.9573V7.22924L29.9957 3Z"
-          fill="#0D67FE"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_397_9586">
-          <rect width="35.6855" height="32" fill="white" transform="translate(1 3)" />
-        </clipPath>
-      </defs>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      version="1.1"
+      id="Capa_1"
+      x="0px"
+      y="0px"
+      viewBox="0 0 50 50"
+      xmlSpace="preserve"
+      {...props}
+    >
+      <circle cx="25" cy="25" r="25" fill="#FFFFFF" />
+      <path d="M41.4,9.9v11.8l-34.8,14L41.4,9.9z" fill="#00C9FF" />
+      <path
+        fill="#0D67FE"
+        d="M34.9,9.4v20.4c0,2.9-1.1,5.6-3.2,7.6c-2,2-4.8,3.2-7.7,3.2s-5.6-1.1-7.7-3.2c-2-2-3.2-4.8-3.2-7.6v-8.6  l6.5-3.6v12.2c-0.1,0.5,0,1.1,0.2,1.6c0.2,0.5,0.4,1,0.8,1.4c0.4,0.4,0.8,0.7,1.3,0.9c0.5,0.2,1,0.3,1.6,0.3c0.5,0,1.1-0.1,1.6-0.3  c0.5-0.2,0.9-0.5,1.3-0.9c0.4-0.4,0.6-0.9,0.8-1.4c0.2-0.5,0.2-1,0.2-1.6V13.5L34.9,9.4z"
+      />
     </svg>
-  )
-}
+  );
+};
 
-export default Unstoppable
+export default Icon;

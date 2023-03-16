@@ -78,14 +78,18 @@ export enum icons {
   TOKEN_POCKET = 'tokenPocket',
   TORUS_WALLET = 'torusWallet',
   TRUST_WALLET = 'trustWallet',
+  OKX = 'okx',
+  MAD_WALLET = 'madWallet',
   UNSTOPPABLE = 'unstoppable',
   WALLET_CONNECT = 'walletConnect',
+  WALLET_IMAGE = 'walletImage',
   COG = 'cog',
   BRIDGE = 'bridge',
   DOCS = 'docs',
   QUIZ = 'quiz',
   PLACEHOLDER_MONKEY = 'placeholderMonkey',
   SWITCH_ARROWS = 'switchArrows',
+  COPY = 'copy',
 }
 
 export enum directions {

@@ -62,6 +62,7 @@ import {
   Quiz,
   PlaceholderMonkey,
   SwitchArrows,
+  Copy,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -69,9 +70,11 @@ import {
   Bitkeep,
   Brave,
   Coinbase,
+  MadWallet,
   MathWallet,
   Metamask,
   Nabox,
+  OKX,
   OntoWallet,
   SafePalWallet,
   SocialLogin,
@@ -80,6 +83,7 @@ import {
   TrustWallet,
   Unstoppable,
   WalletConnect,
+  WalletImage,
 } from './walletIcons'
 import { IconStyles } from './Icons/types'
 import Language from './Icons/LanguageIcon'
@@ -220,6 +224,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Card {...props} getStyles={getStyles} />
     case icons.COG:
       return <Cog {...props} getStyles={getStyles} />
+    case icons.COPY:
+      return <Copy {...props} getStyles={getStyles} />
     case icons.BRIDGE:
       return <Bridge {...props} getStyles={getStyles} />
     case icons.DOCS:
@@ -263,6 +269,12 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Unstoppable {...props} getStyles={getStyles} />
     case icons.WALLET_CONNECT:
       return <WalletConnect {...props} getStyles={getStyles} />
+    case icons.WALLET_IMAGE:
+      return <WalletImage {...props} getStyles={getStyles} />
+    case icons.MAD_WALLET:
+      return <MadWallet {...props} getStyles={getStyles} />
+    case icons.OKX:
+      return <OKX {...props} getStyles={getStyles} />
     default:
       return null
   }
