@@ -41,6 +41,7 @@ const baseTheme = {
     body: 'Poppins,sans-serif;',
     titan: 'Titan One',
     poppins: 'Poppins',
+    azeret: 'Azeret Mono, monospace',
   },
   radii: {
     small: '4px',

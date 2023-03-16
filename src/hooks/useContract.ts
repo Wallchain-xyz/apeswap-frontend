@@ -1,6 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
-import contractAddresses from 'config/constants/contractAddresses'
 
 import { useMemo } from 'react'
 import { getContract } from 'utils'
@@ -27,6 +26,7 @@ import {
   QUOTER_ADDRESSES,
   PRICE_GETTER_ADDRESSES,
   V2_ROUTER_ADDRESSES,
+  MULTICALL,
 } from 'config/constants/addresses'
 import WETH_ABI from 'config/abi/weth.json'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -69,7 +69,7 @@ export function useContract<T extends Contract = Contract>(
 }
 
 export function useInterfaceMulticall() {
-  return useContract<Multicallv3>(contractAddresses.mulltiCallV3, multicallV3Abi, false)
+  return useContract<Multicallv3>(MULTICALL, multicallV3Abi, false)
 }
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean) {

@@ -39,6 +39,7 @@ export enum icons {
   POLYGON_TOKEN = 'polygon_token',
   TLOS_TOKEN = 'tlos_token',
   BSC_TOKEN = 'bsc_token',
+  ARBITRUM_TOKEN = 'arbitrum_token',
   DISCORD = 'discord',
   REDDIT = 'reddit',
   MEDIUM = 'medium',

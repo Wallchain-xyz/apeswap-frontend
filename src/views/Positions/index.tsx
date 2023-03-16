@@ -15,6 +15,7 @@ import PositionsLoading from './components/PositionsLoading'
 const Positions = () => {
   const { chainId, account } = useWeb3React()
   const { positions, loading: positionsLoading } = useV3Positions(account)
+  console.log(positions)
   const [selectedTokenId, setSelectedTokenId] = useState<string>('')
 
   const [userHideClosedPositions] = useUserHideClosedPositions()

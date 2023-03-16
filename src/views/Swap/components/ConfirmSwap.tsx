@@ -81,7 +81,7 @@ const ConfirmSwap = ({
                     justifyContent: 'center',
                   }}
                 >
-                  <Svg icon="arrow" />
+                  <Svg icon="arrow" color="primaryBright" />
                 </Flex>
               </Flex>
             </Flex>
@@ -111,7 +111,7 @@ const ConfirmSwap = ({
               or the transaction will be cancelled.
             </Text>
             <Button fullWidth onClick={onConfirm}>
-              <Text>Confirm</Text>
+              <Text color="primaryBright">Confirm</Text>
             </Button>
           </>
         )}

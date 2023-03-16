@@ -22,6 +22,10 @@ export function getNativeLogoURI(chainId: SupportedChainId = SupportedChainId.MA
     case SupportedChainId.POLYGON:
     case SupportedChainId.POLYGON_MUMBAI:
       return 'https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/polygon/assets/0x0000000000000000000000000000000000001010/logo.png'
+
+    case SupportedChainId.BSC:
+    case SupportedChainId.BSC_TESTNET:
+      return 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/WBNB.svg'
     default:
       return 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/ETH.svg'
   }

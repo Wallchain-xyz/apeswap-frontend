@@ -58,6 +58,7 @@ const Actions = ({
       ) : showApproveFlow ? (
         <Approval
           signatureState={signatureState}
+          approvalState={approvalState}
           gatherPermitSignature={gatherPermitSignature}
           approveCallback={approveCallback}
         />

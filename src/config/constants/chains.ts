@@ -15,6 +15,7 @@ export const MAINNET_CHAINS = [
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
   SupportedChainId.TLOS,
+  SupportedChainId.ARBITRUM_ONE,
 ]
 
 export const CHAIN_NAMES: Record<SupportedChainId, string> = {
@@ -24,6 +25,7 @@ export const CHAIN_NAMES: Record<SupportedChainId, string> = {
   [SupportedChainId.POLYGON_MUMBAI]: 'polygon_mumbai',
   [SupportedChainId.MAINNET]: 'mainnet',
   [SupportedChainId.TLOS]: 'telos',
+  [SupportedChainId.ARBITRUM_ONE]: 'arbitrum_one',
 }
 
 export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
@@ -31,6 +33,7 @@ export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
   SupportedChainId.TLOS,
+  SupportedChainId.ARBITRUM_ONE,
 ]
 
 // Network Icons
@@ -39,6 +42,7 @@ export const NETWORK_ICONS: Partial<Record<SupportedChainId, icons>> = {
   [SupportedChainId.POLYGON]: icons.POLYGON_TOKEN,
   [SupportedChainId.MAINNET]: icons.ETH_TOKEN,
   [SupportedChainId.TLOS]: icons.TLOS_TOKEN,
+  [SupportedChainId.ARBITRUM_ONE]: icons.ARBITRUM_TOKEN,
 }
 
 // Network labels
@@ -49,6 +53,7 @@ export const NETWORK_LABEL: Partial<Record<SupportedChainId, string>> = {
   [SupportedChainId.POLYGON_MUMBAI]: 'Polygon Testnet',
   [SupportedChainId.MAINNET]: 'Ethereum',
   [SupportedChainId.TLOS]: 'Telos',
+  [SupportedChainId.ARBITRUM_ONE]: 'Arbitrum',
 }
 
 export const NETWORK_INFO_LINK: Partial<Record<SupportedChainId, string>> = {
@@ -58,6 +63,7 @@ export const NETWORK_INFO_LINK: Partial<Record<SupportedChainId, string>> = {
   [SupportedChainId.POLYGON_MUMBAI]: 'https://polygon.info.apeswap.finance/',
   [SupportedChainId.MAINNET]: 'https://ethereum.info.apeswap.finance',
   [SupportedChainId.TLOS]: 'https://telos.info.apeswap.finance',
+  [SupportedChainId.ARBITRUM_ONE]: 'https://arb1.arbitrum.io/rpc',
 }
 
 // Network block explorers
@@ -68,6 +74,7 @@ export const BLOCK_EXPLORER: Record<SupportedChainId, string> = {
   [SupportedChainId.POLYGON_MUMBAI]: 'https://mumbai.polygonscan.com/',
   [SupportedChainId.MAINNET]: 'https://etherscan.io/',
   [SupportedChainId.TLOS]: 'https://www.teloscan.io',
+  [SupportedChainId.ARBITRUM_ONE]: 'https://arbiscan.io',
 }
 
 export const CHAIN_PARAMS: Partial<
@@ -140,6 +147,16 @@ export const CHAIN_PARAMS: Partial<
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.TLOS]],
+  },
+  [SupportedChainId.ARBITRUM_ONE]: {
+    chainId: '0xa4b1',
+    chainName: 'Arbitrum',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.ARBITRUM_ONE]],
   },
 }
 

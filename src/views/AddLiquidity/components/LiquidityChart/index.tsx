@@ -170,7 +170,7 @@ const LiquidityChart = ({
             )}
             {isLoading ? (
               <Flex>
-                <Spinner size="80px" />
+                <Spinner size={80} />
               </Flex>
             ) : isUninitialized ? (
               <Text>Your position will appear here.</Text>

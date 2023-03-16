@@ -5,3 +5,5 @@ export { default as ETH } from './ETH'
 export { default as GNANA } from './GNANA'
 export { default as POLYGON } from './POLYGON'
 export { default as TLOS } from './TLOS'
+export { default as ARBITRUM } from './ARBITRUM'
+
