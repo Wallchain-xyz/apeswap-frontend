@@ -30,6 +30,8 @@ const ListRow = ({
     true,
     'tokenImportWarningModal',
   )
+
+  console.log(searchTokenIsAdded)
   return (
     <Flex
       sx={{
@@ -43,7 +45,7 @@ const ListRow = ({
           backgroundColor: 'white3',
         },
       }}
-      onClick={() => (searchTokenIsAdded ? onSelect() : onDismiss(), onImportWarningModal())}
+      onClick={() => (searchTokenIsAdded ? onSelect() : (onDismiss(), onImportWarningModal()))}
     >
       <Flex sx={{ alignItems: 'center' }}>
         <CurrencyLogo currency={currency} size={35} />

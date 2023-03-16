@@ -54,11 +54,11 @@ export const QUOTER_ADDRESSES: AddressMap = {
 }
 
 export const SWAP_ROUTER_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC_TESTNET]: '',
   [SupportedChainId.BSC]: '0x425D7a80B28a7217380B51A55724C8E19955a9d0',
   [SupportedChainId.POLYGON]: '0x352Aa8320b2F381AeBa358A7a7467035921de7Fd',
-  [SupportedChainId.MAINNET]: '',
-  [SupportedChainId.TLOS]: '',
+  [SupportedChainId.MAINNET]: '0xf47071594f6425305A1aC1FB02Ef6c1965AdBAe1',
+  [SupportedChainId.TLOS]: '0x429010DAb5065eE428DfaF2ad35DdcAee8c45Ec6',
+  [SupportedChainId.ARBITRUM_ONE]: '0xBAe5dc9B19004883d0377419FeF3c2C8832d7d7B'
 }
 
 export const PRICE_GETTER_ADDRESSES: AddressMap = {
