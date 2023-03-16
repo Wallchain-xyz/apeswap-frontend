@@ -70,9 +70,11 @@ import {
   Bitkeep,
   Brave,
   Coinbase,
+  MadWallet,
   MathWallet,
   Metamask,
   Nabox,
+  OKX,
   OntoWallet,
   SafePalWallet,
   SocialLogin,
@@ -269,6 +271,10 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <WalletConnect {...props} getStyles={getStyles} />
     case icons.WALLET_IMAGE:
       return <WalletImage {...props} getStyles={getStyles} />
+    case icons.MAD_WALLET:
+      return <MadWallet {...props} getStyles={getStyles} />
+    case icons.OKX:
+      return <OKX {...props} getStyles={getStyles} />
     default:
       return null
   }
