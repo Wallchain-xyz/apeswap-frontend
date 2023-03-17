@@ -3,6 +3,7 @@ import TokenListModal from 'components/TokenListModal'
 import { Flex, Svg } from 'components/uikit'
 import { useAllTokens } from 'hooks/Tokens'
 import React, { useCallback } from 'react'
+import { useActivePopups, useAddPopup } from 'state/application/hooks'
 import { useCombinedActiveList } from 'state/lists/hooks'
 import { useV3MintState } from 'state/mint/v3/hooks'
 import { Text, Card, Button } from 'theme-ui'
@@ -16,6 +17,7 @@ const Home = () => {
     }
     connector.resetState()
   }, [connector])
+  const addPopup = useAddPopup()
   return (
     <Flex
       sx={{
@@ -31,7 +33,18 @@ const Home = () => {
       </Flex>
       {account && (
         <>
-          <Button onClick={disconnect} margin="10px 0px">
+          <Button
+            onClick={() =>
+              addPopup({
+                txHash: 'asdashdqhnwdkqw',
+                text: 'Transaction Successful',
+                url: 'google.com',
+                urlLabel: 'View Transaction',
+                type: 'error',
+              })
+            }
+            margin="10px 0px"
+          >
             Press to logoutsadas dasdasdasdas das dasdasd
           </Button>
           <Svg />
