@@ -14,6 +14,7 @@ import TransactionUpdater from 'state/transactions/updater'
 import ApplicationUpdater from 'state/application/updater'
 import { MulticallUpdater } from 'lib/state/multicall'
 import { BlockNumberProvider } from 'lib/hooks/useBlockNumber'
+import Popups from 'components/Popups'
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <LanguageProvider>
                 <ModalProvider>
                   <NavBar />
+                  <Popups />
                   <Component {...pageProps} />
                   <Footer />
                 </ModalProvider>

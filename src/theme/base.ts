@@ -38,7 +38,7 @@ const baseTheme = {
     bold: 700,
   },
   fonts: {
-    body: 'Poppins,sans-serif;',
+    body: 'Poppins, sans-serif',
     titan: 'Titan One',
     poppins: 'Poppins',
     azeret: 'Azeret Mono, monospace',
@@ -51,12 +51,22 @@ const baseTheme = {
     circle: '50%',
   },
   zIndices: { dropdown: 10, modal: 101 },
+  text: {
+    heading: {
+      fontFamily: 'poppins',
+      fontWeight: 'bold',
+    },
+    lg: { fontSize: 6, lineHeight: '33px' },
+    md: { fontSize: 3, lineHeight: '24px' },
+    sm: { fontSize: 1, lineHeight: '18px' },
+  },
   styles: {
     root: {
       fontFamily: 'body',
+      '-webkit-font-smoothing': 'antialiased',
       lineHeight: 'body',
-      fontWeight: 'light',
-      letterSpacing: '.45px',
+      letterSpacing: '.6px',
+      fontWeight: 600,
       color: 'text',
       bg: 'background',
     },

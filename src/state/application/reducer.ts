@@ -1,16 +1,13 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 
-export type PopupContent =
-  | {
-      txn: {
-        hash: string
-      }
-    }
-  | {
-      failedSwitchNetwork: SupportedChainId
-    }
+export type PopupContent = {
+  txHash: string
+  text: string
+  url: string
+  urlLabel: string
+  type: 'success' | 'error'
+}
 
 export enum ApplicationModal {
   ADDRESS_CLAIM,
