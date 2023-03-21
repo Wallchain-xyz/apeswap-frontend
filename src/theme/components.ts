@@ -3,6 +3,27 @@ export const buttonHover = {
   '&:disabled': {},
 }
 
+export const textUnderlineHover = {
+  '::after': {
+    content: "''",
+    position: 'absolute',
+    background: 'text',
+    left: '0px',
+    bottom: '0px',
+    height: '1.5px',
+    width: '100%',
+    borderRadius: '10px',
+    transform: 'scaleX(0)',
+    transformOrigin: 'bottom right',
+    transition: 'transform 0.25s ease-out',
+    backfaceVisibility: 'hidden',
+  },
+  ':hover::after': {
+    transform: 'scaleX(1)',
+    transformOrigin: 'bottom left',
+  },
+}
+
 const buttonBaseStyles = {
   padding: '10px 20px 10px 19px',
   fontSize: '16px',
@@ -22,6 +43,12 @@ const components = {
     lg: { fontSize: 6, lineHeight: '33px' },
     md: { fontSize: 3, lineHeight: '24px' },
     sm: { fontSize: 1, lineHeight: '18px' },
+    link: {
+      ...textUnderlineHover,
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-block',
+    },
   },
   input: {
     sm: {

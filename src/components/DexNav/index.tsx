@@ -42,6 +42,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
       <Flex sx={{ ...styles.navLinkContainer, justifyContent: 'flex-start' }}>
         <Text
           size="14px"
+          variant="link"
           sx={{
             ...styles.navLink,
             color: !pathname?.includes('swap') && 'textDisabled',
@@ -55,6 +56,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         </Text>
         <Text
           size="14px"
+          variant="link"
           sx={{
             ...styles.navLink,
             color: !onLiquidity && 'textDisabled',

@@ -1,5 +1,4 @@
 import { MediaQueries } from './types'
-
 export const breakpointMap: { [key: string]: number } = {
   xs: 370,
   sm: 576,
@@ -69,6 +68,7 @@ const baseTheme = {
       fontWeight: 600,
       color: 'text',
       bg: 'background',
+      textDecoration: 'none',
     },
     a: {
       color: 'primary',
@@ -79,7 +79,12 @@ const baseTheme = {
       },
     },
     nav: {
+      textDecoration: 'none',
       breakpoints: [`@media screen and (min-width: ${breakpointMap.lg}px)`],
+      a: {
+        textDecoration: 'none',
+        color: 'red',
+      },
     },
     progress: {
       primary: 'primary',

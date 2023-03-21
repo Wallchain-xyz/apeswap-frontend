@@ -58,10 +58,10 @@ export const ACCESS_LINKS: { label: string; href: string }[] = [
 ]
 
 export const SOCIAL_LINKS: { label: icons; href: string }[] = [
-  { label: icons.TWITTER, href: '' },
-  { label: icons.DISCORD, href: '' },
-  { label: icons.TELEGRAM, href: '' },
-  { label: icons.REDDIT, href: '' },
-  { label: icons.MEDIUM, href: '' },
-  { label: icons.INSTAGRAM, href: '' },
+  { label: icons.TWITTER, href: 'https://twitter.com/ape_swap' },
+  { label: icons.DISCORD, href: 'https://apeswap.click/discord' },
+  { label: icons.TELEGRAM, href: 'https://t.me/ape_swap' },
+  { label: icons.REDDIT, href: 'https://www.reddit.com/r/Apeswap/' },
+  { label: icons.MEDIUM, href: 'https://ape-swap.medium.com/' },
+  { label: icons.INSTAGRAM, href: 'https://www.instagram.com/apeswap.finance/' },
 ]
