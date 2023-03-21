@@ -57,7 +57,7 @@ const MobileDropdown = ({
                   as={Link}
                   href={href}
                   target="_blank"
-                  variant="text.link"
+                  variant="flex.link"
                 >
                   <Text variant="link" color="primaryBright">
                     {t(label)}

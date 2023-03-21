@@ -27,7 +27,7 @@ const Text: React.FC<TextProps> = ({
     <ThemeUIText
       {...props}
       sx={{
-        variant: `text.${variant}`,
+        variant: variant === variants.LINK ? `flex.${variant}` : `text.${variant}`,
         color,
         fontWeight: weight,
         fontSize: size,

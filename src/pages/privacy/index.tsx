@@ -23,7 +23,9 @@ const PrivacyPolicy: React.FC = () => {
   return (
     <PageContainer>
       <Flex sx={{ flexDirection: 'column', marginBottom: '100px' }}>
-        <Text weight={700} sx={styles.title}>Privacy Policy</Text>
+        <Text weight={700} sx={styles.title}>
+          Privacy Policy
+        </Text>
         <Text as="p" variant="sm" sx={styles.text}>
           ApeSwap Foundation (hereinafter ApeSwap) is aware of the importance of personal data privacy and user rights.
           For this reason, we have implemented a personal data protection policy aimed at providing security and

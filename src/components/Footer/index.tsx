@@ -81,7 +81,7 @@ const Footer = () => {
                   as={Link}
                   href={href}
                   target="_blank"
-                  variant="text.link"
+                  variant="flex.link"
                 >
                   <Text color="primaryBright" key={label}>
                     {t(label)}
@@ -102,7 +102,7 @@ const Footer = () => {
                   as={Link}
                   href={href}
                   target="_blank"
-                  variant="text.link"
+                  variant="flex.link"
                 >
                   <Text variant="link" color="primaryBright" key={label}>
                     {t(label)}
@@ -123,7 +123,7 @@ const Footer = () => {
                   as={Link}
                   href={href}
                   target="_blank"
-                  variant="text.link"
+                  variant="flex.link"
                 >
                   <Text variant="link" color="primaryBright" key={label}>
                     {t(label)}
@@ -145,13 +145,13 @@ const Footer = () => {
       <Flex sx={styles.allRightsReserved}>
         <Text color="primaryBright">©2023 All rights reserved</Text>
         <Flex>
-          <Flex variant="text.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/terms'>
+          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/terms'>
             <Text color="primaryBright" size="12px">
               Terms
             </Text>
           </Flex>
           <Text margin="0px 5px"> | </Text>
-          <Flex variant="text.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/privacy'>
+          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/privacy'>
             <Text color="primaryBright" size="12px">
               Privacy Policy
             </Text>

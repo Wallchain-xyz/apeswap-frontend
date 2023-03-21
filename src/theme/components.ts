@@ -43,12 +43,6 @@ const components = {
     lg: { fontSize: 6, lineHeight: '33px' },
     md: { fontSize: 3, lineHeight: '24px' },
     sm: { fontSize: 1, lineHeight: '18px' },
-    link: {
-      ...textUnderlineHover,
-      cursor: 'pointer',
-      textDecoration: 'none',
-      display: 'inline-block',
-    },
   },
   input: {
     sm: {
@@ -360,6 +354,12 @@ const components = {
       '&:active': {
         transform: 'scale(0.9)',
       },
+    },
+    link: {
+      ...textUnderlineHover,
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-block',
     },
     tag: {
       padding: '5px',
