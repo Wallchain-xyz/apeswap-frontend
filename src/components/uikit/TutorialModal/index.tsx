@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box } from 'theme-ui'
 import { CountProps, TModalProps } from './types'
 import { styles, modalProps, dynamicStyles } from './styles'
-import useMatchBreakpoints from '../../hooks/useMatchBreakpoints'
+import useMatchBreakpoints from '../../../hooks/useMatchBreakpoints'
 import { Button, Flex, Modal, Text } from 'components/uikit'
 
 const Circle: React.FC<CountProps> = ({ index, goToStep, isActive }) => {
@@ -50,7 +50,6 @@ const TutorialModal: React.FC<TModalProps> = ({
 
   return (
     <Modal
-      zIndex={10}
       onDismiss={onDismiss}
       minWidth={isMobile ? width : '873px'}
       maxWidth={isMobile ? width : '873px'}
