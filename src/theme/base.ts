@@ -50,15 +50,6 @@ const baseTheme = {
     circle: '50%',
   },
   zIndices: { dropdown: 10, modal: 101 },
-  text: {
-    heading: {
-      fontFamily: 'poppins',
-      fontWeight: 'bold',
-    },
-    lg: { fontSize: 6, lineHeight: '33px' },
-    md: { fontSize: 3, lineHeight: '24px' },
-    sm: { fontSize: 1, lineHeight: '18px' },
-  },
   styles: {
     root: {
       fontFamily: 'body',
@@ -127,6 +118,10 @@ const baseTheme = {
       fontWeight: '800',
       fontSize: '60px',
       lineHeight: '66px',
+    },
+    input: {
+      fontFamily: 'base',
+      fontWeight: 'base',
     },
   },
 }
