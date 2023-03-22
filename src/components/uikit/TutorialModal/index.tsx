@@ -50,6 +50,7 @@ const TutorialModal: React.FC<TModalProps> = ({
 
   return (
     <Modal
+      zIndex={101}
       onDismiss={onDismiss}
       minWidth={isMobile ? width : '873px'}
       maxWidth={isMobile ? width : '873px'}

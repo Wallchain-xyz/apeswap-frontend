@@ -49,7 +49,7 @@ const baseTheme = {
     card: '32px',
     circle: '50%',
   },
-  zIndices: { dropdown: 10, modal: 101 },
+  zIndices: { dropdown: 10, modal: 102 },
   styles: {
     root: {
       fontFamily: 'body',
