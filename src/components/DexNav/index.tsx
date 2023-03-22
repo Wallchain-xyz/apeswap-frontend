@@ -120,7 +120,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             />
           </Flex>
         )}
-        <Flex sx={{ width: '90px', justifyContent: 'space-between' }}>
+        <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
