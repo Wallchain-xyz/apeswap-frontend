@@ -21,8 +21,9 @@ const WRAPPED_LIST = 'wrapped.tokensoft.eth'
 export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST]
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [APESWAP, UNI_LIST]
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [APESWAP]
 export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
+  UNI_LIST,
   NFT_INDEX,
   QUICKSWAP,
   PANCAKE_100,

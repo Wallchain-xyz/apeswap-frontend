@@ -3,6 +3,7 @@ import NetworkSelector from 'components/NetworkSelector'
 import ThemeSwitcher from 'components/ThemeSwitcher'
 import { Button, Flex, Skeleton, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
+import Link from 'next/link'
 import CountUp from 'react-countup'
 import { useBananaPrice } from 'state/application/hooks'
 import MobileDropdown from './components/MobileDropdown'
@@ -44,7 +45,7 @@ const Footer = () => {
           >
             {SOCIAL_LINKS.map(({ label, href }) => {
               return (
-                <Flex sx={styles.iconContainer} key={label}>
+                <Flex sx={styles.iconContainer} key={label} as={Link} href={href} target="_blank">
                   <Svg icon={label} color="text" />
                 </Flex>
               )
@@ -74,9 +75,18 @@ const Footer = () => {
             </Text>
             {SUPPORT_LINKS.map(({ label, href }) => {
               return (
-                <Text color="primaryBright" key={label}>
-                  {t(label)}
-                </Text>
+                <Flex
+                  key={label}
+                  sx={{ position: 'relative', width: 'fit-content' }}
+                  as={Link}
+                  href={href}
+                  target="_blank"
+                  variant="flex.link"
+                >
+                  <Text color="primaryBright" key={label}>
+                    {t(label)}
+                  </Text>
+                </Flex>
               )
             })}
           </Flex>
@@ -86,9 +96,18 @@ const Footer = () => {
             </Text>
             {ENGAGE_LINKS.map(({ label, href }) => {
               return (
-                <Text color="primaryBright" key={label}>
-                  {t(label)}
-                </Text>
+                <Flex
+                  key={label}
+                  sx={{ position: 'relative', width: 'fit-content' }}
+                  as={Link}
+                  href={href}
+                  target="_blank"
+                  variant="flex.link"
+                >
+                  <Text variant="link" color="primaryBright" key={label}>
+                    {t(label)}
+                  </Text>
+                </Flex>
               )
             })}
           </Flex>
@@ -98,9 +117,18 @@ const Footer = () => {
             </Text>
             {ACCESS_LINKS.map(({ label, href }) => {
               return (
-                <Text color="primaryBright" key={label}>
-                  {t(label)}
-                </Text>
+                <Flex
+                  key={label}
+                  sx={{ position: 'relative', width: 'fit-content' }}
+                  as={Link}
+                  href={href}
+                  target="_blank"
+                  variant="flex.link"
+                >
+                  <Text variant="link" color="primaryBright" key={label}>
+                    {t(label)}
+                  </Text>
+                </Flex>
               )
             })}
           </Flex>
@@ -116,9 +144,19 @@ const Footer = () => {
       </Flex>
       <Flex sx={styles.allRightsReserved}>
         <Text color="primaryBright">©2023 All rights reserved</Text>
-        <Text color="primaryBright" size="12px">
-          Terms | Privacy Policy
-        </Text>
+        <Flex>
+          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/terms'>
+            <Text color="primaryBright" size="12px">
+              Terms
+            </Text>
+          </Flex>
+          <Text margin="0px 5px"> | </Text>
+          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/privacy'>
+            <Text color="primaryBright" size="12px">
+              Privacy Policy
+            </Text>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   )

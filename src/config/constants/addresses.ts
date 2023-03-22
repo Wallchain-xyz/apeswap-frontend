@@ -9,7 +9,7 @@ export const BANANA_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON]: '0x5d47baba0d66083c52009271faf3f50dcc01023c',
   [SupportedChainId.MAINNET]: '0x92df60c51c710a1b1c20e42d85e221f3a1bfc7f2',
   [SupportedChainId.TLOS]: '0x667fd83e24ca1d935d36717d305d54fa0cac991c',
-  [SupportedChainId.ARBITRUM_ONE]: '0xd978f8489e1245568704407a479a71fcce2afe8f',
+  [SupportedChainId.ARBITRUM_ONE]: '0xd978F8489e1245568704407a479a71FcCe2aFE8F',
 }
 
 export const V2_FACTORY_ADDRESSES: AddressMap = {
