@@ -21,6 +21,11 @@ const CurrencyLogo = ({
     (currency as TokenInfo)?.logoURI,
   )
 
+  console.log('src')
+  console.log(src)
+  console.log('backup')
+  console.log(nextSrc)
+
   return src ? (
     <Image
       src={src}
