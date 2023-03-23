@@ -2,7 +2,7 @@ import { Currency } from '@ape.swap/sdk-core'
 import TokenSelector from 'components/TokenSelector'
 import { Flex, Text } from 'components/uikit'
 import FeeSelector from './FeeSelector'
-import LiquidityChart from './LiquidityChart'
+import { MobileLiquidityChart } from './LiquidityChart'
 import NewPool from './NewPool'
 import RangeSelector from './RangeSelectors'
 import { MOBILE_DISPLAY } from './styles'
@@ -67,7 +67,7 @@ const MobileLiquidityParams = ({
           onStartPriceInput={onStartPriceInput}
         />
       ) : (
-        <LiquidityChart
+        <MobileLiquidityChart
           id="mobileLiquidityChart"
           currencyA={currencyA ?? undefined}
           currencyB={currencyB ?? undefined}
