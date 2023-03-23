@@ -69,6 +69,7 @@ export const walletConnectConnection: Connection = {
   type: ConnectionType.WALLET_CONNECT,
 }
 
+// TODO: Fix this
 const [web3CoinbaseWallet, web3CoinbaseWalletHooks] = initializeConnector<CoinbaseWallet>(
   (actions) =>
     new CoinbaseWallet({
