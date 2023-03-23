@@ -1,5 +1,4 @@
 import { MediaQueries } from './types'
-
 export const breakpointMap: { [key: string]: number } = {
   xs: 370,
   sm: 576,
@@ -50,16 +49,7 @@ const baseTheme = {
     card: '32px',
     circle: '50%',
   },
-  zIndices: { dropdown: 10, modal: 101 },
-  text: {
-    heading: {
-      fontFamily: 'poppins',
-      fontWeight: 'bold',
-    },
-    lg: { fontSize: 6, lineHeight: '33px' },
-    md: { fontSize: 3, lineHeight: '24px' },
-    sm: { fontSize: 1, lineHeight: '18px' },
-  },
+  zIndices: { dropdown: 10, modal: 102 },
   styles: {
     root: {
       fontFamily: 'body',
@@ -69,6 +59,7 @@ const baseTheme = {
       fontWeight: 600,
       color: 'text',
       bg: 'background',
+      textDecoration: 'none',
     },
     a: {
       color: 'primary',
@@ -79,7 +70,12 @@ const baseTheme = {
       },
     },
     nav: {
+      textDecoration: 'none',
       breakpoints: [`@media screen and (min-width: ${breakpointMap.lg}px)`],
+      a: {
+        textDecoration: 'none',
+        color: 'red',
+      },
     },
     progress: {
       primary: 'primary',
@@ -122,6 +118,10 @@ const baseTheme = {
       fontWeight: '800',
       fontSize: '60px',
       lineHeight: '66px',
+    },
+    input: {
+      fontFamily: 'base',
+      fontWeight: 'base',
     },
   },
 }

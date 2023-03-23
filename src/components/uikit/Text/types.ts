@@ -5,6 +5,7 @@ export enum variants {
   SMALL = 'sm',
   NORMAL = 'md',
   LARGE = 'lg',
+  LINK = 'link'
 }
 
 export enum weights {

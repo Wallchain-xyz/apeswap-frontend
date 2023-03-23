@@ -42,6 +42,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
       <Flex sx={{ ...styles.navLinkContainer, justifyContent: 'flex-start' }}>
         <Text
           size="14px"
+          variant="link"
           sx={{
             ...styles.navLink,
             color: !pathname?.includes('swap') && 'textDisabled',
@@ -55,6 +56,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         </Text>
         <Text
           size="14px"
+          variant="link"
           sx={{
             ...styles.navLink,
             color: !onLiquidity && 'textDisabled',
@@ -118,12 +120,14 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             />
           </Flex>
         )}
-        <Flex sx={{ width: '90px', justifyContent: 'space-between' }}>
-          <Svg icon="quiz" />
+        <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
+          <Link href="?modal=tutorial">
+            <Svg icon="quiz" />
+          </Link>
           <Link href="https://app.multichain.org/#/router" sx={{ height: '0px' }}>
             <Svg icon="bridge" />
           </Link>
-          <Flex onClick={onPresentSettingsModal} sx={{ cursor: 'pointer' }}>
+          <Flex onClick={onPresentSettingsModal} sx={{ cursor: 'pointer', mb: '5px' }}>
             <Svg icon="cog" />
           </Flex>
         </Flex>

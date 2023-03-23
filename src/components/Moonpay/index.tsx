@@ -1,4 +1,4 @@
-import { Flex, Button, Svg } from 'components/uikit'
+import { Flex, Svg } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import MoonPayModal from './MoonpayModal'
 
