@@ -36,13 +36,11 @@ export const V2_ROUTER_ADDRESSES: AddressMap = {
 export const V3_FACTORY_ADDRESSES = V3_FACTORY_ADDRESS
 
 export const NONFUNGIBLE_POSITION_MANAGER_ADDRESSES: AddressMap = {
-  [SupportedChainId.MAINNET]: '',
-  [SupportedChainId.POLYGON]: '0x01B8f5B6647E57607D8d5E323EdBDb3C7Efe86b6',
-  [SupportedChainId.BSC]: '0x3f0256533a4c4670B7E4b4CBcE990d7497216489',
+  [SupportedChainId.POLYGON]: '0x0927a5abbD02eD73ba83fC93Bd9900B1C2E52348',
+  [SupportedChainId.BSC]: '0x0927a5abbD02eD73ba83fC93Bd9900B1C2E52348',
 }
 
 export const TICK_LENS_ADDRESSES: AddressMap = {
-  [SupportedChainId.MAINNET]: '',
   [SupportedChainId.POLYGON]: '0x644a417cea95fcad595edb00db170c7bb5cc490d',
   [SupportedChainId.BSC]: '0x87BfcF331c486e04f08070090fc8Cd5296Ad206D',
 }
