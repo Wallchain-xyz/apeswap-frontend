@@ -79,12 +79,6 @@ const Swap = () => {
   } = useDerivedSwapInfo()
 
   const {
-    state: signatureState,
-    signatureData,
-    gatherPermitSignature,
-  } = useERC20PermitFromTrade(trade, allowedSlippage, transactionDeadline)
-
-  const {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
