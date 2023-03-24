@@ -5,12 +5,5 @@ import { useMemo } from 'react'
 
 export default function useNativeCurrency(): NativeCurrency | Token {
   const { chainId } = useWeb3React()
-  return useMemo(
-    () =>
-      chainId
-        ? nativeOnChain(chainId)
-        : // display mainnet when not connected
-          nativeOnChain(SupportedChainId.MAINNET),
-    [chainId],
-  )
+  return useMemo(() => (chainId ? nativeOnChain(chainId) : nativeOnChain(SupportedChainId.BSC)), [chainId])
 }

@@ -2,7 +2,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 
 export const RPC_URLS: Record<SupportedChainId, string[]> = {
   [SupportedChainId.BSC]: [
-    'https://bsc-dataseed1.ninicoin.io',
+    'https://bnb.apeswap.dev',
     'https://bsc-dataseed.binance.org/',
     'https://bsc-dataseed1.defibit.io',
   ],
