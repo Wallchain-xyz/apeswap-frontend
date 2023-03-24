@@ -251,7 +251,7 @@ export function useDefaultsFromURLSearch(): SwapState {
   const { chainId } = useWeb3React()
   const dispatch = useAppDispatch()
   const parsedQs = useParsedQueryString()
-  const bananaAddress = BANANA_ADDRESSES[chainId || SupportedChainId.BSC]
+  const bananaAddress = chainId ? BANANA_ADDRESSES[chainId] : undefined
 
   const parsedSwapState = useMemo(() => {
     return queryParametersToSwapState(parsedQs)
