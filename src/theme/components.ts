@@ -38,7 +38,7 @@ const buttonBaseStyles = {
 const components = {
   text: {
     heading: {
-      fontFamily: 'poppins',
+      fontFamily: 'body',
       fontWeight: 'bold',
     },
     lg: { fontSize: 6, lineHeight: '33px' },
@@ -47,6 +47,7 @@ const components = {
   },
   input: {
     fontFamily: 'body',
+    fontWeight: 700,
     sm: {
       background: 'white3',
       borderRadius: 10,
