@@ -27,6 +27,7 @@ export const textUnderlineHover = {
 const buttonBaseStyles = {
   padding: '10px 20px 10px 19px',
   fontSize: '16px',
+  fontFamily: 'body',
   cursor: 'pointer',
   fontWeight: 'bold',
   '&&': {
@@ -45,6 +46,7 @@ const components = {
     sm: { fontSize: 1, lineHeight: '18px' },
   },
   input: {
+    fontFamily: 'body',
     sm: {
       background: 'white3',
       borderRadius: 10,
@@ -178,6 +180,7 @@ const components = {
     },
   },
   buttons: {
+    fontFamily: 'body',
     primary: {
       ...buttonBaseStyles,
       background: 'yellow',
