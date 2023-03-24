@@ -23,7 +23,7 @@ function useTokensFromMap(tokenMap: TokenAddressMap): { [address: string]: Token
   }, [chainId, tokenMap])
 }
 
-export function useAllTokens(): Record<string, Token> {
+export function useAllTokens(): { [address: string]: Token } {
   const allTokens = useCombinedActiveList()
   const tokensFromMap = useTokensFromMap(allTokens)
   const userAddedTokens = useUserAddedTokens()
@@ -32,7 +32,7 @@ export function useAllTokens(): Record<string, Token> {
       userAddedTokens
         // reduce into all ALL_TOKENS filtered by the current chain
         .reduce<{ [address: string]: Token }>(
-          (tokenMap: any, token: Token) => {
+          (tokenMap, token) => {
             tokenMap[token.address] = token
             return tokenMap
           },
@@ -43,7 +43,6 @@ export function useAllTokens(): Record<string, Token> {
     )
   }, [tokensFromMap, userAddedTokens])
 }
-
 type BridgeInfo = Record<
   SupportedChainId,
   {
