@@ -139,7 +139,7 @@ const Swap = ({
   )
 
   return showWrap ? (
-    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fontWeight={600} fullWidth>
+    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fullWidth>
       {wrapInputError ? (
         <WrapErrorText wrapInputError={wrapInputError} />
       ) : wrapType === WrapType.WRAP ? (

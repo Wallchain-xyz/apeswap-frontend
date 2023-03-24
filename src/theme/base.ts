@@ -54,7 +54,6 @@ const baseTheme = {
     root: {
       fontFamily: 'body',
       '-webkit-font-smoothing': 'antialiased',
-      lineHeight: 'body',
       fontWeight: 600,
       color: 'text',
       bg: 'background',

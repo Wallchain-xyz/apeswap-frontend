@@ -29,7 +29,7 @@ const buttonBaseStyles = {
   fontSize: '16px',
   fontFamily: 'body',
   cursor: 'pointer',
-  fontWeight: 'bold',
+  fontWeight: 700,
   '&&': {
     borderRadius: 'normal',
   },

@@ -76,8 +76,12 @@ export default function useWrapCallback(
   if (error) throw error
 
   return useMemo(() => {
+    console.log(outputCurrency)
+    console.log(!wethContract || !chainId || !inputCurrency || !outputCurrency)
     if (!wethContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE
     const weth = WRAPPED_NATIVE_CURRENCY[chainId]
+    console.log(weth)
+    console.log(!weth)
     if (!weth) return NOT_APPLICABLE
 
     const hasInputAmount = Boolean(inputAmount?.greaterThan('0'))

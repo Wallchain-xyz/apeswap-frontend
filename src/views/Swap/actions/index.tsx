@@ -51,7 +51,7 @@ const Actions = ({
     <Flex sx={{ mt: '10px' }}>
       {!account ? (
         <ConnectWalletButton />
-      ) : swapInputError || tradeState === TradeState.NO_ROUTE_FOUND ? (
+      ) : (swapInputError || tradeState === TradeState.NO_ROUTE_FOUND) && !showWrap ? (
         <Button fullWidth disabled>
           {tradeState === TradeState.NO_ROUTE_FOUND ? 'No Route Found' : swapInputError}
         </Button>

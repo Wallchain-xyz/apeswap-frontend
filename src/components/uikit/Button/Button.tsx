@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button as ThemeUIButton, Spinner } from 'theme-ui'
-import { ButtonProps, variants, buttonFontSizes, buttonPadding, sizes } from './types'
+import { ButtonProps, variants, buttonFontSizes, buttonPadding, sizes, buttonLineHeight } from './types'
 
 const Button: React.FC<ButtonProps> = ({
   variant = variants.PRIMARY,
@@ -74,6 +74,7 @@ const Button: React.FC<ButtonProps> = ({
         variant: `buttons.${variant}`,
         textTransform: 'uppercase',
         fontSize: buttonFontSizes[size],
+        lineHeight: buttonLineHeight[size],
         px: buttonPadding[size].x,
         py: buttonPadding[size].y,
         display: 'flex',

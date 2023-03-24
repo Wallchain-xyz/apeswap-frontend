@@ -78,13 +78,25 @@ const Swap = () => {
     inputError: swapInputError,
   } = useDerivedSwapInfo()
 
+
   const {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
 
+
+  console.log(trade)
+  console.log(wrapType)
+
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
+  console.log(showWrap)
+  console.log(showWrap)
+  console.log(showWrap)
+  console.log(showWrap)
+  console.log(showWrap)
+  console.log(showWrap)
+
 
   const { address: recipientAddress } = useENSAddress(recipient)
 
