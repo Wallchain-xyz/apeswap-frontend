@@ -55,7 +55,6 @@ const baseTheme = {
       fontFamily: 'body',
       '-webkit-font-smoothing': 'antialiased',
       lineHeight: 'body',
-      letterSpacing: '.6px',
       fontWeight: 600,
       color: 'text',
       bg: 'background',

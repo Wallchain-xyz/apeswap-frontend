@@ -30,7 +30,7 @@ const Actions = (props: ActionsInterface) => {
   const showApprovalB = approvalB !== ApprovalState.APPROVED && !!parsedAmounts[Field.CURRENCY_B]
 
   return (
-    <Flex sx={{ mt: '13px', flexDirection: 'column' }}>
+    <Flex sx={{ mt: '10px', flexDirection: 'column' }}>
       {(outOfRange || invalidRange) && (
         <Flex sx={{ borderRadius: '10px', background: 'opacityBadge', padding: '5px 10px', mb: '10px' }}>
           <Svg icon="info" color="primaryBright" />
