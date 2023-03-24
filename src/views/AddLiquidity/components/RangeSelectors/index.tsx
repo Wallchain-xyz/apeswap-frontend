@@ -50,7 +50,7 @@ const RangeSelectors = ({
 
   return (
     <Flex sx={{ justifyContent: 'space-between', flexDirection: 'column' }}>
-      <Flex sx={{ height: '34px', alignItems: 'center', pb: '2px' }}>
+      <Flex sx={{ height: '28px', alignItems: 'center', pb: '2px' }}>
         <Text size="13px" weight={700} sx={{ opacity: locked && 0.4 }}>
           Current Price:
         </Text>
