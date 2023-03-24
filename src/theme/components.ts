@@ -181,7 +181,6 @@ const components = {
     },
   },
   buttons: {
-    fontFamily: 'body',
     primary: {
       ...buttonBaseStyles,
       background: 'yellow',
