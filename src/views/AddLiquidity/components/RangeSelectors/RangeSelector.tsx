@@ -114,11 +114,13 @@ const RangeSelector = ({
         />
       )}
       <Text>{rangeType}</Text>
-      <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+      <Flex sx={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
         <Flex
           sx={{
             minHeight: '25px',
             minWidth: '25px',
+            height: '25px',
+            width: '25px',
             background: disabled ? 'grey' : 'yellow',
             borderRadius: '4px',
             alignItems: 'center',
@@ -140,6 +142,8 @@ const RangeSelector = ({
           sx={{
             minHeight: '25px',
             minWidth: '25px',
+            height: '25px',
+            width: '25px',
             background: disabled ? 'grey' : 'yellow',
             borderRadius: '5px',
             alignItems: 'center',
@@ -148,7 +152,7 @@ const RangeSelector = ({
           }}
           onClick={handleIncrement}
         >
-          <Text color="primaryBright" size="20px" sx={{ mb: '3px' }}>
+          <Text color="primaryBright" size="20px">
             +
           </Text>
         </Flex>
