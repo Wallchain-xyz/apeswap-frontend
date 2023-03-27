@@ -129,12 +129,12 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
   const { t } = useTranslation()
   return (
     <Flex>
-      <Flex justify="center">
+      <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px 0px' }}>
         <Svg icon="error" />
-        <Text color="error" style={{ textAlign: 'center', width: '85%' }}>
+        <Text color="error" sx={{ textAlign: 'center', width: '85%', marginTop: '10px' }}>
           {message}
         </Text>
-        <Flex justifyContent="center" pt="24px">
+        <Flex justifyContent="center" mt="20px">
           <Button onClick={onDismiss}>{t('Dismiss')}</Button>
         </Flex>
       </Flex>

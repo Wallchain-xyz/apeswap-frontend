@@ -1,6 +1,10 @@
 import { Currency, Percent, TradeType } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
-import { ConfirmationPendingContent, TransactionSubmittedContent } from 'components/TransactionConfirmationModal'
+import {
+  ConfirmationPendingContent,
+  TransactionErrorContent,
+  TransactionSubmittedContent,
+} from 'components/TransactionConfirmationModal'
 import { Button, Flex, Modal, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useMemo } from 'react'
@@ -13,6 +17,7 @@ const ConfirmSwap = ({
   allowedSlippage,
   attemptingTxn,
   txHash,
+  swapErrorMessage,
   onConfirm,
   onDismiss,
 }: {
@@ -20,6 +25,7 @@ const ConfirmSwap = ({
   allowedSlippage: Percent
   attemptingTxn: boolean
   txHash: string | undefined
+  swapErrorMessage: string | undefined
   onConfirm: () => void
   onDismiss: () => void
 }) => {
@@ -36,7 +42,16 @@ const ConfirmSwap = ({
   return (
     <Modal minWidth="300px" maxWidth="95%" title="Confirm Swap">
       <Flex sx={{ width: '420px', maxWidth: '100%', flexDirection: 'column' }}>
-        {attemptingTxn ? (
+        {swapErrorMessage ? (
+          <TransactionErrorContent
+            onDismiss={onDismiss}
+            message={
+              swapErrorMessage.includes('INSUFFICIENT_OUTPUT_AMOUNT')
+                ? t('Slippage Error: Please check your slippage using the ⚙️ icon & try again!')
+                : swapErrorMessage
+            }
+          />
+        ) : attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />
         ) : txHash ? (
           <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} />

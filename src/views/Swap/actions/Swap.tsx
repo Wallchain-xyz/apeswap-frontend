@@ -95,11 +95,12 @@ const Swap = ({
         // })
       })
       .catch((error) => {
+        console.log(error)
         setSwapState({
           attemptingTxn: false,
           tradeToConfirm,
           showConfirm,
-          swapErrorMessage: error.message,
+          swapErrorMessage: error.message ? error.message : error,
           txHash: undefined,
         })
       })
@@ -116,8 +117,14 @@ const Swap = ({
   ])
 
   const handleConfirmDismiss = useCallback(() => {
-    setSwapState((prevState) => ({ ...prevState, showConfirm: false })) // if there was a tx hash, we want to clear the input
+    setSwapState((prevState) => ({ ...prevState, showConfirm: false, swapErrorMessage: undefined })) // if there was a tx hash, we want to clear the input
   }, [])
+
+  console.log(swapErrorMessage)
+  console.log(swapErrorMessage)
+  console.log(swapErrorMessage)
+  console.log(swapErrorMessage)
+  console.log(swapErrorMessage)
 
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwap
@@ -130,7 +137,7 @@ const Swap = ({
       // recipient={recipient}
       allowedSlippage={allowedSlippage}
       onConfirm={handleSwap}
-      // swapErrorMessage={swapErrorMessage}
+      swapErrorMessage={swapErrorMessage}
       onDismiss={handleConfirmDismiss}
     />,
     true,
