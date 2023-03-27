@@ -120,12 +120,6 @@ const Swap = ({
     setSwapState((prevState) => ({ ...prevState, showConfirm: false, swapErrorMessage: undefined })) // if there was a tx hash, we want to clear the input
   }, [])
 
-  console.log(swapErrorMessage)
-  console.log(swapErrorMessage)
-  console.log(swapErrorMessage)
-  console.log(swapErrorMessage)
-  console.log(swapErrorMessage)
-
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwap
       trade={trade}
