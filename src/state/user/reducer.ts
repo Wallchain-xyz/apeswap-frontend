@@ -51,7 +51,7 @@ export const initialState: UserState = {
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
   userSlippageToleranceHasBeenMigratedToAuto: false,
-  userClientSideRouter: false,
+  userClientSideRouter: true,
   userHideClosedPositions: false,
   userExpertMode: false,
   flipV3Layout: false,
