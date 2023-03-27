@@ -7,6 +7,7 @@ export { default as Modal } from './Modal'
 export { default as CheckBox } from './Checkbox'
 export { default as Tooltip } from './Tooltip'
 export { default as TutorialModal } from './TutorialModal'
+export { default as Spinner } from './Spinner'
 
 // Exports
 export { Button, IconButton } from './Button'
