@@ -3,3 +3,5 @@ export const apiV2BaseUrl = process.env.REACT_APP_API_V2_BASE_URL || 'https://ap
 export const moonPayBaseUrl =
   process.env.REACT_APP_MOONPAY_BASE_URL ||
   'https://buy-staging.moonpay.io?apiKey=pk_test_ofxbUiq0BDNvCBwRbO5mHjG7gKBKLWY2&colorCode=%23ffb300'
+
+export const mailChimpUrl = `https://finance.us10.list-manage.com/subscribe/post?u=${process.env.REACT_APP_MAILCHIMP_U}&id=${process.env.REACT_APP_MAILCHIMP_ID}`
