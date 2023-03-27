@@ -17,33 +17,7 @@ export const getMetamaskLinks = (chainId: SupportedChainId) => {
   }
 }
 
-export const routeNames: Record<
-  | '/'
-  | '/jungle-farms'
-  | '/banana-farms'
-  | '/farms'
-  | '/swap'
-  | '/pools'
-  | '/maximizers'
-  | '/add'
-  | '/add-liquidity'
-  | '/liquidity'
-  | '/zap'
-  | '/migrate'
-  | '/find'
-  | '/remove'
-  | '/limit-orders'
-  | '/iao'
-  | '/gnana'
-  | '/treasury-bills'
-  | '/nft'
-  | '/auction'
-  | '/staking'
-  | '/apestats'
-  | '/protocol-dashboard'
-  | '/the-migration',
-  string
-> = {
+export const ROUTE_NAMES: Record<string, string> = {
   '/': 'HOME',
   '/jungle-farms': 'JUNGLE_FARMS',
   '/banana-farms': 'FARMS',
@@ -70,14 +44,14 @@ export const routeNames: Record<
   '/the-migration': 'THE_MIGRATION',
 }
 
-export enum Farms {
-  BNB = 'bnb-chain-farms',
-  Polygon = 'polygon-farms',
-  Ethereum = '',
-  Telos = 'telos-farms',
+export const FARMS: Record<string, string> = {
+  BNB: 'bnb-chain-farms',
+  Polygon: 'polygon-farms',
+  Ethereum: '',
+  Telos: 'telos-farms',
 }
 
-export const DOC_LINKS = {
+export const DOC_LINKS: Record<string, string> = {
   HOME: 'https://apeswap.gitbook.io/apeswap-finance/welcome/master',
   JUNGLE_FARMS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/farms/',
   FARMS: `https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/farms/`,

@@ -1,8 +1,10 @@
 import { LangaugeDropdown } from 'components/Langauge'
+import MoonPayModal from 'components/Moonpay/MoonpayModal'
 import NetworkSelector from 'components/NetworkSelector'
 import ThemeSwitcher from 'components/ThemeSwitcher'
 import { Button, Flex, Skeleton, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
+import useModal from 'hooks/useModal'
 import Link from 'next/link'
 import CountUp from 'react-countup'
 import { useBananaPrice } from 'state/application/hooks'
@@ -13,6 +15,8 @@ import styles from './styles'
 const Footer = () => {
   const { t } = useTranslation()
   const bananaPrice = useBananaPrice()
+  const [onPresentModal] = useModal(<MoonPayModal onDismiss={() => null} />)
+
   return (
     <Flex sx={styles.container}>
       <Flex sx={styles.columnContainer}>
@@ -63,8 +67,11 @@ const Footer = () => {
                 <Skeleton width="80px" animation="waves" ml="5px" />
               )}
             </Flex>
-            <Button size="sm" ml="20px">
-              {t('Add Funds')}
+            <Button size="sm" ml="20px" sx={{ alignItems: 'center' }} onClick={onPresentModal}>
+              <Text color="primaryBright" mr="5px" sx={{ lineHeight: '0px' }}>
+                {t('Add Funds')}
+              </Text>{' '}
+              <Svg icon="card" color="primaryBright" />
             </Button>
           </Flex>
         </Flex>
@@ -145,13 +152,13 @@ const Footer = () => {
       <Flex sx={styles.allRightsReserved}>
         <Text color="primaryBright">©2023 All rights reserved</Text>
         <Flex>
-          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/terms'>
+          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href="/terms">
             <Text color="primaryBright" size="12px">
               Terms
             </Text>
           </Flex>
           <Text margin="0px 5px"> | </Text>
-          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href='/privacy'>
+          <Flex variant="flex.link" sx={{ width: 'fit-content', position: 'relative' }} as={Link} href="/privacy">
             <Text color="primaryBright" size="12px">
               Privacy Policy
             </Text>

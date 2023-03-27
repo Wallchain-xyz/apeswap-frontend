@@ -52,10 +52,10 @@ const NetworkMonitor = () => {
         position: 'fixed',
         display: ['none', 'none', 'none', 'flex'],
         bottom: '10px',
-        right: '10px',
+        left: '10px',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
       }}
     >
       <Flex sx={{ alignItems: 'center', height: '20px', width: 'auto' }}>
@@ -64,7 +64,7 @@ const NetworkMonitor = () => {
         </Text>
         <Flex
           sx={{
-            transform: 'translate(-4px, 0px)',
+            transform: 'translate(-4px, -1px)',
             alignItems: 'center',
             justifyContent: 'center',
             height: '15px',

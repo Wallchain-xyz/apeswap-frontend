@@ -1,3 +1,4 @@
+import FloatingDocs from 'components/FloatingDocs'
 import { NAV_HEIGHT } from 'components/NavBar/components/styles'
 import NetworkMonitor from 'components/NetworkMonitor'
 import { Flex } from 'components/uikit'
@@ -34,6 +35,7 @@ const PageContainer = ({
       <Flex sx={{ maxWidth: '1200px', width: '100%', minHeight: '100%', ...variants[variant], ...style }}>
         {children}
       </Flex>
+      <FloatingDocs />
       {variant === 'dex' && <NetworkMonitor />}
     </Flex>
   )
