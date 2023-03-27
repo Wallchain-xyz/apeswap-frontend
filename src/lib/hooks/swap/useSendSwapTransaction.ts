@@ -72,7 +72,12 @@ export default function useSendSwapTransaction(
                   .call(tx)
                   .then((result) => {
                     console.debug('Unexpected successful call after failed estimate gas', call, gasError, result)
-                    return { call, error: t('Unexpected issue with estimating the gas. Please try again.') }
+                    return {
+                      call,
+                      error: swapErrorToUserReadableMessage(
+                        'Unexpected issue with estimating the gas. Please try again.',
+                      ),
+                    }
                   })
                   .catch((callError) => {
                     console.debug('Call threw error', call, callError)
