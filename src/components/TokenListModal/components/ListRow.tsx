@@ -1,7 +1,7 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import TokenImportWarning from 'components/TokenImportWarning'
-import { Flex, Text } from 'components/uikit'
+import { Flex, Svg, Text } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import { CSSProperties } from 'theme-ui'
 
@@ -31,7 +31,6 @@ const ListRow = ({
     'tokenImportWarningModal',
   )
 
-  console.log(searchTokenIsAdded)
   return (
     <Flex
       sx={{
@@ -50,7 +49,14 @@ const ListRow = ({
       <Flex sx={{ alignItems: 'center' }}>
         <CurrencyLogo currency={currency} size={35} />
         <Flex sx={{ flexDirection: 'column', ml: '15px' }}>
-          <Text weight={600}>{currency.symbol}</Text>
+          <Flex sx={{ alignItems: 'center' }}>
+            <Text weight={600}>{currency.symbol}</Text>
+            {!searchTokenIsAdded && (
+              <span sx={{ ml: '5px' }}>
+                <Svg icon="error" width={13} color="yellow" />
+              </span>
+            )}
+          </Flex>
           <Text weight={400} size="12px" sx={{ lineHeight: '12px' }}>
             {currency.name}
           </Text>

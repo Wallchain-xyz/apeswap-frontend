@@ -17,6 +17,7 @@ const SET_LIST = 'https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlis
 const COMPOUND_LIST = 'https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json'
 const AAVE_LIST = 'tokenlist.aave.eth'
 const WRAPPED_LIST = 'wrapped.tokensoft.eth'
+const COINGECKO_EXTENDED = 'https://tokens.pancakeswap.finance/coingecko.json'
 
 export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST]
 
@@ -37,6 +38,7 @@ export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
   COMPOUND_LIST,
   AAVE_LIST,
   WRAPPED_LIST,
+  COINGECKO_EXTENDED,
   ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]
 

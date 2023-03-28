@@ -18,24 +18,32 @@ const TokenImportWarning = ({
   const addToken = useAddUserToken()
 
   return (
-    <Modal title="Import Warning" minWidth="300px" maxWidth="95%" onDismiss={onDismiss}>
+    <Modal title="Import Warning" maxWidth="95%" onDismiss={onDismiss}>
       <Flex
         sx={{
-          maxWidth: '450px',
+          width: '450px',
+          maxWidth: '95%',
           flexDirection: 'column',
           alignItems: 'center',
         }}
       >
-        <Text size="30px" weight={700} color="error" margin="20px 0px">
+        <Text size="30px" weight={700} color="error" margin="15px 0px" sx={{ textAlign: 'center', lineHeight: '35px' }}>
           Trade at your own risk!
         </Text>
-        <Text sx={{ textAlign: 'center' }}>
+        <Text size="14px" sx={{ textAlign: 'center' }}>
           The ApeSwap DEX is decentralized, meaning that anyone can create or add liquidity for a token. Unlisted tokens
           have not been reviewed by ApeSwap or passed our due diligence process. Unlisted tokens may present scam risks,
           including the loss of funds.
         </Text>
         <Flex
-          sx={{ mt: '15px', flexDirection: 'column', cursor: 'pointer' }}
+          sx={{
+            mt: '15px',
+            flexDirection: 'column',
+            cursor: 'pointer',
+            ':active': { textDecoration: 'none' },
+            ':hover': { textDecoration: 'none' },
+            textDecoration: 'none',
+          }}
           as={Link}
           href={getEtherscanLink(currency?.wrapped.address, 'token', chainId || 56)}
           target="_blank"

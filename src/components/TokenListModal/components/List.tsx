@@ -152,7 +152,7 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '70vh', maxHeight: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
+    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
       <FixedSizeList
         height={500}
         itemSize={60}
@@ -160,6 +160,20 @@ const List = ({
         itemCount={searchCurrencies.length + filteredInactiveTokens.length}
         itemData={[...searchCurrencies, ...filteredInactiveTokens]}
         itemKey={itemKey}
+        sx={{
+          '::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '::-webkit-scrollbar-thumb': {
+            background: 'text',
+            borderRadius: '8px',
+          },
+          '::-webkit-scrollbar-track': {
+            boxShadow: 'inset 0 0 5px',
+            color: 'input',
+            borderRadius: '10px',
+          },
+        }}
       >
         {Row}
       </FixedSizeList>

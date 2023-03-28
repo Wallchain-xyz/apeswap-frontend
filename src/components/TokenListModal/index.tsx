@@ -1,5 +1,5 @@
 import { Currency } from '@ape.swap/sdk-core'
-import { Flex, Modal, Svg } from 'components/uikit'
+import { Flex, Modal, Svg, Text } from 'components/uikit'
 import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
@@ -30,13 +30,15 @@ const TokenListModal = ({
   }, [])
   return (
     <Modal title="Tokens" minWidth="300px" maxWidth="95%" onDismiss={onDismiss}>
-      <Flex sx={{ position: 'relative', margin: '0px 5px', mb: '10px' }}>
+      <Flex sx={{ position: 'relative', margin: '15px 5px', mb: '20px' }}>
         <Input
           onChange={handleInput}
           sx={{
             background: 'white3',
-            height: '40px',
-            border: '0px',
+            height: '45px',
+            border: 'none',
+            pl: '10px',
+            borderRadius: '10px',
             ':focus': { outline: 'none' },
           }}
           placeholder="Name or Address"
@@ -45,7 +47,7 @@ const TokenListModal = ({
           <Svg icon="search" />
         </Flex>
       </Flex>
-      <Flex sx={{ maxWidth: '100%', width: '400px', maxHeight: '70vh' }}>
+      <Flex sx={{ maxWidth: '100%', width: '400px', maxHeight: '65vh' }}>
         <List
           searchQuery={searchQuery}
           onCurrencySelect={onCurrencySelect}
@@ -56,6 +58,18 @@ const TokenListModal = ({
           showCurrencyAmount={showCurrencyAmount}
           disableNonToken={disableNonToken}
         />
+      </Flex>
+      <Flex
+        sx={{
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'translate(0px, 10px)',
+          cursor: 'pointer',
+        }}
+        onClick={onDismiss}
+      >
+        <Text sx={{ textDecoration: 'underline' }}> Cancel </Text>
       </Flex>
     </Modal>
   )
