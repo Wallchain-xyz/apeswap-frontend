@@ -57,12 +57,12 @@ const ListRow = ({
               </span>
             )}
           </Flex>
-          <Text weight={400} size="12px" sx={{ lineHeight: '12px' }}>
+          <Text weight={400} size="10px" sx={{ lineHeight: '12px' }}>
             {currency.name}
           </Text>
         </Flex>
       </Flex>
-      <Text weight={600} sx={{ lineHeight: '0px' }}>
+      <Text size="14px" weight={600} sx={{ lineHeight: '0px' }}>
         {userBalance}
       </Text>
     </Flex>
