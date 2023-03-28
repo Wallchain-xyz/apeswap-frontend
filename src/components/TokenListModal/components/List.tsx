@@ -152,7 +152,7 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
+    <Flex sx={{ height: '70vh', maxHeight: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
       <FixedSizeList
         height={500}
         itemSize={60}

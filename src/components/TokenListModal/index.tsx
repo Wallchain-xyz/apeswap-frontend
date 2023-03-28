@@ -45,7 +45,7 @@ const TokenListModal = ({
           <Svg icon="search" />
         </Flex>
       </Flex>
-      <Flex sx={{ maxWidth: '100%', width: '400px' }}>
+      <Flex sx={{ maxWidth: '100%', width: '400px', maxHeight: '70vh' }}>
         <List
           searchQuery={searchQuery}
           onCurrencySelect={onCurrencySelect}
