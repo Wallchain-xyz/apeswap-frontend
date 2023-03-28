@@ -22,7 +22,7 @@ const TokenImportWarning = ({
       <Flex
         sx={{
           width: '450px',
-          maxWidth: '95%',
+          maxWidth: '100%',
           flexDirection: 'column',
           alignItems: 'center',
         }}
