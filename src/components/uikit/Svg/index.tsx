@@ -63,6 +63,7 @@ import {
   PlaceholderMonkey,
   SwitchArrows,
   Copy,
+  HamburgerClosed,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -238,6 +239,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <SwitchArrows {...props} getStyles={getStyles} />
     case icons.ARBITRUM_TOKEN:
       return <ARBITRUM {...props} getStyles={getStyles} />
+    case icons.HAMBURGER_CLOSED:
+      return <HamburgerClosed {...props} getStyles={getStyles} />
     // Wallet Icons
     case icons.BINANCE_CHAIN:
       return <BinanceChain {...props} getStyles={getStyles} />

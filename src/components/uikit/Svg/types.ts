@@ -90,6 +90,7 @@ export enum icons {
   PLACEHOLDER_MONKEY = 'placeholderMonkey',
   SWITCH_ARROWS = 'switchArrows',
   COPY = 'copy',
+  HAMBURGER_CLOSED = 'hamburgerClosed',
 }
 
 export enum directions {
