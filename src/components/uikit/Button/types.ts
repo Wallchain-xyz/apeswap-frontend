@@ -18,7 +18,7 @@ export const buttonFontSizes = {
 }
 
 export const buttonLineHeight = {
-  [sizes.SMALL]: '12px',
+  [sizes.SMALL]: '10px',
   [sizes.MEDIUM]: '24px',
   [sizes.LARGE]: '33px',
 }
