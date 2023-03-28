@@ -175,10 +175,6 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
 
   const valuesLoading = token0PriceUsdLoading || token1PriceUsdLoading || !position || !feeValue0 || !feeValue1
 
-  console.log(position)
-  console.log(feeValue1)
-  console.log(feeValue0)
-
   return (
     <Flex variant="flex.v3SubDexContainer" sx={{ display: DESKTOP_DISPLAY }}>
       <Flex sx={{ height: '30px', alignItems: 'center', justifyContent: 'space-between' }}>

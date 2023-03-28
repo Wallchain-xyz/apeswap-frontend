@@ -11,6 +11,7 @@ import NoPositionSelectedPage from './components/NoPositionSelectedPage'
 import PositionCard from './components/PositionCard'
 import PositionDetailsPage from './components/PositionDetailsPage'
 import PositionsLoading from './components/PositionsLoading'
+import { DESKTOP_DISPLAY, MOBILE_DISPLAY } from './components/styles'
 
 const Positions = () => {
   const { chainId, account } = useWeb3React()
@@ -52,8 +53,8 @@ const Positions = () => {
         >
           {positionsLoading ? (
             <PositionsLoading key="positions-loading" />
-          ) : (
-            filteredPositions?.map((position) => {
+          ) : filteredPositions?.length > 0 ? (
+            filteredPositions.map((position) => {
               return (
                 <PositionCard
                   key={position.tokenId.toString()}
@@ -63,13 +64,22 @@ const Positions = () => {
                 />
               )
             })
+          ) : (
+            <Flex sx={{ display: MOBILE_DISPLAY, height: '70%', alignItems: 'center', justifyContent: 'center' }}>
+              <NoPositionSelectedPage mobile />
+            </Flex>
           )}
         </Flex>
       </Flex>
       {selectedTokenId ? (
         isDesktop && <PositionDetailsPage selectedTokenId={selectedTokenId} />
       ) : (
-        <NoPositionSelectedPage />
+        <Flex
+          variant="flex.v3SubDexContainer"
+          sx={{ display: DESKTOP_DISPLAY, height: '634px', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <NoPositionSelectedPage />
+        </Flex>
       )}
     </Flex>
   )
