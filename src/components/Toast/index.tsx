@@ -28,7 +28,7 @@ const Toast = ({ popKey, popIndex, variant, text, url, linkText }: AlertProps) =
       animate={{ right: '10px' }}
       transition={{ duration: 0.5 }}
       exit={{ right: '-250px' }}
-      sx={{ ...styles.alert, top: 70 * popIndex }}
+      sx={{ ...styles.alert, top: 70 * popIndex, zIndex: 103 }}
     >
       <Flex>
         <Svg

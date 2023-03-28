@@ -1,8 +1,5 @@
 import Toast from 'components/Toast'
-import { Flex } from 'components/uikit'
-import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
-import { useCallback, useEffect } from 'react'
-import { useActivePopups, useRemovePopup } from 'state/application/hooks'
+import { useActivePopups } from 'state/application/hooks'
 
 const Popups = () => {
   const activePopups = useActivePopups()
