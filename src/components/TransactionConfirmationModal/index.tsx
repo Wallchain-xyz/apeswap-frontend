@@ -89,7 +89,7 @@ export function TransactionSubmittedContent({
         <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '20px' }}>
           <Text size="20px">{t('Transaction Submitted')}</Text>
           {chainId && hash && (
-            <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)}>
+            <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)} target="_blank">
               {t('View on explorer')}
             </Link>
           )}

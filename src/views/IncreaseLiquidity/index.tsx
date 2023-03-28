@@ -102,9 +102,9 @@ const IncreaseLiquidity = ({
     {},
   )
 
-  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${baseCurrency?.symbol ?? ''} and ${
-    position?.amount1.toSignificant(4) ?? ''
-  } ${quoteCurrency?.symbol ?? ''}`
+  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${
+    position?.amount0.currency.symbol ?? ''
+  } and ${position?.amount1.toSignificant(4) ?? ''} ${position?.amount1.currency.symbol ?? ''}`
 
   const onUserDismiss = useCallback(() => {
     setTxHash('') // if there was a tx hash, we want to clear the input
@@ -112,7 +112,15 @@ const IncreaseLiquidity = ({
 
   return (
     <Modal title="Increase Position" minWidth="300px" maxWidth="95%">
-      <Flex sx={{ maxWidth: '100%', width: '420px', flexDirection: 'column' }}>
+      <Flex
+        sx={{
+          maxWidth: '100%',
+          width: '420px',
+          flexDirection: 'column',
+          overflow: 'scroll',
+          maxHeight: '80vh',
+        }}
+      >
         {attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />
         ) : txHash ? (
