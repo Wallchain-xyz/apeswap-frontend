@@ -66,6 +66,7 @@ const styles: Record<
     padding: '0px 30px',
     height: '40px',
     background: 'white3',
+    textDecoration: 'none',
     cursor: 'pointer',
     ':hover': {
       background: 'white4',
