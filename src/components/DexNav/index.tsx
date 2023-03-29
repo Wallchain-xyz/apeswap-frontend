@@ -89,7 +89,8 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             minWidth: 'fit-content',
             alignItems: 'center',
             cursor: 'pointer',
-            zIndex: 2,
+            border: '1px solid red',
+            background: 'red',
           }}
         >
           <Text
@@ -101,6 +102,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             {v2Flag ? 'V2' : 'V3'}
           </Text>
           <Switch
+            onClick={() => push(`https://apeswap.finance${asPath}`)}
             // onChange={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
             checked={!v2Flag}
             sx={{
