@@ -19,9 +19,9 @@ const NewPool = ({
       </Flex>
       <Flex sx={{ flexDirection: 'column', background: 'white3', padding: '10px', borderRadius: '10px', mb: '10px' }}>
         <Text size="14px" sx={{ lineHeight: '21px' }}>
-          This pool must be initizlized before you can add liquidity. To initialize, select a starting price for the pool.
-          Then, enter your liquidity price range and deposit amount. Gas fees will be higer than usual due to the
-          inizialization transaction.
+          This pool must be initialized before you can add liquidity. To initialize, select a starting price for the
+          pool. Then, enter your liquidity price range and deposit amount. Gas fees will be higer than usual due to the
+          initialization transaction.
         </Text>
         <NumericInput
           value={startPriceTypedValue}
