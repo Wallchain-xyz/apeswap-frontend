@@ -1,21 +1,18 @@
 import { useWeb3React } from '@web3-react/core'
-import ConnectWalletButton from 'components/ConnectWallet'
-import { LangSelectorButton } from 'components/Langauge'
-import Moonpay from 'components/Moonpay'
-import NetworkSelector from 'components/NetworkSelector'
-import { Flex, Svg, Text, Link } from 'components/uikit'
+import { Flex, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useState } from 'react'
-import AccountLoggedInDisplay from '../AccountLoggedInDisplay'
 import SubMenu from './SubMenu'
 import { getNavConfig } from '../../config/chains'
 import styles, { NAV_DESKTOP_DISPLAY } from '../styles'
-
+import { useRouter } from 'next/router'
 
 const DesktopMenu = () => {
   const { chainId } = useWeb3React()
   const [hoverLabel, setHoverLabel] = useState<string>('')
   const { t } = useTranslation()
+  const { asPath } = useRouter()
+  const extendedDexHref = ['/liquidity']
   return (
     <Flex
       sx={{
@@ -24,7 +21,7 @@ const DesktopMenu = () => {
         display: NAV_DESKTOP_DISPLAY,
       }}
     >
-      <Flex sx={{ width: 'fit-content' }}>
+      <Flex sx={{ width: 'fit-content', ml: '20px' }}>
         {getNavConfig(chainId).map(({ label, items, href }) => {
           return (
             <Flex
@@ -34,6 +31,11 @@ const DesktopMenu = () => {
               onMouseLeave={() => setHoverLabel('')}
               sx={{
                 ...styles.menuItemContainer,
+                boxShadow:
+                  items?.find(
+                    ({ href }) => href === asPath || (label === 'Exchange' && extendedDexHref.includes(asPath)),
+                  ) && '0px 2px 0px',
+                color: 'text',
                 ':hover': {
                   boxShadow: !items && `0px 2px 0px 0px`,
                   color: 'text',
