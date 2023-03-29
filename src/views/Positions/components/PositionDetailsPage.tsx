@@ -146,6 +146,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -167,6 +168,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
       feeAmount={feeAmount}
       tokenId={tokenId}
       setManuallyInverted={onHandleSetManuallyInverted}
+      onDismiss={() => null}
     />,
     true,
     true,

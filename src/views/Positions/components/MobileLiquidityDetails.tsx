@@ -137,7 +137,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
-      // handleDismiss={() => null}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -159,6 +159,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       feeAmount={feeAmount}
       tokenId={tokenId}
       setManuallyInverted={onHandleSetManuallyInverted}
+      onDismiss={() => null}
     />,
     true,
     true,

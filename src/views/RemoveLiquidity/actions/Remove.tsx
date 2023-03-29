@@ -6,7 +6,7 @@ import { Button } from 'components/uikit'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import useModal from 'hooks/useModal'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { useCallback, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
@@ -26,7 +26,8 @@ const Remove = ({
   feeValue1,
   feeAmount,
   inRange,
-  onDismiss,
+  setAttemptingTxn,
+  setTxHash,
 }: {
   liquidityValue0: CurrencyAmount<Currency> | undefined
   liquidityValue1: CurrencyAmount<Currency> | undefined
@@ -37,16 +38,16 @@ const Remove = ({
   feeValue1: CurrencyAmount<Currency> | undefined
   feeAmount: number | undefined
   inRange: boolean
-  onDismiss?: () => void
+  setAttemptingTxn: Dispatch<SetStateAction<boolean>>
+  setTxHash: Dispatch<SetStateAction<string>>
 }) => {
   const { account, chainId, provider } = useWeb3React()
-  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const addTransaction = useTransactionAdder()
   const positionManager = useV3NFTPositionManagerContract()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE) // custom from users
   const deadline = useTransactionDeadline() // custom from users settings
   const isExpertMode = useIsExpertMode()
-  const [txHash, setTxHash] = useState<string>('')
+
 
   const burn = useCallback(async () => {
     setAttemptingTxn(true)
@@ -140,40 +141,42 @@ const Remove = ({
     provider,
     tokenId,
     allowedSlippage,
+    setAttemptingTxn,
+    setTxHash,
     addTransaction,
   ])
 
-  const handleDismissConfirmation = useCallback(() => {
-    // if there was a tx hash, we want to clear the input
-    setTxHash('')
-  }, [])
-  
-  const [onRemoveLiquidity] = useModal(
-    <RemoveLiquidityConfirmation
-      feeValue0={feeValue0}
-      feeValue1={feeValue1}
-      liquidityValue0={liquidityValue0}
-      liquidityValue1={liquidityValue1}
-      feeAmount={feeAmount}
-      inRange={inRange}
-      attemptingTxn={attemptingTxn}
-      txHash={txHash}
-      burn={burn}
-      onDismiss={handleDismissConfirmation}
-      // handleParentDismiss={onDismiss}
-    />,
-    true,
-    true,
-    'removeLiquidityConfirmationModal',
-  )
+  // const handleDismissConfirmation = useCallback(() => {
+  //   // if there was a tx hash, we want to clear the input
+  //   setTxHash('')
+  //   onDismiss()
+  // }, [onDismiss])
+
+  // const [onRemoveLiquidity] = useModal(
+  //   <RemoveLiquidityConfirmation
+  //     feeValue0={feeValue0}
+  //     feeValue1={feeValue1}
+  //     liquidityValue0={liquidityValue0}
+  //     liquidityValue1={liquidityValue1}
+  //     feeAmount={feeAmount}
+  //     inRange={inRange}
+  //     attemptingTxn={attemptingTxn}
+  //     txHash={txHash}
+  //     burn={burn}
+  //     onDismiss={handleDismissConfirmation}
+  //   />,
+  //   true,
+  //   true,
+  //   'removeLiquidityConfirmationModal',
+  // )
 
   return (
     <Button
       fullWidth
       sx={{ mt: '10px' }}
-      onClick={isExpertMode ? burn : onRemoveLiquidity}
-      load={attemptingTxn}
-      disabled={attemptingTxn}
+      onClick={burn}
+      // load={attemptingTxn}
+      // disabled={attemptingTxn}
     >
       {isExpertMode ? 'Remove' : 'Preview'}
     </Button>

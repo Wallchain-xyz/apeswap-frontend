@@ -39,6 +39,7 @@ const IncreaseLiquidity = ({
   feeAmount,
   tokenId,
   setManuallyInverted,
+  onDismiss,
 }: {
   quoteCurrency: Currency | undefined
   baseCurrency: Currency | undefined
@@ -56,6 +57,7 @@ const IncreaseLiquidity = ({
     UPPER: boolean | undefined
   }
   setManuallyInverted: (manuallyInverted: boolean) => void
+  onDismiss: () => void
 }) => {
   // mint state
   const { independentField, typedValue } = useV3MintState()
@@ -108,7 +110,8 @@ const IncreaseLiquidity = ({
 
   const onUserDismiss = useCallback(() => {
     setTxHash('') // if there was a tx hash, we want to clear the input
-  }, [])
+    onDismiss()
+  }, [onDismiss])
 
   return (
     <Modal title="Increase Position" minWidth="300px" maxWidth="95%">
