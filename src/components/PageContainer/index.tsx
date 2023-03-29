@@ -6,7 +6,7 @@ import { CSSProperties } from 'theme-ui'
 
 const variants = {
   dex: {
-    mt: ['75px', '75px', '75px', '75px', '75px', '100px'],
+    mt: ['75px', '75px', '75px', '75px', '75px', '75px'],
     mb: ['20px', '20px', '20px', '20px', '20px', '0px'],
     justifyContent: 'center',
   },
