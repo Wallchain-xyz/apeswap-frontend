@@ -65,7 +65,7 @@ const PriceRangeSection = ({
         </Flex>
       </Flex>
       <Flex sx={{ height: '123px' }}>
-        <Flex sx={{ width: '100%', flexDirection: 'column', mr: '10px' }}>
+        <Flex sx={{ width: '100%', flexDirection: 'column', mr: ['0px', '0px', '10px'] }}>
           <Flex
             sx={{
               height: '100%',
@@ -77,15 +77,18 @@ const PriceRangeSection = ({
             }}
           >
             <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Text> Min Price </Text>
+              <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}> Min Price </Text>
               {valuesLoading ? (
                 <Skeleton width={50} animation="waves" />
               ) : (
-                <Text> {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}</Text>
+                <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}>
+                  {' '}
+                  {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}
+                </Text>
               )}
             </Flex>
             <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '10px' }}>
-              <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
+              <Text opacity={0.7} sx={{ fontSize: ['2.7vw', '2.7vw', '12px'], lineHeight: ['10px', '10px', 'auto'] }}>
                 {currencyQuote?.symbol} per {currencyBase?.symbol}
               </Text>
             </Flex>
@@ -101,15 +104,18 @@ const PriceRangeSection = ({
             }}
           >
             <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Text> Max Price </Text>
+              <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}> Max Price </Text>
               {valuesLoading ? (
                 <Skeleton width={50} animation="waves" />
               ) : (
-                <Text> {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}</Text>
+                <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}>
+                  {' '}
+                  {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}
+                </Text>
               )}
             </Flex>
             <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '10px' }}>
-              <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
+              <Text opacity={0.7} sx={{ fontSize: ['2.7vw', '2.7vw', '12px'], lineHeight: ['10px', '10px', 'auto'] }}>
                 {currencyQuote?.symbol} per {currencyBase?.symbol}
               </Text>
             </Flex>
@@ -126,15 +132,15 @@ const PriceRangeSection = ({
             backgroundColor: 'white3',
           }}
         >
-          <Text>Current Price</Text>
-          <Text size="20px" weight={700} margin="5px 0px">
+          <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}>Current Price</Text>
+          <Text weight={700} margin="5px 0px" sx={{ fontSize: ['4vw', '4vw', '20px'] }}>
             {valuesLoading ? (
               <Skeleton width={100} animation="waves" />
             ) : (
               (inverted ? pool?.token1Price : pool?.token0Price)?.toSignificant(6)
             )}
           </Text>
-          <Text size="12px" opacity={0.7} sx={{ lineHeight: '16px' }}>
+          <Text opacity={0.7} sx={{ fontSize: ['2.7vw', '2.7vw', '12px'] }}>
             {currencyQuote?.symbol} per {currencyBase?.symbol}
           </Text>
         </Flex>

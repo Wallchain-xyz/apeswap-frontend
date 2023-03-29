@@ -332,7 +332,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             alt={selectedTokenId || ''}
             height={100}
             width={100}
-            sx={{ width: '50%' }}
+            sx={{ width: '90%' }}
           />
         ) : (
           <Skeleton sx={{ height: '100%', width: '100%' }} animation="waves" />
