@@ -1,7 +1,6 @@
-import { Flex, Text } from 'components/uikit'
+import { Flex, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useColorMode } from 'theme-ui'
 import { MenuItem } from '../../types'
 import styles from '../styles'

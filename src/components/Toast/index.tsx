@@ -1,5 +1,5 @@
 import { NAV_HEIGHT } from 'components/NavBar/components/styles'
-import { Button, Flex, IconButton, Svg, Text } from 'components/uikit'
+import { Button, Flex, IconButton, Svg, Text, Link } from 'components/uikit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 import { useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
@@ -8,7 +8,6 @@ import styles from './styles'
 import { useRemovePopup } from 'state/application/hooks'
 import { Box } from 'theme-ui'
 import { AlertProps } from './types'
-import Link from 'next/link'
 
 const Toast = ({ popKey, popIndex, variant, text, url, linkText }: AlertProps) => {
   const removePopup = useRemovePopup()
@@ -42,7 +41,7 @@ const Toast = ({ popKey, popIndex, variant, text, url, linkText }: AlertProps) =
         <Text>{text}</Text>
 
         {linkText && url && (
-          <Link href={url} sx={{ ...styles.link }} color="text" target="_blank">
+          <Link href={url} sx={styles.link} color="text" target="_blank">
             <Text mr="5px">{linkText}</Text>
             <Svg icon="external" />
           </Link>

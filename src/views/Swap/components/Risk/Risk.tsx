@@ -5,7 +5,7 @@ import { useTranslation } from 'contexts/Localization'
 import { riskSupportedChains, TAG_COLOR, TAG_TOKEN_RISK_VALUES, TOKEN_RISK_VALUES } from './constants'
 import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import TooltipBubble from 'components/uikit/Tooltip'
-import { Flex, Text } from 'components/uikit'
+import { Flex, Link, Text } from 'components/uikit'
 import Dots from 'components/Dots'
 
 const Risk = ({ chainId, currency }: { chainId: SupportedChainId; currency: Currency | null | undefined }) => {
@@ -55,11 +55,14 @@ const Risk = ({ chainId, currency }: { chainId: SupportedChainId; currency: Curr
                   </Text>
                   <Text sx={styles.title}>
                     {t('Risk scan results are provided by a third party')}{' '}
-                    <Text sx={styles.yellow}>
-                      <a href="https://www.avengerdao.org/" target="_blank" rel="noreferrer noopener">
-                        Avenger DAO
-                      </a>
-                    </Text>
+                    <Link
+                      href="https://www.avengerdao.org/"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      sx={styles.yellow}
+                    >
+                      Avenger DAO
+                    </Link>
                   </Text>
                   <Text sx={styles.title}>
                     {t(
@@ -68,15 +71,14 @@ const Risk = ({ chainId, currency }: { chainId: SupportedChainId; currency: Curr
                   </Text>
                   <Text sx={styles.title}>
                     {t('Learn more about risk rating')}{' '}
-                    <Text sx={styles.yellow}>
-                      <a
-                        href="https://www.avengerdao.org/docs/meter/consumer-api/RiskBand"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {t('here')}
-                      </a>
-                    </Text>
+                    <Link
+                      href="https://www.avengerdao.org/docs/meter/consumer-api/RiskBand"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      sx={styles.yellow}
+                    >
+                      {t('here')}
+                    </Link>
                     .
                   </Text>
                 </Flex>

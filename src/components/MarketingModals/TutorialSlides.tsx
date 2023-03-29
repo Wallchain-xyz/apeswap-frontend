@@ -1,4 +1,4 @@
-import { Flex, Text, Tooltip } from 'components/uikit'
+import { Flex, Link, Text, Tooltip } from 'components/uikit'
 import { CHAIN_PARAMS, NETWORK_LABEL } from 'config/constants/chains'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
@@ -24,11 +24,14 @@ export const SwapSlides = () => {
           <Text>{t('Select the tokens you want to trade and enter your preferred amount.')}</Text>
           <Text sx={{ fontStyle: 'italic' }}>
             {t(`New to ${NETWORK_LABEL[chainId as SupportedChainId]} Chain? You might need to`)}
-            <Text sx={{ ...styles.yellow, mx: '3px' }}>
-              <a href="https://app.multichain.org/#/router" target="_blank" rel="noreferrer noopener">
-                {t('bridge tokens')}
-              </a>
-            </Text>
+            <Link
+              href="https://app.multichain.org/#/router"
+              target="_blank"
+              rel="noreferrer noopener"
+              sx={{ ...styles.yellow, mx: '3px' }}
+            >
+              {t('bridge tokens')}
+            </Link>
             {t(
               `first. Always keep spare ${
                 CHAIN_PARAMS[chainId as SupportedChainId]?.nativeCurrency.symbol
@@ -338,11 +341,9 @@ export const GnanaSlides = () => {
         <>
           <Text>
             {t('In order to convert into GNANA, you must first hold BANANA.')}{' '}
-            <Text sx={styles.yellow}>
-              <a href="https://apeswap.finance/swap" target="_blank" rel="noreferrer noopener">
-                {t('Click here')}
-              </a>
-            </Text>{' '}
+            <Link href="https://apeswap.finance/swap" target="_blank" rel="noreferrer noopener" sx={styles.yellow}>
+              {t('Click here')}
+            </Link>
             {t('to trade any of your tokens for BANANA!')}
           </Text>
         </>
@@ -432,15 +433,14 @@ export const GnanaSlides = () => {
             >
               <Text sx={styles.tipTitle}>DAO&apos;s</Text>
             </Tooltip>{' '}
-            <Text sx={styles.yellow}>
-              <a
-                href="https://discuss.apeswap.finance/?_ga=2.192308074.1948993264.1666625902-2101162031.1664826138"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {t('Governance!')}
-              </a>
-            </Text>
+            <Link
+              sx={styles.yellow}
+              href="https://discuss.apeswap.finance/?_ga=2.192308074.1948993264.1666625902-2101162031.1664826138"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t('Governance!')}
+            </Link>
           </Text>
         </>
       }
@@ -782,17 +782,23 @@ export const LiquiditySlides = () => {
               <Text sx={styles.tipTitle}>{t('fees')}</Text>
             </Tooltip>{' '}
             {t('for each transaction that uses this pair of tokens on the network. Some LPs can also be staked on')}{' '}
-            <Text sx={styles.yellow}>
-              <a href="https://apeswap.finance/banana-farms" target="_blank" rel="noreferrer noopener">
-                {t('Yield Farms')}
-              </a>
-            </Text>{' '}
+            <Link
+              href="https://apeswap.finance/banana-farms"
+              target="_blank"
+              rel="noreferrer noopener"
+              sx={styles.yellow}
+            >
+              {t('Yield Farms')}
+            </Link>
             {t(' or ')}{' '}
-            <Text sx={styles.yellow}>
-              <a href="https://apeswap.finance/maximizers" target="_blank" rel="noreferrer noopener">
-                {t('BANANA Maximizers')}
-              </a>
-            </Text>{' '}
+            <Link
+              href="https://apeswap.finance/maximizers"
+              target="_blank"
+              rel="noreferrer noopener"
+              sx={styles.yellow}
+            >
+              {t('BANANA Maximizers')}
+            </Link>
             {t('for additional rewards!')}
           </Text>
         </>
@@ -914,15 +920,14 @@ export const TheMigrationSlides = () => {
         <>
           <Text sx={{ lineHeight: '22px' }}>
             {t('ApeSwap has updated the smart contracts to implement the new ')}
-            <Text sx={styles.yellow}>
-              <a
-                href="https://vote.apeswap.finance/#/proposal/0x7c816da506f35d6932cf759faf81b221d566942d9472111fb795ab63150760a9"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {t('Hard Cap')}
-              </a>
-            </Text>
+            <Link
+              sx={styles.yellow}
+              href="https://vote.apeswap.finance/#/proposal/0x7c816da506f35d6932cf759faf81b221d566942d9472111fb795ab63150760a9"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t('Hard Cap')}
+            </Link>
             {t(
               `. Users staking in ApeSwap products must migrate their assets to the new MasterApeV2 contract to continue earning rewards.`,
             )}
@@ -1112,11 +1117,14 @@ export const ConnectWalletSlide = () => {
                 NETWORK_LABEL[chainId as SupportedChainId]
               } can be found `,
             )}
-            <Text sx={styles.yellow}>
-              <a href={getMetamaskLinks(chainId as SupportedChainId)} target="_blank" rel="noreferrer noopener">
-                {t('here')}
-              </a>
-            </Text>
+            <Link
+              href={getMetamaskLinks(chainId as SupportedChainId)}
+              target="_blank"
+              rel="noreferrer noopener"
+              sx={styles.yellow}
+            >
+              {t('here')}
+            </Link>
           </Text>
         </>
       }

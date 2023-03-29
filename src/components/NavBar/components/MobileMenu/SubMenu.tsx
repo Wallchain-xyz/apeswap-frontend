@@ -1,10 +1,10 @@
 import { MenuItem } from 'components/NavBar/types'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Svg, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useState } from 'react'
 import styles from '../styles'
-import Link from 'next/link'
+
 
 const SubMenu = ({ label, menuItems }: { label: string; menuItems: MenuItem[] | undefined }) => {
   const [opened, setOpened] = useState(false)

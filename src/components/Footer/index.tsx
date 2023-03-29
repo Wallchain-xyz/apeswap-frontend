@@ -3,11 +3,11 @@ import MoonPayModal from 'components/Moonpay/MoonpayModal'
 import NetworkSelector from 'components/NetworkSelector'
 import Newsletter from 'components/NewsLetter'
 import ThemeSwitcher from 'components/ThemeSwitcher'
-import { Button, Flex, Skeleton, Svg, Text } from 'components/uikit'
+import { Button, Flex, Skeleton, Svg, Text, Link } from 'components/uikit'
 import { mailChimpUrl } from 'config/constants/api'
 import { useTranslation } from 'contexts/Localization'
 import useModal from 'hooks/useModal'
-import Link from 'next/link'
+
 import CountUp from 'react-countup'
 import { useBananaPrice } from 'state/application/hooks'
 import MobileDropdown from './components/MobileDropdown'
@@ -60,7 +60,7 @@ const Footer = () => {
               })}
             </Flex>
             <Flex>
-              <Flex sx={{ alignItems: 'center' }}>
+              <Flex sx={{ alignItems: 'center', textDecoration: 'none' }} as={Link} href="https://apeswap.finance/info">
                 <Svg icon="banana_token" width={35} />
                 {bananaPrice ? (
                   <Text color="primaryBright" ml="7px" weight={600}>
@@ -74,7 +74,7 @@ const Footer = () => {
               <Button size="sm" ml="20px" sx={{ alignItems: 'center' }} onClick={onPresentModal}>
                 <Text color="primaryBright" mr="5px" sx={{ lineHeight: '0px' }}>
                   {t('Add Funds')}
-                </Text>{' '}
+                </Text>
                 <Svg icon="card" color="primaryBright" />
               </Button>
             </Flex>

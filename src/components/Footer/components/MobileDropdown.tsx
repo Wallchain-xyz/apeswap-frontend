@@ -1,7 +1,7 @@
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Svg, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
+
 import { useState } from 'react'
 
 const MobileDropdown = ({

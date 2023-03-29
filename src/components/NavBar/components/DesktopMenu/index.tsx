@@ -3,14 +3,14 @@ import ConnectWalletButton from 'components/ConnectWallet'
 import { LangSelectorButton } from 'components/Langauge'
 import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Svg, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useState } from 'react'
 import AccountLoggedInDisplay from '../AccountLoggedInDisplay'
 import SubMenu from './SubMenu'
 import { getNavConfig } from '../../config/chains'
 import styles, { NAV_DESKTOP_DISPLAY } from '../styles'
-import Link from 'next/link'
+
 
 const DesktopMenu = () => {
   const { chainId } = useWeb3React()

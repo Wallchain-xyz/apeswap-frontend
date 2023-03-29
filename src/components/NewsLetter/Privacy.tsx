@@ -2,7 +2,7 @@ import React from 'react'
 
 import { PrivacyProps } from './types'
 import styles, { dynamicStyles } from './styles'
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Link, Svg, Text } from 'components/uikit'
 import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import TooltipBubble from 'components/uikit/Tooltip'
 
@@ -12,9 +12,9 @@ const Privacy: React.FC<PrivacyProps> = ({ isModal, t }) => {
 
   return (
     <Flex sx={dynamicStyles.privacy({ isModal })}>
-      <a href="https://apeswap.finance/privacy" target="_blank" rel="noopener noreferrer">
+      <Link href="https://apeswap.finance/privacy" target="_blank" rel="noopener noreferrer">
         <Text sx={styles.privacyLink}>{t('We respect your privacy')}</Text>
-      </a>
+      </Link>
       <TooltipBubble
         placement={(isMobile && !isMd && 'topRight') || 'topLeft'}
         body={

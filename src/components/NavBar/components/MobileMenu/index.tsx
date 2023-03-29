@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Flex, Svg } from 'components/uikit'
+import { Flex, Svg, Link } from 'components/uikit'
 import { NAV_HEIGHT, NAV_MOBILE_DISPLAY } from '../styles'
 import SubMenu from './SubMenu'
 import { getNavConfig } from 'components/NavBar/config/chains'
@@ -8,7 +8,7 @@ import { LangSelectorButton } from 'components/Langauge'
 import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
 import { icons } from 'components/uikit/Svg/types'
-import Link from 'next/link'
+
 
 export const SOCIAL_LINKS: { label: icons; href: string }[] = [
   { label: icons.TWITTER, href: 'https://twitter.com/ape_swap' },

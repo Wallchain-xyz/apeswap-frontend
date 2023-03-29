@@ -72,7 +72,7 @@ const baseTheme = {
       },
     },
     a: {
-      color: 'primary',
+      color: 'text',
       textDecoration: 'none',
       ':hover': {
         color: 'secondary',
@@ -84,7 +84,6 @@ const baseTheme = {
       breakpoints: [`@media screen and (min-width: ${breakpointMap.lg}px)`],
       a: {
         textDecoration: 'none',
-        color: 'red',
       },
     },
     progress: {

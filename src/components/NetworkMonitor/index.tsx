@@ -53,9 +53,10 @@ const NetworkMonitor = () => {
         display: ['none', 'none', 'none', 'flex'],
         bottom: '10px',
         left: '10px',
-        width: '100%',
+        width: 'fit-content',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        zIndex: 103,
       }}
     >
       <Flex sx={{ alignItems: 'center', height: '20px', width: 'auto' }}>

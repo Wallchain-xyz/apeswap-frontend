@@ -1,6 +1,4 @@
-import { Button, Flex, Svg, Text } from 'components/uikit'
-import Link from 'next/link'
-import { DESKTOP_DISPLAY } from './styles'
+import { Button, Flex, Svg, Text, Link } from 'components/uikit'
 
 const NoPositionSelectedPage = ({ mobile }: { mobile?: boolean }) => {
   return (
