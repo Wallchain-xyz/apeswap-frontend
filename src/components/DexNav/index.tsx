@@ -89,8 +89,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             minWidth: 'fit-content',
             alignItems: 'center',
             cursor: 'pointer',
-            border: '1px solid red',
-            background: 'red',
+            zIndex: 2,
           }}
         >
           <Text
