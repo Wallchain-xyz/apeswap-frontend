@@ -190,6 +190,8 @@ function useAllV3Ticks(
     }
   }, [data?.ticks])
 
+  console.log(subgraphTickData)
+
   return {
     isLoading: useSubgraph
       ? isLoading || data?.ticks.length === MAX_THE_GRAPH_TICK_FETCH_VALUE
@@ -215,7 +217,6 @@ export function usePoolActiveLiquidity(
   const activeTick = useMemo(() => getActiveTick(pool[1]?.tickCurrent, feeAmount), [pool, feeAmount])
 
   const { isLoading, error, ticks } = useAllV3Ticks(currencyA, currencyB, feeAmount)
-
 
   return useMemo(() => {
     if (
@@ -261,11 +262,15 @@ export function usePoolActiveLiquidity(
       price0: tickToPrice(token0, token1, activeTick).toFixed(PRICE_FIXED_DIGITS),
     }
 
+    console.log(activeTickProcessed)
+
     const subsequentTicks = computeSurroundingTicks(token0, token1, activeTickProcessed, ticks, pivot, true)
 
     const previousTicks = computeSurroundingTicks(token0, token1, activeTickProcessed, ticks, pivot, false)
 
     const ticksProcessed = previousTicks.concat(activeTickProcessed).concat(subsequentTicks)
+
+    console.log(ticksProcessed)
 
     return {
       isLoading,

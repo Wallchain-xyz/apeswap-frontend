@@ -24,7 +24,10 @@ export const AxisBottom = ({
   useMemo(
     () => (
       <g
-        sx={{ line: { display: 'none' }, text: { color: 'text', transform: 'translateY(5px)', fontSize: '14px' } }}
+        sx={{
+          line: { display: 'none' },
+          text: { color: 'text', transform: 'translateY(5px)', fontSize: '14px', fontFamily: 'body' },
+        }}
         transform={`translate(0, ${innerHeight + offset})`}
       >
         <Axis axisGenerator={axisBottom(xScale).ticks(6)} />
