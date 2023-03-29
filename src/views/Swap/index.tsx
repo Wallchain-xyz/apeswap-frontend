@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import DexPanel from 'components/DexPanel'
@@ -20,6 +20,7 @@ import { supportedChainId } from 'utils/supportedChainId'
 import Actions from './actions'
 import ConfirmSwap from './components/ConfirmSwap'
 import LoadingBestRoute from './components/LoadingBestRoute'
+import Risk from './components/Risk/Risk'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import TradeDetails from './components/TradeDetails'
 
@@ -154,7 +155,10 @@ const Swap = () => {
         currency={currencies[Field.INPUT]}
         otherCurrency={currencies[Field.OUTPUT]}
       />
-      <SwapSwitchButton onClick={onSwitchTokens} />
+      <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center' }}>
+        <SwapSwitchButton onClick={onSwitchTokens} />
+        <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]} />
+      </Flex>
       <DexPanel
         panelText="To"
         onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}

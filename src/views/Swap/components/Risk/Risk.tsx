@@ -3,12 +3,12 @@ import { parsedRiskData } from './helpers'
 import { styles } from './styles'
 import { useTranslation } from 'contexts/Localization'
 import { riskSupportedChains, TAG_COLOR, TAG_TOKEN_RISK_VALUES, TOKEN_RISK_VALUES } from './constants'
-import { Currency, Token } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import TooltipBubble from 'components/uikit/Tooltip'
 import { Flex, Text } from 'components/uikit'
 import Dots from 'components/Dots'
 
-const Risk = ({ chainId, currency }: { chainId: number; currency: Currency }) => {
+const Risk = ({ chainId, currency }: { chainId: SupportedChainId; currency: Currency | null | undefined }) => {
   const isChainSupported = riskSupportedChains.includes(chainId)
   const [risk, setRisk] = useState<number | undefined>(undefined)
   const [hide, setHide] = useState(isChainSupported)
@@ -16,11 +16,10 @@ const Risk = ({ chainId, currency }: { chainId: number; currency: Currency }) =>
 
   useEffect(() => {
     setRisk(undefined)
-    const isToken = currency instanceof Token
-    const token = currency as Token
-    if (isToken && isChainSupported) {
+    const wrappedCurrency = currency?.wrapped
+    if (isChainSupported && wrappedCurrency) {
       setHide(false)
-      parsedRiskData(chainId, token?.address).then((res) => {
+      parsedRiskData(chainId, wrappedCurrency.address).then((res) => {
         setRisk(res?.risk)
       })
     } else {
@@ -32,7 +31,7 @@ const Risk = ({ chainId, currency }: { chainId: number; currency: Currency }) =>
     <>
       {!hide && (
         <Flex sx={styles.riskContainer}>
-          <Flex sx={{ minWidth: '150px', justifyContent: 'flex-end' }}>
+          <Flex sx={{ minWidth: '150px', justifyContent: 'flex-end', cursor: 'help' }}>
             <TooltipBubble
               placement="bottomRight"
               transformTip="translate(0%, -4%)"
@@ -102,4 +101,4 @@ const Risk = ({ chainId, currency }: { chainId: number; currency: Currency }) =>
   )
 }
 
-export default React.memo(Risk)
+export default Risk
