@@ -10,6 +10,7 @@ import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useIsExpertMode } from 'state/user/hooks'
+import track from 'utils/track'
 import ConfirmSwap from '../components/ConfirmSwap'
 import { confirmPriceImpactWithoutFee } from '../utils'
 
@@ -38,7 +39,7 @@ const Swap = ({
   wrapType: WrapType | undefined
   onWrap: (() => Promise<void>) | undefined
 }) => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   // modal and loading
   const [{ showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     showConfirm: boolean
@@ -81,18 +82,18 @@ const Swap = ({
         //   action: 'transaction hash',
         //   label: hash,
         // })
-        // sendEvent({
-        //   category: 'Swap',
-        //   action:
-        //     recipient === null
-        //       ? 'Swap w/o Send'
-        //       : (recipientAddress ?? recipient) === account
-        //       ? 'Swap w/o Send + recipient'
-        //       : 'Swap w/ Send',
-        //   label: [TRADE_STRING, trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol, 'MH'].join(
-        //     '/',
-        //   ),
-        // })
+        track({
+          event: 'Swap',
+          chain: chainId,
+          data: {
+            label: [
+              TRADE_STRING,
+              trade?.inputAmount?.currency?.symbol,
+              trade?.outputAmount?.currency?.symbol,
+              'MH',
+            ].join('/'),
+          },
+        })
       })
       .catch((error) => {
         console.log(error)
@@ -106,12 +107,10 @@ const Swap = ({
       })
   }, [
     swapCallback,
+    chainId,
     stablecoinPriceImpact,
     tradeToConfirm,
     showConfirm,
-    recipient,
-    recipientAddress,
-    account,
     trade?.inputAmount?.currency?.symbol,
     trade?.outputAmount?.currency?.symbol,
   ])
