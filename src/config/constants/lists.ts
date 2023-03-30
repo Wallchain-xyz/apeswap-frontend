@@ -3,7 +3,9 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 export const UNI_LIST = 'https://tokens.uniswap.org'
 const UNI_EXTENDED_LIST = 'https://extendedtokens.uniswap.org/'
 
-const APESWAP = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/apeswap.json'
+const APESWAP =
+  process.env.NEXT_PUBLIC_APESWAP_LIST ||
+  'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/apeswap.json'
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
 const NFT_INDEX = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/lists/nftindex.json'
 const PANCAKE_EXTENDED = 'https://tokens.pancakeswap.finance/pancakeswap-extended.json'

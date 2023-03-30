@@ -53,19 +53,21 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         >
           {t('Swap')}
         </Text>
-        <Text
-          size="14px"
-          variant="link"
-          sx={{
-            ...styles.navLink,
-            color: !onLiquidity && 'textDisabled',
-          }}
-          onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
-          id="liquidity-link"
-          className="liquidity"
-        >
-          {t('Liquidity')}
-        </Text>
+        {chainId && [SupportedChainId.BSC, SupportedChainId.POLYGON].includes(chainId) && (
+          <Text
+            size="14px"
+            variant="link"
+            sx={{
+              ...styles.navLink,
+              color: !onLiquidity && 'textDisabled',
+            }}
+            onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
+            id="liquidity-link"
+            className="liquidity"
+          >
+            {t('Liquidity')}
+          </Text>
+        )}
       </Flex>
       <Flex sx={styles.navIconContainer}>
         {/* <RunFiatButton

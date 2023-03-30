@@ -13,7 +13,7 @@ const ethConfig = [
       },
       {
         label: 'Liquidity',
-        href: '/add-liquidity',
+        href: `${TEMP_APESWAP_URL}/add-liquidity`,
         isNew: false,
       },
       {
