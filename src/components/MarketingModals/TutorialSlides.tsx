@@ -807,6 +807,122 @@ export const LiquiditySlides = () => {
   ]
 }
 
+export const LiquidityV3Slides = () => {
+  const { t } = useTranslation()
+  const isMobile = useIsMobile()
+  return [
+    <Slide
+      key={1}
+      step="Step 1"
+      slideTitle="Configure Your Position"
+      slideContent={
+        <>
+          <Text>
+            {t('Select the tokens and approve them. Then, select the amount you want to add, the')}{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip={`translate(${isMobile ? '8%' : '5%'}, 2%)`}
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'You can select from 4 options of fee tiers: 0.01%, 0.05%, 0.3%, or 1%. Lower fees liquidity will get priority versus higher fees liquidity.',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['210px', '210px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>{t('fee tier')}</Text>
+            </Tooltip>
+            , {t('and')}{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip={`translate(${isMobile ? '8%' : '5%'}, 2%)`}
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'This is the range in which your position will be eligible for trades. If the relative price of the tokens in your pair fall out of range, your liquidity position won’t be eligible for trading.',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['210px', '210px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>{t('price range')}</Text>
+            </Tooltip>
+          </Text>
+          {/* <Text sx={{ fontStyle: 'italic' }}>{t('Assets are always deposited in an equal 50/50 value split!')}</Text> */}
+        </>
+      }
+    />,
+    <Slide
+      key={2}
+      step="Step 2"
+      slideTitle="Confirm Add Liquidity"
+      slideContent={
+        <>
+          <Text>
+            {t('Select +ADD LIQUIDITY and approve the transaction in your wallet. You will receive your ')}
+            <Tooltip
+              placement={'topRight'}
+              transformTip={`translate(${isMobile ? '10%' : '6%'}, 2%)`}
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'Your Liquidity V3 positions are represented in an NFT which contains all your position’s information as well as its range status',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['210px', '210px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>V3 Position NFT</Text>
+            </Tooltip>{' '}
+            Shortly
+          </Text>
+          <Text sx={{ fontStyle: 'italic', fontWeight: 300 }}>{t('Make sure your position is "In range"!')}</Text>
+        </>
+      }
+    />,
+    <Slide
+      key={3}
+      step="Step 3"
+      slideTitle="Claim Your Rewards!"
+      slideContent={
+        <>
+          <Text>
+            {t('You are now earning')}{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip={`translate(${isMobile ? '8%' : '5%'}, 2%)`}
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'Liquidity providers receive a portion of the fees charged when swaps occur between the tokens that comprise that position.',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['210px', '210px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>{t('fees')}</Text>
+            </Tooltip>{' '}
+            {t(
+              'for each transaction that uses this pair of tokens on your set price range. Don’t forget to CLAIM your rewards periodically in the',
+            )}{' '}
+            <Link
+              href="https://apeswap.finance/banana-farms"
+              target="_blank"
+              rel="noreferrer noopener"
+              sx={styles.yellow}
+            >
+              {t('Positions')}
+            </Link>{' '}
+            {t('tab')}
+          </Text>
+          <Text sx={{ fontStyle: 'italic', fontWeight: 300 }}>Keep an eye on your positions range status!</Text>
+        </>
+      }
+    />,
+  ]
+}
+
 export const MigrateSlides = () => {
   const { t } = useTranslation()
   return [

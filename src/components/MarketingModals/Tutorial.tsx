@@ -16,6 +16,7 @@ import {
   MigrateSlides,
   TheMigrationSlides,
   DefaultSlides,
+  LiquidityV3Slides,
 } from './TutorialSlides'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -144,10 +145,10 @@ const Tutorial: React.FC<{
       case 'zap':
       case 'add-liquidity':
         return {
-          type: 'liquidity',
-          title: 'Welcome to Dex Liquidity',
-          description: 'Provide liquidity to earn trading fees!',
-          slides: account ? LiquiditySlides() : [<ConnectWalletSlide key={0} />, ...LiquiditySlides()],
+          type: 'liquidity-v3',
+          title: 'Welcome to Liquidity V3',
+          description: 'Provide Concentrated Liquidity to earn better trading fees!',
+          slides: account ? LiquidityV3Slides() : [<ConnectWalletSlide key={0} />, ...LiquidityV3Slides()],
           isConnected: !!account,
         }
       default:
