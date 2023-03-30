@@ -25,6 +25,7 @@ export function useFetchListCallback(): (
         resolveENSContentHash(ensName, RPC_PROVIDERS[SupportedChainId.MAINNET]),
       )
         .then((tokenList) => {
+          console.log(tokenList, sendDispatch)
           sendDispatch && dispatch(fetchTokenList.fulfilled({ url: listUrl, tokenList, requestId }))
           return tokenList
         })

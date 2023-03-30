@@ -16,18 +16,19 @@ export default function Updater(): null {
 
   // get all loaded lists, and the active urls
   const lists = useAllLists()
-  console.log(lists)
   const fetchList = useFetchListCallback()
   const fetchAllListsCallback = useCallback(() => {
     if (!isWindowVisible) return
     Object.keys(lists).forEach((url) => {
       // Skip validation on unsupported lists
       const isUnsupportedList = UNSUPPORTED_LIST_URLS.includes(url)
-      fetchList(url, false, isUnsupportedList).catch((error: any) =>
+      fetchList(url, true, isUnsupportedList).catch((error: any) =>
         console.debug('interval list fetching error', error),
       )
     })
-  }, [fetchList, isWindowVisible, lists])
+    // Removed list to stop loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchList, isWindowVisible])
 
   // fetch all lists every 10 minutes, but only after we initialize provider
   useInterval(fetchAllListsCallback, provider ? 1000 * 60 * 10 : null)

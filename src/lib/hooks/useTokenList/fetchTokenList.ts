@@ -13,6 +13,7 @@ export default async function fetchTokenList(
   resolveENSContentHash: (ensName: string) => Promise<string>,
 ): Promise<TokenList> {
   const cached = listCache?.get(listUrl) // avoid spurious re-fetches
+
   if (cached) {
     return cached
   }
@@ -60,7 +61,6 @@ export default async function fetchTokenList(
       if (isLast) throw new Error(message)
       continue
     }
-
     const json = await response.json()
     const list = json
     listCache?.set(listUrl, list)
