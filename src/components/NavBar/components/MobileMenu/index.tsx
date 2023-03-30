@@ -38,8 +38,8 @@ const MobileMenu = ({ dropdownFlag }: { dropdownFlag: boolean }) => {
               background: 'white2',
             }}
           >
-            {getNavConfig(chainId).map(({ label, items }) => {
-              return <SubMenu label={label} menuItems={items} key={label} />
+            {getNavConfig(chainId).map(({ label, items, href }) => {
+              return <SubMenu label={label} menuItems={items} href={href} key={label} />
             })}
             <Flex sx={{ height: '130px', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <Flex>

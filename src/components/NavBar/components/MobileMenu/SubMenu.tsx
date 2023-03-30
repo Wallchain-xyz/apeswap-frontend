@@ -5,13 +5,25 @@ import { useTranslation } from 'contexts/Localization'
 import { useState } from 'react'
 import styles from '../styles'
 
-
-const SubMenu = ({ label, menuItems }: { label: string; menuItems: MenuItem[] | undefined }) => {
+const SubMenu = ({
+  label,
+  menuItems,
+  href,
+}: {
+  label: string
+  menuItems: MenuItem[] | undefined
+  href: string | undefined
+}) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation()
   return (
     <>
-      <Flex sx={styles.mobileSubMenuContainer} onClick={() => menuItems && setOpened((prev) => !prev)}>
+      <Flex
+        sx={styles.mobileSubMenuContainer}
+        onClick={() => menuItems && setOpened((prev) => !prev)}
+        as={href ? Link : 'p'}
+        href={href}
+      >
         <Text weight={600}>{t(label)}</Text>
         {menuItems && <Svg icon="caret" width="8px" direction={opened ? 'up' : 'down'} />}
       </Flex>
