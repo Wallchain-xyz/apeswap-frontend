@@ -1,3 +1,4 @@
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 const arbitrumConfig = [
   {
     label: 'Exchange',
@@ -22,19 +23,20 @@ const arbitrumConfig = [
     ],
   },
   {
+    label: 'Bills',
+    href: `${TEMP_APESWAP_URL}/treasury-bills`,
+    isNew: true,
+  },
+  {
     label: 'Explore',
-    lightIcon: 'MoreLightImage',
-    darkIcon: 'MoreDarkImage',
     items: [
       {
         label: 'ApeStats',
-        href: '/apestats',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/apestats`,
       },
       {
         label: 'Dashboard',
-        href: 'protocol-dashboard',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -42,7 +44,7 @@ const arbitrumConfig = [
       },
       {
         label: 'Charts',
-        href: '/info',
+        href: `${TEMP_APESWAP_URL}/info`,
       },
       {
         label: 'Governance',
@@ -51,7 +53,6 @@ const arbitrumConfig = [
       {
         label: 'Newsletter',
         href: '?modal=newsletter',
-        isNew: true,
       },
     ],
   },

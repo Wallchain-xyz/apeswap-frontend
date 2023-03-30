@@ -17,6 +17,7 @@ export const configMappedToNetwork: Record<SupportedChainId, NavConfig[]> = {
   [SupportedChainId.ARBITRUM_ONE]: arbitrumConfig,
 }
 
+
 export const getNavConfig = (chainId: SupportedChainId | undefined): NavConfig[] => {
   const supportedChainId = isSupportedChain(chainId)
   if (!chainId || !supportedChainId) {

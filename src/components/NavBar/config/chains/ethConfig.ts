@@ -1,3 +1,5 @@
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+
 const ethConfig = [
   {
     label: 'Exchange',
@@ -23,18 +25,14 @@ const ethConfig = [
   },
   {
     label: 'Explore',
-    lightIcon: 'MoreLightImage',
-    darkIcon: 'MoreDarkImage',
     items: [
       {
         label: 'ApeStats',
-        href: '/apestats',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/apestats`,
       },
       {
         label: 'Dashboard',
-        href: 'protocol-dashboard',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -42,7 +40,7 @@ const ethConfig = [
       },
       {
         label: 'Charts',
-        href: '/info',
+        href: `${TEMP_APESWAP_URL}/info`,
       },
       {
         label: 'Governance',
@@ -51,7 +49,6 @@ const ethConfig = [
       {
         label: 'Newsletter',
         href: '?modal=newsletter',
-        isNew: true,
       },
     ],
   },
