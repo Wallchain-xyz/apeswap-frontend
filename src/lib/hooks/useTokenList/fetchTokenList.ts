@@ -3,7 +3,6 @@ import contenthashToUri from 'lib/utils/contenthashToUri'
 import parseENSAddress from 'lib/utils/parseENSAddress'
 import uriToHttp from 'lib/utils/uriToHttp'
 
-// TODO: Change to Apeswap
 export const DEFAULT_TOKEN_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
 const listCache = new Map<string, TokenList>()
@@ -12,9 +11,9 @@ const listCache = new Map<string, TokenList>()
 export default async function fetchTokenList(
   listUrl: string,
   resolveENSContentHash: (ensName: string) => Promise<string>,
-  skipValidation?: boolean,
 ): Promise<TokenList> {
   const cached = listCache?.get(listUrl) // avoid spurious re-fetches
+
   if (cached) {
     return cached
   }
@@ -62,10 +61,10 @@ export default async function fetchTokenList(
       if (isLast) throw new Error(message)
       continue
     }
-
     const json = await response.json()
-    listCache?.set(listUrl, json)
-    return json
+    const list = json
+    listCache?.set(listUrl, list)
+    return list
   }
 
   throw new Error('Unrecognized list URL protocol.')

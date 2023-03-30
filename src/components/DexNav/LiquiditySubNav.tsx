@@ -11,13 +11,16 @@ export const V3LiquiditySubNav = () => {
         <Flex sx={{ marginRight: '5px' }}>
           <Svg color={pathname.includes('/liquidity') ? 'text' : 'textDisabled'} icon="Positions" width="20px" />
         </Flex>
-        <Text color={pathname.includes('/liquidity') ? 'text' : 'textDisabled'}>Positions</Text>
+        <Text variant="link" color={pathname.includes('/liquidity') ? 'text' : 'textDisabled'}>
+          Positions
+        </Text>
       </Flex>
       <Flex sx={styles.liquiditySelector} onClick={() => push('/add-liquidity')}>
         <Text
           color={pathname.includes('add-liquidity') ? 'text' : 'textDisabled'}
           sx={{ whiteSpace: 'nowrap' }}
           id="add-liquidity-link"
+          variant="link"
         >
           + Add
         </Text>
@@ -39,7 +42,10 @@ export const V2LiquiditySubNav = () => {
             width="20px"
           />
         </Flex>
-        <Text color={pathname.includes('/liquidity/v2') || pathname.includes('/remove/v2') ? 'text' : 'textDisabled'}>
+        <Text
+          color={pathname.includes('/liquidity/v2') || pathname.includes('/remove/v2') ? 'text' : 'textDisabled'}
+          variant="link"
+        >
           Positions
         </Text>
       </Flex>
@@ -48,6 +54,7 @@ export const V2LiquiditySubNav = () => {
           color={pathname.includes('add-liquidity/v2') ? 'text' : 'textDisabled'}
           sx={{ whiteSpace: 'nowrap' }}
           id="add-liquidity-link"
+          variant="link"
         >
           + Add
         </Text>

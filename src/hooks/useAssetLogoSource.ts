@@ -37,7 +37,7 @@ function prioritizeLogoSources(uris: string[]) {
 function getInitialUrl(address?: string | null, chainId?: number | null, isNative?: boolean) {
   if (chainId && isNative) return getNativeLogoURI(chainId)
 
-  const networkName = chainId ? chainIdToNetworkName(chainId) : 'ethereum'
+  const networkName = chainId ? chainIdToNetworkName(chainId) : 'bsc'
   const checksummedAddress = isAddress(address)
   if (checksummedAddress) {
     return `https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/${networkName}/assets/${checksummedAddress}/logo.png`
@@ -50,15 +50,15 @@ export default function useAssetLogoSource(
   address?: string | null,
   chainId?: number | null,
   isNative?: boolean,
-  backupImg?: string | null
+  backupImg?: string | null,
 ): [string | undefined, () => void] {
-  const [current, setCurrent] = useState<string | undefined>(getInitialUrl(address, chainId, isNative))
+  const [current, setCurrent] = useState<string | undefined>(backupImg || getInitialUrl(address, chainId, isNative))
   const [fallbackSrcs, setFallbackSrcs] = useState<string[] | undefined>(undefined)
 
   useEffect(() => {
-    setCurrent(getInitialUrl(address, chainId, isNative))
+    setCurrent(backupImg || getInitialUrl(address, chainId, isNative))
     setFallbackSrcs(undefined)
-  }, [address, chainId, isNative])
+  }, [backupImg, address, chainId, isNative])
 
   const nextSrc = useCallback(() => {
     if (current) {

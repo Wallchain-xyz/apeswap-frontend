@@ -47,9 +47,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     pollingInterval: routerPreference === RouterPreference.PRICE ? 120000 : AVERAGE_L1_BLOCK_TIME,
   })
 
-
   const quoteResult: GetQuoteResult | undefined = useIsValidBlock(Number(data?.blockNumber) || 0) ? data : undefined
-
 
   const route = useMemo(
     () => computeRoutes(currencyIn, currencyOut, tradeType, quoteResult),
@@ -96,6 +94,10 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     }
 
     try {
+      console.log(quoteResult?.blockNumber)
+      console.log(quoteResult?.blockNumber)
+      console.log(quoteResult?.blockNumber)
+      console.log(quoteResult?.blockNumber)
       const trade = transformRoutesToTrade(route, tradeType, quoteResult?.blockNumber, gasUseEstimateUSD)
       return {
         // always return VALID regardless of isFetching status

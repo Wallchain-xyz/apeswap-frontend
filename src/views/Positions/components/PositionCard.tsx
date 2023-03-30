@@ -122,7 +122,7 @@ const PositionCard = ({
                   {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}
                 </Text>
                 <Text size="12px" sx={{ lineHeight: '12px' }} ml="5px">
-                  {currencyQuote?.symbol} / {currencyQuote?.symbol}
+                  {currencyQuote?.symbol}
                 </Text>
               </>
             )}

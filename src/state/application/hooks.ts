@@ -28,11 +28,11 @@ interface MoonpayIPAddressesResponse {
 }
 
 async function getMoonpayAvailability(): Promise<boolean> {
-  const moonpayPublishableKey = process.env.REACT_APP_MOONPAY_PUBLISHABLE_KEY
+  const moonpayPublishableKey = process.env.MOONPAY_PUBLISHABLE_KEY
   if (!moonpayPublishableKey) {
     throw new Error('Must provide a publishable key for moonpay.')
   }
-  const moonpayApiURI = process.env.REACT_APP_MOONPAY_API
+  const moonpayApiURI = process.env.MOONPAY_API
   if (!moonpayApiURI) {
     throw new Error('Must provide an api endpoint for moonpay.')
   }
@@ -149,9 +149,11 @@ export function useToggleFeatureFlags(): () => void {
 // returns a function that allows adding a popup
 export function useAddPopup(): (content: PopupContent, key?: string, removeAfterMs?: number) => void {
   const dispatch = useAppDispatch()
+  console.log('her')
 
   return useCallback(
     (content: PopupContent, key?: string, removeAfterMs?: number) => {
+      console.log('hey')
       dispatch(addPopup({ content, key, removeAfterMs: removeAfterMs ?? DEFAULT_TXN_DISMISS_MS }))
     },
     [dispatch],
@@ -172,6 +174,7 @@ export function useRemovePopup(): (key: string) => void {
 // get the list of active popups
 export function useActivePopups(): AppState['application']['popupList'] {
   const list = useAppSelector((state: AppState) => state.application.popupList)
+  console.log(list)
   return useMemo(() => list.filter((item) => item.show), [list])
 }
 

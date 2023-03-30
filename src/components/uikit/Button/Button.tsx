@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button as ThemeUIButton, Spinner } from 'theme-ui'
-import { ButtonProps, variants, buttonFontSizes, buttonPadding, sizes } from './types'
+import { ButtonProps, variants, buttonFontSizes, buttonPadding, sizes, buttonLineHeight } from './types'
 
 const Button: React.FC<ButtonProps> = ({
   variant = variants.PRIMARY,
@@ -74,6 +74,7 @@ const Button: React.FC<ButtonProps> = ({
         variant: `buttons.${variant}`,
         textTransform: 'uppercase',
         fontSize: buttonFontSizes[size],
+        lineHeight: buttonLineHeight[size],
         px: buttonPadding[size].x,
         py: buttonPadding[size].y,
         display: 'flex',
@@ -88,7 +89,7 @@ const Button: React.FC<ButtonProps> = ({
       }}
     >
       {React.isValidElement(startIcon) && React.cloneElement(startIcon)}
-      {children} {load && <Spinner size={15} ml="5px" />}
+      {children} {load && <Spinner size={17} ml="5px" mt='4px' />}
       {React.isValidElement(endIcon) && React.cloneElement(endIcon)}
     </ThemeUIButton>
   )

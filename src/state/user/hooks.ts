@@ -12,6 +12,7 @@ import {
   addSerializedToken,
   updateHideClosedPositions,
   updateUserClientSideRouter,
+  updateUserDeadline,
   updateUserExpertMode,
   updateUserFlipV3Layout,
   updateUserSlippageTolerance,
@@ -73,7 +74,8 @@ export function useUserSlippageTolerance(): [Percent | 'auto', (slippageToleranc
     return state.user.userSlippageTolerance
   })
   const userSlippageTolerance = useMemo(
-    () => (userSlippageToleranceRaw === 'auto' ? 'auto' : new Percent(userSlippageToleranceRaw, 10_000)),
+    () =>
+      userSlippageToleranceRaw === 'auto' ? new Percent(50, 10_000) : new Percent(userSlippageToleranceRaw, 10_000),
     [userSlippageToleranceRaw],
   )
 
@@ -265,4 +267,19 @@ export function usePairAdder(): (pair: Pair) => void {
     },
     [dispatch],
   )
+}
+
+export function useUserTransactionTTL(): [number, (slippage: number) => void] {
+  const dispatch = useAppDispatch()
+  const userDeadline = useAppSelector((state) => state.user.userDeadline)
+  const deadline = userDeadline
+
+  const setUserDeadline = useCallback(
+    (userDeadline: number) => {
+      dispatch(updateUserDeadline({ userDeadline }))
+    },
+    [dispatch],
+  )
+
+  return [deadline, setUserDeadline]
 }

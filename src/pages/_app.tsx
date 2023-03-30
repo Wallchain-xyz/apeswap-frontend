@@ -14,6 +14,9 @@ import TransactionUpdater from 'state/transactions/updater'
 import ApplicationUpdater from 'state/application/updater'
 import { MulticallUpdater } from 'lib/state/multicall'
 import { BlockNumberProvider } from 'lib/hooks/useBlockNumber'
+import Popups from 'components/Popups'
+import Blocklist from 'components/Blocklist'
+import MarketingModalCheck from 'components/MarketingModalCheck'
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {
@@ -36,9 +39,13 @@ export default function App({ Component, pageProps }: AppProps) {
             <MatchBreakpointsProvider>
               <LanguageProvider>
                 <ModalProvider>
-                  <NavBar />
-                  <Component {...pageProps} />
-                  <Footer />
+                  <Blocklist>
+                    <NavBar />
+                    <MarketingModalCheck />
+                    <Popups />
+                    <Component {...pageProps} />
+                    <Footer />
+                  </Blocklist>
                 </ModalProvider>
               </LanguageProvider>
             </MatchBreakpointsProvider>

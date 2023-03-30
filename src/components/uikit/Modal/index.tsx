@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Box } from 'theme-ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ModalProps } from './types'
@@ -55,8 +55,7 @@ const Modal = ({
                 return React.cloneElement(child as any, {
                   ...(child as any)?.props,
                   onDismiss: () => {
-                    ;(child as any)?.props?.onDismiss?.()
-                    onClose()
+                    ;(child as any)?.props?.onDismiss?.(), onClose()
                   },
                 })
               }

@@ -137,6 +137,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -158,6 +159,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       feeAmount={feeAmount}
       tokenId={tokenId}
       setManuallyInverted={onHandleSetManuallyInverted}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -235,10 +237,10 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
         </Flex>
       </Flex>
       <Flex sx={{ padding: '10px 0px' }}>
-        <Button size="sm" fullWidth mr="10px" onClick={onPresentIncreaseLiquidityModal}>
+        <Button size="sm" fullWidth mr="10px" onClick={onPresentIncreaseLiquidityModal} disabled={removed}>
           Add
         </Button>
-        <Button size="sm" fullWidth onClick={onPresentRemoveLiquidityModal}>
+        <Button size="sm" fullWidth onClick={onPresentRemoveLiquidityModal} disabled={removed}>
           Remove
         </Button>
       </Flex>
@@ -330,7 +332,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             alt={selectedTokenId || ''}
             height={100}
             width={100}
-            sx={{ width: '50%' }}
+            sx={{ width: '90%' }}
           />
         ) : (
           <Skeleton sx={{ height: '100%', width: '100%' }} animation="waves" />

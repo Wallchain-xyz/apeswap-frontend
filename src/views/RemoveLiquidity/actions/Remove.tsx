@@ -4,13 +4,15 @@ import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
+import useModal from 'hooks/useModal'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { useCallback, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
-import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { currencyId } from 'utils/currencyId'
+import RemoveLiquidityConfirmation from '../components/RemoveLiquidityConfirmation'
 
 const DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
 
@@ -22,6 +24,10 @@ const Remove = ({
   tokenId,
   feeValue0,
   feeValue1,
+  feeAmount,
+  inRange,
+  setAttemptingTxn,
+  setTxHash,
 }: {
   liquidityValue0: CurrencyAmount<Currency> | undefined
   liquidityValue1: CurrencyAmount<Currency> | undefined
@@ -30,13 +36,18 @@ const Remove = ({
   tokenId: string | undefined
   feeValue0: CurrencyAmount<Currency> | undefined
   feeValue1: CurrencyAmount<Currency> | undefined
+  feeAmount: number | undefined
+  inRange: boolean
+  setAttemptingTxn: Dispatch<SetStateAction<boolean>>
+  setTxHash: Dispatch<SetStateAction<string>>
 }) => {
   const { account, chainId, provider } = useWeb3React()
-  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const addTransaction = useTransactionAdder()
   const positionManager = useV3NFTPositionManagerContract()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE) // custom from users
   const deadline = useTransactionDeadline() // custom from users settings
+  const isExpertMode = useIsExpertMode()
+
 
   const burn = useCallback(async () => {
     setAttemptingTxn(true)
@@ -102,7 +113,7 @@ const Remove = ({
             //   action: 'RemoveV3',
             //   label: [liquidityValue0.currency.symbol, liquidityValue1.currency.symbol].join('/'),
             // })
-            // setTxnHash(response.hash)
+            setTxHash(response.hash)
             addTransaction(response, {
               type: TransactionType.REMOVE_LIQUIDITY_V3,
               baseCurrencyId: currencyId(liquidityValue0.currency),
@@ -130,11 +141,44 @@ const Remove = ({
     provider,
     tokenId,
     allowedSlippage,
+    setAttemptingTxn,
+    setTxHash,
     addTransaction,
   ])
+
+  // const handleDismissConfirmation = useCallback(() => {
+  //   // if there was a tx hash, we want to clear the input
+  //   setTxHash('')
+  //   onDismiss()
+  // }, [onDismiss])
+
+  // const [onRemoveLiquidity] = useModal(
+  //   <RemoveLiquidityConfirmation
+  //     feeValue0={feeValue0}
+  //     feeValue1={feeValue1}
+  //     liquidityValue0={liquidityValue0}
+  //     liquidityValue1={liquidityValue1}
+  //     feeAmount={feeAmount}
+  //     inRange={inRange}
+  //     attemptingTxn={attemptingTxn}
+  //     txHash={txHash}
+  //     burn={burn}
+  //     onDismiss={handleDismissConfirmation}
+  //   />,
+  //   true,
+  //   true,
+  //   'removeLiquidityConfirmationModal',
+  // )
+
   return (
-    <Button fullWidth sx={{ mt: '10px' }} onClick={burn} load={attemptingTxn} disabled={attemptingTxn}>
-      Remove Liquidity
+    <Button
+      fullWidth
+      sx={{ mt: '10px' }}
+      onClick={burn}
+      // load={attemptingTxn}
+      // disabled={attemptingTxn}
+    >
+      {isExpertMode ? 'Remove' : 'Preview'}
     </Button>
   )
 }

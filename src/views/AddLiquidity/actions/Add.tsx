@@ -1,12 +1,12 @@
 import { useWeb3React } from '@web3-react/core'
 import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
 import type { TransactionResponse } from '@ethersproject/providers'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { ZERO_PERCENT } from 'config/constants/misc'
 import { AddInterface } from './types'
 import { Button } from 'components/uikit'
@@ -14,6 +14,8 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { currencyId } from 'utils/currencyId'
 import { Field } from 'state/mint/v3/actions'
+import useModal from 'hooks/useModal'
+import ConfirmAddLiquidity from '../components/ConfirmLiquidityAdd'
 
 const DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -25,11 +27,13 @@ const Add = ({
   position,
   outOfRange,
   noLiquidity,
+  ticksAtLimit,
 }: AddInterface) => {
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
   const addTransaction = useTransactionAdder()
+  const isExpertMode = useIsExpertMode()
 
   const { chainId, provider, account } = useWeb3React()
   const allowedSlippage = useUserSlippageToleranceWithDefault(
@@ -128,9 +132,33 @@ const Add = ({
       return
     }
   }
+
+  const handleDismissConfirmation = useCallback(() => {
+    // if there was a tx hash, we want to clear the input
+    setTxHash('')
+  }, [])
+
+  const [onConfirm] = useModal(
+    <ConfirmAddLiquidity
+      attemptingTxn={attemptingTxn}
+      txHash={txHash}
+      ticksAtLimit={ticksAtLimit}
+      baseCurrency={baseCurrency}
+      quoteCurrency={quoteCurrency}
+      position={position}
+      outOfRange={outOfRange}
+      noLiquidity={noLiquidity}
+      onAdd={onAdd}
+      onDismiss={handleDismissConfirmation}
+    />,
+    true,
+    true,
+    'confirmAddLiquidity',
+  )
+
   return (
-    <Button fullWidth onClick={onAdd}>
-      Add
+    <Button fullWidth onClick={isExpertMode ? onAdd : onConfirm}>
+      {isExpertMode ? 'Add' : 'Preview'}
     </Button>
   )
 }

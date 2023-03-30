@@ -10,7 +10,7 @@ const CurrencyLogo = ({
   style,
   size = 30,
 }: {
-  currency?: Currency
+  currency?: Currency | undefined | null
   size?: number
   style?: CSSProperties
 }) => {

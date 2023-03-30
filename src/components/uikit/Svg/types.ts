@@ -39,6 +39,7 @@ export enum icons {
   POLYGON_TOKEN = 'polygon_token',
   TLOS_TOKEN = 'tlos_token',
   BSC_TOKEN = 'bsc_token',
+  ARBITRUM_TOKEN = 'arbitrum_token',
   DISCORD = 'discord',
   REDDIT = 'reddit',
   MEDIUM = 'medium',
@@ -77,14 +78,19 @@ export enum icons {
   TOKEN_POCKET = 'tokenPocket',
   TORUS_WALLET = 'torusWallet',
   TRUST_WALLET = 'trustWallet',
+  OKX = 'okx',
+  MAD_WALLET = 'madWallet',
   UNSTOPPABLE = 'unstoppable',
   WALLET_CONNECT = 'walletConnect',
+  WALLET_IMAGE = 'walletImage',
   COG = 'cog',
   BRIDGE = 'bridge',
   DOCS = 'docs',
   QUIZ = 'quiz',
   PLACEHOLDER_MONKEY = 'placeholderMonkey',
   SWITCH_ARROWS = 'switchArrows',
+  COPY = 'copy',
+  HAMBURGER_CLOSED = 'hamburgerClosed',
 }
 
 export enum directions {

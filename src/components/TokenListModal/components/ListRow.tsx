@@ -1,6 +1,8 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
-import { Flex, Text } from 'components/uikit'
+import TokenImportWarning from 'components/TokenImportWarning'
+import { Flex, Svg, Text } from 'components/uikit'
+import useModal from 'hooks/useModal'
 import { CSSProperties } from 'theme-ui'
 
 const ListRow = ({
@@ -8,16 +10,27 @@ const ListRow = ({
   userBalance,
   isSelected,
   otherSelected,
+  searchTokenIsAdded,
   style,
   onSelect,
+  onDismiss,
 }: {
   currency: Currency
   userBalance: string | undefined
   isSelected: boolean
   otherSelected: boolean
+  searchTokenIsAdded: boolean
   style: CSSProperties
   onSelect: () => void
+  onDismiss: () => void
 }) => {
+  const [onImportWarningModal] = useModal(
+    <TokenImportWarning currency={currency} onDismiss={onDismiss} onSelect={onSelect} />,
+    true,
+    true,
+    'tokenImportWarningModal',
+  )
+
   return (
     <Flex
       sx={{
@@ -31,18 +44,25 @@ const ListRow = ({
           backgroundColor: 'white3',
         },
       }}
-      onClick={onSelect}
+      onClick={() => (searchTokenIsAdded ? onSelect() : (onDismiss(), onImportWarningModal()))}
     >
       <Flex sx={{ alignItems: 'center' }}>
         <CurrencyLogo currency={currency} size={35} />
         <Flex sx={{ flexDirection: 'column', ml: '15px' }}>
-          <Text weight={600}>{currency.symbol}</Text>
-          <Text weight={400} size="12px" sx={{ lineHeight: '12px' }}>
+          <Flex sx={{ alignItems: 'center' }}>
+            <Text weight={600}>{currency.symbol}</Text>
+            {!searchTokenIsAdded && (
+              <span sx={{ ml: '5px' }}>
+                <Svg icon="error" width={13} color="yellow" />
+              </span>
+            )}
+          </Flex>
+          <Text weight={400} size="10px" sx={{ lineHeight: '12px' }}>
             {currency.name}
           </Text>
         </Flex>
       </Flex>
-      <Text weight={600} sx={{ lineHeight: '0px' }}>
+      <Text size="14px" weight={600} sx={{ lineHeight: '0px' }}>
         {userBalance}
       </Text>
     </Flex>

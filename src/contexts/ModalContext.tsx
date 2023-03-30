@@ -5,7 +5,7 @@ interface ModalsContext {
   nodeId: string[]
   modalNode: React.ReactNode[]
   setModalNode: React.Dispatch<React.SetStateAction<React.ReactNode[]>>
-  onPresent: (node: React.ReactNode, newNodeId: string) => void
+  onPresent: (node: React.ReactNode, newNodeId: string, clearModalStack: boolean) => void
   handleClose: () => void
   setCloseOnOverlayClick: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -24,9 +24,14 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [modalNode, setModalNode] = useState<React.ReactNode[]>([])
   const [closeOnOverlayClick, setCloseOnOverlayClick] = useState(true)
 
-  const handlePresent = (node: React.ReactNode, newNodeId: string) => {
-    setModalNode((prev) => [...prev, node])
-    setNodeId((prev) => [...prev, newNodeId])
+  const handlePresent = (node: React.ReactNode, newNodeId: string, clearModalStack: boolean) => {
+    if (clearModalStack) {
+      setModalNode([node])
+      setNodeId([newNodeId])
+    } else {
+      setModalNode((prev) => [...prev, node])
+      setNodeId((prev) => [...prev, newNodeId])
+    }
   }
 
   const handleDismiss = () => {

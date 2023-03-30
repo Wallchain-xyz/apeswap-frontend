@@ -12,7 +12,7 @@ const RangeTag = ({ removed, inRange }: { removed?: boolean; inRange: boolean })
           mr: '5px',
         }}
       />
-      <Text size="10px" sx={{ lineHeight: '9px' }}>
+      <Text size="10px" sx={{ lineHeight: '9px', opacity: 0.7 }}>
         {removed ? 'Closed' : inRange ? 'In range' : 'Out of range'}
       </Text>
     </Flex>

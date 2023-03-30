@@ -32,6 +32,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const { chainId, account, provider } = useWeb3React()
   const parsedTokenId = selectedTokenId ? BigNumber.from(selectedTokenId) : undefined
   const { loading, position: positionDetails } = useV3PositionFromTokenId(parsedTokenId)
+  console.log(positionDetails)
   const {
     token0: token0Address,
     token1: token1Address,
@@ -48,6 +49,8 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
 
   const metadata = usePositionTokenURI(parsedTokenId)
 
+  console.log(metadata)
+
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
 
@@ -63,6 +66,8 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const nativeWrappedSymbol = nativeCurrency.wrapped.symbol
 
   const [poolState, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
+
+  console.log(pool)
 
   const position = useMemo(() => {
     if (pool && liquidity && typeof tickLower === 'number' && typeof tickUpper === 'number') {
@@ -141,6 +146,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -162,6 +168,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
       feeAmount={feeAmount}
       tokenId={tokenId}
       setManuallyInverted={onHandleSetManuallyInverted}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -185,17 +192,17 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           </Flex>
         </Flex>
         <Flex sx={{ alignItems: 'center' }}>
-          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal}>
+          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal} disabled={removed}>
             Remove
           </Button>
-          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal}>
+          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal} disabled={removed}>
             Add
           </Button>
           <RangeTag removed={removed} inRange={inRange} />
         </Flex>
       </Flex>
       <Flex sx={{ height: '362px', mt: '20px' }}>
-        <Flex sx={{ width: '100%', mr: '10px', borderRadius: '10px', background: 'white3' }}>
+        <Flex sx={{ width: '100%', mr: '10px', borderRadius: '10px' }}>
           {'result' in metadata ? (
             <Image
               src={metadata.result.image || ''}

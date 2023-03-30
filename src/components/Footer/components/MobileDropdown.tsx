@@ -1,6 +1,7 @@
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Svg, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { AnimatePresence, motion } from 'framer-motion'
+
 import { useState } from 'react'
 
 const MobileDropdown = ({
@@ -48,10 +49,19 @@ const MobileDropdown = ({
             exit={{ height: 0 }}
             sx={{ overflow: 'hidden', width: '100%', maxWidth: '375px' }}
           >
-            {items?.map(({ label }) => {
+            {items?.map(({ label, href }) => {
               return (
-                <Flex sx={{ margin: '10px 0px' }} key={label}>
-                  <Text color="primaryBright">{t(label)}</Text>
+                <Flex
+                  sx={{ margin: '10px 0px', position: 'relative', width: 'fit-content' }}
+                  key={label}
+                  as={Link}
+                  href={href}
+                  target="_blank"
+                  variant="flex.link"
+                >
+                  <Text variant="link" color="primaryBright">
+                    {t(label)}
+                  </Text>
                 </Flex>
               )
             })}

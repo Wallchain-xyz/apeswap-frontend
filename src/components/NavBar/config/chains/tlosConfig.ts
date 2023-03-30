@@ -1,3 +1,5 @@
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
+
 const tlosConfig = [
   {
     label: 'Exchange',
@@ -23,48 +25,40 @@ const tlosConfig = [
   },
   {
     label: 'Farms',
-    href: '/farms',
+    href: `${TEMP_APESWAP_URL}/farms`,
     isNew: false,
   },
   {
     label: 'Bills',
-    href: '/treasury-bills',
-    isNew: false,
+    href: `${TEMP_APESWAP_URL}/treasury-bills`,
+    isNew: true,
   },
   {
     label: 'Explore',
-    lightIcon: 'MoreLightImage',
-    darkIcon: 'MoreDarkImage',
     items: [
       {
         label: 'ApeStats',
-        href: '/apestats',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/apestats`,
       },
       {
         label: 'Dashboard',
-        href: 'protocol-dashboard',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
       },
       {
         label: 'Documentation',
         href: 'https://apeswap.gitbook.io/apeswap-finance/',
-        isNew: false,
       },
       {
         label: 'Charts',
-        href: '/info',
-        isNew: false,
+        href: `${TEMP_APESWAP_URL}/info`,
       },
       {
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
-        isNew: false,
       },
       {
         label: 'Newsletter',
         href: '?modal=newsletter',
-        isNew: true,
       },
     ],
   },
