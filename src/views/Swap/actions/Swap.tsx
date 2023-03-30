@@ -1,12 +1,16 @@
 import { Currency, Percent, TradeType } from '@ape.swap/sdk-core'
 import { Trade } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
-import { Button } from 'components/uikit'
+import { Button, Text } from 'components/uikit'
 import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
+import useModal from 'hooks/useModal'
 import { useSwapCallback } from 'hooks/useSwapCallback'
+import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
+import { useIsExpertMode } from 'state/user/hooks'
+import ConfirmSwap from '../components/ConfirmSwap'
 import { confirmPriceImpactWithoutFee } from '../utils'
 
 const TRADE_STRING = 'SwapRouter'
@@ -18,6 +22,10 @@ const Swap = ({
   signatureData,
   recipient,
   stablecoinPriceImpact,
+  wrapType,
+  showWrap,
+  wrapInputError,
+  onWrap,
 }: {
   tradeState: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
@@ -25,6 +33,10 @@ const Swap = ({
   signatureData: SignatureData | null
   recipient: string | null
   stablecoinPriceImpact: Percent | null
+  showWrap: boolean | undefined
+  wrapInputError: WrapInputError | undefined
+  wrapType: WrapType | undefined
+  onWrap: (() => Promise<void>) | undefined
 }) => {
   const { account } = useWeb3React()
   // modal and loading
@@ -50,6 +62,8 @@ const Swap = ({
     signatureData,
   )
   const { address: recipientAddress } = useENSAddress(recipient)
+
+  const isExpertMode = useIsExpertMode()
 
   const handleSwap = useCallback(() => {
     if (!swapCallback) {
@@ -81,11 +95,12 @@ const Swap = ({
         // })
       })
       .catch((error) => {
+        console.log(error)
         setSwapState({
           attemptingTxn: false,
           tradeToConfirm,
           showConfirm,
-          swapErrorMessage: error.message,
+          swapErrorMessage: error.message ? error.message : error,
           txHash: undefined,
         })
       })
@@ -101,10 +116,43 @@ const Swap = ({
     trade?.outputAmount?.currency?.symbol,
   ])
 
-  return (
+  const handleConfirmDismiss = useCallback(() => {
+    setSwapState((prevState) => ({ ...prevState, showConfirm: false, swapErrorMessage: undefined })) // if there was a tx hash, we want to clear the input
+  }, [])
+
+  const [onPresentConfirmModal] = useModal(
+    <ConfirmSwap
+      trade={trade}
+      // originalTrade={tradeToConfirm}
+      // onAcceptChanges={handleAcceptChanges}
+      attemptingTxn={attemptingTxn}
+      txHash={txHash}
+      // bestRoute={bestRoute}
+      // recipient={recipient}
+      allowedSlippage={allowedSlippage}
+      onConfirm={handleSwap}
+      swapErrorMessage={swapErrorMessage}
+      onDismiss={handleConfirmDismiss}
+    />,
+    true,
+    true,
+    'swapConfirmModal',
+  )
+
+  return showWrap ? (
+    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fullWidth>
+      {wrapInputError ? (
+        <WrapErrorText wrapInputError={wrapInputError} />
+      ) : wrapType === WrapType.WRAP ? (
+        <Text>Wrap</Text>
+      ) : wrapType === WrapType.UNWRAP ? (
+        <Text>Unwrap</Text>
+      ) : null}
+    </Button>
+  ) : (
     <Button
       fullWidth
-      onClick={handleSwap}
+      onClick={isExpertMode ? handleSwap : onPresentConfirmModal}
       disabled={
         tradeState === TradeState.LOADING ||
         tradeState === TradeState.SYNCING ||

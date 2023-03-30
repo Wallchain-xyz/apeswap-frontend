@@ -1,5 +1,5 @@
 import { FormEvent, ChangeEvent } from 'react'
-import { CSSProperties } from 'theme-ui'
+import { ThemeUIStyleObject } from 'theme-ui'
 import { isNumber } from 'utils/numbers'
 import Input from './Input'
 
@@ -10,7 +10,7 @@ const NumericInput = ({
 }: {
   onUserInput: (input: string) => void
   value: string
-  style?: CSSProperties
+  style?: ThemeUIStyleObject
 }) => {
   return (
     <Input
@@ -28,7 +28,7 @@ const NumericInput = ({
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
         onUserInput(e.target.value)
       }}
-      placeholder={0}
+      placeholder="0.0"
       pattern="^[0-9]*[.,]?[0-9]*$"
       onInput={(v: FormEvent<HTMLInputElement>) => {
         if (v.currentTarget.value.includes('%')) {

@@ -1,3 +1,4 @@
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
 import { NavConfig } from 'components/NavBar/types'
 
 const bscConfig: NavConfig[] = [
@@ -18,7 +19,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'GNANA',
-        href: '/gnana',
+        href: `${TEMP_APESWAP_URL}/gnana`,
       },
     ],
   },
@@ -27,19 +28,19 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Staking Pools',
-        href: '/pools',
+        href: `${TEMP_APESWAP_URL}/pools`,
       },
       {
         label: 'BANANA Maximizers',
-        href: '/maximizers',
+        href: `${TEMP_APESWAP_URL}/maximizers`,
       },
       {
         label: 'BANANA Farms',
-        href: '/farms',
+        href: `${TEMP_APESWAP_URL}/farms`,
       },
       {
         label: 'Jungle Farms',
-        href: '/jungle-farms',
+        href: `${TEMP_APESWAP_URL}/jungle-farms`,
       },
     ],
   },
@@ -48,11 +49,11 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Treasury Bills',
-        href: '/treasury-bills',
+        href: `${TEMP_APESWAP_URL}/treasury-bills`,
       },
       {
         label: 'Official IAO',
-        href: '/iao',
+        href: `${TEMP_APESWAP_URL}/iao`,
       },
     ],
   },
@@ -61,11 +62,11 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'NFA Collection',
-        href: '/nft',
+        href: `${TEMP_APESWAP_URL}/nft`,
       },
       {
         label: 'NFA Auction',
-        href: '/auction',
+        href: `${TEMP_APESWAP_URL}/auction`,
       },
       {
         label: 'NFA Liquidity',
@@ -90,11 +91,11 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'ApeStats',
-        href: '/apestats',
+        href: `${TEMP_APESWAP_URL}/apestats`,
       },
       {
         label: 'Dashboard',
-        href: 'protocol-dashboard',
+        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -102,7 +103,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Charts',
-        href: '/info',
+        href: `${TEMP_APESWAP_URL}/info`,
       },
       {
         label: 'Governance',

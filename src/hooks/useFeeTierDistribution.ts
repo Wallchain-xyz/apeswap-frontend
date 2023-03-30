@@ -7,7 +7,8 @@ import useFeeTierDistributionQuery from '../graphql/thegraph/FeeTierDistribution
 import { PoolState, usePool } from './usePools'
 
 // maximum number of blocks past which we consider the data stale
-const MAX_DATA_BLOCK_AGE = 20
+//TODO: Have one max block age variable
+const MAX_DATA_BLOCK_AGE = 10000
 
 interface FeeTierDistribution {
   isLoading: boolean

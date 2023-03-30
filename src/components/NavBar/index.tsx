@@ -46,7 +46,18 @@ const NavBar = () => {
             display: NAV_MOBILE_DISPLAY,
           }}
         >
-          <MenuButton onClick={() => setDropdownFlag((prev) => !prev)} />
+          <Flex
+            onClick={() => setDropdownFlag((prev) => !prev)}
+            sx={{ alignItems: 'center', height: '100%', ml: '20px', mt: '4px', cursor: 'pointer' }}
+          >
+            {!dropdownFlag ? (
+              <Svg icon="hamburger" width={22} />
+            ) : (
+              <span sx={{ mt: '15px', width: '22px' }}>
+                <Svg icon="hamburgerClosed" width={30} />
+              </span>
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

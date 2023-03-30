@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Pair } from '@ape.swap/v2-sdk'
-import { Text, Flex } from 'components/uikit'
+import { Text, Flex, Link } from 'components/uikit'
 // import { Link } from 'react-router-dom'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useTranslation } from 'contexts/Localization'
@@ -15,7 +15,6 @@ import { styles } from './styles'
 import { Spinner } from 'theme-ui'
 import { useWeb3React } from '@web3-react/core'
 import { useTokenBalancesWithLoadingIndicator } from 'lib/hooks/useCurrencyBalance'
-import Link from 'next/link'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 
 export default function Pool() {

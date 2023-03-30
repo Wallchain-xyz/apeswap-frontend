@@ -23,7 +23,7 @@ export default function useEagerConnect() {
   const dispatch = useAppDispatch()
 
   const selectedWallet = useAppSelector((state) => state.user.selectedWallet)
-  const selectedChainId = useAppSelector((state) => state.application.chainId)
+  const selectedChainId = useAppSelector((state) => state.user.selectedNetwork)
 
   let selectedConnection: Connection | undefined
   if (selectedWallet) {
@@ -35,11 +35,11 @@ export default function useEagerConnect() {
   }
 
   useEffect(() => {
-    connect(gnosisSafeConnection.connector, selectedChainId || SupportedChainId.BSC)
-    connect(networkConnection.connector, selectedChainId || SupportedChainId.BSC)
+    connect(gnosisSafeConnection.connector, selectedChainId)
+    connect(networkConnection.connector, selectedChainId)
 
     if (selectedConnection) {
-      connect(selectedConnection.connector, selectedChainId || SupportedChainId.BSC)
+      connect(selectedConnection.connector, selectedChainId)
     } // The dependency list is empty so this is only run once on mount
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 }

@@ -1,6 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
-import contractAddresses from 'config/constants/contractAddresses'
 
 import { useMemo } from 'react'
 import { getContract } from 'utils'
@@ -27,13 +26,17 @@ import {
   QUOTER_ADDRESSES,
   PRICE_GETTER_ADDRESSES,
   V2_ROUTER_ADDRESSES,
+  MULTICALL,
 } from 'config/constants/addresses'
+import WETH_ABI from 'config/abi/weth.json'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
 import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 import { PriceGetter } from 'config/abi/types/PriceGetter'
+import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
+import { Weth } from 'config/abi/types/Weth'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -66,7 +69,7 @@ export function useContract<T extends Contract = Contract>(
 }
 
 export function useInterfaceMulticall() {
-  return useContract<Multicallv3>(contractAddresses.mulltiCallV3, multicallV3Abi, false)
+  return useContract<Multicallv3>(MULTICALL, multicallV3Abi, false)
 }
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean) {
@@ -128,4 +131,13 @@ export function usePriceGetter() {
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(pairAddress, IUniswapV2PairABI, withSignerIfPossible)
+}
+
+export function useWETHContract(withSignerIfPossible?: boolean) {
+  const { chainId } = useWeb3React()
+  return useContract<Weth>(
+    chainId ? WRAPPED_NATIVE_CURRENCY[chainId]?.address : undefined,
+    WETH_ABI,
+    withSignerIfPossible,
+  )
 }

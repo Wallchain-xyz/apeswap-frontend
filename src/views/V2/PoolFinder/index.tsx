@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
-import { Text, Flex, Svg } from 'components/uikit'
+import { Text, Flex, Svg, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { currencyId } from 'utils/currencyId'
 import Dots from 'components/Dots'
@@ -16,7 +16,6 @@ import { nativeOnChain } from 'config/constants/tokens'
 import useModal from 'hooks/useModal'
 import TokenListModal from 'components/TokenListModal'
 import CurrencyLogo from 'components/CurrencyLogo'
-import Link from 'next/link'
 import { MinimalPositionCard } from '../PositionsV2/components/PositionCard'
 
 enum Fields {
@@ -184,7 +183,7 @@ export default function PoolFinder() {
                 <Text textAlign="center">No pool found.</Text>
                 <Link
                   href={`/add-liquidity/v2/${currencyId(currency0)}/${currencyId(currency1)}`}
-                  style={{ textDecoration: 'underline' }}
+                  sx={{ textDecoration: 'underline' }}
                 >
                   {t('Create pool.')}
                 </Link>

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Percent } from '@ape.swap/sdk-core'
 import { Pair } from '@ape.swap/v2-sdk'
-import { Text, Flex, Button, Svg, Skeleton } from 'components/uikit'
+import { Text, Flex, Button, Svg, Skeleton, Link } from 'components/uikit'
 import { Divider } from 'theme-ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'contexts/Localization'
@@ -16,7 +16,6 @@ import { useWeb3React } from '@web3-react/core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { currencyId } from 'utils/currencyId'
 import { BIG_INT_ZERO } from 'config/constants/misc'
-import Link from 'next/link'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 
 export function MinimalPositionCard({

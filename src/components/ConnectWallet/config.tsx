@@ -18,25 +18,14 @@ const connectors: Config[] = [
     icon: icons.TRUST_WALLET,
     connection: injectedConnection,
   },
-  // TODO: Add torus login
   {
-    label: 'Social Login',
-    icon: icons.SOCIAL_LOGIN,
-    connection: networkConnection,
-  },
-  {
-    label: 'Brave Wallet',
-    icon: icons.BRAVE,
-    connection: injectedConnection,
-  },
-  {
-    label: 'WalletConnect',
+    label: 'Wallet Connect',
     icon: icons.WALLET_CONNECT,
     connection: walletConnectConnection,
   },
   {
-    label: 'SafePal Wallet',
-    icon: icons.SAFE_PAL_WALLET,
+    label: 'Bitkeep',
+    icon: icons.BITKEEP,
     connection: injectedConnection,
   },
   {
@@ -45,15 +34,31 @@ const connectors: Config[] = [
     connection: injectedConnection,
   },
   {
-    label: 'Coinbase Wallet',
-    icon: icons.COINBASE,
-    connection: coinbaseWalletConnection,
+    label: 'SafePal Wallet',
+    icon: icons.SAFE_PAL_WALLET,
+    connection: injectedConnection,
   },
   // TODO: Add binance wallet
   {
     label: 'Binance Chain Wallet',
     icon: icons.BINANCE_CHAIN,
     connection: injectedConnection,
+  },
+  {
+    label: 'Brave Wallet',
+    icon: icons.BRAVE,
+    connection: injectedConnection,
+  },
+  // TODO: Add torus login
+  {
+    label: 'Social Login',
+    icon: icons.SOCIAL_LOGIN,
+    connection: networkConnection,
+  },
+  {
+    label: 'Coinbase Wallet',
+    icon: icons.COINBASE,
+    connection: coinbaseWalletConnection,
   },
   // TODO: Add Unstoppable domains
   {
@@ -72,13 +77,18 @@ const connectors: Config[] = [
     connection: injectedConnection,
   },
   {
-    label: 'Bitkeep',
-    icon: icons.BITKEEP,
+    label: 'MathWallet',
+    icon: icons.MATH_WALLET,
     connection: injectedConnection,
   },
   {
-    label: 'MathWallet',
-    icon: icons.MATH_WALLET,
+    label: 'OKX Wallet',
+    icon: icons.OKX,
+    connection: injectedConnection,
+  },
+  {
+    label: 'Madwallet',
+    icon: icons.MAD_WALLET,
     connection: injectedConnection,
   },
 ]

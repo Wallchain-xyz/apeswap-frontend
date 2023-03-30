@@ -4,9 +4,11 @@ import { useWeb3React } from '@web3-react/core'
 import LibUpdater from 'lib/hooks/transactions/updater'
 // import { formatPercentInBasisPointsNumber, formatToDecimal, getTokenAddress } from 'lib/utils/analytics'
 import { useCallback, useMemo } from 'react'
+import { useAddPopup } from 'state/application/hooks'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { InterfaceTrade } from 'state/routing/types'
 import { TransactionType } from 'state/transactions/types'
+import { getEtherscanLink } from 'utils'
 import { computeRealizedPriceImpact } from 'utils/prices'
 
 import { useDerivedSwapInfo } from '../../state/swap/hooks'
@@ -42,7 +44,7 @@ interface AnalyticsEventProps {
 
 export default function Updater() {
   const { chainId } = useWeb3React()
-  // const addPopup = useAddPopup()
+  const addPopup = useAddPopup()
   // speed up popup dismisall time if on L2
   // const isL2 = Boolean(chainId && L2_CHAIN_IDS.includes(chainId))
   const transactions = useAppSelector((state) => state.transactions)
@@ -89,13 +91,13 @@ export default function Updater() {
       //     })
       //   )
       // }
-      // addPopup(
-      //   {
-      //     txn: { hash },
-      //   },
-      //   hash,
-      //   isL2 ? L2_TXN_DISMISS_MS : DEFAULT_TXN_DISMISS_MS
-      // )
+      addPopup({
+        txHash: tx.hash,
+        url: getEtherscanLink(tx.hash, 'transaction', chainId),
+        urlLabel: 'View Transaction',
+        text: 'Transaction Successful',
+        type: 'success',
+      })
     },
     [dispatch, transactions],
   )

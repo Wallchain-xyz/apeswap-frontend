@@ -17,9 +17,15 @@ export const buttonFontSizes = {
   [sizes.LARGE]: 6,
 }
 
+export const buttonLineHeight = {
+  [sizes.SMALL]: '10px',
+  [sizes.MEDIUM]: '24px',
+  [sizes.LARGE]: '33px',
+}
+
 export const buttonPadding = {
   [sizes.SMALL]: { x: 5, y: 2 },
-  [sizes.MEDIUM]: { x: 7, y: 4 },
+  [sizes.MEDIUM]: { x: 7, y: 3 },
   [sizes.LARGE]: { x: 10, y: 6 },
 }
 

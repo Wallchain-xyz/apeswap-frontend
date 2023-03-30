@@ -7,8 +7,8 @@ const DoubleCurrencyLogo = ({
   size = 30,
   spacing = '-13px',
 }: {
-  currency0?: Currency
-  currency1?: Currency
+  currency0: Currency | undefined | null
+  currency1: Currency | undefined | null
   size?: number
   spacing?: string
 }) => {

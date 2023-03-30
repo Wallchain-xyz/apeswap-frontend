@@ -65,7 +65,7 @@ const PRICE_PARAMS = {
 export const routingApi = createApi({
   reducerPath: 'routingApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.uniswap.org/v1/',
+    baseUrl: 'https://nrxga6j96f.execute-api.us-east-1.amazonaws.com/prod/',
   }),
   endpoints: (build) => ({
     getQuote: build.query<
@@ -113,8 +113,10 @@ export const routingApi = createApi({
             )
           }
 
+          console.log(result)
           return { data: result.data as GetQuoteResult }
         } catch (e) {
+          console.log(e)
           // TODO: fall back to client-side quoter when auto router fails.
           // deprecate 'legacy' v2/v3 routers first.
           return { error: e as FetchBaseQueryError }
@@ -122,7 +124,7 @@ export const routingApi = createApi({
       },
       keepUnusedDataFor: 100000,
       extraOptions: {
-        maxRetries: 0,
+        maxRetries: 2,
       },
     }),
   }),

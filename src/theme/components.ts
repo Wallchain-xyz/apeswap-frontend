@@ -3,11 +3,33 @@ export const buttonHover = {
   '&:disabled': {},
 }
 
+export const textUnderlineHover = {
+  '::after': {
+    content: "''",
+    position: 'absolute',
+    background: 'text',
+    left: '0px',
+    bottom: '0px',
+    height: '1.5px',
+    width: '100%',
+    borderRadius: '10px',
+    transform: 'scaleX(0)',
+    transformOrigin: 'bottom right',
+    transition: 'transform 0.25s ease-out',
+    backfaceVisibility: 'hidden',
+  },
+  ':hover::after': {
+    transform: 'scaleX(1)',
+    transformOrigin: 'bottom left',
+  },
+}
+
 const buttonBaseStyles = {
   padding: '10px 20px 10px 19px',
   fontSize: '16px',
+  fontFamily: 'body',
   cursor: 'pointer',
-  fontWeight: 'bold',
+  fontWeight: 700,
   '&&': {
     borderRadius: 'normal',
   },
@@ -16,7 +38,7 @@ const buttonBaseStyles = {
 const components = {
   text: {
     heading: {
-      fontFamily: 'poppins',
+      fontFamily: 'body',
       fontWeight: 'bold',
     },
     lg: { fontSize: 6, lineHeight: '33px' },
@@ -24,6 +46,8 @@ const components = {
     sm: { fontSize: 1, lineHeight: '18px' },
   },
   input: {
+    fontFamily: 'body',
+    fontWeight: 700,
     sm: {
       background: 'white3',
       borderRadius: 10,
@@ -333,6 +357,12 @@ const components = {
       '&:active': {
         transform: 'scale(0.9)',
       },
+    },
+    link: {
+      ...textUnderlineHover,
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-block',
     },
     tag: {
       padding: '5px',

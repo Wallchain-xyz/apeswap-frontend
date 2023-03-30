@@ -1,6 +1,7 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Connector } from '@web3-react/types'
-import { CHAIN_PARAMS } from 'config/constants/chains'
+import { getChainInfo } from 'config/constants/chains'
+import { RPC_URLS } from 'config/constants/networks'
 import { isSupportedChain } from 'utils'
 import { networkConnection, walletConnectConnection } from './connection'
 
@@ -10,13 +11,13 @@ export const switchChain = async (connector: Connector, chainId: SupportedChainI
   } else if (connector === walletConnectConnection.connector || connector === networkConnection.connector) {
     await connector.activate(chainId)
   } else {
-    const info = CHAIN_PARAMS[chainId]
+    const info = getChainInfo(chainId)
     const addChainParameter = {
       chainId,
-      chainName: info?.chainName,
-      rpcUrls: info?.rpcUrls,
-      nativeCurrency: info?.nativeCurrency,
-      blockExplorerUrls: info?.blockExplorerUrls,
+      chainName: info.chainName,
+      rpcUrls: [RPC_URLS[chainId][0]],
+      nativeCurrency: info.nativeCurrency,
+      blockExplorerUrls: info.blockExplorerUrls,
     }
     await connector.activate(addChainParameter)
   }

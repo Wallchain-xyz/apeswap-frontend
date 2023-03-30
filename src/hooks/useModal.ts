@@ -7,11 +7,13 @@ const useModal = (
   closeOnOverlayClick = true,
   updateOnPropsChange = false,
   modalId = 'defaultNodeId',
+  clearModalStack = false,
 ): [() => void, () => void] => {
+  // Clear modal stack will not update props if the parent modal gets unmounted
   const { nodeId, modalNode, setModalNode, onPresent, handleClose, setCloseOnOverlayClick } = useContext(Context)
   const onPresentCallback = useCallback(() => {
-    onPresent(modal, modalId)
-  }, [modal, modalId, onPresent])
+    onPresent(modal, modalId, clearModalStack)
+  }, [modal, modalId, clearModalStack, onPresent])
   const nodeIdIndex = nodeId.indexOf(modalId)
   useEffect(() => {
     // NodeId is needed in case there are 2 useModal hooks on the same page and one has updateOnPropsChange
