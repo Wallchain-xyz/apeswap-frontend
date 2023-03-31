@@ -67,7 +67,6 @@ export default function Updater(): null {
   const nfb = accountNfbs?.result?.[0].toString()
 
   useEffect(() => {
-    console.log(nfa, nfb)
     if (nfa) {
       dispatch(
         updateProfileImage({
