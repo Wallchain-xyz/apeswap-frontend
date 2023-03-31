@@ -139,7 +139,7 @@ const DesktopIndex = ({
   // TODO: Figure out token colros
 
   return (
-    <Flex>
+    <Flex sx={{ width: '100%' }}>
       {!formattedData || formattedData.length === 0 || !price || isUninitialized || isLoading || error ? (
         <Flex sx={{ flexDirection: 'column', width: '100%', mb: '10px' }}>
           <Flex sx={{ height: '30px' }}>
@@ -183,32 +183,34 @@ const DesktopIndex = ({
           </Flex>
         </Flex>
       ) : (
-        <Chart
-          id={id}
-          data={{ series: formattedData, current: price }}
-          dimensions={{ width: 700, height: 170 }}
-          margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
-          styles={{
-            area: {
-              selection: 'yellow',
-            },
-            brush: {
-              handle: {
-                west: saturate(1, theme.rawColors?.yellow?.toString() || 'gold') ?? 'error',
-                east: saturate(0.1, theme.rawColors?.yellow?.toString() || 'gold') ?? 'error',
+        <Flex sx={{ width: '100%' }}>
+          <Chart
+            id={id}
+            data={{ series: formattedData, current: price }}
+            dimensions={{ width: 700, height: 170 }}
+            margins={{ top: 10, right: 2, bottom: 20, left: 0 }}
+            styles={{
+              area: {
+                selection: 'yellow',
               },
-            },
-          }}
-          interactive={interactive}
-          brushLabels={brushLabelValue}
-          brushDomain={brushDomain}
-          onBrushDomainChange={onBrushDomainChangeEnded}
-          zoomLevels={ZOOM_LEVELS[feeAmount ?? FeeAmount.MEDIUM]}
-          ticksAtLimit={ticksAtLimit}
-          feeAmount={feeAmount}
-          currencyA={currencyA}
-          currencyB={currencyB}
-        />
+              brush: {
+                handle: {
+                  west: saturate(1, theme.rawColors?.yellow?.toString() || 'gold') ?? 'error',
+                  east: saturate(0.1, theme.rawColors?.yellow?.toString() || 'gold') ?? 'error',
+                },
+              },
+            }}
+            interactive={interactive}
+            brushLabels={brushLabelValue}
+            brushDomain={brushDomain}
+            onBrushDomainChange={onBrushDomainChangeEnded}
+            zoomLevels={ZOOM_LEVELS[feeAmount ?? FeeAmount.MEDIUM]}
+            ticksAtLimit={ticksAtLimit}
+            feeAmount={feeAmount}
+            currencyA={currencyA}
+            currencyB={currencyB}
+          />
+        </Flex>
       )}
     </Flex>
   )
