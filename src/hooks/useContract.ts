@@ -10,6 +10,8 @@ import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
 import EIP_2612 from 'config/abi/eip_2612.json'
+import NFA_ABI from 'config/abi/nonFungibleApes.json'
+import NFB_ABI from 'config/abi/nonFungibleBananas.json'
 import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import IUniswapV2PairJson from '@uniswap/v2-core/build/IUniswapV2Pair.json'
@@ -37,6 +39,8 @@ import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.so
 import { PriceGetter } from 'config/abi/types/PriceGetter'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { Weth } from 'config/abi/types/Weth'
+import { NonFungibleApes } from 'config/abi/types/NonFungibleApes'
+import { NonFungibleBananas } from 'config/abi/types/NonFungibleBananas'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -131,6 +135,15 @@ export function usePriceGetter() {
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(pairAddress, IUniswapV2PairABI, withSignerIfPossible)
+}
+
+// Only on bnb chain
+export function useNfaContract() {
+  return useContract<NonFungibleApes>('0x6afC012783e3a6eF8C5f05F8EeE2eDeF6a052Ec4', NFA_ABI)
+}
+
+export function useNfbContract() {
+  return useContract<NonFungibleBananas>('0x9f707A412302a3aD64028A9F73f354725C992081', NFB_ABI)
 }
 
 export function useWETHContract(withSignerIfPossible?: boolean) {

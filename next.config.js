@@ -9,6 +9,7 @@ const nextConfig = {
       's2.coinmarketcap.com',
       'assets.coingecko.com',
       'tokens.pancakeswap.finance',
+      'ipfs.io',
     ],
   },
   reactStrictMode: true,
