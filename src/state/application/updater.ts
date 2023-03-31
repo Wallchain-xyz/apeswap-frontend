@@ -79,6 +79,8 @@ export default function Updater(): null {
           profileImage: `https://ipfs.io/ipfs/QmYhuJnr3GGUnDGtg6rmSXTgo7FzaWgrriqikfgn5SkXhZ/${nfb}.png`,
         }),
       )
+    } else {
+      dispatch(updateProfileImage({ profileImage: undefined }))
     }
   }, [nfa, nfb, account, dispatch])
 
