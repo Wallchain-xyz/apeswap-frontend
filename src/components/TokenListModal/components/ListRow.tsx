@@ -78,14 +78,14 @@ const ListRow = ({
                 <Flex sx={{ ml: '5px', cursor: 'copy' }} onClick={addToMetaMask}>
                   <Svg icon="metamask" width={15} />
                 </Flex>
-                <Flex
-                  sx={{ ml: '5px', cursor: 'copy' }}
-                  onClick={() => navigator.clipboard.writeText(JSON.stringify(currency?.wrapped?.address))}
-                >
-                  <Svg icon="copy" width={15} />
-                </Flex>
               </>
             )}
+            <Flex
+              sx={{ ml: '5px', cursor: 'copy' }}
+              onClick={() => navigator.clipboard.writeText(JSON.stringify(currency?.wrapped?.address))}
+            >
+              <Svg icon="copy" width={15} />
+            </Flex>
           </Flex>
           <Text weight={400} size="10px" sx={{ lineHeight: '12px' }}>
             {currency.name}
