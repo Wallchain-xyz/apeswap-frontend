@@ -70,7 +70,6 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
   const pricesFromPosition = getPriceOrderingFromPosition(position)
 
   const [manuallyInverted, setManuallyInverted] = useState(false)
-  console.log(manuallyInverted)
 
   const onHandleSetManuallyInverted = useCallback(() => {
     setManuallyInverted((prev) => !prev)
@@ -311,7 +310,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
               {nativeWrappedSymbol}
             </Text>
             <Flex>
-              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} />
+              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} sx={{ background: 'navMenuLogo' }} />
             </Flex>
           </Flex>
         )}
