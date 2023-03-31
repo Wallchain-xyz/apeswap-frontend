@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
 import type { TransactionResponse } from '@ethersproject/providers'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Currency, CurrencyAmount, Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
@@ -28,6 +28,7 @@ const Add = ({
   hasExistingPosition,
   noLiquidity,
   tokenId,
+  errorMessage,
   setAttemptingTxn,
   setTxHash,
 }: {
@@ -40,6 +41,7 @@ const Add = ({
   quoteCurrency: Currency | null | undefined
   position: Position | undefined
   outOfRange: boolean
+  errorMessage: ReactNode | undefined
   hasExistingPosition: boolean
   noLiquidity: boolean | undefined
   tokenId: string | undefined
@@ -170,9 +172,10 @@ const Add = ({
       return
     }
   }
+  console.log(errorMessage)
   return (
-    <Button fullWidth onClick={onAdd} mt="10px" disabled={disableAdd}>
-      Add
+    <Button fullWidth onClick={onAdd} mt="10px" disabled={disableAdd || !!errorMessage}>
+      {errorMessage ? errorMessage : 'Add'}
     </Button>
   )
 }

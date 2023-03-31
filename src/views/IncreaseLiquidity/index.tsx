@@ -75,6 +75,7 @@ const IncreaseLiquidity = ({
     currencyBalances,
     depositADisabled,
     depositBDisabled,
+    errorMessage
   } = useV3DerivedMintInfo(
     baseCurrency ?? undefined,
     quoteCurrency ?? undefined,
@@ -237,6 +238,7 @@ const IncreaseLiquidity = ({
               tokenId={tokenId?.toString()}
               setAttemptingTxn={setAttemptingTxn}
               setTxHash={setTxHash}
+              errorMessage={errorMessage}
             />
           </>
         )}
