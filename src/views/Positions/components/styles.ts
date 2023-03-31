@@ -18,7 +18,6 @@ const styles: Record<'subContainer' | 'positionCardContainer', ThemeUIStyleObjec
     justifyContent: 'center',
     margin: '5px 0px',
     flexDirection: 'column',
-    cursor: 'pointer',
     color: 'yellow',
   },
 }

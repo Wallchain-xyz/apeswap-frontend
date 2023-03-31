@@ -78,7 +78,7 @@ const Chart = ({
   }, [feeAmount, currencyA, currencyB]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Flex sx={{ position: 'relative', flexDirection: 'column' }}>
+    <Flex sx={{ position: 'relative', flexDirection: 'column', width: '100%' }}>
       <Flex sx={{ height: '20px', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text> Select Range </Text>
         <Zoom

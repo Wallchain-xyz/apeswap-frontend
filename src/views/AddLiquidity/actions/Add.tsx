@@ -16,6 +16,8 @@ import { currencyId } from 'utils/currencyId'
 import { Field } from 'state/mint/v3/actions'
 import useModal from 'hooks/useModal'
 import ConfirmAddLiquidity from '../components/ConfirmLiquidityAdd'
+import track from 'utils/track'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 
 const DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -39,6 +41,9 @@ const Add = ({
   const allowedSlippage = useUserSlippageToleranceWithDefault(
     outOfRange ? ZERO_PERCENT : DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE,
   )
+
+  const [currencyAUsdVal] = useTokenPriceUsd(baseCurrency ?? undefined)
+  const [currencyBUsdVal] = useTokenPriceUsd(quoteCurrency ?? undefined)
 
   async function onAdd() {
     if (!chainId || !provider || !account) return
@@ -118,6 +123,21 @@ const Add = ({
               //     action: 'Add',
               //     label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/'),
               //   })
+              track({
+                event: 'AddLiquidity',
+                chain: chainId,
+                data: {
+                  version: 'V3',
+                  currencyA: baseCurrency?.symbol,
+                  currencyB: quoteCurrency?.symbol,
+                  currencyAValue: parseFloat(parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) || '0'),
+                  currencyBValue: parseFloat(parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) || '0'),
+                  currencyAUsdValue:
+                    currencyAUsdVal * parseFloat(parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) || '0'),
+                  currencyBUsdValue:
+                    currencyBUsdVal * parseFloat(parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) || '0'),
+                },
+              })
             })
         })
         .catch((error) => {

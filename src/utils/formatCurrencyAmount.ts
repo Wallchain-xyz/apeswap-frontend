@@ -27,7 +27,7 @@ export function formatPrice(price: Price<Currency, Currency> | undefined | any, 
     return '-'
   }
 
-  if (parseFloat(price.toFixed(10)) < 0.000000001) {
+  if (parseFloat(price.toFixed(8)) < 0.00000001) {
     return `<${formatLocaleNumber({ number: 0.00001, locale: 'en-US' })}`
   }
 

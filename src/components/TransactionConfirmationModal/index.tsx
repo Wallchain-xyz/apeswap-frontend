@@ -128,9 +128,9 @@ export function ConfirmationModalContent({
 export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   const { t } = useTranslation()
   return (
-    <Flex>
+    <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
       <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px 0px' }}>
-        <Svg icon="error" />
+        <Svg icon="error" color="error" />
         <Text color="error" sx={{ textAlign: 'center', width: '85%', marginTop: '10px' }}>
           {message}
         </Text>

@@ -11,6 +11,7 @@ import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { BigNumber } from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
+import useIsMobile from 'hooks/useIsMobile'
 import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import { useCallback, useState } from 'react'
@@ -75,6 +76,7 @@ const IncreaseLiquidity = ({
     currencyBalances,
     depositADisabled,
     depositBDisabled,
+    errorMessage,
   } = useV3DerivedMintInfo(
     baseCurrency ?? undefined,
     quoteCurrency ?? undefined,
@@ -113,8 +115,10 @@ const IncreaseLiquidity = ({
     onDismiss()
   }, [onDismiss])
 
+  const isMobile = useIsMobile()
+
   return (
-    <Modal title="Increase Position" minWidth="300px" maxWidth="95%">
+    <Modal title="Increase Position" minWidth="300px" maxWidth="95%" paddingWidth={isMobile ? '10px' : '20px'}>
       <Flex
         sx={{
           maxWidth: '100%',
@@ -237,6 +241,7 @@ const IncreaseLiquidity = ({
               tokenId={tokenId?.toString()}
               setAttemptingTxn={setAttemptingTxn}
               setTxHash={setTxHash}
+              errorMessage={errorMessage}
             />
           </>
         )}

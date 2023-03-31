@@ -36,16 +36,12 @@ const AccountModal = ({ onDismiss }: { onDismiss: () => void }) => {
           </Text>
           <Svg icon="external" />
         </Link>
-        <Text
-          sx={{ cursor: 'pointer' }}
-          onClick={() => navigator.clipboard.writeText(JSON.stringify(account))}
-          ml="20px"
-          mr="5px"
-          size="14px"
-        >
-          {t('Copy Address')}
-        </Text>
-        <Svg icon="copy" width={12} />
+        <Flex onClick={() => navigator.clipboard.writeText(account || '')} sx={{ cursor: 'pointer' }}>
+          <Text ml="20px" mr="5px" size="14px">
+            {t('Copy Address')}
+          </Text>
+          <Svg icon="copy" width={12} />
+        </Flex>
       </Flex>
       <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '30px' }}>
         <Button

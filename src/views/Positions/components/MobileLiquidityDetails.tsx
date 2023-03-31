@@ -310,7 +310,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
               {nativeWrappedSymbol}
             </Text>
             <Flex>
-              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} />
+              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} sx={{ background: 'navMenuLogo' }} />
             </Flex>
           </Flex>
         )}

@@ -1,10 +1,6 @@
-import Homepage from 'components/Homepage'
-import Head from 'next/head'
+import { useRouter } from 'next/router'
+import SwapPage from './swap'
 
 export default function Index() {
-  return (
-    <>
-      <Homepage />
-    </>
-  )
+  return <></>
 }

@@ -29,7 +29,6 @@ const Swap = () => {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const [newSwapQuoteNeedsLogging, setNewSwapQuoteNeedsLogging] = useState<boolean>(true)
   const [fetchingSwapQuoteStartTime, setFetchingSwapQuoteStartTime] = useState<Date | undefined>()
-  const transactionDeadline = useTransactionDeadline()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -141,6 +140,8 @@ const Swap = () => {
   //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
   //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
   // )
+
+  console.log(trade)
 
   return (
     <Flex variant="flex.dexContainer">
