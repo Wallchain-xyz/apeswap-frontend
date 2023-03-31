@@ -56,6 +56,16 @@ const ListRow = ({
                 <Svg icon="error" width={13} color="yellow" />
               </span>
             )}
+            {searchTokenIsAdded && (
+              <>
+                <Flex sx={{ ml: '10px' }}>
+                  <Svg icon="metamask" width={15} />
+                </Flex>
+                <Flex sx={{ ml: '10px' }}>
+                  <Svg icon="copy" width={15} />
+                </Flex>
+              </>
+            )}
           </Flex>
           <Text weight={400} size="10px" sx={{ lineHeight: '12px' }}>
             {currency.name}

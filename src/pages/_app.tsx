@@ -17,6 +17,7 @@ import { BlockNumberProvider } from 'lib/hooks/useBlockNumber'
 import Popups from 'components/Popups'
 import Blocklist from 'components/Blocklist'
 import MarketingModalCheck from 'components/MarketingModalCheck'
+import { Analytics } from '@vercel/analytics/react'
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {
@@ -44,6 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <MarketingModalCheck />
                     <Popups />
                     <Component {...pageProps} />
+                    <Analytics />
                     <Footer />
                   </Blocklist>
                 </ModalProvider>
