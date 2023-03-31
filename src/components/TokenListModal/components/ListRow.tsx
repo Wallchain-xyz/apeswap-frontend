@@ -75,11 +75,11 @@ const ListRow = ({
             )}
             {searchTokenIsAdded && (
               <>
-                <Flex sx={{ ml: '10px', cursor: 'copy' }} onClick={addToMetaMask}>
+                <Flex sx={{ ml: '5px', cursor: 'copy' }} onClick={addToMetaMask}>
                   <Svg icon="metamask" width={15} />
                 </Flex>
                 <Flex
-                  sx={{ ml: '10px', cursor: 'copy' }}
+                  sx={{ ml: '5px', cursor: 'copy' }}
                   onClick={() => navigator.clipboard.writeText(JSON.stringify(currency?.wrapped?.address))}
                 >
                   <Svg icon="copy" width={15} />
