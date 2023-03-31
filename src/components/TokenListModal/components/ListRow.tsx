@@ -82,7 +82,7 @@ const ListRow = ({
             )}
             <Flex
               sx={{ ml: '5px', cursor: 'copy' }}
-              onClick={() => navigator.clipboard.writeText(JSON.stringify(currency?.wrapped?.address))}
+              onClick={() => navigator.clipboard.writeText(currency?.wrapped?.address)}
             >
               <Svg icon="copy" width={15} />
             </Flex>
