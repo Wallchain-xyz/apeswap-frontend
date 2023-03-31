@@ -12,6 +12,15 @@ const nextConfig = {
       'ipfs.io',
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/swap',
+        permanent: false,
+      },
+    ]
+  },
   reactStrictMode: true,
   swcMinify: true,
 }
