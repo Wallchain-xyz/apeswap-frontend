@@ -81,7 +81,7 @@ export default function Updater(): null {
         }),
       )
     }
-  }, [nfa, nfb, dispatch])
+  }, [nfa, nfb, account, dispatch])
 
   const priceGetter = usePriceGetter()
   const { result: bananaPrice } = useSingleCallResult(priceGetter, 'getPrice', [
