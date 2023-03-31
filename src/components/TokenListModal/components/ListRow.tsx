@@ -3,7 +3,9 @@ import CurrencyLogo from 'components/CurrencyLogo'
 import TokenImportWarning from 'components/TokenImportWarning'
 import { Flex, Svg, Text } from 'components/uikit'
 import useModal from 'hooks/useModal'
+import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
 import { CSSProperties } from 'theme-ui'
+import { registerToken } from 'utils'
 
 const ListRow = ({
   currency,
@@ -30,6 +32,21 @@ const ListRow = ({
     true,
     'tokenImportWarningModal',
   )
+
+  const addToMetaMask = () => {
+    console.log(
+      currency?.wrapped?.address,
+      currency?.wrapped.symbol,
+      currency?.decimals,
+      currency instanceof WrappedTokenInfo ? currency?.tokenInfo.logoURI : '',
+    )
+    registerToken(
+      currency?.wrapped?.address,
+      currency?.wrapped.symbol,
+      currency?.decimals,
+      currency instanceof WrappedTokenInfo ? currency?.tokenInfo.logoURI : '',
+    ).then(() => '')
+  }
 
   return (
     <Flex
@@ -58,10 +75,13 @@ const ListRow = ({
             )}
             {searchTokenIsAdded && (
               <>
-                <Flex sx={{ ml: '10px' }}>
+                <Flex sx={{ ml: '10px', cursor: 'copy' }} onClick={addToMetaMask}>
                   <Svg icon="metamask" width={15} />
                 </Flex>
-                <Flex sx={{ ml: '10px' }}>
+                <Flex
+                  sx={{ ml: '10px', cursor: 'copy' }}
+                  onClick={() => navigator.clipboard.writeText(JSON.stringify(currency?.wrapped?.address))}
+                >
                   <Svg icon="copy" width={15} />
                 </Flex>
               </>
