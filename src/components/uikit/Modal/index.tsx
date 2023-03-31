@@ -15,6 +15,7 @@ const Modal = ({
   zIndex = 'modal',
   minWidth = '50%',
   maxWidth = '80%',
+  paddingWidth = '20px',
   onAnimationComplete,
   ...props
 }: ModalProps) => {
@@ -40,7 +41,7 @@ const Modal = ({
             }}
             exit={{ opacity: 0, transform: 'translate(-50%, -50%) scale(0)' }}
             {...props}
-            sx={{ minWidth, maxWidth, zIndex, ...style.container }}
+            sx={{ minWidth, maxWidth, zIndex, ...style.container, padding: `20px ${paddingWidth}` }}
             onAnimationComplete={onAnimationComplete}
           >
             {title && (
