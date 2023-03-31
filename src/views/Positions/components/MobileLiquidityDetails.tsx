@@ -70,6 +70,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
   const pricesFromPosition = getPriceOrderingFromPosition(position)
 
   const [manuallyInverted, setManuallyInverted] = useState(false)
+  console.log(manuallyInverted)
 
   const onHandleSetManuallyInverted = useCallback(() => {
     setManuallyInverted((prev) => !prev)
