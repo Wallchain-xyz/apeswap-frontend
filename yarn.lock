@@ -33,10 +33,10 @@
     tiny-invariant "^1.1.0"
     toformat "^2.0.0"
 
-"@ape.swap/smart-order-router@^1.0.0-alpha.58":
-  version "1.0.0-alpha.58"
-  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.0.0-alpha.58.tgz#54b8dceb5de8423591aca74f6ac174a909768688"
-  integrity sha512-trgOc3PfEAtK3YDDSI/B1dHswDxRP1g8WW5Rn9CPu06Y2z+JQ4F9K0/MuwQjA0ocxiPqaiOZV6PViDUBsM8EHQ==
+"@ape.swap/smart-order-router@^1.0.0-alpha.60":
+  version "1.0.0-alpha.60"
+  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.0.0-alpha.60.tgz#e9533f79932a29eef2dc0d14912f1275ce01367e"
+  integrity sha512-87fFq8aHr/6FfB+1t7sBG4t4xrDQNluicR6ND9PyDH48jSIG4fiRISRmPrLWO36nyk1mrf555huCJYU5Rzncyg==
   dependencies:
     "@ape.swap/router-sdk" "^1.0.1-alpha.14"
     "@ape.swap/token-lists" "^1.0.6"
