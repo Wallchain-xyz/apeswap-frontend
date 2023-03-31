@@ -6,6 +6,7 @@ import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
 import useModal from 'hooks/useModal'
 import { useSwapCallback } from 'hooks/useSwapCallback'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
@@ -64,6 +65,9 @@ const Swap = ({
   )
   const { address: recipientAddress } = useENSAddress(recipient)
 
+  const [inputTokenUsdVal] = useTokenPriceUsd(trade?.inputAmount?.currency ?? undefined)
+  const [outputTokenUsdVal] = useTokenPriceUsd(trade?.outputAmount?.currency ?? undefined)
+
   const isExpertMode = useIsExpertMode()
 
   const handleSwap = useCallback(() => {
@@ -77,21 +81,18 @@ const Swap = ({
     swapCallback()
       .then((hash) => {
         setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
-        // sendEvent({
-        //   category: 'Swap',
-        //   action: 'transaction hash',
-        //   label: hash,
-        // })
+        const routes = trade?.routes?.map((route) => route.protocol)
         track({
           event: 'Swap',
           chain: chainId,
           data: {
-            label: [
-              TRADE_STRING,
-              trade?.inputAmount?.currency?.symbol,
-              trade?.outputAmount?.currency?.symbol,
-              'MH',
-            ].join('/'),
+            routes: routes?.join(','),
+            inputToken: trade?.inputAmount?.currency?.symbol,
+            outputToken: trade?.outputAmount?.currency?.symbol,
+            inputValue: parseFloat(trade?.inputAmount?.toSignificant(6) || '0'),
+            outputValue: parseFloat(trade?.outputAmount?.toSignificant(6) || '0'),
+            inputUsdValue: inputTokenUsdVal * parseFloat(trade?.inputAmount?.toSignificant(6) || '0'),
+            outputUsdValue: outputTokenUsdVal * parseFloat(trade?.outputAmount?.toSignificant(6) || '0'),
           },
         })
       })
@@ -111,8 +112,9 @@ const Swap = ({
     stablecoinPriceImpact,
     tradeToConfirm,
     showConfirm,
-    trade?.inputAmount?.currency?.symbol,
-    trade?.outputAmount?.currency?.symbol,
+    outputTokenUsdVal,
+    inputTokenUsdVal,
+    trade,
   ])
 
   const handleConfirmDismiss = useCallback(() => {

@@ -142,6 +142,8 @@ const Swap = () => {
   //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
   // )
 
+  console.log(trade)
+
   return (
     <Flex variant="flex.dexContainer">
       <DexNav />
