@@ -205,6 +205,7 @@ const RemoveLiquidity = ({
               inRange={inRange}
               setTxHash={setTxHash}
               setAttemptingTxn={setAttemptingTxn}
+              error={error}
             />
           </Flex>
           {showCollectAsWeth && (

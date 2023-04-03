@@ -3,11 +3,12 @@ import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
+import { useTranslation } from 'contexts/Localization'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import useModal from 'hooks/useModal'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
@@ -28,6 +29,7 @@ const Remove = ({
   feeValue1,
   feeAmount,
   inRange,
+  error,
   setAttemptingTxn,
   setTxHash,
 }: {
@@ -40,10 +42,12 @@ const Remove = ({
   feeValue1: CurrencyAmount<Currency> | undefined
   feeAmount: number | undefined
   inRange: boolean
+  error: ReactNode | undefined
   setAttemptingTxn: Dispatch<SetStateAction<boolean>>
   setTxHash: Dispatch<SetStateAction<string>>
 }) => {
   const { account, chainId, provider } = useWeb3React()
+  const { t } = useTranslation()
   const addTransaction = useTransactionAdder()
   const positionManager = useV3NFTPositionManagerContract()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE) // custom from users
@@ -189,10 +193,11 @@ const Remove = ({
       fullWidth
       sx={{ mt: '10px' }}
       onClick={burn}
+      disabled={!!error}
       // load={attemptingTxn}
       // disabled={attemptingTxn}
     >
-      {isExpertMode ? 'Remove' : 'Preview'}
+      {error ? error : t('Remove')}
     </Button>
   )
 }
