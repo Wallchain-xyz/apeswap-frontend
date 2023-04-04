@@ -15,7 +15,6 @@ const AccountLoggedInDisplay = () => {
   const transactions = useAllTransactions()
   const pendingTransactions = useMemo(() => Object.values(transactions).filter((tx) => !tx.receipt), [transactions])
   const profileImage = useAppSelector((state: AppState) => state.application.profileImage)
-  console.log(profileImage)
   return account ? (
     <Flex>
       <Flex variant="flex.navContainer" onClick={onPresentAccountModal}>

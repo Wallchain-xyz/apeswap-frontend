@@ -172,7 +172,6 @@ const Add = ({
       return
     }
   }
-  console.log(errorMessage)
   return (
     <Button fullWidth onClick={onAdd} mt="10px" disabled={disableAdd || !!errorMessage}>
       {errorMessage ? errorMessage : 'Add'}

@@ -33,7 +33,7 @@ const List = ({
   onCurrencySelect: (currency: Currency) => void
   onDismiss: () => void
 }) => {
-  const { chainId, account } = useWeb3React()
+  const { account } = useWeb3React()
   const [tokenLoaderTimerElapsed, setTokenLoaderTimerElapsed] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 200)
   const defaultTokens = useAllTokens()
@@ -86,8 +86,6 @@ const List = ({
     return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
   }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native, searchToken])
 
-  console.log(filteredInactiveTokens)
-
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
   useEffect(() => {
     const tokenLoaderTimer = setTimeout(() => {
@@ -100,7 +98,6 @@ const List = ({
     ({ data, index, style }: { data: Currency[]; index: number; style: CSSProperties }) => {
       const row: Currency = data[index]
       const currency = row
-      console.log(currency)
       const isSelected = Boolean(currency && selectedCurrency && selectedCurrency.equals(currency))
       const otherSelected = Boolean(currency && otherSelectedCurrency && otherSelectedCurrency.equals(currency))
       const currencyIsImported = !!filteredInactiveTokens.find(

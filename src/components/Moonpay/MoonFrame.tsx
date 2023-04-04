@@ -4,7 +4,6 @@ import { useMoonPayUrl } from './useMoonpayUrl'
 
 const MoonPayIframe: React.FC<{ manualChainId?: SupportedChainId }> = ({ manualChainId }) => {
   const url = useMoonPayUrl(manualChainId)
-  console.log(url)
   return (
     <iframe
       title="Moonpay topup"

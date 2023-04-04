@@ -37,9 +37,9 @@ const ConfirmAddLiquidity = ({
   const [inverted, setInverted] = useState(false)
   const feeAmount = position?.pool.fee
 
-  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${baseCurrency?.symbol ?? ''} and ${
-    position?.amount1.toSignificant(4) ?? ''
-  } ${quoteCurrency?.symbol ?? ''}`
+  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${
+    position?.amount0?.currency?.symbol ?? ''
+  } and ${position?.amount1.toSignificant(4) ?? ''} ${position?.amount1?.currency?.symbol ?? ''}`
 
   return (
     <Modal title="Add Liquidity" minWidth="300px" maxWidth="95%">

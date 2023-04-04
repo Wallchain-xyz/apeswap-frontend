@@ -146,7 +146,7 @@ const Tutorial: React.FC<{
       case 'add-liquidity':
         return {
           type: 'liquidity-v3',
-          title: 'Welcome to Liquidity V3',
+          title: 'Welcome to ApeSwap V3 Liquidity',
           description: 'Provide Concentrated Liquidity to earn better trading fees!',
           slides: account ? LiquidityV3Slides() : [<ConnectWalletSlide key={0} />, ...LiquidityV3Slides()],
           isConnected: !!account,

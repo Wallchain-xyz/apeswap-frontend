@@ -1,8 +1,8 @@
-import React from 'react'
+import { SvgProps } from '../types'
 
-const Icon: React.FC = (props) => {
+const Icon = ({ width }: SvgProps) => {
   return (
-    <svg viewBox="0 0 32 32" {...props}>
+    <svg viewBox="0 0 32 32" width={'128px' || width}>
       <path
         d="M24 0H8C3.58172 0 0 3.58172 0 8V24C0 28.4183 3.58172 32 8 32H24C28.4183 32 32 28.4183 32 24V8C32 3.58172 28.4183 0 24 0Z"
         fill="#1E2026"

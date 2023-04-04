@@ -34,12 +34,6 @@ const ListRow = ({
   )
 
   const addToMetaMask = () => {
-    console.log(
-      currency?.wrapped?.address,
-      currency?.wrapped.symbol,
-      currency?.decimals,
-      currency instanceof WrappedTokenInfo ? currency?.tokenInfo.logoURI : '',
-    )
     registerToken(
       currency?.wrapped?.address,
       currency?.wrapped.symbol,

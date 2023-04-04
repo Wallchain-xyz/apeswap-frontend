@@ -1,9 +1,9 @@
-import React from "react";
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
-const Icon: React.FC<SvgProps> = (props) => {
+const Icon = ({ width }: SvgProps) => {
   return (
     <svg
+      width={width || '128'}
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,6 @@ const Icon: React.FC<SvgProps> = (props) => {
       y="0px"
       viewBox="0 0 50 50"
       xmlSpace="preserve"
-      {...props}
     >
       <circle cx="25" cy="25" r="25" fill="#FFFFFF" />
       <g id="starting-collection">
@@ -92,7 +91,7 @@ const Icon: React.FC<SvgProps> = (props) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default Icon;
+export default Icon

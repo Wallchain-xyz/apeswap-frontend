@@ -12,7 +12,6 @@ import { batch } from 'react-redux'
 import { Spinner, useThemeUI } from 'theme-ui'
 import { CHART_DESKTOP_HEIGHT } from '.'
 
-// TODO: Move to constants file
 const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
   [FeeAmount.LOWEST]: {
     initialMin: 0.999,
@@ -72,8 +71,6 @@ const DesktopIndex = ({
     currencyB,
     feeAmount,
   })
-
-  console.log(formattedData)
 
   const isSorted = currencyA && currencyB && currencyA?.wrapped.sortsBefore(currencyB?.wrapped)
 
@@ -135,8 +132,6 @@ const DesktopIndex = ({
       ? [parseFloat(leftPrice?.toSignificant(6)), parseFloat(rightPrice?.toSignificant(6))]
       : undefined
   }, [isSorted, priceLower, priceUpper])
-
-  // TODO: Figure out token colros
 
   return (
     <Flex sx={{ width: '100%' }}>

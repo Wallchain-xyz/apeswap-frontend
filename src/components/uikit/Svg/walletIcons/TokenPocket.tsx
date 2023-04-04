@@ -1,9 +1,8 @@
-import React from "react";
-import { SvgProps } from "../types";
+import { SvgProps } from '../types'
 
-const Icon: React.FC<SvgProps> = (props) => {
+const Icon = ({ width }: SvgProps) => {
   return (
-    <svg viewBox="0 0 32 32" {...props}>
+    <svg viewBox="0 0 32 32" width={'128px' || width}>
       <rect width="32" height="32" fill="url(#pattern1)" rx="16" />
       <defs>
         <pattern id="pattern1" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -17,7 +16,7 @@ const Icon: React.FC<SvgProps> = (props) => {
         />
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default Icon;
+export default Icon

@@ -4,7 +4,6 @@ import { InterfaceTrade } from 'state/routing/types'
 import { RoutingDiagramEntry } from './types'
 import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from 'config/constants/misc'
 
-// TODO: Change this
 const V2_DEFAULT_FEE_TIER = 2000
 
 /**

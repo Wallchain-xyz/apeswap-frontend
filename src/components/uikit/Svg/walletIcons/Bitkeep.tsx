@@ -1,9 +1,8 @@
-import React from 'react'
 import { SvgProps } from '../types'
 
-const Icon: React.FC<SvgProps> = (props) => {
+const Bitkeep = ({ width }: SvgProps) => {
   return (
-    <svg viewBox="0 0 128 128" {...props}>
+    <svg width={width || '128'} viewBox="0 0 128 128">
       <rect width="128" height="128" rx="64" fill="#7524F9" />
       <path
         fillRule="evenodd"
@@ -15,4 +14,4 @@ const Icon: React.FC<SvgProps> = (props) => {
   )
 }
 
-export default Icon
+export default Bitkeep
