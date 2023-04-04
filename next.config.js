@@ -24,6 +24,11 @@ const nextConfig = {
         destination: '/add-liquidity',
         permanent: false,
       },
+      {
+        source: '/migrate',
+        destination: '/add-liquidity',
+        permanent: false,
+      },
     ]
   },
   reactStrictMode: true,
