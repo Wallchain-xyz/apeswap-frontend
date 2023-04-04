@@ -13,6 +13,7 @@ import { useTickLens } from './useContract'
 import { PoolState, usePool } from './usePools'
 
 const PRICE_FIXED_DIGITS = 8
+
 // TODO: Add chains to not use subgraph for
 const CHAIN_IDS_MISSING_SUBGRAPH_DATA = [999]
 

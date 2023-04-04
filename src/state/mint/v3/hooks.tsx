@@ -169,7 +169,6 @@ export function useV3DerivedMintInfo(
   const invertPrice = Boolean(baseToken && token0 && !baseToken.equals(token0))
 
   // always returns the price with 0 as base token
-  // TODO: Figure out how to not use any here
   const price: Price<Token, Token> | any | undefined = useMemo(() => {
     // if no liquidity use typed value
     if (noLiquidity) {
@@ -282,7 +281,6 @@ export function useV3DerivedMintInfo(
   const invalidRange = Boolean(typeof tickLower === 'number' && typeof tickUpper === 'number' && tickLower >= tickUpper)
 
   // always returns the price with 0 as base token
-  // TODO: Figure out how to not use any here
   const pricesAtTicks: any = useMemo(() => {
     return {
       [Bound.LOWER]: getTickToPrice(token0, token1, ticks[Bound.LOWER]),
