@@ -198,7 +198,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             ) : (
               <>
                 <Text size="14px" mr="10px">
-                  {inverted ? position?.amount0.toSignificant(4) : position?.amount1.toSignificant(4)}
+                  {inverted ? position?.amount0.toSignificant(6) : position?.amount1.toSignificant(6)}
                 </Text>
                 <Text size="12px" opacity={0.7}>
                   {typeof ratio === 'number' && !removed ? <Text>{inverted ? ratio : 100 - ratio}%</Text> : null}
@@ -226,7 +226,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             ) : (
               <>
                 <Text size="14px" mr="10px">
-                  {inverted ? position?.amount1.toSignificant(4) : position?.amount0.toSignificant(4)}
+                  {inverted ? position?.amount1.toSignificant(6) : position?.amount0.toSignificant(6)}
                 </Text>
                 <Text size="12px" opacity={0.7}>
                   {typeof ratio === 'number' && !removed ? <Text>{inverted ? 100 - ratio : ratio}%</Text> : null}
