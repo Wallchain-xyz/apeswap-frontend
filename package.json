@@ -48,7 +48,7 @@
   "dependencies": {
     "@ape.swap/router-sdk": "^1.0.1-alpha.14",
     "@ape.swap/sdk-core": "^1.0.2",
-    "@ape.swap/smart-order-router": "^1.0.0-alpha.60",
+    "@ape.swap/smart-order-router": "^1.0.0-alpha.62",
     "@ape.swap/token-lists": "^1.0.0",
     "@ape.swap/v2-sdk": "^1.0.1-alpha.5",
     "@ape.swap/v3-sdk": "^1.0.1-alpha.9",
