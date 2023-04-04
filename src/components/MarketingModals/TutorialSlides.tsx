@@ -849,7 +849,9 @@ export const LiquidityV3Slides = () => {
               <Text sx={styles.tipTitle}>{t('price range')}</Text>
             </Tooltip>
           </Text>
-          {/* <Text sx={{ fontStyle: 'italic' }}>{t('Assets are always deposited in an equal 50/50 value split!')}</Text> */}
+          <Text sx={{ fontStyle: 'italic', fontWeight: 300 }}>
+            {t('Lower fee pools get used more, so sometimes the amount of volume can make up for the lower fees!')}
+          </Text>{' '}
         </>
       }
     />,
@@ -860,7 +862,9 @@ export const LiquidityV3Slides = () => {
       slideContent={
         <>
           <Text>
-            {t('Select +ADD LIQUIDITY and approve the transaction in your wallet. You will receive your ')}
+            {t(
+              'Select PREVIEW to review the position and then ADD to confirm. Approve the transaction in your wallet. You will receive your ',
+            )}
             <Tooltip
               placement={'topRight'}
               transformTip={`translate(${isMobile ? '10%' : '6%'}, 2%)`}
@@ -907,9 +911,7 @@ export const LiquidityV3Slides = () => {
               'for each transaction that uses this pair of tokens on your set price range. Don’t forget to CLAIM your rewards periodically in the',
             )}{' '}
             <Link
-              href="https://apeswap.finance/banana-farms"
-              target="_blank"
-              rel="noreferrer noopener"
+              href="/liquidity"
               sx={styles.yellow}
             >
               {t('Positions')}
