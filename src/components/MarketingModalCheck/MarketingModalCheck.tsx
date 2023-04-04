@@ -64,8 +64,6 @@ const MarketingModalCheck = () => {
     })
   }
 
-  console.log(pathname)
-
   return tutorial ? <Tutorial location={pathname} onDismiss={onDismiss} /> : <></>
   //  moonpayRoute ? (
   //   <MoonPayModal onDismiss={onDismiss} />

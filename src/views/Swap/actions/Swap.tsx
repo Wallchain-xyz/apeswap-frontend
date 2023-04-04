@@ -97,7 +97,6 @@ const Swap = ({
         })
       })
       .catch((error) => {
-        console.log(error)
         setSwapState({
           attemptingTxn: false,
           tradeToConfirm,

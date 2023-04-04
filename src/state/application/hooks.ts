@@ -149,11 +149,9 @@ export function useToggleFeatureFlags(): () => void {
 // returns a function that allows adding a popup
 export function useAddPopup(): (content: PopupContent, key?: string, removeAfterMs?: number) => void {
   const dispatch = useAppDispatch()
-  console.log('her')
 
   return useCallback(
     (content: PopupContent, key?: string, removeAfterMs?: number) => {
-      console.log('hey')
       dispatch(addPopup({ content, key, removeAfterMs: removeAfterMs ?? DEFAULT_TXN_DISMISS_MS }))
     },
     [dispatch],
@@ -174,7 +172,6 @@ export function useRemovePopup(): (key: string) => void {
 // get the list of active popups
 export function useActivePopups(): AppState['application']['popupList'] {
   const list = useAppSelector((state: AppState) => state.application.popupList)
-  console.log(list)
   return useMemo(() => list.filter((item) => item.show), [list])
 }
 

@@ -72,8 +72,6 @@ const DesktopIndex = ({
     feeAmount,
   })
 
-  console.log(formattedData)
-
   const isSorted = currencyA && currencyB && currencyA?.wrapped.sortsBefore(currencyB?.wrapped)
 
   const { theme } = useThemeUI()

@@ -5,10 +5,6 @@ import DexPanel from 'components/DexPanel'
 import { Flex } from 'components/uikit'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useAllTokens, useCurrency } from 'hooks/Tokens'
-import useENSAddress from 'hooks/useENSAddress'
-import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
-import useModal from 'hooks/useModal'
-import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
@@ -18,17 +14,14 @@ import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/for
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { supportedChainId } from 'utils/supportedChainId'
 import Actions from './actions'
-import ConfirmSwap from './components/ConfirmSwap'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import Risk from './components/Risk/Risk'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import TradeDetails from './components/TradeDetails'
 
 const Swap = () => {
-  const { account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   const loadedUrlParams = useDefaultsFromURLSearch()
-  const [newSwapQuoteNeedsLogging, setNewSwapQuoteNeedsLogging] = useState<boolean>(true)
-  const [fetchingSwapQuoteStartTime, setFetchingSwapQuoteStartTime] = useState<Date | undefined>()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -84,18 +77,7 @@ const Swap = () => {
     inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
 
-  console.log(trade)
-  console.log(wrapType)
-
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
-  console.log(showWrap)
-  console.log(showWrap)
-  console.log(showWrap)
-  console.log(showWrap)
-  console.log(showWrap)
-  console.log(showWrap)
-
-  const { address: recipientAddress } = useENSAddress(recipient)
 
   const parsedAmounts = useMemo(
     () =>
@@ -140,8 +122,6 @@ const Swap = () => {
   //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
   //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
   // )
-
-  console.log(trade)
 
   return (
     <Flex variant="flex.dexContainer">
