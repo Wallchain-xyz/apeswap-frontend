@@ -19,6 +19,11 @@ const nextConfig = {
         destination: '/swap',
         permanent: false,
       },
+      {
+        source: '/zap',
+        destination: '/add-liquidity',
+        permanent: false,
+      },
     ]
   },
   reactStrictMode: true,
