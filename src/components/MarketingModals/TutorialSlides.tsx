@@ -95,13 +95,13 @@ export const SwapSlides = () => {
     // />,
     <Slide
       key={2}
-      step="Step 3"
+      step="Step 2"
       slideTitle="Confirm The Swap"
       slideContent={
         <>
           <Text>
             {t(
-              'Select SWAP and click CONFIRM SWAP. Approve the transaction in your wallet. In a few seconds, the trade will go through and you will receive your output tokens.',
+              'You’ll need to select APPROVE, SWAP and then CONFIRM. Approve all transactions in your wallet. In a few seconds, the trade will go through and you will receive your output tokens.',
             )}
           </Text>
         </>
