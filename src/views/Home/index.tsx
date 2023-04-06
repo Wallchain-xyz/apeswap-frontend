@@ -14,7 +14,7 @@ const Home = () => {
   const { chainId } = useWeb3React()
 
   return (
-    <Flex sx={{ flexDirection: 'column' }}>
+    <Flex sx={{ flexDirection: 'column', width: '100%' }}>
       <SwiperProvider>
         <WelcomeContent />
       </SwiperProvider>

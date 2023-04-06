@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Flex } from 'components/uikit';
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const NewsCard = styled.div<{ image: string; index: number; listLength: number }>`
@@ -75,7 +76,7 @@ export const SkeletonWrapper = styled.div`
   }
 `
 
-export const Bubble = styled.div<{ isActive?: boolean }>`
+export const Bubble = styled(Flex)<{ isActive?: boolean }>`
   background: ${({ isActive }) => (isActive ? 'linear-gradient(53.53deg; #a16552 15.88%; #e1b242 92.56%)' : 'white4')};
   height: 14px;
   width: 14px;
