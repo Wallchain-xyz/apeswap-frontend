@@ -55,6 +55,7 @@
     "@apollo/client": "^3.7.6",
     "@coinbase/wallet-sdk": "^3.3.0",
     "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.6",
     "@graphql-codegen/cli": "^2.15.0",
     "@graphql-codegen/client-preset": "^1.2.1",
     "@graphql-codegen/typescript": "^2.8.3",
@@ -107,6 +108,7 @@
     "react-redux": "^8.0.5",
     "react-window": "^1.8.8",
     "redux-localstorage-simple": "^2.5.1",
+    "swiper": "^9.2.0",
     "theme-ui": "^0.15.3",
     "uuid": "^9.0.0"
   }
