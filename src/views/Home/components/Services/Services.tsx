@@ -12,6 +12,7 @@ import { defaultServiceData } from './defaultServiceData'
 import { useFetchHomepageServiceStats, useHomepageServiceStats } from 'state/homepage/hooks'
 import { ServiceData } from 'state/homepage/types'
 import { Flex, Skeleton, Text } from 'components/uikit'
+import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 
 const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
   const { swiper, setSwiper } = useSwiper()
@@ -96,29 +97,25 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                   }}
                 >
                   {id === 'farmDetails' ? (
-                    <></>
-                  ) : // <ServiceTokenDisplay
-                  //   token1={tokenImage[0]}
-                  //   token2={tokenImage[1]}
-                  //   token3={stat.rewardToken.name}
-                  //   stakeLp
-                  //   iconFill="white"
-                  // />
-                  id === 'billDetails' ? (
-                    <></>
-                  ) : // <ServiceTokenDisplay
-                  //   token1={tokenImage[0]}
-                  //   token2={tokenImage[1]}
-                  //   token3={stat.earnTokenName}
-                  //   stakeLp
-                  //   iconFill="white"
-                  // />
-                  id === 'poolDetails' ? (
-                    <></>
+                    <ServiceTokenDisplay
+                      token1={tokenImage?.[0]}
+                      token2={tokenImage?.[1]}
+                      token3={stat?.rewardToken?.name}
+                      stakeLp
+                      iconFill="white"
+                    />
+                  ) : id === 'billDetails' ? (
+                    <ServiceTokenDisplay
+                      token1={tokenImage?.[0]}
+                      token2={tokenImage?.[1]}
+                      token3={stat.earnTokenName}
+                      stakeLp
+                      iconFill="white"
+                    />
+                  ) : id === 'poolDetails' ? (
+                    <ServiceTokenDisplay token1={tokenImage?.[0]} token2={tokenImage?.[1]} iconFill="white" />
                   ) : (
-                    // <ServiceTokenDisplay token1={tokenImage[0]} token2={tokenImage[1]} iconFill="white" />
-                    <></>
-                    // <ServiceTokenDisplay token1={tokenImage[0]} />
+                    <ServiceTokenDisplay token1={tokenImage?.[0]} />
                   )}
                   <Flex sx={{ paddingLeft: '15px', justifyContent: 'center', flexDirection: 'column' }}>
                     <Text sx={{ width: '100%', color: 'white', fontWeight: 700 }}>{name}</Text>
