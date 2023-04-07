@@ -432,6 +432,9 @@ export function useV3DerivedMintInfo(
   }
 
   if (poolState === PoolState.INVALID) {
+    if (!feeAmount) {
+      errorMessage = errorMessage ?? t('Select Fee Tier')
+    }
     errorMessage = errorMessage ?? t('Invalid pair')
   }
 

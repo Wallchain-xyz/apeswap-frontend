@@ -59,8 +59,8 @@ export const DOC_LINKS: Record<string, string> = {
   POOLS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/pools',
   MAXIMIZERS_VAULTS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/vaults',
   ADD_LIQUIDITY:
-    'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity',
-  LIQUIDITY: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity',
+    'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity-v3',
+  LIQUIDITY: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity-v3',
   ORDERS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/limit-orders',
   IAO: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/raise/initial-ape-offerings-iaos',
   GNANA: 'https://apeswap.gitbook.io/apeswap-finance/welcome/apeswap-tokens/gnana',
