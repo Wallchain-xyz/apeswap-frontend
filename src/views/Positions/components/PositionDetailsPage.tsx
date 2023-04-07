@@ -32,7 +32,6 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const { chainId, account, provider } = useWeb3React()
   const parsedTokenId = selectedTokenId ? BigNumber.from(selectedTokenId) : undefined
   const { loading, position: positionDetails } = useV3PositionFromTokenId(parsedTokenId)
-  console.log(positionDetails)
   const {
     token0: token0Address,
     token1: token1Address,
@@ -49,8 +48,6 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
 
   const metadata = usePositionTokenURI(parsedTokenId)
 
-  console.log(metadata)
-
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
 
@@ -65,9 +62,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const nativeCurrency = useNativeCurrency()
   const nativeWrappedSymbol = nativeCurrency.wrapped.symbol
 
-  const [poolState, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
-
-  console.log(pool)
+  const [, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
 
   const position = useMemo(() => {
     if (pool && liquidity && typeof tickLower === 'number' && typeof tickUpper === 'number') {
@@ -245,7 +240,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                   ) : (
                     <>
                       <Text size="14px" mr="10px">
-                        {inverted ? position?.amount0.toSignificant(4) : position?.amount1.toSignificant(4)}
+                        {inverted ? position?.amount0.toSignificant(6) : position?.amount1.toSignificant(6)}
                       </Text>
                       <Text size="12px" opacity={0.7}>
                         {typeof ratio === 'number' && !removed ? <Text>{inverted ? ratio : 100 - ratio}%</Text> : null}
@@ -273,7 +268,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                   ) : (
                     <>
                       <Text size="14px" mr="10px">
-                        {inverted ? position?.amount1.toSignificant(4) : position?.amount0.toSignificant(4)}
+                        {inverted ? position?.amount1.toSignificant(6) : position?.amount0.toSignificant(6)}
                       </Text>
                       <Text size="12px" opacity={0.7}>
                         {typeof ratio === 'number' && !removed ? <Text>{inverted ? 100 - ratio : ratio}%</Text> : null}

@@ -38,6 +38,8 @@ export function swapErrorToUserReadableMessage(error: any): string {
   if (reason?.indexOf('execution reverted: ') === 0) reason = reason.substr('execution reverted: '.length)
 
   switch (reason) {
+    case 'user rejected transaction':
+      return 'User rejected transaction.'
     case 'ApeswapV2Router: EXPIRED':
       return `The transaction could not be sent because the deadline has passed. Please check that your transaction deadline is not too low.`
     case 'ApeswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT':

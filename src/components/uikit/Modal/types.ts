@@ -12,6 +12,7 @@ export interface ModalProps extends InternalProps {
   open?: boolean
   minWidth?: string
   maxWidth?: string
+  paddingWidth?: string
   title?: string
   zIndex?: string | number
 }

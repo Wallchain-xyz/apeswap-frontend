@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { FeeAmount } from '@ape.swap/v3-sdk'
 
-// TODO: Figure out a way to condense supported chains to one spot
+const supportedChains = [SupportedChainId.BSC, SupportedChainId.POLYGON]
 
 export const FEE_AMOUNT_DETAIL: Record<
   FeeAmount,
@@ -10,21 +10,21 @@ export const FEE_AMOUNT_DETAIL: Record<
   [FeeAmount.LOWEST]: {
     label: '0.01',
     description: 'Best for very stable pairs',
-    supportedChains: [SupportedChainId.MAINNET, SupportedChainId.POLYGON],
+    supportedChains: supportedChains,
   },
   [FeeAmount.LOW]: {
     label: '0.05',
     description: 'Best for stable pairs',
-    supportedChains: [SupportedChainId.MAINNET, SupportedChainId.POLYGON],
+    supportedChains: supportedChains,
   },
   [FeeAmount.MEDIUM]: {
     label: '0.3',
     description: 'Best for most pairs',
-    supportedChains: [SupportedChainId.MAINNET, SupportedChainId.POLYGON],
+    supportedChains: supportedChains,
   },
   [FeeAmount.HIGH]: {
     label: '1',
     description: 'Best for exotic pairs',
-    supportedChains: [SupportedChainId.MAINNET, SupportedChainId.POLYGON],
+    supportedChains: supportedChains,
   },
 }

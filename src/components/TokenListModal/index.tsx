@@ -1,5 +1,6 @@
 import { Currency } from '@ape.swap/sdk-core'
 import { Flex, Modal, Svg, Text } from 'components/uikit'
+import useIsMobile from 'hooks/useIsMobile'
 import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
@@ -28,8 +29,15 @@ const TokenListModal = ({
     const checksummedInput = isAddress(input)
     setSearchQuery(checksummedInput || input)
   }, [])
+  const isMobile = useIsMobile()
   return (
-    <Modal title="Tokens" minWidth="300px" maxWidth="95%" onDismiss={onDismiss}>
+    <Modal
+      title="Tokens"
+      minWidth="300px"
+      maxWidth="95%"
+      onDismiss={onDismiss}
+      paddingWidth={isMobile ? '10px' : '20px'}
+    >
       <Flex sx={{ position: 'relative', margin: '15px 5px', mb: '20px' }}>
         <Input
           onChange={handleInput}
@@ -47,7 +55,7 @@ const TokenListModal = ({
           <Svg icon="search" />
         </Flex>
       </Flex>
-      <Flex sx={{ maxWidth: '100%', width: '400px', maxHeight: '65vh' }}>
+      <Flex sx={{ maxWidth: '100%', width: '450px', maxHeight: '65vh' }}>
         <List
           searchQuery={searchQuery}
           onCurrencySelect={onCurrencySelect}

@@ -40,6 +40,23 @@ const Colors = {
   opacityBadge: 'rgba(66, 66, 66, 0.5)',
   moon: '#7A7A7A',
   island: '#4D4040',
+  listTagBg: {
+    ape: 'linear-gradient(99.09deg, rgba(161, 101, 82, 0.8) 0%, rgba(255, 179, 0, 0.8) 106.96%)',
+    uni: 'rgba(213, 49, 113, 0.8)',
+    ark: 'rgba(208, 126, 90, 0.8)',
+    hot: '#DF4141',
+    new: '#38A611',
+    auto: '#DF4141',
+    max: '#38A611',
+  },
+  home: {
+    c1: '#ece8de',
+    c2: '#EFEDE3',
+    c3: '#F5F2E9',
+    cShadow: 'rgba(240, 237, 231)',
+    hideCircles: '#FDFBF5',
+    title: 'linear-gradient(286.95deg, rgba(255, 179, 0, 0.6) 33.2%, rgba(0, 0, 0, 0) 112.36%), #4E3F3F',
+  },
   modes: {
     dark: {
       background: '#0B0B0B',
@@ -70,6 +87,14 @@ const Colors = {
       opacityBadge: 'rgba(253, 251, 245, 0.5)',
       moon: '#FAFAFA',
       island: '#7A7A7A',
+      home: {
+        c1: '#1c1c1c',
+        c2: '#161616',
+        c3: '#141312',
+        cShadow: 'rgb(19 18 17)',
+        hideCircles: '#0B0B0B',
+        title: 'linear-gradient(286.95deg, rgba(255, 179, 0, 0.6) 33.2%, rgba(0, 0, 0, 0) 112.36%), #FAFAFA',
+      },
     },
   },
 }

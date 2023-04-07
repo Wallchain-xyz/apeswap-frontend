@@ -57,7 +57,6 @@ export default function Updater(): null {
   useEffect(() => {
     Object.keys(lists).forEach((listUrl) => {
       const list = lists[listUrl]
-      console.log(list)
       if (list.current && list.pendingUpdate) {
         const bump = getVersionUpgrade(list.current.version, list.pendingUpdate.version)
         switch (bump) {

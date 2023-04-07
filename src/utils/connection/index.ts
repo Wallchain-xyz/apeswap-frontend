@@ -69,15 +69,14 @@ export const walletConnectConnection: Connection = {
   type: ConnectionType.WALLET_CONNECT,
 }
 
-// TODO: Fix this
 const [web3CoinbaseWallet, web3CoinbaseWalletHooks] = initializeConnector<CoinbaseWallet>(
   (actions) =>
     new CoinbaseWallet({
       actions,
       options: {
         url: RPC_URLS[SupportedChainId.BSC][0],
-        appName: 'YourAppHere',
-        appLogoUrl: 'Yourlogohere.png',
+        appName: 'ApeSwap',
+        appLogoUrl: 'favicon.ico',
         reloadOnDisconnect: false,
       },
       onError,

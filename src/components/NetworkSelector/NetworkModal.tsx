@@ -1,5 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { Button, Flex, Modal, Svg, Text } from 'components/uikit'
+import { useWeb3React } from '@web3-react/core'
+import { Button, Flex, Link, Modal, Svg, Text } from 'components/uikit'
 import { MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
 import useSelectChain from 'hooks/useSelectChain'
 import { useAppDispatch } from 'state/hooks'
@@ -14,6 +15,7 @@ const NetworkModal = ({
 }) => {
   const selectChain = useSelectChain()
   const dispatch = useAppDispatch()
+  const { chainId: selectedChainId } = useWeb3React()
   return (
     <Modal maxWidth="400px" minWidth="350px" title="Network" onDismiss={onDismiss}>
       <Flex sx={{ flexDirection: 'column' }}>
@@ -21,14 +23,14 @@ const NetworkModal = ({
           return (
             <Button
               fullWidth
-              variant="tertiary"
+              variant={selectedChainId === chainId ? 'secondary' : 'tertiary'}
               key={chainId}
               sx={{
-                margin: '3.5px 0px',
+                margin: '5px 0px',
                 height: '45px',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'white4',
+                background: selectedChainId === chainId ? 'white2' : 'white4',
               }}
               onClick={async () => {
                 onSetRequestPending(true)
@@ -54,6 +56,15 @@ const NetworkModal = ({
             </Button>
           )
         })}
+        <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '10px' }}>
+          <Link
+            href="https://app.multichain.org/#/router"
+            sx={{ fontWeight: 500, textDecoration: 'none' }}
+            target="_blank"
+          >
+            Bridge Tokens <Svg icon="caret" direction="right" />
+          </Link>
+        </Flex>
       </Flex>
     </Modal>
   )

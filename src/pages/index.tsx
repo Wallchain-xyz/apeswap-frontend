@@ -1,10 +1,5 @@
-import Homepage from 'components/Homepage'
-import Head from 'next/head'
+import HomePage from './home'
 
 export default function Index() {
-  return (
-    <>
-      <Homepage />
-    </>
-  )
+  return <HomePage />
 }

@@ -5,6 +5,13 @@ import { Contract } from '@ethersproject/contracts'
 import type { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
 
+declare const window: Window & {
+  ethereum?: {
+    isMetaMask?: true
+    request?: (...args: any[]) => void
+  }
+}
+
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {
@@ -61,4 +68,36 @@ export function getEtherscanLink(
       return `${BLOCK_EXPLORER[chainId]}/address/${data}`
     }
   }
+}
+
+/**
+ * Prompt the user to add a custom token to metamask
+ * @param tokenAddress
+ * @param tokenSymbol
+ * @param tokenDecimals
+ * @param tokenImage
+ * @returns {boolean} true if the token has been added, false otherwise
+ */
+export const registerToken = async (
+  tokenAddress: string,
+  tokenSymbol: string | undefined,
+  tokenDecimals: number,
+  tokenImage: string | undefined,
+) => {
+  const tokenAdded = window?.ethereum?.request
+    ? await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: tokenDecimals,
+            image: tokenImage,
+          },
+        },
+      })
+    : null
+
+  return tokenAdded
 }

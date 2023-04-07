@@ -41,67 +41,67 @@ export const SwapSlides = () => {
         </>
       }
     />,
+    // <Slide
+    //   key={2}
+    //   step="Step 2"
+    //   slideTitle="Approve Router"
+    //   slideContent={
+    //     <>
+    //       <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
+    //       <Text sx={{ fontStyle: 'italic' }}>
+    //         <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
+    //         <Tooltip
+    //           placement={'topRight'}
+    //           transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
+    //           body={
+    //             <Flex sx={styles.tipBody}>
+    //               {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
+    //             </Flex>
+    //           }
+    //           sx={{ width: ['190px', '190px', '350px'] }}
+    //         >
+    //           <Text sx={styles.tipTitle}>Ape,</Text>
+    //         </Tooltip>{' '}
+    //         <Tooltip
+    //           placement={'topRight'}
+    //           transformTip="translate(4%, 2%)"
+    //           body={
+    //             <Flex sx={styles.tipBody}>
+    //               {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
+    //             </Flex>
+    //           }
+    //           sx={{ width: ['220px', '220px', '350px'] }}
+    //         >
+    //           <Text sx={styles.tipTitle}>Smart,</Text>
+    //         </Tooltip>{' '}
+    //         <Tooltip
+    //           placement={'topRight'}
+    //           transformTip="translate(4%, 2%)"
+    //           body={
+    //             <Flex sx={styles.tipBody}>
+    //               {t(
+    //                 "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
+    //               )}
+    //             </Flex>
+    //           }
+    //           sx={{ width: ['260px', '260px', '350px'] }}
+    //         >
+    //           <Text sx={styles.tipTitle}>Bonus</Text>
+    //         </Tooltip>
+    //         <Text sx={styles.content}>{t(')')}</Text>
+    //       </Text>
+    //     </>
+    //   }
+    // />,
     <Slide
       key={2}
       step="Step 2"
-      slideTitle="Approve Router"
-      slideContent={
-        <>
-          <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
-          <Text sx={{ fontStyle: 'italic' }}>
-            <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
-            <Tooltip
-              placement={'topRight'}
-              transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
-                </Flex>
-              }
-              sx={{ width: ['190px', '190px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>Ape,</Text>
-            </Tooltip>{' '}
-            <Tooltip
-              placement={'topRight'}
-              transformTip="translate(4%, 2%)"
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
-                </Flex>
-              }
-              sx={{ width: ['220px', '220px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>Smart,</Text>
-            </Tooltip>{' '}
-            <Tooltip
-              placement={'topRight'}
-              transformTip="translate(4%, 2%)"
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t(
-                    "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
-                  )}
-                </Flex>
-              }
-              sx={{ width: ['260px', '260px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>Bonus</Text>
-            </Tooltip>
-            <Text sx={styles.content}>{t(')')}</Text>
-          </Text>
-        </>
-      }
-    />,
-    <Slide
-      key={3}
-      step="Step 3"
       slideTitle="Confirm The Swap"
       slideContent={
         <>
           <Text>
             {t(
-              'Select SWAP and click CONFIRM SWAP. Approve the transaction in your wallet. In a few seconds, the trade will go through and you will receive your output tokens.',
+              'You’ll need to select APPROVE, SWAP and then CONFIRM. Approve all transactions in your wallet. In a few seconds, the trade will go through and you will receive your output tokens.',
             )}
           </Text>
         </>
@@ -849,7 +849,9 @@ export const LiquidityV3Slides = () => {
               <Text sx={styles.tipTitle}>{t('price range')}</Text>
             </Tooltip>
           </Text>
-          {/* <Text sx={{ fontStyle: 'italic' }}>{t('Assets are always deposited in an equal 50/50 value split!')}</Text> */}
+          <Text sx={{ fontStyle: 'italic', fontWeight: 300 }}>
+            {t('Lower fee pools get used more, so sometimes the amount of volume can make up for the lower fees!')}
+          </Text>{' '}
         </>
       }
     />,
@@ -860,7 +862,9 @@ export const LiquidityV3Slides = () => {
       slideContent={
         <>
           <Text>
-            {t('Select +ADD LIQUIDITY and approve the transaction in your wallet. You will receive your ')}
+            {t(
+              'Select PREVIEW to review the position and then ADD to confirm. Approve the transaction in your wallet. You will receive your ',
+            )}
             <Tooltip
               placement={'topRight'}
               transformTip={`translate(${isMobile ? '10%' : '6%'}, 2%)`}
@@ -907,9 +911,7 @@ export const LiquidityV3Slides = () => {
               'for each transaction that uses this pair of tokens on your set price range. Don’t forget to CLAIM your rewards periodically in the',
             )}{' '}
             <Link
-              href="https://apeswap.finance/banana-farms"
-              target="_blank"
-              rel="noreferrer noopener"
+              href="/liquidity"
               sx={styles.yellow}
             >
               {t('Positions')}

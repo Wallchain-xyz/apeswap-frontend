@@ -1,5 +1,5 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { FACTORY_ADDRESSES as V3_FACTORY_ADDRESS } from '@ape.swap/v3-sdk'
+import { FACTORY_ADDRESSES } from '@ape.swap/v3-sdk'
 
 type AddressMap = { [chainId: number]: string }
 
@@ -32,8 +32,7 @@ export const V2_ROUTER_ADDRESSES: AddressMap = {
   [SupportedChainId.ARBITRUM_ONE]: '0x7d13268144adcdbEBDf94F654085CC15502849Ff',
 }
 
-// TODO: Change this to actual addresses
-export const V3_FACTORY_ADDRESSES = V3_FACTORY_ADDRESS
+export const V3_FACTORY_ADDRESSES = FACTORY_ADDRESSES
 
 export const NONFUNGIBLE_POSITION_MANAGER_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON]: '0x0927a5abbD02eD73ba83fC93Bd9900B1C2E52348',
@@ -48,8 +47,8 @@ export const TICK_LENS_ADDRESSES: AddressMap = {
 export const QUOTER_ADDRESSES: AddressMap = {
   [SupportedChainId.MAINNET]: '0x01dadaa586D30d93Ac92C79A5Cb02a8F276a8B4F',
   [SupportedChainId.ARBITRUM_ONE]: '0xC22Db8dDe3A3591fFB02be868Ce2901d30671FE4',
-  [SupportedChainId.POLYGON]: '0x76F310F6e1d2D7d24827212762D0b68c1e367968',
-  [SupportedChainId.BSC]: '0xB8C30b21A817B993B1c20d005B80ab88Bb55b689',
+  [SupportedChainId.POLYGON]: '0x639880B3c7ff97fAd516b59c6c282023636322BF',
+  [SupportedChainId.BSC]: '0x659D8397fBA7B756dc70063e724032f94a7a40ba',
 }
 
 export const SWAP_ROUTER_ADDRESSES: AddressMap = {

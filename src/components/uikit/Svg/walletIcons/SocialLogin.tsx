@@ -1,9 +1,8 @@
-import React from 'react'
 import { SvgProps } from '../types'
 
-const Icon: React.FC<SvgProps> = (props) => {
+const Icon = ({ width }: SvgProps) => {
   return (
-    <svg viewBox="0 0 32 32" {...props}>
+    <svg viewBox="0 0 32 32" width={'128px' || width}>
       <path d="M16 32c8.837 0 16-7.163 16-16S24.837 0 16 0 0 7.163 0 16s7.163 16 16 16Z" fill="#0364FF" />
       <path
         fillRule="evenodd"

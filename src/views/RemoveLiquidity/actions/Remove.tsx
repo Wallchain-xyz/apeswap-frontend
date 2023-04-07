@@ -3,15 +3,18 @@ import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
+import { useTranslation } from 'contexts/Localization'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import useModal from 'hooks/useModal'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { currencyId } from 'utils/currencyId'
+import track from 'utils/track'
 import RemoveLiquidityConfirmation from '../components/RemoveLiquidityConfirmation'
 
 const DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
@@ -26,6 +29,7 @@ const Remove = ({
   feeValue1,
   feeAmount,
   inRange,
+  error,
   setAttemptingTxn,
   setTxHash,
 }: {
@@ -38,16 +42,20 @@ const Remove = ({
   feeValue1: CurrencyAmount<Currency> | undefined
   feeAmount: number | undefined
   inRange: boolean
+  error: ReactNode | undefined
   setAttemptingTxn: Dispatch<SetStateAction<boolean>>
   setTxHash: Dispatch<SetStateAction<string>>
 }) => {
   const { account, chainId, provider } = useWeb3React()
+  const { t } = useTranslation()
   const addTransaction = useTransactionAdder()
   const positionManager = useV3NFTPositionManagerContract()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE) // custom from users
   const deadline = useTransactionDeadline() // custom from users settings
   const isExpertMode = useIsExpertMode()
 
+  const [currencyAUsdVal] = useTokenPriceUsd(liquidityValue0?.currency ?? undefined)
+  const [currencyBUsdVal] = useTokenPriceUsd(liquidityValue1?.currency ?? undefined)
 
   const burn = useCallback(async () => {
     setAttemptingTxn(true)
@@ -108,11 +116,6 @@ const Remove = ({
                 setAttemptingTxn(false)
                 console.error(error)
               })
-            // sendEvent({
-            //   category: 'Liquidity',
-            //   action: 'RemoveV3',
-            //   label: [liquidityValue0.currency.symbol, liquidityValue1.currency.symbol].join('/'),
-            // })
             setTxHash(response.hash)
             addTransaction(response, {
               type: TransactionType.REMOVE_LIQUIDITY_V3,
@@ -120,6 +123,19 @@ const Remove = ({
               quoteCurrencyId: currencyId(liquidityValue1.currency),
               expectedAmountBaseRaw: liquidityValue0.quotient.toString(),
               expectedAmountQuoteRaw: liquidityValue1.quotient.toString(),
+            })
+            track({
+              event: 'RemoveLiquidity',
+              chain: chainId,
+              data: {
+                version: 'V3',
+                currencyA: liquidityValue0?.currency?.symbol,
+                currencyB: liquidityValue1?.currency?.symbol,
+                currencyAValue: parseFloat(liquidityValue0?.toSignificant(6) || '0'),
+                currencyBValue: parseFloat(liquidityValue1?.toSignificant(6) || '0'),
+                currencyAUsdValue: currencyAUsdVal * parseFloat(liquidityValue0?.toSignificant(6) || '0'),
+                currencyBUsdValue: currencyBUsdVal * parseFloat(liquidityValue1?.toSignificant(6) || '0'),
+              },
             })
           })
       })
@@ -129,6 +145,8 @@ const Remove = ({
       })
   }, [
     positionManager,
+    currencyBUsdVal,
+    currencyAUsdVal,
     liquidityValue0,
     liquidityValue1,
     deadline,
@@ -175,10 +193,11 @@ const Remove = ({
       fullWidth
       sx={{ mt: '10px' }}
       onClick={burn}
+      disabled={!!error}
       // load={attemptingTxn}
       // disabled={attemptingTxn}
     >
-      {isExpertMode ? 'Remove' : 'Preview'}
+      {error ? error : t('Remove')}
     </Button>
   )
 }

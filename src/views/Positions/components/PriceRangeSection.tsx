@@ -76,12 +76,19 @@ const PriceRangeSection = ({
               flexDirection: 'column',
             }}
           >
-            <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}> Min Price </Text>
+            <Flex
+              sx={{
+                justifyContent: 'space-between',
+                width: '100%',
+                flexWrap: 'nowrap',
+                alignItems: 'center',
+              }}
+            >
+              <Text sx={{ fontSize: ['2.8vw', '2.8vw', '16px'], whiteSpace: 'nowrap' }}> Min Price </Text>
               {valuesLoading ? (
                 <Skeleton width={50} animation="waves" />
               ) : (
-                <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}>
+                <Text sx={{ fontSize: ['2.8vw', '2.8vw', '16px'], whiteSpace: 'nowrap' }}>
                   {' '}
                   {formatTickPrice(priceLower, tickAtLimit, Bound.LOWER)}
                 </Text>
@@ -103,12 +110,12 @@ const PriceRangeSection = ({
               flexDirection: 'column',
             }}
           >
-            <Flex sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}> Max Price </Text>
+            <Flex sx={{ justifyContent: 'space-between', width: '100%', flexWrap: 'noWrap', alignItems: 'center' }}>
+              <Text sx={{ fontSize: ['2.8vw', '2.8vw', '16px'], whiteSpace: 'nowrap' }}>Max Price </Text>
               {valuesLoading ? (
                 <Skeleton width={50} animation="waves" />
               ) : (
-                <Text sx={{ fontSize: ['3vw', '3vw', '16px'] }}>
+                <Text sx={{ fontSize: ['2.8vw', '2.8vw', '16px'], whiteSpace: 'nowrap' }}>
                   {' '}
                   {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}
                 </Text>
@@ -123,7 +130,7 @@ const PriceRangeSection = ({
         </Flex>
         <Flex
           sx={{
-            width: '100%',
+            width: ['90%', '90%', '100%'],
             borderRadius: '10px',
             ml: '10px',
             alignItems: 'center',

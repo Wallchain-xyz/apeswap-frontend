@@ -1,7 +1,7 @@
 import React from "react";
 import { SvgProps } from "../types";
 
-const Icon: React.FC<SvgProps> = (props) => {
+const Icon  = ({ width }: SvgProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,7 @@ const Icon: React.FC<SvgProps> = (props) => {
       y="0px"
       viewBox="0 0 50 50"
       xmlSpace="preserve"
-      {...props}
+      width={'128px' || width}
     >
       <circle cx="25" cy="25" r="25" fill="#FFFFFF" />
       <path d="M41.4,9.9v11.8l-34.8,14L41.4,9.9z" fill="#00C9FF" />

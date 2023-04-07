@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { NONFUNGIBLE_POSITION_MANAGER_ADDRESSES } from 'config/constants/addresses'
 import type { TransactionResponse } from '@ethersproject/providers'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Currency, CurrencyAmount, Percent } from '@ape.swap/sdk-core'
 import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
@@ -13,6 +13,8 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { currencyId } from 'utils/currencyId'
 import { Field } from 'state/mint/v3/actions'
+import track from 'utils/track'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 
 const DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE = new Percent(50, 10_000)
 
@@ -26,6 +28,7 @@ const Add = ({
   hasExistingPosition,
   noLiquidity,
   tokenId,
+  errorMessage,
   setAttemptingTxn,
   setTxHash,
 }: {
@@ -38,6 +41,7 @@ const Add = ({
   quoteCurrency: Currency | null | undefined
   position: Position | undefined
   outOfRange: boolean
+  errorMessage: ReactNode | undefined
   hasExistingPosition: boolean
   noLiquidity: boolean | undefined
   tokenId: string | undefined
@@ -50,6 +54,9 @@ const Add = ({
     (parsedAmounts.CURRENCY_B?.equalTo(0) || !parsedAmounts.CURRENCY_B)
   const { chainId, provider, account } = useWeb3React()
   const addTransaction = useTransactionAdder()
+
+  const [currencyAUsdVal] = useTokenPriceUsd(baseCurrency ?? undefined)
+  const [currencyBUsdVal] = useTokenPriceUsd(quoteCurrency ?? undefined)
 
   const allowedSlippage = useUserSlippageToleranceWithDefault(
     outOfRange ? ZERO_PERCENT : DEFAULT_ADD_IN_RANGE_SLIPPAGE_TOLERANCE,
@@ -136,11 +143,21 @@ const Add = ({
                 feeAmount: position.pool.fee,
               })
               setTxHash(response.hash)
-              //   sendEvent({
-              //     category: 'Liquidity',
-              //     action: 'Add',
-              //     label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/'),
-              //   })
+              track({
+                event: 'IncreaseLiquidity',
+                chain: chainId,
+                data: {
+                  version: 'V3',
+                  currencyA: baseCurrency?.symbol,
+                  currencyB: quoteCurrency?.symbol,
+                  currencyAValue: parseFloat(parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) || '0'),
+                  currencyBValue: parseFloat(parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) || '0'),
+                  currencyAUsdValue:
+                    currencyAUsdVal * parseFloat(parsedAmounts[Field.CURRENCY_A]?.toSignificant(6) || '0'),
+                  currencyBUsdValue:
+                    currencyBUsdVal * parseFloat(parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) || '0'),
+                },
+              })
             })
         })
         .catch((error) => {
@@ -156,8 +173,8 @@ const Add = ({
     }
   }
   return (
-    <Button fullWidth onClick={onAdd} mt="10px" disabled={disableAdd}>
-      Add
+    <Button fullWidth onClick={onAdd} mt="10px" disabled={disableAdd || !!errorMessage}>
+      {errorMessage ? errorMessage : 'Add'}
     </Button>
   )
 }
