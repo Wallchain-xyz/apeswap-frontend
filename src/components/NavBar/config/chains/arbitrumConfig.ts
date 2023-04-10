@@ -23,8 +23,8 @@ const arbitrumConfig = [
     ],
   },
   {
-    label: 'Bills',
-    href: `${TEMP_APESWAP_URL}/treasury-bills`,
+    label: 'Bonds',
+    href: `${TEMP_APESWAP_URL}/bonds`,
     isNew: true,
   },
   {
