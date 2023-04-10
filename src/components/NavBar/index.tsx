@@ -16,7 +16,7 @@ const NavBar = () => {
   const [dropdownFlag, setDropdownFlag] = useState(false)
   return (
     <Flex sx={styles.container}>
-      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href={process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}>
+      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href={process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL ?? ''}>
         <Svg icon="logo" width="38px" />
       </Flex>
       <MobileMenu dropdownFlag={dropdownFlag} />

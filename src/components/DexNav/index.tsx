@@ -11,15 +11,18 @@ import { Flex, Link, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { Switch } from 'theme-ui'
 import DexSettings from 'components/DexSettings'
+import SquidBridge from '../SquidBridge/SquidBridge'
 
 interface DexNavProps {
   zapSettings?: boolean
 }
 
 const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
+  const BRIDGE_SUPPORTED_CHAINS = [SupportedChainId.BSC, SupportedChainId.ARBITRUM_ONE, SupportedChainId.POLYGON, SupportedChainId.MAINNET]
   const { t } = useTranslation()
   const { pathname, push, asPath } = useRouter()
   const { chainId } = useWeb3React()
+  const [onBridgeModal] = useModal(<SquidBridge />)
 
   const v2Flag = pathname.includes('/v2')
   const swapFlag = pathname.includes('/swap')
@@ -127,9 +130,16 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
-          <Link href="https://app.multichain.org/#/router" sx={{ height: '0px' }}>
+          <Flex
+            sx={styles.iconCover}
+            onClick={
+              BRIDGE_SUPPORTED_CHAINS.includes(chainId as number)
+                ? onBridgeModal
+                : () => window.open('https://app.multichain.org/#/router', '_blank')
+            }
+          >
             <Svg icon="bridge" />
-          </Link>
+          </Flex>
           <Flex onClick={onPresentSettingsModal} sx={{ cursor: 'pointer', mb: '5px' }}>
             <Svg icon="cog" />
           </Flex>
