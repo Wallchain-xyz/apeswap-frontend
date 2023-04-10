@@ -3,7 +3,7 @@ import Bonds from 'views/Bonds'
 
 const BondsPage = () => {
   return (
-    <PageContainer>
+    <PageContainer variant='listView'>
       <Bonds />
     </PageContainer>
   )
