@@ -35,9 +35,9 @@ const ListViewContent: React.FC<ListViewContentProps> = ({
             >
               <Text sx={styles.titleText}>
                 {t(`${title}`)}
-                <Flex ml="5px">
+                <span sx={{ml:"5px"}}>
                   <Svg icon="question" width="12px" />
-                </Flex>
+                </span>
               </Text>
             </TooltipBubble>
             {aprCalculator}

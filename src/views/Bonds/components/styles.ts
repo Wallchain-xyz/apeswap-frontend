@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Button, ArrowDropUpIcon, Flex } from '@apeswapfinance/uikit'
+import styled from '@emotion/styled'
+import { Button, Flex } from 'components/uikit'
 
 export const StyledButton = styled(Button)<{ buttonSize?: string }>`
   border-radius: 10px;
@@ -20,7 +20,7 @@ export const ClaimButton = styled(Button)<{ margin?: string; buttonSize?: string
   max-width: ${({ buttonSize }) => buttonSize || '100%'};
 `
 
-export const NextArrow = styled(ArrowDropUpIcon)`
+export const NextArrow = styled(Flex)`
   transform: rotate(90deg);
 `
 
