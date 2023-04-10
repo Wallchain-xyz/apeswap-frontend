@@ -6,7 +6,7 @@ interface LinkTypes extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 
   sx?: ThemeUIStyleObject
 }
 
-const Link = ({ children, ...props }: LinkTypes) => {
+const Link = ({ children, ...props }: LinkTypes | any) => {
   return (
     <NextLink
       {...props}
