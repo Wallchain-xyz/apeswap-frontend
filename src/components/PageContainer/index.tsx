@@ -16,7 +16,7 @@ const variants = {
   homepage: {
     justifyContent: 'center',
     overflow: 'display',
-    maxWith: 'auto',
+    maxWidth: 'auto',
   },
   listView: {
     maxWidth: ['500px', '500px', '500px', '1150px'],

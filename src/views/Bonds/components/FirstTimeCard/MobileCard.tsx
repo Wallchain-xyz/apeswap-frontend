@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'contexts/Localization'
 import { Flex, Svg, Text } from 'components/uikit'
 import BillsDiagram from 'components/MarketingModals/Bills/BillsDiagram'
+import Image from 'next/image'
 
 const MobileCard = () => {
   const [expanded, setExpanded] = useState(false)
@@ -17,7 +18,13 @@ const MobileCard = () => {
   return (
     <FirstTimeCardContainer onClick={() => setExpanded(!expanded)}>
       <BillGifContainer>
-        <img src={'images/bills/bill-nfts.gif'} alt="bill-img" />
+        <Image
+          src="/images/bills/bill-nfts.gif"
+          alt="bill-img"
+          width={800}
+          height={800}
+          sx={{ width: '100%', height: 'auto' }}
+        />{' '}
       </BillGifContainer>
       <DescriptionContainer>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>

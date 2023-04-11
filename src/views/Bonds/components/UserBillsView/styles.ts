@@ -112,10 +112,11 @@ export const FirstTimeCardContainer = styled(Flex)`
   }
 `
 
-export const BillGifContainer = styled(Flex)`
+export const BillGifContainer = styled(Flex)<{ image: string }>`
   width: 100%;
   justify-content: center;
   align-items: center;
+  background: ${({ image }) => `url(${image})`};
   ${({ theme }) => theme.mediaQueries.md} {
     width: 50%;
     min-width: 450px;

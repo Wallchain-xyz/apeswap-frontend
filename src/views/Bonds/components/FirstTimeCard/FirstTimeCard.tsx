@@ -14,6 +14,7 @@ import { useWeb3React } from '@web3-react/core'
 import useBonds from 'views/Bonds/hooks/useBonds'
 import { Text } from 'components/uikit'
 import BillsDiagram from 'components/MarketingModals/Bills/BillsDiagram'
+import Image from 'next/image'
 
 const FirstTimeCard = () => {
   const { t } = useTranslation()
@@ -23,7 +24,7 @@ const FirstTimeCard = () => {
 
   const bills = useBonds()
   const ownedBillsAmount = null
-  
+
   // bills?.flatMap((bill) => {
   //   if (bill?.userOwnedBillsData !== undefined && !loaded) {
   //     setLoaded(true)
@@ -58,7 +59,13 @@ const FirstTimeCard = () => {
           ) : (
             <FirstTimeCardContainer>
               <BillGifContainer>
-                <img src={'images/bills/bill-nfts.gif'} alt="bill-img" />
+                <Image
+                  src="/images/bills/bill-nfts.gif"
+                  alt="bill-img"
+                  width={800}
+                  height={800}
+                  sx={{ width: '100%', height: 'auto' }}
+                />
               </BillGifContainer>
               <DescriptionContainer>
                 <Text fontSize="22px" bold>
