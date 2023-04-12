@@ -17,7 +17,7 @@ export enum ApprovalState {
 function useApprovalStateForSpender(
   amountToApprove: CurrencyAmount<Currency> | undefined,
   spender: string | undefined,
-  useIsPendingApproval: (token?: Token, spender?: string) => boolean
+  useIsPendingApproval: (token?: Token, spender?: string) => boolean,
 ): ApprovalState {
   const { account } = useWeb3React()
   const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
@@ -43,10 +43,10 @@ function useApprovalStateForSpender(
 export function useApproval(
   amountToApprove: CurrencyAmount<Currency> | undefined,
   spender: string | undefined,
-  useIsPendingApproval: (token?: Token, spender?: string) => boolean
+  useIsPendingApproval: (token?: Token, spender?: string) => boolean,
 ): [
   ApprovalState,
-  () => Promise<{ response: TransactionResponse; tokenAddress: string; spenderAddress: string } | undefined>
+  () => Promise<{ response: TransactionResponse; tokenAddress: string; spenderAddress: string } | undefined>,
 ] {
   const { chainId } = useWeb3React()
   const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
@@ -89,12 +89,6 @@ export function useApproval(
         gasLimit: calculateGasMargin(estimatedGas),
       })
       .then((response) => {
-        // const eventProperties = {
-        //   chain_id: chainId,
-        //   token_symbol: token?.symbol,
-        //   token_address: getTokenAddress(token),
-        // }
-        // sendAnalyticsEvent(InterfaceEventName.APPROVE_TOKEN_TXN_SUBMITTED, eventProperties)
         return {
           response,
           tokenAddress: token.address,

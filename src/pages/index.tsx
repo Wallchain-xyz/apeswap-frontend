@@ -1,6 +1,5 @@
-import { useRouter } from 'next/router'
-import SwapPage from './swap'
+import HomePage from './home'
 
 export default function Index() {
-  return <></>
+  return <HomePage />
 }

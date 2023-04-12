@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compiler: {
-    styledComponents: true,
+    emotion: true,
   },
   images: {
     domains: [
@@ -10,15 +10,11 @@ const nextConfig = {
       'assets.coingecko.com',
       'tokens.pancakeswap.finance',
       'ipfs.io',
+      'res.cloudinary.com',
     ],
   },
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/swap',
-        permanent: false,
-      },
       {
         source: '/zap',
         destination: '/add-liquidity',

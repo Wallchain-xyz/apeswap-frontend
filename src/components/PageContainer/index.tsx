@@ -13,6 +13,10 @@ const variants = {
     mb: ['100px', '100px', '100px', '100px', '100px', '100px'],
     justifyContent: 'center',
   },
+  homepage: {
+    justifyContent: 'center',
+    overflow: 'display',
+  },
 }
 
 const PageContainer = ({
@@ -22,7 +26,7 @@ const PageContainer = ({
 }: {
   style?: CSSProperties
   children: React.ReactNode
-  variant?: 'dex'
+  variant?: 'dex' | 'homepage'
 }) => {
   const { asPath } = useRouter()
   const pageMeta = customMeta[asPath] || {}
@@ -39,14 +43,22 @@ const PageContainer = ({
       <Flex
         sx={{
           minHeight: '100vh',
-          padding: '0px 10px',
+          padding: variant === 'dex' && '0px 10px',
           alignItems: 'center',
           width: '100%',
           paddingTop: `${NAV_HEIGHT}px`,
           flexDirection: 'column',
         }}
       >
-        <Flex sx={{ maxWidth: '1200px', width: '100%', minHeight: '100%', ...variants[variant], ...style }}>
+        <Flex
+          sx={{
+            maxWidth: variant === 'homepage' ? 'auto' : '1200px',
+            width: '100%',
+            minHeight: '100%',
+            ...variants[variant],
+            ...style,
+          }}
+        >
           {children}
         </Flex>
         <FloatingDocs />
