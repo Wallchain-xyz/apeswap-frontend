@@ -60,6 +60,7 @@ export const Content = styled(Flex)`
   align-items: center;
   justify-content: flex-start;
   margin: 0;
+  flex-direction: row;
   margin-top: 1em;
 
   &:first-child {

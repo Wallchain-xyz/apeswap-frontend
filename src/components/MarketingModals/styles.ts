@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Button, Flex } from 'components/uikit'
+import { Button, Flex, Text } from 'components/uikit'
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const ModalBody = styled(Flex)`
@@ -28,7 +28,7 @@ export const RightContent = styled(Flex)`
     width: 50%;
   }
 `
-export const StyledText = styled(Flex)`
+export const StyledText = styled(Text)`
   text-align: center;
   font-weight: 500;
   font-size: 16px;

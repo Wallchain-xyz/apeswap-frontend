@@ -25,12 +25,12 @@ const FirstTimeCard = () => {
   const bills = useBills()
   const ownedBillsAmount = null
 
-  // bills?.flatMap((bill) => {
-  //   if (bill?.userOwnedBillsData !== undefined && !loaded) {
-  //     setLoaded(true)
-  //   }
-  //   return bill?.userOwnedBillsData ? bill?.userOwnedBillsData : []
-  // }).length
+  bills?.flatMap((bill) => {
+    if (bill?.userOwnedBillsData !== undefined && !loaded) {
+      setLoaded(true)
+    }
+    return bill?.userOwnedBillsData ? bill?.userOwnedBillsData : []
+  }).length
 
   // logic used to prevent FirstTimeCard to pop up abruptly
   const [showFirstTimeCard, setShowFirstTimeCard] = useState(false)
@@ -68,7 +68,7 @@ const FirstTimeCard = () => {
                 />
               </BillGifContainer>
               <DescriptionContainer>
-                <Text fontSize="22px" bold>
+                <Text size="22px" bold>
                   {t('Tips for buying bonds')}
                 </Text>
                 <BillDiagramContainer>

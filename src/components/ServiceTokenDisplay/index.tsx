@@ -59,7 +59,9 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
       <TokenWrapper>
         <TokenContainer srcs={token1Urls} size={size} />
       </TokenWrapper>
-      <Svg icon="arrow" direction="right" />
+      <span sx={{ margin: '0px 6px' }}>
+        <Svg icon="caret" direction="right" width={6} />
+      </span>
       <TokenWrapper>
         <TokenContainer srcs={token2Urls} size={size} />
       </TokenWrapper>
@@ -74,7 +76,15 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
       <TokenWrapper size={size} ml={tokensMargin ? tokensMargin : -15}>
         <TokenContainer srcs={token2Urls} size={size} />
       </TokenWrapper>
-      {billArrow ? <Svg icon="arrow" direction="right" /> : <Svg icon="arrow" direction="right" />}
+      {billArrow ? (
+        <span sx={{ margin: '0px 10px' }}>
+          <Svg icon="arrow" direction="right" width={5} />
+        </span>
+      ) : (
+        <span sx={{ margin: '0px 6px' }}>
+          <Svg icon="caret" direction="right" width={6} />
+        </span>
+      )}
       <TokenWrapper size={size}>
         <TokenContainer srcs={token3Urls} size={size} />
       </TokenWrapper>
@@ -84,7 +94,9 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
     <Flex sx={{ alignItems: 'center' }}>
       <TokenContainer zIndex={1} srcs={token1Urls} size={size} />
       <TokenContainer ml={tokensMargin ? tokensMargin : -15} srcs={token2Urls} size={size} />
-      <Svg icon="arrow" direction="right" width={30} />
+      <span sx={{ margin: '0px 6px' }}>
+        <Svg icon="caret" direction="right" width={6} />
+      </span>
       <TokenContainer zIndex={1} srcs={token3Urls} size={size} />
       {token4 !== undefined && <TokenContainer ml={-15} srcs={token4Urls} size={size} />}
     </Flex>
@@ -97,7 +109,9 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
       <TokenWrapper ml={tokensMargin ? tokensMargin : -15} zIndex={1}>
         <TokenContainer srcs={token2Urls} size={size} />
       </TokenWrapper>
-      <Svg icon="arrow" direction="right" />
+      <span sx={{ margin: '0px 6px' }}>
+        <Svg icon="caret" direction="right" width={6} />
+      </span>
       <TokenWrapper mt={-20} size={25}>
         <TokenContainer srcs={token3Urls} size={25} />
       </TokenWrapper>
@@ -111,7 +125,9 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
       <TokenWrapper>
         <TokenContainer srcs={token1Urls} size={size} />
       </TokenWrapper>
-      <Svg icon="arrow" direction="right" />
+      <span sx={{ margin: '0px 6px' }}>
+        <Svg icon="caret" direction="right" width={6} />
+      </span>
       <TokenWrapper zIndex={5}>
         <TokenContainer zIndex={1} srcs={token2Urls} size={size} />
       </TokenWrapper>

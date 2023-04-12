@@ -28,10 +28,10 @@ const MobileCard = () => {
       </BillGifContainer>
       <DescriptionContainer>
         <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text fontSize="22px" bold sx={{ margin: '0 0 5px 10px' }}>
+          <Text size="22px" weight={700} sx={{ margin: '0 0 5px 10px' }}>
             {t('Tips for buying bonds')}
           </Text>
-          <span style={{ marginRight: '10px', transform: 'translate(0, -3px)' }}>
+          <span sx={{ marginRight: '10px', transform: 'translate(0, -3px)' }}>
             <Svg icon="caret" direction={expanded ? 'up' : 'down'} width="10px" />
           </span>
         </Flex>

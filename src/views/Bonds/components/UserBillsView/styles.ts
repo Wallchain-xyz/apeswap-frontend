@@ -60,9 +60,7 @@ export const styles: Record<string, ThemeUIStyleObject> = {
 }
 
 export const CardContainer = styled(Flex)`
-  background: ${({theme}) => theme.colors.white2};
-  border-radius: 10px;
-  display: flex;
+  background: ${({ theme }) => theme.colors.white2};
   flex-direction: column;
   min-width: 270px;
   align-items: center;
@@ -114,11 +112,10 @@ export const FirstTimeCardContainer = styled(Flex)`
   }
 `
 
-export const BillGifContainer = styled(Flex)<{ image: string }>`
+export const BillGifContainer = styled(Flex)`
   width: 100%;
   justify-content: center;
   align-items: center;
-  background: ${({ image }) => `url(${image})`};
   ${({ theme }) => theme.mediaQueries.md} {
     width: 50%;
     min-width: 450px;
@@ -142,7 +139,6 @@ export const BillDiagramContainer = styled(Flex)`
 `
 
 export const LabelWrapper = styled(Flex)`
-  display: flex;
   flex-direction: row;
   align-items: center;
   ${({ theme }) => theme.mediaQueries.md} {

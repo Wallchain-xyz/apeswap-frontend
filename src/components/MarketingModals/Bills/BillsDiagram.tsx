@@ -9,9 +9,21 @@ const BillsDiagram: React.FC = () => {
   return (
     <Flex sx={{ flexDirection: 'column' }}>
       <Content>
-        <Flex mr={15}>
+        <span
+          sx={{
+            display: 'flex',
+            mr: '15px',
+            color: 'text',
+            border: '3px solid',
+            borderRadius: '25px',
+            height: '50px',
+            width: '50px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <Svg icon="billsM1" width={50} />
-        </Flex>
+        </span>
         <RightText>
           {t(
             'The token discount is calculated based on several variables: token price, LP price, time, supply, and demand.',
@@ -19,25 +31,48 @@ const BillsDiagram: React.FC = () => {
         </RightText>
       </Content>
       <Content>
-        <Flex mr={15}>
+        <span
+          sx={{
+            display: 'flex',
+            mr: '15px',
+            color: 'text',
+            border: '3px solid',
+            borderRadius: '25px',
+            height: '50px',
+            width: '50px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {' '}
           <Svg icon="billsM2" width={50} />
-        </Flex>
-        {/* <BillsM2 width={50} bgColor={theme.theme.colors.white4} color={theme.theme.colors.text} mr={15} /> */}
+        </span>
         <RightText>{t('Use Zap ⚡ to purchase a Bond with a single token or create an LP.')}</RightText>
       </Content>
       <Content>
-        <Flex mr={15}>
+        <span
+          sx={{
+            display: 'flex',
+            mr: '15px',
+            color: 'text',
+            border: '3px solid',
+            borderRadius: '25px',
+            height: '50px',
+            width: '50px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {' '}
           <Svg icon="billsM3" width={50} />
-        </Flex>
-        {/* <BillsM3 width={50} bgColor={theme.theme.colors.white4} color={theme.theme.colors.text} mr={15} /> */}
+        </span>
         <RightText>{t('To mint a full color NFT, purchase a Bond with a value of $25 or more.')}</RightText>
       </Content>
       <Flex sx={{ margin: '22px 0 0 0', '@media screen and (min-width: 852px)': { margin: '22px 0 0 63px' } }}>
         <Text size="12px" weight={500}>
-          <Flex mr="5px" sx={{ transform: 'translate(0px, 3px)' }}>
-            <Svg icon="error" width="15px" />
-          </Flex>
-          {/* <WarningIcon width="15px" mr="5px" color="text" style={{ transform: 'translate(0px, 3px)' }} /> */}
+          <span sx={{ transform: 'translate(0px, 3px)', mr: '5px' }}>
+            <Svg icon="error" width="15px" color='text' />
+          </span>
           {t('ApeSwap Bonds have a limited supply and will sell out. Check out the ')}
           <InnerTextButton
             href="https://apeswap.gitbook.io/apeswap-finance/product-and-features/raise/treasury-bills"
