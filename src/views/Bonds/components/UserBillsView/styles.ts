@@ -60,6 +60,8 @@ export const styles: Record<string, ThemeUIStyleObject> = {
 }
 
 export const CardContainer = styled(Flex)`
+  background: ${({theme}) => theme.colors.white2};
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   min-width: 270px;

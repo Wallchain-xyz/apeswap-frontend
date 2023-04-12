@@ -1,9 +1,9 @@
-import styled from "@emotion/styled"
-import { Flex } from "components/uikit"
-
+import styled from '@emotion/styled'
+import { Flex, Text } from 'components/uikit'
 
 export const Container = styled(Flex)``
 export const HeadingContainer = styled(Flex)`
+  flex-direction: column;
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
@@ -26,23 +26,23 @@ export const Header = styled(Flex)`
   }
 `
 
-export const StyledHeading = styled(Flex)`
-  font-size: 30px;
+export const StyledHeading = styled(Text)`
+  font-size: 15px;
   max-width: 176px !important;
   color: white;
 
   ${({ theme }) => theme.mediaQueries.xs} {
-    font-size: 30px;
+    font-size: 15px;
     max-width: 240px !important;
   }
 
   ${({ theme }) => theme.mediaQueries.md} {
-    font-size: 44px;
+    font-size: 22px;
     max-width: 400px !important;
   }
 
   ${({ theme }) => theme.mediaQueries.xl} {
-    font-size: 60px;
+    font-size: 30px;
     max-width: 600px !important;
   }
 `

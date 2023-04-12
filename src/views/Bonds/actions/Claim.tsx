@@ -25,7 +25,7 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
   const displayGHCircular = false // () => showGeneralHarvestModal && onPresentGHModal()
   const bananaBill = billType === 'bill'
 
-  // TODO: 
+  // TODO:
   const handleClaim = async () => {
     if (!chainId || !account) return
     setPendingTrx(true)
@@ -54,6 +54,7 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
         disabled={pendingTrx || parseFloat(pendingRewards) === 0}
         buttonSize={buttonSize}
         margin={margin}
+        sx={{ lineHeight: '20px' }}
       >
         {t('CLAIM')}
       </ClaimButton>

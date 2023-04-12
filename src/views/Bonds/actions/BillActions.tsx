@@ -5,11 +5,12 @@ import useApproveBill from '../hooks/useApproveBill'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { BillActionsProps } from './types'
 import { useWeb3React } from '@web3-react/core'
+import BigNumber from 'bignumber.js'
 import { BuyButton } from './styles'
 import { Button } from 'components/uikit'
 import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
-import { BigNumber } from 'ethers'
 import JSBI from 'jsbi'
+
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -37,7 +38,7 @@ const BillActions: React.FC<BillActionsProps> = ({
     currencyAmount,
     chainId ? contractAddress?.[chainId as SupportedChainId] : undefined,
   )
-  const showApproveBillFlow = !BigNumber.from(bondApproval).gt(value)
+  const showApproveBillFlow = !new BigNumber(bondApproval).gt(value)
 
   const [pendingApprove, setPendingApprove] = useState(false)
   // const { toastSuccess, toastError } = useAddPopup()

@@ -34,9 +34,7 @@ const CardView: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender 
         )}
         <Flex
           padding="0px 15px"
-          alignItems="center"
-          justifyContent="space-between"
-          style={{ height: '75px', width: '100%' }}
+          sx={{ height: '75px', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}
         >
           <ListViewContent
             tag="ape"

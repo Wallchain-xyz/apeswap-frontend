@@ -30,7 +30,6 @@ import useModal from 'hooks/useModal'
 
 const modalProps = {
   sx: {
-    zIndex: 11,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     minWidth: 'unset',
@@ -68,10 +67,11 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
   const attributes = userOwnedBillNftData?.attributes?.filter((attrib) => BILL_ATTRIBUTES.includes(attrib.trait_type))
   const claimableUsd = (parseFloat(claimable) * (bill?.earnTokenPrice ?? 0))?.toFixed(2)
   const [onPresentTransferBillModal] = useModal(
-    <TransferBillModal bill={bill} billId={billId} onDismiss={onDismiss} chainId={chainId} />,
+    <TransferBillModal bill={bill} billId={billId ?? ''} onDismiss={onDismiss} chainId={chainId} />,
     true,
     true,
     `transferModal${billId}-${index}`,
+    true,
   )
   return (
     <Modal onDismiss={onDismiss} {...modalProps}>
@@ -87,16 +87,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
           {userOwnedBillNftData?.image ? (
             <BillsImage image={`${userOwnedBillNftData?.image + '?img-width=720'}`} />
           ) : (
-            <Flex alignItems="center" justifyContent="center">
+            <Flex sx={{ alignItems: 'center', justifyContnet: 'center' }}>
               <BillsImage>
                 <Image src="images/bills/bill-nfts.gif" alt="bill-img" height={500} width={500} />
               </BillsImage>
             </Flex>
           )}
           <BillDescriptionContainer width="100%">
-            <Flex flexDirection="column">
+            <Flex sx={{ flexDirection: 'column' }}>
               <BillTitleContainer>
-                <Flex alignItems="center">
+                <Flex sx={{ alignItems: 'center' }}>
                   <ServiceTokenDisplay
                     token1={token.symbol}
                     token2={quoteToken.symbol}
@@ -111,13 +111,15 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 </Flex>
               </BillTitleContainer>
             </Flex>
-            <Flex flexDirection="column">
+            <Flex sx={{ flexDirection: 'column' }}>
               {attributes
                 ? attributes.map((attrib) => {
                     return (
                       <GridTextValContainer key={attrib.value}>
-                        <Text fontSize="12px">{attrib?.trait_type}</Text>
-                        <Text fontSize="12px" bold>
+                        <Text size="12px" weight={500} sx={{ lineHeight: '12px' }}>
+                          {attrib?.trait_type}
+                        </Text>
+                        <Text size="12px" weight={700} sx={{ lineHeight: '12px' }}>
                           {attrib?.value}
                         </Text>
                       </GridTextValContainer>
@@ -126,7 +128,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 : BILL_ATTRIBUTES.map((attrib) => {
                     return (
                       <GridTextValContainer key={attrib}>
-                        <Text fontSize="12px">{t(attrib)}</Text>
+                        <Text size="12px">{t(attrib)}</Text>
                         <Skeleton width="150px" />
                       </GridTextValContainer>
                     )
@@ -142,7 +144,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 />
               </Flex>
               <Flex sx={{ width: '50%', padding: '5px' }}>
-                <StyledButton onClick={onPresentTransferBillModal} buttonSize={'100%'}>
+                <StyledButton onClick={onPresentTransferBillModal} buttonSize={'100%'} sx={{ lineHeight: '18px' }}>
                   {t('Transfer')}
                 </StyledButton>
               </Flex>
@@ -152,10 +154,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
         <BillsFooterContainer>
           <BillFooterContentContainer>
             <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              style={{ width: '100%', height: '100%' }}
+              sx={{
+                width: '100%',
+                height: '100%',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <TopDescriptionText width="auto">{t('Fully Vested')}</TopDescriptionText>
               <StyledHeadingText ml="10px" bold>
@@ -169,10 +174,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
           </BillFooterContentContainer>
           <BillFooterContentContainer>
             <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              style={{ width: '100%', height: '100%' }}
+              sx={{
+                width: '100%',
+                height: '100%',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <TopDescriptionText width="auto">{t('Claimable')}</TopDescriptionText>
               <Flex>
@@ -189,10 +197,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
           </BillFooterContentContainer>
           <BillFooterContentContainer>
             <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              style={{ width: '100%', height: '100%' }}
+              sx={{
+                width: '100%',
+                height: '100%',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <TopDescriptionText width="auto">{t('Pending')}</TopDescriptionText>
               <Flex>
@@ -211,10 +222,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
         <MobileFooterContainer>
           <MobileFooterContentContainer>
             <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              sx={{ width: '100%', margin: '5px' }}
+              sx={{
+                width: '100%',
+                margin: '5px',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <TopDescriptionText width="auto">{t('Claimable')}</TopDescriptionText>
               <Flex>
@@ -229,10 +243,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
               </Flex>
             </Flex>
             <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              sx={{ width: '100%', margin: '5px' }}
+              sx={{
+                width: '100%',
+                margin: '5px',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <TopDescriptionText width="auto">{t('Pending')}</TopDescriptionText>
               <Flex>
@@ -247,10 +264,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
               </Flex>
             </Flex>
             <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              sx={{ width: '100%', margin: '5px' }}
+              sx={{
+                width: '100%',
+                margin: '5px',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <TopDescriptionText width="auto">{t('Fully Vested')}</TopDescriptionText>
               <StyledHeadingText ml="10px" bold>

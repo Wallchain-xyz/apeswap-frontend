@@ -1,4 +1,3 @@
-/** @jsxImportSource theme-ui */
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { Box } from 'theme-ui'
@@ -15,6 +14,7 @@ import Claim from 'views/Bonds/actions/Claim'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListView from 'components/ListView/ListView'
 import VestedTimer from '../../VestedTimer'
+import BillModal from '../../Modals'
 
 const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender }) => {
   const { chainId } = useWeb3React()
@@ -93,8 +93,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 pendingRewards={billToRender?.pendingRewards}
                 margin={'0 10px'}
               />
-              <></>
-              {/* <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} /> */}
+              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
             </Flex>
           </Flex>
         ),
@@ -127,8 +126,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 />
               </Box>
               <Box sx={{ width: '240px', mb: 6 }}>
-                {/* <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'240px'} /> */}
-                <></>
+                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'240px'} />
               </Box>
             </Flex>
           </Flex>

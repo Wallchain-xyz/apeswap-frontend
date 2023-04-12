@@ -20,7 +20,16 @@ const Input = ({ variant, ...props }: { variant?: 'search' } | any) => {
       </Flex>
     </Flex>
   ) : (
-    <ThemeInput {...props} />
+    <ThemeInput
+      {...props}
+      sx={{
+        background: 'white3',
+        border: 'none',
+        pl: '10px',
+        borderRadius: '10px',
+        ':focus': { outline: 'none' },
+      }}
+    />
   )
 }
 

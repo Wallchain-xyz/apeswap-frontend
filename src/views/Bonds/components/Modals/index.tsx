@@ -1,11 +1,11 @@
 import React from 'react'
-// import BuyBillModalView from './BuyBillModalView'
 import { StyledButton } from '../styles'
 import UserBillModalView from './UserBillModalView'
 import { BillsImage } from '../UserBillsView/styles'
 import WarningModal from './WarningModal'
 import useModal from 'hooks/useModal'
 import { Bills } from 'views/Bonds/types'
+import BuyBillModalView from './BuyBillModalView'
 
 interface BillModalProps {
   bill: Bills
@@ -28,12 +28,12 @@ const BillModal: React.FC<BillModalProps> = ({
   billCardImage,
   disabled,
 }) => {
-  // const [onPresentBuyBillsModal] = useModal(
-  //   <BuyBillModalView bill={bill} onDismiss={() => null} />,
-  //   true,
-  //   true,
-  //   `billsModal${id}`,
-  // )
+  const [onPresentBuyBillsModal] = useModal(
+    <BuyBillModalView bill={bill} onDismiss={() => null} />,
+    true,
+    true,
+    `billsModal${id}`,
+  )
   const [onPresentUserBillModal] = useModal(
     <UserBillModalView bill={bill} billId={billId} onDismiss={() => null} />,
     true,
@@ -52,11 +52,12 @@ const BillModal: React.FC<BillModalProps> = ({
         buyFlag
           ? parseFloat(bill?.discount ?? '0') < 0
             ? onPresentBuyWarning
-            : null
+            : onPresentBuyBillsModal
           : onPresentUserBillModal
       }
       buttonSize={buttonSize}
       disabled={disabled}
+      sx={{ lineHeight: '20px' }}
     >
       {buttonText}
     </StyledButton>

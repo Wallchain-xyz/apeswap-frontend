@@ -10,6 +10,7 @@ import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { CheckBox, Flex, Input, Svg, Text, Toggle } from 'components/uikit'
 import MenuSelect from 'components/ListView/ListViewMenu/MenuSelect'
 import NetworkSelector from 'components/NetworkSelector'
+import useIsMobile from 'hooks/useIsMobile'
 
 const BillsListMenu: React.FC<BillsListMenuProps> = ({
   onHandleQueryChange,
@@ -26,8 +27,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
   const { t } = useTranslation()
   const switchNetwork = useSelectChain()
   const { chainId } = useWeb3React()
-  const { isLg, isXl, isXxl } = useMatchBreakpoints()
-  const isMobile = !isLg && !isXl && !isXxl
+  const isMobile = useIsMobile()
   const [expanded, setExpended] = useState(false)
 
   return (

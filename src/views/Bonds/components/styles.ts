@@ -3,7 +3,6 @@ import { Button, Flex } from 'components/uikit'
 
 export const StyledButton = styled(Button)<{ buttonSize?: string }>`
   border-radius: 10px;
-  font-size: 16px;
   font-weight: 700;
   padding: 10px 20px;
   width: 100%;
