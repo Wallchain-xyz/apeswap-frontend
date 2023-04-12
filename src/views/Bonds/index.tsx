@@ -10,6 +10,8 @@ import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import FirstTimeCard from './components/FirstTimeCard/FirstTimeCard'
 import BillsListView from './components/BillsListView'
+import BillsNav from './components/BillsNav'
+import { usePollBills, usePollUserBills } from 'state/bills/hooks'
 
 export enum BillsView {
   AVAILABLE_BILLS = 'Available Bonds',
@@ -17,6 +19,8 @@ export enum BillsView {
 }
 
 const Bills: React.FC = () => {
+  usePollBills()
+  usePollUserBills()
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [billsView, setBillsView] = useState<string>(BillsView.AVAILABLE_BILLS)
@@ -42,7 +46,7 @@ const Bills: React.FC = () => {
         ) : (
           <>
             <FirstTimeCard />
-            {/* <BillsNav billsView={billsView} setBillsView={handleBillsViewChange} /> */}
+            <BillsNav billsView={billsView} setBillsView={handleBillsViewChange} />
             {billsView === BillsView.AVAILABLE_BILLS ? (
               <BillsListView />
             ) : (

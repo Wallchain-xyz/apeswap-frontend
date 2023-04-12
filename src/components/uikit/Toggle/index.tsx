@@ -21,7 +21,7 @@ const Toggle: React.FC<ToggleProps> = ({ checked, labels, size = sizes.MEDIUM, c
           left:
             isChecked && rightRef?.current
               ? rightRef?.current?.getBoundingClientRect?.()?.x -
-                rightRef?.current?.parentNode.getBoundingClientRect?.()?.x
+                rightRef?.current?.parentNode?.getBoundingClientRect?.()?.x
               : 0,
         }
       : {

@@ -10,10 +10,10 @@ import { BillsConfig } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Bills } from 'views/Bonds/types'
-import useBonds from 'views/Bonds/hooks/useBonds'
+import { useBills } from 'state/bills/hooks'
 
 const BillsListView: React.FC = () => {
-  const bills = useBonds()
+  const bills = useBills()
   const { chainId } = useWeb3React()
   const { asPath } = useRouter()
   const [query, setQuery] = useState('')

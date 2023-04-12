@@ -6,8 +6,12 @@ import { tokens } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
 import { useMemo } from 'react'
 
-export interface TokenPrices {}
-
+export interface TokenPrices {
+  symbol: string | undefined
+  address: string | undefined
+  price: number | undefined
+  decimals: number | undefined
+}
 const useAllTokenPrices = () => {
   const priceGetterContract = usePriceGetter()
   const { chainId } = useWeb3React()

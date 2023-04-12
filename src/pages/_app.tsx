@@ -18,6 +18,7 @@ import Popups from 'components/Popups'
 import Blocklist from 'components/Blocklist'
 import MarketingModalCheck from 'components/MarketingModalCheck'
 import { Analytics } from '@vercel/analytics/react'
+import { RefreshContextProvider } from 'contexts/RefreshContext'
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {
@@ -37,20 +38,22 @@ export default function App({ Component, pageProps }: AppProps) {
         <BlockNumberProvider>
           <Updaters />
           <ThemeProvider theme={theme}>
-            <MatchBreakpointsProvider>
-              <LanguageProvider>
-                <ModalProvider>
-                  <Blocklist>
-                    <NavBar />
-                    <MarketingModalCheck />
-                    <Popups />
-                    <Component {...pageProps} />
-                    <Analytics />
-                    <Footer />
-                  </Blocklist>
-                </ModalProvider>
-              </LanguageProvider>
-            </MatchBreakpointsProvider>
+            <RefreshContextProvider>
+              <MatchBreakpointsProvider>
+                <LanguageProvider>
+                  <ModalProvider>
+                    <Blocklist>
+                      <NavBar />
+                      <MarketingModalCheck />
+                      <Popups />
+                      <Component {...pageProps} />
+                      <Analytics />
+                      <Footer />
+                    </Blocklist>
+                  </ModalProvider>
+                </LanguageProvider>
+              </MatchBreakpointsProvider>
+            </RefreshContextProvider>
           </ThemeProvider>
         </BlockNumberProvider>
       </Web3Provider>

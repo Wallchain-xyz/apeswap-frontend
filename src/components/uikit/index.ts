@@ -14,4 +14,4 @@ export { default as Toggle } from './Toggle'
 // Exports
 export { Button, IconButton } from './Button'
 export { Select, SelectItem } from './Select'
-export { NumericInput } from './Input'
+export { NumericInput, Input } from './Input'

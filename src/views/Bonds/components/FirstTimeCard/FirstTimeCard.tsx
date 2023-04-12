@@ -11,10 +11,10 @@ import useDebounce from 'hooks/useDebounce'
 import useIsMobile from 'hooks/useIsMobile'
 import MobileCard from './MobileCard'
 import { useWeb3React } from '@web3-react/core'
-import useBonds from 'views/Bonds/hooks/useBonds'
 import { Text } from 'components/uikit'
 import BillsDiagram from 'components/MarketingModals/Bills/BillsDiagram'
 import Image from 'next/image'
+import { useBills } from 'state/bills/hooks'
 
 const FirstTimeCard = () => {
   const { t } = useTranslation()
@@ -22,7 +22,7 @@ const FirstTimeCard = () => {
   const [loaded, setLoaded] = useState(false)
   const isMobile = useIsMobile()
 
-  const bills = useBonds()
+  const bills = useBills()
   const ownedBillsAmount = null
 
   // bills?.flatMap((bill) => {

@@ -7,8 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useWeb3React } from '@web3-react/core'
 import useSelectChain from 'hooks/useSelectChain'
 import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
-import { CheckBox, Flex, Svg, Text, Toggle } from 'components/uikit'
-import Input from 'components/uikit/Input/Input'
+import { CheckBox, Flex, Input, Svg, Text, Toggle } from 'components/uikit'
 import MenuSelect from 'components/ListView/ListViewMenu/MenuSelect'
 import NetworkSelector from 'components/NetworkSelector'
 
@@ -39,7 +38,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
             <SearchText bold mr="15px">
               {t('Search')}
             </SearchText>
-            <Input value={query} onChange={onHandleQueryChange} icon="search" sx={styles.input} />
+            <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} />
             <Flex sx={styles.expandedButton} onClick={() => setExpended(!expanded)}>
               <Svg icon="MenuSettings" width="18px" />
             </Flex>
@@ -97,7 +96,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
             <SearchText bold mr="15px">
               {t('Search')}
             </SearchText>
-            <Input value={query} onChange={onHandleQueryChange} icon="search" sx={styles.input} />
+            <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} />
           </Flex>
           <Flex sx={{ minWidth: '100px' }}>
             <MenuSelect selectedOption={sortOption} setOption={setSortOption} options={SORT_OPTIONS} />
