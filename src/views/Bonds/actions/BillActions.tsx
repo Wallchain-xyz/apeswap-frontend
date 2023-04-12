@@ -27,12 +27,15 @@ const BillActions: React.FC<BillActionsProps> = ({
   // const [approval, approveCallback] = useApproveCallbackFromZap(zap)
   const showApproveZapFlow = true // approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
   const { chainId, account } = useWeb3React()
-  const { onApprove } = useApproveBill(lpToken.address[chainId], contractAddress[chainId])
-  const token = new Token(chainId ?? SupportedChainId.BSC, lpToken.address[chainId], 18)
+  const { onApprove } = useApproveBill(
+    lpToken?.address?.[chainId as SupportedChainId] ?? '',
+    contractAddress[chainId as SupportedChainId] ?? '',
+  )
+  const token = new Token(chainId ?? SupportedChainId.BSC, lpToken.address[chainId as SupportedChainId] ?? '', 18)
   const currencyAmount = CurrencyAmount.fromRawAmount(token, JSBI.BigInt(value))
   const [bondApproval, approveBondCallback] = useApproveCallback(
     currencyAmount,
-    chainId ? contractAddress[chainId] : undefined,
+    chainId ? contractAddress?.[chainId as SupportedChainId] : undefined,
   )
   const showApproveBillFlow = !BigNumber.from(bondApproval).gt(value)
 
@@ -77,21 +80,22 @@ const BillActions: React.FC<BillActionsProps> = ({
           {t('Enable')}
         </Button>
       ) : (
-        <BuyButton
-          onClick={handleBuy}
-          load={pendingTrx}
-          disabled={
-            billValue === 'NaN' ||
-            parseFloat(billValue) < 0.01 ||
-            parseFloat(billValue) > parseFloat(purchaseLimit) ||
-            parseFloat(balance) < parseFloat(value) ||
-            pendingApprove ||
-            pendingTrx ||
-            !!errorMessage
-          }
-        >
-          {errorMessage && !pendingTrx ? errorMessage : t('Buy')}
-        </BuyButton>
+        <></>
+        // <BuyButton
+        //   onClick={handleBuy}
+        //   load={pendingTrx}
+        //   disabled={
+        //     billValue === 'NaN' ||
+        //     parseFloat(billValue) < 0.01 ||
+        //     parseFloat(billValue) > parseFloat(purchaseLimit) ||
+        //     parseFloat(balance) < parseFloat(value) ||
+        //     pendingApprove ||
+        //     pendingTrx ||
+        //     !!errorMessage
+        //   }
+        // >
+        //   {errorMessage && !pendingTrx ? errorMessage : t('Buy')}
+        // </BuyButton>
       )}
     </>
   )

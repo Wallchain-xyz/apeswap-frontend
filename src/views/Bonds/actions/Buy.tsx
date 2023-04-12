@@ -1,31 +1,33 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import BigNumber from 'bignumber.js'
 import { getEtherscanLink } from 'utils'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { Field } from 'state/swap/actions'
 import { useTranslation } from 'contexts/Localization'
 import { BuyProps, DualCurrencySelector } from './types'
 import { GetLPButton, styles } from './styles'
-import { BillValueContainer, TextWrapper } from '../Modals/styles'
 import DualCurrencyPanel from 'components/DualCurrencyPanel/DualCurrencyPanel'
-import { usePair } from 'hooks/usePairs'
+// import { usePair } from 'hooks/usePairs'
 import { ZapType } from '@ape.swap/sdk'
-import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
+// import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { Box } from 'theme-ui'
-import { useCurrencyBalance } from 'state/wallet/hooks'
 import { useUserSlippageTolerance } from 'state/user/hooks'
-import { useZapCallback } from 'hooks/useZapCallback'
+// import { useZapCallback } from 'hooks/useZapCallback'
 import BillActions from './BillActions'
 import track from 'utils/track'
-import { getBalanceNumber } from 'utils/formatBalance'
-import { useBillType } from '../../hooks/useBillType'
-import UpdateSlippage from 'components/DualDepositModal/UpdateSlippage'
-import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
-import { Flex, Svg, Text } from 'components/uikit'
+// import UpdateSlippage from 'components/DualDepositModal/UpdateSlippage'
+// import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useWeb3React } from '@web3-react/core'
-import { maxAmountSpend } from 'utils/maxAmountSpend'
+import { useAppDispatch } from 'state/hooks'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 import useBuyBill from '../hooks/useBuyBill'
+import { BigNumber } from 'ethers'
+import { Flex, Svg, Text } from 'components/uikit'
+import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
+import { getBalanceNumber } from 'utils/getBalanceNumber'
+import { BillValueContainer, TextWrapper } from '../components/Modals/styles'
+import { useBillType } from '../hooks/useBillType'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
@@ -43,17 +45,22 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   } = bill
   const { chainId, account, provider } = useWeb3React()
   const { recipient, typedValue } = useZapState()
-  const billType: string = useBillType(contractAddress[chainId])
-  const { onBuyBill } = useBuyBill(contractAddress[chainId], typedValue, lpPrice, price)
-  // const dispatch = useAppDispatch()
+  const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
+  const { onBuyBill } = useBuyBill(
+    contractAddress[chainId as SupportedChainId] ?? '',
+    typedValue,
+    lpPrice ?? 0,
+    price ?? '',
+  )
+  const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   // const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
   const onAddLiquidityModal = useAddLiquidityModal()
 
-  const billsCurrencies: DualCurrencySelector = {
-    currencyA: useCurrency(token.address[chainId]),
-    currencyB: useCurrency(quoteToken.address[chainId]),
+  const billsCurrencies = {
+    currencyA: useCurrency(token.address[chainId as SupportedChainId]),
+    currencyB: useCurrency(quoteToken.address[chainId as SupportedChainId]),
   }
   const [currencyA, setCurrencyA] = useState(billsCurrencies.currencyA)
   const [currencyB, setCurrencyB] = useState(billsCurrencies.currencyB)
@@ -64,21 +71,22 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, pair?.liquidityToken ?? currencyA)
 
   const { zap } = useDerivedZapInfo()
-  const [zapSlippage, setZapSlippage] = useUserSlippageTolerance(true)
+  const [zapSlippage, setZapSlippage] = [null, null]// useUserSlippageTolerance(true)
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
-  const maxPrice = new BigNumber(price).times(102).div(100).toFixed(0)
+  const maxPrice = BigNumber.from(price).mul(102).div(100).toString()
   const { callback: zapCallback } = useZapCallback(
     zap,
     ZapType.ZAP_T_BILL,
     zapSlippage,
     recipient,
-    contractAddress[chainId] || 's',
+    contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
   )
-  const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2)).times(100).toNumber()
-  // const showUpdateSlippage =
-  //   zapSlippage < priceImpact && !currencyB && parseFloat(selectedCurrencyBalance?.toExact()) >= parseFloat(typedValue)
-  // const updateSlippage = useCallback(() => {
+  const priceImpact = BigNumber.from(zap?.totalPriceImpact?.toFixed(2)).mul(100).toNumber()
+  const showUpdateSlippage = false
+  // zapSlippage < priceImpact && !currencyB && parseFloat(selectedCurrencyBalance?.toExact()) >= parseFloat(typedValue)
+  const updateSlippage = () => null
+  // useCallback(() => {
   //   if (zapSlippage < priceImpact) {
   //     const newZapSlippage = Math.round(priceImpact + 5)
   //     setZapSlippage(newZapSlippage)
@@ -91,15 +99,17 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   // this logic prevents user to initiate a tx for a higher bill value than the available amount
   const consideredValue = currencyB ? typedValue : zap?.pairOut?.liquidityMinted?.toExact()
-  const bigValue = new BigNumber(consideredValue).times(new BigNumber(10).pow(18))
-  const billValue = bigValue.div(new BigNumber(price))?.toFixed(2)
-  const available = new BigNumber(maxTotalPayOut)
-    ?.minus(new BigNumber(totalPayoutGiven))
-    ?.div(new BigNumber(10).pow(earnToken.decimals[chainId]))
+  const bigValue = BigNumber.from(consideredValue).mul(BigNumber.from(10).pow(18))
+  const billValue = bigValue.div(BigNumber.from(price))?.toString()
+  const available = BigNumber.from(maxTotalPayOut)
+    ?.sub(BigNumber.from(totalPayoutGiven))
+    ?.div(BigNumber.from(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18))
   // threshold equals to 10 usd in earned tokens (banana or jungle token)
-  const thresholdToShow = new BigNumber(5).div(earnTokenPrice)
-  const safeAvailable = available.minus(thresholdToShow)
-  const singlePurchaseLimit = new BigNumber(maxPayoutTokens).div(new BigNumber(10).pow(earnToken?.decimals?.[chainId]))
+  const thresholdToShow = BigNumber.from(5).div(earnTokenPrice ?? 0)
+  const safeAvailable = available.sub(thresholdToShow)
+  const singlePurchaseLimit = BigNumber.from(maxPayoutTokens).div(
+    BigNumber.from(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18),
+  )
   const displayAvailable = singlePurchaseLimit.lt(safeAvailable) ? singlePurchaseLimit : safeAvailable
 
   const onHandleValueChange = useCallback(
@@ -110,9 +120,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   )
 
   const searchForBillId = useCallback(
-    (resp, billNftAddress) => {
+    (resp: any, billNftAddress: string) => {
       const { logs, transactionHash } = resp
-      const findBillNftLog = logs.find((log) => log.address.toLowerCase() === billNftAddress.toLowerCase())
+      const findBillNftLog = logs.find((log: any) => log.address.toLowerCase() === billNftAddress.toLowerCase())
       const getBillNftIndex = findBillNftLog.topics[findBillNftLog.topics.length - 1]
       const convertHexId = parseInt(getBillNftIndex, 16)
       onBillId(convertHexId.toString(), transactionHash)
@@ -121,6 +131,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   )
 
   const handleBuy = useCallback(async () => {
+    if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
     onTransactionSubmited(true)
     if (currencyB) {
@@ -132,6 +143,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           //   text: t('View Transaction'),
           //   url: getEtherscanLink(trxHash, 'transaction', chainId),
           // })
+          dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
+          dispatch(fetchBillsUserDataAsync(chainId, account))
         })
         .catch((e) => {
           console.error(e)
@@ -148,9 +161,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             ?.waitForTransaction(hash)
             .then((receipt) => {
               const { logs } = receipt
-              const findBillNftLog = logs.find((log) => log.address.toLowerCase() === billNftAddress.toLowerCase())
-              const getBillNftIndex = findBillNftLog.topics[findBillNftLog.topics.length - 1]
-              const convertHexId = parseInt(getBillNftIndex, 16)
+              const findBillNftLog = logs.find((log) => log.address.toLowerCase() === billNftAddress?.toLowerCase())
+              const getBillNftIndex = findBillNftLog?.topics[findBillNftLog.topics.length - 1]
+              const convertHexId = parseInt(getBillNftIndex ?? '', 16)
               onBillId(convertHexId.toString(), hash)
               dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
               dispatch(fetchBillsUserDataAsync(chainId, account))
@@ -170,17 +183,17 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               token2: `${zap.currencyOut1.outputCurrency.getSymbol(
                 chainId,
               )}-${zap.currencyOut2.outputCurrency.getSymbol(chainId)}`,
-              amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+              amount: getBalanceNumber(BigNumber.from(zap.currencyIn.inputAmount.toString())),
             },
           })
           track({
-            event: billType,
+            event: billType ?? '',
             chain: chainId,
             data: {
               cat: 'buy',
-              address: contractAddress[chainId],
+              address: contractAddress[chainId as SupportedChainId],
               typedValue,
-              usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * lpPrice,
+              usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
             },
           })
         })
@@ -221,7 +234,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   ])
 
   const handleMaxInput = useCallback(() => {
-    onHandleValueChange(maxAmountSpend(selectedCurrencyBalance).toExact())
+    onHandleValueChange(maxAmountSpend(selectedCurrencyBalance)?.toExact() ?? '')
   }, [onHandleValueChange, selectedCurrencyBalance])
 
   const handleCurrencySelect = useCallback(
@@ -265,7 +278,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             <Text size="12px">
               {t('Max per Bond')}:{' '}
               <span style={{ fontWeight: 700 }}>
-                {!available ? '0' : parseFloat(displayAvailable.toFixed(0))?.toLocaleString(undefined)}{' '}
+                {!available ? '0' : parseFloat(displayAvailable.toString())?.toLocaleString(undefined)}{' '}
                 {earnToken?.symbol}
               </span>
             </Text>
@@ -287,16 +300,16 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               billValue={billValue}
               value={typedValue}
               purchaseLimit={displayAvailable.toString()}
-              balance={selectedCurrencyBalance?.toExact()}
+              balance={selectedCurrencyBalance?.toExact() ?? ''}
               pendingTrx={pendingTrx}
               errorMessage={null} // {zapSlippage < priceImpact && !currencyB ? 'Change Slippage' : null}
             />
           </Box>
-          {/* {showUpdateSlippage && !pendingTrx && (
+          {showUpdateSlippage && !pendingTrx && (
             <Flex sx={styles.updateSlippage}>
               <UpdateSlippage priceImpact={priceImpact} updateSlippage={updateSlippage} />
             </Flex>
-          )} */}
+          )}
         </Flex>
       </Flex>
     </Flex>

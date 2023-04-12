@@ -1,40 +1,43 @@
 import React, { useState } from 'react'
-import useClaimAll from 'views/Bills/hooks/useClaimAll'
-import { AutoRenewIcon } from '@apeswapfinance/uikit'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useToast } from 'state/hooks'
 import { getEtherscanLink } from 'utils'
-import { useAppDispatch } from 'state'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { useTranslation } from 'contexts/Localization'
-import { StyledButton } from '../styles'
+import { Bills } from '../types'
+import { useWeb3React } from '@web3-react/core'
+import useClaimBill from '../hooks/useClaimAll'
+import { StyledButton } from '../components/styles'
+import { useAppDispatch } from 'state/hooks'
+import { useAddPopup } from 'state/application/hooks'
 
 const ClaimAll: React.FC<{
-  userOwnedBills: { billAddress: string; billIds: string[] }[]
+  userOwnedBills: any
   ownedBillsAmount: number
   buttonSize?: string
 }> = ({ userOwnedBills, ownedBillsAmount, buttonSize }) => {
-  const { onClaimBill } = useClaimAll(userOwnedBills)
-  const { chainId, account } = useActiveWeb3React()
+  const { onClaimBill } = useClaimBill(userOwnedBills)
+  const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
-  const { toastSuccess, toastError } = useToast()
+  // const { toastSuccess, toastError } = useAddPopup()
   const { t } = useTranslation()
 
+  // TODO: Add toast back
   const handleClaim = async () => {
+    if (!chainId || !account) return
     setPendingTrx(true)
     await onClaimBill()
       .then((resp) => {
-        resp.map((trx) =>
-          toastSuccess(t('Claim Successful'), {
-            text: t('View Transaction'),
-            url: getEtherscanLink(trx.transactionHash, 'transaction', chainId),
-          }),
+        resp.map(
+          (trx) => <></>,
+          // toastSuccess(t('Claim Successful'), {
+          //   text: t('View Transaction'),
+          //   url: getEtherscanLink(trx?.hash ?? '', 'transaction', chainId),
+          // }),
         )
       })
       .catch((e) => {
         console.error(e)
-        toastError(e?.data?.message || t('Error: Please try again.'))
+        // toastError(e?.data?.message || t('Error: Please try again.'))
         setPendingTrx(false)
       })
     dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
@@ -44,10 +47,10 @@ const ClaimAll: React.FC<{
   return (
     <StyledButton
       onClick={handleClaim}
-      endIcon={pendingTrx && <AutoRenewIcon spin color="currentColor" />}
+      load={pendingTrx}
       disabled={pendingTrx || ownedBillsAmount === 0}
       buttonSize={buttonSize}
-      style={{ height: '36px' }}
+      sx={{ height: '36px', lineHeight: '12px' }}
     >
       {t('Claim All')} ({ownedBillsAmount})
     </StyledButton>

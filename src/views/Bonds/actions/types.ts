@@ -1,6 +1,5 @@
-import { Bills } from 'state/types'
-import { Currency } from '@ape.swap/sdk'
-import { MergedZap } from 'state/zap/actions'
+import { Currency } from '@ape.swap/sdk-core'
+import { Bills } from '../types'
 
 export interface ClaimProps {
   billAddress: string
@@ -25,7 +24,7 @@ export interface BuyProps {
 
 export interface BillActionsProps {
   bill: Bills
-  zap: MergedZap
+  zap: any //MergedZap
   currencyB: Currency
   handleBuy: () => void
   billValue: string

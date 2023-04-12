@@ -1,42 +1,42 @@
 import React, { useState } from 'react'
-import useClaimBill from 'views/Bills/hooks/useClaimBill'
-import { AutoRenewIcon } from '@apeswapfinance/uikit'
-import { Flex, useModal } from '@ape.swap/uikit'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useToast } from 'state/hooks'
 import { getEtherscanLink } from 'utils'
-import { useAppDispatch } from 'state'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { useTranslation } from 'contexts/Localization'
 import { ClaimProps } from './types'
-import { useIsModalShown } from 'state/user/hooks'
-import { ClaimButton } from '../styles'
-import { MODAL_TYPE } from 'config/constants'
-import CircularModal from 'components/CircularModal'
+// import CircularModal from 'components/CircularModal'
+import useClaimBill from '../hooks/useClaimBill'
+import { useWeb3React } from '@web3-react/core'
+import { useAppDispatch } from 'state/hooks'
+import useModal from 'hooks/useModal'
+import { MODAL_TYPE } from 'components/MarketingModalCheck/constants'
+import { ClaimButton } from '../components/styles'
+import { Flex } from 'components/uikit'
 
 const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pendingRewards, margin }) => {
   const { onClaimBill, billType } = useClaimBill(billAddress, billIds)
-  const { chainId, account } = useActiveWeb3React()
+  const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
-  const { toastSuccess } = useToast()
+  // const { toastSuccess } = useToast()
   const { t } = useTranslation()
-  const [onPresentGHModal] = useModal(<CircularModal actionType={MODAL_TYPE.GENERAL_HARVEST} />, true, true, 'ghModal')
-  const { showGeneralHarvestModal } = useIsModalShown()
+  // const [onPresentGHModal] = useModal(<CircularModal actionType={MODAL_TYPE.GENERAL_HARVEST} />, true, true, 'ghModal')
+  // const { showGeneralHarvestModal } = useIsModalShown()
 
-  const displayGHCircular = () => showGeneralHarvestModal && onPresentGHModal()
+  const displayGHCircular = false // () => showGeneralHarvestModal && onPresentGHModal()
   const bananaBill = billType === 'bill'
 
+  // TODO: 
   const handleClaim = async () => {
+    if (!chainId || !account) return
     setPendingTrx(true)
     await onClaimBill()
       .then((resp) => {
-        const trxHash = resp.transactionHash
-        toastSuccess(t('Claim Successful'), {
-          text: t('View Transaction'),
-          url: getEtherscanLink(trxHash, 'transaction', chainId),
-        })
-        if (bananaBill) displayGHCircular()
+        const trxHash = resp.hash
+        // toastSuccess(t('Claim Successful'), {
+        //   text: t('View Transaction'),
+        //   url: getEtherscanLink(trxHash, 'transaction', chainId),
+        // })
+        // if (bananaBill) displayGHCircular()
       })
       .catch((e) => {
         console.error(e)
@@ -50,7 +50,7 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
     <Flex sx={{ width: '100%' }}>
       <ClaimButton
         onClick={handleClaim}
-        endIcon={pendingTrx && <AutoRenewIcon spin color="currentColor" />}
+        load={pendingTrx}
         disabled={pendingTrx || parseFloat(pendingRewards) === 0}
         buttonSize={buttonSize}
         margin={margin}
