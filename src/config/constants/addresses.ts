@@ -86,3 +86,11 @@ export const MULTICALL_V2: AddressMap = {
   [SupportedChainId.TLOS]: '0xa1a283f10f578201a97a8f69d8c15828b778f04b',
   [SupportedChainId.ARBITRUM_ONE]: '0x089d8780e1c0789d0ef786bf001bee52d8351cad',
 }
+
+export const MASTER_CHEF: AddressMap = {
+  [SupportedChainId.BSC_TESTNET]: '0xbbC5e1cD3BA8ED639b00927115e5f0e0040aA613',
+  [SupportedChainId.BSC]: '0x5c8D727b265DBAfaba67E050f2f739cAeEB4A6F9',
+}
+export const MASTER_CHEF_V2: AddressMap = {
+  [SupportedChainId.BSC]: '0x71354AC3c695dfB1d3f595AfA5D4364e9e06339B',
+}
