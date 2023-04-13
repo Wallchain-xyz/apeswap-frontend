@@ -18,6 +18,7 @@ import user from './user/reducer'
 import wallets from './wallets/reducer'
 import homepage from './homepage'
 import bills from './bills'
+import protocolDashboard from './protocolDashboard'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
@@ -37,6 +38,7 @@ const store = configureStore({
     lists,
     homepage,
     bills,
+    protocolDashboard,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
