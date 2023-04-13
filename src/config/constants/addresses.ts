@@ -86,3 +86,8 @@ export const MULTICALL_V2: AddressMap = {
   [SupportedChainId.TLOS]: '0xa1a283f10f578201a97a8f69d8c15828b778f04b',
   [SupportedChainId.ARBITRUM_ONE]: '0x089d8780e1c0789d0ef786bf001bee52d8351cad',
 }
+
+export const GNANA_ADDRESSES: AddressMap = {
+  [SupportedChainId.BSC]: '0xdDb3Bd8645775F59496c821E4F55A7eA6A6dc299',
+  [SupportedChainId.BSC_TESTNET]: '0x9407026d236DEAE22CC1F3c419A9e47CBfCFE9E5',
+}

@@ -57,6 +57,8 @@ const Colors = {
     hideCircles: '#FDFBF5',
     title: 'linear-gradient(286.95deg, rgba(255, 179, 0, 0.6) 33.2%, rgba(0, 0, 0, 0) 112.36%), #4E3F3F',
   },
+  bg1: 'linear-gradient(180deg, #FFFFFF 0%, #EEDFC7 10%, #FFFFFF 40%, #FEFAE0 50%, #EEDFC7 100%), linear-gradient(180deg, #FEFCEC 27.58%, #EEDFC7 79.74%, #FEFAE0 131.91%, #F5ECDD 154.81%)',
+  bg2: 'linear-gradient(180deg, #FEFCEC 27.58%, #EEDFC7 79.74%, #FEFAE0 131.91%, #F5ECDD 154.81%)',
   modes: {
     dark: {
       background: '#0B0B0B',
@@ -95,6 +97,8 @@ const Colors = {
         hideCircles: '#0B0B0B',
         title: 'linear-gradient(286.95deg, rgba(255, 179, 0, 0.6) 33.2%, rgba(0, 0, 0, 0) 112.36%), #FAFAFA',
       },
+      bg1: '#424242',
+      bg2: '#383838',
     },
   },
 }
