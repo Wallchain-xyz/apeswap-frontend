@@ -6,7 +6,7 @@ import { BillsToRender } from '../types'
 import { formatNumberSI } from 'utils/formatNumber'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import { BigNumber } from 'ethers'
+import  BigNumber from 'bignumber.js'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Flex, Skeleton } from 'components/uikit'
 import ListViewContent from 'components/ListView/ListViewContent'
@@ -18,7 +18,7 @@ const CardView: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender 
   const billsCardView = billsToRender.map((billToRender, i) => {
     const { bill, filteredOwnedBillNftData } = billToRender
     const claimable = getBalanceNumber(
-      BigNumber.from(billToRender.pendingRewards),
+      new BigNumber(billToRender.pendingRewards),
       bill?.earnToken?.decimals?.[chainId as SupportedChainId] ?? 18,
     )
     return (

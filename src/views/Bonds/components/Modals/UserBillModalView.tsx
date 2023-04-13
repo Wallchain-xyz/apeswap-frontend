@@ -21,7 +21,7 @@ import { StyledButton } from '../styles'
 import { Bills } from 'views/Bonds/types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import { BigNumber } from 'ethers'
+import BigNumber from 'bignumber.js'
 import { Flex, IconButton, Modal, Skeleton, Text } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -56,12 +56,12 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
   const userOwnedBill = userOwnedBillsData?.find((b) => billId && parseInt(b.id) === parseInt(billId))
   const userOwnedBillNftData = userOwnedBillsNftData?.find((b) => billId && parseInt(b.tokenId) === parseInt(billId))
   const pending = getBalanceNumber(
-    BigNumber.from(userOwnedBill?.payout),
+    new BigNumber(userOwnedBill?.payout ?? 0),
     bill?.earnToken?.decimals?.[chainId as SupportedChainId] ?? 18,
   )?.toFixed(4)
   const pendingUsd = (parseFloat(pending) * (bill?.earnTokenPrice ?? 0))?.toFixed(2)
   const claimable = getBalanceNumber(
-    BigNumber.from(userOwnedBill?.pendingRewards),
+    new BigNumber(userOwnedBill?.pendingRewards ?? 0),
     bill?.earnToken?.decimals?.[chainId as SupportedChainId] ?? 18,
   )?.toFixed(4)
   const attributes = userOwnedBillNftData?.attributes?.filter((attrib) => BILL_ATTRIBUTES.includes(attrib.trait_type))

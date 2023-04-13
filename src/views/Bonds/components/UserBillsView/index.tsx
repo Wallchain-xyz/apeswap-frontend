@@ -11,7 +11,7 @@ import { BillsToRender } from './types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { BigNumber } from 'ethers'
+import  BigNumber from 'bignumber.js'
 import { Flex } from 'components/uikit'
 
 interface UserBillsViewProps {
@@ -40,7 +40,7 @@ const UserBillsView: React.FC<UserBillsViewProps> = ({ handleBillsViewChange }) 
               bills,
               (bill) =>
                 getBalanceNumber(
-                  BigNumber.from(bill.pendingRewards ?? ''),
+                  new BigNumber(bill.pendingRewards ?? ''),
                   bill?.bill?.earnToken?.decimals[chainId as SupportedChainId],
                 ) * bill?.bill?.earnTokenPrice,
               'desc',
@@ -50,7 +50,7 @@ const UserBillsView: React.FC<UserBillsViewProps> = ({ handleBillsViewChange }) 
               bills,
               (bill) =>
                 getBalanceNumber(
-                  BigNumber.from(bill.payout ?? ''),
+                  new BigNumber(bill.payout ?? ''),
                   bill?.bill?.earnToken?.decimals[chainId as SupportedChainId],
                 ) * bill?.bill?.earnTokenPrice,
               'desc',

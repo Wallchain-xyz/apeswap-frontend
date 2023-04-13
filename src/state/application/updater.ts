@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
-import { BigNumber } from 'ethers'
+import BigNumber from 'bignumber.js'
 import { useNfaContract, useNfbContract, usePriceGetter } from 'hooks/useContract'
 import useDebounce from 'hooks/useDebounce'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
@@ -90,7 +90,7 @@ export default function Updater(): null {
     0,
   ])
 
-  const price = getBalanceNumber(BigNumber.from(bananaPrice?.toString() || '0'))
+  const price = getBalanceNumber(new BigNumber(bananaPrice?.toString() || '0'))
 
   useEffect(() => {
     if (price) {
