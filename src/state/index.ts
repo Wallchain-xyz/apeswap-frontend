@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { AnyAction, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
 import multicall from 'lib/state/multicall'
 import { load, save } from 'redux-localstorage-simple'
@@ -18,6 +18,7 @@ import user from './user/reducer'
 import wallets from './wallets/reducer'
 import homepage from './homepage'
 import lhd from './lhd/reducer'
+import bills from './bills'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
@@ -37,6 +38,7 @@ const store = configureStore({
     multicall: multicall.reducer,
     lists,
     homepage,
+    bills,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -54,3 +56,4 @@ export default store
 
 export type AppState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, AnyAction>

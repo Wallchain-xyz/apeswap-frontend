@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
-import CurrencyLogo from 'components/CurrencyLogo'
 import Logo from 'components/CurrencyLogo/Logo'
-import { Flex, Skeleton, Svg } from 'components/uikit'
+import { Flex, Skeleton } from 'components/uikit'
 
 export const TokenContainer = styled(Logo)<{
   size?: number
@@ -43,7 +42,7 @@ export const TokenWrapper = styled(Flex)<{
   }
 `
 
-export const IconSkeleton = styled(Flex)<{ size?: number; ml?: number; mr?: number; zIndex?: number }>`
+export const IconSkeleton = styled(Skeleton)<{ size?: number; ml?: number; mr?: number; zIndex?: number }>`
   width: ${({ size }) => size || 30}px;
   height: ${({ size }) => size || 30}px;
   margin-left: ${({ ml }) => ml}px;

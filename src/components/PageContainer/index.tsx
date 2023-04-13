@@ -16,6 +16,11 @@ const variants = {
   homepage: {
     justifyContent: 'center',
     overflow: 'display',
+    maxWidth: 'auto',
+  },
+  listView: {
+    maxWidth: ['500px', '500px', '500px', '1150px'],
+    padding: '0px 10px',
   },
 }
 
@@ -26,7 +31,7 @@ const PageContainer = ({
 }: {
   style?: CSSProperties
   children: React.ReactNode
-  variant?: 'dex' | 'homepage'
+  variant?: 'dex' | 'homepage' | 'listView'
 }) => {
   const { asPath } = useRouter()
   const pageMeta = customMeta[asPath] || {}
@@ -52,7 +57,7 @@ const PageContainer = ({
       >
         <Flex
           sx={{
-            maxWidth: variant === 'homepage' ? 'auto' : '1200px',
+            maxWidth: '1200px',
             width: '100%',
             minHeight: '100%',
             ...variants[variant],
