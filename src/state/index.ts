@@ -17,6 +17,7 @@ import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
 import zap from './zap/reducer'
+import homepage from './homepage'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
@@ -35,6 +36,7 @@ const store = configureStore({
     multicall: multicall.reducer,
     lists,
     zap,
+    homepage,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

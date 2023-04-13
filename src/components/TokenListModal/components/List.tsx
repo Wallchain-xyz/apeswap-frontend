@@ -1,7 +1,7 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
-import { useAllTokens } from 'hooks/Tokens'
+import { useAllTokens, useIsUserAddedToken, useSearchInactiveTokenLists, useToken } from 'hooks/Tokens'
 import useDebounce from 'hooks/useDebounce'
 import { useAllTokenBalances } from 'lib/hooks/useAllTokenBalances'
 import { getTokenFilter } from 'lib/hooks/useTokenList/filtering'
@@ -13,6 +13,7 @@ import ListRow from './ListRow'
 import { CSSProperties } from 'theme-ui'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance, { useNativeCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
+import { isAddress } from 'utils'
 
 const List = ({
   searchQuery,
@@ -32,11 +33,14 @@ const List = ({
   onCurrencySelect: (currency: Currency) => void
   onDismiss: () => void
 }) => {
-  const { chainId, account } = useWeb3React()
+  const { account } = useWeb3React()
   const [tokenLoaderTimerElapsed, setTokenLoaderTimerElapsed] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 200)
   const defaultTokens = useAllTokens()
   const [balances, balancesAreLoading] = useAllTokenBalances()
+  const searchToken = useToken(debouncedQuery)
+  const searchTokenIsAdded = useIsUserAddedToken(searchToken)
+  const isAddressSearch = isAddress(debouncedQuery)
   const filteredTokens: Token[] = useMemo(() => {
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
   }, [defaultTokens, debouncedQuery])
@@ -66,6 +70,11 @@ const List = ({
   const nativeBalance = useCurrencyBalance(account, native)
   const wrapped = native.wrapped
 
+  // if no results on main list, show option to expand into inactive
+  const filteredInactiveTokens = useSearchInactiveTokenLists(
+    filteredTokens.length === 0 || (debouncedQuery.length > 2 && !isAddressSearch) ? debouncedQuery : undefined,
+  )
+
   const searchCurrencies: Currency[] = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
 
@@ -74,8 +83,8 @@ const List = ({
       (n) => n.symbol?.toLowerCase()?.indexOf(s) !== -1 || n.name?.toLowerCase()?.indexOf(s) !== -1,
     )
 
-    return [...natives, ...tokens]
-  }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native])
+    return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
+  }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native, searchToken])
 
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
   useEffect(() => {
@@ -91,6 +100,9 @@ const List = ({
       const currency = row
       const isSelected = Boolean(currency && selectedCurrency && selectedCurrency.equals(currency))
       const otherSelected = Boolean(currency && otherSelectedCurrency && otherSelectedCurrency.equals(currency))
+      const currencyIsImported = !!filteredInactiveTokens.find(
+        (token) => token.address.toLowerCase() === currency.wrapped.address.toLowerCase(),
+      )
       if (balancesAreLoading)
         return (
           <Flex sx={{ ...style, flexDirection: 'column', height: '500px' }}>
@@ -104,6 +116,7 @@ const List = ({
           currency={row}
           isSelected={isSelected}
           otherSelected={otherSelected}
+          searchTokenIsAdded={(searchToken ? searchTokenIsAdded : true) && !currencyIsImported}
           userBalance={
             currency.isToken ? balances[currency.address]?.toSignificant(6) : nativeBalance?.toSignificant(6)
           }
@@ -112,10 +125,22 @@ const List = ({
           onSelect={() => {
             onCurrencySelect(row), onDismiss()
           }}
+          onDismiss={onDismiss}
         />
       )
     },
-    [balances, balancesAreLoading, nativeBalance, otherSelectedCurrency, selectedCurrency, onCurrencySelect, onDismiss],
+    [
+      balances,
+      balancesAreLoading,
+      filteredInactiveTokens,
+      nativeBalance,
+      searchTokenIsAdded,
+      searchToken,
+      otherSelectedCurrency,
+      selectedCurrency,
+      onCurrencySelect,
+      onDismiss,
+    ],
   )
 
   const itemKey = useCallback((index: number, data: Currency[]) => {
@@ -124,14 +149,28 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
+    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
       <FixedSizeList
         height={500}
-        itemSize={60}
+        itemSize={65}
         width="100%"
-        itemCount={searchCurrencies.length}
-        itemData={searchCurrencies}
+        itemCount={searchCurrencies.length + filteredInactiveTokens.length}
+        itemData={[...searchCurrencies, ...filteredInactiveTokens]}
         itemKey={itemKey}
+        sx={{
+          '::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '::-webkit-scrollbar-thumb': {
+            background: 'text',
+            borderRadius: '8px',
+          },
+          '::-webkit-scrollbar-track': {
+            boxShadow: 'inset 0 0 5px',
+            color: 'input',
+            borderRadius: '10px',
+          },
+        }}
       >
         {Row}
       </FixedSizeList>

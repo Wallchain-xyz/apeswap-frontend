@@ -6,10 +6,12 @@ import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
 import useModal from 'hooks/useModal'
 import { useSwapCallback } from 'hooks/useSwapCallback'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useIsExpertMode } from 'state/user/hooks'
+import track from 'utils/track'
 import ConfirmSwap from '../components/ConfirmSwap'
 import { confirmPriceImpactWithoutFee } from '../utils'
 
@@ -38,7 +40,7 @@ const Swap = ({
   wrapType: WrapType | undefined
   onWrap: (() => Promise<void>) | undefined
 }) => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   // modal and loading
   const [{ showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     showConfirm: boolean
@@ -63,6 +65,9 @@ const Swap = ({
   )
   const { address: recipientAddress } = useENSAddress(recipient)
 
+  const [inputTokenUsdVal] = useTokenPriceUsd(trade?.inputAmount?.currency ?? undefined)
+  const [outputTokenUsdVal] = useTokenPriceUsd(trade?.outputAmount?.currency ?? undefined)
+
   const isExpertMode = useIsExpertMode()
 
   const handleSwap = useCallback(() => {
@@ -76,47 +81,43 @@ const Swap = ({
     swapCallback()
       .then((hash) => {
         setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
-        // sendEvent({
-        //   category: 'Swap',
-        //   action: 'transaction hash',
-        //   label: hash,
-        // })
-        // sendEvent({
-        //   category: 'Swap',
-        //   action:
-        //     recipient === null
-        //       ? 'Swap w/o Send'
-        //       : (recipientAddress ?? recipient) === account
-        //       ? 'Swap w/o Send + recipient'
-        //       : 'Swap w/ Send',
-        //   label: [TRADE_STRING, trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol, 'MH'].join(
-        //     '/',
-        //   ),
-        // })
+        const routes = trade?.routes?.map((route) => route.protocol)
+        track({
+          event: 'Swap',
+          chain: chainId,
+          data: {
+            routes: routes?.join(','),
+            inputToken: trade?.inputAmount?.currency?.symbol,
+            outputToken: trade?.outputAmount?.currency?.symbol,
+            inputValue: parseFloat(trade?.inputAmount?.toSignificant(6) || '0'),
+            outputValue: parseFloat(trade?.outputAmount?.toSignificant(6) || '0'),
+            inputUsdValue: inputTokenUsdVal * parseFloat(trade?.inputAmount?.toSignificant(6) || '0'),
+            outputUsdValue: outputTokenUsdVal * parseFloat(trade?.outputAmount?.toSignificant(6) || '0'),
+          },
+        })
       })
       .catch((error) => {
         setSwapState({
           attemptingTxn: false,
           tradeToConfirm,
           showConfirm,
-          swapErrorMessage: error.message,
+          swapErrorMessage: error.message ? error.message : error,
           txHash: undefined,
         })
       })
   }, [
     swapCallback,
+    chainId,
     stablecoinPriceImpact,
     tradeToConfirm,
     showConfirm,
-    recipient,
-    recipientAddress,
-    account,
-    trade?.inputAmount?.currency?.symbol,
-    trade?.outputAmount?.currency?.symbol,
+    outputTokenUsdVal,
+    inputTokenUsdVal,
+    trade,
   ])
 
   const handleConfirmDismiss = useCallback(() => {
-    setSwapState((prevState) => ({ ...prevState, showConfirm: false })) // if there was a tx hash, we want to clear the input
+    setSwapState((prevState) => ({ ...prevState, showConfirm: false, swapErrorMessage: undefined })) // if there was a tx hash, we want to clear the input
   }, [])
 
   const [onPresentConfirmModal] = useModal(
@@ -130,7 +131,7 @@ const Swap = ({
       // recipient={recipient}
       allowedSlippage={allowedSlippage}
       onConfirm={handleSwap}
-      // swapErrorMessage={swapErrorMessage}
+      swapErrorMessage={swapErrorMessage}
       onDismiss={handleConfirmDismiss}
     />,
     true,
@@ -139,7 +140,7 @@ const Swap = ({
   )
 
   return showWrap ? (
-    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fontWeight={600} fullWidth>
+    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fullWidth>
       {wrapInputError ? (
         <WrapErrorText wrapInputError={wrapInputError} />
       ) : wrapType === WrapType.WRAP ? (

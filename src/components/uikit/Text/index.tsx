@@ -11,23 +11,11 @@ const Text: React.FC<TextProps> = ({
   color = 'text',
   ...props
 }) => {
-  // const { t } = useTranslation()
-  // console.log(children)
-  // const toTranslate = children?.toString()
-  // const translation = () => {
-  //   try {
-  //     return t(toTranslate ?? '')
-  //   } catch (e) {
-  //     console.error('could not translate')
-  //     return children
-  //   }
-  // }
-  // console.log(toTranslate)
   return (
     <ThemeUIText
       {...props}
       sx={{
-        variant: `text.${variant}`,
+        variant: variant === variants.LINK ? `flex.${variant}` : `text.${variant}`,
         color,
         fontWeight: weight,
         fontSize: size,

@@ -1,6 +1,6 @@
 import { Flex } from 'components/uikit'
 import FeeSelector from './FeeSelector'
-import LiquidityChart from './LiquidityChart'
+import { DesktopLiquidityChart } from './LiquidityChart'
 import NewPool from './NewPool'
 import RangeSelector from './RangeSelectors'
 import { DESKTOP_DISPLAY } from './styles'
@@ -42,7 +42,7 @@ const DesktopLiquidityParams = ({
           onStartPriceInput={onStartPriceInput}
         />
       ) : (
-        <LiquidityChart
+        <DesktopLiquidityChart
           id="desktopLiquidityChart"
           currencyA={currencyA ?? undefined}
           currencyB={currencyB ?? undefined}

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Percent, TradeType } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Percent, SupportedChainId, TradeType } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Text } from 'components/uikit'
 import useAutoSlippageTolerance from 'hooks/useAutoSlippageTolerance'
@@ -19,6 +19,7 @@ import { AppState } from '../index'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
+import { BANANA_ADDRESSES } from 'config/constants/addresses'
 
 export function useSwapState(): AppState['swap'] {
   return useAppSelector((state) => state.swap)
@@ -259,6 +260,7 @@ export function useDefaultsFromURLSearch(): SwapState {
   const { chainId } = useWeb3React()
   const dispatch = useAppDispatch()
   const parsedQs = useParsedQueryString()
+  const bananaAddress = chainId ? BANANA_ADDRESSES[chainId] : undefined
 
   const parsedSwapState = useMemo(() => {
     return queryParametersToSwapState(parsedQs)
@@ -267,7 +269,7 @@ export function useDefaultsFromURLSearch(): SwapState {
   useEffect(() => {
     if (!chainId) return
     const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? undefined
-    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? undefined
+    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? bananaAddress
 
     dispatch(
       replaceSwapState({

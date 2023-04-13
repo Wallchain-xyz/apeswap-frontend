@@ -2,7 +2,7 @@ import { ThemeUIStyleObject } from 'theme-ui'
 
 const styles: Record<string, ThemeUIStyleObject> = {
   container: {
-    padding: 9,
+    padding: '20px 20px',
     background: 'navbar',
     borderRadius: 'normal',
     color: 'text',

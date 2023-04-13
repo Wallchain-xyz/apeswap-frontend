@@ -37,9 +37,9 @@ const ConfirmAddLiquidity = ({
   const [inverted, setInverted] = useState(false)
   const feeAmount = position?.pool.fee
 
-  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${baseCurrency?.symbol ?? ''} and ${
-    position?.amount1.toSignificant(4) ?? ''
-  } ${quoteCurrency?.symbol ?? ''}`
+  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${
+    position?.amount0?.currency?.symbol ?? ''
+  } and ${position?.amount1.toSignificant(4) ?? ''} ${position?.amount1?.currency?.symbol ?? ''}`
 
   return (
     <Modal title="Add Liquidity" minWidth="300px" maxWidth="95%">
@@ -80,9 +80,9 @@ const ConfirmAddLiquidity = ({
                 }}
               >
                 <Flex sx={{ alignItems: 'center' }}>
-                  <CurrencyLogo currency={baseCurrency} size={18} />
+                  <CurrencyLogo currency={position?.amount0.currency} size={18} />
                   <Text size="14px" ml="5px">
-                    {baseCurrency?.symbol}
+                    {position?.amount0.currency.symbol}
                   </Text>
                 </Flex>
                 <Flex>
@@ -93,9 +93,9 @@ const ConfirmAddLiquidity = ({
               </Flex>
               <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '25px' }}>
                 <Flex sx={{ alignItems: 'center' }}>
-                  <CurrencyLogo currency={quoteCurrency} size={18} />
+                  <CurrencyLogo currency={position?.amount1.currency} size={18} />
                   <Text ml="5px" size="14px">
-                    {quoteCurrency?.symbol}
+                    {position?.amount1.currency?.symbol}
                   </Text>
                 </Flex>
                 <Flex>
@@ -106,15 +106,15 @@ const ConfirmAddLiquidity = ({
               </Flex>
             </Flex>
             <PriceRangeSection
-              currencyQuote={quoteCurrency}
-              currencyBase={baseCurrency}
+              currencyQuote={inverted ? position?.amount0.currency : position?.amount1.currency}
+              currencyBase={inverted ? position?.amount1.currency : position?.amount0.currency}
               removed={false}
               inRange={!outOfRange}
               inverted={inverted}
               manuallyInverted={false}
               pool={position?.pool}
-              priceUpper={inverted ? position?.token0PriceUpper?.invert() : position?.token0PriceUpper}
-              priceLower={inverted ? position?.token0PriceLower?.invert() : position?.token0PriceLower}
+              priceUpper={inverted ? position?.token0PriceLower?.invert() : position?.token0PriceUpper}
+              priceLower={inverted ? position?.token0PriceUpper?.invert() : position?.token0PriceLower}
               tickAtLimit={ticksAtLimit}
               setManuallyInverted={() => setInverted((prev) => !prev)}
             />

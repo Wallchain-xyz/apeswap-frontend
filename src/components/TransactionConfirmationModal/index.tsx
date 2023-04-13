@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import { SupportedChainId, Currency, Token } from '@ape.swap/sdk-core'
-import { Button, Text, Flex, Modal, Svg } from 'components/uikit'
+import { Button, Text, Flex, Modal, Svg, Spinner } from 'components/uikit'
 import { ArrowUpCircle } from 'react-feather'
 import { useTranslation } from 'contexts/Localization'
 import { getEtherscanLink } from 'utils'
-import { Link, Spinner } from 'theme-ui'
+import { Link } from 'theme-ui'
 import { useWeb3React } from '@web3-react/core'
 import { Pair } from '@ape.swap/v2-sdk'
 import useCurrencyLogoURIs from 'lib/hooks/useCurrencyLogoURIs'
@@ -22,7 +22,7 @@ export function ConfirmationPendingContent({ pendingText }: { pendingText: strin
       }}
     >
       <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Spinner size={150} />
+        <Spinner size={200} />
       </Flex>
       <Flex
         sx={{
@@ -89,7 +89,7 @@ export function TransactionSubmittedContent({
         <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '20px' }}>
           <Text size="20px">{t('Transaction Submitted')}</Text>
           {chainId && hash && (
-            <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)}>
+            <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)} target="_blank">
               {t('View on explorer')}
             </Link>
           )}
@@ -128,13 +128,13 @@ export function ConfirmationModalContent({
 export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   const { t } = useTranslation()
   return (
-    <Flex>
-      <Flex justify="center">
-        <Svg icon="error" />
-        <Text color="error" style={{ textAlign: 'center', width: '85%' }}>
+    <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px 0px' }}>
+        <Svg icon="error" color="error" />
+        <Text color="error" sx={{ textAlign: 'center', width: '85%', marginTop: '10px' }}>
           {message}
         </Text>
-        <Flex justifyContent="center" pt="24px">
+        <Flex justifyContent="center" mt="20px">
           <Button onClick={onDismiss}>{t('Dismiss')}</Button>
         </Flex>
       </Flex>

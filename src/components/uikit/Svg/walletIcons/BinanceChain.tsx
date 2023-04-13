@@ -1,8 +1,8 @@
 import { SvgProps } from '../types'
 
-const BinanceChain = ({ width }: SvgProps) => {
+const Icon = ({ width }: SvgProps) => {
   return (
-    <svg width={width || '32'} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" width={'128px' || width}>
       <path
         d="M24 0H8C3.58172 0 0 3.58172 0 8V24C0 28.4183 3.58172 32 8 32H24C28.4183 32 32 28.4183 32 24V8C32 3.58172 28.4183 0 24 0Z"
         fill="#1E2026"
@@ -39,4 +39,4 @@ const BinanceChain = ({ width }: SvgProps) => {
   )
 }
 
-export default BinanceChain
+export default Icon

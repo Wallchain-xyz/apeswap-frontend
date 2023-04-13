@@ -75,8 +75,8 @@ const [web3CoinbaseWallet, web3CoinbaseWalletHooks] = initializeConnector<Coinba
       actions,
       options: {
         url: RPC_URLS[SupportedChainId.BSC][0],
-        appName: 'YourAppHere',
-        appLogoUrl: 'Yourlogohere.png',
+        appName: 'ApeSwap',
+        appLogoUrl: 'favicon.ico',
         reloadOnDisconnect: false,
       },
       onError,

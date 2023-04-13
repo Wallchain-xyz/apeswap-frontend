@@ -1,14 +1,10 @@
-import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import DexPanel from 'components/DexPanel'
 import { Flex } from 'components/uikit'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useAllTokens, useCurrency } from 'hooks/Tokens'
-import useENSAddress from 'hooks/useENSAddress'
-import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
-import useModal from 'hooks/useModal'
-import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useMemo, useState } from 'react'
 import { TradeState } from 'state/routing/types'
@@ -18,17 +14,14 @@ import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/for
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { supportedChainId } from 'utils/supportedChainId'
 import Actions from './actions'
-import ConfirmSwap from './components/ConfirmSwap'
 import LoadingBestRoute from './components/LoadingBestRoute'
+import Risk from './components/Risk/Risk'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import TradeDetails from './components/TradeDetails'
 
 const Swap = () => {
-  const { account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   const loadedUrlParams = useDefaultsFromURLSearch()
-  const [newSwapQuoteNeedsLogging, setNewSwapQuoteNeedsLogging] = useState<boolean>(true)
-  const [fetchingSwapQuoteStartTime, setFetchingSwapQuoteStartTime] = useState<Date | undefined>()
-  const transactionDeadline = useTransactionDeadline()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -79,20 +72,12 @@ const Swap = () => {
   } = useDerivedSwapInfo()
 
   const {
-    state: signatureState,
-    signatureData,
-    gatherPermitSignature,
-  } = useERC20PermitFromTrade(trade, allowedSlippage, transactionDeadline)
-
-  const {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
 
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
-
-  const { address: recipientAddress } = useENSAddress(recipient)
 
   const parsedAmounts = useMemo(
     () =>
@@ -151,7 +136,10 @@ const Swap = () => {
         currency={currencies[Field.INPUT]}
         otherCurrency={currencies[Field.OUTPUT]}
       />
-      <SwapSwitchButton onClick={onSwitchTokens} />
+      <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center' }}>
+        <SwapSwitchButton onClick={onSwitchTokens} />
+        <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]} />
+      </Flex>
       <DexPanel
         panelText="To"
         onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}

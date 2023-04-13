@@ -84,13 +84,13 @@ const PositionCard = ({
   const { isMobile, isTablet, isDesktop } = useMatchBreakpoints()
 
   return (
-    <Flex
-      sx={{ ...styles.positionCardContainer, boxShadow: isSelected && isDesktop && '0px 0px 8px' }}
-      onClick={() => {
-        handleSelectedTokenId(tokenId.toString()), setIsOpen((prev) => !prev)
-      }}
-    >
-      <Flex sx={{ padding: '10px', flexDirection: 'column' }}>
+    <Flex sx={{ ...styles.positionCardContainer, boxShadow: isSelected && isDesktop && '0px 0px 8px' }}>
+      <Flex
+        sx={{ padding: '10px', flexDirection: 'column', cursor: 'pointer' }}
+        onClick={() => {
+          handleSelectedTokenId(tokenId.toString()), setIsOpen((prev) => !prev)
+        }}
+      >
         <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <Flex sx={{ alignItems: 'center' }}>
             <DoubleCurrencyLogo currency0={currencyQuote} currency1={currencyBase} />
@@ -122,7 +122,7 @@ const PositionCard = ({
                   {formatTickPrice(priceUpper, tickAtLimit, Bound.UPPER)}
                 </Text>
                 <Text size="12px" sx={{ lineHeight: '12px' }} ml="5px">
-                  {currencyQuote?.symbol} / {currencyQuote?.symbol}
+                  {currencyQuote?.symbol}
                 </Text>
               </>
             )}

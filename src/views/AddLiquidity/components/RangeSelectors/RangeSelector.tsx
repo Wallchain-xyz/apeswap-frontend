@@ -113,12 +113,14 @@ const RangeSelector = ({
           }}
         />
       )}
-      <Text>{rangeType}</Text>
-      <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+      <Text sx={{ fontSize: ['3.5vw', '3.5vw', '16px'] }}>{rangeType}</Text>
+      <Flex sx={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
         <Flex
           sx={{
-            minHeight: '25px',
-            minWidth: '25px',
+            minHeight: ['6vw', '6vw', '25px'],
+            minWidth: ['6vw', '6vw', '25px'],
+            height: ['6vw', '6vw', '25px'],
+            width: ['6vw', '6vw', '25px'],
             background: disabled ? 'grey' : 'yellow',
             borderRadius: '4px',
             alignItems: 'center',
@@ -127,19 +129,21 @@ const RangeSelector = ({
           }}
           onClick={handleDecrement}
         >
-          <Text color="primaryBright" size="25px" sx={{ lineHeight: '0px' }}>
+          <Text color="primaryBright" sx={{ fontSize: ['4vw', '4vw', '25px'] }}>
             -
           </Text>
         </Flex>
         <NumericInput
           onUserInput={(input) => setLocalValue(input)}
           value={localValue}
-          style={{ textAlign: 'center', color: 'text' }}
+          style={{ textAlign: 'center', color: 'text', fontSize: ['4.25vw', '4.5vw', '22px'] }}
         />
         <Flex
           sx={{
-            minHeight: '25px',
-            minWidth: '25px',
+            minHeight: ['6vw', '6vw', '25px'],
+            minWidth: ['6vw', '6vw', '25px'],
+            height: ['6vw', '6vw', '25px'],
+            width: ['6vw', '6vw', '25px'],
             background: disabled ? 'grey' : 'yellow',
             borderRadius: '5px',
             alignItems: 'center',
@@ -148,12 +152,12 @@ const RangeSelector = ({
           }}
           onClick={handleIncrement}
         >
-          <Text color="primaryBright" size="20px" sx={{ mb: '3px' }}>
+          <Text color="primaryBright" sx={{ fontSize: ['4vw', '4vw', '20px'] }}>
             +
           </Text>
         </Flex>
       </Flex>
-      <Text size="12px" weight={300}>
+      <Text weight={300} sx={{ fontSize: ['2.7vw', '2.7vw', '12px'] }}>
         {tokenBSymbol} per {tokenASymbol}
       </Text>
     </Box>

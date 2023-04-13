@@ -3,7 +3,7 @@ import ConnectWalletButton from 'components/ConnectWallet'
 import { LangSelectorButton } from 'components/Langauge'
 import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
-import { Flex, Svg } from 'components/uikit'
+import { Flex, Link, Svg } from 'components/uikit'
 import { useState } from 'react'
 import { MenuButton } from 'theme-ui'
 import AccountLoggedInDisplay from './components/AccountLoggedInDisplay'
@@ -16,7 +16,7 @@ const NavBar = () => {
   const [dropdownFlag, setDropdownFlag] = useState(false)
   return (
     <Flex sx={styles.container}>
-      <Flex sx={{ maxWidth: '40px', width: '100%' }}>
+      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href={process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}>
         <Svg icon="logo" width="38px" />
       </Flex>
       <MobileMenu dropdownFlag={dropdownFlag} />
@@ -46,7 +46,18 @@ const NavBar = () => {
             display: NAV_MOBILE_DISPLAY,
           }}
         >
-          <MenuButton onClick={() => setDropdownFlag((prev) => !prev)} />
+          <Flex
+            onClick={() => setDropdownFlag((prev) => !prev)}
+            sx={{ alignItems: 'center', height: '100%', ml: '20px', mt: '4px', cursor: 'pointer' }}
+          >
+            {!dropdownFlag ? (
+              <Svg icon="hamburger" width={22} />
+            ) : (
+              <span sx={{ mt: '15px', width: '22px' }}>
+                <Svg icon="hamburgerClosed" width={30} />
+              </span>
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

@@ -13,6 +13,7 @@ import { useTickLens } from './useContract'
 import { PoolState, usePool } from './usePools'
 
 const PRICE_FIXED_DIGITS = 8
+
 // TODO: Add chains to not use subgraph for
 const CHAIN_IDS_MISSING_SUBGRAPH_DATA = [999]
 
@@ -215,7 +216,6 @@ export function usePoolActiveLiquidity(
   const activeTick = useMemo(() => getActiveTick(pool[1]?.tickCurrent, feeAmount), [pool, feeAmount])
 
   const { isLoading, error, ticks } = useAllV3Ticks(currencyA, currencyB, feeAmount)
-
 
   return useMemo(() => {
     if (

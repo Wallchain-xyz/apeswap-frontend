@@ -62,7 +62,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
   const nativeCurrency = useNativeCurrency()
   const nativeWrappedSymbol = nativeCurrency.wrapped.symbol
 
-  const [poolState, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
+  const [, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
 
   const position = useMemo(() => {
     if (pool && liquidity && typeof tickLower === 'number' && typeof tickUpper === 'number') {
@@ -134,7 +134,6 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
     return amount0 + amount1
   }, [position, token0PriceUsd, token1PriceUsd])
 
-
   const [onPresentRemoveLiquidityModal] = useModal(
     <RemoveLiquidity
       tokenId={tokenId?.toString()}
@@ -142,6 +141,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -163,6 +163,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
       feeAmount={feeAmount}
       tokenId={tokenId}
       setManuallyInverted={onHandleSetManuallyInverted}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -186,17 +187,17 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
           </Flex>
         </Flex>
         <Flex sx={{ alignItems: 'center' }}>
-          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal}>
+          <Button size="sm" mr="10px" onClick={onPresentRemoveLiquidityModal} disabled={removed}>
             Remove
           </Button>
-          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal}>
+          <Button size="sm" mr="10px" onClick={onPresentIncreaseLiquidityModal} disabled={removed}>
             Add
           </Button>
           <RangeTag removed={removed} inRange={inRange} />
         </Flex>
       </Flex>
       <Flex sx={{ height: '362px', mt: '20px' }}>
-        <Flex sx={{ width: '100%', mr: '10px', borderRadius: '10px', background: 'white3' }}>
+        <Flex sx={{ width: '100%', mr: '10px', borderRadius: '10px' }}>
           {'result' in metadata ? (
             <Image
               src={metadata.result.image || ''}
@@ -239,7 +240,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                   ) : (
                     <>
                       <Text size="14px" mr="10px">
-                        {inverted ? position?.amount0.toSignificant(4) : position?.amount1.toSignificant(4)}
+                        {inverted ? position?.amount0.toSignificant(6) : position?.amount1.toSignificant(6)}
                       </Text>
                       <Text size="12px" opacity={0.7}>
                         {typeof ratio === 'number' && !removed ? <Text>{inverted ? ratio : 100 - ratio}%</Text> : null}
@@ -267,7 +268,7 @@ const PositionDetailsPage = ({ selectedTokenId }: { selectedTokenId?: string }) 
                   ) : (
                     <>
                       <Text size="14px" mr="10px">
-                        {inverted ? position?.amount1.toSignificant(4) : position?.amount0.toSignificant(4)}
+                        {inverted ? position?.amount1.toSignificant(6) : position?.amount0.toSignificant(6)}
                       </Text>
                       <Text size="12px" opacity={0.7}>
                         {typeof ratio === 'number' && !removed ? <Text>{inverted ? 100 - ratio : ratio}%</Text> : null}

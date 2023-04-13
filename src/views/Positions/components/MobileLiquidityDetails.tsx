@@ -137,7 +137,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       token1Address={token1Address}
       feeAmount={feeAmount}
       inRange={inRange}
-      // handleDismiss={() => null}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -159,6 +159,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
       feeAmount={feeAmount}
       tokenId={tokenId}
       setManuallyInverted={onHandleSetManuallyInverted}
+      onDismiss={() => null}
     />,
     true,
     true,
@@ -197,7 +198,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             ) : (
               <>
                 <Text size="14px" mr="10px">
-                  {inverted ? position?.amount0.toSignificant(4) : position?.amount1.toSignificant(4)}
+                  {inverted ? position?.amount0.toSignificant(6) : position?.amount1.toSignificant(6)}
                 </Text>
                 <Text size="12px" opacity={0.7}>
                   {typeof ratio === 'number' && !removed ? <Text>{inverted ? ratio : 100 - ratio}%</Text> : null}
@@ -225,7 +226,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             ) : (
               <>
                 <Text size="14px" mr="10px">
-                  {inverted ? position?.amount1.toSignificant(4) : position?.amount0.toSignificant(4)}
+                  {inverted ? position?.amount1.toSignificant(6) : position?.amount0.toSignificant(6)}
                 </Text>
                 <Text size="12px" opacity={0.7}>
                   {typeof ratio === 'number' && !removed ? <Text>{inverted ? 100 - ratio : ratio}%</Text> : null}
@@ -236,10 +237,10 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
         </Flex>
       </Flex>
       <Flex sx={{ padding: '10px 0px' }}>
-        <Button size="sm" fullWidth mr="10px" onClick={onPresentIncreaseLiquidityModal}>
+        <Button size="sm" fullWidth mr="10px" onClick={onPresentIncreaseLiquidityModal} disabled={removed}>
           Add
         </Button>
-        <Button size="sm" fullWidth onClick={onPresentRemoveLiquidityModal}>
+        <Button size="sm" fullWidth onClick={onPresentRemoveLiquidityModal} disabled={removed}>
           Remove
         </Button>
       </Flex>
@@ -309,7 +310,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
               {nativeWrappedSymbol}
             </Text>
             <Flex>
-              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} />
+              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} sx={{ background: 'navMenuLogo' }} />
             </Flex>
           </Flex>
         )}
@@ -331,7 +332,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
             alt={selectedTokenId || ''}
             height={100}
             width={100}
-            sx={{ width: '50%' }}
+            sx={{ width: '90%' }}
           />
         ) : (
           <Skeleton sx={{ height: '100%', width: '100%' }} animation="waves" />

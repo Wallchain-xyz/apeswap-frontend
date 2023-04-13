@@ -36,36 +36,11 @@ const API_QUERY_PARAMS = {
 const CLIENT_PARAMS = {
   protocols: [Protocol.V2, Protocol.V3, Protocol.MIXED],
 }
-// Price queries are tuned down to minimize the required RPCs to respond to them.
-// TODO(zzmp): This will be used after testing router caching.
-const PRICE_PARAMS = {
-  protocols: [Protocol.V2, Protocol.V3],
-  v2PoolSelection: {
-    topN: 2,
-    topNDirectSwaps: 1,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 2,
-    topNWithBaseToken: 2,
-  },
-  v3PoolSelection: {
-    topN: 2,
-    topNDirectSwaps: 1,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 2,
-    topNWithBaseToken: 2,
-  },
-  maxSwapsPerPath: 2,
-  minSplits: 1,
-  maxSplits: 1,
-  distributionPercent: 100,
-}
 
 export const routingApi = createApi({
   reducerPath: 'routingApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.uniswap.org/v1/',
+    baseUrl: 'https://nrxga6j96f.execute-api.us-east-1.amazonaws.com/prod/',
   }),
   endpoints: (build) => ({
     getQuote: build.query<
@@ -122,14 +97,11 @@ export const routingApi = createApi({
               { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
             )
           }
-
-          console.log(result)
           return { data: result.data as GetQuoteResult }
-        } catch (e) {
-          console.log(e)
+        } catch (e: any) {
           // TODO: fall back to client-side quoter when auto router fails.
           // deprecate 'legacy' v2/v3 routers first.
-          return { error: e as FetchBaseQueryError }
+          return { error: { status: 'CUSTOM_ERROR', error: e.toString(), data: e } }
         }
       },
       keepUnusedDataFor: 100000,

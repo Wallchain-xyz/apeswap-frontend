@@ -1,6 +1,6 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
-export const MOBILE_DISPLAY = ['flex', 'flex', 'flex', 'flex', 'flex', 'none']
+export const MOBILE_DISPLAY = ['flex', 'flex', 'flex', 'flex', 'none', 'none']
 export const DESKTOP_DISPLAY = ['none', 'none', 'none', 'none', 'flex', 'flex']
 
 const styles: Record<'subContainer' | 'positionCardContainer', ThemeUIStyleObject> = {
@@ -18,7 +18,6 @@ const styles: Record<'subContainer' | 'positionCardContainer', ThemeUIStyleObjec
     justifyContent: 'center',
     margin: '5px 0px',
     flexDirection: 'column',
-    cursor: 'pointer',
     color: 'yellow',
   },
 }

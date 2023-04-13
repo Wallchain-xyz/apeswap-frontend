@@ -4,15 +4,17 @@ import { useWeb3React } from '@web3-react/core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import DexPanel from 'components/DexPanel'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
+import { ConfirmationPendingContent, TransactionSubmittedContent } from 'components/TransactionConfirmationModal'
 import { Button, Flex, Modal, NumericInput, Text } from 'components/uikit'
 import Input from 'components/uikit/Input/Input'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { BigNumber } from 'ethers'
 import { useToken } from 'hooks/Tokens'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
+import useIsMobile from 'hooks/useIsMobile'
 import { useV3PositionFromTokenId } from 'hooks/useV3Positions'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useBurnV3ActionHandlers, useBurnV3State, useDerivedV3BurnInfo } from 'state/burn/v3/hooks'
 import { Field } from 'state/mint/v3/actions'
 import { useV3DerivedMintInfo, useV3MintActionHandlers, useV3MintState } from 'state/mint/v3/hooks'
@@ -38,6 +40,7 @@ const IncreaseLiquidity = ({
   feeAmount,
   tokenId,
   setManuallyInverted,
+  onDismiss,
 }: {
   quoteCurrency: Currency | undefined
   baseCurrency: Currency | undefined
@@ -55,9 +58,12 @@ const IncreaseLiquidity = ({
     UPPER: boolean | undefined
   }
   setManuallyInverted: (manuallyInverted: boolean) => void
+  onDismiss: () => void
 }) => {
   // mint state
   const { independentField, typedValue } = useV3MintState()
+  const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
+  const [txHash, setTxHash] = useState<string>('')
 
   const {
     pool,
@@ -70,6 +76,7 @@ const IncreaseLiquidity = ({
     currencyBalances,
     depositADisabled,
     depositBDisabled,
+    errorMessage,
   } = useV3DerivedMintInfo(
     baseCurrency ?? undefined,
     quoteCurrency ?? undefined,
@@ -99,116 +106,146 @@ const IncreaseLiquidity = ({
     {},
   )
 
+  const pendingText = `Supplying ${position?.amount0.toSignificant(4) ?? ''} ${
+    position?.amount0.currency.symbol ?? ''
+  } and ${position?.amount1.toSignificant(4) ?? ''} ${position?.amount1.currency.symbol ?? ''}`
+
+  const onUserDismiss = useCallback(() => {
+    setTxHash('') // if there was a tx hash, we want to clear the input
+    onDismiss()
+  }, [onDismiss])
+
+  const isMobile = useIsMobile()
+
   return (
-    <Modal title="Increase Position" minWidth="300px" maxWidth="95%">
-      <Flex sx={{ maxWidth: '100%', width: '420px', flexDirection: 'column' }}>
-        <Flex
-          sx={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            mt: '10px',
-          }}
-        >
-          <Flex sx={{ alignItems: 'center' }}>
-            <DoubleCurrencyLogo currency0={quoteCurrency} currency1={baseCurrency} />
-            <Text weight={600}>
-              &nbsp;{quoteCurrency?.symbol}&nbsp;/&nbsp;{baseCurrency?.symbol}
+    <Modal title="Increase Position" minWidth="300px" maxWidth="95%" paddingWidth={isMobile ? '10px' : '20px'}>
+      <Flex
+        sx={{
+          maxWidth: '100%',
+          width: '420px',
+          flexDirection: 'column',
+          overflow: 'scroll',
+          maxHeight: '80vh',
+        }}
+      >
+        {attemptingTxn ? (
+          <ConfirmationPendingContent pendingText={pendingText} />
+        ) : txHash ? (
+          <TransactionSubmittedContent hash={txHash} onDismiss={onUserDismiss} />
+        ) : (
+          <>
+            <Flex
+              sx={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                mt: '10px',
+              }}
+            >
+              <Flex sx={{ alignItems: 'center' }}>
+                <DoubleCurrencyLogo currency0={quoteCurrency} currency1={baseCurrency} />
+                <Text weight={600}>
+                  &nbsp;{quoteCurrency?.symbol}&nbsp;/&nbsp;{baseCurrency?.symbol}
+                </Text>
+                <Flex variant="flex.tag" sx={{ background: 'white4', ml: '5px' }}>
+                  <Text size="10px" sx={{ lineHeight: '9px' }}>
+                    {new Percent(feeAmount || 0, 1_000_000).toSignificant()}%
+                  </Text>
+                </Flex>
+              </Flex>
+              <RangeTag removed={removed} inRange={inRange} />
+            </Flex>
+            <Flex sx={{ ...styles.subContainer, mt: '10px', background: 'white3' }}>
+              <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '25px' }}>
+                <Flex sx={{ alignItems: 'center' }}>
+                  <CurrencyLogo currency={quoteCurrency} size={18} />
+                  <Text ml="5px" size="14px">
+                    {quoteCurrency?.symbol}
+                  </Text>
+                </Flex>
+                <Flex>
+                  <Text size="14px" mr="10px">
+                    {inverted ? currentPosition?.amount0.toSignificant(4) : currentPosition?.amount1.toSignificant(4)}
+                  </Text>
+                </Flex>
+              </Flex>
+              <Flex
+                sx={{
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-between',
+                  height: '25px',
+                }}
+              >
+                <Flex sx={{ alignItems: 'center' }}>
+                  <CurrencyLogo currency={baseCurrency} size={18} />
+                  <Text size="14px" ml="5px">
+                    {baseCurrency?.symbol}
+                  </Text>
+                </Flex>
+                <Flex>
+                  <Text size="14px" mr="10px">
+                    {inverted ? currentPosition?.amount1.toSignificant(4) : currentPosition?.amount0.toSignificant(4)}
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+            <PriceRangeSection
+              currencyQuote={quoteCurrency}
+              currencyBase={baseCurrency}
+              removed={removed}
+              inRange={inRange}
+              inverted={inverted}
+              manuallyInverted={manuallyInverted}
+              pool={pool}
+              priceUpper={priceUpper}
+              priceLower={priceLower}
+              tickAtLimit={tickAtLimit}
+              setManuallyInverted={setManuallyInverted}
+            />
+            <Text margin="10px 0px" weight={700}>
+              {' '}
+              Add more liquidity{' '}
             </Text>
-            <Flex variant="flex.tag" sx={{ background: 'white4', ml: '5px' }}>
-              <Text size="10px" sx={{ lineHeight: '9px' }}>
-                {new Percent(feeAmount || 0, 1_000_000).toSignificant()}%
-              </Text>
-            </Flex>
-          </Flex>
-          <RangeTag removed={removed} inRange={inRange} />
-        </Flex>
-        <Flex sx={{ ...styles.subContainer, mt: '10px', background: 'white3' }}>
-          <Flex sx={{ alignItems: 'flex-start', justifyContent: 'space-between', height: '25px' }}>
-            <Flex sx={{ alignItems: 'center' }}>
-              <CurrencyLogo currency={quoteCurrency} size={18} />
-              <Text ml="5px" size="14px">
-                {quoteCurrency?.symbol}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text size="14px" mr="10px">
-                {inverted ? currentPosition?.amount0.toSignificant(4) : currentPosition?.amount1.toSignificant(4)}
-              </Text>
-            </Flex>
-          </Flex>
-          <Flex
-            sx={{
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-              height: '25px',
-            }}
-          >
-            <Flex sx={{ alignItems: 'center' }}>
-              <CurrencyLogo currency={baseCurrency} size={18} />
-              <Text size="14px" ml="5px">
-                {baseCurrency?.symbol}
-              </Text>
-            </Flex>
-            <Flex>
-              <Text size="14px" mr="10px">
-                {inverted ? currentPosition?.amount1.toSignificant(4) : currentPosition?.amount0.toSignificant(4)}
-              </Text>
-            </Flex>
-          </Flex>
-        </Flex>
-        <PriceRangeSection
-          currencyQuote={quoteCurrency}
-          currencyBase={baseCurrency}
-          removed={removed}
-          inRange={inRange}
-          inverted={inverted}
-          manuallyInverted={manuallyInverted}
-          pool={pool}
-          priceUpper={priceUpper}
-          priceLower={priceLower}
-          tickAtLimit={tickAtLimit}
-          setManuallyInverted={setManuallyInverted}
-        />
-        <Text margin="10px 0px" weight={700}>
-          {' '}
-          Add more liquidity{' '}
-        </Text>
-        <DexPanel
-          onUserInput={onFieldBInput}
-          handleMaxInput={() => {
-            onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
-          }}
-          value={formattedAmounts[Field.CURRENCY_B]}
-          currency={currencies[Field.CURRENCY_B] ?? null}
-          onCurrencySelect={() => null}
-          locked={depositBDisabled}
-          disableTokenSelect
-        />
-        <Flex sx={{ mt: '10px' }} />
-        <DexPanel
-          onUserInput={onFieldAInput}
-          handleMaxInput={() => {
-            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
-          }}
-          value={formattedAmounts[Field.CURRENCY_A]}
-          currency={currencies[Field.CURRENCY_A] ?? null}
-          onCurrencySelect={() => null}
-          locked={depositADisabled}
-          disableTokenSelect
-        />
+            <DexPanel
+              onUserInput={onFieldBInput}
+              handleMaxInput={() => {
+                onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+              }}
+              value={formattedAmounts[Field.CURRENCY_B]}
+              currency={currencies[Field.CURRENCY_B] ?? null}
+              onCurrencySelect={() => null}
+              locked={depositBDisabled}
+              disableTokenSelect
+            />
+            <Flex sx={{ mt: '10px' }} />
+            <DexPanel
+              onUserInput={onFieldAInput}
+              handleMaxInput={() => {
+                onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+              }}
+              value={formattedAmounts[Field.CURRENCY_A]}
+              currency={currencies[Field.CURRENCY_A] ?? null}
+              onCurrencySelect={() => null}
+              locked={depositADisabled}
+              disableTokenSelect
+            />
+            <Add
+              parsedAmounts={parsedAmounts}
+              positionManager={positionManager}
+              baseCurrency={currencies[Field.CURRENCY_A]}
+              quoteCurrency={currencies[Field.CURRENCY_B]}
+              position={position}
+              outOfRange={outOfRange}
+              hasExistingPosition={true}
+              noLiquidity={noLiquidity}
+              tokenId={tokenId?.toString()}
+              setAttemptingTxn={setAttemptingTxn}
+              setTxHash={setTxHash}
+              errorMessage={errorMessage}
+            />
+          </>
+        )}
       </Flex>
-      <Add
-        parsedAmounts={parsedAmounts}
-        positionManager={positionManager}
-        baseCurrency={currencies[Field.CURRENCY_A]}
-        quoteCurrency={currencies[Field.CURRENCY_B]}
-        position={position}
-        outOfRange={outOfRange}
-        hasExistingPosition={true}
-        noLiquidity={noLiquidity}
-        tokenId={tokenId?.toString()}
-      />
     </Modal>
   )
 }

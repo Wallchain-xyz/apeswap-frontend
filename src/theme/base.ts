@@ -1,5 +1,4 @@
 import { MediaQueries } from './types'
-
 export const breakpointMap: { [key: string]: number } = {
   xs: 370,
   sm: 576,
@@ -38,9 +37,10 @@ const baseTheme = {
     bold: 700,
   },
   fonts: {
-    body: 'Poppins,sans-serif;',
+    body: 'Poppins, sans-serif',
     titan: 'Titan One',
     poppins: 'Poppins',
+    azeret: 'Azeret Mono, monospace',
   },
   radii: {
     small: '4px',
@@ -49,18 +49,30 @@ const baseTheme = {
     card: '32px',
     circle: '50%',
   },
-  zIndices: { dropdown: 10, modal: 101 },
+  zIndices: { dropdown: 10, modal: 102 },
   styles: {
     root: {
       fontFamily: 'body',
-      lineHeight: 'body',
-      fontWeight: 'light',
-      letterSpacing: '.45px',
+      '-webkit-font-smoothing': 'antialiased',
+      fontWeight: 600,
       color: 'text',
       bg: 'background',
+      textDecoration: 'none',
+      '::-webkit-scrollbar': {
+        width: '8px',
+      },
+      '::-webkit-scrollbar-thumb': {
+        background: 'text',
+        borderRadius: '8px',
+      },
+      '::-webkit-scrollbar-track': {
+        boxShadow: 'inset 0 0 5px',
+        color: 'input',
+        borderRadius: '10px',
+      },
     },
     a: {
-      color: 'primary',
+      color: 'text',
       textDecoration: 'none',
       ':hover': {
         color: 'secondary',
@@ -68,7 +80,11 @@ const baseTheme = {
       },
     },
     nav: {
+      textDecoration: 'none',
       breakpoints: [`@media screen and (min-width: ${breakpointMap.lg}px)`],
+      a: {
+        textDecoration: 'none',
+      },
     },
     progress: {
       primary: 'primary',
@@ -111,6 +127,10 @@ const baseTheme = {
       fontWeight: '800',
       fontSize: '60px',
       lineHeight: '66px',
+    },
+    input: {
+      fontFamily: 'base',
+      fontWeight: 'base',
     },
   },
 }

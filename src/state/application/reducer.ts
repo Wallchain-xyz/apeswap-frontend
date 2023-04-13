@@ -1,16 +1,13 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 
-export type PopupContent =
-  | {
-      txn: {
-        hash: string
-      }
-    }
-  | {
-      failedSwitchNetwork: SupportedChainId
-    }
+export type PopupContent = {
+  txHash: string
+  text: string
+  url: string
+  urlLabel: string
+  type: 'success' | 'error'
+}
 
 export enum ApplicationModal {
   ADDRESS_CLAIM,
@@ -45,6 +42,7 @@ export interface ApplicationState {
   readonly openModal: ApplicationModal | null
   readonly popupList: PopupList
   readonly bananaPrice: string | null
+  readonly profileImage?: string
 }
 
 const initialState: ApplicationState = {
@@ -53,6 +51,7 @@ const initialState: ApplicationState = {
   openModal: null,
   popupList: [],
   bananaPrice: null,
+  profileImage: undefined,
 }
 
 const applicationSlice = createSlice({
@@ -65,6 +64,9 @@ const applicationSlice = createSlice({
     updateChainId(state, action) {
       const { chainId } = action.payload
       state.chainId = chainId
+    },
+    updateProfileImage(state, { payload: { profileImage } }) {
+      state.profileImage = profileImage
     },
     setOpenModal(state, action) {
       state.openModal = action.payload
@@ -92,6 +94,13 @@ const applicationSlice = createSlice({
   },
 })
 
-export const { updateChainId, setFiatOnrampAvailability, setBananaPrice, setOpenModal, addPopup, removePopup } =
-  applicationSlice.actions
+export const {
+  updateChainId,
+  setFiatOnrampAvailability,
+  setBananaPrice,
+  setOpenModal,
+  addPopup,
+  updateProfileImage,
+  removePopup,
+} = applicationSlice.actions
 export default applicationSlice.reducer

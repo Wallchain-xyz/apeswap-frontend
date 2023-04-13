@@ -5,11 +5,13 @@ import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
 import { BigNumber } from 'ethers'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { useCallback, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { currencyId } from 'utils/currencyId'
+import track from 'utils/track'
 
 const Claim = ({
   currency0ForFeeCollectionPurposes,
@@ -29,6 +31,11 @@ const Claim = ({
   const { account, provider, chainId } = useWeb3React()
   const positionManager = useV3NFTPositionManagerContract()
   const addTransaction = useTransactionAdder()
+
+  const disabledClaim = feeValue0?.equalTo(0) && feeValue1?.equalTo(0)
+
+  const [currencyAUsdVal] = useTokenPriceUsd(currency0ForFeeCollectionPurposes ?? undefined)
+  const [currencyBUsdVal] = useTokenPriceUsd(currency1ForFeeCollectionPurposes ?? undefined)
 
   const [claimPending, setClaimPending] = useState<boolean>(false)
   const onClaim = useCallback(() => {
@@ -81,11 +88,18 @@ const Claim = ({
                 console.error(error)
               })
 
-            // sendEvent({
-            //   category: 'Liquidity',
-            //   action: 'CollectV3',
-            //   label: [currency0ForFeeCollectionPurposes.symbol, currency1ForFeeCollectionPurposes.symbol].join('/'),
-            // })
+            track({
+              event: 'ClaimFee',
+              chain: chainId,
+              data: {
+                currencyA: currency0ForFeeCollectionPurposes.symbol,
+                currencyB: currency1ForFeeCollectionPurposes.symbol,
+                currencyAValue: parseFloat(feeValue0?.toSignificant(6) || '0'),
+                currencyBValue: parseFloat(feeValue1?.toSignificant(6) || '0'),
+                currencyAUsdValue: currencyAUsdVal * parseFloat(feeValue0?.toSignificant(6) || '0'),
+                currencyBUsdValue: currencyBUsdVal * parseFloat(feeValue1?.toSignificant(6) || '0'),
+              },
+            })
 
             addTransaction(response, {
               type: TransactionType.COLLECT_FEES,
@@ -103,6 +117,8 @@ const Claim = ({
   }, [
     chainId,
     feeValue0,
+    currencyAUsdVal,
+    currencyBUsdVal,
     feeValue1,
     currency0ForFeeCollectionPurposes,
     currency1ForFeeCollectionPurposes,
@@ -114,7 +130,13 @@ const Claim = ({
   ])
 
   return (
-    <Button size="sm" onClick={onClaim} load={claimPending} disabled={claimPending} fullWidth={fullWidth}>
+    <Button
+      size="sm"
+      onClick={onClaim}
+      load={claimPending}
+      disabled={claimPending || disabledClaim}
+      fullWidth={fullWidth}
+    >
       Claim
     </Button>
   )
