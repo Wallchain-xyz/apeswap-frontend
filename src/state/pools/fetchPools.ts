@@ -5,11 +5,12 @@ import { chunk } from 'lodash'
 import multicall from 'utils/multicall'
 import fetchPoolCalls, { fetchBananaPoolCall } from './fetchPoolCalls'
 import cleanPoolData from './cleanPoolData'
-import { BigNumber, ethers } from 'ethers'
 import { TokenPrices } from 'hooks/useAllTokenPrices'
 import { Pool } from './types'
+import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
-export const BLOCKS_PER_YEAR = BigNumber.from(10512000)
+export const BLOCKS_PER_YEAR = new BigNumber(10512000)
 export const BSC_BLOCK_TIME = 3
 
 const fetchPools = async (chainId: number, tokenPrices: TokenPrices[], poolsConfig: Pool[]) => {
@@ -26,11 +27,11 @@ const fetchPools = async (chainId: number, tokenPrices: TokenPrices[], poolsConf
   const formattedVals = [null, null, bananaPoolVals?.totalStaked._hex, null, null, ...vals.slice(1)]
   const chunkSize = formattedVals.length / poolsConfig.length
   const bananaAlloc = bananaPoolVals?.allocPoint._hex
-  const poolWeight = BigNumber.from(bananaAlloc).div(BigNumber.from(totalAlloc))
+  const poolWeight = new BigNumber(bananaAlloc).div(new BigNumber(totalAlloc))
   const chunkedPools = chunk(formattedVals, chunkSize)
-  const bananaPerYear = BigNumber.from(ethers.utils.formatEther(bananaPerSecond.toString()))
-    .mul(BSC_BLOCK_TIME)
-    .mul(BLOCKS_PER_YEAR)
+  const bananaPerYear = new BigNumber(ethers.utils.formatEther(bananaPerSecond.toString()))
+    .times(BSC_BLOCK_TIME)
+    .times(BLOCKS_PER_YEAR)
   return cleanPoolData(poolIds, chunkedPools, tokenPrices, chainId, poolsConfig, poolWeight, bananaPerYear)
 }
 

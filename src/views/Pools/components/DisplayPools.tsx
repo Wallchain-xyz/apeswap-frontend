@@ -1,57 +1,67 @@
-/** @jsxImportSource theme-ui */
 import React from 'react'
-import { IconButton, Flex, Button, ListTagVariants, Svg } from '@ape.swap/uikit'
-import BigNumber from 'bignumber.js'
-import { BASE_ADD_LIQUIDITY_URL } from 'config'
-import { useLocation, useHistory } from 'react-router-dom'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import CalcButton from 'components/RoiCalculator/CalcButton'
-import { Pool, Tag } from 'state/types'
-import { getBalanceNumber } from 'utils/formatBalance'
+// import CalcButton from 'components/RoiCalculator/CalcButton'
 import { useTranslation } from 'contexts/Localization'
-import Actions from './Actions'
-import HarvestAction from './Actions/HarvestAction'
+// import Actions from './Actions'
+// import HarvestAction from './Actions/HarvestAction'
 import { poolStyles } from './styles'
-import ListView from 'components/ListViewV2/ListView'
-import ListViewContent from 'components/ListViewV2/ListViewContent'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { Button, Flex, IconButton, Svg } from 'components/uikit'
+import { getBalanceNumber } from 'utils/getBalanceNumber'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { BASE_ADD_LIQUIDITY_URL } from 'config/constants/misc'
+import ListViewContent from 'components/ListView/ListViewContent'
+import ListView from 'components/ListView/ListView'
+import { Pool, Tag } from 'state/pools/types'
+import BigNumber from 'bignumber.js'
+import CalcButton from 'components/RoiCalculator/CalcButton'
 
-const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }> = ({ pools, openId, poolTags }) => {
-  const { chainId } = useActiveWeb3React()
-  const { pathname } = useLocation()
+const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] | null }> = ({
+  pools,
+  openId,
+  poolTags,
+}) => {
+  const { chainId } = useWeb3React()
+  const { asPath, push } = useRouter()
   const { t } = useTranslation()
-  const isActive = !pathname.includes('history')
-  const history = useHistory()
+  const isActive = !asPath.includes('history')
 
   const poolsListView = pools.map((pool) => {
+    console.log(pool)
     const token1 = pool?.stakingToken?.symbol
     const token2 = pool?.rewardToken?.symbol
-    const totalDollarAmountStaked = Math.round(getBalanceNumber(pool?.totalStaked) * pool?.stakingToken?.price)
+    const totalDollarAmountStaked = Math.round(
+      getBalanceNumber(new BigNumber(pool?.totalStaked ?? 0)) * (pool?.stakingToken?.price ?? 0),
+    )
     const liquidityUrl = !pool?.lpStaking
       ? pool?.stakingToken?.symbol === 'GNANA'
         ? 'https://apeswap.finance/gnana'
-        : `https://apeswap.finance/swap?outputCurrency=${pool?.stakingToken?.address[chainId]}`
-      : `${BASE_ADD_LIQUIDITY_URL}/${pool?.lpTokens?.token?.address[chainId]}/${pool?.lpTokens?.quoteToken?.address[chainId]}`
+        : `https://apeswap.finance/swap?outputCurrency=${pool?.stakingToken?.address?.[chainId as SupportedChainId]}`
+      : `${BASE_ADD_LIQUIDITY_URL}/${pool?.lpTokens?.token?.address?.[chainId as SupportedChainId]}/${
+          pool?.lpTokens?.quoteToken?.address?.[chainId as SupportedChainId]
+        }`
     const userAllowance = pool?.userData?.allowance
     const userEarnings = getBalanceNumber(
-      pool?.userData?.pendingReward || new BigNumber(0),
-      pool?.rewardToken?.decimals[chainId],
+      new BigNumber(pool?.userData?.pendingReward ?? 0) || new BigNumber(0),
+      pool?.rewardToken?.decimals?.[chainId as SupportedChainId] ?? 18,
     )
-    const userEarningsUsd = `$${(userEarnings * pool.rewardToken?.price).toFixed(2)}`
-    const userTokenBalance = `${getBalanceNumber(pool?.userData?.stakingTokenBalance || new BigNumber(0))?.toFixed(6)}`
+    const userEarningsUsd = `$${(userEarnings * (pool.rewardToken?.price ?? 0)).toFixed(2)}`
+    const userTokenBalance = `${getBalanceNumber(
+      new BigNumber(pool?.userData?.stakingTokenBalance ?? 0) ?? new BigNumber(0),
+    )?.toFixed(6)}`
     const userTokenBalanceUsd = `$${(
-      getBalanceNumber(pool?.userData?.stakingTokenBalance || new BigNumber(0)) * pool?.stakingToken?.price
+      getBalanceNumber(new BigNumber(pool?.userData?.stakingTokenBalance ?? 0) || new BigNumber(0)) *
+      (pool?.stakingToken?.price ?? 0)
     ).toFixed(2)}`
 
     const pTag = poolTags?.find((tag) => tag?.pid === pool?.sousId)
-    const explorerLink = BLOCK_EXPLORER[chainId]
-    const poolContractURL = `${explorerLink}/address/${pool?.contractAddress[chainId]}`
+    const explorerLink = BLOCK_EXPLORER[chainId as SupportedChainId]
+    const poolContractURL = `${explorerLink}/address/${pool?.contractAddress[chainId as SupportedChainId]}`
 
     const openLiquidityUrl = () =>
-      pool?.stakingToken?.symbol === 'GNANA'
-        ? history.push({ search: '?modal=gnana' })
-        : window.open(liquidityUrl, '_blank')
+      pool?.stakingToken?.symbol === 'GNANA' ? push({ search: '?modal=gnana' }) : window.open(liquidityUrl, '_blank')
 
     // Token symbol logic is here temporarily for nfty
     return {
@@ -63,7 +73,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }
         id: pool.sousId,
         title: (
           <ListViewContent
-            tag={pTag?.pid === pool?.sousId ? (pTag?.text.toLowerCase() as ListTagVariants) : null}
+            tag={pTag?.pid === pool?.sousId ? pTag?.text.toLowerCase() : null}
             value={pool?.rewardToken?.symbol || pool?.tokenName}
             style={{ maxWidth: '150px' }}
           />
@@ -72,12 +82,12 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }
         iconsContainer: '94px',
         infoContent: (
           <Tooltip
-            tokenContract={pool?.rewardToken?.address[chainId]}
+            tokenContract={pool?.rewardToken?.address?.[chainId as SupportedChainId] ?? ''}
             secondURL={poolContractURL}
             secondURLTitle={t('View Pool Contract')}
             twitter={pool?.twitter}
             projectLink={pool?.projectLink}
-            audit={pool?.audit}
+            audit={pool?.audit ?? ''}
             pool={pool}
           />
         ),
@@ -86,7 +96,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }
             <Flex sx={poolStyles.buttonsContainer}>
               <Flex sx={{ width: '90px', height: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
                 <a href={pool.projectLink} target="_blank" rel="noreferrer">
-                  <IconButton icon="website" color="primaryBright" width={20} style={{ padding: '8.5px 10px' }} />
+                  <IconButton icon="website" color="primaryBright" width={20} sx={{ padding: '8.5px 10px' }} />
                 </a>
                 <a href={pool?.twitter} target="_blank" rel="noreferrer">
                   <IconButton icon="twitter" color="primaryBright" width={20} />
@@ -105,7 +115,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }
                   rewardTokenName={pool?.rewardToken?.symbol}
                   rewardTokenPrice={pool?.rewardToken?.price}
                   apr={pool?.apr}
-                  tokenAddress={pool.stakingToken.address[chainId]}
+                  tokenAddress={pool.stakingToken.address[chainId as SupportedChainId]}
                 />
               }
               style={poolStyles.aprInfo}
@@ -154,13 +164,14 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }
               <Flex sx={{ ...poolStyles.onlyBigScreen, mx: '10px' }}>
                 <Svg icon="caret" direction="right" width="50px" />
               </Flex>
-              <Actions
-                allowance={userAllowance?.toString()}
-                stakedBalance={pool?.userData?.stakedBalance?.toString()}
+              {/* <Actions
+                allowance={userAllowance?.toString() ?? ''}
+                stakeTokenDecimals={pool?.stakingToken?.decimals?.[chainId as SupportedChainId] ?? 18}
+                stakedBalance={pool?.userData?.stakedBalance?.toString() ?? ''}
                 stakedTokenSymbol={pool?.stakingToken?.symbol}
-                stakingTokenBalance={pool?.userData?.stakingTokenBalance?.toString()}
-                stakeTokenAddress={pool?.stakingToken?.address[chainId]}
-                stakeTokenValueUsd={pool?.stakingToken?.price}
+                stakingTokenBalance={pool?.userData?.stakingTokenBalance?.toString() ?? ''}
+                stakeTokenAddress={pool?.stakingToken?.address[chainId as SupportedChainId] ?? ''}
+                stakeTokenValueUsd={pool?.stakingToken?.price ?? 0}
                 earnTokenSymbol={pool?.rewardToken?.symbol || pool?.tokenName}
                 sousId={pool?.sousId}
               />
@@ -172,8 +183,8 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] }
                 disabled={userEarnings <= 0}
                 userEarnings={userEarnings}
                 earnTokenSymbol={pool?.rewardToken?.symbol || pool?.tokenName}
-                earnTokenValueUsd={pool?.rewardToken?.price}
-              />
+                earnTokenValueUsd={pool?.rewardToken?.price ?? 0}
+              /> */}
             </Flex>
           </>
         ),

@@ -1,5 +1,11 @@
 import { ThemeUIStyleObject } from 'theme-ui'
-import { FLEX_DIRECTION_BREAKPOINTS, JUSTIFY_CONTENT_BREAKPOINTS } from 'style/StylesBreakpoints'
+
+export const JUSTIFY_CONTENT_BREAKPOINTS: ('space-between' | 'flex-start')[] = [
+  'space-between',
+  'space-between',
+  'flex-start',
+]
+export const FLEX_DIRECTION_BREAKPOINTS: ('row' | 'column')[] = ['row', 'row', 'column']
 
 export const poolStyles: Record<
   | 'buttonsContainer'

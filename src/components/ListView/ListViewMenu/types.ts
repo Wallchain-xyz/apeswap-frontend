@@ -2,9 +2,9 @@ import React from 'react'
 
 export interface ListMenuProps {
   onHandleQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  setFilterOption: (value: string | undefined) => void
+  setFilterOption: React.Dispatch<React.SetStateAction<string>>
   filterOption?: string
-  setSortOption: (value: string | undefined) => void
+  setSortOption: React.Dispatch<React.SetStateAction<string>>
   sortOption?: string
   query: string
   checkboxLabel: string

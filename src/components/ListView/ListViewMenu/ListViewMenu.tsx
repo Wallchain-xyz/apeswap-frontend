@@ -55,7 +55,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
     } else {
       push(asPath)
     }
-  }, [handleTracking, history, isExact, asPath])
+  }, [handleTracking, push, isExact, asPath])
 
   const handleExpandedBtn = () => {
     setExpended(!expanded)

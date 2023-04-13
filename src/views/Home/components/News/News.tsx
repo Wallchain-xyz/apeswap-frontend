@@ -8,13 +8,11 @@ import SwiperCore, { Autoplay } from 'swiper'
 import 'swiper/swiper.min.css'
 import track from 'utils/track'
 import { getDotPos } from 'utils/getDotPos'
-import { Bubble, NewsCard, NewsWrapper, SkeletonWrapper, styles } from './styles'
+import { Bubble, NewsCard, NewsWrapper, SkeletonWrapper } from './styles'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useFetchHomepageNews, useHomepageNews } from 'state/homepage/hooks'
-import Image from 'next/image'
 import { NewsCardType } from 'state/homepage/types'
 
 const SLIDE_DELAY = 5000
@@ -37,7 +35,6 @@ const News: React.FC = () => {
           (new Date(news.StartTime) <= today && new Date(news.EndTime) > today) || (!news.StartTime && !news.EndTime),
       )
     : []
-  console.log(filterNews)
   const newsLength = filterNews?.length || 0
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)

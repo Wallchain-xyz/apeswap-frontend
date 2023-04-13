@@ -13,9 +13,9 @@ import { Pool } from './types'
 
 export const fetchPoolsAllowance = async (chainId: number, account: string, poolsConfig: Pool[]) => {
   const calls = poolsConfig.map((p) => ({
-    address: p.stakingToken.address?.[chainId] ?? '',
+    address: p.stakingToken.address?.[chainId as SupportedChainId] ?? '',
     name: 'allowance',
-    params: [account, p.contractAddress[chainId]],
+    params: [account, p.contractAddress[chainId as SupportedChainId]],
   }))
 
   const allowances = await multicall(chainId, erc20ABI, calls)
@@ -28,7 +28,7 @@ export const fetchPoolsAllowance = async (chainId: number, account: string, pool
 export const fetchUserBalances = async (chainId: number, account: string, poolsConfig: Pool[]) => {
   // Non BNB pools
   const calls = poolsConfig.map((p) => ({
-    address: p.stakingToken.address?.[chainId] ?? '',
+    address: p.stakingToken.address?.[chainId as SupportedChainId] ?? '',
     name: 'balanceOf',
     params: [account],
   }))
@@ -49,7 +49,7 @@ export const fetchUserStakeBalances = async (chainId: number, account: string, p
   const masterChefV2Address = MASTER_CHEF_V2[chainId]
   const masterChefV2Contract = getContract(masterChefV2Address, masterChefV2ABI, provider)
   const calls = nonMasterPools.map((p) => ({
-    address: p.contractAddress[chainId],
+    address: p.contractAddress[chainId as SupportedChainId] ?? '',
     name: 'userInfo',
     params: [account],
   }))
@@ -80,7 +80,7 @@ export const fetchUserPendingRewards = async (chainId: number, account: string, 
   const masterChefV2Address = MASTER_CHEF_V2[chainId]
   const masterChefV2Contract = getContract(masterChefV2Address, masterChefV2ABI, provider)
   const calls = nonMasterPools.map((p) => ({
-    address: p.contractAddress[chainId],
+    address: p.contractAddress[chainId as SupportedChainId] ?? '',
     name: 'pendingReward',
     params: [account],
   }))

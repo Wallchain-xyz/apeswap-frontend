@@ -25,6 +25,7 @@ import { poolStyles } from '../styles'
 interface CardActionProps {
   allowance: string
   stakingTokenBalance: string
+  stakeTokenDecimals: number
   stakedTokenSymbol: string
   stakedBalance: string
   stakeTokenValueUsd: number
@@ -37,6 +38,7 @@ const Actions: React.FC<CardActionProps> = ({
   allowance,
   stakingTokenBalance,
   stakedTokenSymbol,
+  stakeTokenDecimals,
   stakedBalance,
   stakeTokenValueUsd,
   stakeTokenAddress,
@@ -129,7 +131,12 @@ const Actions: React.FC<CardActionProps> = ({
         {!account ? (
           <UnlockButton sx={{ width: '100%' }} />
         ) : !new BigNumber(allowance)?.gt(0) ? (
-          <ApprovalAction stakingTokenContractAddress={stakeTokenAddress} sousId={sousId} />
+          <ApprovalAction
+          stakingTokenBalance={stakingTokenBalance}
+            stakingTokenContractAddress={stakeTokenAddress}
+            sousId={sousId}
+            stakeTokenDecimals={stakeTokenDecimals}
+          />
         ) : firstStake ? (
           <Button
             onClick={onPresentDeposit}

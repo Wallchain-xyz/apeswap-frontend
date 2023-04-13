@@ -1,11 +1,11 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { CHAIN_BLOCKS_PER_YEAR } from 'config/constants/chains'
-import { BigNumber } from 'ethers'
+import BigNumber from 'bignumber.js'
 
-export const BANANA_PER_BLOCK = BigNumber.from(10)
-export const BLOCKS_PER_YEAR = BigNumber.from(10512000)
-export const SECONDS_PER_YEAR = BigNumber.from(31536000)
-export const BANANA_PER_YEAR = BANANA_PER_BLOCK.mul(BLOCKS_PER_YEAR)
+export const BANANA_PER_BLOCK = new BigNumber(10)
+export const BLOCKS_PER_YEAR = new BigNumber(10512000)
+export const SECONDS_PER_YEAR = new BigNumber(31536000)
+export const BANANA_PER_YEAR = BANANA_PER_BLOCK.times(BLOCKS_PER_YEAR)
 
 export const getPoolApr = (
   chainId: number,
@@ -14,11 +14,11 @@ export const getPoolApr = (
   totalStaked: number,
   tokenPerBlock: string,
 ): number | undefined => {
-  const totalRewardPricePerYear = BigNumber.from(rewardTokenPrice)
-    .mul(tokenPerBlock)
-    .mul(CHAIN_BLOCKS_PER_YEAR[chainId as SupportedChainId] ?? 0)
-  const totalStakingTokenInPool = BigNumber.from(stakingTokenPrice).mul(totalStaked)
-  const apr = totalRewardPricePerYear.div(totalStakingTokenInPool).mul(100)
+  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice)
+    .times(tokenPerBlock)
+    .times(new BigNumber(CHAIN_BLOCKS_PER_YEAR[chainId as SupportedChainId]?.toString() ?? 0))
+  const totalStakingTokenInPool = new BigNumber(stakingTokenPrice).times(totalStaked)
+  const apr = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100)
   return apr ? apr.toNumber() : undefined
 }
 
@@ -28,9 +28,9 @@ export const getPoolAprPerSecond = (
   totalStaked: number,
   rewardsPerSecond: string,
 ): number | undefined => {
-  const totalRewardPricePerYear = BigNumber.from(rewardTokenPrice).mul(rewardsPerSecond).mul(SECONDS_PER_YEAR)
-  const totalStakingTokenInPool = BigNumber.from(stakingTokenPrice).mul(totalStaked)
-  const apr = totalRewardPricePerYear.div(totalStakingTokenInPool).mul(100)
+  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice).times(rewardsPerSecond).times(SECONDS_PER_YEAR)
+  const totalStakingTokenInPool = new BigNumber(stakingTokenPrice).times(totalStaked)
+  const apr = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100)
   return apr ? apr.toNumber() : undefined
 }
 
@@ -41,14 +41,14 @@ export const getDualFarmApr = (
   rewarerdTokenPrice: number,
   rewarderTokensPerSecond: string,
 ): number | undefined => {
-  const totalRewarderRewardPricePerYear = BigNumber.from(rewarerdTokenPrice)
-    .mul(rewarderTokensPerSecond)
-    .mul(SECONDS_PER_YEAR)
-  const totalMiniChefRewardPricePerYear = BigNumber.from(miniChefRewardTokenPrice)
-    .mul(miniChefTokensPerSecond)
-    .mul(SECONDS_PER_YEAR)
-  const totalRewardsPerYear = totalMiniChefRewardPricePerYear.add(totalRewarderRewardPricePerYear)
-  const apr = totalRewardsPerYear.div(poolLiquidityUsd).mul(100)
+  const totalRewarderRewardPricePerYear = new BigNumber(rewarerdTokenPrice)
+    .times(rewarderTokensPerSecond)
+    .times(SECONDS_PER_YEAR)
+  const totalMiniChefRewardPricePerYear = new BigNumber(miniChefRewardTokenPrice)
+    .times(miniChefTokensPerSecond)
+    .times(SECONDS_PER_YEAR)
+  const totalRewardsPerYear = totalMiniChefRewardPricePerYear.plus(totalRewarderRewardPricePerYear)
+  const apr = totalRewardsPerYear.div(poolLiquidityUsd).times(100)
   return apr ? apr.toNumber() : undefined
 }
 
@@ -57,8 +57,8 @@ export const getFarmApr = (
   bananaPriceUsd: BigNumber,
   poolLiquidityUsd: BigNumber,
 ): number | undefined => {
-  const yearlyBananaRewardAllocation = BANANA_PER_YEAR.mul(poolWeight).mul(bananaPriceUsd)
-  const apr = yearlyBananaRewardAllocation.div(poolLiquidityUsd).mul(100)
+  const yearlyBananaRewardAllocation = BANANA_PER_YEAR.times(poolWeight).times(bananaPriceUsd)
+  const apr = yearlyBananaRewardAllocation.div(poolLiquidityUsd).times(100)
   return apr ? apr.toNumber() : undefined
 }
 
@@ -68,7 +68,7 @@ export const getFarmV2Apr = (
   poolLiquidityUsd: BigNumber,
   bananaPerYear?: BigNumber,
 ): number | undefined => {
-  const yearlyBananaRewardAllocation = bananaPerYear?.mul(poolWeight).mul(bananaPriceUsd)
-  const apr = yearlyBananaRewardAllocation?.div(poolLiquidityUsd).mul(100)
+  const yearlyBananaRewardAllocation = bananaPerYear?.times(poolWeight).times(bananaPriceUsd)
+  const apr = yearlyBananaRewardAllocation?.div(poolLiquidityUsd).times(100)
   return apr ? apr.toNumber() : undefined
 }

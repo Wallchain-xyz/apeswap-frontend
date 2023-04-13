@@ -1,7 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
-import { BigNumber } from 'ethers'
 import { useNfaContract, useNfbContract, usePriceGetter } from 'hooks/useContract'
 import useDebounce from 'hooks/useDebounce'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
@@ -10,7 +9,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { supportedChainId } from 'utils/supportedChainId'
-
+import BigNumber from 'bignumber.js'
 import { useCloseModal } from './hooks'
 import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
 import { Interface } from 'ethers/lib/utils'
@@ -90,7 +89,7 @@ export default function Updater(): null {
     0,
   ])
 
-  const price = getBalanceNumber(BigNumber.from(bananaPrice?.toString() || '0'))
+  const price = getBalanceNumber(new BigNumber(bananaPrice?.toString() || '0'))
 
   useEffect(() => {
     if (price) {

@@ -25,7 +25,6 @@ const LaunchCalendar: React.FC = () => {
   useFetchHomepageLaunchCalendar(loadNews)
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)
-  const theme = useTheme()
   const launchCal = useHomepageLaunchCalendar()
   const sortLaunch = launchCal?.filter((launch) => new Date(launch.launchTime) > today)
   const launchCalLength = sortLaunch?.length || 0

@@ -25,3 +25,8 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')
+
+
+export const BASE_EXCHANGE_URL = 'https://apeswap.finance'
+export const BASE_ADD_LIQUIDITY_URL = `${BASE_EXCHANGE_URL}/add`
+export const BASE_LIQUIDITY_POOL_URL = `${BASE_EXCHANGE_URL}/pool`

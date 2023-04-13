@@ -1,8 +1,10 @@
 import { TokenPrices } from 'hooks/useAllTokenPrices'
-import { Pool, PoolConfig } from './types'
+import { Pool } from './types'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { getFarmV2Apr, getPoolApr } from 'utils/apr'
-import { BigNumber } from 'ethers'
+import { PoolConfig } from '@ape.swap/apeswap-lists'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import BigNumber from 'bignumber.js'
 
 const cleanPoolData = (
   poolIds: number[],
@@ -16,7 +18,7 @@ const cleanPoolData = (
   const data = chunkedPools.map((chunk, index) => {
     const poolConfig = poolsConfig.find((pool) => pool.sousId === poolIds[index])
     const [startBlock, endBlock, totalStaked] = chunk
-    const totalStakedFormatted = BigNumber.from(totalStaked).toJSON()
+    const totalStakedFormatted = new BigNumber(totalStaked).toJSON()
     const [stakingToken, rewardToken, apr] = fetchPoolTokenStatsAndApr(
       poolConfig,
       tokenPrices,
@@ -27,8 +29,8 @@ const cleanPoolData = (
     )
     return {
       sousId: poolIds[index],
-      startBlock: BigNumber.from(startBlock).toJSON(),
-      endBlock: poolConfig?.bonusEndBlock || BigNumber.from(endBlock).toJSON(),
+      startBlock: new BigNumber(startBlock).toJSON(),
+      endBlock: poolConfig?.bonusEndBlock || new BigNumber(endBlock).toJSON(),
       totalStaked: totalStakedFormatted,
       stakingToken: { ...poolConfig?.stakingToken, ...stakingToken },
       rewardToken: { ...poolConfig?.rewardToken, ...rewardToken },
@@ -50,19 +52,23 @@ const fetchPoolTokenStatsAndApr = (
   const curPool = pool
   const rewardToken = tokenPrices
     ? tokenPrices.find(
-        (token) => pool?.rewardToken && token?.address?.[chainId] === pool?.rewardToken?.address?.[chainId],
+        (token) =>
+          pool?.rewardToken && token?.address?.[chainId] === pool?.rewardToken?.address?.[chainId as SupportedChainId],
       )
     : pool?.rewardToken
   const stakingToken = tokenPrices
-    ? tokenPrices.find((token) => token?.address?.[chainId] === pool?.stakingToken?.address?.[chainId])
+    ? tokenPrices.find(
+        (token) => token?.address?.[chainId] === pool?.stakingToken?.address?.[chainId as SupportedChainId],
+      )
     : pool?.stakingToken
   // Calculate apr
   let apr
   if (pool?.sousId === 0) {
+    console.log(stakingToken)
     apr = getFarmV2Apr(
       bananaAlloc,
-      BigNumber.from(stakingToken?.price),
-      BigNumber.from(getBalanceNumber(totalStaked) * (stakingToken?.price ?? 0)),
+      new BigNumber(stakingToken?.price ?? 0),
+      new BigNumber((getBalanceNumber(totalStaked) * (stakingToken?.price ?? 0)) ?? 0),
       bananaPerYear,
     )
   } else {
@@ -70,7 +76,7 @@ const fetchPoolTokenStatsAndApr = (
       chainId,
       stakingToken?.price ?? 0,
       rewardToken?.price ?? 0,
-      getBalanceNumber(totalStaked),
+      getBalanceNumber(totalStaked ?? 0),
       curPool?.tokenPerBlock ?? '0',
     )
   }
