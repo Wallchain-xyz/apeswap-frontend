@@ -1,45 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-interface address {
-  address: string
-  chain: string
-}
-
-interface DataModel {
-  symbol: string
-  ranking: string
-  change24h: string
-  marketCap: string
-  validLiquidity: string
-  extractableLiquidity: string
-  extractableRatio: string
-  ownedLiquidity: {
-    chainId: string
-    token1Symbol: string
-    token2Symbol: string
-  }
-  liquidityDebt: string
-  health: string
-  concentration: string
-  ownership: string
-  score: string
-  trackedChains: string[] // create new const in sdk?
-  unlockedSupply: string
-  circulatingSupply: string
-  whiteListedAddresses: address[]
-}
+import { SimpleTokenProfile, TokenProfile } from './types'
 
 export interface LHDState {
   industryAverage: string
   industryAverageChange: string
   chainsSupported: string
   verifiedTokens: string
-  chartTokens: {
-    t1: DataModel[],
-    t2: DataModel[],
-    t3: DataModel[]
-  }
-  listData?: DataModel[]
+  simpleProfiles: SimpleTokenProfile[]
+  searchProfiles: SimpleTokenProfile[]
+  fullProfiles: TokenProfile[]
 }
 
 export const initialState: LHDState = {
@@ -47,18 +16,16 @@ export const initialState: LHDState = {
   industryAverageChange: '0',
   chainsSupported: '0',
   verifiedTokens: '0',
-  chartTokens: {
-    t1: [],
-    t2: [],
-    t3: [],
-  },
+  simpleProfiles: [],
+  searchProfiles: [],
+  fullProfiles: []
 }
 
 const LHDSlice = createSlice({
   name: 'LHD',
   initialState,
   reducers: {
-    addListData: (state, action: { payload: LHDState }) => {
+    addInitialListData: (state, action: { payload: LHDState }) => {
       const { payload } = action
       return {
         ...state,
@@ -66,17 +33,28 @@ const LHDSlice = createSlice({
         industryAverageChange: payload?.industryAverageChange,
         chainsSupported: payload?.chainsSupported,
         verifiedTokens: payload?.verifiedTokens,
-        chartTokens: payload?.chartTokens,
       }
     },
-    addTokenData(state, action: { payload: DataModel }) {
+    addSimpleProfiles(state, action: { payload: SimpleTokenProfile[] }) {
       return {
         ...state,
-        listData: state?.listData ? [...state.listData, action.payload] : [action.payload],
+        simpleProfiles: action.payload,
       }
     },
+    addSearchProfiles(state, action: {payload: SimpleTokenProfile[]}){
+      return {
+        ...state,
+        searchProfiles: action.payload
+      }
+    },
+    addFullProfiles(state, action: {payload: TokenProfile}) {
+      return {
+        ...state,
+        fullProfiles: [...state.fullProfiles, action.payload]
+      }
+    }
   },
 })
 
-export const { addListData, addTokenData } = LHDSlice.actions
+export const { addInitialListData, addSimpleProfiles, addFullProfiles, addSearchProfiles } = LHDSlice.actions
 export default LHDSlice.reducer

@@ -17,11 +17,13 @@ import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
 import homepage from './homepage'
+import lhd from './lhd/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
 const store = configureStore({
   reducer: {
+    lhd,
     application,
     user,
     // connection,

@@ -52,6 +52,10 @@ const bscConfig: NavConfig[] = [
         href: `${TEMP_APESWAP_URL}/treasury-bills`,
       },
       {
+        label: 'Liquidity Health Dashboard',
+        href: `${TEMP_APESWAP_URL}/lhd`,
+      },
+      {
         label: 'Official IAO',
         href: `${TEMP_APESWAP_URL}/iao`,
       },
