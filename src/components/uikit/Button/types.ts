@@ -11,19 +11,19 @@ export enum sizes {
 
 export type Sizes = (typeof sizes)[keyof typeof sizes]
 
-export const buttonFontSizes = {
+export const buttonFontSizes: Record<sizes | any, number> = {
   [sizes.SMALL]: 1,
   [sizes.MEDIUM]: 3,
   [sizes.LARGE]: 6,
 }
 
-export const buttonLineHeight = {
+export const buttonLineHeight: Record<sizes | any, string> = {
   [sizes.SMALL]: '10px',
   [sizes.MEDIUM]: '24px',
   [sizes.LARGE]: '33px',
 }
 
-export const buttonPadding = {
+export const buttonPadding: Record<sizes | any, { x: number; y: number }> = {
   [sizes.SMALL]: { x: 5, y: 2 },
   [sizes.MEDIUM]: { x: 7, y: 3 },
   [sizes.LARGE]: { x: 10, y: 6 },

@@ -3,7 +3,7 @@ import { Box } from 'theme-ui'
 import { SkeletonProps, animation as ANIMATION, variant as VARIANT } from './types'
 import styles from './styles'
 
-const Skeleton: React.FC<SkeletonProps> = ({ variant = VARIANT.RECT, animation = ANIMATION.PULSE, ...props }) => {
+const Skeleton = ({ variant = VARIANT.RECT, animation = ANIMATION.PULSE, ...props }: SkeletonProps | any) => {
   return (
     <Box
       {...props}

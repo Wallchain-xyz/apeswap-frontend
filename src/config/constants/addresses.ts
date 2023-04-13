@@ -77,3 +77,12 @@ export const MULTICALL: AddressMap = {
   [SupportedChainId.TLOS]: '0xf553b2be7aac670bcd812ba64a5025d9f5095ab5',
   [SupportedChainId.ARBITRUM_ONE]: '0xC169b45E7A157Fe3fa248673576bcadcaFd8757B',
 }
+
+export const MULTICALL_V2: AddressMap = {
+  [SupportedChainId.BSC]: '0x38ce767d81de3940CFa5020B55af1A400ED4F657',
+  [SupportedChainId.BSC_TESTNET]: '0x67ADCB4dF3931b0C5Da724058ADC2174a9844412',
+  [SupportedChainId.POLYGON]: '0x95028E5B8a734bb7E2071F96De89BABe75be9C8E',
+  [SupportedChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441',
+  [SupportedChainId.TLOS]: '0xa1a283f10f578201a97a8f69d8c15828b778f04b',
+  [SupportedChainId.ARBITRUM_ONE]: '0x089d8780e1c0789d0ef786bf001bee52d8351cad',
+}

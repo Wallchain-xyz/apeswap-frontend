@@ -10,6 +10,8 @@ import ERC20_ABI from 'config/abi/erc20.json'
 import ERC20_BYTES32_ABI from 'config/abi/erc20_bytes32.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
 import EIP_2612 from 'config/abi/eip_2612.json'
+import BOND_ABI from 'config/abi/bond.json'
+import BOND_NFT_ABI from 'config/abi/bondNft.json'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
 import NFB_ABI from 'config/abi/nonFungibleBananas.json'
 import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
@@ -17,7 +19,7 @@ import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import IUniswapV2PairJson from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
-import { Multicallv3 } from 'config/abi/types'
+import { Bond, BondNft, Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 import { NonfungiblePositionManager, Quoter, QuoterV2, TickLens } from 'config/abi/types/v3'
@@ -135,6 +137,14 @@ export function usePriceGetter() {
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(pairAddress, IUniswapV2PairABI, withSignerIfPossible)
+}
+
+export const useBondContract = (address: string) => {
+  return useContract(address, BOND_ABI) as Bond
+}
+
+export const useBondNftContract = (address: string) => {
+  return useContract(address, BOND_NFT_ABI) as BondNft
 }
 
 // Only on bnb chain

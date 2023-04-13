@@ -9,8 +9,9 @@ export { default as Tooltip } from './Tooltip'
 export { default as TutorialModal } from './TutorialModal'
 export { default as Spinner } from './Spinner'
 export { default as Link } from './Link'
+export { default as Toggle } from './Toggle'
 
 // Exports
 export { Button, IconButton } from './Button'
 export { Select, SelectItem } from './Select'
-export { NumericInput } from './Input'
+export { NumericInput, Input } from './Input'

@@ -9,9 +9,11 @@ import News from './components/News/News'
 import Services from './components/Services/Services'
 import Values from './components/Values/Values'
 import LaunchCalendar from './components/LaunchCalendar/LaunchCalendar'
+import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
 const Home = () => {
   const { chainId } = useWeb3React()
+  useAllTokenPrices()
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>

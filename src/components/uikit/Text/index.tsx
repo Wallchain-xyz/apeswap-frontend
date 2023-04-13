@@ -3,14 +3,14 @@ import React from 'react'
 import { Text as ThemeUIText } from 'theme-ui'
 import { TextProps, variants } from './types'
 
-const Text: React.FC<TextProps> = ({
+const Text = ({
   variant = variants.NORMAL,
   weight = variants.NORMAL,
   size,
   children,
   color = 'text',
   ...props
-}) => {
+}: TextProps | any) => {
   return (
     <ThemeUIText
       {...props}
