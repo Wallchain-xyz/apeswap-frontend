@@ -120,7 +120,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                   <Buy
                     bill={bill}
                     onBillId={onHandleReturnedBillId}
-                    onTransactionSubmited={(trxSent) => setLoading(trxSent)}
+                    onTransactionSubmited={(trxSent: any) => setLoading(trxSent)}
                   />
                 </ActionButtonsContainer>
               </Flex>
