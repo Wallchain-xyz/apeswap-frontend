@@ -52,13 +52,17 @@ const useAllTokenPrices = () => {
   const lpTokenResults = useSingleContractMultipleData(priceGetterContract, 'getLPPrice', lpTokenCalls)
 
   const parsedTokenResults = Object.values(filterTokensToCall).map((token, i) => {
-    // token.symbol === 'GNANA' ? getBalanceNumber(result?.[0], 18) * 1.389 :
     return {
       symbol: token.symbol,
       address: token.address,
-      price: tokenResults?.[i]?.result?.[0]
-        ? getBalanceNumber(tokenResults?.[i].result?.[0]?.toString(), 18)
-        : undefined,
+      price:
+        token.symbol === 'GNANA'
+          ? tokenResults?.[0]?.result?.[0]
+            ? getBalanceNumber(tokenResults?.[0].result?.[0]?.toString(), 18) * 1.389
+            : undefined
+          : tokenResults?.[i]?.result?.[0]
+          ? getBalanceNumber(tokenResults?.[i].result?.[0]?.toString(), 18)
+          : undefined,
       decimals: token.decimals,
     }
   })
