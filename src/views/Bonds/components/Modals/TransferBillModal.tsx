@@ -7,7 +7,7 @@ import { Bills } from 'views/Bonds/types'
 import { CheckBox, Flex, Input, Modal, Text } from 'components/uikit'
 import Transfer from 'views/Bonds/actions/Transfer'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import { BigNumber } from 'ethers'
+import BigNumber from 'bignumber.js'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 interface TransferBillModalProps {
@@ -25,7 +25,7 @@ const TransferBillModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill, 
   const userOwnedBill = userOwnedBillsData?.find((b) => parseInt(b.id) === parseInt(billId))
   const pending =
     chainId &&
-    getBalanceNumber(BigNumber.from(userOwnedBill?.payout), bill?.earnToken?.decimals?.[chainId] ?? 18)?.toFixed(4)
+    getBalanceNumber(new BigNumber(userOwnedBill?.payout ?? 0), bill?.earnToken?.decimals?.[chainId] ?? 18)?.toFixed(4)
   return (
     <Modal onDismiss={onDismiss} maxWidth="380px" minWidth="300px" title="Transfer Bond">
       <Flex mt="30px">
