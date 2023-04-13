@@ -25,7 +25,6 @@ import useIsWindowVisible from 'hooks/useIsWindowVisible'
 const NUMBER_OF_POOLS_VISIBLE = 12
 
 const Pools: React.FC = () => {
-  usePollPools()
   const { chainId } = useWeb3React()
   const [stakedOnly, setStakedOnly] = useState(false)
   const [filterOption, setFilterOption] = useState('allTokens')

@@ -96,10 +96,20 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
             <Flex sx={poolStyles.buttonsContainer}>
               <Flex sx={{ width: '90px', height: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
                 <a href={pool.projectLink} target="_blank" rel="noreferrer">
-                  <IconButton icon="website" color="primaryBright" width={20} sx={{ padding: '8.5px 10px' }} />
+                  <IconButton
+                    icon="website"
+                    color="primaryBright"
+                    iconWidth={20}
+                    sx={{ height: '40px', width: '40px' }}
+                  />
                 </a>
                 <a href={pool?.twitter} target="_blank" rel="noreferrer">
-                  <IconButton icon="twitter" color="primaryBright" width={20} />
+                  <IconButton
+                    icon="twitter"
+                    color="primaryBright"
+                    iconWidth={20}
+                    sx={{ height: '40px', width: '40px', pt: '13px' }}
+                  />
                 </a>
               </Flex>
             </Flex>
