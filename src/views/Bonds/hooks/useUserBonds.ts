@@ -34,7 +34,6 @@ const useUserBonds = () => {
   const balanceOfResult = useMultipleContractSingleData(tokenAddresses, ERC20Interface, 'balanceOf', [account])
   const getBillIdsResults = useMultipleContractSingleData(bondAddresses, BOND_INTERFACE, 'getBillIds', [account])
 
-  console.log(getBillIdsResults)
 
   return null
 }
