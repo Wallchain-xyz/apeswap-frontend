@@ -1,18 +1,31 @@
 import React from 'react'
 import { FixedSizeList as List } from 'react-window'
 import { Box } from 'theme-ui'
+import { useSimpleProfiles } from '../../../../state/lhd/hooks'
+import { SimpleTokenProfile } from '../../../../state/lhd/types'
 
-const columnWidths = [100, 150, 200, 100, 150, 200, 100, 150]
+const columnWidths = [30, 120, 120, 130, 100, 100, 100, 100, 100, 50]
 const tableWidth = columnWidths.reduce((acc, width) => acc + width, 0)
-const adjustedTableWidth = tableWidth + 18 // Add 17 pixels to account for the hidden scrollbar
 
 const TableHeader = () => {
+  const headers = [
+    '#',
+    'Token',
+    'MarketCap',
+    '24h change',
+    'Extractable',
+    'Health',
+    'Concentration',
+    'Ownership',
+    'Score',
+    'Share',
+  ]
 
   return (
     <Box
       sx={{
         display: 'grid',
-        width: adjustedTableWidth,
+        width: tableWidth,
         gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
         position: 'sticky',
         top: 0,
@@ -22,15 +35,15 @@ const TableHeader = () => {
         borderColor: 'transparent transparent #ccc transparent',
       }}
     >
-      {['Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5', 'Column 6', 'Column 7', 'Column 8'].map((header, index) => (
+      {headers.map((header, index) => (
         <Box
           key={index}
           sx={{
             padding: '8px',
-            position: index === 0 || index === 7 ? 'sticky' : undefined,
+            position: index === 0 || index === headers.length - 1 ? 'sticky' : undefined,
             left: index === 0 ? 0 : undefined,
-            right: index === 7 ? 0 : undefined,
-            zIndex: index === 0 || index === 7 ? 2 : 1,
+            right: index === headers.length - 1 ? 0 : undefined,
+            zIndex: index === 0 || index === headers.length - 1 ? 2 : 1,
             background: 'white',
           }}
         >
@@ -41,35 +54,54 @@ const TableHeader = () => {
   )
 }
 
-const TableRow = ({ index, style }: { index: any, style: any }) => {
+const TableRow = ({ index, style, simpleProfiles }: {
+  index: any,
+  style: any,
+  simpleProfiles: SimpleTokenProfile[]
+}) => {
+  const simpleProfile: SimpleTokenProfile = simpleProfiles[index]
+
   return (
     <Box
       sx={{
         ...style,
-        width: adjustedTableWidth,
+        width: tableWidth,
         display: 'grid',
         gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
         border: '1px solid #ccc',
         borderColor: 'transparent transparent #ccc transparent',
       }}
     >
-      {Array.from({ length: 8 }).map((_, columnIndex) => (
-        <Box
-          key={columnIndex}
-          sx={{
-            padding: '8px',
-            position: columnIndex === 0 || columnIndex === 7 ? 'sticky' : undefined,
-            left: columnIndex === 0 ? 0 : undefined,
-            right: columnIndex === 7 ? 0 : undefined,
-            zIndex: columnIndex === 0 || columnIndex === 7 ? 2 : 1,
-            background: 'white',
-          }}
-        >
-          {columnIndex === 0 || columnIndex === 7
-            ? `Sticky`
-            : `Row ${index + 1}`}
-        </Box>
-      ))}
+      <Box
+        sx={{
+          padding: '8px',
+          position: 'sticky',
+          left: 0,
+          zIndex: 2,
+          background: 'white',
+        }}
+      >
+        {index + 1}
+      </Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile.addressMapping.tokenSymbol}</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile.mcap.reduce((sum, current) => sum + current.amount, 0)}</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile.priceChange24hr.toFixed(2)}%</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile.extractableLiquidity.toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile.healthScore * 100).toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile.concentrationScore * 100).toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile.ownershipScore * 100).toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile.totalScore * 100).toFixed()}</Box>
+      <Box
+        sx={{
+          padding: '8px',
+          position: 'sticky',
+          right: 0,
+          zIndex: 2,
+          background: 'white',
+        }}
+      >
+        {'s'}
+      </Box>
     </Box>
   )
 }
@@ -77,18 +109,19 @@ const TableRow = ({ index, style }: { index: any, style: any }) => {
 // eslint-disable-next-line react/display-name
 const InnerListWrapper = React.forwardRef((props, ref) => {
   //@ts-ignore
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
   return (
     <Box ref={ref} {...rest}>
       <TableHeader />
       <Box>{children}</Box>
     </Box>
-  );
-});
+  )
+})
 
 const MyTable = () => {
-  const itemCount = 51; // Increase by 1 to account for the header
-  const itemHeight = 40;
+  const itemCount = 51 // Increase by 1 to account for the header
+  const itemHeight = 40
+  const simpleProfiles = useSimpleProfiles()
 
   return (
     <Box
@@ -96,20 +129,24 @@ const MyTable = () => {
         width: '100%',
         overflowY: 'auto',
         position: 'relative',
-        mt: '20px'
+        mt: '20px',
       }}
     >
-      <List
-        height={itemHeight * 10}
-        itemCount={itemCount}
-        itemSize={itemHeight}
-        width="100%"
-        innerElementType={InnerListWrapper}
-      >
-        {TableRow}
-      </List>
+      {
+        simpleProfiles.length > 0 && (
+          <List
+            height={itemHeight * 11}
+            itemCount={itemCount}
+            itemSize={itemHeight}
+            width='100%'
+            innerElementType={InnerListWrapper}
+          >
+            {({ index, style }) => <TableRow index={index} style={style} simpleProfiles={simpleProfiles} />}
+          </List>
+        )
+      }
     </Box>
-  );
-};
+  )
+}
 
-export default MyTable;
+export default MyTable

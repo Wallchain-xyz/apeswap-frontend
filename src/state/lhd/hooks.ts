@@ -2,8 +2,9 @@ import { useCallback, useEffect } from 'react'
 import { useAppDispatch } from '../hooks'
 import { fetchInitialProfiles, fetchProfiles } from './actions'
 import { SimpleTokenProfile } from './types'
-import store from '../index'
+import store, { AppState } from '../index'
 import { addSearchProfiles, addSimpleProfiles } from './reducer'
+import { useSelector } from 'react-redux'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
@@ -25,4 +26,8 @@ export const useSearchProfiles = () => {
       console.warn(error)
     }
   }, [dispatch])
+}
+
+export const useSimpleProfiles = () => {
+  return useSelector((state: AppState) => state?.lhd?.simpleProfiles)
 }
