@@ -8,6 +8,7 @@ import { CHAIN_PARAMS, NETWORK_LABEL } from 'config/constants/chains'
 import useIsMobile from 'hooks/useIsMobile'
 import { Flex, Svg, Text } from 'components/uikit'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { TagVariants } from 'components/uikit/Tag'
 
 const AssetCard: React.FC<{ token: any }> = ({ token }) => {
   const isMobile = useIsMobile()
@@ -37,7 +38,10 @@ const AssetCard: React.FC<{ token: any }> = ({ token }) => {
               <ServiceTokenDisplay token1={token?.symbol} size={40} />
             )}
             <Flex sx={{ alignItems: 'flex-start', transform: 'translate(-10px, 0px)', zIndex: 101 }}>
-              <ServiceTokenDisplay token1={CHAIN_PARAMS?.[token?.chainId as SupportedChainId]?.nativeCurrency?.symbol} size={13.5} />
+              <ServiceTokenDisplay
+                token1={CHAIN_PARAMS?.[token?.chainId as SupportedChainId]?.nativeCurrency?.symbol}
+                size={13.5}
+              />
             </Flex>
           </Flex>
           <Text weight={700} ml="5px" size={isMobile ? '12px' : '16px'}>
@@ -45,11 +49,11 @@ const AssetCard: React.FC<{ token: any }> = ({ token }) => {
           </Text>
           {token?.type &&
             (token?.type === 'apeswap' ? (
-              <StyledTag variant={'rgb(77, 64, 64)'}>
+              <StyledTag variant={'rgb(77, 64, 64)' as TagVariants}>
                 {isMobile ? t('APE') : t(token?.type.toUpperCase())}
               </StyledTag>
             ) : (
-              <StyledTag variant={'#00983D'}>
+              <StyledTag variant={'#00983D' as TagVariants}>
                 {isMobile ? t('PTNR') : t(token?.type.toUpperCase())}
               </StyledTag>
             ))}

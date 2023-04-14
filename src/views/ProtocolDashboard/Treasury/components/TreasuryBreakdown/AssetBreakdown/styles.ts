@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Tag } from 'react-feather'
+import { Tag } from 'components/uikit'
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const styles: Record<string, ThemeUIStyleObject> = {
