@@ -7,7 +7,7 @@ import useIsMobile from 'hooks/useIsMobile'
 import { styles } from './styles'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import { BigNumber } from 'ethers'
+import  BigNumber from 'bignumber.js'
 import ListViewContent from 'components/ListView/ListViewContent'
 import { Flex } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
@@ -26,11 +26,11 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
     const { bill } = billToRender
     const { token, quoteToken, earnToken } = bill
     const pending = getBalanceNumber(
-      BigNumber.from(billToRender.payout),
+      new BigNumber(billToRender.payout),
       bill?.earnToken?.decimals?.[chainId as SupportedChainId] ?? 18,
     )
     const claimable = getBalanceNumber(
-      BigNumber.from(billToRender.pendingRewards),
+      new BigNumber(billToRender.pendingRewards),
       bill?.earnToken?.decimals?.[chainId as SupportedChainId] ?? 18,
     )
     return {

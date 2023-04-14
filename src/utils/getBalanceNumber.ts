@@ -1,12 +1,10 @@
-import { BigNumber } from 'ethers'
-import { formatUnits } from 'ethers/lib/utils'
+import BigNumber from 'bignumber.js'
 
-export const getBalanceNumber = (balance: BigNumber, decimals = 18): number => {
-  const displayBalance = formatUnits(balance, decimals)
-  return parseFloat(displayBalance)
+export const getBalanceNumber = (balance: BigNumber, decimals = 18) => {
+  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals))
+  return displayBalance.toNumber() // Notice: for really big numbers in JS, this can be a problematic??
 }
 
-export const getFullDisplayBalance = (balance: BigNumber, decimals = 18): string => {
-  const displayBalance = formatUnits(balance, decimals)
-  return displayBalance
+export const getFullDisplayBalance = (balance: BigNumber, decimals = 18) => {
+  return balance.dividedBy(new BigNumber(10).pow(decimals)).toFixed()
 }

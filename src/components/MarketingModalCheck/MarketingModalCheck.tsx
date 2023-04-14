@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-// import { MarketingModal } from '@ape.swap/uikit'
+// import { MarketingModal } from 'components/uikit'
 // import { LendingBodies } from 'components/MarketingModalContent/Lending/'
 // import CircularModal from 'components/CircularModal'
 import { useTranslation } from 'contexts/Localization'
