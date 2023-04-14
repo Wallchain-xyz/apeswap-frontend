@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useLoadInitialProfiles, useSearchProfiles } from '../../state/lhd/hooks'
 import { useAppDispatch } from '../../state/hooks'
 import { addSearchProfiles } from '../../state/lhd/reducer'
+import { Button, Flex, Input, Link, Text } from '../../components/uikit'
+import ListViewLayout from '../../components/ListView/ListViewLayout'
+import { useTranslation } from '../../contexts/Localization'
+import StatCard from './components/StatCard'
+import MyTable from './components/Table'
 
 const LHD = () => {
   console.log('rendering')
   useLoadInitialProfiles()
   const searchProfiles = useSearchProfiles()
   const dispatch = useAppDispatch()
+  const { t } = useTranslation()
 
-  const [queryString, setQueryString] = useState('');
+  const [queryString, setQueryString] = useState('')
 
   const handleChange = (searchQuery: string) => {
     setQueryString(searchQuery)
@@ -21,18 +27,80 @@ const LHD = () => {
       if (queryString?.length >= 2) {
         await searchProfiles(queryString)
       }
-    }, 1000);
-    return () => clearTimeout(delayDebounceFn);
-  }, [dispatch, queryString, searchProfiles]);
+    }, 1000)
+    return () => clearTimeout(delayDebounceFn)
+  }, [dispatch, queryString, searchProfiles])
 
   return (
-    <div>
-      <input
-        placeholder="BANANA"
-        value={queryString}
-        onChange={(event) => handleChange(event.target.value)}
-      />
-    </div>
+    <Flex sx={{
+      position: 'relative',
+      top: '30px',
+      width: '100%',
+      mb: '100px',
+      justifyContent: 'center',
+      flexDirection: 'column',
+    }}>
+      <ListViewLayout>
+        <Flex sx={{ width: '100%' }}>
+          <Flex sx={{
+            width: ['100%', '100%', '50%'],
+            flexDirection: 'column',
+            justifyContent: 'flex-end'
+          }}>
+            <Flex sx={{ width: '100%' }}>
+              <Text sx={{
+                fontWeight: 700,
+                fontSize: ['30px'],
+                lineHeight: ['45px'],
+              }}>{t('Liquidity Health Dashboard')}</Text>
+            </Flex>
+            <Flex sx={{ width: '100%', mt: '10px' }}>
+              <Text sx={{ fontWeight: 500, fontSize: ['16px'], lineHeight: ['24px'] }}>
+                {t('Apeswap’s data visualization tool that provides insights into the liquidity levels and sustainability of cryptocurrency projects.')}
+              </Text>
+            </Flex>
+            <Flex sx={{ width: '100%', mt: '10px' }}>
+              <Link href=''>
+                <Text sx={{ fontWeight: 500, fontSize: ['16px'], lineHeight: ['24px'], mr: '10px' }}>Learn More</Text>
+              </Link>
+              <Link href=''>
+                <Text sx={{ fontWeight: 500, fontSize: ['16px'], lineHeight: ['24px'] }}>Improve your score</Text>
+              </Link>
+            </Flex>
+          </Flex>
+          <Flex sx={{
+            width: ['100%', '100%', '50%'],
+          }}>
+            <StatCard
+              title="Industry Average"
+              value={'60'}
+              footerInfo={<>+0,45% on the last 7 days</>}
+            />
+            <StatCard
+              title="Chain supported"
+              value={'19'}
+              footerInfo={<>See which chains</>}
+            />
+            <StatCard
+              title="Verified tokens"
+              value={'235'}
+              footerInfo={<>+0,45% on the last 7 days</>}
+            />
+          </Flex>
+        </Flex>
+        <Flex sx={{ width: '100%', mt: '20px', backgroundColor: 'white2', padding: '5px', borderRadius: '10px', justifyContent: 'space-between' }}>
+          <Input
+            placeholder='BANANA'
+            value={queryString}
+            variant="search"
+            onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event.target.value)}
+            style={{backgroundColor: 'white2', width: '100%', '&:div': {width: '100%'}}}
+          />
+          <Button variant="tertiary" sx={{ml: '10px'}}>Fix filter dev</Button>
+        </Flex>
+        <MyTable />
+      </ListViewLayout>
+    </Flex>
   )
 }
 

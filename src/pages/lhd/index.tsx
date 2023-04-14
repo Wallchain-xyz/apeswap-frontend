@@ -3,7 +3,7 @@ import LHD from 'views/LHD'
 
 const LHDPage = () => {
   return (
-    <PageContainer variant="dex">
+    <PageContainer variant="listView">
       <LHD />
     </PageContainer>
   )

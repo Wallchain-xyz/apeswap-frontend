@@ -11,7 +11,7 @@ const Button = ({
   endIcon,
   fullWidth,
   ...props
-}: ButtonProps | any) => {
+}: ButtonProps) => {
   let hoverStyle = {
     '&:hover': {
       '&:not([disabled])': {
