@@ -1,8 +1,11 @@
-import { dualFarms, farms, jungleFarms, tokens } from '@ape.swap/apeswap-lists'
+import { dualFarms, farms, farmsV2, jungleFarms, tokens } from '@ape.swap/apeswap-lists'
 import { FarmTypes } from './types'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { MAINNET_CHAINS } from 'config/constants/chains'
 import { uniqueId } from 'lodash'
+
+const mergeFarmObj: any = {}
+
 const mergeFarmConfigs = () => {
   const mergedFarms = MAINNET_CHAINS.map((chainId) => {
     return {
@@ -36,7 +39,7 @@ const mergeFarmConfigs = () => {
               : []
           },
         ),
-        ...farms.flatMap(
+        ...farmsV2.flatMap(
           ({
             pid,
             lpAddresses,
@@ -72,6 +75,7 @@ const mergeFarmConfigs = () => {
             rewardToken,
             lpTokens,
             rewardsPerSecond,
+            bonusEndBlock,
             tokenPerBlock,
             projectLink,
             twitter,
@@ -89,6 +93,7 @@ const mergeFarmConfigs = () => {
                   quoteTokenSymbol: lpTokens?.quoteToken.symbol ?? '',
                   rewardToken: rewardToken,
                   tokensPerBlock: tokenPerBlock,
+                  bonusEndBlock,
                   contractAddress,
                   rewardsPerSecond,
                   projectLink,
@@ -119,8 +124,8 @@ const mergeFarmConfigs = () => {
       ],
     }
   })
-
-  return mergedFarms
+  mergedFarms.map(({ chainId, farms }) => (mergeFarmObj[chainId] = farms))
+  return mergeFarmObj
 }
 
 export default mergeFarmConfigs

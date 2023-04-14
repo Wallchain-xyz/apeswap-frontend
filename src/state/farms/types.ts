@@ -108,10 +108,12 @@ export interface MixedFarmConfig {
   quoteTokenAddress: string
   quoteTokenSymbol: string
   rewardToken: Token
+  secondRewardToken: Token
   dualImage?: boolean | undefined
+  bonusEndBlock?: number | undefined
   contractAddress?: string | undefined
   tokensPerBlock?: string | undefined
-  rewardsPerSecond?: Token | undefined
+  rewardsPerSecond?: string | undefined
   projectLink?: string | undefined
   twitter?: string | undefined
 }

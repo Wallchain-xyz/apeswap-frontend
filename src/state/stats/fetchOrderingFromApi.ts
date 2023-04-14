@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { baseUrlStrapi } from 'hooks/api'
+import { baseUrlStrapi } from 'config/constants/api'
 
 const fetchOrderingFromApi = async () => {
   try {

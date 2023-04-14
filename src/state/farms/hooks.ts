@@ -4,7 +4,7 @@ import useRefresh from 'hooks/useRefresh'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state/hooks'
-import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from '.'
+import { fetchFarmsPublicDataAsync } from '.'
 import useAllLpPrices from 'hooks/useAllLPPrices'
 import { useWeb3React } from '@web3-react/core'
 import { useBananaPrice } from 'state/application/hooks'
@@ -13,35 +13,39 @@ import { AppState } from 'state'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useFarmLpAprs } from 'state/stats/hooks'
 import { StatsState } from 'state/stats/types'
+import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
 export const usePollFarms = () => {
   const { chainId } = useWeb3React()
   const dispatch = useAppDispatch()
   const lpTokenPrices = useAllLpPrices()
+  const tokenPrices = useAllTokenPrices()
   const { slowRefresh } = useRefresh()
   // Made a string because hooks will refresh bignumbers
   const bananaPrice = useBananaPrice()
   const farmLpAprs = useFarmLpAprs()
 
   useEffect(() => {
-    if (chainId === ChainId.BSC) {
-      dispatch(fetchFarmsPublicDataAsync(chainId, lpTokenPrices, new BigNumber(bananaPrice ?? 0), farmLpAprs))
+    if (chainId) {
+      dispatch(
+        fetchFarmsPublicDataAsync(chainId, tokenPrices, lpTokenPrices, new BigNumber(bananaPrice ?? 0), farmLpAprs),
+      )
     }
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [dispatch, chainId, lpTokenPrices?.length, farmLpAprs?.lpAprs?.length, slowRefresh])
 }
-export const useFarms = (account: string): Farm[] | undefined => {
-  const { slowRefresh } = useRefresh()
-  const dispatch = useAppDispatch()
-  const { chainId } = useWeb3React()
-  const farms = useSelector((state: AppState) => state.farms.data[chainId as SupportedChainId])
-  useEffect(() => {
-    if (account && (chainId === ChainId.BSC || chainId === ChainId.BSC_TESTNET)) {
-      dispatch(fetchFarmUserDataAsync(chainId, account))
-    }
-  }, [account, dispatch, slowRefresh, chainId])
-  return farms
-}
+// export const useFarms = (account: string): Farm[] | undefined => {
+//   const { slowRefresh } = useRefresh()
+//   const dispatch = useAppDispatch()
+//   const { chainId } = useWeb3React()
+//   const farms = useSelector((state: AppState) => state.farms.data[chainId as SupportedChainId])
+//   useEffect(() => {
+//     if (account && (chainId === ChainId.BSC || chainId === ChainId.BSC_TESTNET)) {
+//       dispatch(fetchFarmUserDataAsync(chainId, account))
+//     }
+//   }, [account, dispatch, slowRefresh, chainId])
+//   return farms
+// }
 
 // export const useFarmFromPid = (id: string): Farm => {
 //   const { chainId } = useWeb3React()

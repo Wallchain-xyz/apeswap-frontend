@@ -1,19 +1,25 @@
 import BigNumber from 'bignumber.js'
-import { Farm, FarmLpAprsType, LpTokenPrices } from 'state/types'
-import { getFarmApr } from 'utils/apr'
+import { LpTokenPrices } from 'hooks/useAllLPPrices'
+import { FarmLpAprsType } from 'state/stats/types'
+import { Farm } from '../types'
+import { getFarmV2Apr } from 'utils/apr'
 import { getRoi, tokenEarnedPerThousandDollarsCompounding } from 'utils/compoundApyHelpers'
 
-const cleanFarmData = (
-  farmIds: number[],
+const cleanFarmV2Data = (
+  farmIds: string[],
   chunkedFarms: any[],
   lpPrices: LpTokenPrices[],
   bananaPrice: BigNumber,
-  farmLpAprs: FarmLpAprsType,
+  farmLpAprs: FarmLpAprsType | undefined,
   farmsConfig: Farm[],
+  chainId: number,
+  bananaPerYear: BigNumber,
 ) => {
   const data = chunkedFarms.map((chunk, index) => {
-    const farmConfig = farmsConfig?.find((farm) => farm.pid === farmIds[index])
-    const filteredLpPrice = lpPrices?.find((lp) => lp.address === farmConfig.lpAddresses)
+    const farmConfig = farmsConfig?.find((farm) => farm.id === farmIds[index])
+    const filteredLpPrice = lpPrices?.find(
+      (lp) => lp.address?.[chainId]?.toLowerCase() === farmConfig?.lpStakeTokenAddress?.toLowerCase(),
+    )
     const [
       tokenBalanceLP,
       quoteTokenBlanceLP,
@@ -49,12 +55,14 @@ const cleanFarmData = (
     const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint))
     alloc = poolWeight.toJSON()
     multiplier = `${allocPoint.div(100).toString()}X`
-    const totalLpStakedUsd = totalLpStaked.times(filteredLpPrice?.price)
-    const apr = getFarmApr(poolWeight, bananaPrice, totalLpStakedUsd)
-    const lpApr = farmLpAprs?.lpAprs?.find((lp) => lp.pid === farmConfig.pid)?.lpApr * 100
+    const totalLpStakedUsd = totalLpStaked.times(filteredLpPrice?.price ?? 0)
+    const apr = getFarmV2Apr(poolWeight, bananaPrice, totalLpStakedUsd, bananaPerYear)
+    const lpApr =
+      (farmLpAprs?.lpAprs?.find((lp) => lp.lpAddress?.toLowerCase() === farmConfig?.lpStakeTokenAddress?.toLowerCase())
+        ?.lpApr ?? 0) * 100
     const amountEarned = tokenEarnedPerThousandDollarsCompounding({
       numberOfDays: 365,
-      farmApr: lpApr ? apr + lpApr : apr,
+      farmApr: lpApr ? (apr ?? 0) + lpApr : apr,
       tokenPrice: bananaPrice,
     })
 
@@ -80,4 +88,4 @@ const cleanFarmData = (
   return data
 }
 
-export default cleanFarmData
+export default cleanFarmV2Data
