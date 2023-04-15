@@ -8,7 +8,7 @@ import {
 } from './fetchFarmUser'
 import fetchFarms from './fetchFarms'
 import mergeFarmConfigs from './mergeFarmConfigs'
-import { Farm, FarmState } from './types'
+import { Farm, FarmState, FarmTypes } from './types'
 import { AppThunk } from 'state'
 import { LpTokenPrices } from 'hooks/useAllLPPrices'
 import { FarmLpAprsType } from 'state/stats/types'
@@ -32,13 +32,14 @@ export const farmsSlice = createSlice({
         return { ...farm, ...liveFarmData }
       })
     },
-    // setFarmUserData: (state, action) => {
-    //   const { arrayOfUserDataObjects } = action.payload
-    //   arrayOfUserDataObjects.forEach((userDataEl) => {
-    //     const { index } = userDataEl
-    //     state.data[index] = { ...state.data[index], userData: userDataEl }
-    //   })
-    // },
+    setFarmUserData: (state, action) => {
+      const { value: arrayOfUserDataObjects, chainId } = action.payload
+      arrayOfUserDataObjects.forEach((userDataEl: any) => {
+        const { index } = userDataEl
+        //@ts-ignore
+        state.data[chainId][index] = { ...state.data[chainId][index], userData: userDataEl }
+      })
+    },
     // updateFarmUserData: (state, action) => {
     //   const { field, value, pid } = action.payload
     //   const index = state.data.findIndex((p) => p.pid === pid)
@@ -48,7 +49,7 @@ export const farmsSlice = createSlice({
 })
 
 // Actions
-export const { setFarmsPublicData } = farmsSlice.actions
+export const { setFarmsPublicData, setFarmUserData } = farmsSlice.actions
 // setFarmUserData, updateFarmUserData
 
 // Thunks
@@ -57,18 +58,17 @@ export const fetchFarmsPublicDataAsync =
     chainId: SupportedChainId,
     tokenPrices: any[],
     lpPrices: LpTokenPrices[],
-    bananaPrice: BigNumber,
+    bananaPrice: string | null,
     farmLpAprs: FarmLpAprsType | undefined,
   ): AppThunk =>
   async (dispatch, getState) => {
     try {
       const farmsConfig = getState().farms.data
-      console.log(farmsConfig)
       const farms = await fetchFarms(
         chainId,
         tokenPrices,
         lpPrices,
-        bananaPrice,
+        bananaPrice ?? '0',
         farmLpAprs,
         farmsConfig[chainId] ?? [],
       )
@@ -77,30 +77,31 @@ export const fetchFarmsPublicDataAsync =
       console.warn(error)
     }
   }
-// export const fetchFarmUserDataAsync =
-//   (chainId: number, account: string): AppThunk =>
-//   async (dispatch, getState) => {
-//     try {
-//       const farms = getState().farms.data
-//       const userFarmAllowances = await fetchFarmUserAllowances(chainId, account, farms)
-//       const userFarmTokenBalances = await fetchFarmUserTokenBalances(chainId, account, farms)
-//       const userStakedBalances = await fetchFarmUserStakedBalances(chainId, account, farms)
-//       const userFarmEarnings = await fetchFarmUserEarnings(chainId, account, farms)
+export const fetchFarmUserDataAsync =
+  (chainId: SupportedChainId, account: string): AppThunk =>
+  async (dispatch, getState) => {
+    try {
+      const farms = getState().farms.data?.[chainId] ?? []
+      const userFarmAllowances = await fetchFarmUserAllowances(chainId, account, farms)
+      const userFarmTokenBalances = await fetchFarmUserTokenBalances(chainId, account, farms)
+      const userStakedBalances = await fetchFarmUserStakedBalances(chainId, account, farms)
+      const [userFarmEarnings, secondFarmEarnings] = await fetchFarmUserEarnings(chainId, account, farms)
 
-//       const arrayOfUserDataObjects = farms.map(({ pid }, index) => {
-//         return {
-//           index,
-//           allowance: userFarmAllowances[pid],
-//           tokenBalance: userFarmTokenBalances[pid],
-//           stakedBalance: userStakedBalances[pid],
-//           earnings: userFarmEarnings[pid],
-//         }
-//       })
-//       dispatch(setFarmUserData({ arrayOfUserDataObjects }))
-//     } catch (error) {
-//       console.warn(error)
-//     }
-//   }
+      const arrayOfUserDataObjects = farms.map(({ id, farmType }, index) => {
+        return {
+          index,
+          allowance: userFarmAllowances[id],
+          tokenBalance: userFarmTokenBalances[id],
+          stakedBalance: userStakedBalances[id],
+          rewards: userFarmEarnings[id],
+          secondRewards: farmType === FarmTypes.DUAL_FARM ? secondFarmEarnings[id] : '0',
+        }
+      })
+      dispatch(setFarmUserData({ value: arrayOfUserDataObjects, chainId }))
+    } catch (error) {
+      console.warn(error)
+    }
+  }
 
 // export const updateFarmUserAllowances =
 //   (chainId: number, pid: number, account: string): AppThunk =>

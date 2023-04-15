@@ -9,7 +9,7 @@ const cleanFarmV2Data = (
   farmIds: string[],
   chunkedFarms: any[],
   lpPrices: LpTokenPrices[],
-  bananaPrice: BigNumber,
+  bananaPrice: string,
   farmLpAprs: FarmLpAprsType | undefined,
   farmsConfig: Farm[],
   chainId: number,
@@ -18,7 +18,7 @@ const cleanFarmV2Data = (
   const data = chunkedFarms.map((chunk, index) => {
     const farmConfig = farmsConfig?.find((farm) => farm.id === farmIds[index])
     const filteredLpPrice = lpPrices?.find(
-      (lp) => lp.address?.[chainId]?.toLowerCase() === farmConfig?.lpStakeTokenAddress?.toLowerCase(),
+      (lp) => lp.address?.toLowerCase() === farmConfig?.lpStakeTokenAddress?.toLowerCase(),
     )
     const [
       tokenBalanceLP,
@@ -56,7 +56,7 @@ const cleanFarmV2Data = (
     alloc = poolWeight.toJSON()
     multiplier = `${allocPoint.div(100).toString()}X`
     const totalLpStakedUsd = totalLpStaked.times(filteredLpPrice?.price ?? 0)
-    const apr = getFarmV2Apr(poolWeight, bananaPrice, totalLpStakedUsd, bananaPerYear)
+    const apr = getFarmV2Apr(poolWeight, new BigNumber(bananaPrice), totalLpStakedUsd, bananaPerYear)
     const lpApr =
       (farmLpAprs?.lpAprs?.find((lp) => lp.lpAddress?.toLowerCase() === farmConfig?.lpStakeTokenAddress?.toLowerCase())
         ?.lpApr ?? 0) * 100
@@ -66,7 +66,7 @@ const cleanFarmV2Data = (
       tokenPrice: bananaPrice,
     })
 
-    const apy = getRoi({ amountEarned, amountInvested: 1000 / bananaPrice?.toNumber() })
+    const apy = getRoi({ amountEarned, amountInvested: 1000 / parseFloat(bananaPrice) })
 
     return {
       ...farmConfig,
@@ -80,7 +80,7 @@ const cleanFarmV2Data = (
       apy: apy?.toFixed(2),
       lpApr: lpApr?.toFixed(2),
       lpValueUsd: filteredLpPrice?.price,
-      bananaPrice: bananaPrice?.toNumber(),
+      bananaPrice: bananaPrice,
       poolWeight: alloc,
       multiplier,
     }

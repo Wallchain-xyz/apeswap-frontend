@@ -24,7 +24,7 @@ const mergeFarmConfigs = () => {
           }) => {
             return chainId === SupportedChainId.BSC
               ? {
-                  id: uniqueId(),
+                  id: uniqueId(FarmTypes.MASTER_CHEF_V1),
                   pid,
                   farmType: FarmTypes.MASTER_CHEF_V1,
                   lpStakeTokenAddress: lpAddresses[SupportedChainId.BSC] ?? '',
@@ -52,7 +52,7 @@ const mergeFarmConfigs = () => {
           }) => {
             return chainId === SupportedChainId.BSC
               ? {
-                  id: uniqueId(),
+                  id: uniqueId(FarmTypes.MASTER_CHEF_V2),
                   pid,
                   farmType: FarmTypes.MASTER_CHEF_V2,
                   lpStakeTokenAddress: lpAddresses[SupportedChainId.BSC] ?? '',
@@ -82,7 +82,7 @@ const mergeFarmConfigs = () => {
           }) => {
             return contractAddress?.[chainId] !== undefined
               ? {
-                  id: uniqueId(),
+                  id: uniqueId(FarmTypes.JUNLGE_FARM),
                   pid: jungleId,
                   farmType: FarmTypes.JUNLGE_FARM,
                   lpStakeTokenAddress: stakingToken.address[chainId] ?? '',
@@ -94,7 +94,7 @@ const mergeFarmConfigs = () => {
                   rewardToken: rewardToken,
                   tokensPerBlock: tokenPerBlock,
                   bonusEndBlock,
-                  contractAddress,
+                  contractAddress: contractAddress[chainId],
                   rewardsPerSecond,
                   projectLink,
                   twitterLink: twitter,
@@ -105,7 +105,7 @@ const mergeFarmConfigs = () => {
         ...dualFarms.flatMap(({ pid, stakeTokenAddress, stakeTokens, rewardTokens, rewarderAddress, dualImage }) => {
           return chainId === SupportedChainId.POLYGON
             ? {
-                id: uniqueId(),
+                id: uniqueId(FarmTypes.DUAL_FARM),
                 pid,
                 farmType: FarmTypes.DUAL_FARM,
                 lpStakeTokenAddress: stakeTokenAddress ?? '',

@@ -22,11 +22,7 @@ const useAllLpPrices = () => {
         ? [[jf.stakingToken.address[chainId as SupportedChainId], 18]]
         : [],
     ),
-    ...dualFarms.flatMap((df) =>
-      df.stakeTokenAddress?.[chainId as SupportedChainId]
-        ? [[df.stakeTokenAddress[chainId as SupportedChainId], 18]]
-        : [],
-    ),
+    ...dualFarms.flatMap((df) => (df.stakeTokenAddress ? [[df.stakeTokenAddress, 18]] : [])),
   ]
 
   const lpTokenResults = useSingleContractMultipleData(priceGetterContract, 'getLPPrice', addresses)
@@ -39,7 +35,6 @@ const useAllLpPrices = () => {
         : undefined,
     }
   })
-
   return parsedLpTokenResults
 }
 

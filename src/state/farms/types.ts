@@ -2,10 +2,10 @@ import { FarmConfig, Token } from '@ape.swap/apeswap-lists'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 export const enum FarmTypes {
-  MASTER_CHEF_V1,
-  MASTER_CHEF_V2,
-  DUAL_FARM,
-  JUNLGE_FARM,
+  MASTER_CHEF_V1 = 'masterChefV1',
+  MASTER_CHEF_V2 = 'masterChefV2',
+  DUAL_FARM = 'dualFarm',
+  JUNLGE_FARM = 'jungleFarm',
 }
 
 // export interface Farm extends FarmConfig {
@@ -139,6 +139,22 @@ export interface Farm extends MixedFarmConfig {
   lpValueUsd?: number
   // total LP value staked
   totalLpStakedUsd?: string
+  // apr for the farm
+  apr?: string
+  // apy fro the farm
+  apy?: string
+  // if the farm has a multiplier
+  multiplier?: string
+  // The lp apr
+  lpApr?: string
+  // Userdata
+  userData?: {
+    allowance: string
+    tokenBalance: string
+    stakedBalance: string
+    rewards: string
+    secondRewards?: string
+  }
 }
 
 export interface FarmState {

@@ -9,13 +9,13 @@ const cleanFarmData = (
   farmIds: string[],
   chunkedFarms: any[],
   lpPrices: LpTokenPrices[],
-  bananaPrice: BigNumber,
+  bananaPrice: string,
   farmLpAprs: FarmLpAprsType | undefined,
   farmsConfig: Farm[],
 ) => {
   const data = chunkedFarms.map((chunk, index) => {
     const farmConfig = farmsConfig?.find((farm) => farm.id === farmIds[index])
-    const filteredLpPrice = lpPrices?.find((lp) => lp.address === farmConfig?.lpStakeTokenAddress)
+    const filteredLpPrice = lpPrices?.find((lp) => lp.address?.toLowerCase() === farmConfig?.lpStakeTokenAddress)
     const [
       tokenBalanceLP,
       quoteTokenBlanceLP,
@@ -52,7 +52,7 @@ const cleanFarmData = (
     alloc = poolWeight.toJSON()
     multiplier = `${allocPoint.div(100).toString()}X`
     const totalLpStakedUsd = totalLpStaked.times(filteredLpPrice?.price ?? 0)
-    const apr = getFarmApr(poolWeight, bananaPrice, totalLpStakedUsd)
+    const apr = getFarmApr(poolWeight, new BigNumber(bananaPrice), totalLpStakedUsd)
     const lpApr = (farmLpAprs?.lpAprs?.find((lp) => lp.pid === farmConfig?.pid)?.lpApr ?? 0) * 100
     const amountEarned = tokenEarnedPerThousandDollarsCompounding({
       numberOfDays: 365,
@@ -60,7 +60,7 @@ const cleanFarmData = (
       tokenPrice: bananaPrice,
     })
 
-    const apy = getRoi({ amountEarned, amountInvested: 1000 / bananaPrice?.toNumber() })
+    const apy = getRoi({ amountEarned, amountInvested: 1000 / parseFloat(bananaPrice) })
 
     return {
       ...farmConfig,
@@ -74,7 +74,7 @@ const cleanFarmData = (
       apy: apy?.toFixed(2),
       lpApr: lpApr?.toFixed(2),
       lpValueUsd: filteredLpPrice?.price,
-      bananaPrice: bananaPrice?.toNumber(),
+      bananaPrice: bananaPrice,
       poolWeight: alloc,
       multiplier,
     }

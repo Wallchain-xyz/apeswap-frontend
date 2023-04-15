@@ -1,6 +1,6 @@
 import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
-import masterchefV2ABI from 'config/abi/masterchefV2.json'
+import masterchefV2ABI from 'config/abi/masterChefV2.json'
 import miniApeABI from 'config/abi/miniApeV2.json'
 import jungleChefABI from 'config/abi/jungleChef.json'
 import bananaABI from 'config/abi/banana.json'
@@ -19,6 +19,7 @@ import cleanFarmData from './clean/cleanFarmData'
 import cleanJungleFarmData from './clean/cleanJungleFarmData'
 import { TokenPrices } from 'hooks/useAllTokenPrices'
 import cleanDualFarmData from './clean/cleanDualFarmData'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 export const BLOCKS_PER_YEAR = new BigNumber(10512000)
 export const BSC_BLOCK_TIME = 3
@@ -27,7 +28,7 @@ const fetchFarms = async (
   chainId: number,
   tokenPrices: TokenPrices[],
   lpPrices: LpTokenPrices[],
-  bananaPrice: BigNumber,
+  bananaPrice: string,
   farmLpAprs: FarmLpAprsType | undefined,
   farms: Farm[],
 ) => {
@@ -61,12 +62,6 @@ const fetchFarms = async (
     dualFarmsIds.push(farm.id)
     return fetchDualFarmCalls(farm, chainId)
   })
-
-  console.log(farmV1Calls)
-  console.log(farmV2Calls)
-  console.log(jungleFarmsCalls)
-  console.log(dualFarmsCalls)
-
   // Get call values and chunk the farms to correct sizes
   const farmV1Vals: any = await multicall(chainId, [...masterchefABI, ...erc20], farmV1Calls)
   const farmV1ChunkSize = farmV1Calls.length / farmsV1.length
@@ -85,12 +80,17 @@ const fetchFarms = async (
   const dualFarmsChunkedFarms = chunk(dualFarmsVals, dualFarmsChunkSize)
 
   // Farm V2 helper calls
-  const [bananaPerSecond] = await multicall(chainId, masterchefV2ABI, [
-    {
-      address: MASTER_CHEF_V2_ADDRESS[chainId],
-      name: 'bananaPerSecond',
-    },
-  ])
+  let bananaPerSecond = 0
+  if (chainId === SupportedChainId.BSC) {
+    const [bananaPerSecondCall] = await multicall(chainId, masterchefV2ABI, [
+      {
+        address: MASTER_CHEF_V2_ADDRESS[chainId],
+        name: 'bananaPerSecond',
+      },
+    ])
+    bananaPerSecond = bananaPerSecondCall
+  }
+
   const bananaPerYear = new BigNumber(ethers.utils.formatEther(bananaPerSecond.toString()))
     .times(BSC_BLOCK_TIME)
     .times(BLOCKS_PER_YEAR)
@@ -115,6 +115,8 @@ const fetchFarms = async (
     chainId,
     jungleFarms,
   )
+
+
   const cleanedDualFarms = cleanDualFarmData(
     dualFarmsIds,
     dualFarmsChunkedFarms,
@@ -123,14 +125,13 @@ const fetchFarms = async (
     farmLpAprs,
     chainId,
     dualFarms,
+    lpPrices
   )
 
-  console.log(cleanedFarms)
-  console.log(cleanedFarmsV2)
-  console.log(cleanedJungleFarms)
-  console.log(cleanedDualFarms)
+  const mergedFarms = [...cleanedFarms, ...cleanedFarmsV2, ...cleanedJungleFarms, ...cleanedDualFarms]
 
-  return null
+
+  return mergedFarms
 }
 
 export default fetchFarms

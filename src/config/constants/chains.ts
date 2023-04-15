@@ -11,7 +11,7 @@ export const MAINNET_CHAINS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  // SupportedChainId.TLOS,
+  SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 

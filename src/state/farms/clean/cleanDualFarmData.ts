@@ -6,26 +6,37 @@ import { getRoi, tokenEarnedPerThousandDollarsCompounding } from 'utils/compound
 import { getDualFarmApr } from 'utils/apr'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { LpTokenPrices } from 'hooks/useAllLPPrices'
 
 const cleanDualFarmData = (
   farmIds: string[],
   chunkedFarms: any[],
   tokenPrices: TokenPrices[],
-  bananaPrice: BigNumber,
+  bananaPrice: string,
   farmLpAprs: FarmLpAprsType | undefined,
   chainId: SupportedChainId,
   dualFarms: Farm[],
+  lpPrices: LpTokenPrices[],
 ) => {
+  console.log(tokenPrices)
+  console.log(bananaPrice)
+  console.log(farmLpAprs)
+
   const data = chunkedFarms.map((chunk, index) => {
     const dualFarmConfig = dualFarms?.find((farm) => farm.id === farmIds[index])
-    const quoteToken = tokenPrices?.find((token) => token.address === dualFarmConfig?.tokenAddress)
-    const token1 = tokenPrices?.find((token) => token.address === dualFarmConfig?.quoteTokenAddress)
+    const quoteToken = tokenPrices?.find((token) => token.address?.[chainId] === dualFarmConfig?.tokenAddress)
+    const token1 = tokenPrices?.find((token) => token.address?.[chainId] === dualFarmConfig?.quoteTokenAddress)
     const miniChefRewarderToken = tokenPrices?.find(
-      (token) => token.address === dualFarmConfig?.rewardToken.address?.[chainId],
+      (token) => token.address?.[chainId] === dualFarmConfig?.rewardToken.address?.[chainId],
     )
     const rewarderToken = tokenPrices?.find(
-      (token) => token.address === dualFarmConfig?.secondRewardToken?.address[chainId],
+      (token) => token.address?.[chainId] === dualFarmConfig?.secondRewardToken?.address[chainId],
     )
+
+    const stakeTokenPrice = lpPrices?.find(
+      (token) => token.address?.toLowerCase() === dualFarmConfig?.lpStakeTokenAddress?.toLowerCase(),
+    )?.price
+
     const lpApr = (farmLpAprs?.lpAprs?.find((lp) => lp.pid === dualFarmConfig?.pid)?.lpApr ?? 0) * 100
 
     const [
@@ -77,11 +88,6 @@ const cleanDualFarmData = (
     multiplier = `${allocPoint.div(100).toString()}X`
 
     const totalStaked = quoteTokenAmount.times(new BigNumber(2)).times(quoteToken?.price ?? 0)
-    const totalValueInLp = new BigNumber(quoteTokenBalanceLP)
-      .div(new BigNumber(10).pow(quoteToken?.decimals ?? 18))
-      .times(new BigNumber(2))
-      .times(quoteToken?.price ?? 0)
-    const stakeTokenPrice = totalValueInLp.div(new BigNumber(getBalanceNumber(lpTotalSupply))).toNumber()
 
     const rewarderAllocPoint = new BigNumber(rewarderInfo?.allocPoint?._hex)
     let rewarderPoolWeight = null
@@ -109,13 +115,13 @@ const cleanDualFarmData = (
       tokenPrice: bananaPrice,
     })
 
-    const apy = getRoi({ amountEarned, amountInvested: 1000 / bananaPrice?.toNumber() }).toFixed(2)
+    const apy = getRoi({ amountEarned, amountInvested: 1000 / parseFloat(bananaPrice) }).toFixed(2)
 
     return {
       ...dualFarmConfig,
-      tokenAmount: tokenAmount.toJSON(),
-      totalStaked: totalStaked.toFixed(0),
-      quoteTokenAmount: quoteTokenAmount.toJSON(),
+      tokenBalance: tokenAmount.toJSON(),
+      quoteTokenBalance: quoteTokenAmount.toJSON(),
+      lpTokenBalance: totalStaked.toFixed(0),
       totalInQuoteToken: totalInQuoteToken.toJSON(),
       lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
       tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
@@ -134,3 +140,29 @@ const cleanDualFarmData = (
 }
 
 export default cleanDualFarmData
+
+// {
+//   tokenBalance: '',
+//   quoteTokenBalance
+// }
+
+// // Balance of token in the LP contract
+// tokenBalance: string
+// // Balance of quote token on LP contract
+// quoteTokenBalance: string
+// // Balance of LP tokens in the master chef contract
+// lpTokenBalance: string
+// // Total supply of LP tokens
+// lpTokenTotalSupply: string
+// // Token Decimals
+// tokenDecimals: number
+// // Quote Token Decimals
+// quoteTokenDecimals: number
+// // earn token price
+// earnTokenPrice: number
+// // dual earn token price
+// secondEarnTokenPrice?: number
+// // LP price
+// lpValueUsd?: number
+// // total LP value staked
+// totalLpStakedUsd?: string

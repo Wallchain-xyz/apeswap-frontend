@@ -33,7 +33,7 @@ export const { setFarmLpAprs, fetchTags, fetchOrdering } = statsSlice.actions
 
 // Thunks
 
-export const fetchFarmLpAprs = (chainId: SupportedChainId) => async (dispatch: Dispatch) => {
+export const fetchFarmLpAprs = (chainId: number) => async (dispatch: Dispatch) => {
   const farmLpAprs = await getFarmLpAprs(chainId)
   dispatch(setFarmLpAprs(farmLpAprs))
 }

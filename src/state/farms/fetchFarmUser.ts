@@ -1,29 +1,42 @@
 import BigNumber from 'bignumber.js'
 import erc20ABI from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
-import { Farm } from 'state/types'
-import { getMasterChefAddress } from 'utils/addressHelper'
+import masterchefV2ABI from 'config/abi/masterChefV2.json'
+import miniComplexABI from 'config/abi/miniComplexRewarder.json'
+import miniApeABI from 'config/abi/miniApeV2.json'
+import jungleChefABI from 'config/abi/jungleChef.json'
+
+import { MASTER_CHEF_V1_ADDRESS, MASTER_CHEF_V2_ADDRESS, MINI_APE_ADDRESS } from 'config/constants/addresses'
+import { Farm, FarmTypes } from './types'
 import multicall from 'utils/multicall'
 
 export const fetchFarmUserAllowances = async (chainId: number, account: string, farmsConfig: Farm[]) => {
-  const returnObj: Record<number, string> = {}
-  const masterChefAddress = getMasterChefAddress(chainId)
+  const returnObj: Record<string, string> = {}
   const calls = farmsConfig.map((farm) => {
-    const lpContractAddress = farm.lpAddresses[chainId]
-    return { address: lpContractAddress, name: 'allowance', params: [account, masterChefAddress] }
+    const contractAddress =
+      farm.farmType === FarmTypes.MASTER_CHEF_V1
+        ? MASTER_CHEF_V1_ADDRESS[chainId]
+        : farm.farmType === FarmTypes.MASTER_CHEF_V2
+        ? MASTER_CHEF_V2_ADDRESS[chainId]
+        : farm.farmType === FarmTypes.DUAL_FARM
+        ? MINI_APE_ADDRESS[chainId]
+        : farm.contractAddress
+    const lpContractAddress = farm.lpStakeTokenAddress
+    return { address: lpContractAddress, name: 'allowance', params: [account, contractAddress] }
   })
 
+  console.log(calls)
   const rawLpAllowances = await multicall(chainId, erc20ABI, calls)
-  rawLpAllowances.forEach((lpBalance, i) => {
-    returnObj[farmsConfig[i].pid] = new BigNumber(lpBalance).toJSON()
+  rawLpAllowances.forEach((lpBalance: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(lpBalance).toJSON()
   })
   return returnObj
 }
 
 export const fetchFarmUserTokenBalances = async (chainId: number, account: string, farmsConfig: Farm[]) => {
-  const returnObj: Record<number, string> = {}
+  const returnObj: Record<string, string> = {}
   const calls = farmsConfig.map((farm) => {
-    const lpContractAddress = farm.lpAddresses[chainId]
+    const lpContractAddress = farm.lpStakeTokenAddress
     return {
       address: lpContractAddress,
       name: 'balanceOf',
@@ -32,44 +45,114 @@ export const fetchFarmUserTokenBalances = async (chainId: number, account: strin
   })
 
   const rawTokenBalances = await multicall(chainId, erc20ABI, calls)
-  rawTokenBalances.forEach((tokenBalance, i) => {
-    returnObj[farmsConfig[i].pid] = new BigNumber(tokenBalance).toJSON()
+  rawTokenBalances.forEach((tokenBalance: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(tokenBalance).toJSON()
   })
   return returnObj
 }
 
 export const fetchFarmUserStakedBalances = async (chainId: number, account: string, farmsConfig: Farm[]) => {
-  const returnObj: Record<number, string> = {}
-  const masterChefAddress = getMasterChefAddress(chainId)
-  const calls = farmsConfig.map((farm) => {
-    return {
-      address: masterChefAddress,
-      name: 'userInfo',
-      params: [farm.pid, account],
-    }
+  const returnObj: Record<string, string> = {}
+  const jungleFarmCalls: any = []
+  const farmCalls: any = []
+  farmsConfig.forEach((farm) => {
+    const contractAddress =
+      farm.farmType === FarmTypes.MASTER_CHEF_V1
+        ? MASTER_CHEF_V1_ADDRESS[chainId]
+        : farm.farmType === FarmTypes.MASTER_CHEF_V2
+        ? MASTER_CHEF_V2_ADDRESS[chainId]
+        : farm.farmType === FarmTypes.DUAL_FARM
+        ? MINI_APE_ADDRESS[chainId]
+        : farm.contractAddress
+
+    farm.farmType === FarmTypes.JUNLGE_FARM
+      ? jungleFarmCalls.push({
+          address: contractAddress,
+          name: 'userInfo',
+          params: [account],
+        })
+      : farmCalls.push({
+          address: contractAddress,
+          name: 'userInfo',
+          params: [farm.pid, account],
+        })
   })
 
-  const rawStakedBalances = await multicall(chainId, masterchefABI, calls)
-  rawStakedBalances.forEach((stakedBalance, i) => {
-    returnObj[farmsConfig[i].pid] = new BigNumber(stakedBalance[0]._hex).toJSON()
+  const jfRawStakedBalances = await multicall(chainId, jungleChefABI, jungleFarmCalls)
+  const farmRawStakedBalances: any = await multicall(chainId, masterchefABI, farmCalls)
+
+  console.log(jfRawStakedBalances)
+
+  jfRawStakedBalances.forEach((amount: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(amount[0]._hex).toString()
+  })
+
+  farmRawStakedBalances.forEach((stakedBalance: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(stakedBalance[0]._hex).toJSON()
   })
   return returnObj
 }
 
 export const fetchFarmUserEarnings = async (chainId: number, account: string, farmsConfig: Farm[]) => {
-  const returnObj: Record<number, string> = {}
-  const masterChefAddress = getMasterChefAddress(chainId)
-  const calls = farmsConfig.map((farm) => {
-    return {
-      address: masterChefAddress,
-      name: 'pendingCake',
-      params: [farm.pid, account],
-    }
+  const returnObj: Record<string, string> = {}
+  const secondReturnObj: Record<string, string> = {}
+
+  const farmCalls: any = []
+  const farmV2Calls: any = []
+  const jungleFarmCalls: any = []
+  const dualFarm1Calls: any = []
+  const dualFarm2Calls: any = []
+  farmsConfig.forEach((farm) => {
+    farm.farmType === FarmTypes.MASTER_CHEF_V1
+      ? farmCalls.push({
+          address: MASTER_CHEF_V1_ADDRESS[chainId],
+          name: 'pendingCake',
+          params: [farm.pid, account],
+        })
+      : farm.farmType === FarmTypes.MASTER_CHEF_V2
+      ? farmV2Calls.push({
+          address: MASTER_CHEF_V2_ADDRESS[chainId],
+          name: 'pendingBanana',
+          params: [farm.pid, account],
+        })
+      : farm.farmType === FarmTypes.DUAL_FARM
+      ? (dualFarm1Calls.push({
+          address: MINI_APE_ADDRESS[chainId],
+          name: 'pendingBanana',
+          params: [farm.pid, account],
+        }),
+        dualFarm2Calls.push({
+          address: farm.contractAddress,
+          name: 'pendingToken',
+          params: [farm.pid, account],
+        }))
+      : jungleFarmCalls.push({
+          address: farm.contractAddress,
+          name: 'pendingReward',
+          params: [account],
+        })
   })
 
-  const rawEarnings = await multicall(chainId, masterchefABI, calls)
-  rawEarnings.forEach((earnings, i) => {
-    returnObj[farmsConfig[i].pid] = new BigNumber(earnings).toJSON()
+  const jfRawRewards = await multicall(chainId, jungleChefABI, jungleFarmCalls)
+  const farmV1RawRewards = await multicall(chainId, masterchefABI, farmCalls)
+  const farmV2RawRewards = await multicall(chainId, masterchefV2ABI, farmV2Calls)
+  const dualFarm1RawRewards = await multicall(chainId, miniApeABI, dualFarm1Calls)
+  const dualFarm2RawRewards = await multicall(chainId, miniComplexABI, dualFarm2Calls)
+
+  jfRawRewards.forEach((earnings: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
   })
-  return returnObj
+  farmV1RawRewards.forEach((earnings: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+  })
+  farmV2RawRewards.forEach((earnings: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+  })
+  dualFarm1RawRewards.forEach((earnings: any, i: number) => {
+    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+  })
+  dualFarm2RawRewards.forEach((earnings: any, i: number) => {
+    secondReturnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+  })
+  return [returnObj, secondReturnObj]
 }

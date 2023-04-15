@@ -120,7 +120,7 @@ export const fetchDualFarmCalls = (farm: Farm, chainId: number): Call[] => {
 }
 
 export const fetchJungleFarmCalls = (farm: Farm, chainId: number): Call[] => {
-  const contractAddress = farm.contractAddress?.[chainId]
+  const contractAddress = farm.contractAddress
   const perSecondCalls = [
     {
       address: contractAddress ?? '',

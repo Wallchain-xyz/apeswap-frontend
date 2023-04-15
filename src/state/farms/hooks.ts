@@ -4,18 +4,19 @@ import useRefresh from 'hooks/useRefresh'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state/hooks'
-import { fetchFarmsPublicDataAsync } from '.'
+import { fetchFarmUserDataAsync, fetchFarmsPublicDataAsync } from '.'
 import useAllLpPrices from 'hooks/useAllLPPrices'
 import { useWeb3React } from '@web3-react/core'
 import { useBananaPrice } from 'state/application/hooks'
 import { Farm } from './types'
 import { AppState } from 'state'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { useFarmLpAprs } from 'state/stats/hooks'
+import { useFarmLpAprs, useFetchFarmLpAprs } from 'state/stats/hooks'
 import { StatsState } from 'state/stats/types'
 import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
 export const usePollFarms = () => {
+  useFetchFarmLpAprs()
   const { chainId } = useWeb3React()
   const dispatch = useAppDispatch()
   const lpTokenPrices = useAllLpPrices()
@@ -25,27 +26,36 @@ export const usePollFarms = () => {
   const bananaPrice = useBananaPrice()
   const farmLpAprs = useFarmLpAprs()
 
+  const pricesLoaded = tokenPrices?.[0]?.price !== undefined && lpTokenPrices?.[0]?.price !== undefined
+
   useEffect(() => {
     if (chainId) {
-      dispatch(
-        fetchFarmsPublicDataAsync(chainId, tokenPrices, lpTokenPrices, new BigNumber(bananaPrice ?? 0), farmLpAprs),
-      )
+      dispatch(fetchFarmsPublicDataAsync(chainId, tokenPrices, lpTokenPrices, bananaPrice, farmLpAprs))
     }
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [dispatch, chainId, lpTokenPrices?.length, farmLpAprs?.lpAprs?.length, slowRefresh])
+  }, [
+    dispatch,
+    chainId,
+    lpTokenPrices?.length,
+    lpTokenPrices?.length,
+    bananaPrice,
+    pricesLoaded,
+    farmLpAprs?.lpAprs?.length,
+    slowRefresh,
+  ])
 }
-// export const useFarms = (account: string): Farm[] | undefined => {
-//   const { slowRefresh } = useRefresh()
-//   const dispatch = useAppDispatch()
-//   const { chainId } = useWeb3React()
-//   const farms = useSelector((state: AppState) => state.farms.data[chainId as SupportedChainId])
-//   useEffect(() => {
-//     if (account && (chainId === ChainId.BSC || chainId === ChainId.BSC_TESTNET)) {
-//       dispatch(fetchFarmUserDataAsync(chainId, account))
-//     }
-//   }, [account, dispatch, slowRefresh, chainId])
-//   return farms
-// }
+export const useFarms = (account: string): Farm[] | undefined => {
+  const { slowRefresh } = useRefresh()
+  const dispatch = useAppDispatch()
+  const { chainId } = useWeb3React()
+  const farms = useSelector((state: AppState) => state.farms.data[chainId as SupportedChainId])
+  useEffect(() => {
+    if (account) {
+      dispatch(fetchFarmUserDataAsync(chainId as SupportedChainId, account))
+    }
+  }, [account, dispatch, slowRefresh, chainId])
+  return farms
+}
 
 // export const useFarmFromPid = (id: string): Farm => {
 //   const { chainId } = useWeb3React()

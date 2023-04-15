@@ -31,7 +31,7 @@ export const useFetchFarmLpAprs = () => {
   const { slowRefresh } = useRefresh()
 
   useEffect(() => {
-    dispatch(fetchFarmLpAprs(chainId as SupportedChainId))
+    chainId && dispatch(fetchFarmLpAprs(chainId))
   }, [slowRefresh, chainId, dispatch])
 }
 
