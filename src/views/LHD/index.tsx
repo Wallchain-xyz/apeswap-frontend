@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { useLoadInitialProfiles, useSearchProfiles } from '../../state/lhd/hooks'
+import { useLoadInitialProfiles, useOnSearchProfiles } from '../../state/lhd/hooks'
 import { useAppDispatch } from '../../state/hooks'
 import { addSearchProfiles } from '../../state/lhd/reducer'
 import { Button, Flex, Input, Link, Text } from '../../components/uikit'
@@ -11,7 +11,7 @@ import MyTable from './components/Table'
 const LHD = () => {
   console.log('rendering')
   useLoadInitialProfiles()
-  const searchProfiles = useSearchProfiles()
+  const onSearchProfiles = useOnSearchProfiles()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
 
@@ -25,11 +25,11 @@ const LHD = () => {
     dispatch(addSearchProfiles([]))
     const delayDebounceFn = setTimeout(async () => {
       if (queryString?.length >= 2) {
-        await searchProfiles(queryString)
+        onSearchProfiles(queryString)
       }
     }, 1000)
     return () => clearTimeout(delayDebounceFn)
-  }, [dispatch, queryString, searchProfiles])
+  }, [dispatch, queryString, onSearchProfiles])
 
   return (
     <Flex sx={{

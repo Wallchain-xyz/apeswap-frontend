@@ -22,6 +22,10 @@ const variants = {
     maxWidth: ['500px', '500px', '500px', '1150px'],
     padding: '0px 10px',
   },
+  lhd: {
+    maxWidth: ['500px', '600px', '600px', '1150px'],
+    padding: '0px 10px',
+  },
 }
 
 const PageContainer = ({
@@ -31,7 +35,7 @@ const PageContainer = ({
 }: {
   style?: CSSProperties
   children: React.ReactNode
-  variant?: 'dex' | 'homepage' | 'listView'
+  variant?: 'dex' | 'homepage' | 'listView' | 'lhd'
 }) => {
   const { asPath } = useRouter()
   const pageMeta = customMeta[asPath] || {}

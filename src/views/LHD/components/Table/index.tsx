@@ -1,8 +1,9 @@
 import React from 'react'
 import { FixedSizeList as List } from 'react-window'
 import { Box } from 'theme-ui'
-import { useSimpleProfiles } from '../../../../state/lhd/hooks'
+import { useSearchProfiles, useSimpleProfiles } from '../../../../state/lhd/hooks'
 import { SimpleTokenProfile } from '../../../../state/lhd/types'
+import { useRouter } from 'next/router'
 
 const columnWidths = [30, 120, 120, 130, 100, 100, 100, 100, 100, 50]
 const tableWidth = columnWidths.reduce((acc, width) => acc + width, 0)
@@ -54,12 +55,19 @@ const TableHeader = () => {
   )
 }
 
-const TableRow = ({ index, style, simpleProfiles }: {
+const TableRow = ({ index, style, profiles }: {
   index: any,
   style: any,
-  simpleProfiles: SimpleTokenProfile[]
+  profiles: SimpleTokenProfile[]
 }) => {
-  const simpleProfile: SimpleTokenProfile = simpleProfiles[index]
+  const simpleProfile: SimpleTokenProfile = profiles[index]
+  const router = useRouter();
+
+  const handleClick = () => {
+    const chainID = simpleProfile.addressMapping.tokenAddresses[0].chainId;
+    const address = simpleProfile.addressMapping.tokenAddresses[0].address;
+    router.push(`/lhd/${chainID}/${address}`);
+  };
 
   return (
     <Box
@@ -70,7 +78,9 @@ const TableRow = ({ index, style, simpleProfiles }: {
         gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
         border: '1px solid #ccc',
         borderColor: 'transparent transparent #ccc transparent',
+        cursor: 'pointer'
       }}
+      onClick={handleClick}
     >
       <Box
         sx={{
@@ -83,14 +93,14 @@ const TableRow = ({ index, style, simpleProfiles }: {
       >
         {index + 1}
       </Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile.addressMapping.tokenSymbol}</Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile.mcap.reduce((sum, current) => sum + current.amount, 0)}</Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile.priceChange24hr.toFixed(2)}%</Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile.extractableLiquidity.toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile.healthScore * 100).toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile.concentrationScore * 100).toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile.ownershipScore * 100).toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile.totalScore * 100).toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile?.addressMapping?.tokenSymbol}</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile?.mcap?.reduce((sum, current) => sum + current.amount, 0)}</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile?.priceChange24hr?.toFixed(2)}%</Box>
+      <Box sx={{ padding: '8px' }}>{simpleProfile?.extractableLiquidity?.toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile?.healthScore * 100)?.toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile?.concentrationScore * 100)?.toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile?.ownershipScore * 100).toFixed()}</Box>
+      <Box sx={{ padding: '8px' }}>{(simpleProfile?.totalScore * 100)?.toFixed()}</Box>
       <Box
         sx={{
           padding: '8px',
@@ -119,9 +129,10 @@ const InnerListWrapper = React.forwardRef((props, ref) => {
 })
 
 const MyTable = () => {
-  const itemCount = 51 // Increase by 1 to account for the header
   const itemHeight = 40
   const simpleProfiles = useSimpleProfiles()
+  const searchProfiles = useSearchProfiles()
+
 
   return (
     <Box
@@ -133,15 +144,25 @@ const MyTable = () => {
       }}
     >
       {
-        simpleProfiles.length > 0 && (
+        searchProfiles.length > 0 ? (
           <List
             height={itemHeight * 11}
-            itemCount={itemCount}
+            itemCount={searchProfiles.length}
             itemSize={itemHeight}
             width='100%'
             innerElementType={InnerListWrapper}
           >
-            {({ index, style }) => <TableRow index={index} style={style} simpleProfiles={simpleProfiles} />}
+            {({ index, style }) => <TableRow index={index} style={style} profiles={[{} as SimpleTokenProfile, ...searchProfiles]} />}
+          </List>
+          ) : simpleProfiles.length > 0 && (
+          <List
+            height={itemHeight * 11}
+            itemCount={simpleProfiles.length}
+            itemSize={itemHeight}
+            width='100%'
+            innerElementType={InnerListWrapper}
+          >
+            {({ index, style }) => <TableRow index={index} style={style} profiles={[{} as SimpleTokenProfile, ...simpleProfiles]} />}
           </List>
         )
       }

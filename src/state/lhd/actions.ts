@@ -1,4 +1,4 @@
-import { addSimpleProfiles } from './reducer'
+import { addSearchProfiles, addSimpleProfiles } from './reducer'
 import { SimpleTokenProfile } from './types'
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
@@ -13,7 +13,6 @@ const getSearchResults = async (searchQuery: string): Promise<SimpleTokenProfile
   return res.data
 }
 export const fetchProfiles = async (query?: string) => {
-  console.log('hello world')
   try {
     axiosRetry(axios, {
       retries: 5,
@@ -21,7 +20,7 @@ export const fetchProfiles = async (query?: string) => {
     })
     let res
     if (query) {
-      res = await axios.get(`${apiEndpoint}/profiles/search/${query ?? ''}`)
+      res = await axios.get(`${apiEndpoint}/profiles/search/${query}`)
     } else {
       res = await axios.get(`${apiEndpoint}/profiles`)
     }
@@ -40,5 +39,23 @@ export const fetchInitialProfiles = () => async (dispatch: any) => {
     dispatch(addSimpleProfiles(listData))
   } catch (error) {
     console.warn(error)
+  }
+}
+
+export const fetchFullProfile = async (query?: string) => {
+  console.log('fetchFullProfile')
+  try {
+    axiosRetry(axios, {
+      retries: 5,
+      retryCondition: () => true,
+    })
+    const res = await axios.get(`${apiEndpoint}/profiles/${query ?? ''}`)
+    console.log(res)
+    if (res?.data?.statusCode === 500) {
+      return null
+    }
+    return res.data
+  } catch (error) {
+    return null
   }
 }
