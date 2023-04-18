@@ -80,7 +80,7 @@ const cleanFarmV2Data = (
       apy: apy?.toFixed(2),
       lpApr: lpApr?.toFixed(2),
       lpValueUsd: filteredLpPrice?.price,
-      bananaPrice: bananaPrice,
+      earnTokenPrice: bananaPrice,
       poolWeight: alloc,
       multiplier,
     }

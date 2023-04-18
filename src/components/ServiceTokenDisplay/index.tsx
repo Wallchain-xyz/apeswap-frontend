@@ -113,10 +113,10 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
         <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper mt={-20} size={25}>
-        <TokenContainer srcs={token3Urls} size={25} width={size} height={size} />
+        <TokenContainer srcs={token3Urls} size={25} width={25} height={25} />
       </TokenWrapper>
       <TokenWrapper mt={18} size={25}>
-        <TokenContainer srcs={token4Urls} size={25} width={size} height={size} />
+        <TokenContainer srcs={token4Urls} size={25} width={25} height={25} />
       </TokenWrapper>
     </Flex>
   )

@@ -18,19 +18,22 @@ const cleanDualFarmData = (
   dualFarms: Farm[],
   lpPrices: LpTokenPrices[],
 ) => {
-  console.log(tokenPrices)
-  console.log(bananaPrice)
-  console.log(farmLpAprs)
-
   const data = chunkedFarms.map((chunk, index) => {
     const dualFarmConfig = dualFarms?.find((farm) => farm.id === farmIds[index])
-    const quoteToken = tokenPrices?.find((token) => token.address?.[chainId] === dualFarmConfig?.tokenAddress)
-    const token1 = tokenPrices?.find((token) => token.address?.[chainId] === dualFarmConfig?.quoteTokenAddress)
+
+    const quoteToken = tokenPrices?.find(
+      (token) => token.address?.[chainId]?.toLowerCase() === dualFarmConfig?.tokenAddress?.toLowerCase(),
+    )
+    const token1 = tokenPrices?.find(
+      (token) => token.address?.[chainId]?.toLowerCase() === dualFarmConfig?.quoteTokenAddress?.toLowerCase(),
+    )
     const miniChefRewarderToken = tokenPrices?.find(
-      (token) => token.address?.[chainId] === dualFarmConfig?.rewardToken.address?.[chainId],
+      (token) =>
+        token.address?.[chainId]?.toLowerCase() === dualFarmConfig?.rewardToken?.address[chainId]?.toLowerCase(),
     )
     const rewarderToken = tokenPrices?.find(
-      (token) => token.address?.[chainId] === dualFarmConfig?.secondRewardToken?.address[chainId],
+      (token) =>
+        token.address?.[chainId]?.toLowerCase() === dualFarmConfig?.secondRewardToken?.address[chainId]?.toLowerCase(),
     )
 
     const stakeTokenPrice = lpPrices?.find(
@@ -63,15 +66,15 @@ const cleanDualFarmData = (
 
     // Total value in pool in quote token value
     const totalInQuoteToken = new BigNumber(quoteTokenBalanceLP)
-      .div(new BigNumber(10).pow(quoteToken?.decimals ?? 18))
+      .div(new BigNumber(10).pow(quoteToken?.decimals[chainId] ?? 18))
       .times(new BigNumber(2))
 
     // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
     const tokenAmount = new BigNumber(tokenBalanceLP)
-      .div(new BigNumber(10).pow(token1?.decimals ?? 18))
+      .div(new BigNumber(10).pow(token1?.decimals[chainId] ?? 18))
       .times(lpTokenRatio)
     const quoteTokenAmount = new BigNumber(quoteTokenBalanceLP)
-      .div(new BigNumber(10).pow(quoteToken?.decimals ?? 18))
+      .div(new BigNumber(10).pow(quoteToken?.decimals?.[chainId as SupportedChainId] ?? 18))
       .times(lpTokenRatio)
 
     let alloc = null
@@ -82,7 +85,7 @@ const cleanDualFarmData = (
     const poolWeight = allocPoint.div(new BigNumber(totalAllocPoint))
     miniChefPoolRewardPerSecond = getBalanceNumber(
       poolWeight.times(miniChefRewardsPerSecond),
-      miniChefRewarderToken?.decimals ?? 18,
+      miniChefRewarderToken?.decimals[chainId] ?? 18,
     )
     alloc = poolWeight.toJSON()
     multiplier = `${allocPoint.div(100).toString()}X`
@@ -99,7 +102,7 @@ const cleanDualFarmData = (
     }
     const rewarderPoolRewardPerSecond = getBalanceNumber(
       rewarderPoolWeight.times(rewardsPerSecond),
-      rewarderToken?.decimals ?? 18,
+      rewarderToken?.decimals[chainId] ?? 18,
     )
     const apr = getDualFarmApr(
       totalStaked?.toNumber(),
@@ -121,18 +124,18 @@ const cleanDualFarmData = (
       ...dualFarmConfig,
       tokenBalance: tokenAmount.toJSON(),
       quoteTokenBalance: quoteTokenAmount.toJSON(),
-      lpTokenBalance: totalStaked.toFixed(0),
       totalInQuoteToken: totalInQuoteToken.toJSON(),
       lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
       tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
-      stakeTokenPrice,
-      rewardToken0Price: miniChefRewarderToken?.price,
-      rewardToken1Price: rewarderToken?.price,
-      lpApr,
+      totalLpStakedUsd: totalStaked.toFixed(0),
+      lpValueUsd: stakeTokenPrice,
+      earnTokenPrice: miniChefRewarderToken?.price,
+      secondEarnTokenPrice: rewarderToken?.price,
+      lpApr: lpApr?.toFixed(2),
       poolWeight: alloc,
       // TODO Remove - HIDE MATIC/CRYTL farm with 1 alloc point while SINGULAR Vault withdraws
       multiplier,
-      apr,
+      apr: apr?.toFixed(2),
       apy,
     }
   })
@@ -140,29 +143,3 @@ const cleanDualFarmData = (
 }
 
 export default cleanDualFarmData
-
-// {
-//   tokenBalance: '',
-//   quoteTokenBalance
-// }
-
-// // Balance of token in the LP contract
-// tokenBalance: string
-// // Balance of quote token on LP contract
-// quoteTokenBalance: string
-// // Balance of LP tokens in the master chef contract
-// lpTokenBalance: string
-// // Total supply of LP tokens
-// lpTokenTotalSupply: string
-// // Token Decimals
-// tokenDecimals: number
-// // Quote Token Decimals
-// quoteTokenDecimals: number
-// // earn token price
-// earnTokenPrice: number
-// // dual earn token price
-// secondEarnTokenPrice?: number
-// // LP price
-// lpValueUsd?: number
-// // total LP value staked
-// totalLpStakedUsd?: string

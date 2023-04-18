@@ -25,7 +25,6 @@ export const fetchFarmUserAllowances = async (chainId: number, account: string, 
     return { address: lpContractAddress, name: 'allowance', params: [account, contractAddress] }
   })
 
-  console.log(calls)
   const rawLpAllowances = await multicall(chainId, erc20ABI, calls)
   rawLpAllowances.forEach((lpBalance: any, i: number) => {
     returnObj[farmsConfig[i].id] = new BigNumber(lpBalance).toJSON()
@@ -54,7 +53,9 @@ export const fetchFarmUserTokenBalances = async (chainId: number, account: strin
 export const fetchFarmUserStakedBalances = async (chainId: number, account: string, farmsConfig: Farm[]) => {
   const returnObj: Record<string, string> = {}
   const jungleFarmCalls: any = []
+  const jungleFarmsOrder: Farm[] = []
   const farmCalls: any = []
+  const farmsOrder: Farm[] = []
   farmsConfig.forEach((farm) => {
     const contractAddress =
       farm.farmType === FarmTypes.MASTER_CHEF_V1
@@ -66,29 +67,29 @@ export const fetchFarmUserStakedBalances = async (chainId: number, account: stri
         : farm.contractAddress
 
     farm.farmType === FarmTypes.JUNLGE_FARM
-      ? jungleFarmCalls.push({
+      ? (jungleFarmCalls.push({
           address: contractAddress,
           name: 'userInfo',
           params: [account],
-        })
-      : farmCalls.push({
+        }),
+        jungleFarmsOrder.push(farm))
+      : (farmCalls.push({
           address: contractAddress,
           name: 'userInfo',
           params: [farm.pid, account],
-        })
+        }),
+        farmsOrder.push(farm))
   })
 
   const jfRawStakedBalances = await multicall(chainId, jungleChefABI, jungleFarmCalls)
   const farmRawStakedBalances: any = await multicall(chainId, masterchefABI, farmCalls)
 
-  console.log(jfRawStakedBalances)
-
   jfRawStakedBalances.forEach((amount: any, i: number) => {
-    returnObj[farmsConfig[i].id] = new BigNumber(amount[0]._hex).toString()
+    returnObj[jungleFarmsOrder[i].id] = new BigNumber(amount[0]._hex).toString()
   })
 
   farmRawStakedBalances.forEach((stakedBalance: any, i: number) => {
-    returnObj[farmsConfig[i].id] = new BigNumber(stakedBalance[0]._hex).toJSON()
+    returnObj[farmsOrder[i].id] = new BigNumber(stakedBalance[0]._hex).toJSON()
   })
   return returnObj
 }
@@ -97,24 +98,32 @@ export const fetchFarmUserEarnings = async (chainId: number, account: string, fa
   const returnObj: Record<string, string> = {}
   const secondReturnObj: Record<string, string> = {}
 
+  // Multitple list to keep things organized
   const farmCalls: any = []
+  const farmsOrder: Farm[] = []
   const farmV2Calls: any = []
+  const farmsV2Order: Farm[] = []
   const jungleFarmCalls: any = []
+  const jungleFarmsOrder: Farm[] = []
   const dualFarm1Calls: any = []
   const dualFarm2Calls: any = []
+  const dualFarmsOrder: Farm[] = []
+
   farmsConfig.forEach((farm) => {
     farm.farmType === FarmTypes.MASTER_CHEF_V1
-      ? farmCalls.push({
+      ? (farmCalls.push({
           address: MASTER_CHEF_V1_ADDRESS[chainId],
           name: 'pendingCake',
           params: [farm.pid, account],
-        })
+        }),
+        farmsOrder.push(farm))
       : farm.farmType === FarmTypes.MASTER_CHEF_V2
-      ? farmV2Calls.push({
+      ? (farmV2Calls.push({
           address: MASTER_CHEF_V2_ADDRESS[chainId],
           name: 'pendingBanana',
           params: [farm.pid, account],
-        })
+        }),
+        farmsV2Order.push(farm))
       : farm.farmType === FarmTypes.DUAL_FARM
       ? (dualFarm1Calls.push({
           address: MINI_APE_ADDRESS[chainId],
@@ -125,12 +134,14 @@ export const fetchFarmUserEarnings = async (chainId: number, account: string, fa
           address: farm.contractAddress,
           name: 'pendingToken',
           params: [farm.pid, account],
-        }))
-      : jungleFarmCalls.push({
+        }),
+        dualFarmsOrder.push(farm))
+      : (jungleFarmCalls.push({
           address: farm.contractAddress,
           name: 'pendingReward',
           params: [account],
-        })
+        }),
+        jungleFarmsOrder.push(farm))
   })
 
   const jfRawRewards = await multicall(chainId, jungleChefABI, jungleFarmCalls)
@@ -140,19 +151,19 @@ export const fetchFarmUserEarnings = async (chainId: number, account: string, fa
   const dualFarm2RawRewards = await multicall(chainId, miniComplexABI, dualFarm2Calls)
 
   jfRawRewards.forEach((earnings: any, i: number) => {
-    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+    returnObj[jungleFarmsOrder[i].id] = new BigNumber(earnings).toJSON()
   })
   farmV1RawRewards.forEach((earnings: any, i: number) => {
-    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+    returnObj[farmsOrder[i].id] = new BigNumber(earnings).toJSON()
   })
   farmV2RawRewards.forEach((earnings: any, i: number) => {
-    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+    returnObj[farmsV2Order[i].id] = new BigNumber(earnings).toJSON()
   })
   dualFarm1RawRewards.forEach((earnings: any, i: number) => {
-    returnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+    returnObj[dualFarmsOrder[i].id] = new BigNumber(earnings).toJSON()
   })
   dualFarm2RawRewards.forEach((earnings: any, i: number) => {
-    secondReturnObj[farmsConfig[i].id] = new BigNumber(earnings).toJSON()
+    secondReturnObj[dualFarmsOrder[i].id] = new BigNumber(earnings).toJSON()
   })
   return [returnObj, secondReturnObj]
 }

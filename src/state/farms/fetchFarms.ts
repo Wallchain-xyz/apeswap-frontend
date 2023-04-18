@@ -114,8 +114,9 @@ const fetchFarms = async (
     tokenPrices,
     chainId,
     jungleFarms,
+    farmLpAprs,
+    lpPrices,
   )
-
 
   const cleanedDualFarms = cleanDualFarmData(
     dualFarmsIds,
@@ -125,11 +126,10 @@ const fetchFarms = async (
     farmLpAprs,
     chainId,
     dualFarms,
-    lpPrices
+    lpPrices,
   )
 
   const mergedFarms = [...cleanedFarms, ...cleanedFarmsV2, ...cleanedJungleFarms, ...cleanedDualFarms]
-
 
   return mergedFarms
 }

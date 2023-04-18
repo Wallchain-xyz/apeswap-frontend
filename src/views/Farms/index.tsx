@@ -11,14 +11,16 @@ import ListView404 from 'components/ListView404'
 import { useEffect, useRef, useState } from 'react'
 import { BLUE_CHIPS, NUMBER_OF_FARMS_VISIBLE, SORT_OPTIONS, STABLES } from './constants'
 import DisplayFarms from './components/DisplayFarms'
-import { Farm } from 'state/farms/types'
+import { Farm, FarmTypes } from 'state/farms/types'
 import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useTranslation } from 'contexts/Localization'
+import useBlockNumber from 'lib/hooks/useBlockNumber'
 
 const Farms = () => {
   const { account, chainId } = useWeb3React()
+  const currentBlock = useBlockNumber()
   const farms = useFarms(account ?? '')
   const [observerIsSet, setObserverIsSet] = useState(false)
   const [numberOfFarmsVisible, setNumberOfFarmsVisible] = useState(NUMBER_OF_FARMS_VISIBLE)
@@ -35,8 +37,20 @@ const Farms = () => {
   const isActive = !asPath.includes('history')
   const { t } = useTranslation()
 
-  const activeFarms = farms?.filter((farm) => farm.pid !== 0 && farm.multiplier !== '0X')
-  const inactiveFarms = farms?.filter((farm) => farm.pid !== 0 && farm.multiplier === '0X')
+  const activeFarms = farms?.filter(
+    (farm) =>
+      farm.farmType === FarmTypes.MASTER_CHEF_V1 ||
+      (farm.farmType === FarmTypes.MASTER_CHEF_V2 && farm.pid !== 0) ||
+      (farm.farmType !== FarmTypes.JUNLGE_FARM && farm.multiplier !== '0X') ||
+      (farm.farmType === FarmTypes.JUNLGE_FARM && (farm?.endBlock ?? 0) > (currentBlock ?? 0)),
+  )
+  const inactiveFarms = farms?.filter(
+    (farm) =>
+      farm.farmType === FarmTypes.MASTER_CHEF_V1 ||
+      (farm.farmType === FarmTypes.MASTER_CHEF_V2 && farm.pid === 0) ||
+      (farm.farmType !== FarmTypes.JUNLGE_FARM && farm.multiplier === '0X') ||
+      (farm.farmType === FarmTypes.JUNLGE_FARM && (farm?.endBlock ?? 0) < (currentBlock ?? 0)),
+  )
 
   console.log(farms)
 

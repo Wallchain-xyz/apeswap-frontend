@@ -111,6 +111,7 @@ export interface MixedFarmConfig {
   secondRewardToken: Token
   dualImage?: boolean | undefined
   bonusEndBlock?: number | undefined
+  startBlock?: number | undefined
   contractAddress?: string | undefined
   tokensPerBlock?: string | undefined
   rewardsPerSecond?: string | undefined
@@ -147,6 +148,10 @@ export interface Farm extends MixedFarmConfig {
   multiplier?: string
   // The lp apr
   lpApr?: string
+  // endblock for jungle farms
+  endBlock?: number
+  // startblock for jungle farms
+  startBlock?: number
   // Userdata
   userData?: {
     allowance: string

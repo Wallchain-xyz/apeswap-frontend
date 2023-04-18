@@ -9,6 +9,8 @@ import { useTranslation } from 'contexts/Localization'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import { styles } from './styles'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
+import Tooltip from 'components/Tooltip/Tooltip'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: string; farmTags?: any[] }) => {
   const { chainId } = useWeb3React()
@@ -16,16 +18,20 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
   const farmsListView = farms.map((farm) => {
     const token0 = farm.tokenSymbol
     const token1 = farm.quoteTokenSymbol
-    // const userAllowance = farm?.userData?.allowance
-    // const userEarnings = getBalanceNumber(farm?.userData?.earnings || new BigNumber(0))?.toFixed(2)
-    // const userEarningsUsd = `$${(
-    //   getBalanceNumber(farm?.userData?.earnings || new BigNumber(0)) * farm.bananaPrice
-    // ).toFixed(2)}`
-    // const userTokenBalance = `${getBalanceNumber(farm?.userData?.tokenBalance || new BigNumber(0))?.toFixed(6)} LP`
-    // const userTokenBalanceUsd = `$${(
-    //   getBalanceNumber(farm?.userData?.tokenBalance || new BigNumber(0)) * farm?.lpValueUsd
-    // ).toFixed(2)}`
+    const userAllowance = farm?.userData?.allowance
+    const userEarnings = getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0))?.toFixed(2)
+    const userSecondEarnings = getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0))?.toFixed(2)
+    const userEarningsUsd = `$${(farm.farmType === FarmTypes.DUAL_FARM
+      ? getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0)) * farm.earnTokenPrice +
+        getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0)) * (farm?.secondEarnTokenPrice ?? 0)
+      : getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0)) * farm.earnTokenPrice
+    ).toFixed(2)}`
+    const userTokenBalance = `${getBalanceNumber(new BigNumber(farm?.userData?.tokenBalance ?? 0))?.toFixed(6)} LP`
+    const userTokenBalanceUsd = `$${(
+      getBalanceNumber(new BigNumber(farm?.userData?.tokenBalance ?? 0) || new BigNumber(0)) * (farm?.lpValueUsd ?? 0)
+    ).toFixed(2)}`
     const fTag = farmTags?.find((tag) => tag.pid === farm.pid)
+    console.log(userEarningsUsd)
     return {
       tokenDisplayProps: {
         token1: farm.pid === 184 ? 'NFTY2' : token0,
@@ -34,11 +40,18 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
           farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2
             ? 'BANANA'
             : farm.rewardToken.symbol,
-        token4: farm.farmType === FarmTypes.DUAL_FARM ? farm?.secondRewardToken?.symbol : undefined,
+        token4:
+          farm.farmType === FarmTypes.DUAL_FARM
+            ? farm?.dualImage !== false
+              ? farm.pid === 11
+                ? 'NFTY2'
+                : farm?.secondRewardToken?.symbol
+              : undefined
+            : undefined,
         stakeLp: true,
       },
       listProps: {
-        id: farm.pid,
+        id: farm.id,
         // open: farm.pid === openPid,
         title: (
           <ListViewContent
@@ -48,15 +61,16 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
           />
         ),
         titleWidth: '290px',
-        // infoContent: (
-        //   <Tooltip
-        //     valueTitle={t('Multiplier')}
-        //     valueContent={farm?.multiplier}
-        //     secondURL={farm?.projectLink}
-        //     secondURLTitle={t('Learn More')}
-        //     tokenContract={farm?.lpAddresses[chainId]}
-        //   />
-        // ),
+        infoContent: (
+          <Tooltip
+            valueTitle={t('Multiplier')}
+            valueContent={farm?.multiplier ?? '0X'}
+            secondURL={farm?.projectLink}
+            secondURLTitle={t('Learn More')}
+            tokenContract={farm?.lpStakeTokenAddress}
+            jungleFarm={farm}
+          />
+        ),
         cardContent: (
           <Flex sx={styles.cardContent}>
             <ListViewContent
@@ -119,93 +133,92 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
                 style={styles.farmInfo}
               />
             </Flex>
-            <ListViewContent title={t('Earned')} value={'0'} style={styles.earnedInfo} />
+            <ListViewContent title={t('Earned')} value={userEarningsUsd} style={styles.earnedInfo} />
           </Flex>
         ),
         expandedContent: (
-          //   <Flex sx={styles.expandedContent}>
-          //     <Flex sx={{ ...styles.onlyMobile, width: '100%' }}>
-          //       <ListViewContent
-          //         title={t('APR')}
-          //         value={`${farm?.lpApr}%`}
-          //         valueIcon={
-          //           <span style={{ marginRight: '7px', transform: 'rotate(45deg)' }}>
-          //             <Svg icon="swapArrows" width={13} color="text" />
-          //           </span>
-          //         }
-          //         value2={`${farm?.apr}%`}
-          //         value2Icon={
-          //           <span style={{ marginRight: '5px' }}>
-          //             <Svg icon="banana_token" width={15} color="text" />
-          //           </span>
-          //         }
-          //         toolTip={t(
-          //           'BANANA reward APRs are calculated in real time. DEX swap fee APRs are calculated based on previous 24 hours of trading volume. Note: APRs are provided for your convenience. APRs are constantly changing and do not represent guaranteed returns.',
-          //         )}
-          //         toolTipPlacement="bottomLeft"
-          //         toolTipTransform="translate(8%, 0%)"
-          //         style={styles.farmInfo}
-          //       />
-          //       <ListViewContent
-          //         title={t('Liquidity')}
-          //         value={`$${Number(farm?.totalLpStakedUsd).toLocaleString(undefined)}`}
-          //         toolTip={t('The total value of the LP tokens currently staked in this farm.')}
-          //         toolTipPlacement={'bottomLeft'}
-          //         toolTipTransform={'translate(23%, 0%)'}
-          //         style={styles.farmInfo}
-          //       />
-          //     </Flex>
-          //     <Flex sx={styles.actionContainer}>
-          //       <ListViewContent
-          //         title={t('Available')}
-          //         value={userTokenBalance}
-          //         value2={userTokenBalanceUsd}
-          //         value2Secondary
-          //         value2Direction="column"
-          //         style={{ maxWidth: '50%', flexDirection: 'column' }}
-          //       />
-          //       <Flex sx={{ width: '100%', maxWidth: ['130px', '130px', '140px'] }}>
-          //         <Button
-          //           onClick={() =>
-          //             showLiquidity(
-          //               farm.tokenAddresses[chainId],
-          //               farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAdresses[chainId],
-          //               farm,
-          //             )
-          //           }
-          //           sx={styles.styledBtn}
-          //         >
-          //           {t('GET LP')}
-          //           <Flex sx={{ ml: '5px' }}>
-          //             <Svg icon="ZapIcon" color="primaryBright" />
-          //           </Flex>
-          //         </Button>
-          //       </Flex>
-          //     </Flex>
-          //     <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
-          //       <Svg icon="caret" direction="right" width="50px" />
-          //     </Flex>
-          //     <CardActions
-          //       allowance={userAllowance?.toString()}
-          //       stakedBalance={farm?.userData?.stakedBalance?.toString()}
-          //       stakingTokenBalance={farm?.userData?.tokenBalance?.toString()}
-          //       stakeLpAddress={farm.lpAddresses[chainId]}
-          //       lpValueUsd={farm.lpValueUsd}
-          //       pid={farm.pid}
-          //       v2Flag={v2Flag}
-          //     />
-          //     <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
-          //       <Svg icon="caret" direction="right" width="50px" />
-          //     </Flex>
-          //     <HarvestAction
-          //       pid={farm.pid}
-          //       disabled={userEarnings === '0.00'}
-          //       userEarnings={userEarnings}
-          //       userEarningsUsd={userEarningsUsd}
-          //       v2Flag={v2Flag}
-          //     />
-          //   </Flex>
-          <></>
+          <Flex sx={styles.expandedContent}>
+            <Flex sx={{ ...styles.onlyMobile, width: '100%' }}>
+              <ListViewContent
+                title={t('APR')}
+                value={`${farm?.lpApr}%`}
+                valueIcon={
+                  <span style={{ marginRight: '7px', transform: 'rotate(45deg)' }}>
+                    <Svg icon="swapArrows" width={13} color="text" />
+                  </span>
+                }
+                value2={`${farm?.apr}%`}
+                value2Icon={
+                  <span style={{ marginRight: '5px' }}>
+                    <Svg icon="banana_token" width={15} color="text" />
+                  </span>
+                }
+                toolTip={t(
+                  'BANANA reward APRs are calculated in real time. DEX swap fee APRs are calculated based on previous 24 hours of trading volume. Note: APRs are provided for your convenience. APRs are constantly changing and do not represent guaranteed returns.',
+                )}
+                toolTipPlacement="bottomLeft"
+                toolTipTransform="translate(8%, 0%)"
+                style={styles.farmInfo}
+              />
+              <ListViewContent
+                title={t('Liquidity')}
+                value={`$${Number(farm?.totalLpStakedUsd).toLocaleString(undefined)}`}
+                toolTip={t('The total value of the LP tokens currently staked in this farm.')}
+                toolTipPlacement={'bottomLeft'}
+                toolTipTransform={'translate(23%, 0%)'}
+                style={styles.farmInfo}
+              />
+            </Flex>
+            <Flex sx={styles.actionContainer}>
+              <ListViewContent
+                title={t('Available')}
+                value={userTokenBalance}
+                value2={userTokenBalanceUsd}
+                value2Secondary
+                value2Direction="column"
+                style={{ maxWidth: '50%', flexDirection: 'column' }}
+              />
+              {/* <Flex sx={{ width: '100%', maxWidth: ['130px', '130px', '140px'] }}>
+                <Button
+                  onClick={() =>
+                    showLiquidity(
+                      farm.tokenAddresses[chainId],
+                      farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAdresses[chainId],
+                      farm,
+                    )
+                  }
+                  sx={styles.styledBtn}
+                >
+                  {t('GET LP')}
+                  <Flex sx={{ ml: '5px' }}>
+                    <Svg icon="ZapIcon" color="primaryBright" />
+                  </Flex>
+                </Button>
+              </Flex> */}
+            </Flex>
+            <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
+              <Svg icon="caret" direction="right" width="20px" />
+            </Flex>
+            {/* <CardActions
+              allowance={userAllowance?.toString()}
+              stakedBalance={farm?.userData?.stakedBalance?.toString()}
+              stakingTokenBalance={farm?.userData?.tokenBalance?.toString()}
+              stakeLpAddress={farm.lpAddresses[chainId]}
+              lpValueUsd={farm.lpValueUsd}
+              pid={farm.pid}
+              v2Flag={v2Flag}
+            /> */}
+            <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
+              <Svg icon="caret" direction="right" width="20px" />
+            </Flex>
+            {/* <HarvestAction
+              pid={farm.pid}
+              disabled={userEarnings === '0.00'}
+              userEarnings={userEarnings}
+              userEarningsUsd={userEarningsUsd}
+              v2Flag={v2Flag}
+            /> */}
+          </Flex>
         ),
       },
     }

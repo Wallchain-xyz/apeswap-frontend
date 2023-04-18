@@ -8,9 +8,9 @@ import { useMemo } from 'react'
 
 export interface TokenPrices {
   symbol: string | undefined
-  address: string | undefined
+  address: Record<SupportedChainId, string | undefined>
   price: number | undefined
-  decimals: number | undefined
+  decimals: Record<SupportedChainId, number | undefined>
 }
 const useAllTokenPrices = () => {
   const priceGetterContract = usePriceGetter()
