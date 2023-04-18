@@ -15,13 +15,13 @@ export interface Call {
 // This is the legacy multicall
 // Try to use multicall hooks
 const multicall = async (chainId: number, abi: any[], calls: Call[], batch?: boolean, batchSize?: number) => {
-  console.log(calls)
+  //console.log(calls)
   const multicallAddress = MULTICALL_V2[chainId]
   const provider = new ethers.providers.JsonRpcProvider(RPC_URLS[chainId as SupportedChainId][0], chainId)
   const multi = new ethers.Contract(multicallAddress, multicallV2Abi, provider)
-  console.log(multi)
+  //console.log(multi)
   const itf = new Interface(abi)
-  console.log(itf)
+  //console.log(itf)
   const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])
   if (batch) {
     const chunkedCalls = chunk(calldata, batchSize)
@@ -35,8 +35,8 @@ const multicall = async (chainId: number, abi: any[], calls: Call[], batch?: boo
     return flattenCalls
   } else {
     const { returnData } = await multi.aggregate(calldata)
-    console.log(returnData)
-    console.log(returnData.map((call: any, i: number) => itf.decodeFunctionResult(calls[i].name, call)))
+    //console.log(returnData)
+    //console.log(returnData.map((call: any, i: number) => itf.decodeFunctionResult(calls[i].name, call)))
     return returnData.map((call: any, i: number) => itf.decodeFunctionResult(calls[i].name, call))
   }
 }

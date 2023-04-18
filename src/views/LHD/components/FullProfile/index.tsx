@@ -14,7 +14,6 @@ const FullProfile = ({ chainID, address }: {
 }) => {
   const call = useGetFullProfiles(chainID, address)
   const fullProfile: TokenProfile | undefined = useFullProfile(chainID, address)
-  console.log(fullProfile)
 
   useEffect(() => {
     if (chainID && address) {
@@ -58,27 +57,27 @@ const FullProfile = ({ chainID, address }: {
                 </Text>
               </Box>
               <IconButton>
-                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl} target='_blank'>
+                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl ?? ''} target='_blank'>
                   <Svg icon='URL' width={10} />
                 </Link>
               </IconButton>
               <IconButton>
-                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl} target='_blank'>
+                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl ?? ''} target='_blank'>
                   <Svg icon='URL' width={10} />
                 </Link>
               </IconButton>
               <IconButton>
-                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl} target='_blank'>
+                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl ?? ''} target='_blank'>
                   <Svg icon='URL' width={10} />
                 </Link>
               </IconButton>
               <IconButton>
-                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl} target='_blank'>
+                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl ?? ''} target='_blank'>
                   <Svg icon='URL' width={10} />
                 </Link>
               </IconButton>
               <IconButton>
-                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl} target='_blank'>
+                <Link href={fullProfile?.addressMapping?.profileLinks?.siteUrl ?? ''} target='_blank'>
                   <Svg icon='URL' width={10} />
                 </Link>
               </IconButton>

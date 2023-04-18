@@ -9,7 +9,6 @@ import StatCard from './components/StatCard'
 import MyTable from './components/Table'
 
 const LHD = () => {
-  console.log('rendering')
   useLoadInitialProfiles()
   const onSearchProfiles = useOnSearchProfiles()
   const dispatch = useAppDispatch()

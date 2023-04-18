@@ -37,7 +37,7 @@ const News: React.FC = () => {
           (new Date(news.StartTime) <= today && new Date(news.EndTime) > today) || (!news.StartTime && !news.EndTime),
       )
     : []
-  console.log(filterNews)
+  //console.log(filterNews)
   const newsLength = filterNews?.length || 0
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)

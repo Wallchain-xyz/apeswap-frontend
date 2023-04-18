@@ -53,6 +53,5 @@ export const useSearchProfiles = () => {
 
 export const useFullProfile = (chainID: string | string[] | undefined, address: string | string[] | undefined) => {
   const fullProfiles = useSelector((state: AppState) => state?.lhd?.fullProfiles)
-  console.log(fullProfiles)
   return fullProfiles.find((profile) => profile?.addressMapping?.tokenAddresses?.find((tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID))
 }

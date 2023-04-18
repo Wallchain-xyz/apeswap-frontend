@@ -24,7 +24,6 @@ export const fetchProfiles = async (query?: string) => {
     } else {
       res = await axios.get(`${apiEndpoint}/profiles`)
     }
-    console.log(res)
     if (res?.data?.statusCode === 500) {
       return null
     }
@@ -43,14 +42,12 @@ export const fetchInitialProfiles = () => async (dispatch: any) => {
 }
 
 export const fetchFullProfile = async (query?: string) => {
-  console.log('fetchFullProfile')
   try {
     axiosRetry(axios, {
       retries: 5,
       retryCondition: () => true,
     })
     const res = await axios.get(`${apiEndpoint}/profiles/${query ?? ''}`)
-    console.log(res)
     if (res?.data?.statusCode === 500) {
       return null
     }

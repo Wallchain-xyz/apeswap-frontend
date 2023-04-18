@@ -105,7 +105,7 @@ export const fetchBillsPublicDataAsync =
     try {
       const bills = getState().bills.data[chainId]
       const returnedBills = await fetchBills(chainId, tokenPrices, bills)
-      console.log(returnedBills)
+      //console.log(returnedBills)
       dispatch(setBillsPublicData({ value: returnedBills, chainId }))
     } catch (error) {
       console.warn(error)
