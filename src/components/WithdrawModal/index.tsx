@@ -2,7 +2,8 @@ import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { getFullDisplayBalance } from 'utils/getBalanceNumber'
-import { Button, Flex, Input, Modal, Text } from 'components/uikit'
+import { Button, Flex, Modal, Text } from 'components/uikit'
+import ModalInput from 'components/ModalInput/ModalInput'
 
 interface WithdrawModalProps {
   max: string
@@ -14,7 +15,6 @@ interface WithdrawModalProps {
 
 const modalProps = {
   sx: {
-    zIndex: 11,
     maxHeight: 'calc(100% - 30px)',
     minWidth: ['90%', '400px'],
     width: '200px',
@@ -43,7 +43,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
 
   return (
     <Modal title={title} onDismiss={onDismiss} {...modalProps}>
-      <Input
+      <ModalInput
         onSelectMax={handleSelectMax}
         onChange={handleChange}
         value={val}

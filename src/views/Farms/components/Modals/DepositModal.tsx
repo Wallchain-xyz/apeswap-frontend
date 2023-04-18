@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { Button, Input, Modal } from 'components/uikit'
+import { Button, Modal } from 'components/uikit'
 import { getFullDisplayBalance } from 'utils/getBalanceNumber'
+import ModalInput from 'components/ModalInput/ModalInput'
 
 interface DepositModalProps {
   max: string
@@ -10,6 +11,15 @@ interface DepositModalProps {
   onDismiss?: () => void
   tokenName?: string
   addLiquidityUrl?: string
+}
+
+const modalProps = {
+  sx: {
+    maxHeight: 'calc(100% - 30px)',
+    minWidth: ['90%', '400px'],
+    width: '200px',
+    maxWidth: '425px',
+  },
 }
 
 const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '', addLiquidityUrl }) => {
@@ -32,8 +42,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [fullBalance, setVal])
 
   return (
-    <Modal title={t('Stake LP tokens')} onDismiss={onDismiss}>
-      <Input
+    <Modal title={t('Stake LP tokens')} onDismiss={onDismiss} {...modalProps}>
+      <ModalInput
         value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
