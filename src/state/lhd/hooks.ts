@@ -2,13 +2,13 @@ import { useCallback, useEffect } from 'react'
 import { useAppDispatch } from '../hooks'
 import { fetchFullProfile, fetchInitialProfiles, fetchProfiles } from './actions'
 import { SimpleTokenProfile, TokenProfile } from './types'
-import store, { AppState } from '../index'
-import { addFullProfiles, addSearchProfiles } from './reducer'
+import { AppState } from '../index'
+import { addFullProfile, addSearchProfiles } from './reducer'
 import { useSelector } from 'react-redux'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
-  const simpleProfiles: SimpleTokenProfile[] = store?.getState()?.lhd?.simpleProfiles
+  const simpleProfiles: SimpleTokenProfile[] = useSelector((state: AppState) => state?.lhd?.simpleProfiles)
   useEffect(() => {
     if (typeof window !== 'undefined' && !simpleProfiles?.length) {
       dispatch(fetchInitialProfiles())
@@ -28,15 +28,16 @@ export const useOnSearchProfiles = () => {
   }, [dispatch])
 }
 
-export const useGetFullProfiles = async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
+export const useFetchProfile = async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
   const dispatch = useAppDispatch()
-  const fullProfiles = useSelector((state: AppState) => state?.lhd?.fullProfiles)
-  const selectedProfile = fullProfiles.find((profile) => profile?.addressMapping?.tokenAddresses?.find((tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID))
-  if (!selectedProfile) {
+  const fullProfile = useSelector((state: AppState) => state?.lhd?.fullProfile)
+  const exists = fullProfile?.addressMapping?.tokenAddresses.find((tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID)
+  if (!exists) {
     try {
+      dispatch(addFullProfile(null))
       const fullProfile: TokenProfile = await fetchFullProfile(`${chainID}/${address}`)
       if (fullProfile) {
-        dispatch(addFullProfiles(fullProfile))
+        dispatch(addFullProfile(fullProfile))
       }
     } catch (e) {
     }
@@ -51,7 +52,6 @@ export const useSearchProfiles = () => {
   return useSelector((state: AppState) => state?.lhd?.searchProfiles)
 }
 
-export const useFullProfile = (chainID: string | string[] | undefined, address: string | string[] | undefined) => {
-  const fullProfiles = useSelector((state: AppState) => state?.lhd?.fullProfiles)
-  return fullProfiles.find((profile) => profile?.addressMapping?.tokenAddresses?.find((tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID))
+export const useFullProfile = () => {
+  return useSelector((state: AppState) => state?.lhd?.fullProfile)
 }

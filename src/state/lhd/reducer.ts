@@ -8,17 +8,17 @@ export interface LHDState {
   verifiedTokens: string
   simpleProfiles: SimpleTokenProfile[]
   searchProfiles: SimpleTokenProfile[]
-  fullProfiles: TokenProfile[]
+  fullProfile: TokenProfile | null
 }
 
 export const initialState: LHDState = {
-  industryAverage: '0',
-  industryAverageChange: '0',
-  chainsSupported: '0',
-  verifiedTokens: '0',
+  industryAverage: '',
+  industryAverageChange: '',
+  chainsSupported: '',
+  verifiedTokens: '',
   simpleProfiles: [],
   searchProfiles: [],
-  fullProfiles: []
+  fullProfile: null
 }
 
 const LHDSlice = createSlice({
@@ -47,14 +47,14 @@ const LHDSlice = createSlice({
         searchProfiles: action.payload
       }
     },
-    addFullProfiles(state, action: {payload: TokenProfile}) {
+    addFullProfile(state, action: {payload: TokenProfile | null}) {
       return {
         ...state,
-        fullProfiles: [...state.fullProfiles, action.payload]
+        fullProfile: action.payload
       }
     }
   },
 })
 
-export const { addInitialListData, addSimpleProfiles, addFullProfiles, addSearchProfiles } = LHDSlice.actions
+export const { addInitialListData, addSimpleProfiles, addFullProfile, addSearchProfiles } = LHDSlice.actions
 export default LHDSlice.reducer

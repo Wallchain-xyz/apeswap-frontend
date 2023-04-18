@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useFullProfile, useGetFullProfiles } from '../../../../state/lhd/hooks'
+import { useFullProfile, useFetchProfile } from '../../../../state/lhd/hooks'
 import { Flex, Link, Svg, Text } from '../../../../components/uikit'
 import ServiceTokenDisplay from '../../../../components/ServiceTokenDisplay'
 import { Box } from 'theme-ui'
@@ -12,14 +12,8 @@ const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
   address: string | string[] | undefined
 }) => {
-  const call = useGetFullProfiles(chainID, address)
-  const fullProfile: TokenProfile | undefined = useFullProfile(chainID, address)
-
-  useEffect(() => {
-    if (chainID && address) {
-      //call(`${chainID}/${address}`)
-    }
-  }, [chainID, address, call])
+  useFetchProfile(chainID, address)
+  const fullProfile: TokenProfile | null = useFullProfile()
 
   if (fullProfile) {
     return (
