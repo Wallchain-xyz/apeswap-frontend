@@ -2,7 +2,7 @@ import { Farm, FarmTypes } from 'state/farms/types'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
 import ListView from 'components/ListView/ListView'
-import { Flex, Svg } from 'components/uikit'
+import { Button, Flex, Svg, Text } from 'components/uikit'
 import ListViewContent from 'components/ListView/ListViewContent'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
@@ -11,6 +11,8 @@ import { styles } from './styles'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import Harvest from '../actions/Harvest'
+import CardActions from '../actions'
 
 const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: string; farmTags?: any[] }) => {
   const { chainId } = useWeb3React()
@@ -178,46 +180,54 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
                 value2Direction="column"
                 style={{ maxWidth: '50%', flexDirection: 'column' }}
               />
-              {/* <Flex sx={{ width: '100%', maxWidth: ['130px', '130px', '140px'] }}>
+              <Flex
+                sx={{
+                  width: '100%',
+                  maxWidth: ['130px', '130px', '140px'],
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <Button
-                  onClick={() =>
-                    showLiquidity(
-                      farm.tokenAddresses[chainId],
-                      farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAdresses[chainId],
-                      farm,
-                    )
-                  }
+                  // onClick={() =>
+                  //   showLiquidity(
+                  //     farm.tokenAddresses[chainId],
+                  //     farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAdresses[chainId],
+                  //     farm,
+                  //   )
+                  // }
                   sx={styles.styledBtn}
                 >
-                  {t('GET LP')}
-                  <Flex sx={{ ml: '5px' }}>
+                  <Text sx={{ lineHeight: '18px', mr: '5px' }}>{t('GET LP')}</Text>
+                  <span sx={{ ml: '5px' }}>
                     <Svg icon="ZapIcon" color="primaryBright" />
-                  </Flex>
+                  </span>
                 </Button>
-              </Flex> */}
+              </Flex>
             </Flex>
             <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
               <Svg icon="caret" direction="right" width="20px" />
             </Flex>
-            {/* <CardActions
-              allowance={userAllowance?.toString()}
-              stakedBalance={farm?.userData?.stakedBalance?.toString()}
-              stakingTokenBalance={farm?.userData?.tokenBalance?.toString()}
-              stakeLpAddress={farm.lpAddresses[chainId]}
-              lpValueUsd={farm.lpValueUsd}
+            <CardActions
+              allowance={userAllowance?.toString() ?? ''}
+              stakedBalance={farm?.userData?.stakedBalance?.toString() ?? ''}
+              stakingTokenBalance={farm?.userData?.tokenBalance?.toString() ?? ''}
+              stakeLpAddress={farm.lpStakeTokenAddress}
+              lpValueUsd={farm.lpValueUsd ?? 0}
               pid={farm.pid}
-              v2Flag={v2Flag}
-            /> */}
+              farmTypes={farm.farmType}
+            />
             <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
               <Svg icon="caret" direction="right" width="20px" />
             </Flex>
-            {/* <HarvestAction
+            <Harvest
               pid={farm.pid}
               disabled={userEarnings === '0.00'}
               userEarnings={userEarnings}
               userEarningsUsd={userEarningsUsd}
-              v2Flag={v2Flag}
-            /> */}
+              farmType={farm.farmType}
+              contractAddress={farm?.contractAddress}
+            />
           </Flex>
         ),
       },

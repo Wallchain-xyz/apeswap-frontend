@@ -14,12 +14,16 @@ import BOND_ABI from 'config/abi/bond.json'
 import BOND_NFT_ABI from 'config/abi/bondNft.json'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
 import NFB_ABI from 'config/abi/nonFungibleBananas.json'
+import MASTER_CHEF_ABI from 'config/abi/masterchef.json'
+import MASTER_CHEF_V2_ABI from 'config/abi/masterChefV2.json'
+import JUNGLE_CHEF_ABI from 'config/abi/jungleChef.json'
+import MINI_CHEF_ABI from 'config/abi/miniApeV2.json'
 import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import IUniswapV2PairJson from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
-import { Bond, BondNft, Multicallv3 } from 'config/abi/types'
+import { Bond, BondNft, JungleChef, MasterChefV2, Masterchef, MiniApeV2, Multicallv3 } from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 import { NonfungiblePositionManager, Quoter, QuoterV2, TickLens } from 'config/abi/types/v3'
@@ -31,6 +35,9 @@ import {
   PRICE_GETTER_ADDRESSES,
   V2_ROUTER_ADDRESSES,
   MULTICALL,
+  MASTER_CHEF_V1_ADDRESS,
+  MASTER_CHEF_V2_ADDRESS,
+  MINI_APE_ADDRESS,
 } from 'config/constants/addresses'
 import WETH_ABI from 'config/abi/weth.json'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -145,6 +152,25 @@ export const useBondContract = (address: string) => {
 
 export const useBondNftContract = (address: string) => {
   return useContract(address, BOND_NFT_ABI) as BondNft
+}
+
+export const useMasterChefContract = () => {
+  const { chainId } = useWeb3React()
+  return useContract<Masterchef>(MASTER_CHEF_V1_ADDRESS[chainId as SupportedChainId], MASTER_CHEF_ABI)
+}
+
+export const useMasterChefV2Contract = () => {
+  const { chainId } = useWeb3React()
+  return useContract<MasterChefV2>(MASTER_CHEF_V2_ADDRESS[chainId as SupportedChainId], MASTER_CHEF_V2_ABI)
+}
+
+export const useJungleFarmContract = (address: string) => {
+  return useContract<JungleChef>(address, JUNGLE_CHEF_ABI)
+}
+
+export const useDualFarmContract = () => {
+  const { chainId } = useWeb3React()
+  return useContract<MiniApeV2>(MINI_APE_ADDRESS[chainId as SupportedChainId], MINI_CHEF_ABI)
 }
 
 // Only on bnb chain
