@@ -4,8 +4,14 @@ import { Box } from 'theme-ui'
 import { useSearchProfiles, useSimpleProfiles } from '../../../../state/lhd/hooks'
 import { SimpleTokenProfile } from '../../../../state/lhd/types'
 import { useRouter } from 'next/router'
+import { Flex, Text } from 'components/uikit'
+import Image from 'next/image'
+import { formatDollar } from '../../../../utils/formatNumbers'
+import PriceChange from '../FullProfile/components/PercentageChange'
+import ProgressBar from '../ProgressBar'
+import { getColor } from '../../utils/getColor'
 
-const columnWidths = [30, 120, 120, 130, 100, 100, 100, 100, 100, 50]
+const columnWidths = [25, 140, 130, 130, 130, 163, 163, 162.9, 50]
 const tableWidth = columnWidths.reduce((acc, width) => acc + width, 0)
 
 const TableHeader = () => {
@@ -19,37 +25,38 @@ const TableHeader = () => {
     'Concentration',
     'Ownership',
     'Score',
-    'Share',
   ]
 
   return (
     <Box
       sx={{
         display: 'grid',
-        width: tableWidth,
+        width: 'fit-content',
         gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
         position: 'sticky',
         top: 0,
-        background: 'white',
+        background: 'white2',
         zIndex: 10,
-        border: '1px solid #ccc',
         borderColor: 'transparent transparent #ccc transparent',
       }}
     >
       {headers.map((header, index) => (
-        <Box
+        <Flex
           key={index}
           sx={{
             padding: '8px',
-            position: index === 0 || index === headers.length - 1 ? 'sticky' : undefined,
-            left: index === 0 ? 0 : undefined,
+            position: index === 0 || index === 1 || index === headers.length - 1 ? 'sticky' : undefined,
+            left: index === 0 ? 0 : index === 1 ? 25 : undefined,
             right: index === headers.length - 1 ? 0 : undefined,
-            zIndex: index === 0 || index === headers.length - 1 ? 2 : 1,
-            background: 'white',
+            zIndex: index === 0 || index === 1 || index === headers.length - 1 ? 2 : 1,
+            background: 'white2',
+            justifyContent: index === 1 ? 'flex-start' : 'center',
           }}
         >
-          {header}
-        </Box>
+          <Text sx={{ fontWeight: 500, fontSize: '12px', color: index === 0 ? undefined : 'textDisabled' }}>
+            {header}
+          </Text>
+        </Flex>
       ))}
     </Box>
   )
@@ -61,57 +68,92 @@ const TableRow = ({ index, style, profiles }: {
   profiles: SimpleTokenProfile[]
 }) => {
   const simpleProfile: SimpleTokenProfile = profiles[index]
-  const router = useRouter();
+  const router = useRouter()
 
   const handleClick = () => {
-    const chainID = simpleProfile.addressMapping.tokenAddresses[0].chainId;
-    const address = simpleProfile.addressMapping.tokenAddresses[0].address;
-    router.push(`/lhd/${chainID}/${address}`);
-  };
+    const chainID = simpleProfile.addressMapping.tokenAddresses[0].chainId
+    const address = simpleProfile.addressMapping.tokenAddresses[0].address
+    router.push(`/lhd/${chainID}/${address}`)
+  }
 
   return (
     <Box
       sx={{
         ...style,
-        width: tableWidth,
+        width: 'fit-content',
         display: 'grid',
+        background: index % 2 ? 'white3' : 'white2',
         gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
-        border: '1px solid #ccc',
         borderColor: 'transparent transparent #ccc transparent',
-        cursor: 'pointer'
+        cursor: 'pointer',
       }}
       onClick={handleClick}
     >
-      <Box
+      <Flex
         sx={{
           padding: '8px',
           position: 'sticky',
           left: 0,
           zIndex: 2,
-          background: 'white',
+          background: index % 2 ? 'white3' : 'white2',
+          justifyContent: 'center',
         }}
       >
-        {index + 1}
-      </Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile?.addressMapping?.tokenSymbol}</Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile?.mcap?.reduce((sum, current) => sum + current.amount, 0)}</Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile?.priceChange24hr?.toFixed(2)}%</Box>
-      <Box sx={{ padding: '8px' }}>{simpleProfile?.extractableLiquidity?.toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile?.healthScore * 100)?.toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile?.concentrationScore * 100)?.toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile?.ownershipScore * 100).toFixed()}</Box>
-      <Box sx={{ padding: '8px' }}>{(simpleProfile?.totalScore * 100)?.toFixed()}</Box>
-      <Box
-        sx={{
-          padding: '8px',
-          position: 'sticky',
-          right: 0,
-          zIndex: 2,
-          background: 'white',
-        }}
-      >
-        {'s'}
-      </Box>
+        <Text sx={{ fontWeight: 300, fontSize: ['12px'], color: 'textDisabled' }}>
+          {index}
+        </Text>
+      </Flex>
+      <Flex sx={{
+        padding: '8px',
+        position: 'sticky',
+        left: 25,
+        zIndex: 2,
+        background: index % 2 ? 'white3' : 'white2',
+      }}>
+        <Image src={simpleProfile?.addressMapping?.tokenLogoUrl}
+               alt={'token img'}
+               width={25}
+               height={25}
+               style={{ borderRadius: '25px' }} />
+        <Text sx={{ fontWeight: 500, fontSize: ['12px'], lineHeight: ['18px'], ml: '5px' }}></Text>
+        {simpleProfile?.addressMapping?.tokenSymbol}
+      </Flex>
+      <Flex sx={{ padding: '8px', justifyContent: 'center' }}>
+        <Text sx={{ fontWeight: 400, fontSize: ['12px'] }}>
+          {formatDollar({ num: simpleProfile?.mcap?.reduce((sum, current) => sum + current.amount, 0) })}
+        </Text>
+      </Flex>
+      <Flex sx={{ padding: '8px', justifyContent: 'center' }}>
+        <Text sx={{ fontWeight: 400, fontSize: ['12px'] }}>
+          <PriceChange priceChange={simpleProfile?.priceChange24hr?.toFixed(2)} />
+        </Text>
+      </Flex>
+      <Flex sx={{ padding: '8px', justifyContent: 'center' }}>
+        <Text sx={{ fontWeight: 400, fontSize: ['12px'] }}>
+          {formatDollar({ num: simpleProfile?.extractableLiquidity })}
+        </Text>
+      </Flex>
+      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center' }}>
+        <ProgressBar widthPercentage={Math.round(simpleProfile?.healthScore * 100)} />
+      </Flex>
+      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center' }}>
+        <ProgressBar widthPercentage={Math.round(simpleProfile?.concentrationScore * 100)} />
+      </Flex>
+      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center' }}>
+        <ProgressBar widthPercentage={Math.round(simpleProfile?.ownershipScore * 100)} />
+      </Flex>
+      <Flex sx={{
+        padding: '8px',
+        position: 'sticky',
+        right: 0,
+        zIndex: 2,
+        background: index % 2 ? 'white3' : 'white2',
+        justifyContent: 'center',
+      }}>
+        <Text sx={{fontWeight: 700, fontSize: '12px', color: getColor(simpleProfile?.totalScore * 100)}}>
+          {(simpleProfile?.totalScore * 100)?.toFixed()}
+        </Text>
+      </Flex>
     </Box>
   )
 }
@@ -123,7 +165,7 @@ const InnerListWrapper = React.forwardRef((props, ref) => {
   return (
     <Box ref={ref} {...rest}>
       <TableHeader />
-      <Box>{children}</Box>
+      {children}
     </Box>
   )
 })
@@ -133,36 +175,44 @@ const MyTable = () => {
   const simpleProfiles = useSimpleProfiles()
   const searchProfiles = useSearchProfiles()
 
-
   return (
     <Box
       sx={{
-        width: '100%',
+        width: ['100vw', '100vw', '100%'],
         overflowY: 'auto',
         position: 'relative',
         mt: '20px',
+        ml: ['-20px', '-20px', 0]
       }}
     >
       {
         searchProfiles.length > 0 ? (
           <List
-            height={itemHeight * 11}
-            itemCount={searchProfiles.length}
+            height={itemHeight * 15}
+            itemCount={searchProfiles.length + 1}
             itemSize={itemHeight}
             width='100%'
             innerElementType={InnerListWrapper}
           >
-            {({ index, style }) => <TableRow index={index} style={style} profiles={[{} as SimpleTokenProfile, ...searchProfiles]} />}
+            {({ index, style }) => <TableRow index={index} style={style}
+                                             profiles={[{} as SimpleTokenProfile, ...searchProfiles]} />}
           </List>
-          ) : simpleProfiles.length > 0 && (
+        ) : simpleProfiles.length > 0 && (
           <List
-            height={itemHeight * 11}
+            height={itemHeight * 15}
             itemCount={simpleProfiles.length}
             itemSize={itemHeight}
             width='100%'
             innerElementType={InnerListWrapper}
           >
-            {({ index, style }) => <TableRow index={index} style={style} profiles={[{} as SimpleTokenProfile, ...simpleProfiles]} />}
+            {({ index, style }) => {
+              return (
+                <TableRow
+                  index={index}
+                  style={style}
+                  profiles={[{} as SimpleTokenProfile, ...simpleProfiles]} />
+              )
+            }}
           </List>
         )
       }

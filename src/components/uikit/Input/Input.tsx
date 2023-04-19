@@ -4,7 +4,7 @@ import Svg from '../Svg'
 
 const Input = ({ variant, ...props }: { variant?: 'search' } | any) => {
   return variant === 'search' ? (
-    <Flex sx={{ position: 'relative' }}>
+    <Flex sx={{ position: 'relative' }} {...props}>
       <ThemeInput
         {...props}
         sx={{

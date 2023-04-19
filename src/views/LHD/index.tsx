@@ -2,11 +2,12 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useLoadInitialProfiles, useOnSearchProfiles } from '../../state/lhd/hooks'
 import { useAppDispatch } from '../../state/hooks'
 import { addSearchProfiles } from '../../state/lhd/reducer'
-import { Button, Flex, Input, Link, Text } from '../../components/uikit'
+import { Button, Flex, Input, Link, Svg, Text } from '../../components/uikit'
 import ListViewLayout from '../../components/ListView/ListViewLayout'
 import { useTranslation } from '../../contexts/Localization'
 import StatCard from './components/StatCard'
 import MyTable from './components/Table'
+import { Box } from 'theme-ui'
 
 const LHD = () => {
   useLoadInitialProfiles()
@@ -44,7 +45,7 @@ const LHD = () => {
           <Flex sx={{
             width: ['100%', '100%', '50%'],
             flexDirection: 'column',
-            justifyContent: 'flex-end'
+            justifyContent: 'flex-end',
           }}>
             <Flex sx={{ width: '100%' }}>
               <Text sx={{
@@ -71,31 +72,54 @@ const LHD = () => {
             width: ['100%', '100%', '50%'],
           }}>
             <StatCard
-              title="Industry Average"
+              title='Industry Average'
               value={'60'}
               footerInfo={<>+0,45% on the last 7 days</>}
             />
             <StatCard
-              title="Chain supported"
+              title='Chain supported'
               value={'19'}
               footerInfo={<>See which chains</>}
             />
             <StatCard
-              title="Verified tokens"
+              title='Verified tokens'
               value={'235'}
               footerInfo={<>+0,45% on the last 7 days</>}
             />
           </Flex>
         </Flex>
-        <Flex sx={{ width: '100%', mt: '20px', backgroundColor: 'white2', padding: '5px', borderRadius: '10px', justifyContent: 'space-between' }}>
+        <Flex sx={{
+          width: '100%',
+          mt: '20px',
+          backgroundColor: 'white2',
+          padding: '5px',
+          borderRadius: '10px',
+          justifyContent: 'space-between',
+        }}>
           <Input
-            placeholder='BANANA'
+            placeholder={t('Search by token name, address, symbol ...')}
             value={queryString}
-            variant="search"
+            variant='search'
             onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event.target.value)}
-            style={{backgroundColor: 'white2', width: '100%', '&:div': {width: '100%'}}}
+            style={{backgroundColor: 'white2'}}
+            sx={{width: '100%', '::placeholder': { fontSize: '10px', fontWeight: 300 } }}
           />
-          <Button variant="tertiary" sx={{ml: '10px'}}>Fix filter dev</Button>
+          <Button
+            variant='tertiary'
+            sx={{
+              ml: '10px',
+              width: '100%',
+              maxWidth: '88px',
+              color: 'text',
+              fontSize: '10px',
+              height: '36px',
+              lineHeight: '14px',
+              alignItems: 'center',
+          }}
+            endIcon={<Flex sx={{ml: '5px'}}><Svg icon="MenuSettings"/></Flex>}
+          >
+            {t('Filters')}
+          </Button>
         </Flex>
         <MyTable />
       </ListViewLayout>
