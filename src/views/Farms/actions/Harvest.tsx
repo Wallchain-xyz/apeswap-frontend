@@ -82,7 +82,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
           load={pendingTrx}
           sx={styles.styledBtn}
         >
-          <Text sx={{ lineHeight: '20px' }}>{t('HARVEST')}</Text>
+          <Text sx={{ lineHeight: '20px' }} color='primaryBright'>{t('HARVEST')}</Text>
         </Button>
       </Flex>
     </Flex>

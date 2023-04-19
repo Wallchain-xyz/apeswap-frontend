@@ -1,6 +1,5 @@
 import { Flex } from 'components/uikit'
 import { styles } from './styles'
-import ListViewLayout from 'components/ListView/ListViewLayout'
 import { useFarmOrderings, useFarms } from 'state/farms/hooks'
 import { useWeb3React } from '@web3-react/core'
 import Banner from 'components/Banner'
@@ -17,6 +16,8 @@ import { useRouter } from 'next/router'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
+import HarvestAll from './actions/HarvestAll'
+import BigNumber from 'bignumber.js'
 
 const Farms = () => {
   const { account, chainId } = useWeb3React()
@@ -81,6 +82,34 @@ const Farms = () => {
     }
   }, [observerIsSet])
 
+  const hasHarvestPids =
+    activeFarms &&
+    inactiveFarms &&
+    [...activeFarms, ...inactiveFarms]
+      .filter((farm) => farm.userData && new BigNumber(farm.userData.rewards).isGreaterThan(0))
+      .map((filteredFarm) => {
+        return filteredFarm.pid
+      })
+
+  const hasHarvestTypes =
+    activeFarms &&
+    inactiveFarms &&
+    [...activeFarms, ...inactiveFarms]
+      .filter((farm) => farm.userData && new BigNumber(farm.userData.rewards).isGreaterThan(0))
+      .map((filteredFarm) => {
+        return filteredFarm.farmType
+      })
+
+  const hasHarvestContracts =
+    activeFarms &&
+    inactiveFarms &&
+    [...activeFarms, ...inactiveFarms]
+      .filter((farm) => farm.userData && new BigNumber(farm.userData.rewards).isGreaterThan(0))
+      .map((filteredFarm) => {
+        return filteredFarm?.contractAddress ? filteredFarm?.contractAddress : ''
+      })
+
+  console.log(hasHarvestPids, hasHarvestTypes, hasHarvestContracts)
   const renderFarms = () => {
     let farms = isActive ? activeFarms : inactiveFarms
 
@@ -155,35 +184,37 @@ const Farms = () => {
 
   return (
     <Flex sx={styles.farmContainer}>
-      <ListViewLayout>
-        <Banner banner="banana-farms" link="?modal=tutorial" title={t('Farms')} listViewBreak maxWidth={1130} />
-        <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '20px' }}>
-          <ListViewMenu
-            query={query}
-            onHandleQueryChange={handleChangeQuery}
-            setSortOption={setSortOption}
-            sortOption={sortOption}
-            checkboxLabel="Staked"
-            showOnlyCheckbox={stakedOnly}
-            setShowOnlyCheckbox={setStakedOnly}
-            toogleLabels={['ACTIVE', 'INACTIVE']}
-            sortOptions={SORT_OPTIONS}
-            actionButton={
-              <></>
-              //   <HarvestAllAction pids={hasHarvestPids} disabled={hasHarvestPids.length === 0} v2Flag={true} />
-            }
-            showMonkeyImage
-          />
+      <Banner banner="banana-farms" link="?modal=tutorial" title={t('Farms')} listViewBreak maxWidth={1130} />
+      <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '20px' }}>
+        <ListViewMenu
+          query={query}
+          onHandleQueryChange={handleChangeQuery}
+          setSortOption={setSortOption}
+          sortOption={sortOption}
+          checkboxLabel="Staked"
+          showOnlyCheckbox={stakedOnly}
+          setShowOnlyCheckbox={setStakedOnly}
+          toogleLabels={['ACTIVE', 'INACTIVE']}
+          sortOptions={SORT_OPTIONS}
+          actionButton={
+            <HarvestAll
+              pids={hasHarvestPids ?? []}
+              contractAddress={hasHarvestContracts ?? []}
+              farmType={hasHarvestTypes ?? []}
+              disabled={hasHarvestPids?.length === 0}
+            />
+          }
+          showMonkeyImage
+        />
+      </Flex>
+      {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.FARMS].includes(chainId as SupportedChainId) ? (
+        <Flex mt="20px">
+          <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>
-        {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.FARMS].includes(chainId as SupportedChainId) ? (
-          <Flex mt="20px">
-            <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
-          </Flex>
-        ) : (
-          <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} />
-        )}
-        <div ref={loadMoreRef} />
-      </ListViewLayout>
+      ) : (
+        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} />
+      )}
+      <div ref={loadMoreRef} />
     </Flex>
   )
 }

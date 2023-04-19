@@ -97,7 +97,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       <>
         <Flex>
           <Text sx={styles.searchText}>{t('Search')}</Text>
-          <Input value={query} onChange={handleQueryChange} icon="search" sx={styles.searchInput} />
+          <Input value={query} onChange={handleQueryChange} variant="search" sx={styles.searchInput} />
           <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
             <Svg icon="MenuSettings" width="18px" />
           </Flex>

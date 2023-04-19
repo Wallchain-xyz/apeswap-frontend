@@ -16,6 +16,7 @@ interface CardActionProps {
   stakeLpAddress: string
   pid: number
   farmTypes: FarmTypes
+  contractAddress?: string
 }
 
 const CardActions: React.FC<CardActionProps> = ({
@@ -26,6 +27,7 @@ const CardActions: React.FC<CardActionProps> = ({
   stakeLpAddress,
   pid,
   farmTypes,
+  contractAddress
 }) => {
   const rawStakedBalance = getBalanceNumber(new BigNumber(stakedBalance))
   const { t } = useTranslation()
@@ -50,6 +52,7 @@ const CardActions: React.FC<CardActionProps> = ({
           allowance={allowance}
           stakeLpAddress={stakeLpAddress}
           farmTypes={farmTypes}
+          contractAddress={contractAddress}
         />
       </Flex>
     </Flex>

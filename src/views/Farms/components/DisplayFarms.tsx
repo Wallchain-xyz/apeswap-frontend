@@ -33,7 +33,6 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
       getBalanceNumber(new BigNumber(farm?.userData?.tokenBalance ?? 0) || new BigNumber(0)) * (farm?.lpValueUsd ?? 0)
     ).toFixed(2)}`
     const fTag = farmTags?.find((tag) => tag.pid === farm.pid)
-    console.log(userEarningsUsd)
     return {
       tokenDisplayProps: {
         token1: farm.pid === 184 ? 'NFTY2' : token0,
@@ -198,7 +197,9 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
                   // }
                   sx={styles.styledBtn}
                 >
-                  <Text sx={{ lineHeight: '18px', mr: '5px' }}>{t('GET LP')}</Text>
+                  <Text sx={{ lineHeight: '18px', mr: '5px' }} color="primaryBright">
+                    {t('GET LP')}
+                  </Text>
                   <span sx={{ ml: '5px' }}>
                     <Svg icon="ZapIcon" color="primaryBright" />
                   </span>
@@ -234,7 +235,11 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
     }
   })
 
-  return <ListView listViews={farmsListView} />
+  return (
+    <Flex mt="20px">
+      <ListView listViews={farmsListView} />
+    </Flex>
+  )
 }
 
 export default DisplayFarms

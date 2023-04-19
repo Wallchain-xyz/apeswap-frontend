@@ -100,6 +100,7 @@ export const styles: Record<
     height: '36px',
     lineHeight: '18px',
     justifyContent: 'center',
+    minWidth: 'fit-content',
     width: ['100%', '100%', '180px'],
     fontSize: '16px',
   },

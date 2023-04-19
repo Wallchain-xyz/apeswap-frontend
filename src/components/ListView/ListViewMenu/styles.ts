@@ -89,7 +89,7 @@ export const styles: Record<
     width: '134px',
     position: 'absolute',
     display: ['none', 'none', 'block'],
-    right: '10px',
+    right: '0px',
     top: '14vw',
     '@media screen and (min-width: 1130px)': {
       top: '175px',
