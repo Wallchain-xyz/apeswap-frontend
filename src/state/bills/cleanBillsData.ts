@@ -11,7 +11,6 @@ const cleanBillsData = (
   bills: BillsConfig[],
 ) => {
   const data = chunkedBills.map((chunk, index) => {
-    console.log(chunk)
     const billConfig = bills.find((bill) => bill.index === billIds[index])
     const lpPrice = tokenPrices?.find(
       // @ts-ignore

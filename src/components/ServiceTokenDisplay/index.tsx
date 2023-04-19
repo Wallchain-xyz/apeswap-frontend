@@ -46,10 +46,10 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
   const LpToken = (
     <Flex sx={{ alignItems: 'center' }}>
       <TokenWrapper size={size} zIndex={5}>
-        <TokenContainer zIndex={1} srcs={token1Urls} size={size} />
+        <TokenContainer zIndex={1} srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <TokenWrapper ml={tokensMargin ? tokensMargin : -15} size={size}>
-        <TokenContainer srcs={token2Urls} size={size} />
+        <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
     </Flex>
   )
@@ -57,13 +57,13 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
   const StakeTokenEarnToken = (
     <Flex sx={{ alignItems: 'center' }}>
       <TokenWrapper>
-        <TokenContainer srcs={token1Urls} size={size} />
+        <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <span sx={{ margin: '0px 6px' }}>
         <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper>
-        <TokenContainer srcs={token2Urls} size={size} />
+        <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
     </Flex>
   )
@@ -71,10 +71,10 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
   const StakeLpEarnToken = (
     <Flex sx={{ alignItems: 'center' }}>
       <TokenWrapper size={size} zIndex={5}>
-        <TokenContainer srcs={token1Urls} size={size} />
+        <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <TokenWrapper size={size} ml={tokensMargin ? tokensMargin : -15}>
-        <TokenContainer srcs={token2Urls} size={size} />
+        <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       {billArrow ? (
         <span sx={{ margin: '0px 10px' }}>
@@ -86,53 +86,53 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
         </span>
       )}
       <TokenWrapper size={size}>
-        <TokenContainer srcs={token3Urls} size={size} />
+        <TokenContainer srcs={token3Urls} size={size} width={size} height={size} />
       </TokenWrapper>
     </Flex>
   )
   const StakeLpEarnLp = (
     <Flex sx={{ alignItems: 'center' }}>
-      <TokenContainer zIndex={1} srcs={token1Urls} size={size} />
-      <TokenContainer ml={tokensMargin ? tokensMargin : -15} srcs={token2Urls} size={size} />
+      <TokenContainer zIndex={1} srcs={token1Urls} size={size} width={size} height={size} />
+      <TokenContainer ml={tokensMargin ? tokensMargin : -15} srcs={token2Urls} size={size} width={size} height={size} />
       <span sx={{ margin: '0px 6px' }}>
         <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenContainer zIndex={1} srcs={token3Urls} size={size} />
-      {token4 !== undefined && <TokenContainer ml={-15} srcs={token4Urls} size={size} />}
+      {token4 !== undefined && <TokenContainer ml={-15} srcs={token4Urls} size={size} width={size} height={size} />}
     </Flex>
   )
   const DualEarn = (
     <Flex sx={{ alignItems: 'center' }}>
       <TokenWrapper zIndex={5}>
-        <TokenContainer zIndex={1} srcs={token1Urls} size={size} />
+        <TokenContainer zIndex={1} srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <TokenWrapper ml={tokensMargin ? tokensMargin : -15} zIndex={1}>
-        <TokenContainer srcs={token2Urls} size={size} />
+        <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <span sx={{ margin: '0px 6px' }}>
         <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper mt={-20} size={25}>
-        <TokenContainer srcs={token3Urls} size={25} />
+        <TokenContainer srcs={token3Urls} size={25} width={25} height={25} />
       </TokenWrapper>
       <TokenWrapper mt={18} size={25}>
-        <TokenContainer srcs={token4Urls} size={25} />
+        <TokenContainer srcs={token4Urls} size={25} width={25} height={25} />
       </TokenWrapper>
     </Flex>
   )
   const StakeTokenEarnLp = (
     <Flex sx={{ alignItems: 'center' }}>
       <TokenWrapper>
-        <TokenContainer srcs={token1Urls} size={size} />
+        <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <span sx={{ margin: '0px 6px' }}>
         <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper zIndex={5}>
-        <TokenContainer zIndex={1} srcs={token2Urls} size={size} />
+        <TokenContainer zIndex={1} srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <TokenWrapper ml={tokensMargin ? tokensMargin : -15}>
-        <TokenContainer srcs={token3Urls} size={size} />
+        <TokenContainer srcs={token3Urls} size={size} width={size} height={size} />
       </TokenWrapper>
     </Flex>
   )
@@ -141,7 +141,7 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
       return (
         <Flex sx={{ alignItems: 'center' }}>
           <TokenWrapper size={size}>
-            <TokenContainer srcs={token1Urls} size={size} />
+            <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
           </TokenWrapper>
         </Flex>
       )

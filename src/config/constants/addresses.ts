@@ -91,3 +91,20 @@ export const GNANA_ADDRESSES: AddressMap = {
   [SupportedChainId.BSC]: '0xdDb3Bd8645775F59496c821E4F55A7eA6A6dc299',
   [SupportedChainId.BSC_TESTNET]: '0x9407026d236DEAE22CC1F3c419A9e47CBfCFE9E5',
 }
+
+export const MASTER_CHEF_V1_ADDRESS: AddressMap = {
+  [SupportedChainId.BSC_TESTNET]: '0xbbC5e1cD3BA8ED639b00927115e5f0e0040aA613',
+  [SupportedChainId.BSC]: '0x5c8D727b265DBAfaba67E050f2f739cAeEB4A6F9',
+}
+export const MASTER_CHEF_V2_ADDRESS: AddressMap = {
+  [SupportedChainId.BSC]: '0x71354AC3c695dfB1d3f595AfA5D4364e9e06339B',
+}
+export const MINI_APE_ADDRESS: AddressMap = {
+  [SupportedChainId.BSC]: '',
+  [SupportedChainId.BSC_TESTNET]: '',
+  [SupportedChainId.POLYGON]: '0x54aff400858Dcac39797a81894D9920f16972D1D',
+}
+export const SOUS_CHEF_ADDRESS: AddressMap = {
+  [SupportedChainId.BSC_TESTNET]: '0xAf1B22cBDbB502B2089885bcd230255f8B80243b',
+  [SupportedChainId.BSC]: '0x54aff400858Dcac39797a81894D9920f16972D1D',
+}

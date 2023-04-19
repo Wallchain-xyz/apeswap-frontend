@@ -55,7 +55,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
     } else {
       push(asPath)
     }
-  }, [handleTracking, history, isExact, asPath])
+  }, [handleTracking, push, isExact, asPath])
 
   const handleExpandedBtn = () => {
     setExpended(!expanded)
@@ -76,7 +76,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   }
 
   const handleFilterChange = (value: string) => {
-    setFilterOption(value)
+    setFilterOption && setFilterOption(value)
     handleTracking('filter')
   }
 
@@ -97,7 +97,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       <>
         <Flex>
           <Text sx={styles.searchText}>{t('Search')}</Text>
-          <Input value={query} onChange={handleQueryChange} icon="search" sx={styles.searchInput} />
+          <Input value={query} onChange={handleQueryChange} variant="search" sx={styles.searchInput} />
           <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
             <Svg icon="MenuSettings" width="18px" />
           </Flex>

@@ -6,6 +6,8 @@ import ButtonsRow from './ButtonsRow'
 import { Flex, Link, Text } from 'components/uikit'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import { Farm } from 'state/farms/types'
+import JungleFarmsEndsIn from './JungleFarmsEndsIn'
 
 export interface TooltipProps {
   valueTitle?: string
@@ -18,7 +20,7 @@ export interface TooltipProps {
   projectLink?: string
   twitter?: string
   audit?: string
-  // jungleFarm?: JungleFarm
+  jungleFarm?: Farm
   // pool?: Pool
 }
 
@@ -33,7 +35,7 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
   projectLink,
   twitter,
   audit,
-  // jungleFarm,
+  jungleFarm,
   // pool,
 }) => {
   const { t } = useTranslation()
@@ -58,8 +60,8 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
           <Text sx={styles.contentText}>{value2Content}</Text>
         </Flex>
       )}
-      {/* {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />}
-      {pool && <PoolsEndsIn pool={pool} />} */}
+      {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />}
+      {/* {pool && <PoolsEndsIn pool={pool} />} */}
       <Flex sx={{ justifyContent: 'center' }}>
         <Flex sx={{ width: '144px', flexDirection: 'column' }}>
           <Flex sx={styles.linkRow}>
