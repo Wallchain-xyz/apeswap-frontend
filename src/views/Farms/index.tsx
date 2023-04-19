@@ -40,16 +40,20 @@ const Farms = () => {
 
   const activeFarms = farms?.filter(
     (farm) =>
-      farm.farmType === FarmTypes.MASTER_CHEF_V1 ||
-      (farm.farmType === FarmTypes.MASTER_CHEF_V2 && farm.pid !== 0) ||
-      (farm.farmType !== FarmTypes.JUNLGE_FARM && farm.multiplier !== '0X') ||
+      ((farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) &&
+        farm.pid !== 0 &&
+        //@ts-ignore
+        farm.farmType !== FarmTypes.JUNLGE_FARM &&
+        farm.multiplier !== '0X') ||
       (farm.farmType === FarmTypes.JUNLGE_FARM && (farm?.endBlock ?? 0) > (currentBlock ?? 0)),
   )
   const inactiveFarms = farms?.filter(
     (farm) =>
-      farm.farmType === FarmTypes.MASTER_CHEF_V1 ||
-      (farm.farmType === FarmTypes.MASTER_CHEF_V2 && farm.pid === 0) ||
-      (farm.farmType !== FarmTypes.JUNLGE_FARM && farm.multiplier === '0X') ||
+      ((farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) &&
+        farm.pid === 0 &&
+        //@ts-ignore
+        farm.farmType !== FarmTypes.JUNLGE_FARM &&
+        farm.multiplier === '0X') ||
       (farm.farmType === FarmTypes.JUNLGE_FARM && (farm?.endBlock ?? 0) < (currentBlock ?? 0)),
   )
 
