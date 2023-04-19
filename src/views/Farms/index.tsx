@@ -38,26 +38,51 @@ const Farms = () => {
   const isActive = !asPath.includes('history')
   const { t } = useTranslation()
 
-  const activeFarms = farms?.filter(
-    (farm) =>
-      ((farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) &&
-        farm.pid !== 0 &&
-        //@ts-ignore
-        farm.farmType !== FarmTypes.JUNLGE_FARM &&
-        farm.multiplier !== '0X') ||
-      (farm.farmType === FarmTypes.JUNLGE_FARM && (farm?.endBlock ?? 0) > (currentBlock ?? 0)),
-  )
-  const inactiveFarms = farms?.filter(
-    (farm) =>
-      ((farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) &&
-        farm.pid === 0 &&
-        //@ts-ignore
-        farm.farmType !== FarmTypes.JUNLGE_FARM &&
-        farm.multiplier === '0X') ||
-      (farm.farmType === FarmTypes.JUNLGE_FARM && (farm?.endBlock ?? 0) < (currentBlock ?? 0)),
-  )
+  const getActiveFarms = () => {
+    const aFarms: Farm[] = []
+    farms?.forEach((farm) => {
+      if (farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) {
+        if (farm.pid !== 0 && farm.multiplier !== '0X') {
+          aFarms.push(farm)
+        }
+      }
+      if (farm.farmType === FarmTypes.DUAL_FARM) {
+        if (farm.multiplier !== '0X') {
+          aFarms.push(farm)
+        }
+      }
+      if (farm.farmType === FarmTypes.JUNLGE_FARM) {
+        if ((farm?.endBlock ?? 0) > (currentBlock ?? 0)) {
+          aFarms.push(farm)
+        }
+      }
+    })
+    return aFarms
+  }
+  const getInnactiveFarms = () => {
+    const iFarms: Farm[] = []
+    farms?.forEach((farm) => {
+      if (farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) {
+        if (farm.pid === 0 || farm.multiplier !== '0X') {
+          iFarms.push(farm)
+        }
+      }
+      if (farm.farmType === FarmTypes.DUAL_FARM) {
+        if (farm.multiplier === '0X') {
+          iFarms.push(farm)
+        }
+      }
+      if (farm.farmType === FarmTypes.JUNLGE_FARM) {
+        if ((farm?.endBlock ?? 0) < (currentBlock ?? 0)) {
+          iFarms.push(farm)
+        }
+      }
+    })
+    return iFarms
+  }
 
-  console.log(farms)
+  const activeFarms = getActiveFarms()
+  const inactiveFarms = getInnactiveFarms()
 
   const stakedOnlyFarms = activeFarms?.filter((farm) => farm)
 
