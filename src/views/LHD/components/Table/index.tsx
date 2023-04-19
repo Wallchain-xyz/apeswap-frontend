@@ -12,6 +12,9 @@ import ProgressBar from '../ProgressBar'
 import { getColor } from '../../utils/getColor'
 
 const columnWidths = [25, 140, 130, 130, 130, 163, 163, 162.9, 50]
+const mobileColumnWidths = [25, 140, 70, 65, 65, 80, 80, 80, 40]
+const desktopMappedColumns = columnWidths.map((width) => `${width}px`).join(' ')
+const mobileMappedColumns = mobileColumnWidths.map((width) => `${width}px`).join(' ')
 const tableWidth = columnWidths.reduce((acc, width) => acc + width, 0)
 
 const TableHeader = () => {
@@ -32,7 +35,7 @@ const TableHeader = () => {
       sx={{
         display: 'grid',
         width: 'fit-content',
-        gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
+        gridTemplateColumns: [mobileMappedColumns, mobileMappedColumns, desktopMappedColumns],
         position: 'sticky',
         top: 0,
         background: 'white2',
@@ -53,7 +56,8 @@ const TableHeader = () => {
             justifyContent: index === 1 ? 'flex-start' : 'center',
           }}
         >
-          <Text sx={{ fontWeight: 500, fontSize: '12px', color: index === 0 ? undefined : 'textDisabled' }}>
+          <Text
+            sx={{ fontWeight: [400,400,500], fontSize: ['8px', '8px', '12px'], color: index === 0 ? undefined : 'textDisabled' }}>
             {header}
           </Text>
         </Flex>
@@ -83,7 +87,7 @@ const TableRow = ({ index, style, profiles }: {
         width: 'fit-content',
         display: 'grid',
         background: index % 2 ? 'white3' : 'white2',
-        gridTemplateColumns: columnWidths.map((width) => `${width}px`).join(' '),
+        gridTemplateColumns: [mobileMappedColumns, mobileMappedColumns, desktopMappedColumns],
         borderColor: 'transparent transparent #ccc transparent',
         cursor: 'pointer',
       }}
@@ -150,7 +154,7 @@ const TableRow = ({ index, style, profiles }: {
         background: index % 2 ? 'white3' : 'white2',
         justifyContent: 'center',
       }}>
-        <Text sx={{fontWeight: 700, fontSize: '12px', color: getColor(simpleProfile?.totalScore * 100)}}>
+        <Text sx={{ fontWeight: 700, fontSize: '12px', color: getColor(simpleProfile?.totalScore * 100) }}>
           {(simpleProfile?.totalScore * 100)?.toFixed()}
         </Text>
       </Flex>
@@ -182,7 +186,7 @@ const MyTable = () => {
         overflowY: 'auto',
         position: 'relative',
         mt: '20px',
-        ml: ['-20px', '-20px', 0]
+        ml: ['-20px', '-20px', 0],
       }}
     >
       {

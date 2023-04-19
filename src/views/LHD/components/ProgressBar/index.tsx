@@ -21,14 +21,15 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ widthPercentage }) => {
       </Text>
       <Box
         sx={{
-          minWidth: ['86px'],
+          minWidth: ['30px','30px','86px'],
           height: '8px',
           backgroundColor: '#EADFC7',
           borderRadius: '10px',
+          overflow: 'hidden'
         }}
       >
         <Box sx={{
-          width: `${widthPercentage <= 2 ? 2 : widthPercentage}%`,
+          width: `${widthPercentage <= 3 ? 3 : widthPercentage}%`,
           backgroundColor: getColor(widthPercentage),
           borderRadius: '10px',
           height: '8px',

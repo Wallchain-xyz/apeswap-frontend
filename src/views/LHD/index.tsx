@@ -41,7 +41,7 @@ const LHD = () => {
       flexDirection: 'column',
     }}>
       <ListViewLayout>
-        <Flex sx={{ width: '100%' }}>
+        <Flex sx={{ width: '100%', flexDirection: ['column','column','row'] }}>
           <Flex sx={{
             width: ['100%', '100%', '50%'],
             flexDirection: 'column',
