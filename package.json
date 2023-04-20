@@ -46,6 +46,7 @@
     "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
+    "@ape.swap/apeswap-lists": "^1.1.51",
     "@ape.swap/router-sdk": "^1.1.0",
     "@ape.swap/sdk-core": "^1.0.2",
     "@ape.swap/smart-order-router": "^1.1.1",
@@ -64,7 +65,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/typescript-resolvers": "^2.7.8",
     "@reduxjs/toolkit": "^1.9.1",
-    "@types/node": "^18.14.6",
+    "@types/node": "18.11.19",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@uniswap/redux-multicall": "^1.1.8",
@@ -83,7 +84,10 @@
     "@web3-react/types": "^8.0.20-beta.0",
     "@web3-react/url": "^8.0.25-beta.0",
     "@web3-react/walletconnect": "^8.0.37-beta.0",
+    "axios-retry": "^3.4.0",
+    "bignumber.js": "^9.0.0",
     "chart.js": "^4.2.0",
+    "chartjs-adapter-moment": "^1.0.1",
     "cids": "^1.1.9",
     "crypto-js": "^4.1.1",
     "d3": "^7.8.2",

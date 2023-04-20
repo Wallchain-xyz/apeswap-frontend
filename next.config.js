@@ -3,6 +3,10 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false }
+    return config
+  },
   images: {
     domains: [
       'raw.githubusercontent.com',

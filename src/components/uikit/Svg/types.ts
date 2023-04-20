@@ -91,6 +91,12 @@ export enum icons {
   SWITCH_ARROWS = 'switchArrows',
   COPY = 'copy',
   HAMBURGER_CLOSED = 'hamburgerClosed',
+  BILLS_M1 = 'billsM1',
+  BILLS_M2 = 'billsM2',
+  BILLS_M3 = 'billsM3',
+  URL = "URL",
+  BUBBLE = "bubble",
+  AUDIT = "audit",
 }
 
 export enum directions {

@@ -54,23 +54,14 @@ export const routingApi = createApi({
         tokenOutChainId: ChainId
         tokenOutDecimals: number
         tokenOutSymbol?: string
-        protocols?: Protocol[]
         amount: string
         routerPreference: RouterPreference
         type: 'exactIn' | 'exactOut'
       }
     >({
       async queryFn(args, _api, _extraOptions, fetch) {
-        const {
-          tokenInAddress,
-          tokenInChainId,
-          tokenOutAddress,
-          tokenOutChainId,
-          amount,
-          routerPreference,
-          protocols,
-          type,
-        } = args
+        const { tokenInAddress, tokenInChainId, tokenOutAddress, tokenOutChainId, amount, routerPreference, type } =
+          args
 
         let result
 
@@ -93,8 +84,7 @@ export const routingApi = createApi({
               router,
               // TODO(zzmp): Use PRICE_PARAMS for RouterPreference.PRICE.
               // This change is intentionally being deferred to first see what effect router caching has.
-              // To get routes specifically for zap we need to pass protocol arg
-              { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
+              CLIENT_PARAMS,
             )
           }
           return { data: result.data as GetQuoteResult }

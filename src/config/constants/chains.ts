@@ -11,7 +11,7 @@ export const MAINNET_CHAINS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  // SupportedChainId.TLOS,
+  SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 
@@ -74,14 +74,16 @@ export const BLOCK_EXPLORER: Record<SupportedChainId, string> = {
   [SupportedChainId.ARBITRUM_ONE]: 'https://arbiscan.io',
 }
 
-export const CHAIN_PARAMS: Record<
-  SupportedChainId,
-  {
-    chainId: string
-    chainName: string
-    nativeCurrency: { name: string; symbol: string; decimals: number }
-    blockExplorerUrls: string[]
-  }
+export const CHAIN_PARAMS: Partial<
+  Record<
+    SupportedChainId,
+    {
+      chainId: string
+      chainName: string
+      nativeCurrency: { name: string; symbol: string; decimals: number }
+      blockExplorerUrls: string[]
+    }
+  >
 > = {
   [SupportedChainId.BSC]: {
     chainId: '0x38',
@@ -155,7 +157,7 @@ export const CHAIN_PARAMS: Record<
   },
 }
 
-export const getChainInfo = (chainId: SupportedChainId | undefined | null): any => {
+export const getChainInfo = (chainId: SupportedChainId): any => {
   if (chainId) {
     return CHAIN_PARAMS[chainId] ?? undefined
   }

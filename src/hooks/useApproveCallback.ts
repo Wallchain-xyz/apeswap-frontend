@@ -5,7 +5,6 @@ import { ApprovalState, useApproval } from 'lib/hooks/useApproval'
 import { useCallback } from 'react'
 import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 import { TransactionType } from '../state/transactions/types'
-import useZapApproval from './useZapApproval'
 export { ApprovalState } from 'lib/hooks/useApproval'
 
 function useGetAndTrackApproval(getApproval: ReturnType<typeof useApproval>[1]) {
