@@ -7,7 +7,7 @@ import ZapConfirmationModal from './ZapConfirmationModal'
 import { useWeb3React } from '@web3-react/core'
 import useModal from 'hooks/useModal'
 import ConnectWalletButton from 'components/ConnectWallet'
-import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserSlippageToleranceWithDefault, useUserZapSlippageTolerance } from 'state/user/hooks'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 
 interface ZapLiquidityActionsProps {
@@ -48,7 +48,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     handleZap()
   }
 
-  const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE)
+  const [allowedSlippage] = useUserZapSlippageTolerance()
 
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, allowedSlippage)
   const showApproveFlow =

@@ -8,6 +8,7 @@ import JSBI from 'jsbi'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import {
+  INITIAL_ZAP_SLIPPAGE,
   addSerializedPair,
   addSerializedToken,
   updateHideClosedPositions,
@@ -16,6 +17,7 @@ import {
   updateUserExpertMode,
   updateUserFlipV3Layout,
   updateUserSlippageTolerance,
+  updateUserZapSlippageTolerance,
 } from './reducer'
 import { SerializedPair, SerializedToken, UserAddedToken } from './types'
 
@@ -91,6 +93,39 @@ export function useUserSlippageTolerance(): [Percent | 'auto', (slippageToleranc
       }
       dispatch(
         updateUserSlippageTolerance({
+          userSlippageTolerance: value,
+        }),
+      )
+    },
+    [dispatch],
+  )
+
+  return useMemo(
+    () => [userSlippageTolerance, setUserSlippageTolerance],
+    [setUserSlippageTolerance, userSlippageTolerance],
+  )
+}
+
+/**
+ * Return the user's slippage tolerance, from the redux store, and a function to update the slippage tolerance
+ */
+export function useUserZapSlippageTolerance(): [Percent, (slippageTolerance: Percent) => void] {
+  const userSlippageToleranceRaw = useAppSelector((state) => {
+    return state.user.userZapSlippage
+  })
+  const userSlippageTolerance = useMemo(() => new Percent(userSlippageToleranceRaw, 10_000), [userSlippageToleranceRaw])
+
+  const dispatch = useAppDispatch()
+  const setUserSlippageTolerance = useCallback(
+    (userSlippageTolerance: Percent) => {
+      let value: number
+      try {
+        value = JSBI.toNumber(userSlippageTolerance.multiply(10_000).quotient)
+      } catch (error) {
+        value = INITIAL_ZAP_SLIPPAGE
+      }
+      dispatch(
+        updateUserZapSlippageTolerance({
           userSlippageTolerance: value,
         }),
       )

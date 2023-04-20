@@ -18,7 +18,7 @@ export function mergeBestZaps(
   allowedSlippage: Percent | 'auto',
   totalPairSupply: CurrencyAmount<Token> | undefined,
   chainId: SupportedChainId,
-): MergedZap | null {
+): MergedZap {
   const currencyIn = bestZapOne?.inputAmount.currency || bestZapTwo?.inputAmount.currency
   const slippageTolerance = allowedSlippage
 
