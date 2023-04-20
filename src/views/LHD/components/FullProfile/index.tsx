@@ -34,7 +34,13 @@ const FullProfile = ({ chainID, address }: {
               {t('Back')}
             </Text>
           </Link>
-          <Text sx={{ fontWeight: 300, fontSize: ['10px','10px','10px','12px'], color: 'textDisabled' }}>{t('Last updated:')} wen dev</Text>
+          <Text sx={{
+            fontWeight: 300,
+            fontSize: ['10px','10px','10px','12px'],
+            color: 'textDisabled'
+          }}>
+            {t('Last updated:')} wen dev
+          </Text>
         </Flex>
         <Flex sx={{ width: '100%', flexDirection: ['column', 'column', 'column', 'row'] }}>
           <Flex sx={{

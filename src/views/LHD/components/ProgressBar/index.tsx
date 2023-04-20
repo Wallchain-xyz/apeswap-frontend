@@ -13,7 +13,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ widthPercentage }) => {
     <Flex sx={{ alignItems: 'center' }}>
       <Text sx={{
         fontWeight: 500,
-        fontSize: ['12px'],
+        fontSize: ['10px', '10px', '10px', '12px'],
         mr: '5px',
         minWidth: '25px',
       }}>

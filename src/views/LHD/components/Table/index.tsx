@@ -57,7 +57,11 @@ const TableHeader = () => {
           }}
         >
           <Text
-            sx={{ fontWeight: [400,400,500], fontSize: ['8px', '8px', '12px'], color: index === 0 ? undefined : 'textDisabled' }}>
+            sx={{
+              fontWeight: [400, 400, 500],
+              fontSize: ['8px', '8px', '12px'],
+              color: index === 0 ? undefined : 'textDisabled',
+            }}>
             {header}
           </Text>
         </Flex>
@@ -101,6 +105,7 @@ const TableRow = ({ index, style, profiles }: {
           zIndex: 2,
           background: index % 2 ? 'white3' : 'white2',
           justifyContent: 'center',
+          height: '40px',
         }}
       >
         <Text sx={{ fontWeight: 300, fontSize: ['12px'], color: 'textDisabled' }}>
@@ -113,37 +118,38 @@ const TableRow = ({ index, style, profiles }: {
         left: 25,
         zIndex: 2,
         background: index % 2 ? 'white3' : 'white2',
+        height: '40px',
       }}>
         <Image src={simpleProfile?.addressMapping?.tokenLogoUrl}
                alt={'token img'}
                width={25}
                height={25}
                style={{ borderRadius: '25px' }} />
-        <Text sx={{ fontWeight: 500, fontSize: ['12px'], lineHeight: ['18px'], ml: '5px' }}></Text>
+        <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['18px'], ml: '5px' }}></Text>
         {simpleProfile?.addressMapping?.tokenSymbol}
       </Flex>
-      <Flex sx={{ padding: '8px', justifyContent: 'center' }}>
-        <Text sx={{ fontWeight: 400, fontSize: ['12px'] }}>
+      <Flex sx={{ padding: '8px', justifyContent: 'center', height: '40px' }}>
+        <Text sx={{ fontWeight: 400, fontSize: ['10px', '10px', '10px', '12px'] }}>
           {formatDollar({ num: simpleProfile?.mcap?.reduce((sum, current) => sum + current.amount, 0) })}
         </Text>
       </Flex>
-      <Flex sx={{ padding: '8px', justifyContent: 'center' }}>
-        <Text sx={{ fontWeight: 400, fontSize: ['12px'] }}>
+      <Flex sx={{ padding: '8px', justifyContent: 'center', height: '40px' }}>
+        <Text sx={{ fontWeight: 400, fontSize: ['10px', '10px', '10px', '12px'] }}>
           <PriceChange priceChange={simpleProfile?.priceChange24hr?.toFixed(2)} />
         </Text>
       </Flex>
-      <Flex sx={{ padding: '8px', justifyContent: 'center' }}>
-        <Text sx={{ fontWeight: 400, fontSize: ['12px'] }}>
+      <Flex sx={{ padding: '8px', justifyContent: 'center', height: '40px' }}>
+        <Text sx={{ fontWeight: 400, fontSize: ['10px', '10px', '10px', '12px'] }}>
           {formatDollar({ num: simpleProfile?.extractableLiquidity })}
         </Text>
       </Flex>
-      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center' }}>
+      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
         <ProgressBar widthPercentage={Math.round(simpleProfile?.healthScore * 100)} />
       </Flex>
-      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center' }}>
+      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
         <ProgressBar widthPercentage={Math.round(simpleProfile?.concentrationScore * 100)} />
       </Flex>
-      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center' }}>
+      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
         <ProgressBar widthPercentage={Math.round(simpleProfile?.ownershipScore * 100)} />
       </Flex>
       <Flex sx={{
@@ -153,6 +159,7 @@ const TableRow = ({ index, style, profiles }: {
         zIndex: 2,
         background: index % 2 ? 'white3' : 'white2',
         justifyContent: 'center',
+        height: '40px',
       }}>
         <Text sx={{ fontWeight: 700, fontSize: '12px', color: getColor(simpleProfile?.totalScore * 100) }}>
           {(simpleProfile?.totalScore * 100)?.toFixed()}
@@ -187,7 +194,7 @@ const MyTable = () => {
         position: 'relative',
         mt: '20px',
         ml: ['-20px', '-20px', 0],
-        borderRadius: '10px'
+        borderRadius: '10px',
       }}
     >
       {
@@ -205,7 +212,7 @@ const MyTable = () => {
         ) : simpleProfiles.length > 0 && (
           <List
             height={itemHeight * 15}
-            itemCount={simpleProfiles.length+1}
+            itemCount={simpleProfiles.length + 1}
             itemSize={itemHeight}
             width='100%'
             innerElementType={InnerListWrapper}
