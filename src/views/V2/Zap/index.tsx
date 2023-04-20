@@ -151,7 +151,7 @@ const ZapLiquidity = ({
         <ZapPanel
           value={zap?.pairOut?.liquidityMinted?.toSignificant(10) || '0.0'}
           onSelect={(currency0, currency1) => handleCurrencySelect(Field.OUTPUT, [currency0, currency1])}
-          lpPair={zap.pairOut.pair ?? undefined}
+          lpPair={zap?.pairOut.pair ?? undefined}
         />
         {typedValue && parseFloat(typedValue) > 0 && zap?.pairOut?.liquidityMinted && (
           <Flex sx={{ marginTop: '40px' }}>

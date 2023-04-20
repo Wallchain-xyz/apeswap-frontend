@@ -85,10 +85,10 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-"@ape.swap/v2-zap-sdk@^1.0.0-alpha.11":
-  version "1.0.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/@ape.swap/v2-zap-sdk/-/v2-zap-sdk-1.0.0-alpha.11.tgz#e5850b00ca3ef2fdd44d830f62fc15fcba98981a"
-  integrity sha512-h6SrZnZ+VY1S2sPF7XWNtuWBBrNR0TuF7Ga/M3Fn8dO5fKVrcbZRPzqs7rGJZ15rjOXgn/slpyMfw+mn4a8UTg==
+"@ape.swap/v2-zap-sdk@^1.0.0-alpha.12":
+  version "1.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/@ape.swap/v2-zap-sdk/-/v2-zap-sdk-1.0.0-alpha.12.tgz#955067e231e638b5f26ba6e947143622a6a24f2c"
+  integrity sha512-OJ1z5vDRayMV22R/zMtV3Sd2WVkSpOvxhbIhgmuo8NPyJedF3UOL5oYypRcGDflktZYGIEhNWuNaYji1BiF1EQ==
   dependencies:
     "@ape.swap/router-sdk" "^1.0.1-alpha.1"
     "@ape.swap/sdk-core" "^1.0.1"
@@ -98,7 +98,7 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-"@ape.swap/v3-sdk@^1.1.0":
+"@ape.swap/v3-sdk@^1.0.0", "@ape.swap/v3-sdk@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.1.0.tgz#719592f176adade8c071b49efc24fffacc41b96b"
   integrity sha512-cTF6hYYilT6dG/wbw9FBA3tMFI126US5yyBBLMD1JIa+Pi6I2n+xIYRDoy1nKDU6PhXu0JxrDTuHsLQ036dq8g==

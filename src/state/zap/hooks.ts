@@ -1,8 +1,8 @@
 import { parseUnits } from '@ethersproject/units'
 import { useCallback, useEffect, useMemo } from 'react'
-import { ZapType, mergeBestZap } from '@ape.swap/v2-zap-sdk'
+import { ZapType } from '@ape.swap/v2-zap-sdk'
 import { useSelector } from 'react-redux'
-import { useCurrency } from 'hooks/Tokens'
+import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import { isAddress } from 'utils'
 import { AppState } from '../index'
 import {
@@ -16,7 +16,7 @@ import {
   setZapType,
   typeInput,
 } from './actions'
-import { useUserSlippageTolerance } from '../user/hooks'
+import { useTrackedTokenPairs, useUserSlippageTolerance } from '../user/hooks'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, CurrencyAmount, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
 import { useBestTrade } from 'hooks/useBestTrade'
@@ -32,6 +32,7 @@ import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
 import { RouterPreference } from 'state/routing/slice'
 import { Protocol } from '@ape.swap/router-sdk'
 import { BigNumber } from 'ethers'
+import { mergeBestZaps } from './mergeBestZaps'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -153,7 +154,11 @@ export function useDerivedZapInfo() {
 
   // Change to currency amount. Divide the typed input by 2 to get correct distributions
   console.log(typedValue)
-  const halfTypedValue = typedValue && BigNumber.from(typedValue || '').div(2).toString()
+  const halfTypedValue =
+    typedValue &&
+    BigNumber.from(typedValue || '')
+      .div(2)
+      .toString()
 
   const parsedAmount = useMemo(
     () => tryParseCurrencyAmount(halfTypedValue, inputCurrency ?? undefined),
@@ -168,7 +173,7 @@ export function useDerivedZapInfo() {
 
   const zap = useMemo(
     () =>
-      mergeBestZap(
+      mergeBestZaps(
         bestZapOne?.trade,
         bestZapTwo?.trade,
         out0 ?? undefined,
@@ -217,8 +222,8 @@ export function useDerivedZapInfo() {
     zap?.currencyIn?.inputAmount ? zap?.currencyIn.inputAmount : null,
   ]
 
-  if (balanceIn && amountIn && JSBI.lessThan(balanceIn.quotient, JSBI.BigInt(amountIn))) {
-    inputError = `Insufficient ${zap.currencyIn.currency?.symbol} balance`
+  if (balanceIn && amountIn && JSBI.lessThan(balanceIn.quotient, JSBI.BigInt(amountIn)) && zap) {
+    inputError = `Insufficient ${zap?.currencyIn.currency?.symbol} balance`
   }
 
   return {
@@ -243,7 +248,7 @@ export function useDefaultCurrencies() {
         field: '',
         inputCurrencyId: inputCurrency,
         outputCurrencyId: outputCurrencies,
-        recipient: account,
+        recipient: account ?? '',
         zapType: ZapType.ZAP,
       }),
     )
@@ -262,31 +267,31 @@ export function useSetZapOutputList(currencyIds: { currencyIdA: string; currency
 // Since we want to use multiple token pairs that exists this hook is a bit more involved than the simple setOutputList
 export function useSetZapDexOutputList() {
   // Get default token list and pinned pair tokens and create valid pairs
-  // const trackedTokenPairs = useValidTrackedTokenPairs()
-  // useSetZapOutputList(
-  //   useMemo(() => {
-  //     return trackedTokenPairs?.map(([token1, token2]) => {
-  //       return { currencyIdA: token1.address, currencyIdB: token2.address }
-  //     })
-  //   }, [trackedTokenPairs]),
-  // )
+  const trackedTokenPairs = useTrackedTokenPairs()
+  useSetZapOutputList(
+    useMemo(() => {
+      return trackedTokenPairs?.map(([token1, token2]) => {
+        return { currencyIdA: token1.address, currencyIdB: token2.address }
+      })
+    }, [trackedTokenPairs]),
+  )
 }
 
 // Hook to return the output token list to be used in the search modal
-export const useZapOutputList = (): { currencyA: Token; currencyB: Token }[] => {
+export const useZapOutputList = () => {
   const { zapNewOutputList: currencyIds } = useZapState()
-  const tokens = useDefaultCurrencies()
-  // const filteredTokens = useMemo(
-  //   () =>
-  //     currencyIds.map(({ currencyIdA, currencyIdB }) => {
-  //       const checkedCurrencyIdA = isAddress(currencyIdA)
-  //       const checkedCurrencyIdB = isAddress(currencyIdB)
-  //       if (!checkedCurrencyIdA || !checkedCurrencyIdB) return null
-  //       return { currencyA: tokens[checkedCurrencyIdA], currencyB: tokens[checkedCurrencyIdB] }
-  //     }),
-  //   [currencyIds, tokens],
-  // )
-  return [] // filteredTokens
+  const tokens = useAllTokens()
+  const filteredTokens = useMemo(
+    () =>
+      currencyIds.map(({ currencyIdA, currencyIdB }) => {
+        const checkedCurrencyIdA = isAddress(currencyIdA)
+        const checkedCurrencyIdB = isAddress(currencyIdB)
+        if (!checkedCurrencyIdA || !checkedCurrencyIdB) return null
+        return { currencyA: tokens[checkedCurrencyIdA], currencyB: tokens[checkedCurrencyIdB] }
+      }),
+    [currencyIds, tokens],
+  )
+  return filteredTokens
 }
 
 // Hook to set the zap input list
