@@ -54,7 +54,6 @@ import { Zap } from 'config/abi/types/Zap'
 import { NonFungibleApes } from 'config/abi/types/NonFungibleApes'
 import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { NonFungibleBananas } from 'config/abi/types/NonFungibleBananas'
-import { Zap } from 'config/abi/types/Zap'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson

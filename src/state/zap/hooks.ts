@@ -31,8 +31,8 @@ import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
 import { RouterPreference } from 'state/routing/slice'
 import { Protocol } from '@ape.swap/router-sdk'
-import { BigNumber } from 'ethers'
 import { mergeBestZaps } from './mergeBestZaps'
+import BigNumber from 'bignumber.js'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -162,11 +162,7 @@ export function useDerivedZapInfo() {
 
   // Change to currency amount. Divide the typed input by 2 to get correct distributions
   console.log(typedValue)
-  const halfTypedValue =
-    typedValue &&
-    BigNumber.from(typedValue || '')
-      .div(2)
-      .toString()
+  const halfTypedValue = typedValue && new BigNumber(typedValue || '').div(2).toString()
 
   const parsedAmount = useMemo(
     () => tryParseCurrencyAmount(halfTypedValue, inputCurrency ?? undefined),

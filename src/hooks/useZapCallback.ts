@@ -82,7 +82,7 @@ function useZapCallArguments(
 
     swapMethods.push(
       ZapV1.zapCallParameters(zap, {
-        allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+        allowedSlippage: allowedSlippage,
         zapType: zapType,
         stakingContractAddress,
         recipient,
