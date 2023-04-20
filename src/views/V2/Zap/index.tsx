@@ -59,6 +59,7 @@ const ZapLiquidity = ({
 
   const handleCurrencySelect = useCallback(
     (field: Field, currency: Currency[]) => {
+      console.log(currency)
       onCurrencySelection(field, currency)
     },
     [onCurrencySelection],

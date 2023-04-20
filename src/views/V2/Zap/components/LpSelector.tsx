@@ -14,7 +14,6 @@ const LPSelector: React.FC<{
   onSelect: (currencyA: Token, currencyB: Token) => void
 }> = ({ lpPair, onSelect }) => {
   const [onPresentCurrencyModal] = useModal(<LPSearchModal onSelect={onSelect} />)
-  const { chainId } = useWeb3React()
 
   return (
     <Flex sx={styles.primaryFlex} onClick={onPresentCurrencyModal}>

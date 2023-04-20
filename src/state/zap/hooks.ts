@@ -54,15 +54,16 @@ export function useZapActionHandlers(): {
       if (field === Field.INPUT) {
         dispatch(
           selectInputCurrency({
-            currencyId: currency instanceof Token ? currency.address : currency.isNative ? 'ETH' : '',
+            currencyId: currency.isNative ? 'ETH' : currency.address,
           }),
         )
       } else {
         const currency2 = currencies[1]
+        console.log(currency, currency2)
         dispatch(
           selectOutputCurrency({
-            currency1: currency instanceof Token ? currency.address : currency.isNative ? 'ETH' : '',
-            currency2: currency2 instanceof Token ? currency2.address : currency2.isNative ? 'ETH' : '',
+            currency1: currency.isNative ? 'ETH' : currency.address,
+            currency2: currency2.isNative ? 'ETH' : currency2.address,
           }),
         )
       }
@@ -135,11 +136,18 @@ export function useDerivedZapInfo() {
     recipient,
   } = useZapState()
 
+  console.log(useZapState())
+  console.log(outputCurrencyId1)
+  console.log(outputCurrencyId2)
+
   const { account, chainId } = useWeb3React()
 
   const inputCurrency = useCurrency(inputCurrencyId)
   const out0 = useCurrency(useMemo(() => outputCurrencyId1, [outputCurrencyId1]))
   const out1 = useCurrency(useMemo(() => outputCurrencyId2, [outputCurrencyId2]))
+  console.log(out0)
+  console.log(out1)
+
   const outputPair = useV2Pair(out0 ?? undefined, out1 ?? undefined)
   const totalSupply = useTotalSupply(outputPair?.[1]?.liquidityToken)
 
@@ -165,6 +173,7 @@ export function useDerivedZapInfo() {
     [inputCurrency, halfTypedValue],
   )
 
+  console.log(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
   const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
   const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2])
 

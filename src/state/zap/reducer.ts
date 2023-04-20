@@ -48,26 +48,26 @@ const initialState: ZapState = {
 
 export default createReducer<ZapState>(initialState, (builder) =>
   builder
-    // .addCase(
-    //   replaceZapState,
-    //   (state, { payload: { typedValue, recipient, inputCurrencyId, outputCurrencyId, zapType } }) => {
-    //     return {
-    //       ...state,
-    //       [Field.INPUT]: {
-    //         currencyId: inputCurrencyId,
-    //       },
-    //       [Field.OUTPUT]: {
-    //         ...state[Field.OUTPUT],
-    //         currency1: outputCurrencyId.currency1,
-    //         currency2: outputCurrencyId.currency2,
-    //       },
-    //       independentField: Field.INPUT,
-    //       zapType,
-    //       typedValue,
-    //       recipient,
-    //     }
-    //   },
-    // )
+    .addCase(
+      replaceZapState,
+      (state, { payload: { typedValue, recipient, inputCurrencyId, outputCurrencyId, zapType } }: any) => {
+        return {
+          ...state,
+          [Field.INPUT]: {
+            currencyId: inputCurrencyId,
+          },
+          [Field.OUTPUT]: {
+            ...state[Field.OUTPUT],
+            currency1: outputCurrencyId.currency1,
+            currency2: outputCurrencyId.currency2,
+          },
+          independentField: Field.INPUT,
+          zapType,
+          typedValue,
+          recipient,
+        }
+      },
+    )
     .addCase(selectInputCurrency, (state, { payload: { currencyId } }) => {
       return {
         ...state,
