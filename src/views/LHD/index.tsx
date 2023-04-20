@@ -41,35 +41,55 @@ const LHD = () => {
       flexDirection: 'column',
     }}>
       <ListViewLayout>
-        <Flex sx={{ width: '100%', flexDirection: ['column','column','row'] }}>
+        <Flex sx={{ width: '100%', flexDirection: ['column', 'column', 'column', 'row'] }}>
           <Flex sx={{
-            width: ['100%', '100%', '50%'],
+            width: ['100%', '100%', '100%', '50%'],
             flexDirection: 'column',
-            justifyContent: 'flex-end',
+            justifyContent: 'center',
           }}>
             <Flex sx={{ width: '100%' }}>
               <Text sx={{
                 fontWeight: 700,
-                fontSize: ['30px'],
-                lineHeight: ['45px'],
+                fontSize: ['16px', '16px', '16px', '30px'],
+                lineHeight: ['24px', '24px', '24px', '45px'],
               }}>{t('Liquidity Health Dashboard')}</Text>
             </Flex>
             <Flex sx={{ width: '100%', mt: '10px' }}>
-              <Text sx={{ fontWeight: 500, fontSize: ['16px'], lineHeight: ['24px'] }}>
+              <Text sx={{
+                fontWeight: 500,
+                fontSize: ['12px', '12px', '12px', '16px'],
+                lineHeight: ['18px', '18px', '18px', '24px'],
+              }}>
                 {t('Apeswap’s data visualization tool that provides insights into the liquidity levels and sustainability of cryptocurrency projects.')}
               </Text>
             </Flex>
             <Flex sx={{ width: '100%', mt: '10px' }}>
               <Link href=''>
-                <Text sx={{ fontWeight: 500, fontSize: ['16px'], lineHeight: ['24px'], mr: '10px' }}>Learn More</Text>
+                <Text sx={{
+                  fontWeight: 500,
+                  fontSize: ['12px', '12px', '12px', '16px'],
+                  lineHeight: ['18px', '18px', '18px', '24px'],
+                  mr: '10px',
+                }}>
+                  {t('Learn More')}
+                </Text>
               </Link>
               <Link href=''>
-                <Text sx={{ fontWeight: 500, fontSize: ['16px'], lineHeight: ['24px'] }}>Improve your score</Text>
+                <Text
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: ['12px', '12px', '12px', '16px'],
+                    lineHeight: ['18px', '18px', '18px', '24px'],
+                }}>
+                  {t('Improve your score')}
+                </Text>
               </Link>
             </Flex>
           </Flex>
           <Flex sx={{
-            width: ['100%', '100%', '50%'],
+            width: ['100%', '100%', '100%', '50%'],
+            mt: ['15px', '15px', '15px', 0],
+            justifyContent: ['space-between', 'space-between', 'space-between', 'flex-start'],
           }}>
             <StatCard
               title='Industry Average'
@@ -79,12 +99,12 @@ const LHD = () => {
             <StatCard
               title='Chain supported'
               value={'19'}
-              footerInfo={<>See which chains</>}
+              footerInfo={<Link href={'where.dev'} target='_blank' sx={{ color: 'yellow' }}>See which chains</Link>}
             />
             <StatCard
               title='Verified tokens'
               value={'235'}
-              footerInfo={<>+0,45% on the last 7 days</>}
+              footerInfo={<Link href={'where.dev'} target='_blank' sx={{ color: 'yellow' }}>Verify your Project?</Link>}
             />
           </Flex>
         </Flex>
@@ -97,12 +117,12 @@ const LHD = () => {
           justifyContent: 'space-between',
         }}>
           <Input
-            placeholder={t('Search by token name, address, symbol ...')}
+            placeholder={t('Token name, address, symbol ...')}
             value={queryString}
             variant='search'
             onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event.target.value)}
-            style={{backgroundColor: 'white2'}}
-            sx={{width: '100%', '::placeholder': { fontSize: '10px', fontWeight: 300 } }}
+            style={{ backgroundColor: 'white2' }}
+            sx={{ width: '100%', '::placeholder': { fontSize: '10px', fontWeight: 300 } }}
           />
           <Button
             variant='tertiary'
@@ -115,8 +135,8 @@ const LHD = () => {
               height: '36px',
               lineHeight: '14px',
               alignItems: 'center',
-          }}
-            endIcon={<Flex sx={{ml: '5px'}}><Svg icon="MenuSettings"/></Flex>}
+            }}
+            endIcon={<Flex sx={{ ml: '5px' }}><Svg icon='MenuSettings' /></Flex>}
           >
             {t('Filters')}
           </Button>

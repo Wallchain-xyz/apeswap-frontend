@@ -187,6 +187,7 @@ const MyTable = () => {
         position: 'relative',
         mt: '20px',
         ml: ['-20px', '-20px', 0],
+        borderRadius: '10px'
       }}
     >
       {
@@ -204,7 +205,7 @@ const MyTable = () => {
         ) : simpleProfiles.length > 0 && (
           <List
             height={itemHeight * 15}
-            itemCount={simpleProfiles.length}
+            itemCount={simpleProfiles.length+1}
             itemSize={itemHeight}
             width='100%'
             innerElementType={InnerListWrapper}

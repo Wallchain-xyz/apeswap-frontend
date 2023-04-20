@@ -68,3 +68,6 @@ export { default as BillsM3 } from './BillsM3'
 export { default as URL } from "./URL";
 export { default as Bubble } from "./Bubble";
 export { default as Audit } from "./Audit";
+export { default as GreenShield } from "./GreenShield"
+export { default as Chain } from "./Chain"
+export { default as Verified } from "./Verified"

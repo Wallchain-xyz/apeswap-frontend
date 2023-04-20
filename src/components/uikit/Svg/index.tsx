@@ -70,6 +70,9 @@ import {
   URL,
   Bubble,
   Audit,
+  GreenShield,
+  Chain,
+  Verified
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -259,6 +262,12 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Bubble {...props} getStyles={getStyles} />
     case icons.AUDIT:
       return <Audit {...props} getStyles={getStyles} />
+    case icons.GREEN_SHIELD:
+      return <GreenShield {...props} getStyles={getStyles} />
+    case icons.CHAIN:
+      return <Chain {...props} getStyles={getStyles}/>
+    case icons.VERIFIED:
+      return <Verified {...props} getStyles={getStyles}/>
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:

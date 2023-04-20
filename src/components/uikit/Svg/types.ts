@@ -97,6 +97,9 @@ export enum icons {
   URL = "URL",
   BUBBLE = "bubble",
   AUDIT = "audit",
+  GREEN_SHIELD = "greenShield",
+  CHAIN = "chain",
+  VERIFIED = "verified"
 }
 
 export enum directions {

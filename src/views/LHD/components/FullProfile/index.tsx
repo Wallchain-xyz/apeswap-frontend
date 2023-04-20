@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useFullProfile, useFetchProfile } from '../../../../state/lhd/hooks'
 import { Flex, Link, Svg, Text } from '../../../../components/uikit'
 import ServiceTokenDisplay from '../../../../components/ServiceTokenDisplay'
@@ -7,6 +7,7 @@ import { TokenProfile } from '../../../../state/lhd/types'
 import PriceChange from './components/PercentageChange'
 import IconButton from './components/IconButton'
 import Chart from '../Chart'
+import { useTranslation } from '../../../../contexts/Localization'
 
 const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
@@ -14,18 +15,26 @@ const FullProfile = ({ chainID, address }: {
 }) => {
   useFetchProfile(chainID, address)
   const fullProfile: TokenProfile | null = useFullProfile()
+  const { t } = useTranslation()
 
   if (fullProfile) {
     return (
       <Flex sx={{ mt: '30px', width: '100%', flexDirection: 'column' }}>
         <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
           <Link href={'/lhd'} sx={{ textDecoration: 'none' }}>
-            <Text sx={{ fontSize: '14px', display: 'flex', alignItems: 'center' }}>
-              <Svg icon='caret' direction='left' width={7} />
-              Back
+            <Text sx={{
+              fontSize: ['12px','12px','12px','14px'],
+              lineHeight: '20px',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <Flex sx={{mr: '5px'}}>
+                <Svg icon='caret' direction='left' width={7} />
+              </Flex>
+              {t('Back')}
             </Text>
           </Link>
-          <Text sx={{ fontWeight: 300, fontSize: '12px' }}>Last updated: wen dev</Text>
+          <Text sx={{ fontWeight: 300, fontSize: ['10px','10px','10px','12px'], color: 'textDisabled' }}>{t('Last updated:')} wen dev</Text>
         </Flex>
         <Flex sx={{ width: '100%', flexDirection: ['column', 'column', 'column', 'row'] }}>
           <Flex sx={{
