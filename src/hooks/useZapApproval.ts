@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useApproval } from 'lib/hooks/useApproval'
 
 // wraps useApproveCallback in the context of a swap
-export default function useSwapApproval(
+export default function useZapApproval(
   zap: any,
   allowedSlippage: Percent,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean,

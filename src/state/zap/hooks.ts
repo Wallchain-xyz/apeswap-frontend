@@ -222,7 +222,7 @@ export function useDerivedZapInfo() {
     zap?.currencyIn?.inputAmount ? zap?.currencyIn.inputAmount : null,
   ]
 
-  if (balanceIn && amountIn && JSBI.lessThan(balanceIn.quotient, JSBI.BigInt(amountIn)) && zap) {
+  if (balanceIn && amountIn && JSBI.lessThan(balanceIn.quotient, JSBI.BigInt(amountIn))) {
     inputError = `Insufficient ${zap?.currencyIn.currency?.symbol} balance`
   }
 
@@ -248,7 +248,7 @@ export function useDefaultCurrencies() {
         field: '',
         inputCurrencyId: inputCurrency,
         outputCurrencyId: outputCurrencies,
-        recipient: account ?? '',
+        recipient: account,
         zapType: ZapType.ZAP,
       }),
     )
@@ -283,7 +283,7 @@ export const useZapOutputList = () => {
   const tokens = useAllTokens()
   const filteredTokens = useMemo(
     () =>
-      currencyIds.map(({ currencyIdA, currencyIdB }) => {
+      currencyIds.map(({ currencyIdA, currencyIdB }: any) => {
         const checkedCurrencyIdA = isAddress(currencyIdA)
         const checkedCurrencyIdB = isAddress(currencyIdB)
         if (!checkedCurrencyIdA || !checkedCurrencyIdB) return null

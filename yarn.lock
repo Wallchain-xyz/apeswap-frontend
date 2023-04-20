@@ -10,7 +10,16 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-<<<<<<< HEAD
+"@ape.swap/apeswap-lists@^1.1.51":
+  version "1.1.51"
+  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.1.51.tgz#ee14e54ba9eb353b67fb699c27ecf22d6314a37d"
+  integrity sha512-pxCiGRA57XOCG1v4SxUMQgqzLzEmBxUZC11wKs21Y8LaDvp50+2bMp5uKn72xSbDHPoUfFoUuUJdTLA/hrH8JQ==
+  dependencies:
+    "@ape.swap/sdk" "4.4.0"
+    bignumber.js "^9.0.2"
+    ethers "^5.6.9"
+    path "^0.12.7"
+
 "@ape.swap/router-sdk@^1.0.1-alpha.1":
   version "1.0.1-alpha.1"
   resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.0.1-alpha.1.tgz#bd2090207a1aa04f9393e39c8fac25a84b218b50"
@@ -21,17 +30,6 @@
     "@ape.swap/v3-sdk" "^1.0.0"
     "@ethersproject/abi" "^5.5.0"
     "@uniswap/swap-router-contracts" "1.1.0"
-=======
-"@ape.swap/apeswap-lists@^1.1.51":
-  version "1.1.51"
-  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.1.51.tgz#ee14e54ba9eb353b67fb699c27ecf22d6314a37d"
-  integrity sha512-pxCiGRA57XOCG1v4SxUMQgqzLzEmBxUZC11wKs21Y8LaDvp50+2bMp5uKn72xSbDHPoUfFoUuUJdTLA/hrH8JQ==
-  dependencies:
-    "@ape.swap/sdk" "4.4.0"
-    bignumber.js "^9.0.2"
-    ethers "^5.6.9"
-    path "^0.12.7"
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
 
 "@ape.swap/router-sdk@^1.1.0":
   version "1.1.0"
@@ -56,8 +54,6 @@
     tiny-invariant "^1.1.0"
     toformat "^2.0.0"
 
-<<<<<<< HEAD
-=======
 "@ape.swap/sdk@4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@ape.swap/sdk/-/sdk-4.4.0.tgz#9e4270eb3e6e3702e35114d35708ee0a8eb80447"
@@ -72,7 +68,6 @@
     toformat "^2.0.0"
     yalc "^1.0.0-pre.53"
 
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
 "@ape.swap/smart-order-router@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.1.1.tgz#6b26272042ccf01762be690ef5c6ce97b81810e9"
@@ -114,7 +109,6 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-<<<<<<< HEAD
 "@ape.swap/v2-zap-sdk@^1.0.0-alpha.12":
   version "1.0.0-alpha.12"
   resolved "https://registry.yarnpkg.com/@ape.swap/v2-zap-sdk/-/v2-zap-sdk-1.0.0-alpha.12.tgz#955067e231e638b5f26ba6e947143622a6a24f2c"
@@ -129,9 +123,6 @@
     tiny-warning "^1.0.3"
 
 "@ape.swap/v3-sdk@^1.0.0", "@ape.swap/v3-sdk@^1.1.0":
-=======
-"@ape.swap/v3-sdk@^1.1.0":
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.1.0.tgz#719592f176adade8c071b49efc24fffacc41b96b"
   integrity sha512-cTF6hYYilT6dG/wbw9FBA3tMFI126US5yyBBLMD1JIa+Pi6I2n+xIYRDoy1nKDU6PhXu0JxrDTuHsLQ036dq8g==
@@ -2938,14 +2929,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.11.tgz#b3b790f09cb1696cffcec605de025b088fa4225f"
   integrity sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==
 
-<<<<<<< HEAD
-=======
 "@types/node@18.11.19":
   version "18.11.19"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.19.tgz#35e26df9ec441ab99d73e99e9aca82935eea216d"
   integrity sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw==
 
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
 "@types/node@^12.12.54":
   version "12.20.55"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.55.tgz#c329cbd434c42164f846b909bd6f85b5537f6240"
@@ -3179,7 +3167,7 @@
   resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.0.tgz#e0fab91a7d53e8cafb5326ae4ca18351116b0844"
   integrity sha512-BJiXrBGnN8mti7saW49MXwxDBRFiWemGetE58q8zgfnPPzQKq55ADltEILqOt6VFZ22kVeVKbF8gVd8aY3l7pA==
 
-"@uniswap/v2-core@1.0.1":
+"@uniswap/v2-core@1.0.1", "@uniswap/v2-core@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.1.tgz#af8f508bf183204779938969e2e54043e147d425"
   integrity sha512-MtybtkUPSyysqLY2U210NBDeCHX+ltHt3oADGdjqoThZaFRDKwM6k1Nb3F0A3hk5hwuQvytFWhrWHOEq6nVJ8Q==
@@ -4101,14 +4089,11 @@ bignumber.js@^8.1.1:
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-8.1.1.tgz#4b072ae5aea9c20f6730e4e5d529df1271c4d885"
   integrity sha512-QD46ppGintwPGuL1KqmwhR0O+N2cZUg8JG/VzwI2e28sM9TqHjQB10lI4QAaMHVbLzwVLLAwEglpKPViWX+5NQ==
 
-<<<<<<< HEAD
-=======
 bignumber.js@^9.0.0, bignumber.js@^9.0.2:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.1.tgz#c4df7dc496bd849d4c9464344c1aa74228b4dac6"
   integrity sha512-pHm4LsMJ6lzgNGVfZHjMoO8sdoRhOzOH4MLmY65Jg70bpxCKu5iOHNJyfF6OyvYw7t8Fpf35RuzUyqnQsj8Vig==
 
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
@@ -5651,11 +5636,7 @@ eth-rpc-errors@^4.0.2:
   dependencies:
     fast-safe-stringify "^2.0.6"
 
-<<<<<<< HEAD
-ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.8:
-=======
 ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.8, ethers@^5.6.9:
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
   integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
@@ -6433,6 +6414,11 @@ inherits@2, inherits@^2.0.1, inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+inherits@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+  integrity sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==
 
 ini@^2.0.0:
   version "2.0.0"
@@ -7260,7 +7246,7 @@ js-yaml@^4.0.0, js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
-jsbi@^3.1.4:
+jsbi@^3.1.1, jsbi@^3.1.4:
   version "3.2.5"
   resolved "https://registry.yarnpkg.com/jsbi/-/jsbi-3.2.5.tgz#b37bb90e0e5c2814c1c2a1bcd8c729888a2e37d6"
   integrity sha512-aBE4n43IPvjaddScbvWRA2YlTzKEynHzu7MqOyTipdHucf/VxS63ViCjxYRg86M8Rxwbt/GfzHl1kKERkt45fQ==
@@ -8215,8 +8201,6 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-<<<<<<< HEAD
-=======
 path@^0.12.7:
   version "0.12.7"
   resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
@@ -8225,7 +8209,6 @@ path@^0.12.7:
     process "^0.11.1"
     util "^0.10.3"
 
->>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -8321,6 +8304,11 @@ pretty-format@^29.0.0, pretty-format@^29.5.0:
     "@jest/schemas" "^29.4.3"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
+
+process@^0.11.1:
+  version "0.11.10"
+  resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+  integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
 promise@^7.1.1:
   version "7.3.1"
@@ -9599,6 +9587,13 @@ util-deprecate@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+util@^0.10.3:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.10.4.tgz#3aa0125bfe668a4672de58857d3ace27ecb76901"
+  integrity sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==
+  dependencies:
+    inherits "2.0.3"
 
 util@^0.12.4:
   version "0.12.5"

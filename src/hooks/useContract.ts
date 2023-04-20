@@ -14,6 +14,8 @@ import BOND_ABI from 'config/abi/bond.json'
 import BOND_NFT_ABI from 'config/abi/bondNft.json'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
 import NFB_ABI from 'config/abi/nonFungibleBananas.json'
+import ZAP_ABI from 'config/abi/zap.json'
+
 import MASTER_CHEF_ABI from 'config/abi/masterchef.json'
 import MASTER_CHEF_V2_ABI from 'config/abi/masterChefV2.json'
 import JUNGLE_CHEF_ABI from 'config/abi/jungleChef.json'
@@ -50,7 +52,9 @@ import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { Weth } from 'config/abi/types/Weth'
 import { Zap } from 'config/abi/types/Zap'
 import { NonFungibleApes } from 'config/abi/types/NonFungibleApes'
+import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { NonFungibleBananas } from 'config/abi/types/NonFungibleBananas'
+import { Zap } from 'config/abi/types/Zap'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -190,4 +194,9 @@ export function useWETHContract(withSignerIfPossible?: boolean) {
     WETH_ABI,
     withSignerIfPossible,
   )
+}
+
+export function useZapContract(withSignerIfPossible?: boolean) {
+  const { chainId } = useWeb3React()
+  return useContract<Zap>(chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined, ZAP_ABI, withSignerIfPossible)
 }

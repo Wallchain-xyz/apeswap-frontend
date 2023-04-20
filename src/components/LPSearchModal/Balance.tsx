@@ -1,17 +1,17 @@
 import React from 'react'
-import { Flex, Text } from '@ape.swap/uikit'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
-import { getBalanceNumber } from 'utils/formatBalance'
 import BigNumber from 'bignumber.js'
 import { Spinner } from 'theme-ui'
-import styled from 'styled-components'
+import { useWeb3React } from '@web3-react/core'
+import { Flex, Text } from 'components/uikit'
+import { getBalanceNumber } from 'utils/getBalanceNumber'
+import styled from '@emotion/styled'
 
 interface BalanceProps {
   balance?: string
 }
 
 const Balance: React.FC<BalanceProps> = ({ balance }) => {
-  const { account } = useActiveWeb3React()
+  const { account } = useWeb3React()
 
   return (
     <Flex sx={{ alignItems: 'center' }}>

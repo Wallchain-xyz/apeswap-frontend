@@ -1,15 +1,13 @@
-/** @jsxImportSource theme-ui */
 import React, { CSSProperties } from 'react'
-import { Flex, Text } from '@ape.swap/uikit'
 import { styles } from '../styles'
-import { CurrencyAmount, Token } from '@ape.swap/sdk'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useCurrencyBalance } from 'state/wallet/hooks'
 import { Spinner } from 'theme-ui'
 import styled from '@emotion/styled'
-import { PairState, usePair } from 'hooks/usePairs'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
-import { wrappedToNative } from 'utils'
+import { Flex, Text } from 'components/uikit'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
+import { useWeb3React } from '@web3-react/core'
+import { PairState, useV2Pair } from 'hooks/useV2Pairs'
+import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 
 const StyledBalanceText = styled(Text)`
   white-space: nowrap;
@@ -22,29 +20,30 @@ const StyledBalanceText = styled(Text)`
   margin-right: 5px;
 `
 
-export function Balance({ balance }: { balance: CurrencyAmount }) {
+export function Balance({ balance }: { balance: CurrencyAmount<Currency> }) {
   return <StyledBalanceText title={balance?.toExact()}>{balance?.toSignificant(6)}</StyledBalanceText>
 }
 
 interface LPRowProps {
-  tokens?: { currencyA: Token; currencyB: Token }
+  tokens?: { currencyA: Token; currencyB: Token } | undefined
   onLpSelect?: (currencyA: Token, currencyB: Token) => void
   style: CSSProperties
 }
 
 const LPRow: React.FC<LPRowProps> = ({ tokens, onLpSelect, style }) => {
-  const { chainId, account } = useActiveWeb3React()
-  const { currencyA, currencyB } = tokens
-  const [pairState, pair] = usePair(currencyA, currencyB)
+  const { account } = useWeb3React()
+  const currencyA = tokens?.currencyA
+  const currencyB = tokens?.currencyB
+  const [pairState, pair] = useV2Pair(currencyA, currencyB)
   const balance = useCurrencyBalance(account ?? undefined, pair?.liquidityToken)
   const key = pair?.liquidityToken.address
   if (pairState === PairState.INVALID) return null
   return (
     <Flex sx={styles.LpRowContainer} onClick={onLpSelect} style={style} key={`lp-item-${key}`}>
       <Flex sx={{ alignItems: 'center' }}>
-        <ServiceTokenDisplay token1={currencyA.getSymbol(chainId)} token2={currencyB.getSymbol(chainId)} noEarnToken />
+        <ServiceTokenDisplay token1={currencyA?.wrapped.symbol} token2={currencyB?.wrapped.symbol} noEarnToken />
         <Text weight={700} sx={{ lineHeight: '22px', marginLeft: '5px' }}>
-          {wrappedToNative(currencyA.getSymbol(chainId))}-{wrappedToNative(currencyB.getSymbol(chainId))}
+          {currencyA?.wrapped.symbol}-{currencyB?.wrapped.symbol}
         </Text>
       </Flex>
       {balance ? <Balance balance={balance} /> : account ? <Spinner width="20px" height="20px" /> : null}

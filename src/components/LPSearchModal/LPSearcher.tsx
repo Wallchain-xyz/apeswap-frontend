@@ -7,7 +7,7 @@ import { useZapOutputList } from 'state/zap/hooks'
 import { styles } from './styles'
 import { Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import { Flex } from 'components/uikit'
+import { Flex, Input } from 'components/uikit'
 
 interface LPSearcherProps {
   onSelect: (currencyA: Token, currencyB: Token) => void
@@ -16,17 +16,14 @@ interface LPSearcherProps {
 
 function LPSearcher({ onSelect }: LPSearcherProps) {
   const { t } = useTranslation()
-  const { chainId } = useWeb3React()
   const [query, setQuery] = useState('')
   const zapOutputList = useZapOutputList()
 
-  const queriedTokens = useMemo(() => {
+  const queriedTokens: any = useMemo(() => {
     return zapOutputList?.filter(({ currencyA, currencyB }: any) =>
-      `${currencyA.getSymbol(chainId).toUpperCase()}${currencyB.getSymbol(chainId).toUpperCase()}`.includes(
-        query.toUpperCase(),
-      ),
+      `${currencyA?.symbol.toUpperCase()}${currencyB?.symbol.toUpperCase()}`.includes(query.toUpperCase()),
     )
-  }, [chainId, query, zapOutputList])
+  }, [query, zapOutputList])
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)

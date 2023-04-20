@@ -1,7 +1,6 @@
-/** @jsxImportSource theme-ui */
-import { Token } from '@ape.swap/sdk'
 import React, { useCallback } from 'react'
 import LpList from './LpList'
+import { Token } from '@ape.swap/sdk-core';
 
 interface DisplayRowsProps {
   tokens?: { currencyA: Token; currencyB: Token }[]

@@ -3,7 +3,6 @@ import { Pair } from '@ape.swap/v2-sdk'
 import { PairState } from 'hooks/useV2Pairs'
 import { MergedZap } from './actions'
 import JSBI from 'jsbi'
-import { BIPS_BASE } from 'config/constants/misc'
 
 // Since a best zap can be null when its the same token we have to check for each possibility
 export function mergeBestZaps(
