@@ -20,6 +20,8 @@ import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies
 import { SwapState } from './reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
+import { useRouter } from 'next/router'
+import { ParsedUrlQuery } from 'querystring'
 
 export function useSwapState(): AppState['swap'] {
   return useAppSelector((state) => state.swap)
@@ -217,9 +219,11 @@ function validatedRecipient(recipient: any): string | null {
   return null
 }
 
-export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
-  let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
-  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
+export function queryParametersToSwapState(parsedQs: any): SwapState {
+  console.log(parsedQs)
+  let inputCurrency = parsedQs?.inputcurrency ?? parsedQs?.inputCurrency ?? ''
+  let outputCurrency = parsedQs?.outputcurrency ?? parsedQs?.outputCurrency ?? ''
+  console.log(outputCurrency)
   const typedValue = parseTokenAmountURLParameter(parsedQs.exactAmount)
   const independentField = parseIndependentFieldURLParameter(parsedQs.exactField)
 
@@ -250,12 +254,11 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
 export function useDefaultsFromURLSearch(): SwapState {
   const { chainId } = useWeb3React()
   const dispatch = useAppDispatch()
-  const parsedQs = useParsedQueryString()
+  const { query } = useRouter()
   const bananaAddress = chainId ? BANANA_ADDRESSES[chainId] : undefined
-
   const parsedSwapState = useMemo(() => {
-    return queryParametersToSwapState(parsedQs)
-  }, [parsedQs])
+    return queryParametersToSwapState(query)
+  }, [query])
 
   useEffect(() => {
     if (!chainId) return
@@ -273,7 +276,7 @@ export function useDefaultsFromURLSearch(): SwapState {
     )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, parsedSwapState])
 
   return parsedSwapState
 }
