@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Percent, SupportedChainId, TradeType } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Percent, TradeType } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Text } from 'components/uikit'
 import useAutoSlippageTolerance from 'hooks/useAutoSlippageTolerance'
