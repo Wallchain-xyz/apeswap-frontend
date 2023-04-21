@@ -23,6 +23,7 @@ import protocolDashboard from './protocolDashboard'
 import farms from './farms'
 import stats from './stats'
 
+import pools from './pools'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
@@ -46,6 +47,7 @@ const store = configureStore({
     protocolDashboard,
     farms,
     stats,
+    pools,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

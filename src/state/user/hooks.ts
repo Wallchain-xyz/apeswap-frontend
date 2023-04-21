@@ -113,7 +113,10 @@ export function useUserZapSlippageTolerance(): [Percent, (slippageTolerance: Per
   const userSlippageToleranceRaw = useAppSelector((state) => {
     return state.user.userZapSlippage
   })
-  const userSlippageTolerance = useMemo(() => new Percent(userSlippageToleranceRaw, 10_000), [userSlippageToleranceRaw])
+  const userSlippageTolerance = useMemo(
+    () => (!userSlippageToleranceRaw ? new Percent(50, 10_000) : new Percent(userSlippageToleranceRaw, 10_000)),
+    [userSlippageToleranceRaw],
+  )
 
   const dispatch = useAppDispatch()
   const setUserSlippageTolerance = useCallback(

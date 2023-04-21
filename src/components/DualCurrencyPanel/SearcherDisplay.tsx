@@ -1,15 +1,13 @@
-/** @jsxImportSource theme-ui */
 import React from 'react'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { usePair } from 'hooks/usePairs'
-import { useCurrencyBalance } from 'state/wallet/hooks'
-import { Flex, Svg, Text } from '@ape.swap/uikit'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import { styles } from './styles'
-import { wrappedToNative } from 'utils'
 import { Box, Spinner } from 'theme-ui'
-import { Currency, CurrencyAmount } from '@ape.swap/sdk'
 import styled from '@emotion/styled'
+import { Flex, Svg, Text } from 'components/uikit'
+import { useWeb3React } from '@web3-react/core'
+import { useV2Pair } from 'hooks/useV2Pairs'
+import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
+import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 
 const StyledBalanceText = styled(Text)`
   white-space: nowrap;
@@ -21,14 +19,14 @@ const StyledBalanceText = styled(Text)`
   line-height: 30px;
 `
 
-export function Balance({ balance }: { balance: CurrencyAmount }) {
+export function Balance({ balance }: { balance: CurrencyAmount<Currency> }) {
   return <StyledBalanceText title={balance?.toExact()}>{balance?.toSignificant(5)}</StyledBalanceText>
 }
 
 const SearcherDisplay: React.FC<{ item: { currencyA: Currency; currencyB: Currency } }> = ({ item }) => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useWeb3React()
   const { currencyA, currencyB } = item
-  const [, pair] = usePair(currencyA, currencyB)
+  const [, pair] = useV2Pair(currencyA ?? undefined, currencyB ?? undefined)
   const balance = useCurrencyBalance(account ?? undefined, pair ? pair?.liquidityToken : currencyA)
 
   return (
@@ -51,8 +49,8 @@ const SearcherDisplay: React.FC<{ item: { currencyA: Currency; currencyB: Curren
           </Box>
         )}
         <ServiceTokenDisplay
-          token1={currencyA?.getSymbol(chainId)}
-          token2={currencyB?.getSymbol(chainId)}
+          token1={currencyA?.symbol}
+          token2={currencyB?.symbol}
           noEarnToken={!!currencyB}
           size={30}
         />
@@ -60,12 +58,10 @@ const SearcherDisplay: React.FC<{ item: { currencyA: Currency; currencyB: Curren
       <Flex sx={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
         <Flex sx={{ marginLeft: '10px', flexDirection: 'column' }}>
           <Text sx={styles.symbolText}>
-            {currencyB
-              ? `${wrappedToNative(currencyA?.getSymbol(chainId))}-${wrappedToNative(currencyB?.getSymbol(chainId))}`
-              : currencyA?.getSymbol(chainId)}
+            {currencyB ? `${currencyA?.wrapped.symbol}-${currencyB?.wrapped.symbol}` : currencyA?.wrapped.symbol}
           </Text>
           <Text size="12px" weight={300} sx={{ lineHeight: '16px' }}>
-            {pair ? pair?.liquidityToken?.getName(chainId) : currencyA?.getName(chainId)}
+            {pair ? pair?.liquidityToken?.name : currencyA?.name}
           </Text>
         </Flex>
         <Text>{balance ? <Balance balance={balance} /> : account ? <Spinner width="20px" height="20px" /> : null}</Text>

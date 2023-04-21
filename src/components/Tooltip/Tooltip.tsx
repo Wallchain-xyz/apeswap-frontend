@@ -8,6 +8,8 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Farm } from 'state/farms/types'
 import JungleFarmsEndsIn from './JungleFarmsEndsIn'
+import { Pool } from 'state/pools/types'
+import PoolsEndsIn from './PoolsEndsIn'
 
 export interface TooltipProps {
   valueTitle?: string
@@ -22,6 +24,8 @@ export interface TooltipProps {
   audit?: string
   jungleFarm?: Farm
   // pool?: Pool
+  // jungleFarm?: JungleFarm
+  pool?: Pool
 }
 
 const Tooltip: React.FunctionComponent<TooltipProps> = ({
@@ -37,6 +41,8 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
   audit,
   jungleFarm,
   // pool,
+  // jungleFarm,
+  pool,
 }) => {
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
@@ -62,6 +68,8 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
       )}
       {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />}
       {/* {pool && <PoolsEndsIn pool={pool} />} */}
+      {/* {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />} */}
+      {pool && <PoolsEndsIn pool={pool} />}
       <Flex sx={{ justifyContent: 'center' }}>
         <Flex sx={{ width: '144px', flexDirection: 'column' }}>
           <Flex sx={styles.linkRow}>

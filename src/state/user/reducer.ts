@@ -170,5 +170,6 @@ export const {
   updateUserExpertMode,
   addSerializedPair,
   addSerializedToken,
+  updateUserZapSlippageTolerance
 } = userSlice.actions
 export default userSlice.reducer

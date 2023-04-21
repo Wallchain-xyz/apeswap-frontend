@@ -1,14 +1,14 @@
-/** @jsxImportSource theme-ui */
 import React, { useCallback, useState } from 'react'
-import { Modal, ModalProvider } from '@ape.swap/uikit'
 import { Box } from 'theme-ui'
 import { useTranslation } from 'contexts/Localization'
 import RegularLiquidity from './RegularLiquidity'
 import ZapLiquidity from './ZapLiquidity'
 import ZapSwitch from './components/ZapSwitch'
 import { TransactionSubmittedContent } from '../TransactionConfirmationModal'
-import { Pair, ZapType } from '@ape.swap/sdk'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { Modal } from 'components/uikit'
+import ModalProvider from 'contexts/ModalContext'
+import { ZapType } from '@ape.swap/v2-zap-sdk'
+import { Pair } from '@ape.swap/v2-sdk'
 
 interface DualLiquidityModalProps {
   onDismiss?: () => void
@@ -20,7 +20,7 @@ interface DualLiquidityModalProps {
 
 const modalProps = {
   sx: {
-    zIndex: 11,
+    zIndex: 106,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     minWidth: ['90%', '420px'],
@@ -38,11 +38,10 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
 }) => {
   const { t } = useTranslation()
   const [goZap, setGoZap] = useState(true)
-  const [{ txHash, pairOut }, setTxHash] = useState({
+  const [{ txHash, pairOut }, setTxHash]: any = useState({
     txHash: '',
     pairOut: null,
   })
-  const { chainId } = useActiveWeb3React()
 
   const handleConfirmedTx = useCallback((hash: string, pair: Pair) => {
     setTxHash({ txHash: hash, pairOut: pair })
@@ -56,7 +55,7 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
     <>
       {txHash ? (
         <Modal open {...modalProps} title={t('Confirm ZAP')} onDismiss={onDismiss}>
-          <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={onDismiss} LpToAdd={pairOut} />
+          <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} LpToAdd={pairOut ?? undefined} />
         </Modal>
       ) : (
         <ModalProvider>
@@ -66,10 +65,10 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
               {goZap ? (
                 <ZapLiquidity
                   handleConfirmedTx={handleConfirmedTx}
-                  poolAddress={poolAddress}
-                  pid={pid}
-                  zapIntoProductType={zapIntoProductType}
-                  zapable={zapable}
+                  poolAddress={poolAddress ?? ''}
+                  pid={pid ?? ''}
+                  zapIntoProductType={zapIntoProductType ?? ZapType.ZAP}
+                  zapable={zapable ?? false}
                 />
               ) : (
                 <RegularLiquidity />

@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { supportedChainId } from 'utils/supportedChainId'
-
 import { useCloseModal } from './hooks'
 import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
 import { Interface } from 'ethers/lib/utils'

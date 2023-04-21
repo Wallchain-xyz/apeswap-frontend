@@ -63,6 +63,7 @@ export interface IconButtonProps extends Omit<ButtonProps, 'variant'> {
   color?: colorProps
   background?: colorProps
   icon?: iconTypes
+  iconWidth?: number
 }
 
 export type ButtonThemeVariant = {

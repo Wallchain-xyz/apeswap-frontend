@@ -1,13 +1,12 @@
 import styled from '@emotion/styled'
-import { Flex } from 'components/uikit';
-import { ThemeUIStyleObject } from 'theme-ui'
+import { Flex } from 'components/uikit'
 
 export const NewsCard = styled.div<{ image: string; index: number; listLength: number }>`
   height: 332.5px;
-  minwidth: 266px;
-  maxwidth: 266px;
+  min-width: 266px;
+  max-width: 266px;
   opacity: 1;
-  flexshrink: 1;
+  flex-shrink: 1;
   background: url(${({ image }) => image});
   background-repeat: no-repeat;
   background-position: center;
@@ -77,40 +76,11 @@ export const SkeletonWrapper = styled.div`
 `
 
 export const Bubble = styled(Flex)<{ isActive?: boolean }>`
-  background: ${({ isActive }) => (isActive ? 'linear-gradient(53.53deg; #a16552 15.88%; #e1b242 92.56%)' : 'white4')};
+  background: ${({ isActive, theme }) =>
+    isActive ? 'linear-gradient(53.53deg, #a16552 15.88%, #e1b242 92.56%)' : theme.colors.white4};
   height: 14px;
   width: 14px;
   border-radius: 50px;
   margin: 0px 2.5px 0px 2.5px;
   cursor: pointer;
 `
-
-export const styles: Record<'newsCard' | 'cardWrapper', ThemeUIStyleObject> = {
-  newsCard: {
-    height: '332.5px',
-    minWidth: '266px',
-    maxWidth: '266px',
-    opacity: 1,
-    flexShrink: 1,
-    borderRadius: '10px',
-    transition: 'ease 1000ms',
-    cursor: 'pointer',
-  },
-  cardWrapper: {
-    display: ['flex', 'flex', 'flex', 'grid'],
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    background: 'white2',
-    justifyContent: 'center',
-    margin: '0px 30px',
-    alignItems: 'center',
-    maxWidth: '1412px',
-    zIndex: 2,
-    width: '95vw',
-    borderRadius: '10px',
-    ':nth-child(1), :nth-child(2), :nth-child(3), :nth-child(4)': {
-      borderRadius: '10px',
-    },
-    gridTemplateColumns: ['none', 'none', 'repeat(2, minmax(260px, 325px))', 'repeat(4, minmax(260px, 325px))'],
-  },
-}

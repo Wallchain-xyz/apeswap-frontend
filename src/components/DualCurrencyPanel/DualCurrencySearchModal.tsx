@@ -1,17 +1,17 @@
-/** @jsxImportSource theme-ui */
 import React, { useCallback, useRef } from 'react'
-import { Currency } from '@ape.swap/sdk'
-import { Flex, ModalProps, Modal, Input } from '@ape.swap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import styled from '@emotion/styled'
 import { isAddress } from '../../utils'
 import { FixedSizeList } from 'react-window'
 import CurrencyList from './CurrencyList'
-import { DualCurrencySelector } from 'views/Bills/components/Actions/types'
 import { styles } from './styles'
+import { ModalProps } from 'components/uikit/Modal/types'
+import { DualCurrencySelector } from 'views/Bonds/actions/types'
+import { Currency } from '@ape.swap/sdk-core'
+import { Flex, Input, Modal } from 'components/uikit'
 
 interface CurrencySearchModalProps extends ModalProps {
-  onCurrencySelect: (currency: DualCurrencySelector, index) => void
+  onCurrencySelect: (currency: DualCurrencySelector, index: number) => void
   inputCurrencies: Currency[]
   currenciesList: DualCurrencySelector[]
   searchQuery: string
@@ -20,6 +20,7 @@ interface CurrencySearchModalProps extends ModalProps {
 
 export const modalProps = {
   sx: {
+    zIndex: 110,
     minWidth: ['90%', '425px'],
     width: ['250px'],
     maxWidth: '425px',
@@ -39,7 +40,7 @@ const DualCurrencySearchModal: React.FC<CurrencySearchModalProps> = ({
   const { t } = useTranslation()
 
   const handleCurrencySelect = useCallback(
-    (currency: DualCurrencySelector, index) => {
+    (currency: DualCurrencySelector, index: number) => {
       onDismiss()
       onCurrencySelect(currency, index)
       handleSearchQuery('')
@@ -48,7 +49,7 @@ const DualCurrencySearchModal: React.FC<CurrencySearchModalProps> = ({
   )
 
   const handleInput = useCallback(
-    (event) => {
+    (event: any) => {
       const input = event.target.value
       const checksummedInput = isAddress(input)
       handleSearchQuery(checksummedInput || input)

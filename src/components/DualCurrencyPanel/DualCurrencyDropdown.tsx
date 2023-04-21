@@ -1,7 +1,3 @@
-/** @jsxImportSource theme-ui */
-import { Dropdown, DropdownItem, Flex, Text, useModal } from '@ape.swap/uikit'
-import { Currency } from '@ape.swap/sdk'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Box, Spinner } from 'theme-ui'
 import DualCurrencySearchModal from './DualCurrencySearchModal'
@@ -9,19 +5,23 @@ import { useAllTokens } from 'hooks/Tokens'
 import { useSetZapInputList, useZapInputList } from 'state/zap/hooks'
 import DropdownDisplay from './DropdownDisplay'
 import { useTranslation } from 'contexts/Localization'
-import { createFilterToken } from 'components/SearchModal/filtering'
-import { DualCurrencySelector } from '../../views/Bills/components/Actions/types'
+import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { DualCurrencySelector } from 'views/Bonds/actions/types'
+import { useWeb3React } from '@web3-react/core'
+import { createFilterToken } from './filtering'
+import useModal from 'hooks/useModal'
+import { Dropdown, DropdownItem, Flex, Text } from 'components/uikit'
 
 const DualCurrencyDropdown: React.FC<{
   inputCurrencies: Currency[]
-  onCurrencySelect?: (currency: DualCurrencySelector) => void
+  onCurrencySelect: (currency: DualCurrencySelector) => void
   lpList: DualCurrencySelector[]
   enableZap: boolean
 }> = ({ inputCurrencies, onCurrencySelect, lpList, enableZap }) => {
   useSetZapInputList()
   const allTokens = useAllTokens()
   const rawZapInputList = useZapInputList()
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState<string>('')
 
@@ -30,12 +30,12 @@ const DualCurrencyDropdown: React.FC<{
   }, [])
 
   const zapInputList = useMemo(() => {
-    const addresses = []
+    const addresses: any = []
     if (rawZapInputList) {
-      const listByChain = rawZapInputList[chainId]
-      for (const res of Object.values(listByChain)) {
-        if (res.address[chainId]) {
-          addresses.push(res.address[chainId].toLowerCase())
+      const listByChain = rawZapInputList[chainId as SupportedChainId]
+      for (const res of Object?.values(listByChain ?? [])) {
+        if (res.address[chainId as SupportedChainId]) {
+          addresses.push(res.address[chainId as SupportedChainId].toLowerCase())
         }
       }
     }
@@ -45,7 +45,7 @@ const DualCurrencyDropdown: React.FC<{
     return Object.fromEntries(filteredZapInputTokens)
   }, [allTokens, chainId, rawZapInputList])
 
-  const quickSorting = (token1, token2) => {
+  const quickSorting = (token1: any, token2: any) => {
     // we might want to make this more involved. Sorting order is as follows: 1 WETH, 2 BUSD, 3 DAI, 4 USDC
     if (token1.symbol === 'WETH') {
       return -1
@@ -68,7 +68,7 @@ const DualCurrencyDropdown: React.FC<{
     return 1
   }
 
-  const currenciesList: DualCurrencySelector[] = useMemo(() => {
+  const currenciesList: any = useMemo(() => {
     const filterToken = createFilterToken(searchQuery)
     const parsedList = Object.values(zapInputList)
       .filter(filterToken)
@@ -76,7 +76,7 @@ const DualCurrencyDropdown: React.FC<{
       .map((token) => {
         return { currencyA: token, currencyB: null }
       })
-    return [lpList[0], { currencyA: Currency.ETHER, currencyB: null }, parsedList].flat()
+    return [lpList[0], { currencyA: 'eth', currencyB: null }, parsedList].flat()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zapInputList, searchQuery])
 
@@ -89,6 +89,7 @@ const DualCurrencyDropdown: React.FC<{
   )
 
   const [onPresentCurrencyModal] = useModal(
+    //@ts-ignore
     <DualCurrencySearchModal
       onCurrencySelect={handleCurrencyDynamic}
       inputCurrencies={inputCurrencies}
@@ -102,7 +103,7 @@ const DualCurrencyDropdown: React.FC<{
   )
 
   const Item = useCallback(
-    (item: Currency[], index) => {
+    (item: Currency[], index: number) => {
       return (
         <DropdownItem
           size="sm"
@@ -127,7 +128,7 @@ const DualCurrencyDropdown: React.FC<{
               component={<DropdownDisplay inputCurrencies={inputCurrencies} active />}
               sx={{ width: '190px', zIndex: 500, background: 'white4' }}
             >
-              {currenciesList.slice(0, 4).map((item, index) => {
+              {currenciesList.slice(0, 4).map((item: any, index: number) => {
                 return Item([item.currencyA, item.currencyB], index)
               })}
               <DropdownItem size="sm" sx={{ textAlign: 'center' }} onClick={onPresentCurrencyModal}>

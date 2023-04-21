@@ -1,19 +1,17 @@
-/** @jsxImportSource theme-ui */
-import { Flex, Text } from '@ape.swap/uikit'
-import { Input as NumericalInput } from 'components/CurrencyInputPanel/NumericalInput'
 import { useTranslation } from 'contexts/Localization'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { Spinner } from 'theme-ui'
-import React, { useMemo, useState } from 'react'
-import { useCurrencyBalance } from 'state/wallet/hooks'
-import { getCurrencyUsdPrice, getTokenUsdPrice } from 'utils/getTokenUsdPrice'
+import React from 'react'
 import { styles } from './styles'
-import Dots from 'components/Loader/Dots'
-import { Currency } from '@ape.swap/sdk'
 import DualCurrencyDropdown from './DualCurrencyDropdown'
-import { PairState, usePair } from 'hooks/usePairs'
-import { DualCurrencySelector } from 'views/Bills/components/Actions/types'
 import useIsMobile from 'hooks/useIsMobile'
+import { DualCurrencySelector } from 'views/Bonds/actions/types'
+import { Currency } from '@ape.swap/sdk-core'
+import { useWeb3React } from '@web3-react/core'
+import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
+import { PairState, useV2Pair } from 'hooks/useV2Pairs'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
+import { Flex, NumericInput, Text } from 'components/uikit'
+import Dots from 'components/Dots'
 
 /**
  * Dropdown component that supports both single currencies and currency pairs. An array of pairs is passed as lpList,
@@ -46,40 +44,29 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   lpList,
   enableZap,
 }) => {
-  const [usdVal, setUsdVal] = useState(null)
-  const { chainId, account } = useActiveWeb3React()
-  const [pairState, pair] = usePair(inputCurrencies[0], inputCurrencies[1])
+  const { account } = useWeb3React()
+  const [pairState, pair] = useV2Pair(inputCurrencies[0], inputCurrencies[1])
   const isMobile = useIsMobile()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, pair?.liquidityToken ?? inputCurrencies[0])
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 
-  useMemo(async () => {
-    setUsdVal(null)
-    if (pairState === PairState.EXISTS) {
-      setUsdVal(await getTokenUsdPrice(chainId, pair?.liquidityToken?.address, pair?.liquidityToken.decimals, true))
-    } else {
-      setUsdVal(await getCurrencyUsdPrice(chainId, inputCurrencies[0], false))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainId, inputCurrencies[0], inputCurrencies[1], pair?.liquidityToken?.address])
+  const [usdVal] = useTokenPriceUsd(pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0])
 
   return (
     <Flex sx={styles.dexPanelContainer}>
       <Flex sx={styles.panelTopContainer}>
-        <NumericalInput
+        <NumericInput
           value={value}
           onUserInput={(val) => onUserInput(val)}
-          fontSize={isMobile ? '15px' : '22px'}
-          removeLiquidity={isMobile}
-          align="left"
-          id="bill-amount-input"
+          style={{ fontSize: isMobile ? '15px' : '22px', align: 'left' }}
+          // removeLiquidity={isMobile}
         />
         <DualCurrencyDropdown
           inputCurrencies={inputCurrencies}
           onCurrencySelect={onCurrencySelect}
           lpList={lpList}
-          enableZap={enableZap}
+          enableZap={enableZap ?? true}
         />
       </Flex>
       <Flex sx={styles.panelBottomContainer}>
@@ -104,7 +91,7 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
               {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
               {!currencyBalance && <Dots />}
             </Text>
-            {parseFloat(currencyBalance) > 0 && (
+            {parseFloat(currencyBalance ?? '0') > 0 && (
               <Flex sx={styles.maxButton} size="sm" onClick={handleMaxInput}>
                 <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
                   {t('MAX')}

@@ -1,15 +1,14 @@
-/** @jsxImportSource theme-ui */
 import React from 'react'
-import { Box, Switch } from 'theme-ui'
-import { CogIcon, Flex, RunFiatButton, Svg, Text, TooltipBubble, useModal } from '@ape.swap/uikit'
+import { Box, Switch, useThemeUI } from 'theme-ui'
 import { useTranslation } from 'contexts/Localization'
 import track from 'utils/track'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import MoonPayModal from 'views/Topup/MoonpayModal'
 import { styles } from '../styles'
-import SettingsModal from 'components/Menu/GlobalSettings/SettingsModal'
-import { TitleText } from '../../ListViewContent/styles'
-import useTheme from '../../../hooks/useTheme'
+import { useWeb3React } from '@web3-react/core'
+import MoonPayModal from 'components/Moonpay/MoonpayModal'
+import useModal from 'hooks/useModal'
+import { Flex, Svg, Text } from 'components/uikit'
+import TooltipBubble from 'components/uikit/Tooltip'
+// import SettingsModal from 'components/Menu/GlobalSettings/SettingsModal'
 
 interface ZapSwitchProps {
   handleZapSwitch?: () => void
@@ -18,11 +17,12 @@ interface ZapSwitchProps {
 
 const ZapSwitch: React.FC<ZapSwitchProps> = ({ handleZapSwitch, goZap }) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
-  const { isDark } = useTheme()
+  const { chainId } = useWeb3React()
+  const { colorMode } = useThemeUI()
+  const isDark = colorMode === 'dark'
 
-  const [onPresentModal] = useModal(<MoonPayModal />)
-  const [onPresentSettingsModal] = useModal(<SettingsModal zapSettings={goZap} />)
+  const [onPresentModal] = useModal(<MoonPayModal onDismiss={() => null} />)
+  const [onPresentSettingsModal] = useModal(<></>) //<SettingsModal zapSettings={goZap} />
 
   return (
     <Flex sx={{ margin: '15px 0 5px 0', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -55,13 +55,13 @@ const ZapSwitch: React.FC<ZapSwitchProps> = ({ handleZapSwitch, goZap }) => {
           }
           width="180px"
         >
-          <TitleText lineHeight={0}>
+          <Text lineHeight={0}>
             <Svg color={'grey' as any} icon="question" width="19px" />
-          </TitleText>
+          </Text>
         </TooltipBubble>
       </Flex>
       <Flex>
-        <RunFiatButton
+        {/* <RunFiatButton
           sx={{ marginRight: '2px', width: '24px' }}
           mini
           t={t}
@@ -69,8 +69,10 @@ const ZapSwitch: React.FC<ZapSwitchProps> = ({ handleZapSwitch, goZap }) => {
           track={track}
           position="DEX"
           chainId={chainId}
-        />
-        <CogIcon sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal} width="24px" />
+        /> */}
+        <span sx={{ cursor: 'pointer' }}>
+          <Svg icon="cog" width="24px" />
+        </span>
       </Flex>
     </Flex>
   )

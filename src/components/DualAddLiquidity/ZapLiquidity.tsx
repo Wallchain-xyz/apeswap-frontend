@@ -1,25 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Flex, Link, Svg, Text } from '@ape.swap/uikit'
-import DexPanel from 'views/Dex/components/DexPanel'
 import { useCurrency } from 'hooks/Tokens'
-import { Currency, CurrencyAmount, Pair, ZapType } from '@ape.swap/sdk'
-import maxAmountSpend from 'utils/maxAmountSpend'
-import ZapPanel from 'views/Dex/Zap/components/ZapPanel'
+import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import { Field } from 'state/zap/actions'
 import { useDerivedZapInfo, useSetZapInputList, useZapActionHandlers, useZapState } from 'state/zap/hooks'
-import ZapLiquidityActions from 'views/Dex/Zap/components/ZapLiquidityActions'
 import { styles } from './styles'
 import { useZapCallback } from 'hooks/useZapCallback'
-import DistributionPanel from 'views/Dex/Zap/components/DistributionPanel/DistributionPanel'
-import { useUserSlippageTolerance } from 'state/user/hooks'
+import { useUserSlippageTolerance, useUserZapSlippageTolerance } from 'state/user/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { Box, Switch } from 'theme-ui'
-import { wrappedToNative } from '../../utils'
 import track from 'utils/track'
-import { getBalanceNumber } from 'utils/formatBalance'
 import BigNumber from 'bignumber.js'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useTokenPriceUsd } from 'hooks/useTokenPriceUsd'
+import { useWeb3React } from '@web3-react/core'
+import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
+import { Flex, Link, Svg, Text } from 'components/uikit'
+import ZapPanel from 'views/V2/Zap/components/ZapPanel'
+import DistributionPanel from 'views/V2/Zap/components/DistributionPanel/DistributionPanel'
+import ZapLiquidityActions from 'views/V2/Zap/components/ZapLiquidityActions'
+import DexPanel from 'components/DexPanel'
+import { getBalanceNumber } from 'utils/getBalanceNumber'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
+import { Pair } from '@ape.swap/v2-sdk'
+import { ZapType } from '@ape.swap/v2-zap-sdk'
 
 interface ZapLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut: Pair) => void
@@ -37,15 +38,15 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   zapable,
 }) => {
   useSetZapInputList()
-  const [zapErrorMessage, setZapErrorMessage] = useState<string>(null)
+  const [zapErrorMessage, setZapErrorMessage] = useState<string>('')
   const [stakeIntoProduct, setStakeIntoProduct] = useState<boolean>(true)
   const [disableZap, setDisableZap] = useState<boolean>(false)
 
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   const { INPUT, typedValue, recipient, zapType } = useZapState()
-  const [zapSlippage] = useUserSlippageTolerance(true)
+  const [zapSlippage] = useUserZapSlippageTolerance()
 
   const currencyA = INPUT.currencyId
 
@@ -54,7 +55,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const { zap, inputError: zapInputError, currencyBalances } = useDerivedZapInfo()
   const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()
 
-  const tokenPrice = useTokenPriceUsd(chainId, zap.currencyIn.currency)
+  const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
 
   const handleInputSelect = useCallback(
     (field: Field, currency: Currency) => {
@@ -82,41 +83,39 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     }
   }
 
-  const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, null, pid)
+  const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, '', pid)
 
   const handleZap = useCallback(() => {
-    setZapErrorMessage(null)
+    setZapErrorMessage('')
     zapCallback()
-      .then((hash) => {
-        handleConfirmedTx(hash, zap.pairOut.pair)
+      .then((hash: any) => {
+        handleConfirmedTx(hash, zap?.pairOut.pair)
         const amount = getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString()))
         track({
           event: 'zap',
           chain: chainId,
           data: {
             cat: 'liquidity',
-            token1: zap.currencyIn.currency.getSymbol(chainId),
-            token2: `${zap.currencyOut1.outputCurrency.getSymbol(chainId)}-${zap.currencyOut2.outputCurrency.getSymbol(
-              chainId,
-            )}`,
+            token1: zap.currencyIn.currency.symbol,
+            token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
             amount,
             usdAmount: amount * tokenPrice,
           },
         })
       })
-      .catch((error) => {
+      .catch((error: any) => {
         setZapErrorMessage(error.message)
       })
   }, [chainId, handleConfirmedTx, tokenPrice, zap, zapCallback])
 
   const handleDismissConfirmation = useCallback(() => {
     // clear zapErrorMessage if user closes the error modal
-    setZapErrorMessage(null)
+    setZapErrorMessage('')
   }, [])
 
   const handleMaxInput = useCallback(
     (field: Field) => {
-      const maxAmounts: { [field in Field]?: CurrencyAmount } = {
+      const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = {
         [Field.INPUT]: maxAmountSpend(currencyBalances[Field.INPUT]),
         [Field.OUTPUT]: maxAmountSpend(currencyBalances[Field.OUTPUT]),
       }
@@ -137,13 +136,13 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   return (
     <div>
       <Flex sx={styles.liquidityContainer}>
-        {zapable && zap?.pairOut?.pair?.token0?.getSymbol(chainId) && (
+        {zapable && zap?.pairOut?.pair?.token0?.symbol && (
           <Flex sx={{ marginBottom: '10px', fontSize: '12px', alignItems: 'center' }}>
             <Text>
               {t('Stake in')}{' '}
-              {`${wrappedToNative(zap?.pairOut?.pair?.token0?.getSymbol(chainId))} - ${wrappedToNative(
-                zap?.pairOut?.pair?.token1?.getSymbol(chainId),
-              )} ${t('Farm')}`}
+              {`${zap?.pairOut?.pair?.token0?.wrapped?.symbol} - ${zap?.pairOut?.pair?.token1?.wrapped.symbol} ${t(
+                'Farm',
+              )}`}
             </Text>
             <Box sx={{ width: '50px', marginLeft: '10px' }}>
               <Switch
@@ -162,8 +161,8 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             currency={inputCurrency}
             otherCurrency={null}
             fieldType={Field.INPUT}
-            onCurrencySelect={handleInputSelect}
-            onUserInput={onUserInput}
+            onCurrencySelect={(cur: Currency) => handleInputSelect(Field.INPUT, cur)}
+            onUserInput={(val: string) => onUserInput(Field.INPUT, val)}
             handleMaxInput={handleMaxInput}
             isZapInput
           />

@@ -31,3 +31,7 @@ export enum PRODUCT {
   JUNGLE_FARM,
   DUAL_FARM,
 }
+
+export const BASE_EXCHANGE_URL = 'https://apeswap.finance'
+export const BASE_ADD_LIQUIDITY_URL = `${BASE_EXCHANGE_URL}/add`
+export const BASE_LIQUIDITY_POOL_URL = `${BASE_EXCHANGE_URL}/pool`

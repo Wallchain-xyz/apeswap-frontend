@@ -48,6 +48,7 @@ async function getQuote(
 
   if (!swapRoute) throw new Error('Failed to generate client side quote')
 
+  console.log(transformSwapRouteToGetQuoteResult(type, amount, swapRoute))
   return { data: transformSwapRouteToGetQuoteResult(type, amount, swapRoute) }
 }
 

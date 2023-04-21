@@ -1,75 +1,39 @@
-/** @jsxImportSource theme-ui */
 import React, { useCallback, useEffect, useState } from 'react'
-import { Flex, Text } from '@ape.swap/uikit'
-import DexPanel from 'views/Dex/components/DexPanel'
-import { Field, resetMintState } from 'state/mint/actions'
-import AddLiquiditySign from 'views/Dex/AddLiquidity/components/AddLiquiditySign'
-import PoolInfo from 'views/Dex/AddLiquidity/components/PoolInfo'
-import AddLiquidityActions from 'views/Dex/AddLiquidity/components/Actions'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useAppDispatch } from 'state'
+import { Field, resetMintState } from 'state/mint/v2/actions'
+import AddLiquiditySign from 'views/V2/AddLiquidityV2/components/AddLiquiditySign'
+import PoolInfo from 'views/V2/AddLiquidityV2/components/PoolInfo'
+import AddLiquidityActions from 'views/V2/AddLiquidityV2/components/Actions'
 import { useSwapState } from 'state/swap/hooks'
 import { useCurrency } from 'hooks/Tokens'
-import { useDerivedMintInfo, useMintActionHandlers, useMintState } from '../../state/mint/hooks'
-import { Currency, TokenAmount } from '@ape.swap/sdk'
-import maxAmountSpend from 'utils/maxAmountSpend'
+import { useDerivedMintInfo, useMintActionHandlers, useMintState } from '../../state/mint/v2/hooks'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import { styles } from './styles'
 import { useTranslation } from 'contexts/Localization'
+import { useAppDispatch } from 'state/hooks'
+import { useWeb3React } from '@web3-react/core'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
+import { Flex, Text } from 'components/uikit'
+import DexPanel from 'components/DexPanel'
+import Actions from 'views/V2/AddLiquidityV2/components/Actions'
+import { useHandleCurrencyASelect, useHandleCurrencyBSelect } from 'views/V2/AddLiquidityV2/hooks'
 
 interface RegularLiquidityProps {
   currencyIdA?: string
   currencyIdB?: string
-  handleCurrenciesURL?: (Field, Currency, otherCurrency: string) => void
+  handleCurrenciesURL?: (Field: any, Currency: Currency, otherCurrency: string) => void
 }
 
 const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ currencyIdA, currencyIdB, handleCurrenciesURL }) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
-  const dispatch = useAppDispatch()
-  const { INPUT, OUTPUT } = useSwapState()
-  const [tradeValueUsd, setTradeValueUsd] = useState(0)
-
-  // Set either param currency or swap currency
-  currencyIdA = currencyIdA || INPUT.currencyId
-  currencyIdB = currencyIdB || OUTPUT.currencyId
-
-  // Set currencies
-  const [currencyA, setCurrencyA] = useState(useCurrency(currencyIdA))
-  const [currencyB, setCurrencyB] = useState(useCurrency(currencyIdB))
-
-  // Handle currency selection
-  const handleCurrencySelect = useCallback(
-    (field: Field, currency: Currency) => {
-      const newCurrencyId = currency
-      if (handleCurrenciesURL) {
-        if (field === Field.CURRENCY_A) {
-          handleCurrenciesURL(field, currency, currencyIdB)
-        } else {
-          handleCurrenciesURL(field, currency, currencyIdA)
-        }
-      }
-      if (field === Field.CURRENCY_A) {
-        setCurrencyA(newCurrencyId)
-      }
-      if (field === Field.CURRENCY_B) {
-        setCurrencyB(newCurrencyId)
-      }
-    },
-    [currencyIdA, currencyIdB, handleCurrenciesURL],
-  )
-
-  // Check to reset mint state
-  useEffect(() => {
-    if (!currencyIdA && !currencyIdB) {
-      dispatch(resetMintState())
-    }
-  }, [dispatch, currencyIdA, currencyIdB])
-
-  // mint state
+  const currencyA = useCurrency(currencyIdA)
+  const currencyB = useCurrency(currencyIdB)
+  // Mint state
   const { independentField, typedValue, otherTypedValue } = useMintState()
   const {
     dependentField,
     currencies,
+    pair,
+    pairState,
     currencyBalances,
     parsedAmounts,
     price,
@@ -79,7 +43,15 @@ const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ currencyIdA, curren
     error,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
-  const { onUserInput } = useMintActionHandlers(noLiquidity)
+  // Navigation
+  const handleCurrencyASelect = useHandleCurrencyASelect({
+    currencyIdB: currencyIdB ?? '',
+    currencyIdA: currencyIdA ?? '',
+  })
+  const handleCurrencyBSelect = useHandleCurrencyBSelect({
+    currencyIdA: currencyIdA ?? '',
+    currencyIdB: currencyIdB ?? '',
+  })
 
   // get formatted amounts
   const formattedAmounts = {
@@ -88,7 +60,7 @@ const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ currencyIdA, curren
   }
 
   // get the max amounts user can add
-  const maxAmounts: { [field in Field]?: TokenAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+  const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
     (accumulator, field) => {
       return {
         ...accumulator,
@@ -98,76 +70,65 @@ const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ currencyIdA, curren
     {},
   )
 
-  const handleMaxInput = useCallback(
-    (field: Field) => {
-      if (maxAmounts) {
-        onUserInput(field, maxAmounts[field]?.toExact() ?? '')
-      }
-    },
-    [maxAmounts, onUserInput],
-  )
+  // Action handlers
+
+  const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
 
   return (
-    <div>
-      <Flex sx={styles.liquidityContainer}>
-        {noLiquidity && (
-          <Flex sx={{ ...styles.warningMessageContainer }}>
-            <Text size="14px" weight={700} mb="10px" color="primaryBright">
-              {t('You are the first liquidity provider.')}
-            </Text>
-            <Text size="12px" weight={500} color="primaryBright" sx={{ textAlign: 'center' }}>
-              {t(
-                'The ratio of tokens you add will set the price of this pool. Once you are happy with the rate click supply to review.',
-              )}
-            </Text>
-          </Flex>
-        )}
-        <Flex sx={{ marginTop: '30px' }}>
-          <DexPanel
-            value={formattedAmounts[Field.CURRENCY_A]}
-            panelText="Token 1"
-            currency={currencyA}
-            otherCurrency={currencyB}
-            setTradeValueUsd={setTradeValueUsd}
-            fieldType={Field.CURRENCY_A}
-            onCurrencySelect={handleCurrencySelect}
-            onUserInput={onUserInput}
-            handleMaxInput={handleMaxInput}
-            showCommonBases
-          />
+    <Flex variant="flex.dexContainer">
+      {noLiquidity && (
+        <Flex sx={styles.warningMessageContainer}>
+          <Text size="14px" weight={700} mb="10px" color="primaryBright">
+            {t('You are the first liquidity provider.')}
+          </Text>
+          <Text size="12px" weight={500} color="primaryBright" sx={{ textAlign: 'center' }}>
+            {t(
+              'The ratio of tokens you add will set the price of this pool. Once you are happy with the rate click supply to review.',
+            )}
+          </Text>
         </Flex>
-        <AddLiquiditySign />
-        <DexPanel
-          value={formattedAmounts[Field.CURRENCY_B]}
-          panelText="Token 2"
-          currency={currencyB}
-          otherCurrency={currencyA}
-          fieldType={Field.CURRENCY_B}
-          onCurrencySelect={handleCurrencySelect}
-          onUserInput={onUserInput}
-          handleMaxInput={handleMaxInput}
-          showCommonBases
-        />
-        <PoolInfo
-          currencies={currencies}
-          poolTokenPercentage={poolTokenPercentage}
-          noLiquidity={noLiquidity}
-          price={price}
-          chainId={chainId}
-          liquidityMinted={liquidityMinted}
-        />
-        <AddLiquidityActions
-          currencies={currencies}
-          tradeValueUsd={tradeValueUsd}
-          error={error}
-          parsedAmounts={parsedAmounts}
-          noLiquidity={noLiquidity}
-          liquidityMinted={liquidityMinted}
-          poolTokenPercentage={poolTokenPercentage}
-          price={price}
-        />
-      </Flex>
-    </div>
+      )}
+      <Flex sx={{ mb: '30px' }} />
+      <DexPanel
+        panelText="Token 1"
+        onCurrencySelect={handleCurrencyASelect}
+        onUserInput={onFieldAInput}
+        handleMaxInput={() => {
+          onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
+        }}
+        value={formattedAmounts[Field.CURRENCY_A]}
+        currency={currencyA}
+        otherCurrency={currencyB}
+      />
+      <AddLiquiditySign />
+      <DexPanel
+        panelText="Token 2"
+        onCurrencySelect={handleCurrencyBSelect}
+        onUserInput={onFieldBInput}
+        handleMaxInput={() => {
+          onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+        }}
+        value={formattedAmounts[Field.CURRENCY_B]}
+        currency={currencyB}
+        otherCurrency={currencyA}
+      />
+      <PoolInfo
+        currencies={currencies}
+        poolTokenPercentage={poolTokenPercentage}
+        noLiquidity={noLiquidity}
+        price={price}
+        liquidityMinted={liquidityMinted}
+      />
+      <Actions
+        currencies={currencies}
+        parsedAmounts={parsedAmounts}
+        error={error}
+        noLiquidity={noLiquidity}
+        price={price}
+        poolTokenPercentage={poolTokenPercentage}
+        liquidityMinted={liquidityMinted}
+      />
+    </Flex>
   )
 }
 

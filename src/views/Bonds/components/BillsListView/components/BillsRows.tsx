@@ -1,6 +1,6 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
-// import BillModal from '../../Modals'
+import BillModal from '../../Modals'
 import { useTranslation } from 'contexts/Localization'
 // import EmptyListComponent, { EmptyComponentType } from '../../EmptyListComponent/EmptyList'
 import { Bills } from '../../../types'
@@ -120,14 +120,13 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
             />
             <Flex sx={{ width: '165px', minWidth: '145px' }}>
               {account ? (
-                // <BillModal
-                //   bill={bill}
-                //   buttonText={disabled ? t('SOLD OUT') : t('BUY')}
-                //   id={bill.index}
-                //   buyFlag
-                //   disabled={!bill.discount || bill.discount.includes('NaN') || disabled}
-                // />
-                <></>
+                <BillModal
+                  bill={bill}
+                  buttonText={disabled ? t('SOLD OUT') : t('BUY')}
+                  id={bill.index}
+                  buyFlag
+                  disabled={!bill.discount || bill.discount.includes('NaN') || disabled}
+                />
               ) : (
                 <Flex sx={{ minWidth: '145px' }}>
                   <ConnectWalletButton />
@@ -165,7 +164,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                     style={{ width: '100%', justifyContent: 'space-between' }}
                   />
                 </Flex>
-                {/* <Flex sx={{ width: '240px', justifyContent: 'center' }}>
+                <Flex sx={{ width: '240px', justifyContent: 'center' }}>
                   <BillModal
                     bill={bill}
                     buttonText={disabled ? t('SOLD OUT') : t('BUY')}
@@ -174,7 +173,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                     disabled={!bill.discount || bill.discount.includes('NaN') || disabled}
                     buttonSize={'100%'}
                   />
-                </Flex> */}
+                </Flex>
               </Flex>
             ) : (
               <Flex sx={{ width: '240px', justifyContent: 'center' }}>

@@ -19,6 +19,8 @@ const TradeDetails = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
+
+  console.log(trade)
   const formattedGasPriceString = trade?.gasUseEstimateUSD
     ? trade.gasUseEstimateUSD.toFixed(2) === '0.00'
       ? '<$0.01'

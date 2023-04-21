@@ -1,5 +1,5 @@
 import { ThemeUIStyleObject } from 'theme-ui'
-import { buttonHover } from 'views/Dex/styles'
+import { buttonHover } from 'theme/components'
 
 export const styles: Record<string, ThemeUIStyleObject> = {
   dexPanelContainer: {

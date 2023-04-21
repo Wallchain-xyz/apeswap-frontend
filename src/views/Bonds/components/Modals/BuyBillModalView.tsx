@@ -21,7 +21,6 @@ import { Image } from 'theme-ui'
 
 const modalProps = {
   sx: {
-    zIndex: 98,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     width: ['90%'],

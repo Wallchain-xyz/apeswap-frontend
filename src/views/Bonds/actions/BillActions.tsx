@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { getEtherscanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import useApproveBill from '../hooks/useApproveBill'
-import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import { ApprovalState, useApproveCallback, useApproveCallbackFromZap } from 'hooks/useApproveCallback'
 import { BillActionsProps } from './types'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
@@ -10,7 +10,7 @@ import { BuyButton } from './styles'
 import { Button } from 'components/uikit'
 import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import JSBI from 'jsbi'
-
+import { useUserZapSlippageTolerance } from 'state/user/hooks'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -25,8 +25,9 @@ const BillActions: React.FC<BillActionsProps> = ({
   errorMessage,
 }) => {
   const { lpToken, contractAddress, index } = bill
-  // const [approval, approveCallback] = useApproveCallbackFromZap(zap)
-  const showApproveZapFlow = true // approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
+  const [slippage] = useUserZapSlippageTolerance()
+  const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
+  const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
   const { chainId, account } = useWeb3React()
   const { onApprove } = useApproveBill(
     lpToken?.address?.[chainId as SupportedChainId] ?? '',
@@ -64,7 +65,7 @@ const BillActions: React.FC<BillActionsProps> = ({
 
   return (
     <>
-      {!currencyB && showApproveZapFlow ? (
+      {!currencyB && !showApproveZapFlow ? (
         <></>
       ) : // <Button
       //   onClick={approveCallback}
@@ -81,22 +82,21 @@ const BillActions: React.FC<BillActionsProps> = ({
           {t('Enable')}
         </Button>
       ) : (
-        <></>
-        // <BuyButton
-        //   onClick={handleBuy}
-        //   load={pendingTrx}
-        //   disabled={
-        //     billValue === 'NaN' ||
-        //     parseFloat(billValue) < 0.01 ||
-        //     parseFloat(billValue) > parseFloat(purchaseLimit) ||
-        //     parseFloat(balance) < parseFloat(value) ||
-        //     pendingApprove ||
-        //     pendingTrx ||
-        //     !!errorMessage
-        //   }
-        // >
-        //   {errorMessage && !pendingTrx ? errorMessage : t('Buy')}
-        // </BuyButton>
+        <BuyButton
+          onClick={handleBuy}
+          load={pendingTrx}
+          disabled={
+            billValue === 'NaN' ||
+            parseFloat(billValue) < 0.01 ||
+            parseFloat(billValue) > parseFloat(purchaseLimit) ||
+            parseFloat(balance) < parseFloat(value) ||
+            pendingApprove ||
+            pendingTrx ||
+            !!errorMessage
+          }
+        >
+          {errorMessage && !pendingTrx ? errorMessage : t('Buy')}
+        </BuyButton>
       )}
     </>
   )

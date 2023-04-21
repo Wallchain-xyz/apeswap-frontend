@@ -1,17 +1,17 @@
-/** @jsxImportSource theme-ui */
 import React, { useCallback, useState } from 'react'
-import { useModal } from '@ape.swap/uikit'
 import DualLiquidityModal from '../DualLiquidityModal'
 import { Field, selectCurrency } from 'state/swap/actions'
 import { selectOutputCurrency } from 'state/zap/actions'
 import { useDispatch } from 'react-redux'
 import { ZapType } from '@ape.swap/sdk'
 import { CHAIN_PARAMS } from 'config/constants/chains'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { Token } from 'config/constants/types'
+
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import useModal from 'hooks/useModal'
+import { useWeb3React } from '@web3-react/core'
 
 const useAddLiquidityModal = (zapIntoProductType?: ZapType) => {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const [poolAddress, setPoolAddress] = useState(' ')
   const [pid, setPid] = useState('')
   const [zapable, setZapable] = useState(false)
@@ -29,16 +29,16 @@ const useAddLiquidityModal = (zapIntoProductType?: ZapType) => {
   )
 
   const nativeToETH = useCallback(
-    (token: Token) => {
-      const nativeSymbol = CHAIN_PARAMS[chainId].nativeCurrency.symbol
+    (token: any) => {
+      const nativeSymbol = CHAIN_PARAMS[chainId as SupportedChainId]?.nativeCurrency.symbol
       if (token.symbol === nativeSymbol) return 'ETH'
-      return token.address[chainId]
+      return token.address[chainId as SupportedChainId]
     },
     [chainId],
   )
 
   return useCallback(
-    (token: Token, quoteToken: Token, poolAddress?: string, pid?: string, zapable?: boolean) => {
+    (token: any, quoteToken: any, poolAddress?: string, pid?: string, zapable?: boolean) => {
       dispatch(
         selectCurrency({
           field: Field.INPUT,
@@ -57,9 +57,9 @@ const useAddLiquidityModal = (zapIntoProductType?: ZapType) => {
           currency2: nativeToETH(quoteToken),
         }),
       )
-      setPoolAddress(poolAddress)
-      setPid(pid)
-      setZapable(zapable)
+      setPoolAddress(poolAddress ?? '')
+      setPid(pid ?? '')
+      setZapable(zapable ?? false)
       onPresentAddLiquidityWidgetModal()
     },
     [dispatch, nativeToETH, onPresentAddLiquidityWidgetModal],

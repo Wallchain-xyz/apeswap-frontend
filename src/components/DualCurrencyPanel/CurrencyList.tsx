@@ -1,9 +1,9 @@
 import React, { MutableRefObject, useCallback } from 'react'
-import { Flex } from '@ape.swap/uikit'
 import { FixedSizeList } from 'react-window'
-import styled from 'styled-components'
 import SearcherDisplay from './SearcherDisplay'
-import { DualCurrencySelector } from '../../views/Bills/components/Actions/types'
+import { DualCurrencySelector } from 'views/Bonds/actions/types'
+import { Flex } from 'components/uikit'
+import styled from '@emotion/styled'
 
 export default function CurrencyList({
   currenciesList,
@@ -11,19 +11,19 @@ export default function CurrencyList({
   fixedListRef,
 }: {
   currenciesList: DualCurrencySelector[]
-  onCurrencySelect: (currency: DualCurrencySelector, index) => void
+  onCurrencySelect: (currency: DualCurrencySelector, index: number) => void
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
 }) {
   const itemData: (DualCurrencySelector | undefined)[] = currenciesList
 
   const Row = useCallback(
-    ({ data, index, style }) => {
+    ({ data, index, style }: any) => {
       const currency: DualCurrencySelector = data[index]
       const handleSelect = () => onCurrencySelect(currency, index)
       const key = index
 
       return (
-        <Flex style={style} key={`token-item-${key}`} className={`token-item-${key}`} onClick={handleSelect}>
+        <Flex sx={style} key={`token-item-${key}`} className={`token-item-${key}`} onClick={handleSelect}>
           <SearcherDisplay item={currency} />
         </Flex>
       )
