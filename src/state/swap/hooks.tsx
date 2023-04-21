@@ -9,11 +9,9 @@ import { ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
-
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useCurrency } from '../../hooks/Tokens'
 import useENS from 'hooks/useENS'
-import useParsedQueryString from 'hooks/useParsedQueryString'
 import { isAddress } from '../../utils'
 import { AppState } from '../index'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
@@ -21,7 +19,6 @@ import { SwapState } from './reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { useRouter } from 'next/router'
-import { ParsedUrlQuery } from 'querystring'
 
 export function useSwapState(): AppState['swap'] {
   return useAppSelector((state) => state.swap)
