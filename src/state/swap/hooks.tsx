@@ -220,10 +220,8 @@ function validatedRecipient(recipient: any): string | null {
 }
 
 export function queryParametersToSwapState(parsedQs: any): SwapState {
-  console.log(parsedQs)
   let inputCurrency = parsedQs?.inputcurrency ?? parsedQs?.inputCurrency ?? ''
   let outputCurrency = parsedQs?.outputcurrency ?? parsedQs?.outputCurrency ?? ''
-  console.log(outputCurrency)
   const typedValue = parseTokenAmountURLParameter(parsedQs.exactAmount)
   const independentField = parseIndependentFieldURLParameter(parsedQs.exactField)
 
