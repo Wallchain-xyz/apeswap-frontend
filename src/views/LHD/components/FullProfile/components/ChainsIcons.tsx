@@ -1,24 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { TokenAddress } from '../../../../../state/lhd/types'
 import { Flex, Text } from '../../../../../components/uikit'
-import Bnb from './SmallChainIcons/BNB'
-import Matic from './SmallChainIcons/Matic'
-import Eth from './SmallChainIcons/Eth'
-import Arbitrum from './SmallChainIcons/Arbitrum'
-import Tlos from './SmallChainIcons/Tlos'
+import Bnb from '../../SmallChainIcons/BNB'
+import Matic from '../../SmallChainIcons/Matic'
+import Eth from '../../SmallChainIcons/Eth'
+import Arbitrum from '../../SmallChainIcons/Arbitrum'
+import Tlos from '../../SmallChainIcons/Tlos'
+import { icons } from '../../SmallChainIcons'
 
 const ChainsIcons = ({ tokenAddresses }: { tokenAddresses: TokenAddress[] }) => {
   const [extraChains, setExtraChains] = useState(0)
   const [elementsWithIcons, setElementsWithIcons] = useState<TokenAddress[]>([])
   const width = 16
-
-  const icons: { [key: string]: JSX.Element } = useMemo(() => ({
-    '56': <Bnb />,
-    '137': <Matic />,
-    '1': <Eth />,
-    '40': <Tlos />,
-    '42161': <Arbitrum/>
-  }), []);
 
   useEffect(() => {
     let extraChainsCount = 0
@@ -30,10 +23,9 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses: TokenAddress[] }) => 
         return false
       }
     })
-
     setExtraChains(extraChainsCount)
     setElementsWithIcons(newElementsWithIcons)
-  }, [tokenAddresses, icons])
+  }, [tokenAddresses])
 
   return (
     <div style={{ position: 'relative' }}>

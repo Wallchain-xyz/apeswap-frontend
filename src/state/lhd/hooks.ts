@@ -5,6 +5,7 @@ import { SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
 import { addFullProfile, addSearchProfiles } from './reducer'
 import { useSelector } from 'react-redux'
+import FullProfile from '../../views/LHD/components/FullProfile'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
@@ -45,13 +46,13 @@ export const useFetchProfile = async (chainID?: string | string[] | undefined, a
 }
 
 export const useSimpleProfiles = () => {
-  return useSelector((state: AppState) => state?.lhd?.simpleProfiles)
+  return useSelector((state: AppState) => state.lhd.simpleProfiles)
 }
 
 export const useSearchProfiles = () => {
-  return useSelector((state: AppState) => state?.lhd?.searchProfiles)
+  return useSelector((state: AppState) => state.lhd.searchProfiles)
 }
 
 export const useFullProfile = () => {
-  return useSelector((state: AppState) => state?.lhd?.fullProfile)
+  return useSelector((state: AppState) => state.lhd.fullProfile)
 }

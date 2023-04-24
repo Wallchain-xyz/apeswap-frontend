@@ -52,6 +52,7 @@ export interface TokenProfile extends SimpleTokenProfile {
   liquidityPools: LiquidityPool[];
   formulaVersion: string;
   createdAt: string;
+  unlockedSupply: number;
 }
 
 export interface LiquidityPool {
