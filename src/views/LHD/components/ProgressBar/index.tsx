@@ -4,36 +4,37 @@ import { Flex, Text } from '../../../../components/uikit'
 import { getColor } from '../../utils/getColor'
 
 interface ProgressBarProps {
-  widthPercentage: number;
+  value: number;
+  position: 'left' | 'right'
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ widthPercentage }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ value, position }) => {
 
   return (
-    <Flex sx={{ alignItems: 'center' }}>
+    <Flex sx={{ width: '100%', alignItems: 'center', flexDirection: position === 'left' ? 'row' : 'row-reverse' }}>
       <Text sx={{
         fontWeight: 500,
         fontSize: ['10px', '10px', '10px', '12px'],
-        mr: '5px',
+        margin: position === 'left' ? '0 5px 0 0' : '0 0 0 5px',
         minWidth: '25px',
       }}>
-        {widthPercentage}%
+        {value}%
       </Text>
       <Box
         sx={{
-          minWidth: ['30px','30px','86px'],
-          height: '8px',
+          width: '100%',
+          height: position === 'right' ? '12px' : '8px',
           backgroundColor: '#EADFC7',
           borderRadius: '10px',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Box sx={{
-          width: `${widthPercentage <= 3 ? 3 : widthPercentage}%`,
-          backgroundColor: getColor(widthPercentage),
+          width: `${value <= 3 ? 3 : value}%`,
+          backgroundColor: getColor(value),
           borderRadius: '10px',
-          height: '8px',
-        }}></Box>
+          height: '100%',
+        }} />
       </Box>
     </Flex>
   )

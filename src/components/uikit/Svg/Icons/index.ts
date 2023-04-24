@@ -71,3 +71,5 @@ export { default as Audit } from "./Audit";
 export { default as GreenShield } from "./GreenShield"
 export { default as Chain } from "./Chain"
 export { default as Verified } from "./Verified"
+export { default as TickShield } from "./TickShield"
+export { default as Share } from "./Share"

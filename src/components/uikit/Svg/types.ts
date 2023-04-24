@@ -99,7 +99,9 @@ export enum icons {
   AUDIT = "audit",
   GREEN_SHIELD = "greenShield",
   CHAIN = "chain",
-  VERIFIED = "verified"
+  VERIFIED = "verified",
+  TICK_SHIELD = "tickShield",
+  SHARE = "share"
 }
 
 export enum directions {

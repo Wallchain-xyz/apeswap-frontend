@@ -72,7 +72,8 @@ import {
   Audit,
   GreenShield,
   Chain,
-  Verified
+  Verified,
+  TickShield, Share,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -268,6 +269,10 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Chain {...props} getStyles={getStyles}/>
     case icons.VERIFIED:
       return <Verified {...props} getStyles={getStyles}/>
+    case icons.TICK_SHIELD:
+      return <TickShield {...props} getStyles={getStyles}/>
+    case icons.SHARE:
+      return <Share {...props} getStyles={getStyles}/>
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:

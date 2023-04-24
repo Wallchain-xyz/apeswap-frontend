@@ -125,7 +125,8 @@ const TableRow = ({ index, style, profiles }: {
                width={25}
                height={25}
                style={{ borderRadius: '25px' }} />
-        <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['18px'], ml: '5px' }}></Text>
+        <Text
+          sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['18px'], ml: '5px' }}></Text>
         {simpleProfile?.addressMapping?.tokenSymbol}
       </Flex>
       <Flex sx={{ padding: '8px', justifyContent: 'center', height: '40px' }}>
@@ -143,14 +144,38 @@ const TableRow = ({ index, style, profiles }: {
           {formatDollar({ num: simpleProfile?.extractableLiquidity })}
         </Text>
       </Flex>
-      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-        <ProgressBar widthPercentage={Math.round(simpleProfile?.healthScore * 100)} />
+      <Flex sx={{ width: '100%', justifyContent: 'center' }}>
+        <Flex sx={{
+          padding: '8px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '40px',
+          minWidth: ['80px', '80px', '133px'],
+        }}>
+          <ProgressBar value={Math.round(simpleProfile?.healthScore * 100)} position='left' />
+        </Flex>
       </Flex>
-      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-        <ProgressBar widthPercentage={Math.round(simpleProfile?.concentrationScore * 100)} />
+      <Flex sx={{ width: '100%', justifyContent: 'center' }}>
+        <Flex sx={{
+          padding: '8px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '40px',
+          minWidth: ['80px', '80px', '133px'],
+        }}>
+          <ProgressBar value={Math.round(simpleProfile?.concentrationScore * 100)} position='left' />
+        </Flex>
       </Flex>
-      <Flex sx={{ padding: '8px', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
-        <ProgressBar widthPercentage={Math.round(simpleProfile?.ownershipScore * 100)} />
+      <Flex sx={{ width: '100%', justifyContent: 'center' }}>
+        <Flex sx={{
+          padding: '8px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '40px',
+          minWidth: ['80px', '80px', '133px'],
+        }}>
+          <ProgressBar value={Math.round(simpleProfile?.ownershipScore * 100)} position='left' />
+        </Flex>
       </Flex>
       <Flex sx={{
         padding: '8px',

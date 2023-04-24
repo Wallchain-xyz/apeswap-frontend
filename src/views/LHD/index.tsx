@@ -7,7 +7,6 @@ import ListViewLayout from '../../components/ListView/ListViewLayout'
 import { useTranslation } from '../../contexts/Localization'
 import StatCard from './components/StatCard'
 import MyTable from './components/Table'
-import { Box } from 'theme-ui'
 
 const LHD = () => {
   useLoadInitialProfiles()
