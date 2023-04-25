@@ -25,9 +25,11 @@ const Home = () => {
       <SwiperProvider>
         <News />
       </SwiperProvider>
-      <SwiperProvider>
-        <Services />
-      </SwiperProvider>
+      {chainId === SupportedChainId.BSC && (
+        <SwiperProvider>
+          <Services />
+        </SwiperProvider>
+      )}
       <SwiperProvider>
         <Values />
       </SwiperProvider>
