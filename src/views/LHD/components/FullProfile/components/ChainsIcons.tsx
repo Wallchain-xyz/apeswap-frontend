@@ -1,11 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TokenAddress } from '../../../../../state/lhd/types'
 import { Flex, Text } from '../../../../../components/uikit'
-import Bnb from '../../SmallChainIcons/BNB'
-import Matic from '../../SmallChainIcons/Matic'
-import Eth from '../../SmallChainIcons/Eth'
-import Arbitrum from '../../SmallChainIcons/Arbitrum'
-import Tlos from '../../SmallChainIcons/Tlos'
 import { icons } from '../../SmallChainIcons'
 
 const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) => {

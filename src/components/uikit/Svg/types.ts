@@ -101,7 +101,8 @@ export enum icons {
   CHAIN = "chain",
   VERIFIED = "verified",
   TICK_SHIELD = "tickShield",
-  SHARE = "share"
+  SHARE = "share",
+  FILLED_URL = "filledURL"
 }
 
 export enum directions {

@@ -11,10 +11,9 @@ import Image from 'next/image'
 import ChainsIcons from './components/ChainsIcons'
 import ProgressBar from '../ProgressBar'
 import { getColor } from '../../utils/getColor'
-import TooltipBubble from '../../../../components/uikit/Tooltip'
-import { formatDollar } from '../../../../utils/formatNumbers'
 import useModal from '../../../../hooks/useModal'
 import SharableCard from '../SharableCard'
+import Index from './components/InfoCards'
 
 const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
@@ -30,7 +29,7 @@ const FullProfile = ({ chainID, address }: {
                                                 healthScore={fullProfile?.healthScore}
                                                 concentrationScore={fullProfile?.concentrationScore}
                                                 ownershipScore={fullProfile?.ownershipScore}
-                                                tokenAddresses={fullProfile?.addressMapping.tokenAddresses}/>)
+                                                tokenAddresses={fullProfile?.addressMapping.tokenAddresses} />)
 
   if (fullProfile) {
     return (
@@ -97,7 +96,7 @@ const FullProfile = ({ chainID, address }: {
                     }}>
                       {fullProfile?.addressMapping?.tokenSymbol}
                     </Text>
-                    <Box sx={{ background: 'white3', padding: '2px 5px', borderRadius: '10px', mr: '10px' }}>
+                    <Box sx={{ background: 'white3', padding: '2px 5px', borderRadius: '10px', mr: '5px' }}>
                       <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
                         ${fullProfile?.currentPrice[0]?.amount.toFixed(5)}
                         <PriceChange priceChange={fullProfile?.priceChange24hr?.toFixed(2)} />
@@ -110,7 +109,7 @@ const FullProfile = ({ chainID, address }: {
                     alignItems: 'center',
                     mt: ['10px', '10px', '0px'],
                   }}>
-                    <IconButton href={fullProfile?.addressMapping?.profileLinks?.siteUrl} icon='URL' />
+                    <IconButton href={fullProfile?.addressMapping?.profileLinks?.siteUrl} icon='filledURL' />
                     {/*TODO: Which audits should we show?*/}
                     <IconButton href={fullProfile?.addressMapping?.profileLinks?.auditUrls?.[0]} icon='tickShield' />
                     <IconButton href={fullProfile?.addressMapping?.profileLinks?.twitterUrl} icon='twitter' />
@@ -228,142 +227,7 @@ const FullProfile = ({ chainID, address }: {
           }}>
             <Chart />
           </Flex>
-          <Flex sx={{
-            width: '100%',
-            background: 'white2',
-            borderRadius: '10px',
-            mt: ['15px', '15px', '15px', '0px'],
-            height: ['380px', '380px', '380px', '430px'],
-            justifyContent: 'flex-start',
-            flexDirection: 'column',
-          }}>
-            <Flex sx={{ width: '100%', justifyContent: 'center', mt: ['20px'] }}>
-              <Text sx={{ fontWeight: 600, fontSize: ['16px'], lineHeight: ['20px'] }}>
-                {t('Liquidity Health Summary')}
-              </Text>
-            </Flex>
-            <Flex sx={{ width: '100%', mt: ['10px'], p: ['20px'], flexDirection: 'column' }}>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Total Valid Liquidity')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Total Valid Liquidity</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {formatDollar({ num: fullProfile?.totalValidLiquidity })}
-                </Text>
-              </Flex>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Owned Extractable Liquidity')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Owned Extractable Liquidity</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {formatDollar({ num: fullProfile?.extractableLiquidity })}
-                </Text>
-              </Flex>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Liquidity Debt')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Liquidity Debt</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  pending data for this
-                </Text>
-              </Flex>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Sustainability Range (Upper)')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Sustainability Range (Upper)</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  pending data for this
-                </Text>
-              </Flex>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Sustainability Range (Lower)')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Sustainability Range (Lower)</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  pending data for this
-                </Text>
-              </Flex>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Unlocked Supply')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Unlocked Supply</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {formatDollar({ num: fullProfile?.unlockedSupply })}
-                </Text>
-              </Flex>
-              <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {t('Circulating Supply')}
-                  <TooltipBubble
-                    placement='bottomLeft'
-                    transformTip='translate(0%, 0%)'
-                    width='180px'
-                    body={<>Circulating Supply</>}>
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
-                    </span>
-                  </TooltipBubble>
-                </Text>
-                <Text sx={{ fontWeight: 500, fontSize: ['10px', '10px', '10px', '12px'], lineHeight: ['24px'] }}>
-                  {formatDollar({ num: fullProfile?.circulatingSupply[0].amount })}
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
+          <Index fullProfile={fullProfile} />
         </Flex>
         {chainID}-{address}
         <br />

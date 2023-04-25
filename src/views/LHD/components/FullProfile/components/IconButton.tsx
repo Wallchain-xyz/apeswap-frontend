@@ -1,18 +1,19 @@
 import React from 'react'
 import { Button, Link, Svg } from '../../../../../components/uikit'
 
-const IconButton = ({ href, icon }: {
+const IconButton = ({ href, icon, simpleBtn }: {
   href: string | undefined,
-  icon: 'URL' | 'tickShield' | 'twitter' | 'send' | 'discord'
+  icon: 'filledURL' | 'tickShield' | 'twitter' | 'send' | 'discord'
+  simpleBtn?: boolean
 }) => {
   return (
     <Button variant='tertiary'
             disabled={!href}
             sx={{
-              background: 'white4',
+              background: simpleBtn? 'none' : 'white4',
               padding: '2px 5px',
               borderRadius: '8px',
-              mr: '5px',
+              ml: '5px',
               height: '19px',
               alignItems: 'center',
               lineHeight: '12px',

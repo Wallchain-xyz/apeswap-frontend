@@ -1,4 +1,4 @@
-import Bnb from '../../../Home/components/WelcomeContent/slides/grayChains/bnb';
+import Bnb from './BNB';
 import Matic from './Matic';
 import Eth from './Eth';
 import Tlos from './Tlos';
