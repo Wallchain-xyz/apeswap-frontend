@@ -7,6 +7,7 @@ import CountUp from 'react-countup'
 import { styles } from './styles'
 import { useFetchHomepageStats } from 'state/homepage/hooks'
 import { useThemeUI } from 'theme-ui'
+import { Tvl } from 'views/Home/components/StatCards/icons'
 
 const COLORS = [
   'rgba(244, 190, 55, 1)',
@@ -105,11 +106,11 @@ const TotalValueLocked: React.FC = () => {
                       },
                       titleFont: { family: 'poppins', weight: '700', size: 16 },
                       bodyFont: { family: 'poppins', weight: '500', size: 14 },
-                      titleColor:  theme.rawColors?.text?.toString(),
-                      backgroundColor:  theme.rawColors?.white2?.toString(),
+                      titleColor: theme.rawColors?.text?.toString(),
+                      backgroundColor: theme.rawColors?.white2?.toString(),
                       boxPadding: 5,
-                      bodyColor:  theme.rawColors?.text?.toString(),
-                      borderColor:  theme.rawColors?.inputBorder?.toString(),
+                      bodyColor: theme.rawColors?.text?.toString(),
+                      borderColor: theme.rawColors?.inputBorder?.toString(),
                       bodySpacing: 20,
                       borderWidth: 1,
                       cornerRadius: 10,
@@ -133,7 +134,7 @@ const TotalValueLocked: React.FC = () => {
                 zIndex: 0,
               }}
             >
-              {/* <Tvl fill={theme.rawColors.text} color={theme.rawColors.background} width="90px" /> */}
+              <Tvl fill="text" color="background" width="90px" />
             </Flex>
           </Flex>
         )}

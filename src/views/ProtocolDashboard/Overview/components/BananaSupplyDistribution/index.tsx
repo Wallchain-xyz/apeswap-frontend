@@ -157,7 +157,7 @@ const BananaSupplyDistribution: React.FC = () => {
                 zIndex: 0,
               }}
             >
-              <Svg icon='banana_token' width="80px" />
+              <Svg icon="bananaIcon" width="80px" />
             </Flex>
           </>
         )}

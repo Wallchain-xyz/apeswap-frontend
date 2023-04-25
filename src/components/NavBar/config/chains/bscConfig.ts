@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 import { NavConfig } from 'components/NavBar/types'
 
 const bscConfig: NavConfig[] = [
@@ -19,7 +19,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'GNANA',
-        href: `${TEMP_APESWAP_URL}/gnana`,
+        href: `/gnana`,
       },
     ],
   },
@@ -28,7 +28,7 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Staking Pools',
-        href: `${TEMP_APESWAP_URL}/pools`,
+        href: `/pools`,
       },
       {
         label: 'BANANA Maximizers',
@@ -36,11 +36,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'BANANA Farms',
-        href: `${TEMP_APESWAP_URL}/farms`,
-      },
-      {
-        label: 'Jungle Farms',
-        href: `${TEMP_APESWAP_URL}/jungle-farms`,
+        href: `/farms`,
       },
     ],
   },
@@ -95,7 +91,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',

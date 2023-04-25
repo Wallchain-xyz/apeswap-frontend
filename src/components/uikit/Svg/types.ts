@@ -94,9 +94,10 @@ export enum icons {
   BILLS_M1 = 'billsM1',
   BILLS_M2 = 'billsM2',
   BILLS_M3 = 'billsM3',
-  URL = "URL",
-  BUBBLE = "bubble",
-  AUDIT = "audit",
+  URL = 'URL',
+  BUBBLE = 'bubble',
+  AUDIT = 'audit',
+  BANANA_ICON = 'bananaIcon',
 }
 
 export enum directions {
