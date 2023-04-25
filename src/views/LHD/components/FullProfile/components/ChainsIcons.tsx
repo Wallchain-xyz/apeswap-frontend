@@ -8,14 +8,14 @@ import Arbitrum from '../../SmallChainIcons/Arbitrum'
 import Tlos from '../../SmallChainIcons/Tlos'
 import { icons } from '../../SmallChainIcons'
 
-const ChainsIcons = ({ tokenAddresses }: { tokenAddresses: TokenAddress[] }) => {
+const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) => {
   const [extraChains, setExtraChains] = useState(0)
   const [elementsWithIcons, setElementsWithIcons] = useState<TokenAddress[]>([])
   const width = 16
 
   useEffect(() => {
     let extraChainsCount = 0
-    const newElementsWithIcons = tokenAddresses.filter((tokenAddress) => {
+    const newElementsWithIcons = tokenAddresses?.filter((tokenAddress) => {
       if (icons.hasOwnProperty(tokenAddress.chainId)) {
         return true
       } else {
@@ -24,7 +24,7 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses: TokenAddress[] }) => 
       }
     })
     setExtraChains(extraChainsCount)
-    setElementsWithIcons(newElementsWithIcons)
+    setElementsWithIcons(newElementsWithIcons ?? [])
   }, [tokenAddresses])
 
   return (

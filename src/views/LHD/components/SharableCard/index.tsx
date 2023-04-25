@@ -1,6 +1,8 @@
 import React from 'react'
-import { Modal } from 'components/uikit'
+import { Flex, Modal } from 'components/uikit'
 import { TokenAddress } from '../../../../state/lhd/types'
+import ChainsIcons from '../FullProfile/components/ChainsIcons'
+import Image from 'next/image'
 
 const modalProps = {
   // sample styles for the modal. This are not checked at all so feel 100% free to change them
@@ -39,7 +41,29 @@ const SharableCard = ({
 
   return (
     <Modal {...modalProps}>
-      insert sexy jsx code here
+      <Flex sx={{ width: '100%', height: '30px'}}>
+        <Flex sx={{
+          minWidth: '25px',
+          height: '25px',
+          mt: ['2px'],
+          mr: ['5px'],
+          background: 'red',
+          borderRadius: '25px',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Image src={tokenImageURL ?? ''}
+                 alt={'token img'}
+                 width={39}
+                 height={39}
+                 style={{
+                   width: '93%', height: '93%',
+                   borderRadius: '25px',
+                 }} />
+        </Flex>
+        {tokenSymbol}
+        <ChainsIcons tokenAddresses={tokenAddresses} />
+      </Flex>
     </Modal>
   )
 }
