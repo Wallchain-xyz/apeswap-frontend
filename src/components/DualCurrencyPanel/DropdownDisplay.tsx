@@ -35,9 +35,9 @@ const DropdownDisplay: React.FC<{ inputCurrencies: Currency[]; active?: boolean 
     <Flex sx={{ alignItems: 'center', width: active ? '100%' : '170px' }}>
       <Flex sx={{ minWidth: inputCurrencies[1] ? '30px' : '35px', marginRight: '5px', alignItems: 'center' }}>
         {!inputCurrencies[1] && !active && (
-          <Box sx={{ marginRight: '5px' }}>
+          <span sx={{ marginRight: '5px' }}>
             <Svg icon="ZapIcon" color={'gray'} width="8px" />
-          </Box>
+          </span>
         )}
         <ServiceTokenDisplay
           token1={inputCurrencies[0]?.symbol}

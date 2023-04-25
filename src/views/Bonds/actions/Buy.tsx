@@ -76,7 +76,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { zap } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
-  const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toString()
+  const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
+  console.log(zap)
+  console.log(zap, ZapType.ZAP_T_BILL, zapSlippage, recipient, contractAddress[chainId as SupportedChainId] || '', maxPrice)
   const { callback: zapCallback } = useZapCallback(
     zap,
     ZapType.ZAP_T_BILL,

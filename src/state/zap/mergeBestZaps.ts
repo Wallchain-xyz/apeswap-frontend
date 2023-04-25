@@ -103,7 +103,7 @@ export function mergeBestZaps(
     outputCurrencyTwo &&
     pair
       ?.priceOf(inAndOutAreTheSame1Flag ? outputCurrencyTwo : outputCurrencyOne)
-      .quote(inAndOutAreTheSame1Flag ? wOutputTwo : wOutputOne)
+      ?.quote(inAndOutAreTheSame1Flag ? wOutputTwo : wOutputOne)
 
   const minPairInAmount =
     outputCurrencyOne &&
@@ -112,8 +112,8 @@ export function mergeBestZaps(
     outputCurrencyTwo &&
     pair
       ?.priceOf(inAndOutAreTheSame1Flag ? outputCurrencyTwo : outputCurrencyOne)
-      .quote(inAndOutAreTheSame1Flag ? wMinSwapOutTwo : wMinSwapOutOne)
-      .quotient.toString()
+      ?.quote(inAndOutAreTheSame1Flag ? wMinSwapOutTwo : wMinSwapOutOne)
+      ?.quotient.toString()
 
   const liquidityMinted =
     wOutputOne && wOutputTwo && totalPairSupply && pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo)

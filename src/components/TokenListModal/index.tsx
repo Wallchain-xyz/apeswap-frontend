@@ -37,6 +37,7 @@ const TokenListModal = ({
       maxWidth="95%"
       onDismiss={onDismiss}
       paddingWidth={isMobile ? '10px' : '20px'}
+      zIndex={110}
     >
       <Flex sx={{ position: 'relative', margin: '15px 5px', mb: '20px' }}>
         <Input

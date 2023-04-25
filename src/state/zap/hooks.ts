@@ -33,6 +33,7 @@ import { RouterPreference } from 'state/routing/slice'
 import { Protocol } from '@ape.swap/router-sdk'
 import { mergeBestZaps } from './mergeBestZaps'
 import BigNumber from 'bignumber.js'
+import { zapInputTokens } from '@ape.swap/apeswap-lists'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -305,7 +306,7 @@ export function useSetZapInputList() {
   const dispatch = useAppDispatch()
   useEffect(() => {
     const getZapInputList = () => {
-      dispatch(setInputList({ zapInputList: [] as any }))
+      dispatch(setInputList({ zapInputList: zapInputTokens as any }))
     }
     getZapInputList()
   }, [dispatch])

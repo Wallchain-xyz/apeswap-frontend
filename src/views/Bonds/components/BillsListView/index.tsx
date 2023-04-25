@@ -6,11 +6,11 @@ import orderBy from 'lodash/orderBy'
 import BillsRows from './components/BillsRows'
 import { useRouter } from 'next/router'
 import { Flex } from 'components/uikit'
-import { BillsConfig } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Bills } from 'views/Bonds/types'
 import { useBills } from 'state/bills/hooks'
+import { useSetZapOutputList } from 'state/zap/hooks'
 
 const BillsListView: React.FC = () => {
   const bills = useBills()
@@ -91,14 +91,14 @@ const BillsListView: React.FC = () => {
   }
 
   // Set zap output list to match dual farms
-  // useSetZapOutputList(
-  //   billsToRender.map((bill) => {
-  //     return {
-  //       currencyIdA: bill?.token.address[chainId],
-  //       currencyIdB: bill?.quoteToken.address[chainId],
-  //     }
-  //   }),
-  // )
+  useSetZapOutputList(
+    billsToRender.map((bill) => {
+      return {
+        currencyIdA: bill?.token.address[chainId as SupportedChainId] ?? '',
+        currencyIdB: bill?.quoteToken.address[chainId as SupportedChainId] ?? '',
+      }
+    }),
+  )
 
   return (
     <MainContainer>

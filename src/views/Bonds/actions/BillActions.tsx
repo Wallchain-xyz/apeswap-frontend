@@ -11,6 +11,7 @@ import { Button } from 'components/uikit'
 import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import JSBI from 'jsbi'
 import { useUserZapSlippageTolerance } from 'state/user/hooks'
+import { ethers } from 'ethers'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -28,18 +29,14 @@ const BillActions: React.FC<BillActionsProps> = ({
   const [slippage] = useUserZapSlippageTolerance()
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
+
   const { chainId, account } = useWeb3React()
   const { onApprove } = useApproveBill(
     lpToken?.address?.[chainId as SupportedChainId] ?? '',
     contractAddress[chainId as SupportedChainId] ?? '',
   )
-  const token = new Token(chainId ?? SupportedChainId.BSC, lpToken.address[chainId as SupportedChainId] ?? '', 18)
-  const currencyAmount = CurrencyAmount.fromRawAmount(token, JSBI.BigInt(value))
-  const [bondApproval, approveBondCallback] = useApproveCallback(
-    currencyAmount,
-    chainId ? contractAddress?.[chainId as SupportedChainId] : undefined,
-  )
-  const showApproveBillFlow = !new BigNumber(bondApproval).gt(value)
+
+  const showApproveBillFlow = !new BigNumber(bill?.userData?.allowance ?? '0').gt(0)
 
   const [pendingApprove, setPendingApprove] = useState(false)
   // const { toastSuccess, toastError } = useAddPopup()
@@ -65,20 +62,19 @@ const BillActions: React.FC<BillActionsProps> = ({
 
   return (
     <>
-      {!currencyB && !showApproveZapFlow ? (
-        <></>
-      ) : // <Button
-      //   onClick={approveCallback}
-      //   disabled={approval !== ApprovalState.NOT_APPROVED}
-      //   load={approval === ApprovalState.PENDING}
-      //   fullWidth
-      // >
-      //   {approval === ApprovalState.PENDING
-      //     ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
-      //     : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
-      // </Button>
-      currencyB && showApproveBillFlow ? (
-        <Button onClick={approveBondCallback} load={pendingApprove} disabled={pendingApprove} fullWidth>
+      {!currencyB && showApproveZapFlow ? (
+        <Button
+          onClick={approveCallback}
+          disabled={approval !== ApprovalState.NOT_APPROVED}
+          load={approval === ApprovalState.PENDING}
+          fullWidth
+        >
+          {approval === ApprovalState.PENDING
+            ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
+            : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
+        </Button>
+      ) : currencyB && showApproveBillFlow ? (
+        <Button onClick={onApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
           {t('Enable')}
         </Button>
       ) : (

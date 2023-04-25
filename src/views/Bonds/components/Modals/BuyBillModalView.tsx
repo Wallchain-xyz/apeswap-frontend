@@ -67,7 +67,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
               onClick={onDismiss}
               sx={{ position: 'absolute', right: '20px', top: '25px', zIndex: 50 }}
             />
-            <Flex alignItems="center" justifyContent="center">
+            <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
               {loading && !billId ? (
                 <BillsImage>
                   <Image src={'images/bills/bill-nfts.gif'} alt="bill-img" height={500} width={500} />
@@ -77,9 +77,9 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
               )}
             </Flex>
             <BillDescriptionContainer p="0">
-              <Flex flexDirection="column">
+              <Flex sx={{ flexDirection: 'column' }}>
                 <BillTitleContainer>
-                  <Flex alignItems="center">
+                  <Flex sx={{ alignItems: 'center' }}>
                     <ServiceTokenDisplay
                       token1={token.symbol}
                       token2={quoteToken.symbol}
@@ -87,7 +87,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                       billArrow
                       stakeLp
                     />
-                    <Flex flexDirection="column">
+                    <Flex sx={{ flexDirection: 'column' }}>
                       <StyledHeadingText ml="10px" bold>
                         {lpToken.symbol}
                       </StyledHeadingText>
@@ -97,7 +97,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                     </Flex>
                   </Flex>
                 </BillTitleContainer>
-                <Flex flexDirection="column" mb={10}>
+                <Flex sx={{ flexDirection: 'column' }} mb={10}>
                   <Flex style={{ width: '250px' }}>
                     <TopDescriptionText>
                       {earnToken.symbol} {t('Market Price')}{' '}
@@ -106,7 +106,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                       </span>
                     </TopDescriptionText>
                   </Flex>
-                  <Flex alignItems="center">
+                  <Flex sx={{ alignItems: 'center' }}>
                     <ServiceTokenDisplay token1={earnToken.symbol} />
                     <StyledHeadingText ml="10px" bold>
                       ${getFirstNonZeroDigits(discountEarnTokenPrice ?? 0)} ({discount}% Discount)
@@ -114,7 +114,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                   </Flex>
                 </Flex>
               </Flex>
-              <Flex flexDirection="column">
+              <Flex sx={{ flexDirection: 'column' }}>
                 <ActionButtonsContainer>
                   <Buy
                     bill={bill}

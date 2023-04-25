@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from 'theme-ui'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useSwiper from 'hooks/useSwiper'
@@ -94,27 +93,33 @@ const News: React.FC = () => {
                 loop
                 onSwiper={setSwiper}
                 spaceBetween={20}
-                slidesPerView="auto"
-                loopedSlides={newsLength}
+                slidesPerView={5}
                 centeredSlides
                 resizeObserver
                 onSlideChange={handleSlide}
               >
                 {filterNews?.map((news, index) => {
                   return (
-                    <SwiperSlide style={{ maxWidth: '266px', minWidth: '266px' }} key={news.id}>
-                      <Box
+                    <SwiperSlide
+                      style={{ maxWidth: '266px', minWidth: '266px' }}
+                      key={`${index}-${news.id}`}
+                      id={`${index}-${news.id}`}
+                    >
+                      <Flex
                         sx={{ maxWidth: '266px', minWidth: '266px' }}
+                        key={`${index}-${news.id}`}
+                        id={`${index}-${news.id}`}
                         onClick={() => clickNews(news?.CardLink, news?.isModal)}
                       >
                         <NewsCard
                           index={activeSlide}
                           image={news?.cardImageUrl?.url}
-                          key={news?.cardImageUrl?.url}
+                          key={`${index}-${news.id}`}
+                          id={`${index}-${news.id}`}
                           listLength={newsLength}
                           onClick={() => trackBannersClick(index + 1, news?.CardLink, chainId)}
                         />
-                      </Box>
+                      </Flex>
                     </SwiperSlide>
                   )
                 })}

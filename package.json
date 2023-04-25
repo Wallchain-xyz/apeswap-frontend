@@ -113,7 +113,7 @@
     "react-redux": "^8.0.5",
     "react-window": "^1.8.8",
     "redux-localstorage-simple": "^2.5.1",
-    "swiper": "^9.2.0",
+    "swiper": "8.4.7",
     "theme-ui": "^0.15.3",
     "uuid": "^9.0.0"
   }

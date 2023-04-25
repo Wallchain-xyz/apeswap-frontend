@@ -1,10 +1,10 @@
-import React from "react";
-import { Box, NavLink } from "theme-ui";
-import { DropdownItemProps, dropdownItemPadding, sizes } from "./types";
-import { dynamicStyles } from "./styles";
+import React from 'react'
+import { Box, NavLink } from 'theme-ui'
+import { DropdownItemProps, dropdownItemPadding, sizes } from './types'
+import { dynamicStyles } from './styles'
 
 const Element: React.FC<DropdownItemProps> = ({ onClick, url, active, size, children }) => {
-  const style = dynamicStyles.dropdownItem({ active, size });
+  const style = dynamicStyles.dropdownItem({ active, size })
   return url ? (
     <NavLink href={url} onClick={onClick} sx={style}>
       {children}
@@ -13,8 +13,8 @@ const Element: React.FC<DropdownItemProps> = ({ onClick, url, active, size, chil
     <Box onClick={onClick} sx={style}>
       {children}
     </Box>
-  );
-};
+  )
+}
 
 const DropdownItem: React.FC<DropdownItemProps> = ({
   onClick,
@@ -31,12 +31,13 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
       sx={{
         px: dropdownItemPadding[size].x,
         py: dropdownItemPadding[size].y,
-        listStyleType: active ? "disc" : "none",
-        cursor: "pointer",
-        color: "text",
-        borderRadius: "10px",
-        "&:hover": {
-          backgroundColor: "lvl2",
+        listStyleType: active ? 'disc' : 'none',
+        cursor: 'pointer',
+        width: '100%',
+        color: 'text',
+        borderRadius: '10px',
+        '&:hover': {
+          backgroundColor: 'lvl2',
         },
       }}
     >
@@ -44,7 +45,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
         {children}
       </Element>
     </Box>
-  );
-};
+  )
+}
 
-export default DropdownItem;
+export default DropdownItem

@@ -5,12 +5,13 @@ import { useAllTokens } from 'hooks/Tokens'
 import { useSetZapInputList, useZapInputList } from 'state/zap/hooks'
 import DropdownDisplay from './DropdownDisplay'
 import { useTranslation } from 'contexts/Localization'
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId, WETH9 } from '@ape.swap/sdk-core'
 import { DualCurrencySelector } from 'views/Bonds/actions/types'
 import { useWeb3React } from '@web3-react/core'
 import { createFilterToken } from './filtering'
 import useModal from 'hooks/useModal'
 import { Dropdown, DropdownItem, Flex, Text } from 'components/uikit'
+import { nativeOnChain } from 'config/constants/tokens'
 
 const DualCurrencyDropdown: React.FC<{
   inputCurrencies: Currency[]
@@ -76,7 +77,7 @@ const DualCurrencyDropdown: React.FC<{
       .map((token) => {
         return { currencyA: token, currencyB: null }
       })
-    return [lpList[0], { currencyA: 'eth', currencyB: null }, parsedList].flat()
+    return [lpList[0], { currencyA: nativeOnChain(chainId as SupportedChainId), currencyB: null }, parsedList].flat()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zapInputList, searchQuery])
 
@@ -117,6 +118,7 @@ const DualCurrencyDropdown: React.FC<{
     },
     [currenciesList, handleCurrencyDynamic],
   )
+
 
   return (
     <Flex sx={{ minWidth: 'max-content' }}>
