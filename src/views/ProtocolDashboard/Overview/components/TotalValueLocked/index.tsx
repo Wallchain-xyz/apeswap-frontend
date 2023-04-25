@@ -105,11 +105,11 @@ const TotalValueLocked: React.FC = () => {
                       },
                       titleFont: { family: 'poppins', weight: '700', size: 16 },
                       bodyFont: { family: 'poppins', weight: '500', size: 14 },
-                      titleColor: 'text', // theme.colors.text,
-                      backgroundColor: 'white2', // theme.colors.white2,
+                      titleColor:  theme.rawColors?.text?.toString(),
+                      backgroundColor:  theme.rawColors?.white2?.toString(),
                       boxPadding: 5,
-                      bodyColor: 'text', // theme.colors.text,
-                      borderColor: 'inputBorder', // theme.colors.inputBorder,
+                      bodyColor:  theme.rawColors?.text?.toString(),
+                      borderColor:  theme.rawColors?.inputBorder?.toString(),
                       bodySpacing: 20,
                       borderWidth: 1,
                       cornerRadius: 10,
@@ -133,7 +133,7 @@ const TotalValueLocked: React.FC = () => {
                 zIndex: 0,
               }}
             >
-              {/* <Tvl fill={theme.colors.text} color={theme.colors.background} width="90px" /> */}
+              {/* <Tvl fill={theme.rawColors.text} color={theme.rawColors.background} width="90px" /> */}
             </Flex>
           </Flex>
         )}

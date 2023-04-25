@@ -14,8 +14,8 @@ const setData = (data: any, theme: any) => {
       {
         data: data?.history?.map((history: any) => history.amount),
         fill: false,
-        borderColor: theme.colors.text,
-        backgroundColor: theme.colors.text,
+        borderColor: theme.rawColors.text,
+        backgroundColor: theme.rawColors.text,
         tension: 0.3,
       },
     ],
@@ -149,8 +149,12 @@ const ProtocolMetricsGraph: React.FC = () => {
                 y: {
                   position: 'right',
                   //@ts-ignore
-                  grid: { color: 'white4', drawBorder: false }, //theme.colors.white4,
-                  ticks: { stepSize: 20, color: 'text', font: { family: 'poppins', weight: '500' } }, // theme.colors.text
+                  grid: { color: theme.rawColors.white4, drawBorder: false },
+                  ticks: {
+                    stepSize: 20,
+                    color: theme.rawColors?.text?.toString(),
+                    font: { family: 'poppins', weight: '500' },
+                  },
                 },
 
                 x: {
@@ -160,7 +164,7 @@ const ProtocolMetricsGraph: React.FC = () => {
                   //@ts-ignore
                   grid: { display: false, drawBorder: false },
                   ticks: {
-                    color: 'text', //theme.colors.text,
+                    color: theme.rawColors?.text?.toString(),
                     font: { family: 'poppins', weight: '500' },
                   },
                   time: {
@@ -186,11 +190,11 @@ const ProtocolMetricsGraph: React.FC = () => {
                   },
                   titleFont: { family: 'poppins', weight: '700', size: 16 },
                   bodyFont: { family: 'poppins', weight: '500', size: 14 },
-                  titleColor: 'text', // theme.colors.text,
-                  backgroundColor: 'white2', //theme.colors.white2,
+                  titleColor: theme.rawColors?.text?.toString(),
+                  backgroundColor: theme.rawColors?.white2?.toString(),
                   boxPadding: 5,
-                  bodyColor: 'text', //theme.colors.text,
-                  borderColor: 'inputBorder', //theme.colors.inputBorder,
+                  bodyColor: theme.rawColors?.text?.toString(),
+                  borderColor: theme.rawColors?.inputBorder?.toString(),
                   bodySpacing: 20,
                   borderWidth: 1,
                   cornerRadius: 10,

@@ -73,15 +73,15 @@ const TotalTradeVolume: React.FC = () => {
                   radius: 0,
                 },
               },
-              color: 'text', // theme.colors.text,
+              color: theme.rawColors?.text?.toString(),
               scales: {
                 y: {
                   //@ts-ignore
                   type: 'linear',
                   //@ts-ignore
-                  grid: { color: 'white4', drawBorder: false }, //theme.colors.white4
+                  grid: { color: theme.rawColors?.white4?.toString(), drawBorder: false },
                   ticks: {
-                    color: 'text', // theme.colors.text,
+                    color: theme.rawColors?.text?.toString(),
                     font: { family: 'poppins', weight: '500' },
                     autoSkip: true,
                     callback: function (value) {
@@ -94,7 +94,7 @@ const TotalTradeVolume: React.FC = () => {
                   //@ts-ignore
                   grid: { display: false, drawBorder: false },
                   ticks: {
-                    color: 'text', // theme.colors.text,
+                    color: theme.rawColors?.text?.toString(),
                     font: { family: 'poppins', weight: '500' },
                     autoSkip: true,
                     maxTicksLimit: 5,
@@ -119,11 +119,11 @@ const TotalTradeVolume: React.FC = () => {
                   intersect: false,
                   titleFont: { family: 'poppins', weight: '700', size: 16 },
                   bodyFont: { family: 'poppins', weight: '500', size: 14 },
-                  titleColor: 'text', // theme.colors.text,
-                  backgroundColor: 'white2', // theme.colors.white2,
+                  titleColor: theme.rawColors?.text?.toString(),
+                  backgroundColor: theme.rawColors?.white2?.toString(),
                   boxPadding: 5,
-                  bodyColor: 'text', // theme.colors.text,
-                  borderColor: 'inputBorder', // theme.colors.inputBorder,
+                  bodyColor: theme.rawColors?.text?.toString(),
+                  borderColor: theme.rawColors?.inputBorder?.toString(),
                   bodySpacing: 20,
                   borderWidth: 1,
                   cornerRadius: 10,

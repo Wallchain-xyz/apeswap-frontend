@@ -1,4 +1,4 @@
-import { Text, useThemeUI } from 'theme-ui'
+import { Text, useColorMode, useThemeUI } from 'theme-ui'
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { styles, FlexImage, LearnMoreArrow, FlexSkeleton } from './styles'
@@ -18,7 +18,8 @@ const Banner: React.FC<{
   maxWidth?: number
 }> = ({ banner, children, title, listViewBreak, margin, titleColor, link, maxWidth = 1200 }) => {
   const { push } = useRouter()
-  const { colorMode } = useThemeUI()
+  const [colorMode] = useColorMode()
+  console.log(useColorMode())
   const { t } = useTranslation()
   const loaded = useProgressiveImage(`../images/banners/${banner}-${colorMode === 'dark' ? 'night' : 'day'}.svg`)
 

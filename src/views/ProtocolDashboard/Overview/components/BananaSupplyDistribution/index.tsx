@@ -56,7 +56,7 @@ const setData = (bananaSupply: OverviewBananaDistributionInterface, theme: Theme
     datasets: [
       {
         data: bananaSupply?.distribution?.map((data) => data.amount),
-        backgroundColor: theme.colors.text,
+        backgroundColor: theme.rawColors.text,
         hoverOffset: 4,
       },
     ],
@@ -98,7 +98,7 @@ const BananaSupplyDistribution: React.FC = () => {
                   elements: {
                     arc: {
                       borderWidth: 4,
-                      borderColor: theme.colors.white2,
+                      borderColor: theme.rawColors.white2,
                     },
                   },
 
@@ -131,11 +131,11 @@ const BananaSupplyDistribution: React.FC = () => {
                       },
                       titleFont: { family: 'poppins', weight: '700', size: 16 },
                       bodyFont: { family: 'poppins', weight: '500', size: 16 },
-                      titleColor: theme.colors.text,
-                      backgroundColor: theme.colors.white2,
+                      titleColor: theme.rawColors.text,
+                      backgroundColor: theme.rawColors.white2,
                       boxPadding: 5,
-                      bodyColor: theme.colors.text,
-                      borderColor: theme.colors.inputBorder,
+                      bodyColor: theme.rawColors.text,
+                      borderColor: theme.rawColors.inputBorder,
                       bodySpacing: 10,
                       borderWidth: 1,
                       caretSize: 8,
@@ -157,7 +157,7 @@ const BananaSupplyDistribution: React.FC = () => {
                 zIndex: 0,
               }}
             >
-              <Svg icon="banana_token" />
+              <Svg icon='banana_token' width="80px" />
             </Flex>
           </>
         )}
