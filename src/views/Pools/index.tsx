@@ -4,7 +4,7 @@ import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
-import { usePollPools, usePools } from 'state/pools/hooks'
+import { usePollPools, usePoolOrderings, usePoolTags, usePools } from 'state/pools/hooks'
 import Banner from 'components/Banner'
 import DisplayPools from './components/DisplayPools'
 import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
@@ -21,10 +21,12 @@ import { Flex } from 'components/uikit'
 import ListViewMenu from 'components/ListView/ListViewMenu/ListViewMenu'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
+import { useFetchLiveTagsAndOrdering } from 'state/stats/hooks'
 
 const NUMBER_OF_POOLS_VISIBLE = 12
 
 const Pools: React.FC = () => {
+  useFetchLiveTagsAndOrdering()
   const { chainId } = useWeb3React()
   const [stakedOnly, setStakedOnly] = useState(false)
   const [filterOption, setFilterOption] = useState('allTokens')
@@ -35,8 +37,8 @@ const Pools: React.FC = () => {
   const { account } = useWeb3React()
   const { asPath } = useRouter()
   const allPools = usePools(account ?? '')
-  //   const { poolTags } = usePoolTags(chainId)
-  //   const { poolOrderings } = usePoolOrderings(chainId)
+  const { poolTags } = usePoolTags(chainId as SupportedChainId)
+  const { poolOrderings } = usePoolOrderings(chainId as SupportedChainId)
   const { t } = useTranslation()
   const currentBlock = useBlockNumber()
   const windowVisible = useIsWindowVisible()
@@ -73,7 +75,7 @@ const Pools: React.FC = () => {
   )
 
   const legacyPool = allPools.find((pool) => pool.sousId === 999)
-  const v2Pool = allPools.find((pool) => pool.sousId === 0)
+  // const v2Pool = allPools.find((pool) => pool.sousId === 0)
 
   const curPools = allNonAdminPools.map((pool) => {
     return {
@@ -113,12 +115,17 @@ const Pools: React.FC = () => {
       case 'totalStaked':
         return orderBy(
           poolsToSort,
-          (pool: Pool) =>
-            getBalanceNumber(new BigNumber(pool?.totalStaked ?? 0)) * (pool.stakingToken?.price ?? 0),
+          (pool: Pool) => getBalanceNumber(new BigNumber(pool?.totalStaked ?? 0)) * (pool.stakingToken?.price ?? 0),
           'desc',
         )
       default:
-        return poolsToSort
+        return poolOrderings
+          ? orderBy(
+              poolsToSort,
+              (pool: Pool) => poolOrderings?.find((ordering: any) => ordering.pid === pool.sousId)?.order,
+              'asc',
+            )
+          : poolsToSort
     }
   }
 
@@ -179,7 +186,7 @@ const Pools: React.FC = () => {
         {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS.pools.includes(chainId as SupportedChainId) ? (
           <ListView404 product={LIST_VIEW_PRODUCTS.POOLS} />
         ) : (
-          <DisplayPools pools={renderPools()} openId={urlSearchedPool} poolTags={null} />
+          <DisplayPools pools={renderPools()} openId={urlSearchedPool} poolTags={poolTags} />
         )}
         <div ref={loadMoreRef} />
       </Flex>

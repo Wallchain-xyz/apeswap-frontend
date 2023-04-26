@@ -49,17 +49,17 @@ export const useAllPools = (): Pool[] => {
   return pools
 }
 
-// export const usePoolTags = (chainId: number) => {
-//   const { Tags } = useSelector((state: AppState) => state.stats)
-//   const poolTags = Tags?.[`${chainId}`]?.pools
+export const usePoolTags = (chainId: number) => {
+  const { Tags } = useSelector((state: AppState) => state.stats)
+  const poolTags = Tags?.[`${chainId}`]?.pools
 
-//   return { poolTags }
-// }
+  return { poolTags }
+}
 
-// // ORDERING
-// export const usePoolOrderings = (chainId: number) => {
-//   const { Ordering } = useSelector((state: AppState) => state.stats)
-//   const poolOrderings = Ordering?.[`${chainId}`]?.pools
+// ORDERING
+export const usePoolOrderings = (chainId: number) => {
+  const { Ordering } = useSelector((state: AppState) => state.stats)
+  const poolOrderings = Ordering?.[`${chainId}`]?.pools
 
-//   return { poolOrderings }
-// }
+  return { poolOrderings }
+}

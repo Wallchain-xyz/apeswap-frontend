@@ -1,3 +1,4 @@
+import { ListTagVariants } from 'components/uikit/Tag/types'
 import React from 'react'
 import { ThemeUIStyleObject } from 'theme-ui'
 
@@ -33,7 +34,7 @@ export interface ListCardProps extends ListProps {
 }
 
 export interface ListViewContentProps {
-  tag?: React.ReactNode // ListTagVariants
+  tag?: ListTagVariants
   title?: string
   value: string
   valueIcon?: React.ReactNode

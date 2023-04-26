@@ -72,7 +72,8 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
         id: pool.sousId,
         title: (
           <ListViewContent
-            tag={pTag?.pid === pool?.sousId ? pTag?.text.toLowerCase() : null}
+            //@ts-ignore
+            tag={pTag?.pid === pool?.sousId ? pTag?.text.toLowerCase() : undefined}
             value={pool?.rewardToken?.symbol || pool?.tokenName}
             style={{ maxWidth: '150px' }}
           />
