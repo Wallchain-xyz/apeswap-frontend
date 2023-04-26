@@ -1,11 +1,17 @@
 import { Flex } from 'components/uikit'
 import React from 'react'
-import BananaSupplyDistribution from './components/BananaSupplyDistribution'
 import MarketCapToTvlRatio from './components/MarketCapToTvlRatio'
-import ProtocolMetricsGraph from './components/ProtocolMetricGraph'
 import ProtocolMetrics from './components/ProtocolMetrics'
 import TotalTradeVolume from './components/TotalTradeVolume'
 import TotalValueLocked from './components/TotalValueLocked'
+import dynamic from 'next/dynamic'
+
+const BananaSupplyDistribution = dynamic(() => import('./components/BananaSupplyDistribution'), {
+  ssr: false,
+})
+const ProtocolMetricsGraph = dynamic(() => import('./components/ProtocolMetrics'), {
+  ssr: false,
+})
 
 const Overview: React.FC = () => {
   return (

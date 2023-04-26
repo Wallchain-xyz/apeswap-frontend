@@ -1,9 +1,13 @@
 import { useTranslation } from 'contexts/Localization'
 import React, { useState } from 'react'
-import AssetBreakdown from './AssetBreakdown'
 import AssetOverview from './AssetOverview'
 import { styles } from './styles'
 import { Flex, Tab, Tabs, Text } from 'components/uikit'
+import dynamic from 'next/dynamic'
+
+const AssetBreakdown = dynamic(() => import('./AssetBreakdown'), {
+  ssr: false,
+})
 
 const TreasuryBreakdown: React.FC = () => {
   const { t } = useTranslation()
