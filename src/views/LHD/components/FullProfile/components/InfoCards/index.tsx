@@ -15,7 +15,7 @@ const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
 })
 
-//TODO: remove dummyArray and add the icons to the rows
+//TODO: 1) remove dummyArray, 2) add the icons to the rows, 3) fix URL in whitelisted Liquidity rows
 
 const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
@@ -109,8 +109,9 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                     <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress}>
                       <Text sx={{ display: 'flex', alignItems: 'center' }}>
                         {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
-                        <IconButton href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/`}
-                                    icon='filledURL' simpleBtn />
+                        <IconButton href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/address/${whiteListedOwner.lpAddress}`}
+                                    icon='filledURL'
+                                    simpleBtn />
                       </Text>
                       <Text sx={{ display: 'flex', alignItems: 'center' }}>
                         {formatDollar({ num: whiteListedOwner.amount })}

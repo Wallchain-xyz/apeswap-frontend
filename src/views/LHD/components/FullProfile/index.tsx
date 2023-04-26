@@ -14,6 +14,7 @@ import { getColor } from '../../utils/getColor'
 import useModal from '../../../../hooks/useModal'
 import SharableCard from '../SharableCard'
 import InfoCards from './components/InfoCards'
+import LiquidityConcentration from './components/LiquidityConcentration'
 
 const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
@@ -235,7 +236,16 @@ const FullProfile = ({ chainID, address }: {
             <Flex sx={{ width: '100%', display: ['flex', 'flex', 'flex', 'none'] }}>
               <InfoCards fullProfile={fullProfile} />
             </Flex>
-            <Flex sx={{ border: '1px solid', width: '100%', height: '200px', mt: '20px' }} />
+            <Flex sx={{
+              width: ['100vw', '100vw', '100%'],
+              background: 'white2',
+              borderRadius: '10px',
+              mt: '20px',
+              ml: ['-10px', '-10px', '0px'],
+              height: ['358px'],
+            }}>
+              <LiquidityConcentration fullProfile={fullProfile} />
+            </Flex>
           </Flex>
           <Flex sx={{
             width: ['100%', '100%', '100%', '380px'],
@@ -244,13 +254,13 @@ const FullProfile = ({ chainID, address }: {
             <InfoCards fullProfile={fullProfile} />
           </Flex>
         </Flex>
-        {chainID}-{address}
-        <br />
-        {fullProfile && (
-          <>
-            {fullProfile?.addressMapping?.tokenSymbol}: {(fullProfile?.totalScore * 100).toFixed()}
-          </>
-        )}
+        <Text sx={{
+          fontWeight: 300,
+          fontSize: ['10px', '10px', '10px', '12px'],
+          color: 'textDisabled',
+        }}>
+          Formula version: {fullProfile.formulaVersion}
+        </Text>
       </Flex>
     )
   }
