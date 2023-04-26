@@ -30,16 +30,16 @@ export const CardWrapper = styled(Flex)`
   width: 95vw;
   border-radius: 10px;
   @media screen and (max-width: 575px) {
-    ${StyledCard}:nth-child(1) {
+    ${StyledCard}:nth-of-type(1) {
       border-radius: 10px 10px 0px 0px;
       border-bottom: ${({ theme }) => `1px solid ${theme.colors.white4}`};
     }
-    ${StyledCard}:nth-child(2), ${StyledCard}:nth-child(3) {
+    ${StyledCard}:nth-of-type(2), ${StyledCard}:nth-of-type(3) {
       border-radius: 0px;
       border-bottom: ${({ theme }) => `1px solid ${theme.colors.white4}`};
       border-top: ${({ theme }) => `1px solid ${theme.colors.white4}`};
     }
-    ${StyledCard}:nth-child(4) {
+    ${StyledCard}:nth-of-type(4) {
       border-radius: 0px 0px 10px 10px;
       border-top: ${({ theme }) => `1px solid ${theme.colors.white4}`};
     }
@@ -49,11 +49,11 @@ export const CardWrapper = styled(Flex)`
     grid-template-columns: repeat(2, minmax(260px, 325px));
     margin: 0px 0px 0px 0px;
     justify-content: space-between;
-    ${StyledCard}:nth-child(1), ${StyledCard}:nth-child(2) {
+    ${StyledCard}:nth-of-type(1), ${StyledCard}:nth-of-type(2) {
       border-radius: 10px 10px 0px 0px;
       border-bottom: ${({ theme }) => `1px solid ${theme.colors.white4}`};
     }
-    ${StyledCard}:nth-child(3), ${StyledCard}:nth-child(4) {
+    ${StyledCard}:nth-of-type(3), ${StyledCard}:nth-of-type(4) {
       border-radius: 0px 0px 10px 10px;
       border-top: ${({ theme }) => `1px solid ${theme.colors.white4}`};
     }
@@ -61,8 +61,8 @@ export const CardWrapper = styled(Flex)`
   @media screen and (min-width: 1200px) {
     display: grid;
     justify-content: space-between;
-    ${StyledCard}:nth-child(1), ${StyledCard}:nth-child(2), 
-    ${StyledCard}:nth-child(3), ${StyledCard}:nth-child(4) {
+    ${StyledCard}:nth-of-type(1), ${StyledCard}:nth-of-type(2), 
+    ${StyledCard}:nth-of-type(3), ${StyledCard}:nth-of-type(4) {
       border-radius: 10px;
     }
     grid-template-columns: repeat(4, minmax(260px, 325px));

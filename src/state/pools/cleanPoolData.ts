@@ -53,12 +53,14 @@ const fetchPoolTokenStatsAndApr = (
   const rewardToken = tokenPrices
     ? tokenPrices.find(
         (token) =>
-          pool?.rewardToken && token?.address?.[chainId] === pool?.rewardToken?.address?.[chainId as SupportedChainId],
+          pool?.rewardToken &&
+          token?.address?.[chainId as SupportedChainId] === pool?.rewardToken?.address?.[chainId as SupportedChainId],
       )
     : pool?.rewardToken
   const stakingToken = tokenPrices
     ? tokenPrices.find(
-        (token) => token?.address?.[chainId] === pool?.stakingToken?.address?.[chainId as SupportedChainId],
+        (token) =>
+          token?.address?.[chainId as SupportedChainId] === pool?.stakingToken?.address?.[chainId as SupportedChainId],
       )
     : pool?.stakingToken
   // Calculate apr
@@ -68,7 +70,7 @@ const fetchPoolTokenStatsAndApr = (
     apr = getFarmV2Apr(
       bananaAlloc,
       new BigNumber(stakingToken?.price ?? 0),
-      new BigNumber((getBalanceNumber(totalStaked) * (stakingToken?.price ?? 0)) ?? 0),
+      new BigNumber(getBalanceNumber(totalStaked) * (stakingToken?.price ?? 0) ?? 0),
       bananaPerYear,
     )
   } else {

@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react'
 
 export interface ListMenuProps {
   onHandleQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  setFilterOption?: (value: string | undefined) => void
+  setFilterOption?: Dispatch<SetStateAction<string>>
   filterOption?: string
   setSortOption: Dispatch<SetStateAction<string>>
   sortOption?: string

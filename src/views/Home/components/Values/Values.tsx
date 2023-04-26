@@ -1,3 +1,5 @@
+'use client'
+// TODO: When updating homepage remove mobile hook and client
 import React, { useEffect, useState } from 'react'
 import SwiperCore, { Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'

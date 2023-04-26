@@ -93,9 +93,12 @@ const News: React.FC = () => {
                 loop
                 onSwiper={setSwiper}
                 spaceBetween={20}
-                slidesPerView={5}
+                slidesPerView="auto"
+                loopedSlides={newsLength}
                 centeredSlides
                 resizeObserver
+                lazy
+                preloadImages={false}
                 onSlideChange={handleSlide}
               >
                 {filterNews?.map((news, index) => {

@@ -1,15 +1,24 @@
+import dynamic from 'next/dynamic'
 import WelcomeContent from './components/WelcomeContent/WelcomeContent'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import SwiperProvider from 'contexts/SwiperProvider'
 import { Flex } from 'components/uikit'
-import StatCards from './components/StatCards/StatCards'
 import TrendingTokens from './components/TrendingTokens/TrendingTokens'
-import News from './components/News/News'
 import Services from './components/Services/Services'
-import Values from './components/Values/Values'
 import LaunchCalendar from './components/LaunchCalendar/LaunchCalendar'
 import useAllTokenPrices from 'hooks/useAllTokenPrices'
+
+// When updating the homepage these components should be built to SSR
+const StatCards = dynamic(() => import('./components/StatCards/StatCards'), {
+  ssr: false,
+})
+const News = dynamic(() => import('./components/News/News'), {
+  ssr: false,
+})
+const Values = dynamic(() => import('./components/Values/Values'), {
+  ssr: false,
+})
 
 const Home = () => {
   const { chainId } = useWeb3React()

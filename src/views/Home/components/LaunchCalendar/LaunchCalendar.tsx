@@ -5,9 +5,7 @@ import SwiperCore from 'swiper'
 import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 import { useFetchHomepageLaunchCalendar, useHomepageLaunchCalendar } from 'state/homepage/hooks'
-import { useTheme } from '@emotion/react'
 import { Flex, Skeleton, Text } from 'components/uikit'
-import Image from 'next/image'
 import {
   Bubble,
   CalendarImg,

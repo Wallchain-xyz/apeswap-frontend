@@ -75,7 +75,7 @@ const DefiRedefined = () => {
           >
             {t('Learn more')}
           </Button>
-          <Link href="/bonds">
+          <Link href="/bonds" sx={{ textDecoration: 'none' }}>
             <Button sx={{ fontSize: ['14px', '14px', '16px'], width: '138px' }}>{t('Buy a bond')}</Button>
           </Link>
         </Flex>
