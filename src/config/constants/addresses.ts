@@ -92,6 +92,11 @@ export const GNANA_ADDRESSES: AddressMap = {
   [SupportedChainId.BSC_TESTNET]: '0x9407026d236DEAE22CC1F3c419A9e47CBfCFE9E5',
 }
 
+export const TREASURY_ADDRESSES: AddressMap = {
+  [SupportedChainId.BSC]: '0xec4b9d1fd8A3534E31fcE1636c7479BcD29213aE',
+  [SupportedChainId.BSC_TESTNET]: '0xbC5ed0829365a0d5bc3A4956A6A0549aE17f41Ab',
+}
+
 export const MASTER_CHEF_V1_ADDRESS: AddressMap = {
   [SupportedChainId.BSC_TESTNET]: '0xbbC5e1cD3BA8ED639b00927115e5f0e0040aA613',
   [SupportedChainId.BSC]: '0x5c8D727b265DBAfaba67E050f2f739cAeEB4A6F9',

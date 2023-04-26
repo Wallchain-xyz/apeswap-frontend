@@ -13,6 +13,7 @@ import { SET_DEFAULT_MODAL_KEY, SHOW_DEFAULT_MODAL_KEY, SET_DEF_MOD_KEY, SHOW_DE
 // import { circularRoute } from 'utils'
 import Tutorial from 'components/MarketingModals/Tutorial'
 import { useWeb3React } from '@web3-react/core'
+import GnanaModal from 'components/GnanaModal'
 
 const MarketingModalCheck = () => {
   const { chainId } = useWeb3React()
@@ -51,7 +52,7 @@ const MarketingModalCheck = () => {
   // const lendingRoute = location.search.includes('modal=3')
   // const telosQuestRoute = location.search.includes('modal=telos-quests')
   const moonpayRoute = modalQuery === 'moonpay'
-  // const getGnanaRoute = location.search.includes('modal=gnana')
+  const getGnanaRoute = modalQuery === 'gnana'
   // const buyRoute = circularRoute(chainId, location, 'modal=circular-buy')
   // const sellRoute = circularRoute(chainId, location, 'modal=circular-sell')
   // const phRoute = circularRoute(chainId, location, 'modal=circular-ph')
@@ -64,7 +65,13 @@ const MarketingModalCheck = () => {
     })
   }
 
-  return tutorial ? <Tutorial location={pathname} onDismiss={onDismiss} /> : <></>
+  return tutorial ? (
+    <Tutorial location={pathname} onDismiss={onDismiss} />
+  ) : getGnanaRoute ? (
+    <GnanaModal onDismiss={onDismiss} />
+  ) : (
+    <></>
+  )
   //  moonpayRoute ? (
   //   <MoonPayModal onDismiss={onDismiss} />
   // ) : newsletterRoute ? (

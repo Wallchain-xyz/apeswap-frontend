@@ -1,8 +1,5 @@
 import React from 'react'
-// import CalcButton from 'components/RoiCalculator/CalcButton'
 import { useTranslation } from 'contexts/Localization'
-// import Actions from './Actions'
-// import HarvestAction from './Actions/HarvestAction'
 import { poolStyles } from './styles'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
@@ -17,6 +14,8 @@ import ListView from 'components/ListView/ListView'
 import { Pool, Tag } from 'state/pools/types'
 import BigNumber from 'bignumber.js'
 import CalcButton from 'components/RoiCalculator/CalcButton'
+import Actions from '../Actions'
+import HarvestAction from '../Actions/HarvestAction'
 
 const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] | null }> = ({
   pools,
@@ -174,9 +173,8 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
               <Flex sx={{ ...poolStyles.onlyBigScreen, mx: '10px' }}>
                 <Svg icon="caret" direction="right" width="50px" />
               </Flex>
-              {/* <Actions
+              <Actions
                 allowance={userAllowance?.toString() ?? ''}
-                stakeTokenDecimals={pool?.stakingToken?.decimals?.[chainId as SupportedChainId] ?? 18}
                 stakedBalance={pool?.userData?.stakedBalance?.toString() ?? ''}
                 stakedTokenSymbol={pool?.stakingToken?.symbol}
                 stakingTokenBalance={pool?.userData?.stakingTokenBalance?.toString() ?? ''}
@@ -194,7 +192,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
                 userEarnings={userEarnings}
                 earnTokenSymbol={pool?.rewardToken?.symbol || pool?.tokenName}
                 earnTokenValueUsd={pool?.rewardToken?.price ?? 0}
-              /> */}
+              />
             </Flex>
           </>
         ),

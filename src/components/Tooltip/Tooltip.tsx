@@ -23,8 +23,6 @@ export interface TooltipProps {
   twitter?: string
   audit?: string
   jungleFarm?: Farm
-  // pool?: Pool
-  // jungleFarm?: JungleFarm
   pool?: Pool
 }
 
@@ -40,8 +38,6 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
   twitter,
   audit,
   jungleFarm,
-  // pool,
-  // jungleFarm,
   pool,
 }) => {
   const { t } = useTranslation()
@@ -67,8 +63,6 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
         </Flex>
       )}
       {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />}
-      {/* {pool && <PoolsEndsIn pool={pool} />} */}
-      {/* {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />} */}
       {pool && <PoolsEndsIn pool={pool} />}
       <Flex sx={{ justifyContent: 'center' }}>
         <Flex sx={{ width: '144px', flexDirection: 'column' }}>

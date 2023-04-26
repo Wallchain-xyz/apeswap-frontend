@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
-import { Link, Text } from 'components/uikit'
+import { Flex, Link, Text } from 'components/uikit'
 import { FadeIn } from '../Services/styles'
 
-export const TrendingTokensWrapper = styled.div`
+export const TrendingTokensWrapper = styled(Flex)`
   position: relative;
   max-width: 1412px;
   width: 95vw;
@@ -10,11 +10,12 @@ export const TrendingTokensWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   flex-direction: column;
+  background: ${({ theme }) => theme.colors.white2};
   border-radius: 10px;
   z-index: 1;
   padding: 15px 20px 0px 20px;
   align-items: center;
-  @media (max-width: sm) {
+  ${({ theme }) => theme.mediaQueries.sm} {
     display: grid;
     grid-template-rows: 50px 150px 20px;
     width: 95vw;
@@ -28,7 +29,7 @@ export const TrendingTokensWrapper = styled.div`
   }
 `
 
-export const TokenContainer = styled(Link)<{ active?: boolean }>`
+export const TokenContainer = styled.div<{ active?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;

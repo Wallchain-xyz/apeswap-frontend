@@ -17,6 +17,7 @@ export function useTokenAllowance(
 } {
   const contract = useTokenContract(token?.address, false)
   const inputs = useMemo(() => [owner, spender], [owner, spender])
+  console.log(contract)
 
   // If there is no allowance yet, re-check next observed block.
   // This guarantees that the tokenAllowance is marked isSyncing upon approval and updated upon being synced.
@@ -25,6 +26,7 @@ export function useTokenAllowance(
     result: Awaited<ReturnType<NonNullable<typeof contract>['allowance']>> | undefined
     syncing: boolean
   }
+  console.log(result, isSyncing)
 
   const rawAmount = result?.toString() // convert to a string before using in a hook, to avoid spurious rerenders
   const allowance = useMemo(

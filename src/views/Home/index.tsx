@@ -10,6 +10,7 @@ import LaunchCalendar from './components/LaunchCalendar/LaunchCalendar'
 import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
 // When updating the homepage these components should be built to SSR
+// To make the UX slightly better we could have a SSR component on loading to restrict page jumps
 const StatCards = dynamic(() => import('./components/StatCards/StatCards'), {
   ssr: false,
 })

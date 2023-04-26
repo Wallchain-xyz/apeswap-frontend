@@ -28,6 +28,7 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
+import { ContractTransaction } from 'ethers'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
@@ -78,7 +79,14 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
   console.log(zap)
-  console.log(zap, ZapType.ZAP_T_BILL, zapSlippage, recipient, contractAddress[chainId as SupportedChainId] || '', maxPrice)
+  console.log(
+    zap,
+    ZapType.ZAP_T_BILL,
+    zapSlippage,
+    recipient,
+    contractAddress[chainId as SupportedChainId] || '',
+    maxPrice,
+  )
   const { callback: zapCallback } = useZapCallback(
     zap,
     ZapType.ZAP_T_BILL,
@@ -140,9 +148,10 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     setPendingTrx(true)
     onTransactionSubmited(true)
     if (currencyB) {
+      console.log('IN HERE')
       await onBuyBill()
-        .then((resp: any) => {
-          const trxHash = resp.transactionHash
+        .then((resp: ContractTransaction) => {
+          const trxHash = resp.hash
           searchForBillId(resp, billNftAddress)
           // toastSuccess(t('Buy Successful'), {
           //   text: t('View Transaction'),
