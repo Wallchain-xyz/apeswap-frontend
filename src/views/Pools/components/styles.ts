@@ -119,6 +119,8 @@ export const poolStyles: Record<
     justifyContent: 'center',
     width: ['100%', '100%', '180px'],
     fontSize: '16px',
+    pl: '0px',
+    pr: '0px',
   },
   apeHarder: {
     fontSize: '16px',

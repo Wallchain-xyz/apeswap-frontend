@@ -22,6 +22,7 @@ import ListViewMenu from 'components/ListView/ListViewMenu/ListViewMenu'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useFetchLiveTagsAndOrdering } from 'state/stats/hooks'
+import HarvestAll from './Actions/HarvestAll'
 
 const NUMBER_OF_POOLS_VISIBLE = 12
 
@@ -180,7 +181,7 @@ const Pools: React.FC = () => {
             toogleLabels={['Active', 'Inactive']}
             filterOptions={FILTER_OPTIONS}
             sortOptions={SORT_OPTIONS}
-            actionButton={<></>} // <HarvestAll sousIds={sousIds} />
+            actionButton={<HarvestAll sousIds={sousIds} />}
           />
         </Flex>
         {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS.pools.includes(chainId as SupportedChainId) ? (
