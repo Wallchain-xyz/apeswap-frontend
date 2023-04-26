@@ -74,3 +74,4 @@ export { default as Verified } from "./Verified"
 export { default as TickShield } from "./TickShield"
 export { default as Share } from "./Share"
 export { default as FilledURL } from "./FilledURL"
+export { default as YellowQuestionMark } from './YellowQuestionMark'

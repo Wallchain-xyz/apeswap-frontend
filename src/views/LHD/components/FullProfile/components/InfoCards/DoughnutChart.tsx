@@ -1,8 +1,6 @@
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
-import { Flex } from 'components/uikit'
 import { Chart, ArcElement } from 'chart.js'
-
 
 const DoughnutChart = ({ owned, notOwned }: { owned: number, notOwned: number }) => {
   Chart.register(ArcElement)
@@ -20,13 +18,13 @@ const DoughnutChart = ({ owned, notOwned }: { owned: number, notOwned: number })
   }
 
   return (
-    <Flex>
+    <>
       {
         data && (
           <Doughnut data={data} />
         )
       }
-    </Flex>)
+    </>)
 }
 
 export default DoughnutChart

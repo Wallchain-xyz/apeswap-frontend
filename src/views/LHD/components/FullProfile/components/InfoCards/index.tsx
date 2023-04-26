@@ -6,14 +6,16 @@ import { useTranslation } from 'contexts/Localization'
 import { LiquidityOwner, LiquidityPool, TokenProfile } from 'state/lhd/types'
 import { styles } from './styles'
 import dynamic from 'next/dynamic'
-import { Svg } from '../../../../../../components/uikit'
+import { Svg } from 'components/uikit'
 import IconButton from '../IconButton'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { BLOCK_EXPLORER } from '../../../../../../config/constants/chains'
+import { BLOCK_EXPLORER } from 'config/constants/chains'
 
-const PieChart = dynamic(() => import('./PieChart'), {
+const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
 })
+
+//TODO: remove dummyArray and add the icons to the rows
 
 const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
@@ -25,6 +27,7 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
       liquidityOwners: undefined,
     }))
   })
+  //just to test a card with lots of rows
   const dummyArray = [...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners]
 
   return (
@@ -67,24 +70,30 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                             value={formatDollar({ num: fullProfile?.circulatingSupply[0].amount })} />
         </Flex>
       </Flex>
-      <Flex sx={{ ...styles.cardContainer, mt: ['15px', '15px', '15px', '20px'], height: '458px' }}>
+      <Flex sx={{
+        ...styles.cardContainer,
+        mt: ['15px', '15px', '15px', '20px'],
+        height: ['', '', '', '458px'],
+      }}>
         <Flex sx={styles.titleContainer}>
           <Text sx={styles.titleText}>
             {t('Liquidity Ownership')}
           </Text>
         </Flex>
-        <Flex sx={{ width: '100%', my: '20px' }}>
-          <Flex sx={{ width: '40%', pl: '30px' }}>
-            <PieChart owned={fullProfile?.ownedLiquidity}
-                      notOwned={fullProfile.totalValidLiquidity - fullProfile.ownedLiquidity} />
+        <Flex sx={styles.ownershipContainer}>
+          <Flex sx={styles.chart}>
+            <DoughnutChart owned={fullProfile?.validOwnedLiquidity}
+                           notOwned={fullProfile.totalValidLiquidity - fullProfile.validOwnedLiquidity} />
           </Flex>
-          <Flex sx={{ width: '60%', flexDirection: 'column', justifyContent: 'center', px: '30px' }}>
+          <Flex sx={styles.chartDetails}>
             <HealthSummaryRow ttTitle={t('Owned')}
-                              value={formatDollar({ num: fullProfile.ownedLiquidity })}
-                              circleColor={'#38A611'} />
+                              value={formatDollar({ num: fullProfile.validOwnedLiquidity })}
+                              circleColor={'#38A611'}
+                              lineHeight='24px' />
             <HealthSummaryRow ttTitle={t('Not Owned')}
-                              value={formatDollar({ num: fullProfile.totalValidLiquidity - fullProfile.ownedLiquidity })}
-                              circleColor={'#F4BE37'} />
+                              value={formatDollar({ num: fullProfile.totalValidLiquidity - fullProfile.validOwnedLiquidity })}
+                              circleColor={'#F4BE37'}
+                              lineHeight='24px' />
           </Flex>
         </Flex>
         <Flex sx={styles.titleContainer}>
@@ -92,24 +101,27 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
             {t('Whitelisted Addresses')}
           </Text>
         </Flex>
-        <Flex sx={{ width: '100%', p: '20px', maxHeight: '219px' }}>
-          <Flex sx={{ width: '100%', height: '100%', overflow: 'auto', flexDirection: 'column', px:'10px' }}>
+        <Flex sx={styles.whiteContainer}>
+          <Flex sx={styles.ownerRowsContainer}>
             {//change this before merge
               dummyArray.length > 0 ? dummyArray.map((whiteListedOwner) => {
                   return (
-                    <Flex sx={{
-                      width: '100%',
-                      justifyContent: 'space-between',
-                      fontWeight: 500,
-                      fontSize: '12px',
-                      lineHeight: '14px',
-                    }} key={whiteListedOwner.lpAddress}>
+                    <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress}>
                       <Text sx={{ display: 'flex', alignItems: 'center' }}>
                         {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
                         <IconButton href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/`}
                                     icon='filledURL' simpleBtn />
                       </Text>
-                      <Text>{formatDollar({ num: whiteListedOwner.amount })}</Text>
+                      <Text sx={{ display: 'flex', alignItems: 'center' }}>
+                        {formatDollar({ num: whiteListedOwner.amount })}
+                        <Flex sx={{ ml: '3px' }}>
+                          {whiteListedOwner.reason === 'known' ? (
+                            <Svg icon='tickShield' color='success' />
+                          ) : (
+                            <Svg icon='yellowQuestion' />
+                          )}
+                        </Flex>
+                      </Text>
                     </Flex>
                   )
                 })

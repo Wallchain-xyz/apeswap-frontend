@@ -2,18 +2,19 @@ import React from 'react'
 import { Flex, Svg, Text } from 'components/uikit'
 import TooltipBubble from 'components/uikit/Tooltip'
 
-const HealthSummaryRow = ({ ttTitle, ttBody, value, circleColor }: {
+const HealthSummaryRow = ({ ttTitle, ttBody, value, circleColor, lineHeight = '30px' }: {
   ttTitle: string,
   ttBody?: React.ReactNode,
   value: string
   circleColor?: string
+  lineHeight?: string
 }) => {
   return (
-    <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
+    <Flex sx={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
       <Text sx={{
         fontWeight: 500,
         fontSize: ['10px', '10px', '10px', '12px'],
-        lineHeight: ['24px'],
+        lineHeight: lineHeight,
         display: 'flex',
         alignItems: 'center',
       }}>

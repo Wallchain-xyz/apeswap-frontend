@@ -46,6 +46,7 @@ export interface TokenProfile extends SimpleTokenProfile {
   totalExtractableLiquidity: number;
   ownedLiquidity: number;
   ownedLiquidityPercentage: number;
+  validOwnedLiquidity: number;
   circulatingSupply: ExternalDataOption[];
   currentPrice: ExternalDataOption[];
   totalSupply: ExternalDataOption[];
@@ -80,5 +81,9 @@ export type DexScreenerToken = {
 
 export interface LiquidityOwner {
   walletAddress: string;
-  amount: number;
+  amount?: number;
+  lpAddress?: string;
+  reason: string;
+  lpType: string;
+  chainId: string;
 }

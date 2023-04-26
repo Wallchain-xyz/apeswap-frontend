@@ -13,7 +13,7 @@ import ProgressBar from '../ProgressBar'
 import { getColor } from '../../utils/getColor'
 import useModal from '../../../../hooks/useModal'
 import SharableCard from '../SharableCard'
-import Index from './components/InfoCards'
+import InfoCards from './components/InfoCards'
 
 const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
@@ -64,7 +64,7 @@ const FullProfile = ({ chainID, address }: {
             borderRadius: '10px',
             padding: '20px',
             alignItems: 'flex-start',
-            mr: ['0px', '0px', '0px', '15px'],
+            mr: ['0px', '0px', '0px', '20px'],
           }}>
             <Flex sx={{ width: '100%' }}>
               <Flex sx={{ width: '100%', flexDirection: 'column' }}>
@@ -216,18 +216,33 @@ const FullProfile = ({ chainID, address }: {
         </Flex>
         <Flex sx={{ width: '100%', mt: '15px', flexDirection: ['column', 'column', 'column', 'row'] }}>
           <Flex sx={{
-            minWidth: ['100vw', '100vw', '100%', '460px', 'calc(100% - 350px)'],
-            background: 'white2',
-            borderRadius: '10px',
+            minWidth: ['100%', '100%', '100%', 'calc(100% - 370px)'],
+            width: ['100%', '100%', '100%', 'calc(100% - 370px)'],
+            flexDirection: 'column',
             mr: ['0px', '0px', '0px', '20px'],
-            ml: ['-10px', '-10px', '0px'],
-            height: ['380px', '380px', '380px', '430px'],
-            justifyContent: 'center',
-            alignItems: 'center',
           }}>
-            <Chart />
+            <Flex sx={{
+              width: ['100vw', '100vw', '100%'],
+              background: 'white2',
+              borderRadius: '10px',
+              ml: ['-10px', '-10px', '0px'],
+              height: ['380px', '380px', '380px', '430px'],
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <Chart />
+            </Flex>
+            <Flex sx={{ width: '100%', display: ['flex', 'flex', 'flex', 'none'] }}>
+              <InfoCards fullProfile={fullProfile} />
+            </Flex>
+            <Flex sx={{ border: '1px solid', width: '100%', height: '200px', mt: '20px' }} />
           </Flex>
-          <Index fullProfile={fullProfile} />
+          <Flex sx={{
+            width: ['100%', '100%', '100%', '380px'],
+            display: ['none', 'none', 'none', 'flex'],
+          }}>
+            <InfoCards fullProfile={fullProfile} />
+          </Flex>
         </Flex>
         {chainID}-{address}
         <br />
