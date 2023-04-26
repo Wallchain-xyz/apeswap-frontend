@@ -4,22 +4,17 @@ import { getEtherscanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import DepositModal from '../components/Modals/DepositModal'
 import WithdrawModal from 'components/WithdrawModal'
-// import ApprovalAction from './ApprovalAction'
 import { styles } from '../components/styles'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
 import useStake from '../hooks/useStake'
 import useUnstake from '../hooks/useUnstake'
 import { FarmTypes } from 'state/farms/types'
-import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
-import { Button, Flex, Skeleton, Svg, Text } from 'components/uikit'
+import { Button, Flex, Text } from 'components/uikit'
 import useModal from 'hooks/useModal'
-import { useRouter } from 'next/router'
 import ConnectWalletButton from 'components/ConnectWallet'
-import JSBI from 'jsbi'
-import { useApproveCallback } from 'hooks/useApproveCallback'
-import { MASTER_CHEF_V1_ADDRESS, MASTER_CHEF_V2_ADDRESS, MINI_APE_ADDRESS } from 'config/constants/addresses'
-import { ApprovalState } from 'hooks/useApproveCallback'
+import { useApprove } from '../hooks/useApprove'
+import { useTokenContract } from 'hooks/useContract'
 
 interface StakeActionsProps {
   stakingTokenBalance: string
@@ -46,29 +41,15 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   const { chainId, account } = useWeb3React()
   const [pendingDepositTrx, setPendingDepositTrx] = useState(false)
   const [pendingWithdrawTrx, setPendingWithdrawTrx] = useState(false)
-  const [depositAmount, setDepositAmount] = useState('100000')
+  const [depositAmount, setDepositAmount] = useState<string>()
   // const { toastSuccess } = useToast()
   const firstStake = !new BigNumber(stakedBalance)?.gt(0)
   const { t } = useTranslation()
 
   const onStake = useStake(farmTypes, pid, lpValueUsd)
   const onUnstake = useUnstake(farmTypes, pid, lpValueUsd)
-
-  const addressToApprove =
-    farmTypes === FarmTypes.JUNLGE_FARM
-      ? contractAddress
-      : farmTypes === FarmTypes.MASTER_CHEF_V1
-      ? MASTER_CHEF_V1_ADDRESS[chainId as SupportedChainId]
-      : farmTypes === FarmTypes.MASTER_CHEF_V2
-      ? MASTER_CHEF_V2_ADDRESS[chainId as SupportedChainId]
-      : MINI_APE_ADDRESS[chainId as SupportedChainId]
-
-  const token = new Token(chainId ?? SupportedChainId.BSC, stakeLpAddress ?? '', 18)
-  const currencyAmount = CurrencyAmount.fromRawAmount(token, JSBI.BigInt(depositAmount))
-  const [farmApproval, approveFarmCallback] = useApproveCallback(currencyAmount, addressToApprove)
-  console.log(farmApproval)
-  console.log(farmApproval)
-  console.log(farmApproval)
+  const lpToken = useTokenContract(stakeLpAddress)
+  const { onApprove } = useApprove(lpToken, farmTypes, contractAddress)
 
   const [onPresentDeposit] = useModal(
     <DepositModal
@@ -123,16 +104,15 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     if (!account) {
       return <ConnectWalletButton />
     }
-    if (farmApproval === ApprovalState.PENDING || farmApproval === ApprovalState.UNKNOWN) {
-      return <Skeleton width={100} height={50} sx={{ borderRadius: '10px' }} />
-    }
-    if (farmApproval === ApprovalState.NOT_APPROVED) {
-      return <Button onClick={approveFarmCallback}> Approve </Button>
+    if (parseFloat(allowance) <= parseFloat(stakingTokenBalance ?? '0')) {
+      return <Button onClick={onApprove}> Approve </Button>
     }
     if (firstStake) {
       return (
         <Button onClick={onPresentDeposit} load={pendingDepositTrx} disabled={pendingDepositTrx} sx={styles.styledBtn}>
-          <Text sx={{ lineHeight: '20px' }} color='primaryBright'>{t('DEPOSIT')}</Text>
+          <Text sx={{ lineHeight: '20px' }} color="primaryBright">
+            {t('DEPOSIT')}
+          </Text>
         </Button>
       )
     }
@@ -146,7 +126,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           size="sm"
           sx={styles.smallBtn}
         >
-          <Text size={24} sx={{ lineHeight: '30px' }} color='primaryBright'>
+          <Text size={24} sx={{ lineHeight: '30px' }} color="primaryBright">
             {' '}
             -{' '}
           </Text>
@@ -158,7 +138,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           size="sm"
           sx={styles.smallBtn}
         >
-          <Text size={24} sx={{ lineHeight: '30px' }} color='primaryBright'>
+          <Text size={24} sx={{ lineHeight: '30px' }} color="primaryBright">
             {' '}
             +{' '}
           </Text>

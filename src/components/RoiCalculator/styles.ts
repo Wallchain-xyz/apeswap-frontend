@@ -22,7 +22,8 @@ const styles = {
   maxButton: {
     margin: '0',
     fontSize: '14px',
-    lineHeight: 0,
+    lineHeight: .5,
+    zIndex: 2,
     width: '62px',
     minWidth: '62px',
     height: '30px',

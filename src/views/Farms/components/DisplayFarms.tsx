@@ -13,6 +13,7 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import Harvest from '../actions/Harvest'
 import CardActions from '../actions'
+import CalcButton from 'components/RoiCalculator/CalcButton'
 
 const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: string; farmTags?: any[] }) => {
   const { chainId } = useWeb3React()
@@ -56,6 +57,7 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
         // open: farm.pid === openPid,
         title: (
           <ListViewContent
+            // @ts-ignore
             tag={fTag?.pid === farm.pid ? (fTag?.text.toLowerCase() as ListTagVariants) : null}
             value={farm?.lpStakeTokenSymbol}
             style={{ maxWidth: '170px' }}
@@ -82,22 +84,24 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
               )}
               toolTipPlacement="bottomLeft"
               toolTipTransform="translate(8%, 0%)"
-              // aprCalculator={
-              //   <CalcButton
-              //     label={farm.lpSymbol}
-              //     rewardTokenName="BANANA"
-              //     rewardTokenPrice={farm.bananaPrice}
-              //     apr={parseFloat(farm?.apr)}
-              //     lpApr={parseFloat(farm?.lpApr)}
-              //     apy={parseFloat(farm?.apy)}
-              //     lpAddress={farm.lpAddresses[chainId]}
-              //     isLp
-              //     tokenAddress={farm.tokenAddresses[chainId]}
-              //     quoteTokenAddress={farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAdresses[chainId]}
-              //     lpCurr1={farm?.tokenAddresses[chainId]}
-              //     lpCurr2={farm?.quoteTokenAdresses[chainId]}
-              //   />
-              // }
+              aprCalculator={
+                farm.farmType !== FarmTypes.JUNLGE_FARM && (
+                  <CalcButton
+                    label={farm.lpStakeTokenSymbol}
+                    rewardTokenName="BANANA"
+                    rewardTokenPrice={farm.earnTokenPrice}
+                    apr={parseFloat(farm?.apr ?? '0')}
+                    lpApr={parseFloat(farm?.lpApr ?? '0')}
+                    apy={parseFloat(farm?.apy ?? '0')}
+                    lpAddress={farm.lpStakeTokenAddress}
+                    isLp
+                    tokenAddress={farm.tokenAddress}
+                    quoteTokenAddress={farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAddress}
+                    lpCurr1={farm?.tokenAddress}
+                    lpCurr2={farm?.quoteTokenAddress}
+                  />
+                )
+              }
               style={styles.apyInfo}
             />
             <Flex sx={{ ...styles.onlyDesktop, maxWidth: '180px', width: '100%' }}>

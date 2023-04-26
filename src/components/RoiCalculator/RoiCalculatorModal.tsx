@@ -152,7 +152,7 @@ const RoiCalculatorModal: React.FC<RoiCalculatorModalProps> = (props) => {
           onMax={() => onTokenAmountChange(maxAmount)}
         />
         <Flex sx={styles.buttonsContainer}>
-          <Flex sx={{ columnGap: ['8px', '17px'] }}>
+          <Flex sx={{ columnGap: ['8px','8px', '17px'] }}>
             {amountButtons.map((amount) => (
               <Button
                 key={`${amount}`}

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Flex, Text, Box, Link } from 'theme-ui'
 import { useTranslation } from 'contexts/Localization'
-// import { useBananaAddress, useGoldenBananaAddress } from 'hooks/useAddress'
 import { Field, selectCurrency } from 'state/swap/actions'
 import { tokenListInfo } from './tokenInfo'
 import styles, { FarmButton } from './styles'
-// import DualLiquidityModal from '../DualAddLiquidity/DualLiquidityModal'
-// import { selectOutputCurrency } from 'state/zap/actions'
+import DualLiquidityModal from '../DualAddLiquidity/DualLiquidityModal'
+import { selectOutputCurrency } from 'state/zap/actions'
+import { useAppDispatch } from 'state/hooks'
+import { BANANA_ADDRESSES, GNANA_ADDRESSES } from 'config/constants/addresses'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { useWeb3React } from '@web3-react/core'
 import useModal from 'hooks/useModal'
 import { Button, Svg } from 'components/uikit'
-import { useAppDispatch } from 'state/hooks'
-import { useWeb3React } from '@web3-react/core'
 
 interface DetailsContentProps {
   onDismiss?: () => void
@@ -47,43 +48,45 @@ const DetailsContent: React.FC<DetailsContentProps> = ({
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  // const banana = useBananaAddress()
-  // const gnana = useGoldenBananaAddress()
+  const banana = BANANA_ADDRESSES[chainId as SupportedChainId]
+  const gnana = GNANA_ADDRESSES[chainId as SupportedChainId]
 
-  // const [onPresentDualLiquidityModal] = useModal(<DualLiquidityModal />, true, true, 'liquidityWidgetModal')
+  const [onPresentDualLiquidityModal] = useModal(<DualLiquidityModal />, true, true, 'liquidityWidgetModal', true)
 
-  // useEffect(() => {
-  //   if (!isLp) {
-  //     if (tokenAddress?.toLowerCase() === banana.toLowerCase()) {
-  //       setLink('swap')
-  //     }
-  //     if (tokenAddress?.toLowerCase() === gnana.toLowerCase()) {
-  //       setLink('gnana')
-  //     }
-  //   }
-  // }, [chainId, tokenAddress, isLp, banana, gnana])
+  useEffect(() => {
+    if (!isLp) {
+      if (tokenAddress?.toLowerCase() === banana.toLowerCase()) {
+        setLink('swap')
+      }
+      if (tokenAddress?.toLowerCase() === gnana.toLowerCase()) {
+        setLink('gnana')
+      }
+    }
+  }, [chainId, tokenAddress, isLp, banana, gnana])
 
-  // const showLiquidity = (token?, quoteToken?) => {
-  //   dispatch(
-  //     selectCurrency({
-  //       field: Field.INPUT,
-  //       currencyId: token,
-  //     }),
-  //   )
-  //   dispatch(
-  //     selectCurrency({
-  //       field: Field.OUTPUT,
-  //       currencyId: quoteToken,
-  //     }),
-  //   )
-  //   dispatch(
-  //     selectOutputCurrency({
-  //       currency1: lpCurr1,
-  //       currency2: lpCurr2,
-  //     }),
-  //   )
-  //   onPresentDualLiquidityModal()
-  // }
+  const showLiquidity = (token?: any, quoteToken?: any) => {
+    dispatch(
+      selectCurrency({
+        field: Field.INPUT,
+        currencyId: token,
+      }),
+    )
+    dispatch(
+      selectCurrency({
+        field: Field.OUTPUT,
+        currencyId: quoteToken,
+      }),
+    )
+    dispatch(
+      selectOutputCurrency({
+        //@ts-ignore
+        currency1: lpCurr1,
+        //@ts-ignore
+        currency2: lpCurr2,
+      }),
+    )
+    onPresentDualLiquidityModal()
+  }
 
   return (
     <>
@@ -102,7 +105,7 @@ const DetailsContent: React.FC<DetailsContentProps> = ({
         >
           {t('Details')}
         </Text>
-        <Svg icon="caret" direction={expanded ? 'up' : 'down'} width="10px" />
+        <Svg icon="caret" direction={expanded ? 'up' : 'down'} />
       </Flex>
       <Box sx={styles.detailContainer(!expanded)}>
         <Flex sx={styles.detailRow}>
@@ -113,7 +116,7 @@ const DetailsContent: React.FC<DetailsContentProps> = ({
               {t('APR')} - {rewardTokenName} {t('rewards')}
             </Text>
           )}
-          <Text>{((apr ?? 0) + (lpApr || 0)).toFixed(2)}%</Text>
+          <Text>{(apr ?? 0 + (lpApr || 0)).toFixed(2)}%</Text>
         </Flex>
         {isLp && lpApr && (
           <>
@@ -137,8 +140,7 @@ const DetailsContent: React.FC<DetailsContentProps> = ({
 
         <Flex sx={{ marginTop: '25px', justifyContent: 'center' }}>
           {isLp && !liquidityUrl && (
-            <FarmButton onClick={() => null}>
-               {/* showLiquidity(tokenAddress, quoteTokenAddress) */}
+            <FarmButton onClick={() => showLiquidity(tokenAddress, quoteTokenAddress)}>
               {t('GET')} {label}
               <Box sx={{ marginLeft: '5px' }}>
                 <Svg icon="ZapIcon" color="primaryBright" />
