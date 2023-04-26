@@ -44,7 +44,6 @@ const Gnana = () => {
   const fullBananaBalance = accountBananaBalance?.toExact()
 
   const { tokenAllowance } = useTokenAllowance((bananaToken as Token) ?? undefined, account, treasuryContract?.address)
-  console.log(tokenAllowance)
 
   const handleSelectMax = useCallback(() => {
     const max = parseInt(fullBananaBalance ?? '0') < MAX_BUY || unlimited ? fullBananaBalance : MAX_BUY

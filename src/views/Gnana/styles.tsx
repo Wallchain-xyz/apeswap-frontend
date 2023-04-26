@@ -90,7 +90,7 @@ export const PaddedCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${({ theme }) => (theme.isDark ? `${theme.colors.yellow}26` : theme.colors.yellow)};
+  background-color: ${({ theme }) => theme.colors.gnanaWarningBackground};
   padding: 10px;
   border-radius: 10px;
 `

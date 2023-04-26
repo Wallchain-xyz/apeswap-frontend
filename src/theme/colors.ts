@@ -38,6 +38,7 @@ const Colors = {
   hoveredDanger: '#DF4141B3',
   modalOverlay: 'rgba(66, 66, 66, 0.5)',
   opacityBadge: 'rgba(66, 66, 66, 0.5)',
+  gnanaWarningBackground: '#FFB300',
   moon: '#7A7A7A',
   island: '#4D4040',
   listTagBg: {
@@ -82,6 +83,7 @@ const Colors = {
       white4: '#424242',
       radioChecked: '#0B0B0B',
       navMenuLogo: '#5E5E5E',
+      gnanaWarningBackground: 'rgba(255, 179, 0, 0.26)',
       input: '#FAFAFA',
       footer: '#0B0B0B',
       hoveredYellow: '#FFDA00',
