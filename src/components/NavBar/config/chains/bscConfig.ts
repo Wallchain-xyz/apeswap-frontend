@@ -48,8 +48,8 @@ const bscConfig: NavConfig[] = [
     label: 'Raise',
     items: [
       {
-        label: 'Treasury Bills',
-        href: `${TEMP_APESWAP_URL}/treasury-bills`,
+        label: 'Bonds',
+        href: `${TEMP_APESWAP_URL}/bonds`,
       },
       {
         label: 'Official IAO',
