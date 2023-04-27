@@ -11,7 +11,7 @@ import PriceChange from '../FullProfile/components/PercentageChange'
 import ProgressBar from '../ProgressBar'
 import { getColor } from '../../utils/getColor'
 
-const columnWidths = [25, 140, 130, 130, 130, 163, 163, 162.9, 50]
+const columnWidths = [25, 140, 130, 130, 130, 163, 163, 162.9, 68]
 const mobileColumnWidths = [25, 140, 70, 65, 65, 80, 80, 80, 40]
 const desktopMappedColumns = columnWidths.map((width) => `${width}px`).join(' ')
 const mobileMappedColumns = mobileColumnWidths.map((width) => `${width}px`).join(' ')
@@ -72,7 +72,7 @@ const TableHeader = () => {
 
 const TableRow = ({ index, style, profiles }: {
   index: any,
-  style: any,
+  style?: any,
   profiles: SimpleTokenProfile[]
 }) => {
   const simpleProfile: SimpleTokenProfile = profiles[index]
@@ -195,11 +195,9 @@ const TableRow = ({ index, style, profiles }: {
 }
 
 // eslint-disable-next-line react/display-name
-const InnerListWrapper = React.forwardRef((props, ref) => {
-  //@ts-ignore
-  const { children, ...rest } = props
+const InnerListWrapper = (({ children }: { children: React.ReactNode }) => {
   return (
-    <Box ref={ref} {...rest}>
+    <Box>
       <TableHeader />
       {children}
     </Box>
@@ -214,7 +212,7 @@ const MyTable = () => {
   return (
     <Box
       sx={{
-        width: ['100vw', '100vw', '100%'],
+        width: ['calc(100vw - 8px)', 'calc(100vw - 8px)', '100%'],
         overflowY: 'auto',
         position: 'relative',
         mt: '20px',
@@ -222,35 +220,24 @@ const MyTable = () => {
         borderRadius: '10px',
       }}
     >
-      {
-        searchProfiles.length > 0 ? (
-          <List
-            height={itemHeight * 15}
-            itemCount={searchProfiles.length + 1}
-            itemSize={itemHeight}
-            width='100%'
-            innerElementType={InnerListWrapper}
-          >
-            {({ index, style }) => <TableRow index={index} style={style}
-                                             profiles={[{} as SimpleTokenProfile, ...searchProfiles]} />}
-          </List>
+      { searchProfiles.length > 0 ? (
+        <InnerListWrapper>
+          {
+            searchProfiles.map((profile, index) => {
+              return <TableRow key={`asd${index}`}
+                               index={index}
+                               profiles={searchProfiles} />
+            })}
+        </InnerListWrapper>
         ) : simpleProfiles.length > 0 && (
-          <List
-            height={itemHeight * 15}
-            itemCount={simpleProfiles.length + 1}
-            itemSize={itemHeight}
-            width='100%'
-            innerElementType={InnerListWrapper}
-          >
-            {({ index, style }) => {
-              return (
-                <TableRow
-                  index={index}
-                  style={style}
-                  profiles={[{} as SimpleTokenProfile, ...simpleProfiles]} />
-              )
-            }}
-          </List>
+          <InnerListWrapper>
+            {
+              simpleProfiles.map((profile, index) => {
+                return <TableRow key={`asd${index}`}
+                                 index={index}
+                                 profiles={simpleProfiles} />
+              })}
+          </InnerListWrapper>
         )
       }
     </Box>

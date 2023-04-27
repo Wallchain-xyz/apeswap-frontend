@@ -32,15 +32,13 @@ const LHD = () => {
 
   return (
     <Flex sx={{
-      position: 'relative',
-      top: '30px',
       width: '100%',
       mb: '100px',
       justifyContent: 'center',
       flexDirection: 'column',
     }}>
       <ListViewLayout>
-        <Flex sx={{ width: '100%', flexDirection: ['column', 'column', 'column', 'row'] }}>
+        <Flex sx={{ width: '100%', flexDirection: ['column', 'column', 'column', 'row'], mt: '30px' }}>
           <Flex sx={{
             width: ['100%', '100%', '100%', '50%'],
             flexDirection: 'column',
