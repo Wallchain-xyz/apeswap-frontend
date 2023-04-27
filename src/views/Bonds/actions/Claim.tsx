@@ -23,7 +23,6 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
   // const { showGeneralHarvestModal } = useIsModalShown()
 
   const displayGHCircular = false // () => showGeneralHarvestModal && onPresentGHModal()
-  const bananaBill = billType === 'bill'
 
   // TODO:
   const handleClaim = async () => {

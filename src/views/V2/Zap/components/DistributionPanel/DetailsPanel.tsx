@@ -2,17 +2,17 @@ import React, { ReactNode, useMemo } from 'react'
 import { ONE_BIPS } from 'config/constants/misc'
 import { Flex, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
-// import { ZapInput } from '@ape.swap/v2-zap-sdk'
 import { warningSeverity } from 'utils/prices'
 import { formatPriceImpact } from 'views/Swap/utils'
+import { MergedZap } from 'state/zap/actions'
 
 interface DetailsPanelProps {
-  zap: any //ZapInput
+  zap: MergedZap
 }
 
 const DetailsPanel: React.FC<DetailsPanelProps> = ({ zap }) => {
   const { t } = useTranslation()
-  const { pairOut, currencyOut1, currencyOut2, liquidityProviderFee, currencyIn, chainId, totalPriceImpact } = zap
+  const { pairOut, currencyOut1, currencyOut2, liquidityProviderFee, currencyIn, totalPriceImpact } = zap
 
   const priceImpactColor = useMemo(() => {
     if (!totalPriceImpact) return undefined
@@ -48,13 +48,13 @@ const DetailsPanel: React.FC<DetailsPanelProps> = ({ zap }) => {
       <Row>
         <StyledText>{`${currencyOut1?.outputCurrency?.symbol} per ${currencyOut2?.outputCurrency?.symbol}`}</StyledText>
         <StyledText>
-          {currencyOut1?.outputAmount?.divide(currencyOut2?.outputAmount || '')?.toSignificant(5)}
+          {currencyOut1?.outputAmount?.asFraction.divide(currencyOut2?.outputAmount || '')?.toSignificant(5)}
         </StyledText>
       </Row>
       <Row>
         <StyledText>{`${currencyOut2?.outputCurrency?.symbol} per ${currencyOut1?.outputCurrency?.symbol}`}</StyledText>
         <StyledText>
-          {currencyOut2?.outputAmount?.divide(currencyOut1?.outputAmount || '')?.toSignificant(5)}
+          {currencyOut2?.outputAmount?.asFraction.divide(currencyOut1?.outputAmount || '')?.toSignificant(5)}
         </StyledText>
       </Row>
     </Flex>

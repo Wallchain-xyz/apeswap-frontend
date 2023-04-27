@@ -1,4 +1,3 @@
-/** @jsxImportSource theme-ui */
 import { Modal } from 'components/uikit'
 import React from 'react'
 import {
@@ -7,22 +6,23 @@ import {
   TransactionSubmittedContent,
 } from 'components/TransactionConfirmationModal'
 import { useTranslation } from 'contexts/Localization'
-import { CHAIN_PARAMS, getChainInfo } from 'config/constants/chains'
+import { getChainInfo } from 'config/constants/chains'
 import { useZapState } from 'state/zap/hooks'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { MergedZap } from 'state/zap/actions'
 
 export interface ZapConfirmationModalProps {
   title?: string
   onDismiss: () => void
   txHash?: string
-  zap: any // ZapInput
+  zap: MergedZap
   zapErrorMessage?: string
 }
 
 const modalProps = {
   sx: {
-    zIndex: 12,
+    zIndex: 120,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     minWidth: ['90%', '420px'],

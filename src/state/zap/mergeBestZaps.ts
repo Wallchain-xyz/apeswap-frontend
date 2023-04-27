@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Currency, CurrencyAmount, Percent, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Percent, SupportedChainId, Token, TradeType, WETH9 } from '@ape.swap/sdk-core'
 import { Pair } from '@ape.swap/v2-sdk'
 import { PairState } from 'hooks/useV2Pairs'
 import { MergedZap } from './actions'
@@ -7,6 +7,7 @@ import JSBI from 'jsbi'
 import { InterfaceTrade } from 'state/routing/types'
 // import { BIPS_BASE } from 'config/constants/misc'
 import { computeZapPriceBreakdown } from 'utils/prices'
+import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 
 // Since a best zap can be null when its the same token we have to check for each possibility
 export function mergeBestZaps(
@@ -22,15 +23,26 @@ export function mergeBestZaps(
   const currencyIn = bestZapOne?.inputAmount.currency || bestZapTwo?.inputAmount.currency
   const slippageTolerance = allowedSlippage
 
+  console.log(bestZapOne)
+  console.log(bestZapTwo)
+
   // We need to check if a zap path will wrap to not estimate a route
+
   const inAndOutWrappedOne =
-    (currencyIn?.isNative && out1?.wrapped.isNative) || (currencyIn?.wrapped.isNative && out1?.isNative)
+    (currencyIn?.isNative && out1?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])) ||
+    (currencyIn?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId]) && out1?.isNative)
   const inAndOutWrappedTwo =
-    (currencyIn?.isNative && out2?.wrapped.isNative) || (currencyIn?.wrapped.isNative && out2?.isNative)
+    (currencyIn?.isNative && out2?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])) ||
+    (currencyIn?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId]) && out2?.isNative)
 
   // If the input token and output token are the same we need to handle values differently
   const inAndOutAreTheSame1Flag = currencyIn === out1 || inAndOutWrappedOne
   const inAndOutAreTheSame2Flag = currencyIn === out2 || inAndOutWrappedTwo
+
+  console.log(inAndOutAreTheSame1Flag)
+  console.log(inAndOutAreTheSame2Flag)
+  console.log(currencyIn, out1)
+  console.log(currencyIn, out2)
 
   // output currencies
   const outputCurrencyOne = out1?.wrapped

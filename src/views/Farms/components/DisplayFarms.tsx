@@ -10,14 +10,44 @@ import { ListTagVariants } from 'components/uikit/Tag/types'
 import { styles } from './styles'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import Tooltip from 'components/Tooltip/Tooltip'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import Harvest from '../actions/Harvest'
 import CardActions from '../actions'
 import CalcButton from 'components/RoiCalculator/CalcButton'
+import DualLiquidityModal from 'components/DualAddLiquidity/DualLiquidityModal'
+import useModal from 'hooks/useModal'
+import { useAppDispatch } from 'state/hooks'
+import { selectOutputCurrency } from 'state/zap/actions'
+import { Field, selectCurrency } from 'state/swap/actions'
 
 const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: string; farmTags?: any[] }) => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+
+  const [onPresentAddLiquidityModal] = useModal(<DualLiquidityModal />, true, true, 'liquidityWidgetModal')
+
+  const showLiquidity = (token: any, quoteToken: any, farm: Farm) => {
+    dispatch(
+      selectCurrency({
+        field: Field.INPUT,
+        currencyId: token,
+      }),
+    )
+    dispatch(
+      selectCurrency({
+        field: Field.OUTPUT,
+        currencyId: quoteToken,
+      }),
+    )
+    dispatch(
+      selectOutputCurrency({
+        currency1: farm.tokenAddress,
+        currency2: farm.quoteTokenAddress,
+      }),
+    )
+    onPresentAddLiquidityModal()
+  }
+
   const farmsListView = farms.map((farm) => {
     const token0 = farm.tokenSymbol
     const token1 = farm.quoteTokenSymbol
@@ -192,13 +222,13 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
                 }}
               >
                 <Button
-                  // onClick={() =>
-                  //   showLiquidity(
-                  //     farm.tokenAddresses[chainId],
-                  //     farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAdresses[chainId],
-                  //     farm,
-                  //   )
-                  // }
+                  onClick={() =>
+                    showLiquidity(
+                      farm.tokenAddress,
+                      farm.quoteTokenSymbol === 'BNB' ? 'ETH' : farm.quoteTokenAddress,
+                      farm,
+                    )
+                  }
                   sx={styles.styledBtn}
                 >
                   <Text sx={{ lineHeight: '18px', mr: '5px' }} color="primaryBright">

@@ -37,12 +37,12 @@ const ConvertionPanel: React.FC<ConvertionPanelProps> = ({ zap }) => {
           <Box sx={{ margin: '3px' }}>
             <CurrencyLogo currency={currencyIn?.currency} size={17} />
           </Box>
-          <Text size="12px" sx={{ marginRight: '15px' }}>
+          <Text size="12px" sx={{ marginRight: '10px' }}>
             {halfInputAmount}
           </Text>
-          <Box sx={{ transform: 'rotate(270deg)' }}>
-            <Svg color={'primary' as any} icon="arrow" />
-          </Box>
+          <Flex sx={{ alignItems: 'center', justifyContent: 'center', mb: '5px', mr: '10px' }}>
+            <Svg color={'primary' as any} icon="arrow" direction="right" />
+          </Flex>
           <Box sx={{ margin: '3px' }}>
             <CurrencyLogo currency={currencyOut1?.outputCurrency} size={17} />
           </Box>
@@ -52,12 +52,12 @@ const ConvertionPanel: React.FC<ConvertionPanelProps> = ({ zap }) => {
           <Box sx={{ margin: '3px' }}>
             <CurrencyLogo currency={currencyIn?.currency} size={17} />
           </Box>
-          <Text size="12px" sx={{ marginRight: '15px' }}>
+          <Text size="12px" sx={{ marginRight: '10px' }}>
             {halfInputAmount}
           </Text>
-          <Box sx={{ transform: 'rotate(270deg)' }}>
-            <Svg color={'primary' as any} icon="arrow" />
-          </Box>
+          <Flex sx={{ alignItems: 'center', justifyContent: 'center', mb: '5px', mr: '10px' }}>
+            <Svg color={'primary' as any} icon="arrow" direction="right" />
+          </Flex>
           <Box sx={{ margin: '3px' }}>
             <CurrencyLogo currency={currencyOut2?.outputCurrency} size={17} />
           </Box>

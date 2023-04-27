@@ -18,6 +18,7 @@ import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import HarvestAll from './actions/HarvestAll'
 import BigNumber from 'bignumber.js'
+import { useSetZapOutputList } from 'state/zap/hooks'
 
 const Farms = () => {
   const { account, chainId } = useWeb3React()
@@ -210,6 +211,12 @@ const Farms = () => {
           : farms?.slice(0, numberOfFarmsVisible)
     }
   }
+  // Set zap output list to match farms
+  useSetZapOutputList(
+    activeFarms?.map((farm) => {
+      return { currencyIdA: farm?.tokenAddress, currencyIdB: farm?.quoteTokenAddress }
+    }),
+  )
 
   return (
     <Flex sx={styles.farmContainer}>

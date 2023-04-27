@@ -22,10 +22,10 @@ const ZapPanel: React.FC<ZapPanelProps> = ({ value, onSelect, lpPair }) => {
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 
-  const [usdVal, usdValLoaded] = useTokenPriceUsd(null)
+  const [usdVal] = useTokenPriceUsd(lpPair?.liquidityToken, true)
 
   return (
-    <Flex variant="flex.dexPanel">
+    <Flex sx={styles.dexPanelContainer}>
       <Flex sx={styles.panelTopContainer}>
         <Text sx={styles.swapDirectionText}>{t('To')}:</Text>
         <NumericInput value={value} onUserInput={() => null} />
