@@ -1,7 +1,7 @@
 import { Box } from 'theme-ui'
 import { Flex, Text } from 'components/uikit'
 import React from 'react'
-import { styles } from './styles'
+import { styles } from '../styles'
 
 const TableHeader = () => {
   const headers = [
@@ -29,6 +29,7 @@ const TableHeader = () => {
             zIndex: index === 0 || index === 1 || index === headers.length - 1 ? 2 : 1,
             background: 'white2',
             justifyContent: index === 1 ? 'flex-start' : 'center',
+            minWidth: index === 1 ? '140px' : '0',
           }}
         >
           <Text sx={{ ...styles.headerText, color: index === 0 ? undefined : 'textDisabled' }}>

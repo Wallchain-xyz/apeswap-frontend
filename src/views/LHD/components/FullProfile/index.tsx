@@ -1,17 +1,17 @@
 import React from 'react'
-import { useFullProfile, useFetchProfile } from '../../../../state/lhd/hooks'
-import { Button, Flex, Link, Svg, Text, Tooltip } from '../../../../components/uikit'
+import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
+import { Button, Flex, Link, Spinner, Svg, Text } from 'components/uikit'
 import { Box } from 'theme-ui'
-import { ExternalDataOption, TokenProfile } from '../../../../state/lhd/types'
+import { ExternalDataOption, TokenProfile } from 'state/lhd/types'
 import PriceChange from './components/PercentageChange'
 import IconButton from './components/IconButton'
 import Chart from '../Chart'
-import { useTranslation } from '../../../../contexts/Localization'
+import { useTranslation } from 'contexts/Localization'
 import Image from 'next/image'
 import ChainsIcons from './components/ChainsIcons'
 import ProgressBar from '../ProgressBar'
 import { getColor } from '../../utils/getColor'
-import useModal from '../../../../hooks/useModal'
+import useModal from 'hooks/useModal'
 import SharableCard from '../SharableCard'
 import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
@@ -36,7 +36,7 @@ const FullProfile = ({ chainID, address }: {
     return (
       <Flex sx={{ mt: '30px', width: '100%', flexDirection: 'column' }}>
         <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
-          <Link href={'/lhd'} sx={{ textDecoration: 'none' }}>
+          <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
             <Text sx={{
               fontSize: ['12px', '12px', '12px', '14px'],
               lineHeight: '20px',
@@ -210,7 +210,7 @@ const FullProfile = ({ chainID, address }: {
                 <Text sx={{ fontWeight: 500, fontSize: ['10px'], lineHeight: ['17px'] }}>
                   {t('Share')}
                 </Text>
-                <Svg icon='share' width={17} />
+                <Svg icon='share' width={17} color="text" />
               </Button>
             </Flex>
           </Flex>
@@ -265,9 +265,9 @@ const FullProfile = ({ chainID, address }: {
     )
   }
   return (
-    <>
-      Loading..
-    </>
+    <Flex sx={{width: '100%', height: 'calc(100vh - 60px)', justifyContent: 'center', alignItems: 'center'}}>
+      <Spinner size={200} />
+    </Flex>
   )
 }
 
