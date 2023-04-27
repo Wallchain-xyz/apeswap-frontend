@@ -32,7 +32,7 @@ const LPSearchModal = ({ onDismiss = () => null, onSelect }: LPSearchModalProps)
 
   const modalProps = {
     sx: {
-      zIndex:111,
+      zIndex: 110,
       overflowY: 'auto',
       maxHeight: 'calc(100% - 30px)',
       minWidth: ['90%', '420px'],

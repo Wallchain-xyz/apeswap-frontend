@@ -21,6 +21,8 @@ import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Pair } from '@ape.swap/v2-sdk'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
+import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
+import { TradeState } from 'state/routing/types'
 
 interface ZapLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut: Pair) => void
@@ -52,7 +54,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const inputCurrency = useCurrency(currencyA)
 
-  const { zap, inputError: zapInputError, currencyBalances } = useDerivedZapInfo()
+  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
   const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()
 
   const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
@@ -133,7 +135,6 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [zapable])
 
-  console.log(zap)
 
   return (
     <div>
@@ -177,6 +178,12 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
           onSelect={handleOutputSelect}
           lpPair={zap.pairOut.pair}
         />
+
+        {zapRouteState === TradeState.LOADING && (
+          <Flex mt="10px">
+            <LoadingBestRoute />
+          </Flex>
+        )}
         {typedValue && parseFloat(typedValue) > 0 && zap?.pairOut?.liquidityMinted && (
           <Flex sx={{ marginTop: '40px' }}>
             <DistributionPanel zap={zap} />
@@ -187,6 +194,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
           zap={zap}
           handleZap={handleZap}
           zapErrorMessage={zapErrorMessage}
+          zapRouteState={zapRouteState}
           handleDismissConfirmation={handleDismissConfirmation}
         />
         <Flex sx={{ marginTop: '10px', justifyContent: 'center' }}>

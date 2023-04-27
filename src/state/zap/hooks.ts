@@ -34,6 +34,7 @@ import { Protocol } from '@ape.swap/router-sdk'
 import { mergeBestZaps } from './mergeBestZaps'
 import BigNumber from 'bignumber.js'
 import { zapInputTokens } from '@ape.swap/apeswap-lists'
+import { TradeState } from 'state/routing/types'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -232,8 +233,19 @@ export function useDerivedZapInfo() {
     inputError = `Insufficient ${zap?.currencyIn.currency?.symbol} balance`
   }
 
+  const zapRouteState =
+    bestZapOne?.state === TradeState.LOADING ||
+    bestZapTwo?.state === TradeState.LOADING ||
+    bestZapOne?.state === TradeState.SYNCING ||
+    bestZapTwo?.state === TradeState.SYNCING
+      ? TradeState.LOADING
+      : bestZapOne?.state === TradeState.VALID && bestZapTwo?.state === TradeState.VALID
+      ? TradeState.VALID
+      : TradeState.INVALID
+
   return {
     currencies,
+    zapRouteState,
     currencyBalances,
     parsedAmount,
     zap,

@@ -1,14 +1,14 @@
 import React from 'react'
 import { Flex, Svg, Text } from 'components/uikit'
 import { Box } from 'theme-ui'
-// import { ZapInput } from '@ape.swap/v2-zap-sdk'
 import { useTranslation } from 'contexts/Localization'
 import { CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import JSBI from 'jsbi'
 import CurrencyLogo from 'components/CurrencyLogo'
+import { MergedZap } from 'state/zap/actions'
 
 interface ConvertionPanelProps {
-  zap: any //ZapInput
+  zap: MergedZap
 }
 
 const ConvertionPanel: React.FC<ConvertionPanelProps> = ({ zap }) => {

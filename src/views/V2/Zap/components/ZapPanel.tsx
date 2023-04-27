@@ -17,7 +17,7 @@ export interface ZapPanelProps {
 }
 
 const ZapPanel: React.FC<ZapPanelProps> = ({ value, onSelect, lpPair }) => {
-  const { account, chainId } = useWeb3React()
+  const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, lpPair?.liquidityToken ?? undefined)
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()

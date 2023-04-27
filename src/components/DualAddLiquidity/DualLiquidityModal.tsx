@@ -6,7 +6,6 @@ import ZapLiquidity from './ZapLiquidity'
 import ZapSwitch from './components/ZapSwitch'
 import { TransactionSubmittedContent } from '../TransactionConfirmationModal'
 import { Modal } from 'components/uikit'
-import ModalProvider from 'contexts/ModalContext'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
 import { Pair } from '@ape.swap/v2-sdk'
 
@@ -58,24 +57,22 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
           <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} LpToAdd={pairOut ?? undefined} />
         </Modal>
       ) : (
-        <ModalProvider>
-          <Modal open {...modalProps} title={t('Liquidity')} onDismiss={onDismiss}>
-            <Box>
-              <ZapSwitch goZap={goZap} handleZapSwitch={handleZapSwitch} />
-              {goZap ? (
-                <ZapLiquidity
-                  handleConfirmedTx={handleConfirmedTx}
-                  poolAddress={poolAddress ?? ''}
-                  pid={pid ?? ''}
-                  zapIntoProductType={zapIntoProductType ?? ZapType.ZAP}
-                  zapable={zapable ?? false}
-                />
-              ) : (
-                <RegularLiquidity />
-              )}
-            </Box>
-          </Modal>
-        </ModalProvider>
+        <Modal open {...modalProps} title={t('Liquidity')} onDismiss={onDismiss}>
+          <Box>
+            <ZapSwitch goZap={goZap} handleZapSwitch={handleZapSwitch} />
+            {goZap ? (
+              <ZapLiquidity
+                handleConfirmedTx={handleConfirmedTx}
+                poolAddress={poolAddress ?? ''}
+                pid={pid ?? ''}
+                zapIntoProductType={zapIntoProductType ?? ZapType.ZAP}
+                zapable={zapable ?? false}
+              />
+            ) : (
+              <RegularLiquidity />
+            )}
+          </Box>
+        </Modal>
       )}
     </>
   )

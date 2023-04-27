@@ -21,6 +21,7 @@ import { Image } from 'theme-ui'
 
 const modalProps = {
   sx: {
+    zIndex: 101,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     width: ['90%'],
@@ -54,7 +55,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
   }
 
   return (
-    <ModalProvider>
+    <Flex>
       {billId ? (
         <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
       ) : (
@@ -127,7 +128,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
           </ModalBodyContainer>
         </Modal>
       )}
-    </ModalProvider>
+    </Flex>
   )
 }
 

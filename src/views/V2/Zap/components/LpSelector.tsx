@@ -4,7 +4,6 @@ import { styles } from 'components/TokenSelector/styles'
 import { Spinner } from 'theme-ui'
 import LPSearchModal from 'components/LPSearchModal/LPSearchModal'
 import useModal from 'hooks/useModal'
-import { useWeb3React } from '@web3-react/core'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { Token } from '@ape.swap/sdk-core'
 import { Pair } from '@ape.swap/v2-sdk'
@@ -13,7 +12,7 @@ const LPSelector: React.FC<{
   lpPair: Pair | undefined
   onSelect: (currencyA: Token, currencyB: Token) => void
 }> = ({ lpPair, onSelect }) => {
-  const [onPresentCurrencyModal] = useModal(<LPSearchModal onSelect={onSelect} />)
+  const [onPresentCurrencyModal] = useModal(<LPSearchModal onSelect={onSelect} />, true, true, 'DualModalLP')
 
   return (
     <Flex sx={styles.primaryFlex} onClick={onPresentCurrencyModal}>

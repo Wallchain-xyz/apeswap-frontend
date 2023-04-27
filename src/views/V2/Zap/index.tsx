@@ -23,6 +23,8 @@ import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from '../AddLiquidityV2/components/Actions'
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
+import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
+import { TradeState } from 'state/routing/types'
 
 const ZapLiquidity = ({
   currencyIdA,
@@ -51,7 +53,8 @@ const ZapLiquidity = ({
 
   const inputCurrency = useCurrency(currencyA)
 
-  const { zap, inputError: zapInputError, currencyBalances } = useDerivedZapInfo()
+  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
+
   const { onUserInput, onCurrencySelection } = useZapActionHandlers()
 
   const [tradeValueUsd, setTradeValueUsd] = useState(0)
@@ -154,6 +157,13 @@ const ZapLiquidity = ({
           onSelect={(currency0, currency1) => handleCurrencySelect(Field.OUTPUT, [currency0, currency1])}
           lpPair={zap?.pairOut.pair ?? undefined}
         />
+
+        {zapRouteState === TradeState.LOADING && (
+          <Flex mt="10px">
+            <LoadingBestRoute />
+          </Flex>
+        )}
+
         {typedValue && parseFloat(typedValue) > 0 && zap?.pairOut?.liquidityMinted && (
           <Flex sx={{ marginTop: '40px' }}>
             <DistributionPanel zap={zap} />
@@ -164,6 +174,7 @@ const ZapLiquidity = ({
           zap={zap}
           handleZap={handleZap}
           zapErrorMessage={zapErrorMessage}
+          zapRouteState={zapRouteState}
           txHash={txHash}
           handleDismissConfirmation={handleDismissConfirmation}
         />

@@ -16,7 +16,6 @@ import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { useWeb3React } from '@web3-react/core'
 import useDualDeposit from './hooks'
 import { useV2Pair } from 'hooks/useV2Pairs'
-import ModalProvider from 'contexts/ModalContext'
 import { Flex, Modal } from 'components/uikit'
 import DistributionPanel from 'views/V2/Zap/components/DistributionPanel/DistributionPanel'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
@@ -128,7 +127,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
   }, [])
 
   return (
-    <ModalProvider>
+    <>
       <Modal title={t('Stake LP tokens')} onDismiss={onDismiss} {...modalProps}>
         <Box sx={{ margin: '15px 0' }}>
           <DualCurrencyPanel
@@ -167,7 +166,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
           product={product}
         />
       </Modal>
-    </ModalProvider>
+    </>
   )
 }
 

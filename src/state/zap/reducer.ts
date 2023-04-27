@@ -12,10 +12,12 @@ import {
   setZapType,
   typeInput,
 } from './actions'
+import { TradeState } from 'state/routing/types'
 
 export interface ZapState {
   readonly independentField: Field
   readonly typedValue: string
+  readonly zapRouteState: TradeState
   readonly zapType: ZapType
   readonly [Field.INPUT]: {
     readonly currencyId: string | undefined
@@ -32,6 +34,7 @@ export interface ZapState {
 
 const initialState: ZapState = {
   independentField: Field.INPUT,
+  zapRouteState: TradeState.INVALID,
   zapType: ZapType.ZAP,
   typedValue: '',
   [Field.INPUT]: {
