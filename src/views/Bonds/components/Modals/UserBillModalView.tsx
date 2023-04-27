@@ -89,7 +89,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
           ) : (
             <Flex sx={{ alignItems: 'center', justifyContnet: 'center' }}>
               <BillsImage>
-                <Image src="images/bills/bill-nfts.gif" alt="bill-img" height={500} width={500} />
+                <Image src="/images/bills/bill-nfts.gif" alt="bill-img" height={500} width={500} />
               </BillsImage>
             </Flex>
           )}

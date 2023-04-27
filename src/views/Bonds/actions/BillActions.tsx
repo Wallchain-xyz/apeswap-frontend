@@ -12,6 +12,7 @@ import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import JSBI from 'jsbi'
 import { useUserZapSlippageTolerance } from 'state/user/hooks'
 import { ethers } from 'ethers'
+import { TradeState } from 'state/routing/types'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -19,6 +20,7 @@ const BillActions: React.FC<BillActionsProps> = ({
   currencyB,
   handleBuy,
   billValue,
+  zapRouteState,
   value,
   purchaseLimit,
   balance,
@@ -80,7 +82,7 @@ const BillActions: React.FC<BillActionsProps> = ({
       ) : (
         <BuyButton
           onClick={handleBuy}
-          load={pendingTrx}
+          load={pendingTrx || zapRouteState === TradeState.LOADING}
           disabled={
             billValue === 'NaN' ||
             parseFloat(billValue) < 0.01 ||
@@ -88,7 +90,7 @@ const BillActions: React.FC<BillActionsProps> = ({
             parseFloat(balance) < parseFloat(value) ||
             pendingApprove ||
             pendingTrx ||
-            !!errorMessage
+            !!errorMessage || zapRouteState === TradeState.LOADING
           }
         >
           {errorMessage && !pendingTrx ? errorMessage : t('Buy')}

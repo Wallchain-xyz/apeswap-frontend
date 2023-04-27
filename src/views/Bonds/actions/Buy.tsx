@@ -74,7 +74,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     pair?.liquidityToken ?? currencyA ?? undefined,
   )
 
-  const { zap } = useDerivedZapInfo()
+  const { zap, zapRouteState } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
@@ -310,6 +310,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             <BillActions
               bill={bill}
               zap={zap}
+              zapRouteState={zapRouteState}
               currencyB={currencyB as Currency}
               handleBuy={handleBuy}
               billValue={billValue}

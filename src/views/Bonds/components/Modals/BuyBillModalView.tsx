@@ -71,7 +71,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
             <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
               {loading && !billId ? (
                 <BillsImage>
-                  <Image src={'images/bills/bill-nfts.gif'} alt="bill-img" height={500} width={500} />
+                  <Image src={'/images/bills/bill-nfts.gif'} alt="bill-img" height={500} width={500} />
                 </BillsImage>
               ) : (
                 <BillsImage image="images/bills/hidden-bill.jpg" />
