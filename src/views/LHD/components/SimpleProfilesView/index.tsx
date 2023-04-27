@@ -138,7 +138,7 @@ const TableRow = ({ index, style, profiles }: {
 }
 
 const MyTable = () => {
-  const simpleProfiles = useSimpleProfiles()
+  const [simpleProfiles, queriedAPI] = useSimpleProfiles()
   const searchProfiles = useSearchProfiles()
 
   return (
@@ -159,7 +159,7 @@ const MyTable = () => {
                            index={index}
                            profiles={searchProfiles} />
         })
-      ) : false ? (
+      ) : queriedAPI ? (
           <>
             {[...Array(15)].map((i) => {
               return <SkeletonRow key={i} />
