@@ -5,7 +5,6 @@ import { SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
 import { addFullProfile, addSearchProfiles } from './reducer'
 import { useSelector } from 'react-redux'
-import FullProfile from '../../views/LHD/components/FullProfile'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()

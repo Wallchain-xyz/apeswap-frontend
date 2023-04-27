@@ -1,74 +1,17 @@
 import React from 'react'
-import { FixedSizeList as List } from 'react-window'
 import { Box } from 'theme-ui'
-import { useSearchProfiles, useSimpleProfiles } from '../../../../state/lhd/hooks'
-import { SimpleTokenProfile } from '../../../../state/lhd/types'
+import { useSearchProfiles, useSimpleProfiles } from 'state/lhd/hooks'
+import { SimpleTokenProfile } from 'state/lhd/types'
 import { useRouter } from 'next/router'
-import { Flex, Text } from 'components/uikit'
+import { Flex, Skeleton, Text } from 'components/uikit'
 import Image from 'next/image'
-import { formatDollar } from '../../../../utils/formatNumbers'
+import { formatDollar } from 'utils/formatNumbers'
 import PriceChange from '../FullProfile/components/PercentageChange'
 import ProgressBar from '../ProgressBar'
 import { getColor } from '../../utils/getColor'
-
-const columnWidths = [25, 140, 130, 130, 130, 163, 163, 162.9, 68]
-const mobileColumnWidths = [25, 140, 70, 65, 65, 80, 80, 80, 40]
-const desktopMappedColumns = columnWidths.map((width) => `${width}px`).join(' ')
-const mobileMappedColumns = mobileColumnWidths.map((width) => `${width}px`).join(' ')
-const tableWidth = columnWidths.reduce((acc, width) => acc + width, 0)
-
-const TableHeader = () => {
-  const headers = [
-    '#',
-    'Token',
-    'MarketCap',
-    '24h change',
-    'Extractable',
-    'Health',
-    'Concentration',
-    'Ownership',
-    'Score',
-  ]
-
-  return (
-    <Box
-      sx={{
-        display: 'grid',
-        width: 'fit-content',
-        gridTemplateColumns: [mobileMappedColumns, mobileMappedColumns, desktopMappedColumns],
-        position: 'sticky',
-        top: 0,
-        background: 'white2',
-        zIndex: 10,
-        borderColor: 'transparent transparent #ccc transparent',
-      }}
-    >
-      {headers.map((header, index) => (
-        <Flex
-          key={index}
-          sx={{
-            padding: '8px',
-            position: index === 0 || index === 1 || index === headers.length - 1 ? 'sticky' : undefined,
-            left: index === 0 ? 0 : index === 1 ? 25 : undefined,
-            right: index === headers.length - 1 ? 0 : undefined,
-            zIndex: index === 0 || index === 1 || index === headers.length - 1 ? 2 : 1,
-            background: 'white2',
-            justifyContent: index === 1 ? 'flex-start' : 'center',
-          }}
-        >
-          <Text
-            sx={{
-              fontWeight: [400, 400, 500],
-              fontSize: ['8px', '8px', '12px'],
-              color: index === 0 ? undefined : 'textDisabled',
-            }}>
-            {header}
-          </Text>
-        </Flex>
-      ))}
-    </Box>
-  )
-}
+import { desktopMappedColumns, mobileMappedColumns } from './columnsFormat'
+import TableHeader from './components/TableHeader'
+import SkeletonRow from './components/SkeletonRow'
 
 const TableRow = ({ index, style, profiles }: {
   index: any,
@@ -81,7 +24,7 @@ const TableRow = ({ index, style, profiles }: {
   const handleClick = () => {
     const chainID = simpleProfile.addressMapping.tokenAddresses[0].chainId
     const address = simpleProfile.addressMapping.tokenAddresses[0].address
-    router.push(`/lhd/${chainID}/${address}`)
+    router.push(`/liquidity-health/${chainID}/${address}`)
   }
 
   return (
@@ -194,18 +137,7 @@ const TableRow = ({ index, style, profiles }: {
   )
 }
 
-// eslint-disable-next-line react/display-name
-const InnerListWrapper = (({ children }: { children: React.ReactNode }) => {
-  return (
-    <Box>
-      <TableHeader />
-      {children}
-    </Box>
-  )
-})
-
 const MyTable = () => {
-  const itemHeight = 40
   const simpleProfiles = useSimpleProfiles()
   const searchProfiles = useSearchProfiles()
 
@@ -220,24 +152,32 @@ const MyTable = () => {
         borderRadius: '10px',
       }}
     >
-      { searchProfiles.length > 0 ? (
-        <InnerListWrapper>
-          {
-            searchProfiles.map((profile, index) => {
-              return <TableRow key={`asd${index}`}
-                               index={index}
-                               profiles={searchProfiles} />
+      <TableHeader />
+      {searchProfiles.length > 0 ? (
+        searchProfiles?.map((profile, index) => {
+          return <TableRow key={`searchProfile-${index}`}
+                           index={index}
+                           profiles={searchProfiles} />
+        })
+      ) : false ? (
+          <>
+            {[...Array(15)].map((i) => {
+              return <SkeletonRow key={i} />
             })}
-        </InnerListWrapper>
-        ) : simpleProfiles.length > 0 && (
-          <InnerListWrapper>
-            {
-              simpleProfiles.map((profile, index) => {
-                return <TableRow key={`asd${index}`}
-                                 index={index}
-                                 profiles={simpleProfiles} />
-              })}
-          </InnerListWrapper>
+          </>
+        ) :
+        simpleProfiles.length > 0 ? (
+          simpleProfiles.map((profile, index) => {
+            return <TableRow key={`simpleProfile${index}`}
+                             index={index}
+                             profiles={simpleProfiles} />
+          })
+        ) : (
+          <>
+            {[...Array(15)].map((i) => {
+              return <SkeletonRow key={i} />
+            })}
+          </>
         )
       }
     </Box>
