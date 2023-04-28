@@ -15,7 +15,7 @@ const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
 })
 
-//TODO: 1) remove dummyArray, 2) add the icons to the rows, 3) fix URL in whitelisted Liquidity rows
+//TODO: 1) remove dummyArray, 2) add the icons to the rows
 
 const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()

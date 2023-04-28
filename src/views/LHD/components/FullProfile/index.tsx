@@ -36,57 +36,30 @@ const FullProfile = ({ chainID, address }: {
           </Text>
         </Flex>
         <TopSectionCards fullProfile={fullProfile} />
-        <Flex sx={{ width: '100%', mt: '15px', flexDirection: ['column', 'column', 'column', 'row'] }}>
-          <Flex sx={{
-            minWidth: ['100%', '100%', '100%', 'calc(100% - 370px)'],
-            width: ['100%', '100%', '100%', 'calc(100% - 370px)'],
-            flexDirection: 'column',
-            mr: ['0px', '0px', '0px', '20px'],
-          }}>
-            <Flex sx={{
-              width: ['100vw', '100vw', '100%'],
-              background: 'white2',
-              borderRadius: '10px',
-              ml: ['-10px', '-10px', '0px'],
-              height: ['380px', '380px', '380px', '430px'],
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+        <Flex sx={styles.lowerContainer}>
+          <Flex sx={styles.layout}>
+            <Flex sx={styles.chartCont}>
               <Chart />
             </Flex>
-            <Flex sx={{ width: '100%', display: ['flex', 'flex', 'flex', 'none'] }}>
+            <Flex sx={styles.infoCardMobile}>
               <InfoCards fullProfile={fullProfile} />
             </Flex>
-            <Flex sx={{
-              width: ['100vw', '100vw', '100%'],
-              background: 'white2',
-              borderRadius: '10px',
-              mt: '20px',
-              ml: ['-10px', '-10px', '0px'],
-              height: ['358px'],
-            }}>
+            <Flex sx={styles.liquidityConCont}>
               <LiquidityConcentration fullProfile={fullProfile} />
             </Flex>
           </Flex>
-          <Flex sx={{
-            width: ['100%', '100%', '100%', '380px'],
-            display: ['none', 'none', 'none', 'flex'],
-          }}>
+          <Flex sx={styles.infoCardDesktop}>
             <InfoCards fullProfile={fullProfile} />
           </Flex>
         </Flex>
-        <Text sx={{
-          fontWeight: 300,
-          fontSize: ['10px', '10px', '10px', '12px'],
-          color: 'textDisabled',
-        }}>
+        <Text sx={styles.formula}>
           Formula version: {fullProfile.formulaVersion}
         </Text>
       </Flex>
     )
   }
   return (
-    <Flex sx={{ width: '100%', height: 'calc(100vh - 60px)', justifyContent: 'center', alignItems: 'center' }}>
+    <Flex sx={styles.loadingSpinner}>
       <Spinner size={200} />
     </Flex>
   )
