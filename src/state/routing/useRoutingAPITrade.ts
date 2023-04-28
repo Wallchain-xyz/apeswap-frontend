@@ -67,7 +67,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
       }
     }
 
-    if (isLoading && !quoteResult) {
+    if ((isLoading && !quoteResult) || (isSyncing && !isError)) {
       // only on first hook render
       return {
         state: TradeState.LOADING,
@@ -87,6 +87,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     }
 
     if (isError || !otherAmount || !route || route.length === 0 || !queryArgs) {
+      console.log(isError, !otherAmount, !route, route?.length === 0, !queryArgs)
       return {
         state: TradeState.NO_ROUTE_FOUND,
         trade: undefined,
