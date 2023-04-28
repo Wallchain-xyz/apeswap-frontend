@@ -2,7 +2,15 @@ import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
 import { ThemeUIStyleObject } from 'theme-ui'
 
 
-export const styles: Record<string, ThemeUIStyleObject> = {
+export const styles: Record<
+  | 'headerCont'
+  | 'headerText'
+  | 'rowCont'
+  | 'index'
+  | 'lpNameCol'
+  | 'imgCont'
+  | 'bodyText'
+  | 'colCont', ThemeUIStyleObject> = {
   headerCont: {
     display: 'grid',
     width: 'fit-content',
