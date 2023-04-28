@@ -27,16 +27,16 @@ const bscConfig: NavConfig[] = [
     label: 'Stake',
     items: [
       {
+        label: 'Farms',
+        href: `/farms`,
+      },
+      {
         label: 'Staking Pools',
         href: `/pools`,
       },
       {
         label: 'BANANA Maximizers',
         href: `${TEMP_APESWAP_URL}/maximizers`,
-      },
-      {
-        label: 'BANANA Farms',
-        href: `/farms`,
       },
     ],
   },

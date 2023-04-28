@@ -5,11 +5,14 @@ import { MASTER_CHEF_V1_ADDRESS, MASTER_CHEF_V2_ADDRESS, MINI_APE_ADDRESS } from
 import { ethers } from 'ethers'
 import { useCallback } from 'react'
 import { FarmTypes } from 'state/farms/types'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 import track from 'utils/track'
 
 // Approve a Farm
 export const useApprove = (lpContract: Erc20 | null, farmTypes: FarmTypes, contractAddress?: string) => {
   const { chainId } = useWeb3React()
+  const addTransaction = useTransactionAdder()
   const addressToApprove =
     farmTypes === FarmTypes.JUNLGE_FARM
       ? contractAddress
@@ -21,6 +24,11 @@ export const useApprove = (lpContract: Erc20 | null, farmTypes: FarmTypes, contr
 
   const handleApprove = useCallback(async () => {
     const tx = await lpContract?.approve(addressToApprove ?? '', ethers.constants.MaxUint256).then((trx) => {
+      addTransaction(trx, {
+        type: TransactionType.APPROVAL,
+        tokenAddress: lpContract.address ?? '',
+        spender: addressToApprove ?? '',
+      })
       return trx.wait()
     })
     track({
@@ -33,7 +41,7 @@ export const useApprove = (lpContract: Erc20 | null, farmTypes: FarmTypes, contr
       },
     })
     return tx
-  }, [lpContract, addressToApprove, chainId])
+  }, [lpContract, addressToApprove, addTransaction, chainId])
 
   return { onApprove: handleApprove }
 }

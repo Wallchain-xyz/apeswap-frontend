@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import BigNumber from 'bignumber.js'
 import {
   fetchFarmUserEarnings,
   fetchFarmUserAllowances,
@@ -12,7 +11,6 @@ import { Farm, FarmState, FarmTypes } from './types'
 import { AppThunk } from 'state'
 import { LpTokenPrices } from 'hooks/useAllLPPrices'
 import { FarmLpAprsType } from 'state/stats/types'
-import { TokenPrices } from 'hooks/useAllTokenPrices'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 const initialState: FarmState = {
@@ -40,17 +38,23 @@ export const farmsSlice = createSlice({
         state.data[chainId][index] = { ...state.data[chainId][index], userData: userDataEl }
       })
     },
-    // updateFarmUserData: (state, action) => {
-    //   const { field, value, pid } = action.payload
-    //   const index = state.data.findIndex((p) => p.pid === pid)
-    //   state.data[index] = { ...state.data[index], userData: { ...state.data[index].userData, [field]: value } }
-    // },
+    updateFarmUserData: (state, action) => {
+      const { field, value, id, chainId } = action.payload
+      //@ts-ignore
+      const index = state.data[chainId].findIndex((p: any) => p.id === id)
+      //@ts-ignore
+      state.data[chainId][index] = {
+        //@ts-ignore
+        ...state.data[chainId][index],
+        //@ts-ignore
+        userData: { ...state.data[chainId][index].userData, [field]: value },
+      }
+    },
   },
 })
 
 // Actions
-export const { setFarmsPublicData, setFarmUserData } = farmsSlice.actions
-// setFarmUserData, updateFarmUserData
+export const { setFarmsPublicData, setFarmUserData, updateFarmUserData } = farmsSlice.actions
 
 // Thunks
 export const fetchFarmsPublicDataAsync =
@@ -103,36 +107,38 @@ export const fetchFarmUserDataAsync =
     }
   }
 
-// export const updateFarmUserAllowances =
-//   (chainId: number, pid: number, account: string): AppThunk =>
-//   async (dispatch, getState) => {
-//     const farms = getState().farms.data
-//     const allowances = await fetchFarmUserAllowances(chainId, account, farms)
-//     dispatch(updateFarmUserData({ pid, field: 'allowance', value: allowances[pid] }))
-//   }
+export const updateFarmUserAllowances =
+  (chainId: SupportedChainId, id: string, account: string): AppThunk =>
+  async (dispatch, getState) => {
+    const farms = getState().farms.data?.[chainId] ?? []
+    const allowances = await fetchFarmUserAllowances(chainId, account, farms)
+    dispatch(updateFarmUserData({ id, field: 'allowance', value: allowances[id], chainId }))
+  }
 
-// export const updateFarmUserTokenBalances =
-//   (chainId: number, pid: number, account: string): AppThunk =>
-//   async (dispatch, getState) => {
-//     const farms = getState().farms.data
-//     const tokenBalances = await fetchFarmUserTokenBalances(chainId, account, farms)
-//     dispatch(updateFarmUserData({ pid, field: 'tokenBalance', value: tokenBalances[pid] }))
-//   }
+export const updateFarmUserTokenBalances =
+  (chainId: SupportedChainId, id: string, account: string): AppThunk =>
+  async (dispatch, getState) => {
+    const farms = getState().farms.data?.[chainId] ?? []
+    const tokenBalances = await fetchFarmUserTokenBalances(chainId, account, farms)
+    dispatch(updateFarmUserData({ id, field: 'tokenBalance', value: tokenBalances[id], chainId }))
+  }
 
-// export const updateFarmUserStakedBalances =
-//   (chainId: number, pid: number, account: string): AppThunk =>
-//   async (dispatch, getState) => {
-//     const farms = getState().farms.data
-//     const stakedBalances = await fetchFarmUserStakedBalances(chainId, account, farms)
-//     dispatch(updateFarmUserData({ pid, field: 'stakedBalance', value: stakedBalances[pid] }))
-//   }
+export const updateFarmUserStakedBalances =
+  (chainId: SupportedChainId, id: string, account: string): AppThunk =>
+  async (dispatch, getState) => {
+    const farms = getState().farms.data?.[chainId] ?? []
+    const stakedBalances = await fetchFarmUserStakedBalances(chainId, account, farms)
+    dispatch(updateFarmUserData({ id, field: 'stakedBalance', value: stakedBalances[id], chainId }))
+  }
 
-// export const updateFarmUserEarnings =
-//   (chainId: number, pid: number, account: string): AppThunk =>
-//   async (dispatch, getState) => {
-//     const farms = getState().farms.data
-//     const pendingRewards = await fetchFarmUserEarnings(chainId, account, farms)
-//     dispatch(updateFarmUserData({ pid, field: 'earnings', value: pendingRewards[pid] }))
-//   }
+export const updateFarmUserEarnings =
+  (chainId: SupportedChainId, id: string, account: string): AppThunk =>
+  async (dispatch, getState) => {
+    const farms = getState().farms.data?.[chainId] ?? []
+    const [userFarmEarnings, secondFarmEarnings] = await fetchFarmUserEarnings(chainId, account, farms)
+    dispatch(updateFarmUserData({ id, field: 'rewards', value: userFarmEarnings[id], chainId }))
+    secondFarmEarnings &&
+      dispatch(updateFarmUserData({ id, field: 'secondRewards', value: secondFarmEarnings[id], chainId }))
+  }
 
 export default farmsSlice.reducer

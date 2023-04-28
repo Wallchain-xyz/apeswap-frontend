@@ -9,6 +9,7 @@ import StakeActions from './StakeActions'
 import { FarmTypes } from 'state/farms/types'
 
 interface CardActionProps {
+  id: string
   allowance: string
   stakingTokenBalance: string
   stakedBalance: string
@@ -20,6 +21,7 @@ interface CardActionProps {
 }
 
 const CardActions: React.FC<CardActionProps> = ({
+  id,
   allowance,
   stakingTokenBalance,
   stakedBalance,
@@ -45,6 +47,7 @@ const CardActions: React.FC<CardActionProps> = ({
       />
       <Flex sx={styles.depositContainer}>
         <StakeActions
+          id={id}
           stakedBalance={stakedBalance}
           stakingTokenBalance={stakingTokenBalance}
           lpValueUsd={lpValueUsd}

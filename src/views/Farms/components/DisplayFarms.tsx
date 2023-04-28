@@ -250,12 +250,15 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
               stakeLpAddress={farm.lpStakeTokenAddress}
               lpValueUsd={farm.lpValueUsd ?? 0}
               pid={farm.pid}
+              id={farm.id}
               farmTypes={farm.farmType}
+              contractAddress={farm?.contractAddress}
             />
             <Flex sx={{ ...styles.onlyDesktop, mx: '10px' }}>
               <Svg icon="caret" direction="right" width="20px" />
             </Flex>
             <Harvest
+              id={farm.id}
               pid={farm.pid}
               disabled={userEarnings === '0.00'}
               userEarnings={userEarnings}

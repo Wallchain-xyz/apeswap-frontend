@@ -85,9 +85,13 @@ const Farms = () => {
   const activeFarms = getActiveFarms()
   const inactiveFarms = getInnactiveFarms()
 
-  const stakedOnlyFarms = activeFarms?.filter((farm) => farm)
+  const stakedOnlyFarms = activeFarms.filter(
+    (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
+  )
 
-  const stakedOnlyInactiveFarms = inactiveFarms?.filter((farm) => farm)
+  const stakedOnlyInactiveFarms = inactiveFarms.filter(
+    (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
+  )
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)

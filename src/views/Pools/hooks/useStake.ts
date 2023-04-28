@@ -3,15 +3,18 @@ import { useWeb3React } from '@web3-react/core'
 import { useMasterChefContract, useMasterChefV2Contract, useSousChef } from 'hooks/useContract'
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'
-import { updateUserBalance, updateUserPendingReward, updateUserStakedBalance } from 'state/pools'
+import { updateUserBalance, updateUserStakedBalance } from 'state/pools'
 import BigNumber from 'bignumber.js'
 import track from 'utils/track'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 
 export const useSousStake = (sousId: number, tokenValue: number) => {
   const dispatch = useAppDispatch()
   const { account, chainId } = useWeb3React()
   const masterChefContract = useMasterChefContract()
   const masterChefContractV2 = useMasterChefV2Contract()
+  const addTransaction = useTransactionAdder()
   const sousChefContract = useSousChef(sousId)
 
   const handleStake = useCallback(
@@ -21,18 +24,21 @@ export const useSousStake = (sousId: number, tokenValue: number) => {
         trxHash = await masterChefContractV2
           ?.deposit(0, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.STAKE })
             return trx.wait()
           })
       } else if (sousId === 999) {
         trxHash = await masterChefContract
           ?.deposit(0, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.STAKE })
             return trx.wait()
           })
       } else {
         trxHash = await sousChefContract
           .deposit(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.STAKE })
             return trx.wait()
           })
       }
@@ -50,7 +56,17 @@ export const useSousStake = (sousId: number, tokenValue: number) => {
       })
       return trxHash
     },
-    [account, dispatch, tokenValue, masterChefContract, masterChefContractV2, sousChefContract, sousId, chainId],
+    [
+      account,
+      dispatch,
+      addTransaction,
+      tokenValue,
+      masterChefContract,
+      masterChefContractV2,
+      sousChefContract,
+      sousId,
+      chainId,
+    ],
   )
 
   return { onStake: handleStake }

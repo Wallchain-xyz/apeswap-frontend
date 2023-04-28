@@ -190,7 +190,7 @@ export enum LIST_VIEW_PRODUCTS {
   MAXIMIZERS = 'maximizers',
   JUNGLE_FARMS = 'jungle-farms',
   POOLS = 'pools',
-  FARMS = 'banana-farms',
+  FARMS = 'farms',
 }
 
 export enum OTHER_PRODUCTS {

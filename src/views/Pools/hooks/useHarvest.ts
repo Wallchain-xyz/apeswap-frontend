@@ -4,6 +4,8 @@ import { useMasterChefContract, useMasterChefV2Contract, useSousChef } from 'hoo
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { updateUserPendingReward } from 'state/pools'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 import track from 'utils/track'
 
 export const useSousHarvest = (sousId: number) => {
@@ -12,19 +14,22 @@ export const useSousHarvest = (sousId: number) => {
   const masterChefContract = useMasterChefContract()
   const masterChefContractV2 = useMasterChefV2Contract()
   const sousChefContract = useSousChef(sousId)
-
+  const addTransaction = useTransactionAdder()
   const handleHarvest = useCallback(async () => {
     let trxHash
     if (sousId === 0) {
       trxHash = await masterChefContractV2?.deposit(0, '0').then((trx) => {
+        addTransaction(trx, { type: TransactionType.HARVEST })
         return trx.wait()
       })
     } else if (sousId === 999) {
       trxHash = await masterChefContract?.deposit(0, '0').then((trx) => {
+        addTransaction(trx, { type: TransactionType.HARVEST })
         return trx.wait()
       })
     } else {
       trxHash = await sousChefContract?.deposit('0').then((trx) => {
+        addTransaction(trx, { type: TransactionType.HARVEST })
         return trx.wait()
       })
     }
@@ -38,7 +43,7 @@ export const useSousHarvest = (sousId: number) => {
       },
     })
     return trxHash
-  }, [account, dispatch, masterChefContract, masterChefContractV2, sousChefContract, sousId, chainId])
+  }, [account, dispatch, addTransaction, masterChefContract, masterChefContractV2, sousChefContract, sousId, chainId])
 
   return { onHarvest: handleHarvest }
 }

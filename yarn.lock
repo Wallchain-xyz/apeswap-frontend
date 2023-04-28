@@ -31,14 +31,14 @@
     "@ethersproject/abi" "^5.5.0"
     "@uniswap/swap-router-contracts" "1.1.0"
 
-"@ape.swap/router-sdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.1.0.tgz#157a8e9be15056115339065969c14be3cd17f3c8"
-  integrity sha512-PcUdBnmuDUh5snyILxLytGQgQHN2rU/xgZwCihajvXiOe4KXzsai5TsNaEaUMi9akq7lLjyRK6hqMGC4AYHCpw==
+"@ape.swap/router-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.2.0.tgz#7ef4c699af1d99f865475bf86052b4ea2a5ba82f"
+  integrity sha512-ox5BW9+fmWCKPwJtv6PFP6/wF2p3O2Jtu3XseAbTvMHaIjjYKTxKFkZaWkx94kpFFLvHzObMob8NJbnvqBAogg==
   dependencies:
     "@ape.swap/sdk-core" "^1.0.2"
     "@ape.swap/v2-sdk" "^1.1.0"
-    "@ape.swap/v3-sdk" "^1.1.0"
+    "@ape.swap/v3-sdk" "^1.2.0"
     "@ethersproject/abi" "^5.5.0"
     "@uniswap/swap-router-contracts" "1.1.0"
 
@@ -68,15 +68,15 @@
     toformat "^2.0.0"
     yalc "^1.0.0-pre.53"
 
-"@ape.swap/smart-order-router@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.1.3.tgz#3ab8eaea193a63859760072536958a25c59a0c98"
-  integrity sha512-L15cf956C1MoDUMjpVFlfN8o85gm6BIprkNI26up87JkE9gMHDCR4eiMboZaqkxJg6xMyrpjH5s8oZa0EbvbzA==
+"@ape.swap/smart-order-router@^1.2.1-alpha.2":
+  version "1.2.1-alpha.2"
+  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.2.1-alpha.2.tgz#cbc59dd992edc41eefcd4b2f8f18b52088670ee9"
+  integrity sha512-Af5bk911yRs7MusuEhHn9On504+RoqynuRlh3M/OLQgSaDPQbueDohKDk//hvXGCzfxcRey8rtpjBqU3jnyIGA==
   dependencies:
-    "@ape.swap/router-sdk" "^1.1.0"
+    "@ape.swap/router-sdk" "^1.2.0"
     "@ape.swap/token-lists" "^1.0.6"
     "@ape.swap/v2-sdk" "^1.1.0"
-    "@ape.swap/v3-sdk" "^1.1.0"
+    "@ape.swap/v3-sdk" "^1.2.0"
     "@uniswap/default-token-list" "^2.0.0"
     "@uniswap/swap-router-contracts" "^1.3.0"
     "@uniswap/token-lists" "^1.0.0-beta.25"
@@ -122,10 +122,24 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-"@ape.swap/v3-sdk@^1.0.0", "@ape.swap/v3-sdk@^1.1.0":
+"@ape.swap/v3-sdk@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.1.0.tgz#719592f176adade8c071b49efc24fffacc41b96b"
   integrity sha512-cTF6hYYilT6dG/wbw9FBA3tMFI126US5yyBBLMD1JIa+Pi6I2n+xIYRDoy1nKDU6PhXu0JxrDTuHsLQ036dq8g==
+  dependencies:
+    "@ape.swap/sdk-core" "^1.0.2"
+    "@ethersproject/abi" "^5.0.12"
+    "@ethersproject/solidity" "^5.0.9"
+    "@uniswap/swap-router-contracts" "^1.2.1"
+    "@uniswap/v3-periphery" "^1.1.1"
+    "@uniswap/v3-staker" "1.0.0"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+
+"@ape.swap/v3-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.2.0.tgz#4f56de3388a0a59c7e404b24d2990ad6405358ab"
+  integrity sha512-hpC9KyfOLTa4NXKT1I6Eedfqe6C48HpllAxj1yxn/F0+jON0rM2YNdNMTPaRMj5D6sQ4HsEHrM8OOEL3Io1Xkg==
   dependencies:
     "@ape.swap/sdk-core" "^1.0.2"
     "@ethersproject/abi" "^5.0.12"

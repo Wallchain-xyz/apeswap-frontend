@@ -15,8 +15,12 @@ import useModal from 'hooks/useModal'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useApprove } from '../hooks/useApprove'
 import { useTokenContract } from 'hooks/useContract'
+import { fetchFarmUserDataAsync } from 'state/farms'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import track from 'utils/track'
 
 interface StakeActionsProps {
+  id: string
   stakingTokenBalance: string
   stakedBalance: string
   lpValueUsd: number
@@ -42,12 +46,10 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   const [pendingDepositTrx, setPendingDepositTrx] = useState(false)
   const [pendingWithdrawTrx, setPendingWithdrawTrx] = useState(false)
   const [depositAmount, setDepositAmount] = useState<string>()
-  // const { toastSuccess } = useToast()
   const firstStake = !new BigNumber(stakedBalance)?.gt(0)
   const { t } = useTranslation()
-
-  const onStake = useStake(farmTypes, pid, lpValueUsd)
-  const onUnstake = useUnstake(farmTypes, pid, lpValueUsd)
+  const onStake = useStake(farmTypes, pid, contractAddress)
+  const onUnstake = useUnstake(farmTypes, pid, contractAddress)
   const lpToken = useTokenContract(stakeLpAddress)
   const { onApprove } = useApprove(lpToken, farmTypes, contractAddress)
 
@@ -58,18 +60,23 @@ const StakeAction: React.FC<StakeActionsProps> = ({
         setDepositAmount(val)
         setPendingDepositTrx(true)
         await onStake(val)
-          .then((resp: any) => {
-            const trxHash = resp.transactionHash
-            // toastSuccess(t('Deposit Successful'), {
-            //   text: t('View Transaction'),
-            //   url: getEtherscanLink(trxHash, 'transaction', chainId as SupportedChainId),
-            // })
+          .then(() => {
+            track({
+              event: 'farm',
+              chain: chainId,
+              data: {
+                cat: 'stake',
+                depositAmount,
+                pid,
+                usdAmount: parseFloat(depositAmount ?? '0') * lpValueUsd,
+              },
+            })
           })
           .catch((e) => {
             console.error(e)
             setPendingDepositTrx(false)
           })
-        // dispatch(fetchFarmV2UserDataAsync(chainId, account))
+        dispatch(fetchFarmUserDataAsync(chainId as SupportedChainId, account ?? ''))
         setPendingDepositTrx(false)
       }}
     />,
@@ -81,19 +88,23 @@ const StakeAction: React.FC<StakeActionsProps> = ({
       onConfirm={async (val: string) => {
         setPendingWithdrawTrx(true)
         await onUnstake(val)
-          .then((resp: any) => {
-            const trxHash = resp.transactionHash
-            // toastSuccess(t('Withdraw Successful'), {
-            //   text: t('View Transaction'),
-            //   url: getEtherscanLink(trxHash, 'transaction', chainId),
-            // })
-            // if (trxHash) displayGHCircular()
+          .then(() => {
+            track({
+              event: 'farm',
+              chain: chainId,
+              data: {
+                cat: 'unstake',
+                depositAmount,
+                pid,
+                usdAmount: parseFloat(depositAmount ?? '0') * lpValueUsd,
+              },
+            })
           })
           .catch((e) => {
             console.error(e)
             setPendingWithdrawTrx(false)
           })
-        // dispatch(fetchFarmV2UserDataAsync(chainId, account))
+        dispatch(fetchFarmUserDataAsync(chainId as SupportedChainId, account ?? ''))
         setPendingWithdrawTrx(false)
       }}
       title={'Unstake LP tokens'}
@@ -104,12 +115,17 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     if (!account) {
       return <ConnectWalletButton />
     }
-    if (parseFloat(allowance) <= parseFloat(stakingTokenBalance ?? '0')) {
+    if (parseFloat(allowance) < parseFloat(stakingTokenBalance ?? '0')) {
       return <Button onClick={onApprove}> Approve </Button>
     }
     if (firstStake) {
       return (
-        <Button onClick={onPresentDeposit} load={pendingDepositTrx} disabled={pendingDepositTrx} sx={styles.styledBtn}>
+        <Button
+          onClick={onPresentDeposit}
+          load={pendingDepositTrx}
+          disabled={pendingDepositTrx || parseFloat(stakingTokenBalance ?? '0') === 0}
+          sx={styles.styledBtn}
+        >
           <Text sx={{ lineHeight: '20px' }} color="primaryBright">
             {t('DEPOSIT')}
           </Text>
