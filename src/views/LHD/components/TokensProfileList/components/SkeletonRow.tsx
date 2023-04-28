@@ -1,5 +1,5 @@
 import { Box } from 'theme-ui'
-import { Flex, Skeleton, Text } from 'components/uikit'
+import { Skeleton } from 'components/uikit'
 import React from 'react'
 import { styles } from '../styles'
 

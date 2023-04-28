@@ -73,6 +73,7 @@ export const styles: Record<
     fontWeight: 300,
     fontSize: ['10px', '10px', '10px', '12px'],
     color: 'textDisabled',
+    m: '10px 0 30px 0'
   },
   loadingSpinner: {
     width: '100%',

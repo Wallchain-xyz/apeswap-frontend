@@ -21,7 +21,7 @@ const TokensProfileList = () => {
         })
       ) : queriedAPI ? (
           <>
-            {[...Array(15)].map((i) => {
+            {[...Array(20)].map((i) => {
               return <SkeletonRow key={i} />
             })}
           </>
@@ -34,7 +34,7 @@ const TokensProfileList = () => {
           })
         ) : (
           <>
-            {[...Array(15)].map((i) => {
+            {[...Array(20)].map((i) => {
               return <SkeletonRow key={i} />
             })}
           </>

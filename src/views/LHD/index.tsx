@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useLoadInitialProfiles } from 'state/lhd/hooks'
 import { Flex } from 'components/uikit'
 import ListViewLayout from 'components/ListView/ListViewLayout'
-import SimpleProfilesView from './components/TokensProfileList'
+import TokensProfileList from './components/TokensProfileList'
 import { styles } from './styles'
 import TitleCards from './components/TitleCards'
 import SearchBar from './components/SearchBar'
@@ -14,7 +14,7 @@ const LHD = () => {
       <ListViewLayout>
         <TitleCards />
         <SearchBar />
-        <SimpleProfilesView />
+        <TokensProfileList />
       </ListViewLayout>
     </Flex>
   )
