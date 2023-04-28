@@ -52,7 +52,7 @@ const bscConfig: NavConfig[] = [
         href: `/bonds`,
       },
       {
-        label: 'Liquidity Health Dashboard',
+        label: 'Liquidity Health',
         href: `${TEMP_APESWAP_URL}/liquidity-health`,
       },
       {
