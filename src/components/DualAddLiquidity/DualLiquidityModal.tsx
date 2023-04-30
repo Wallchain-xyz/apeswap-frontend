@@ -19,7 +19,7 @@ interface DualLiquidityModalProps {
 
 const modalProps = {
   sx: {
-    zIndex: 106,
+    zIndex: 120,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     minWidth: ['90%', '420px'],

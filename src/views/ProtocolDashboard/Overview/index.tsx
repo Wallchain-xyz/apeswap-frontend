@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic'
 const BananaSupplyDistribution = dynamic(() => import('./components/BananaSupplyDistribution'), {
   ssr: false,
 })
-const ProtocolMetricsGraph = dynamic(() => import('./components/ProtocolMetrics'), {
+const ProtocolMetricsGraph = dynamic(() => import('./components/ProtocolMetricGraph'), {
   ssr: false,
 })
 

@@ -13,15 +13,15 @@ import {
 } from './styles'
 import UserBillModalView from './UserBillModalView'
 import { getFirstNonZeroDigits } from 'utils/roundNumber'
-import ModalProvider from 'contexts/ModalContext'
-import { Flex, IconButton, Modal } from 'components/uikit'
+import { Flex, IconButton, ListTag, Modal } from 'components/uikit'
 import Buy from 'views/Bonds/actions/Buy'
 import { Bills } from 'views/Bonds/types'
-import { Image } from 'theme-ui'
+import { ListTagVariants } from 'components/uikit/Tag/types'
+import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 
 const modalProps = {
   sx: {
-    zIndex: 101,
+    zIndex: 200,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     width: ['90%'],
@@ -42,7 +42,7 @@ interface BillModalProps {
 
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
   const { t } = useTranslation()
-  const { token, quoteToken, earnToken, lpToken, discount, earnTokenPrice } = bill
+  const { token, quoteToken, earnToken, lpToken, discount, earnTokenPrice, billType } = bill
   const discountEarnTokenPrice =
     earnTokenPrice && earnTokenPrice && earnTokenPrice - earnTokenPrice * (parseFloat(discount ?? '0') / 100)
 
@@ -50,12 +50,14 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
   const [loading, setLoading] = useState(false)
   const vestingTime = getTimePeriods(parseInt(bill.vestingTime ?? '0'), true)
 
+  const onAddLiquidityModal = useAddLiquidityModal()
+
   const onHandleReturnedBillId = async (id: string) => {
     setBillId(id)
   }
 
   return (
-    <Flex>
+    <Flex key={billId} id={billId}>
       {billId ? (
         <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
       ) : (
@@ -70,9 +72,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
             />
             <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
               {loading && !billId ? (
-                <BillsImage>
-                  <Image src={'/images/bills/bill-nfts.gif'} alt="bill-img" height={500} width={500} />
-                </BillsImage>
+                <BillsImage image={'/images/bills/bill-nfts.gif'} />
               ) : (
                 <BillsImage image="images/bills/hidden-bill.jpg" />
               )}
@@ -80,13 +80,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
             <BillDescriptionContainer p="0">
               <Flex sx={{ flexDirection: 'column' }}>
                 <BillTitleContainer>
+                  <Flex sx={{ mb: '5px' }}>
+                    <ListTag variant={billType as ListTagVariants} />
+                  </Flex>
                   <Flex sx={{ alignItems: 'center' }}>
                     <ServiceTokenDisplay
                       token1={token.symbol}
-                      token2={quoteToken.symbol}
+                      token2={bill.billType === 'reserve' ? earnToken.symbol : quoteToken.symbol}
                       token3={earnToken.symbol}
                       billArrow
-                      stakeLp
+                      stakeLp={billType !== 'reserve'}
                     />
                     <Flex sx={{ flexDirection: 'column' }}>
                       <StyledHeadingText ml="10px" bold>
@@ -121,6 +124,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                     bill={bill}
                     onBillId={onHandleReturnedBillId}
                     onTransactionSubmited={(trxSent: any) => setLoading(trxSent)}
+                    onAddLiquidityModal={onAddLiquidityModal}
                   />
                 </ActionButtonsContainer>
               </Flex>

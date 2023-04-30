@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
-import { getEtherscanLink } from 'utils'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { useTranslation } from 'contexts/Localization'
 import { ClaimProps } from './types'
-// import CircularModal from 'components/CircularModal'
 import useClaimBill from '../hooks/useClaimBill'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
-import useModal from 'hooks/useModal'
-import { MODAL_TYPE } from 'components/MarketingModalCheck/constants'
 import { ClaimButton } from '../components/styles'
 import { Flex } from 'components/uikit'
 
@@ -19,10 +15,6 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
   const [pendingTrx, setPendingTrx] = useState(false)
   // const { toastSuccess } = useToast()
   const { t } = useTranslation()
-  // const [onPresentGHModal] = useModal(<CircularModal actionType={MODAL_TYPE.GENERAL_HARVEST} />, true, true, 'ghModal')
-  // const { showGeneralHarvestModal } = useIsModalShown()
-
-  const displayGHCircular = false // () => showGeneralHarvestModal && onPresentGHModal()
 
   // TODO:
   const handleClaim = async () => {

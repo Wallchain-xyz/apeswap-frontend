@@ -77,14 +77,17 @@ const BillsListView: React.FC = () => {
         return bill.lpToken.symbol.toUpperCase().includes(query.toUpperCase())
       })
     }
-    if (filterOption === 'bananaBill') {
-      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'BANANA Bill'.toUpperCase())
+    if (filterOption === 'liquidity') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'liquidity'.toUpperCase())
     }
-    if (filterOption === 'jungleBill') {
-      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'JUNGLE Bill'.toUpperCase())
+    if (filterOption === 'reserve') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'reserve'.toUpperCase())
+    }
+    if (filterOption === 'launch') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'launch'.toUpperCase())
     }
     return sortBills(billsToReturn)
-  }, [bills, isSoldOut, query, showAvailable, filterOption, showOnlyDiscount, hasDiscount, sortBills, location.search])
+  }, [bills, isSoldOut, query, showAvailable, filterOption, showOnlyDiscount, hasDiscount, sortBills])
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)

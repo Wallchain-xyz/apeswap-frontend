@@ -51,7 +51,10 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 
-  const [usdVal] = useTokenPriceUsd(pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0])
+  const [usdVal] = useTokenPriceUsd(
+    pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0],
+    pairState === PairState.EXISTS && true,
+  )
 
   return (
     <Flex sx={styles.dexPanelContainer}>

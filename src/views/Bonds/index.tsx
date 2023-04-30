@@ -11,7 +11,6 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import FirstTimeCard from './components/FirstTimeCard/FirstTimeCard'
 import BillsListView from './components/BillsListView'
 import BillsNav from './components/BillsNav'
-import { usePollBills, usePollUserBills } from 'state/bills/hooks'
 import UserBillsView from './components/UserBillsView'
 
 export enum BillsView {

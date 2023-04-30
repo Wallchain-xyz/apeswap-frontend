@@ -30,7 +30,7 @@ import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import { ContractTransaction } from 'ethers'
 
-const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
+const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddLiquidityModal }) => {
   const {
     token,
     quoteToken,
@@ -57,7 +57,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const [pendingTrx, setPendingTrx] = useState(false)
   // const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
-  const onAddLiquidityModal = useAddLiquidityModal()
 
   const billsCurrencies = {
     currencyA: useCurrency(token.address[chainId as SupportedChainId]),
@@ -76,6 +75,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const { zap, zapRouteState } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
+
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
   console.log(zap)
@@ -95,9 +95,12 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
   )
-  const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2)).times(100).toNumber()
-  const showUpdateSlippage = false
-  // zapSlippage < priceImpact && !currencyB && parseFloat(selectedCurrencyBalance?.toExact()) >= parseFloat(typedValue)
+  const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
+
+  const showUpdateSlippage =
+    zapSlippage.lessThan(priceImpact) &&
+    !currencyB &&
+    parseFloat(selectedCurrencyBalance?.toExact() ?? '0') >= parseFloat(typedValue)
   const updateSlippage = () => null
   useCallback(() => {
     if (zapSlippage.lessThan(priceImpact)) {
@@ -273,10 +276,10 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           value={typedValue}
           onCurrencySelect={handleCurrencySelect}
           // @ts-ignore
-          inputCurrencies={inputCurrencies}
+          inputCurrencies={billType !== 'reserve' ? inputCurrencies : [inputCurrencies[0]]}
           // @ts-ignore
           lpList={[billsCurrencies]}
-          enableZap={true}
+          enableZap={billType !== 'reserve'}
         />
       </Flex>
       <Flex sx={styles.detailsContainer}>
@@ -300,13 +303,15 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           </TextWrapper>
         </BillValueContainer>
         <Flex sx={{ ...styles.buttonsContainer }}>
-          <Box sx={styles.getLpContainer}>
-            <GetLPButton variant="secondary" onClick={() => onAddLiquidityModal(token, quoteToken, '', '', undefined)}>
-              <Text sx={{ marginRight: '5px' }}>{t('Get LP')}</Text>
-              <Svg icon="ZapIcon" color="yellow" />
-            </GetLPButton>
-          </Box>
-          <Box sx={styles.buyButtonContainer}>
+          {billType !== 'reserve' && (
+            <Box sx={styles.getLpContainer}>
+              <GetLPButton variant="secondary" onClick={() => onAddLiquidityModal(token, quoteToken, '', '', false)}>
+                <Text sx={{ marginRight: '5px' }}>{t('Get LP')}</Text>
+                <Svg icon="ZapIcon" color="yellow" />
+              </GetLPButton>
+            </Box>
+          )}
+          <Box sx={billType !== 'reserve' ? styles.buyButtonContainer : styles.buyButtonContainerFull}>
             <BillActions
               bill={bill}
               zap={zap}
@@ -318,7 +323,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               purchaseLimit={displayAvailable.toString()}
               balance={selectedCurrencyBalance?.toExact() ?? ''}
               pendingTrx={pendingTrx}
-              errorMessage={null} // {zapSlippage < priceImpact && !currencyB ? 'Change Slippage' : null}
+              errorMessage={
+                zapSlippage && zapSlippage.lessThan(priceImpact ?? '0') && !currencyB ? 'Change Slippage' : null
+              }
             />
           </Box>
           {showUpdateSlippage && !pendingTrx && (

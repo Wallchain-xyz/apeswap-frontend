@@ -22,11 +22,12 @@ import { Bills } from 'views/Bonds/types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
-import { Flex, IconButton, Modal, Skeleton, Text } from 'components/uikit'
+import { Flex, IconButton, ListTag, Modal, Skeleton, Text } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import Image from 'next/image'
 import useModal from 'hooks/useModal'
+import { ListTagVariants } from 'components/uikit/Tag/types'
 
 const modalProps = {
   sx: {
@@ -52,7 +53,7 @@ const BILL_ATTRIBUTES = ['The Legend', 'The Location', 'The Moment', 'The Trend'
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId }) => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
-  const { token, quoteToken, earnToken, lpToken, index, userOwnedBillsData, userOwnedBillsNftData } = bill
+  const { token, quoteToken, earnToken, lpToken, index, userOwnedBillsData, userOwnedBillsNftData, billType } = bill
   const userOwnedBill = userOwnedBillsData?.find((b) => billId && parseInt(b.id) === parseInt(billId))
   const userOwnedBillNftData = userOwnedBillsNftData?.find((b) => billId && parseInt(b.tokenId) === parseInt(billId))
   const pending = getBalanceNumber(
@@ -88,21 +89,22 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
             <BillsImage image={`${userOwnedBillNftData?.image + '?img-width=720'}`} />
           ) : (
             <Flex sx={{ alignItems: 'center', justifyContnet: 'center' }}>
-              <BillsImage>
-                <Image src="/images/bills/bill-nfts.gif" alt="bill-img" height={500} width={500} />
-              </BillsImage>
+              <BillsImage image="/images/bills/bill-nfts.gif" />
             </Flex>
           )}
           <BillDescriptionContainer width="100%">
             <Flex sx={{ flexDirection: 'column' }}>
               <BillTitleContainer>
+                <Flex sx={{ mb: '5px' }}>
+                  <ListTag variant={billType as ListTagVariants} />
+                </Flex>
                 <Flex sx={{ alignItems: 'center' }}>
                   <ServiceTokenDisplay
                     token1={token.symbol}
-                    token2={quoteToken.symbol}
+                    token2={bill.billType === 'reserve' ? earnToken.symbol : quoteToken.symbol}
                     token3={earnToken.symbol}
                     billArrow
-                    stakeLp
+                    stakeLp={billType !== 'reserve'}
                   />
                   <StyledHeadingText ml="10px" bold>
                     {lpToken.symbol}

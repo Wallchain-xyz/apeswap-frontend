@@ -11,7 +11,7 @@ import { BillsToRender } from './types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import  BigNumber from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 import { Flex } from 'components/uikit'
 
 interface UserBillsViewProps {
@@ -77,11 +77,14 @@ const UserBillsView: React.FC<UserBillsViewProps> = ({ handleBillsViewChange }) 
         return bill.lpToken.symbol.toUpperCase().includes(query.toUpperCase())
       })
     }
-    if (filterOption === 'bananaBill') {
-      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'BANANA Bill'.toUpperCase())
+    if (filterOption === 'liquidity') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'liquidity'.toUpperCase())
     }
-    if (filterOption === 'jungleBill') {
-      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'JUNGLE Bill'.toUpperCase())
+    if (filterOption === 'reserve') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'reserve'.toUpperCase())
+    }
+    if (filterOption === 'launch') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'launch'.toUpperCase())
     }
     const flatMapBeforeSorting: any = billsToReturn?.flatMap((bill) => {
       if (!bill?.userOwnedBillsData || bill?.userOwnedBillsData?.length < 0) return []
