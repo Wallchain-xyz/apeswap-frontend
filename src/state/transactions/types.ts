@@ -30,6 +30,9 @@ export enum TransactionType {
   STAKE,
   WITHDRAW,
   HARVEST,
+  BUY,
+  TRANSFER,
+  CLAIM_BILL,
 }
 
 interface BaseTransactionInfo {
@@ -143,6 +146,21 @@ export interface HarvestTransactionInfo {
   uniAmountRaw?: string
 }
 
+export interface BuyTransactionInfo {
+  type: TransactionType.BUY
+  uniAmountRaw?: string
+}
+
+export interface ClaimBillTransactionInfo {
+  type: TransactionType.CLAIM_BILL
+  uniAmountRaw?: string
+}
+
+export interface TransferTransactionInfo {
+  type: TransactionType.TRANSFER
+  uniAmountRaw?: string
+}
+
 export type TransactionInfo =
   | ApproveTransactionInfo
   | ExactOutputSwapTransactionInfo
@@ -159,6 +177,9 @@ export type TransactionInfo =
   | StakeTransactionInfo
   | WithdrawTransactionInfo
   | HarvestTransactionInfo
+  | BuyTransactionInfo
+  | ClaimBillTransactionInfo
+  | TransferTransactionInfo
 
 export interface TransactionDetails {
   hash: string

@@ -4,6 +4,8 @@ import { useBillType } from './useBillType'
 import { useWeb3React } from '@web3-react/core'
 import { useBondContract } from 'hooks/useContract'
 import BigNumber from 'bignumber.js'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 
 const DEFAULT_SLIPPAGE = 102 // Maximum of 2% slippage when buying Bill
 // Buy a Bill
@@ -19,17 +21,8 @@ const useBuyBill = (
   const billType: string | undefined = useBillType(billAddress)
   const usdAmount: number = parseFloat(amount) * lpPrice
   const maxPrice = new BigNumber(price).times(slippage).div(100)
-  // TODO: Error handling .. etc
+  const addTransaction = useTransactionAdder()
   const handleBuyBill = useCallback(async () => {
-    console.log('HERERERE')
-    console.log('HERERERE')
-    console.log('HERERERE')
-    console.log('HERERERE')
-    console.log('HERERERE')
-    console.log('HERERERE')
-
-    console.log(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
-    console.log(maxPrice.toFixed(0))
     const tx = await bondContract.deposit(
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
       maxPrice.toFixed(0),
@@ -45,8 +38,11 @@ const useBuyBill = (
         usdAmount,
       },
     })
+    addTransaction(tx, {
+      type: TransactionType.BUY,
+    })
     return tx
-  }, [bondContract, amount, account, chainId, billType, usdAmount, maxPrice])
+  }, [bondContract, amount, account, chainId, billType, usdAmount, addTransaction, maxPrice])
 
   return { onBuyBill: handleBuyBill }
 }
