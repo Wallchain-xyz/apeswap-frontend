@@ -85,7 +85,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
           {stats?.map((stat) => {
             const { name, tokenImage } = handleEachService(id, stat)
             return (
-              <a href={stat?.link} rel="noopener noreferrer" key={stat?.apr}>
+              <a href={stat?.link} rel="noopener noreferrer" key={stat?.apr} sx={{ textDecoration: 'none' }}>
                 <Flex
                   sx={{
                     width: ['100%', '100%', '95%'],
