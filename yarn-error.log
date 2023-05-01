@@ -14,8 +14,21 @@ Platform:
   darwin arm64
 
 Trace: 
+<<<<<<< HEAD
+<<<<<<< HEAD
+  SyntaxError: /Users/Work/Documents/Apeswap/frontend/package.json: Unexpected token / in JSON at position 1925
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+=======
+  Error: https://registry.npmjs.org/README.md: Not found
+      at params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:67029:18)
+=======
   Error: https://registry.npmjs.org/@typescript-eslint: Request "https://registry.npmjs.org/@typescript-eslint" returned a 405
       at params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:67038:18)
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
       at self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140883:22)
       at Request.emit (node:events:513:28)
       at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141855:10)
@@ -25,6 +38,10 @@ Trace:
       at IncomingMessage.emit (node:events:525:35)
       at endReadableNT (node:internal/streams/readable:1359:12)
       at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+<<<<<<< HEAD
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
 
 npm manifest: 
   {
@@ -78,13 +95,33 @@ npm manifest:
       "eslint-config-prettier": "^6.15.0"
     },
     "dependencies": {
+<<<<<<< HEAD
+<<<<<<< HEAD
+      "@ape.swap/apeswap-lists": "^1.1.37",
+      "@ape.swap/router-sdk": "^1.0.1-alpha.1",
+      "@ape.swap/sdk-core": "^1.0.1",
+      "@ape.swap/smart-order-router": "^1.0.0-alpha.29",
+      "@ape.swap/token-lists": "^1.0.0",
+      "@ape.swap/v2-sdk": "^1.0.1-alpha.1",
+      // "@ape.swap/v2-zap-sdk": "^1.0.0-alpha.4",
+      "@ape.swap/v3-sdk": "^1.0.0",
+=======
+      "@ape.swap/router-sdk": "^1.0.1-alpha.14",
+=======
       "@ape.swap/apeswap-lists": "^1.1.51",
       "@ape.swap/router-sdk": "^1.1.0",
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
       "@ape.swap/sdk-core": "^1.0.2",
       "@ape.swap/smart-order-router": "^1.1.1",
       "@ape.swap/token-lists": "^1.0.0",
+<<<<<<< HEAD
+      "@ape.swap/v2-sdk": "^1.0.1-alpha.5",
+      "@ape.swap/v3-sdk": "^1.0.1-alpha.9",
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
       "@ape.swap/v2-sdk": "^1.1.0",
       "@ape.swap/v3-sdk": "^1.1.0",
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
       "@apollo/client": "^3.7.6",
       "@coinbase/wallet-sdk": "^3.3.0",
       "@emotion/react": "^11.10.5",
@@ -142,9 +179,18 @@ npm manifest:
       "react-redux": "^8.0.5",
       "react-window": "^1.8.8",
       "redux-localstorage-simple": "^2.5.1",
+<<<<<<< HEAD
+<<<<<<< HEAD
+      "theme-ui": "^0.15.3"
+=======
+      "theme-ui": "^0.15.3",
+      "uuid": "^9.0.0"
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
       "swiper": "^9.2.0",
       "theme-ui": "^0.15.3",
       "uuid": "^9.0.0"
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     }
   }
 
@@ -164,20 +210,41 @@ Lockfile:
       "@jridgewell/gen-mapping" "^0.1.0"
       "@jridgewell/trace-mapping" "^0.3.9"
   
+<<<<<<< HEAD
+<<<<<<< HEAD
+  "@ape.swap/apeswap-lists@^1.1.37":
+    version "1.1.37"
+    resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.1.37.tgz#7fe68d9229f2d3de904d5d5466f27bf7ee30d099"
+    integrity sha512-34Fz39/Vq4hR0BY4ZwEzzGlmyw6sd35WWUidyRUJJVFaC5YlZmUQ+Yy7HdO1emcHAxrCjztSKzZQdlFsKcM4+g==
+=======
   "@ape.swap/apeswap-lists@^1.1.51":
     version "1.1.51"
     resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.1.51.tgz#ee14e54ba9eb353b67fb699c27ecf22d6314a37d"
     integrity sha512-pxCiGRA57XOCG1v4SxUMQgqzLzEmBxUZC11wKs21Y8LaDvp50+2bMp5uKn72xSbDHPoUfFoUuUJdTLA/hrH8JQ==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     dependencies:
       "@ape.swap/sdk" "4.4.0"
       bignumber.js "^9.0.2"
       ethers "^5.6.9"
       path "^0.12.7"
   
+<<<<<<< HEAD
+  "@ape.swap/router-sdk@^1.0.1-alpha.1":
+    version "1.0.1-alpha.1"
+    resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.0.1-alpha.1.tgz#bd2090207a1aa04f9393e39c8fac25a84b218b50"
+    integrity sha512-EnpklQBsQjg21Jv2gkyBk7HSg+V9uvtjcw3bnxWcKtlv711jIMtjDnKG6zCeaQCbHQBLRBjnE6o9NCDHQkIGLQ==
+=======
+  "@ape.swap/router-sdk@^1.0.1-alpha.14":
+    version "1.0.1-alpha.14"
+    resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.0.1-alpha.14.tgz#ad5ea339402276844453f7d6f6338b3447c0a2e4"
+    integrity sha512-x8I7s5fiT0O6UGGnq6QM/lBLkn2ZdEVbQzm1BfgQgVD3ix9+27Ag9GpUA1DnRpYuUwseKUo0El7o89Heacvz1w==
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
   "@ape.swap/router-sdk@^1.1.0":
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/@ape.swap/router-sdk/-/router-sdk-1.1.0.tgz#157a8e9be15056115339065969c14be3cd17f3c8"
     integrity sha512-PcUdBnmuDUh5snyILxLytGQgQHN2rU/xgZwCihajvXiOe4KXzsai5TsNaEaUMi9akq7lLjyRK6hqMGC4AYHCpw==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     dependencies:
       "@ape.swap/sdk-core" "^1.0.2"
       "@ape.swap/v2-sdk" "^1.1.0"
@@ -197,10 +264,18 @@ Lockfile:
       tiny-invariant "^1.1.0"
       toformat "^2.0.0"
   
+<<<<<<< HEAD
+<<<<<<< HEAD
+  "@ape.swap/sdk@4.3.1":
+    version "4.3.1"
+    resolved "https://registry.yarnpkg.com/@ape.swap/sdk/-/sdk-4.3.1.tgz#43c35e3556b86e5e4836d66db8807d3a93b6f218"
+    integrity sha512-IRezVj7okTTAK5Fmretn/H+HjZSDu1iI0pK49SEAHw1avG0dLlONL2khzqByqcwiFsJmkNaa7TGWyXK/DBQ4fg==
+=======
   "@ape.swap/sdk@4.4.0":
     version "4.4.0"
     resolved "https://registry.yarnpkg.com/@ape.swap/sdk/-/sdk-4.4.0.tgz#9e4270eb3e6e3702e35114d35708ee0a8eb80447"
     integrity sha512-rjr3ZXUbRDPkfn4WIsI/gvCfEJy48R4Lb+vznf/W5eFlpmilVZZusswc/E05Y/Sa3TlCsKhDnyrJb9mziAeMjw==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     dependencies:
       "@uniswap/v2-core" "^1.0.0"
       big.js "^5.2.2"
@@ -211,12 +286,27 @@ Lockfile:
       toformat "^2.0.0"
       yalc "^1.0.0-pre.53"
   
+<<<<<<< HEAD
+  "@ape.swap/smart-order-router@^1.0.0-alpha.29":
+    version "1.0.0-alpha.29"
+    resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.0.0-alpha.29.tgz#f959df1dfc8492f87fe9bb8e43134f0227a3b300"
+    integrity sha512-Qtx1QWqKZ+gllvUcCRJREoWHxszwlzzStAKpqZIXzR0JOrYd5tXlzU2B2uAxubNI5BpYKzBnjigYQZcCHFa4HQ==
+=======
+  "@ape.swap/smart-order-router@^1.0.0-alpha.58":
+    version "1.0.0-alpha.58"
+    resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.0.0-alpha.58.tgz#54b8dceb5de8423591aca74f6ac174a909768688"
+    integrity sha512-trgOc3PfEAtK3YDDSI/B1dHswDxRP1g8WW5Rn9CPu06Y2z+JQ4F9K0/MuwQjA0ocxiPqaiOZV6PViDUBsM8EHQ==
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+    dependencies:
+      "@ape.swap/router-sdk" "^1.0.1-alpha.14"
+=======
   "@ape.swap/smart-order-router@^1.1.1":
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.1.1.tgz#6b26272042ccf01762be690ef5c6ce97b81810e9"
     integrity sha512-qm8O9uSJAiwgG4Y0oOwgif7gIkAFMOfV9ow6YeuGibyMMr5DFjnlMlDml777TI8VPWvHtoHcAChJgJZlQ45j8w==
     dependencies:
       "@ape.swap/router-sdk" "^1.1.0"
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
       "@ape.swap/token-lists" "^1.0.6"
       "@ape.swap/v2-sdk" "^1.1.0"
       "@ape.swap/v3-sdk" "^1.1.0"
@@ -252,10 +342,36 @@ Lockfile:
       tiny-invariant "^1.1.0"
       tiny-warning "^1.0.3"
   
+<<<<<<< HEAD
+<<<<<<< HEAD
+  "@ape.swap/v2-zap-sdk@^1.0.0-alpha.4":
+    version "1.0.0-alpha.4"
+    resolved "https://registry.yarnpkg.com/@ape.swap/v2-zap-sdk/-/v2-zap-sdk-1.0.0-alpha.4.tgz#3055ba7ba308d7c440de0c44f7dd399ca87d7513"
+    integrity sha512-s4oQs2jUCuir7SuAc/Fm8nddFPJrzv1tbxetCQl+ox3XHs7mbHUxGnYPJEJarMEGNe9VLhKBSHq+BwVrvPaGBg==
+    dependencies:
+      "@ape.swap/sdk-core" "^1.0.1"
+      "@ape.swap/v2-sdk" "^1.0.1-alpha.1"
+      "@ethersproject/address" "^5.0.0"
+      "@ethersproject/solidity" "^5.0.0"
+      tiny-invariant "^1.1.0"
+      tiny-warning "^1.0.3"
+  
+  "@ape.swap/v3-sdk@^1.0.0":
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.0.0.tgz#4a0fb9f5fd67aa1b37c7916b189b74910b65b16b"
+    integrity sha512-k51hzM9QOK1i1tatECp/0VvHv+3JsttXcT/OaRcPQ7Mmmb464TzE4T+Q/lMoBjCv8waJz8zI5R/1GXdHNFqEYA==
+=======
+  "@ape.swap/v3-sdk@^1.0.1-alpha.9":
+    version "1.0.1-alpha.9"
+    resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.0.1-alpha.9.tgz#9eddffdd2cd44ca018049dbba502a93b8d674d2c"
+    integrity sha512-160mDV7ZQZTF+rrr0kODB/yJP21kNSX7N6p7tSIt5kGYam906uUzs2do+XAs2B0X4mOvGPwQOU5mP6eJfWdIOA==
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
   "@ape.swap/v3-sdk@^1.1.0":
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/@ape.swap/v3-sdk/-/v3-sdk-1.1.0.tgz#719592f176adade8c071b49efc24fffacc41b96b"
     integrity sha512-cTF6hYYilT6dG/wbw9FBA3tMFI126US5yyBBLMD1JIa+Pi6I2n+xIYRDoy1nKDU6PhXu0JxrDTuHsLQ036dq8g==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     dependencies:
       "@ape.swap/sdk-core" "^1.0.2"
       "@ethersproject/abi" "^5.0.12"
@@ -3372,7 +3488,15 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.0.tgz#e0fab91a7d53e8cafb5326ae4ca18351116b0844"
     integrity sha512-BJiXrBGnN8mti7saW49MXwxDBRFiWemGetE58q8zgfnPPzQKq55ADltEILqOt6VFZ22kVeVKbF8gVd8aY3l7pA==
   
+<<<<<<< HEAD
+<<<<<<< HEAD
   "@uniswap/v2-core@1.0.1", "@uniswap/v2-core@^1.0.0":
+=======
+  "@uniswap/v2-core@1.0.1":
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+  "@uniswap/v2-core@1.0.1", "@uniswap/v2-core@^1.0.0":
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.1.tgz#af8f508bf183204779938969e2e54043e147d425"
     integrity sha512-MtybtkUPSyysqLY2U210NBDeCHX+ltHt3oADGdjqoThZaFRDKwM6k1Nb3F0A3hk5hwuQvytFWhrWHOEq6nVJ8Q==
@@ -5856,7 +5980,77 @@ Lockfile:
     dependencies:
       fast-safe-stringify "^2.0.6"
   
+<<<<<<< HEAD
+<<<<<<< HEAD
+  eth-sig-util@^1.4.2:
+    version "1.4.2"
+    resolved "https://registry.yarnpkg.com/eth-sig-util/-/eth-sig-util-1.4.2.tgz#8d958202c7edbaae839707fba6f09ff327606210"
+    integrity sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==
+    dependencies:
+      ethereumjs-abi "git+https://github.com/ethereumjs/ethereumjs-abi.git"
+      ethereumjs-util "^5.1.1"
+  
+  ethereum-cryptography@^0.1.3:
+    version "0.1.3"
+    resolved "https://registry.yarnpkg.com/ethereum-cryptography/-/ethereum-cryptography-0.1.3.tgz#8d6143cfc3d74bf79bbd8edecdf29e4ae20dd191"
+    integrity sha512-w8/4x1SGGzc+tO97TASLja6SLd3fRIK2tLVcV2Gx4IB21hE19atll5Cq9o3d0ZmAYC/8aw0ipieTSiekAea4SQ==
+    dependencies:
+      "@types/pbkdf2" "^3.0.0"
+      "@types/secp256k1" "^4.0.1"
+      blakejs "^1.1.0"
+      browserify-aes "^1.2.0"
+      bs58check "^2.1.2"
+      create-hash "^1.2.0"
+      create-hmac "^1.1.7"
+      hash.js "^1.1.7"
+      keccak "^3.0.0"
+      pbkdf2 "^3.0.17"
+      randombytes "^2.1.0"
+      safe-buffer "^5.1.2"
+      scrypt-js "^3.0.0"
+      secp256k1 "^4.0.1"
+      setimmediate "^1.0.5"
+  
+  "ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
+    version "0.6.8"
+    resolved "git+https://github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
+    dependencies:
+      bn.js "^4.11.8"
+      ethereumjs-util "^6.0.0"
+  
+  ethereumjs-util@^5.1.1, ethereumjs-util@^5.1.2:
+    version "5.2.1"
+    resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-5.2.1.tgz#a833f0e5fca7e5b361384dc76301a721f537bf65"
+    integrity sha512-v3kT+7zdyCm1HIqWlLNrHGqHGLpGYIhjeHxQjnDXjLT2FyGJDsd3LWMYUo7pAFRrk86CR3nUJfhC81CCoJNNGQ==
+    dependencies:
+      bn.js "^4.11.0"
+      create-hash "^1.1.2"
+      elliptic "^6.5.2"
+      ethereum-cryptography "^0.1.3"
+      ethjs-util "^0.1.3"
+      rlp "^2.0.0"
+      safe-buffer "^5.1.1"
+  
+  ethereumjs-util@^6.0.0:
+    version "6.2.1"
+    resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-6.2.1.tgz#fcb4e4dd5ceacb9d2305426ab1a5cd93e3163b69"
+    integrity sha512-W2Ktez4L01Vexijrm5EB6w7dg4n/TgpoYU4avuT5T3Vmnw/eCRtiBrJfQYS/DCSvDIOLn2k57GcHdeBcgVxAqw==
+    dependencies:
+      "@types/bn.js" "^4.11.3"
+      bn.js "^4.11.0"
+      create-hash "^1.1.2"
+      elliptic "^6.5.2"
+      ethereum-cryptography "^0.1.3"
+      ethjs-util "0.1.6"
+      rlp "^2.2.3"
+  
   ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.8, ethers@^5.6.9:
+=======
+  ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.8:
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+  ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.8, ethers@^5.6.9:
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     version "5.7.2"
     resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
     integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
@@ -5922,10 +6116,23 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
     integrity sha512-Zk/eNKV2zbjpKzrsQ+n1G6poVbErQxJ0LBOJXaKZ1EViLzH+hrLu9cdXI4zw9dBQJslwBEpbQ2P1oS7nDxs6jQ==
   
+<<<<<<< HEAD
+<<<<<<< HEAD
+  expect@^29.0.0, expect@^29.4.1:
+    version "29.4.1"
+    resolved "https://registry.yarnpkg.com/expect/-/expect-29.4.1.tgz#58cfeea9cbf479b64ed081fd1e074ac8beb5a1fe"
+    integrity sha512-OKrGESHOaMxK3b6zxIq9SOW8kEXztKff/Dvg88j4xIJxur1hspEbedVkR3GpHe5LO+WB2Qw7OWN0RMTdp6as5A==
+=======
+=======
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   expect@^29.0.0, expect@^29.5.0:
     version "29.5.0"
     resolved "https://registry.yarnpkg.com/expect/-/expect-29.5.0.tgz#68c0509156cb2a0adb8865d413b137eeaae682f7"
     integrity sha512-yM7xqUrCO2JdpFo4XpM82t+PJBFybdqoQuJLDGeDX2ij8NZzqRHyu3Hp188/JX7SWqud+7t4MUdvcgGBICMHZg==
+<<<<<<< HEAD
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     dependencies:
       "@jest/expect-utils" "^29.5.0"
       jest-get-type "^29.4.3"
@@ -7878,9 +8085,21 @@ Lockfile:
       brace-expansion "^1.1.7"
   
   minimist@^1.2.0, minimist@^1.2.6:
+<<<<<<< HEAD
+<<<<<<< HEAD
+    version "1.2.7"
+    resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
+    integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
+=======
     version "1.2.8"
     resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
     integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+    version "1.2.8"
+    resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
+    integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   
   mkdirp@^1.0.4:
     version "1.0.4"
@@ -8431,6 +8650,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
     integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
   
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   path@^0.12.7:
     version "0.12.7"
     resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
@@ -8439,6 +8662,22 @@ Lockfile:
       process "^0.11.1"
       util "^0.10.3"
   
+<<<<<<< HEAD
+  pbkdf2@^3.0.17:
+    version "3.1.2"
+    resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.1.2.tgz#dd822aa0887580e52f1a039dc3eda108efae3075"
+    integrity sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==
+    dependencies:
+      create-hash "^1.1.2"
+      create-hmac "^1.1.4"
+      ripemd160 "^2.0.1"
+      safe-buffer "^5.0.1"
+      sha.js "^2.4.8"
+  
+=======
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   picocolors@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -8503,9 +8742,21 @@ Lockfile:
     integrity sha512-WKrRpCSwL2t3tpOOGhf2WfTpcmbpxaWtDbdJdKdjd0aEiTkvOmS4NBkG6kzlaAHI9AkQ3iVqbFWM3Ei7mZ4o1Q==
   
   preact@^10.5.9:
+<<<<<<< HEAD
+<<<<<<< HEAD
+    version "10.12.0"
+    resolved "https://registry.yarnpkg.com/preact/-/preact-10.12.0.tgz#5126a361365b20dbced92e8eea459bf094069909"
+    integrity sha512-+w8ix+huD8CNZemheC53IPjMUFk921i02o30u0K6h53spMX41y/QhVDnG/nU2k42/69tvqWmVsgNLIiwRAcmxg==
+=======
+    version "10.13.1"
+    resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.1.tgz#d220bd8771b8fa197680d4917f3cefc5eed88720"
+    integrity sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
     version "10.13.2"
     resolved "https://registry.yarnpkg.com/preact/-/preact-10.13.2.tgz#2c40c73d57248b57234c4ae6cd9ab9d8186ebc0a"
     integrity sha512-q44QFLhOhty2Bd0Y46fnYW0gD/cbVM9dUVtNTDKPcdXSMA7jfY+Jpd6rk3GB0lcQss0z5s/6CmVP0Z/hV+g6pw==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
   
   prelude-ls@^1.2.1:
     version "1.2.1"
@@ -8712,9 +8963,21 @@ Lockfile:
       loose-envify "^1.1.0"
   
   readable-stream@^3.4.0, readable-stream@^3.5.0, readable-stream@^3.6.0:
+<<<<<<< HEAD
+<<<<<<< HEAD
+    version "3.6.0"
+    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
+    integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
+=======
     version "3.6.2"
     resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.2.tgz#56a9b36ea965c00c5a93ef31eb111a0f11056967"
     integrity sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==
+>>>>>>> ee82bc10d1e0c55c8f0d5d4c6d7257fcb43e45a5
+=======
+    version "3.6.2"
+    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.2.tgz#56a9b36ea965c00c5a93ef31eb111a0f11056967"
+    integrity sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==
+>>>>>>> 308b9f782dabeeb467e414bdacd97e8db5b7f9b8
     dependencies:
       inherits "^2.0.3"
       string_decoder "^1.1.1"

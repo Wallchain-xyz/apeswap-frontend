@@ -12,12 +12,12 @@ import { BLUE_CHIPS, NUMBER_OF_FARMS_VISIBLE, SORT_OPTIONS, STABLES } from './co
 import DisplayFarms from './components/DisplayFarms'
 import { Farm, FarmTypes } from 'state/farms/types'
 import { orderBy } from 'lodash'
-import { useRouter } from 'next/router'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import HarvestAll from './actions/HarvestAll'
 import BigNumber from 'bignumber.js'
+import { useSetZapOutputList } from 'state/zap/hooks'
 
 const Farms = () => {
   const { account, chainId } = useWeb3React()
@@ -34,8 +34,7 @@ const Farms = () => {
   const urlSearchedFarm = '' //parseInt(params?.get('pid'))
   const [stakedOnly, setStakedOnly] = useState(false)
   const { farmOrderings } = useFarmOrderings(chainId as SupportedChainId)
-  const { asPath } = useRouter()
-  const isActive = !asPath.includes('history')
+  const [isActive, setIsActive] = useState(true)
   const { t } = useTranslation()
 
   const getActiveFarms = () => {
@@ -63,7 +62,7 @@ const Farms = () => {
     const iFarms: Farm[] = []
     farms?.forEach((farm) => {
       if (farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) {
-        if (farm.pid === 0 || farm.multiplier !== '0X') {
+        if (farm.pid !== 0 && farm.multiplier === '0X') {
           iFarms.push(farm)
         }
       }
@@ -84,9 +83,13 @@ const Farms = () => {
   const activeFarms = getActiveFarms()
   const inactiveFarms = getInnactiveFarms()
 
-  const stakedOnlyFarms = activeFarms?.filter((farm) => farm)
+  const stakedOnlyFarms = activeFarms.filter(
+    (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
+  )
 
-  const stakedOnlyInactiveFarms = inactiveFarms?.filter((farm) => farm)
+  const stakedOnlyInactiveFarms = inactiveFarms.filter(
+    (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
+  )
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)
@@ -138,7 +141,6 @@ const Farms = () => {
         return filteredFarm?.contractAddress ? filteredFarm?.contractAddress : ''
       })
 
-  console.log(hasHarvestPids, hasHarvestTypes, hasHarvestContracts)
   const renderFarms = () => {
     let farms = isActive ? activeFarms : inactiveFarms
 
@@ -210,6 +212,12 @@ const Farms = () => {
           : farms?.slice(0, numberOfFarmsVisible)
     }
   }
+  // Set zap output list to match farms
+  useSetZapOutputList(
+    activeFarms?.map((farm) => {
+      return { currencyIdA: farm?.tokenAddress, currencyIdB: farm?.quoteTokenAddress }
+    }),
+  )
 
   return (
     <Flex sx={styles.farmContainer}>
@@ -221,6 +229,7 @@ const Farms = () => {
           setSortOption={setSortOption}
           sortOption={sortOption}
           checkboxLabel="Staked"
+          setIsActive={setIsActive}
           showOnlyCheckbox={stakedOnly}
           setShowOnlyCheckbox={setStakedOnly}
           toogleLabels={['ACTIVE', 'INACTIVE']}
@@ -241,7 +250,7 @@ const Farms = () => {
           <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>
       ) : (
-        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} />
+        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} isActive={isActive} />
       )}
       <div ref={loadMoreRef} />
     </Flex>

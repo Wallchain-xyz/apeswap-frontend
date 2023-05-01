@@ -6,11 +6,11 @@ import orderBy from 'lodash/orderBy'
 import BillsRows from './components/BillsRows'
 import { useRouter } from 'next/router'
 import { Flex } from 'components/uikit'
-import { BillsConfig } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Bills } from 'views/Bonds/types'
 import { useBills } from 'state/bills/hooks'
+import { useSetZapOutputList } from 'state/zap/hooks'
 
 const BillsListView: React.FC = () => {
   const bills = useBills()
@@ -77,28 +77,31 @@ const BillsListView: React.FC = () => {
         return bill.lpToken.symbol.toUpperCase().includes(query.toUpperCase())
       })
     }
-    if (filterOption === 'bananaBill') {
-      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'BANANA Bill'.toUpperCase())
+    if (filterOption === 'liquidity') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'liquidity'.toUpperCase())
     }
-    if (filterOption === 'jungleBill') {
-      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'JUNGLE Bill'.toUpperCase())
+    if (filterOption === 'reserve') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'reserve'.toUpperCase())
+    }
+    if (filterOption === 'launch') {
+      billsToReturn = billsToReturn?.filter((bill) => bill.billType.toUpperCase() === 'launch'.toUpperCase())
     }
     return sortBills(billsToReturn)
-  }, [bills, isSoldOut, query, showAvailable, filterOption, showOnlyDiscount, hasDiscount, sortBills, location.search])
+  }, [bills, isSoldOut, query, showAvailable, filterOption, showOnlyDiscount, hasDiscount, sortBills])
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)
   }
 
   // Set zap output list to match dual farms
-  // useSetZapOutputList(
-  //   billsToRender.map((bill) => {
-  //     return {
-  //       currencyIdA: bill?.token.address[chainId],
-  //       currencyIdB: bill?.quoteToken.address[chainId],
-  //     }
-  //   }),
-  // )
+  useSetZapOutputList(
+    billsToRender.map((bill) => {
+      return {
+        currencyIdA: bill?.token.address[chainId as SupportedChainId] ?? '',
+        currencyIdB: bill?.quoteToken.address[chainId as SupportedChainId] ?? '',
+      }
+    }),
+  )
 
   return (
     <MainContainer>

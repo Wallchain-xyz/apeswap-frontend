@@ -15,8 +15,8 @@ const setData = (data: OverviewMcapTvlRatioInterface[], theme: any) => {
       {
         data: data?.map((curr) => curr.ratio),
         fill: false,
-        borderColor: theme.colors.text,
-        backgroundColor: theme.colors.text,
+        borderColor: theme.rawColors.text,
+        backgroundColor: theme.rawColors.text,
         tension: 0.3,
       },
     ],
@@ -56,9 +56,9 @@ const MarketCapToTvlRatio: React.FC = () => {
                   //@ts-ignore
                   type: 'linear',
                   //@ts-ignore
-                  grid: { color: 'white4', drawBorder: false }, // theme.colors.white4
+                  grid: { color: theme.rawColors?.white4, drawBorder: false },
                   ticks: {
-                    color: 'text', //  theme.colors.text,
+                    color: theme?.rawColors?.text?.toString(),
                     font: { family: 'poppins', weight: '500' },
                     autoSkip: true,
                     maxTicksLimit: 5,
@@ -69,7 +69,7 @@ const MarketCapToTvlRatio: React.FC = () => {
                   grid: { display: false, drawBorder: false },
                   min: new Date(new Date().getTime() - 180 * 24 * 60 * 60 * 1000).getTime(),
                   ticks: {
-                    color: 'text', // theme.colors.text,
+                    color: theme?.rawColors?.text?.toString(),
                     font: { family: 'poppins', weight: '500' },
                     autoSkip: true,
                     maxTicksLimit: 5,
@@ -97,11 +97,11 @@ const MarketCapToTvlRatio: React.FC = () => {
                   intersect: false,
                   titleFont: { family: 'poppins', weight: '700', size: 16 },
                   bodyFont: { family: 'poppins', weight: '500', size: 14 },
-                  titleColor: 'text', // theme.colors.text,
-                  backgroundColor: 'white2', //theme.colors.white2,
+                  titleColor: theme?.rawColors?.text?.toString(),
+                  backgroundColor: theme?.rawColors?.white2?.toString(),
                   boxPadding: 5,
-                  bodyColor: 'text', // theme.colors.text,
-                  borderColor: 'inputBorder', // theme.colors.inputBorder,
+                  bodyColor: theme?.rawColors?.text?.toString(),
+                  borderColor: theme?.rawColors?.inputBorder?.toString(),
                   bodySpacing: 20,
                   borderWidth: 1,
                   cornerRadius: 10,

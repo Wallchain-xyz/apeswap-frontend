@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import Banner from 'components/Banner'
-import GnanaUtility from './components/GnanaUtility/GnanaUtility'
 import GnanaDisclaimers from './components/GnanaDisclaimers/GnanaDisclaimers'
 import ConvertCard from './components/ConvertCard'
 import ReturnCard from './components/ReturnCard'
@@ -19,6 +18,11 @@ import {
 } from './styles'
 import SwiperProvider from '../../contexts/SwiperProvider'
 import { Flex } from 'components/uikit'
+import dynamic from 'next/dynamic'
+
+const GnanaUtility = dynamic(() => import('./components/GnanaUtility/GnanaUtility'), {
+  ssr: false,
+})
 
 const Zone = () => {
   const [readingMore, setReadingMore] = useState(false)

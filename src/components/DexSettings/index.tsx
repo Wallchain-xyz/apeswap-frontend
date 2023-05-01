@@ -4,7 +4,7 @@ import Input from 'components/uikit/Input/Input'
 import { DEFAULT_DEADLINE_FROM_NOW } from 'config/constants/misc'
 import { useState } from 'react'
 import {
-  // useClientSideRouter,
+  useClientSideRouter,
   useExpertModeManager,
   useFlipV3LayoutManager,
   useUserHideClosedPositions,
@@ -24,7 +24,7 @@ enum DeadlineError {
 const DexSettings = () => {
   const [expertMode, setExpertMode] = useExpertModeManager()
   const [hideClosedPositions, setHideClosedPositions] = useUserHideClosedPositions()
-  // const [clientSideRouter, setClientSideRouter] = useClientSideRouter()
+  const [clientSideRouter, setClientSideRouter] = useClientSideRouter()
   const [flipV3Layout, setFlipV3Layout] = useFlipV3LayoutManager()
   const [userSlippageTolerance, setUserSlippageTolerance] = useUserSlippageTolerance()
 
@@ -212,12 +212,12 @@ const DexSettings = () => {
             <Switch onChange={setHideClosedPositions} checked={hideClosedPositions} />
           </Flex>
         </Flex>
-        {/* <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', width: '100%', margin: '5px 0px' }}>
+        <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', width: '100%', margin: '5px 0px' }}>
           <Text> Auto Router API </Text>
           <Flex>
             <Switch onChange={setClientSideRouter} checked={!clientSideRouter} />
           </Flex>
-        </Flex> */}
+        </Flex>
         <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', width: '100%', margin: '5px 0px' }}>
           <Text> Expert Mode </Text>
           <Flex>

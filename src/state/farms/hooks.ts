@@ -1,5 +1,3 @@
-import { ChainId } from '@ape.swap/sdk'
-import BigNumber from 'bignumber.js'
 import useRefresh from 'hooks/useRefresh'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'

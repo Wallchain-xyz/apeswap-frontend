@@ -17,6 +17,7 @@ export const styles: Record<
   slideContainer: {
     width: '95vw',
     justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: ['50px', '50px', '65px'],
     paddingBottom: ['30px', '30px', '75px'],
   },
@@ -61,9 +62,9 @@ export const styles: Record<
   billImage: {
     width: '100%',
     height: '182px',
-    display: ['flex', 'none', 'none'],
+    display: ['flex', 'flex', 'none'],
     marginTop: ['25px', '25px', 0],
-    justifyContent: ['center', 'flex-start', 'flex-start'],
+    justifyContent: ['center', 'center', 'flex-start'],
   },
   image: {
     borderRadius: '6px',
@@ -83,9 +84,10 @@ export const styles: Record<
     background: 'background',
     fontSize: ['14px', '14px', '16px'],
     minWidth: ['125px', '125px', '138px'],
+    color: 'yellow',
   },
   imageWrapper: {
-    display: ['none', 'flex'],
+    display: ['none', 'none', 'flex'],
     marginTop: ['50px', '50px', '35px'],
     zIndex: 10,
     padding: '10px',

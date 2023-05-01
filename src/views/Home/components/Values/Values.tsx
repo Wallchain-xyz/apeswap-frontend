@@ -1,3 +1,5 @@
+'use client'
+// TODO: When updating homepage remove mobile hook and client
 import React, { useEffect, useState } from 'react'
 import SwiperCore, { Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -7,9 +9,9 @@ import { useTranslation } from 'contexts/Localization'
 import { getDotPos } from 'utils/getDotPos'
 import { Bubble, ValueCard, ValueImage, ValuesWrapper, ValueText } from './styles'
 import { defaultValues } from './defaultValues'
-import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { Flex, Link, Skeleton, Text } from 'components/uikit'
 import Image from 'next/image'
+import useIsMobile from 'hooks/useIsMobile'
 
 const SLIDE_DELAY = 5000
 SwiperCore.use([Autoplay])
@@ -18,10 +20,9 @@ const Values: React.FC = () => {
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)
   const [loadValues, setLoadValues] = useState(false)
-  const { isMd, isSm, isXs } = useMatchBreakpoints()
   const { t } = useTranslation()
   const { observerRef, isIntersecting } = useIntersectionObserver()
-  const swiperFlag = isMd || isSm || isXs
+  const swiperFlag = useIsMobile()
 
   const slideVal = (index: number) => {
     setActiveSlide(index)

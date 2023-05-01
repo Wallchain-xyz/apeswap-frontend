@@ -7,7 +7,7 @@ import useIsMobile from 'hooks/useIsMobile'
 import { styles } from './styles'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import  BigNumber from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 import ListViewContent from 'components/ListView/ListViewContent'
 import { Flex } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
@@ -15,6 +15,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListView from 'components/ListView/ListView'
 import VestedTimer from '../../VestedTimer'
 import BillModal from '../../Modals'
+import { ListTagVariants } from 'components/uikit/Tag/types'
 
 const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender }) => {
   const { chainId } = useWeb3React()
@@ -36,16 +37,16 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
     return {
       tokenDisplayProps: {
         token1: token.symbol,
-        token2: quoteToken.symbol,
+        token2: bill.billType === 'reserve' ? earnToken.symbol : quoteToken.symbol,
         token3: earnToken.symbol,
-        stakeLp: true,
+        stakeLp: bill.billType !== 'reserve',
         billArrow: true,
       },
       listProps: {
         id: billToRender.id,
         title: (
           <ListViewContent
-            tag="ape"
+            tag={bill.billType as ListTagVariants}
             value={bill.lpToken.symbol}
             style={{ maxWidth: '150px', height: '35px', flexDirection: 'column' }}
           />

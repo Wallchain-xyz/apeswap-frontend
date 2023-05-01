@@ -1,8 +1,6 @@
 import { Percent } from '@ape.swap/sdk-core'
-import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
-import DexPanel from 'components/DexPanel'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { Button, Flex, NumericInput, Skeleton, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'

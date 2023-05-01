@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { SearchText, styles } from '../styles'
-import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
 import { BillsListMenuProps, FILTER_OPTIONS, SORT_OPTIONS } from '../types'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useWeb3React } from '@web3-react/core'
-import useSelectChain from 'hooks/useSelectChain'
-import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { CheckBox, Flex, Input, Svg, Text, Toggle } from 'components/uikit'
 import MenuSelect from 'components/ListView/ListViewMenu/MenuSelect'
 import NetworkSelector from 'components/NetworkSelector'
@@ -25,8 +21,6 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
   setShowAvailable,
 }) => {
   const { t } = useTranslation()
-  const switchNetwork = useSelectChain()
-  const { chainId } = useWeb3React()
   const isMobile = useIsMobile()
   const [expanded, setExpended] = useState(false)
 

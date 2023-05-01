@@ -13,15 +13,16 @@ import {
 } from './styles'
 import UserBillModalView from './UserBillModalView'
 import { getFirstNonZeroDigits } from 'utils/roundNumber'
-import ModalProvider from 'contexts/ModalContext'
-import { Flex, IconButton, Modal } from 'components/uikit'
+import { Flex, IconButton, ListTag, Modal } from 'components/uikit'
 import Buy from 'views/Bonds/actions/Buy'
 import { Bills } from 'views/Bonds/types'
-import { Image } from 'theme-ui'
+import { ListTagVariants } from 'components/uikit/Tag/types'
+import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import ModalProvider from 'contexts/ModalContext'
 
 const modalProps = {
   sx: {
-    zIndex: 98,
+    zIndex: 200,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     width: ['90%'],
@@ -42,13 +43,15 @@ interface BillModalProps {
 
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
   const { t } = useTranslation()
-  const { token, quoteToken, earnToken, lpToken, discount, earnTokenPrice } = bill
+  const { token, quoteToken, earnToken, lpToken, discount, earnTokenPrice, billType } = bill
   const discountEarnTokenPrice =
     earnTokenPrice && earnTokenPrice && earnTokenPrice - earnTokenPrice * (parseFloat(discount ?? '0') / 100)
 
   const [billId, setBillId] = useState('')
   const [loading, setLoading] = useState(false)
   const vestingTime = getTimePeriods(parseInt(bill.vestingTime ?? '0'), true)
+
+  const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
 
   const onHandleReturnedBillId = async (id: string) => {
     setBillId(id)
@@ -68,27 +71,28 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
               onClick={onDismiss}
               sx={{ position: 'absolute', right: '20px', top: '25px', zIndex: 50 }}
             />
-            <Flex alignItems="center" justifyContent="center">
+            <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
               {loading && !billId ? (
-                <BillsImage>
-                  <Image src={'images/bills/bill-nfts.gif'} alt="bill-img" height={500} width={500} />
-                </BillsImage>
+                <BillsImage image={'/images/bills/bill-nfts.gif'} />
               ) : (
                 <BillsImage image="images/bills/hidden-bill.jpg" />
               )}
             </Flex>
             <BillDescriptionContainer p="0">
-              <Flex flexDirection="column">
+              <Flex sx={{ flexDirection: 'column' }}>
                 <BillTitleContainer>
-                  <Flex alignItems="center">
+                  <Flex sx={{ mb: '5px' }}>
+                    <ListTag variant={billType as ListTagVariants} />
+                  </Flex>
+                  <Flex sx={{ alignItems: 'center' }}>
                     <ServiceTokenDisplay
                       token1={token.symbol}
-                      token2={quoteToken.symbol}
+                      token2={bill.billType === 'reserve' ? earnToken.symbol : quoteToken.symbol}
                       token3={earnToken.symbol}
                       billArrow
-                      stakeLp
+                      stakeLp={billType !== 'reserve'}
                     />
-                    <Flex flexDirection="column">
+                    <Flex sx={{ flexDirection: 'column' }}>
                       <StyledHeadingText ml="10px" bold>
                         {lpToken.symbol}
                       </StyledHeadingText>
@@ -98,7 +102,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                     </Flex>
                   </Flex>
                 </BillTitleContainer>
-                <Flex flexDirection="column" mb={10}>
+                <Flex sx={{ flexDirection: 'column' }} mb={10}>
                   <Flex style={{ width: '250px' }}>
                     <TopDescriptionText>
                       {earnToken.symbol} {t('Market Price')}{' '}
@@ -107,7 +111,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                       </span>
                     </TopDescriptionText>
                   </Flex>
-                  <Flex alignItems="center">
+                  <Flex sx={{ alignItems: 'center' }}>
                     <ServiceTokenDisplay token1={earnToken.symbol} />
                     <StyledHeadingText ml="10px" bold>
                       ${getFirstNonZeroDigits(discountEarnTokenPrice ?? 0)} ({discount}% Discount)
@@ -115,12 +119,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
                   </Flex>
                 </Flex>
               </Flex>
-              <Flex flexDirection="column">
+              <Flex sx={{ flexDirection: 'column' }}>
                 <ActionButtonsContainer>
                   <Buy
                     bill={bill}
                     onBillId={onHandleReturnedBillId}
                     onTransactionSubmited={(trxSent: any) => setLoading(trxSent)}
+                    onAddLiquidityModal={onAddLiquidityModal}
                   />
                 </ActionButtonsContainer>
               </Flex>

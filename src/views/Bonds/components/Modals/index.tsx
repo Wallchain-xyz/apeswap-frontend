@@ -46,6 +46,7 @@ const BillModal: React.FC<BillModalProps> = ({
     true,
     `billsWarningModal${id}`,
   )
+
   return !billCardImage ? (
     <StyledButton
       onClick={

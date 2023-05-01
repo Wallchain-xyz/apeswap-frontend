@@ -1,5 +1,7 @@
 import { Currency } from '@ape.swap/sdk-core'
 import { Bills } from '../types'
+import { MergedZap } from 'state/zap/actions'
+import { TradeState } from 'state/routing/types'
 
 export interface ClaimProps {
   billAddress: string
@@ -20,11 +22,19 @@ export interface BuyProps {
   bill: Bills
   onBillId: (billId: string, transactionHash: string) => void
   onTransactionSubmited: (trxSent: boolean) => void
+  onAddLiquidityModal: (
+    token: any,
+    quoteToken: any,
+    poolAddress?: string | undefined,
+    pid?: string | undefined,
+    zapable?: boolean | undefined,
+  ) => void
 }
 
 export interface BillActionsProps {
   bill: Bills
-  zap: any //MergedZap
+  zap: MergedZap
+  zapRouteState: TradeState
   currencyB: Currency
   handleBuy: () => void
   billValue: string

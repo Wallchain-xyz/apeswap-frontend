@@ -29,6 +29,12 @@ import { getFullDisplayBalance } from 'utils/getBalanceNumber'
 import { CheckBox, Text } from 'components/uikit'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import useApproveTransaction from '../useApproveTransaction'
+import { useBuyGoldenBanana } from '../useGoldenBanana'
+import { useTokenContract, useTreasury } from 'hooks/useContract'
+import ConnectWalletButton from 'components/ConnectWallet'
+import { useToken } from 'hooks/Tokens'
+import { useTokenAllowance } from 'hooks/useTokenAllowance'
 
 interface ConvertCardType {
   fromToken: string
@@ -37,38 +43,41 @@ interface ConvertCardType {
 
 const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
   const MAX_BUY = 5000
-  const { chainId } = useWeb3React()
+  const { chainId, account } = useWeb3React()
   const [val, setVal] = useState('')
   const [unlimitedGnana, setUnlimitedGnanaMinting] = useState<boolean>(false)
   const [unlimited, setUnlimited] = useState<boolean>(unlimitedGnana)
   const gnanaVal = parseFloat(val) * 0.7
   const [processing, setProcessing] = useState(false)
-  // const treasuryContract = useTreasury()
-  // const { handleBuy } = useBuyGoldenBanana()
-  const bananaBalance = useTokenBalance(BANANA_ADDRESSES[chainId as SupportedChainId]) //useBananaAddress()
+  const treasuryContract = useTreasury()
+  const { handleBuy } = useBuyGoldenBanana()
+  const bananaToken = useToken(BANANA_ADDRESSES[chainId as SupportedChainId])
+  const bananaBalance = useTokenBalance(account, bananaToken ?? undefined)
   // const { toastSuccess } = useToast()
-  // const bananaContract = useBanana()
+  const bananaContract = useTokenContract(BANANA_ADDRESSES[chainId as SupportedChainId])
+  const { tokenAllowance } = useTokenAllowance(bananaToken ?? undefined, account, treasuryContract?.address)
   const { t } = useTranslation()
   const [triedMore, setTriedMore] = useState(false)
-  const { account } = useWeb3React()
 
-  // const { isApproving, isApproved, handleApprove } = useApproveTransaction({
-  //   onRequiresApproval: async (loadedAccount) => {
-  //     try {
-  //       const response = await bananaContract.allowance(loadedAccount, treasuryContract.address)
-  //       const currentAllowance = new BigNumber(response.toString())
-  //       return currentAllowance.gt(0)
-  //     } catch (error) {
-  //       return false
-  //     }
-  //   },
-  //   onApprove: () => {
-  //     return bananaContract.approve(treasuryContract.address, ethers.constants.MaxUint256).then((trx) => trx.wait())
-  //   },
-  //   onSuccess: async () => {
-  //     toastSuccess(t('Approved!'))
-  //   },
-  // })
+  const { isApproving, handleApprove } = useApproveTransaction({
+    onRequiresApproval: async (loadedAccount) => {
+      try {
+        const response = await bananaContract?.allowance(loadedAccount, treasuryContract?.address ?? '')
+        const currentAllowance = new BigNumber(response?.toString() ?? '0')
+        return currentAllowance.gt(0)
+      } catch (error) {
+        return false
+      }
+    },
+    onApprove: () => {
+      return bananaContract
+        ?.approve(treasuryContract?.address ?? '', ethers.constants.MaxUint256)
+        .then((trx) => trx.wait())
+    },
+    onSuccess: async () => {
+      null //toastSuccess(t('Approved!'))
+    },
+  })
 
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(new BigNumber(bananaBalance?.quotient?.toString() ?? 0))
@@ -91,16 +100,16 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
     }, 600)
   }, [triedMore])
 
-  // const buy = useCallback(async () => {
-  //   try {
-  //     setProcessing(true)
-  //     await handleBuy(val)
-  //     setProcessing(false)
-  //   } catch (e) {
-  //     setProcessing(false)
-  //     console.warn(e)
-  //   }
-  // }, [handleBuy, val])
+  const buy = useCallback(async () => {
+    try {
+      setProcessing(true)
+      await handleBuy(val)
+      setProcessing(false)
+    } catch (e) {
+      setProcessing(false)
+      console.warn(e)
+    }
+  }, [handleBuy, val])
 
   const disabled = processing || parseInt(val) === 0 || parseInt(val) > parseInt(fullBalance)
 
@@ -137,11 +146,11 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
           max={parseFloat(fullBalance).toFixed(2)}
           symbol={fromToken}
         />
-        {/* {!account ? (
+        {!account ? (
           <Flex sx={{ margin: '15px 0 10px 0' }}>
-            <UnlockButton table />
+            <ConnectWalletButton />
           </Flex>
-        ) : isApproved ? (
+        ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) ? (
           <StyledButton disabled={disabled} variant="primary" margin="10px" onClick={buy}>
             {t('CONVERT')}
           </StyledButton>
@@ -149,7 +158,7 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
           <StyledButton margin="10px" disabled={isApproving} onClick={handleApprove}>
             {t('APPROVE CONTRACT')}
           </StyledButton>
-        )} */}
+        )}
 
         <FlexSection sx={{ flexDirection: 'column', alignItems: 'center', mb: '10px' }}>
           <Text fontSize="16px" fontWeight={700}>

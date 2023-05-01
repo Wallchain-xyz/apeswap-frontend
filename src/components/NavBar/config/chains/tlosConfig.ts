@@ -25,12 +25,12 @@ const tlosConfig = [
   },
   {
     label: 'Farms',
-    href: `${TEMP_APESWAP_URL}/farms`,
+    href: `/farms`,
     isNew: false,
   },
   {
-    label: 'Bills',
-    href: `${TEMP_APESWAP_URL}/treasury-bills`,
+    label: 'Bonds',
+    href: `/bonds`,
     isNew: true,
   },
   {
@@ -42,7 +42,7 @@ const tlosConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',

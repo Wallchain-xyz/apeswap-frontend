@@ -8,13 +8,16 @@ import {
 import { useCallback } from 'react'
 import { FarmTypes } from 'state/farms/types'
 import BigNumber from 'bignumber.js'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { TransactionType } from 'state/transactions/types'
 
-const useUnstake = (farmType: FarmTypes, pid: number, lpValue: number, contractAddress?: string) => {
+const useUnstake = (farmType: FarmTypes, pid: number,  contractAddress?: string) => {
   const { account } = useWeb3React()
   const masterChefV1Contract = useMasterChefContract()
   const masterChefV2Contract = useMasterChefV2Contract()
   const jungleFarmContract = useJungleFarmContract(contractAddress ?? '')
   const miniApeContract = useDualFarmContract()
+  const addTransaction = useTransactionAdder()
 
   const callReturn = useCallback(
     async (amount: string) => {
@@ -22,6 +25,7 @@ const useUnstake = (farmType: FarmTypes, pid: number, lpValue: number, contractA
         return masterChefV1Contract
           ?.withdraw(pid, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.WITHDRAW })
             return trx.wait()
           })
       }
@@ -29,6 +33,7 @@ const useUnstake = (farmType: FarmTypes, pid: number, lpValue: number, contractA
         return masterChefV2Contract
           ?.withdraw(pid, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.WITHDRAW })
             return trx.wait()
           })
       }
@@ -36,6 +41,7 @@ const useUnstake = (farmType: FarmTypes, pid: number, lpValue: number, contractA
         return jungleFarmContract
           ?.withdraw(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.WITHDRAW })
             return trx.wait()
           })
       }
@@ -43,11 +49,21 @@ const useUnstake = (farmType: FarmTypes, pid: number, lpValue: number, contractA
         return miniApeContract
           ?.withdrawAndHarvest(pid, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(), account ?? '')
           .then((trx) => {
+            addTransaction(trx, { type: TransactionType.WITHDRAW })
             return trx.wait()
           })
       }
     },
-    [pid, farmType, account, masterChefV1Contract, masterChefV2Contract, jungleFarmContract, miniApeContract],
+    [
+      pid,
+      farmType,
+      account,
+      addTransaction,
+      masterChefV1Contract,
+      masterChefV2Contract,
+      jungleFarmContract,
+      miniApeContract,
+    ],
   )
 
   const handleUnstake = useCallback(

@@ -20,6 +20,7 @@ const Tabs: React.FC<TabsProps> = ({
   const getActiveStyles = useCallback(() => {
     return {
       width: activeRef?.current?.getBoundingClientRect?.()?.width || "fit-content",
+      lineHeight: '17px',
       left: activeRef?.current
         ? activeRef?.current?.getBoundingClientRect?.()?.x - activeRef?.current?.parentNode?.getBoundingClientRect?.()?.x
         : 0,

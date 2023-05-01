@@ -1,3 +1,5 @@
+'use client'
+// TODO: Fix page to not use client
 import { styles, StyledTag } from './styles'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import React, { useState } from 'react'

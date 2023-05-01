@@ -21,46 +21,23 @@ export enum TransactionType {
   DEPOSIT_LIQUIDITY_STAKING,
   WITHDRAW_LIQUIDITY_STAKING,
   CLAIM,
-  VOTE,
-  DELEGATE,
   WRAP,
   CREATE_V3_POOL,
   ADD_LIQUIDITY_V3_POOL,
   ADD_LIQUIDITY_V2_POOL,
-  MIGRATE_LIQUIDITY_V3,
   COLLECT_FEES,
   REMOVE_LIQUIDITY_V3,
-  SUBMIT_PROPOSAL,
-  QUEUE,
-  EXECUTE,
+  STAKE,
+  WITHDRAW,
+  HARVEST,
+  BUY,
+  TRANSFER,
+  CLAIM_BILL,
+  ZAP,
 }
 
 interface BaseTransactionInfo {
   type: TransactionType
-}
-
-export interface VoteTransactionInfo extends BaseTransactionInfo {
-  type: TransactionType.VOTE
-  governorAddress: string
-  proposalId: number
-  reason: string
-}
-
-export interface QueueTransactionInfo extends BaseTransactionInfo {
-  type: TransactionType.QUEUE
-  governorAddress: string
-  proposalId: number
-}
-
-export interface ExecuteTransactionInfo extends BaseTransactionInfo {
-  type: TransactionType.EXECUTE
-  governorAddress: string
-  proposalId: number
-}
-
-export interface DelegateTransactionInfo extends BaseTransactionInfo {
-  type: TransactionType.DELEGATE
-  delegatee: string
 }
 
 export interface ApproveTransactionInfo extends BaseTransactionInfo {
@@ -138,13 +115,6 @@ export interface AddLiquidityV2PoolTransactionInfo {
   expectedAmountQuoteRaw: string
 }
 
-export interface MigrateV2LiquidityToV3TransactionInfo {
-  type: TransactionType.MIGRATE_LIQUIDITY_V3
-  baseCurrencyId: string
-  quoteCurrencyId: string
-  isFork: boolean
-}
-
 export interface CollectFeesTransactionInfo {
   type: TransactionType.COLLECT_FEES
   currencyId0: string
@@ -161,8 +131,40 @@ export interface RemoveLiquidityV3TransactionInfo {
   expectedAmountQuoteRaw: string
 }
 
-interface SubmitProposalTransactionInfo {
-  type: TransactionType.SUBMIT_PROPOSAL
+// TODO: Expand on these to store more information for transaction history
+export interface StakeTransactionInfo {
+  type: TransactionType.STAKE
+  uniAmountRaw?: string
+}
+
+export interface WithdrawTransactionInfo {
+  type: TransactionType.WITHDRAW
+  uniAmountRaw?: string
+}
+
+export interface HarvestTransactionInfo {
+  type: TransactionType.HARVEST
+  uniAmountRaw?: string
+}
+
+export interface BuyTransactionInfo {
+  type: TransactionType.BUY
+  uniAmountRaw?: string
+}
+
+export interface ClaimBillTransactionInfo {
+  type: TransactionType.CLAIM_BILL
+  uniAmountRaw?: string
+}
+
+export interface TransferTransactionInfo {
+  type: TransactionType.TRANSFER
+  uniAmountRaw?: string
+}
+
+export interface ZapTransactionInfo {
+  type: TransactionType.ZAP
+  uniAmountRaw?: string
 }
 
 export type TransactionInfo =
@@ -170,20 +172,21 @@ export type TransactionInfo =
   | ExactOutputSwapTransactionInfo
   | ExactInputSwapTransactionInfo
   | ClaimTransactionInfo
-  | VoteTransactionInfo
-  | QueueTransactionInfo
-  | ExecuteTransactionInfo
-  | DelegateTransactionInfo
   | DepositLiquidityStakingTransactionInfo
   | WithdrawLiquidityStakingTransactionInfo
   | WrapTransactionInfo
   | CreateV3PoolTransactionInfo
   | AddLiquidityV3PoolTransactionInfo
   | AddLiquidityV2PoolTransactionInfo
-  | MigrateV2LiquidityToV3TransactionInfo
   | CollectFeesTransactionInfo
   | RemoveLiquidityV3TransactionInfo
-  | SubmitProposalTransactionInfo
+  | StakeTransactionInfo
+  | WithdrawTransactionInfo
+  | HarvestTransactionInfo
+  | BuyTransactionInfo
+  | ClaimBillTransactionInfo
+  | TransferTransactionInfo
+  | ZapTransactionInfo
 
 export interface TransactionDetails {
   hash: string

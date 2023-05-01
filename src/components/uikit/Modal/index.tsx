@@ -23,7 +23,7 @@ const Modal = ({
   const onClose = onDismiss || handleClose
 
   return (
-    <Box id={title}>
+    <Box id={title} sx={{ zIndex }}>
       <AnimatePresence>
         {open && (
           <motion.div

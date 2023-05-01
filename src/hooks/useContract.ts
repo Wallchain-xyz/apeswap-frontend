@@ -14,8 +14,11 @@ import BOND_ABI from 'config/abi/bond.json'
 import BOND_NFT_ABI from 'config/abi/bondNft.json'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
 import NFB_ABI from 'config/abi/nonFungibleBananas.json'
+import ZAP_ABI from 'config/abi/zap.json'
+import SOUS_CHEF_ABI from 'config/abi/sousChef.json'
 import MASTER_CHEF_ABI from 'config/abi/masterchef.json'
 import MASTER_CHEF_V2_ABI from 'config/abi/masterChefV2.json'
+import TREASURY_ABI from 'config/abi/treasury.json'
 import JUNGLE_CHEF_ABI from 'config/abi/jungleChef.json'
 import MINI_CHEF_ABI from 'config/abi/miniApeV2.json'
 import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
@@ -23,7 +26,17 @@ import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import IUniswapV2PairJson from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import NonfungiblePositionManagerJson from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import TickLensJson from '@uniswap/v3-periphery/artifacts/contracts/lens/TickLens.sol/TickLens.json'
-import { Bond, BondNft, JungleChef, MasterChefV2, Masterchef, MiniApeV2, Multicallv3 } from 'config/abi/types'
+import {
+  Bond,
+  BondNft,
+  JungleChef,
+  MasterChefV2,
+  Masterchef,
+  MiniApeV2,
+  Multicallv3,
+  SousChef,
+  Treasury,
+} from 'config/abi/types'
 import { Erc20 } from 'config/abi/types/Erc20'
 import { Erc20_bytes32 } from 'config/abi/types/Erc20_bytes32'
 import { NonfungiblePositionManager, Quoter, QuoterV2, TickLens } from 'config/abi/types/v3'
@@ -38,6 +51,7 @@ import {
   MASTER_CHEF_V1_ADDRESS,
   MASTER_CHEF_V2_ADDRESS,
   MINI_APE_ADDRESS,
+  TREASURY_ADDRESSES,
 } from 'config/constants/addresses'
 import WETH_ABI from 'config/abi/weth.json'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -48,8 +62,13 @@ import QuoterJson from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.so
 import { PriceGetter } from 'config/abi/types/PriceGetter'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { Weth } from 'config/abi/types/Weth'
+import { Zap } from 'config/abi/types/Zap'
 import { NonFungibleApes } from 'config/abi/types/NonFungibleApes'
+import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { NonFungibleBananas } from 'config/abi/types/NonFungibleBananas'
+import { useSelector } from 'react-redux'
+import { AppState } from 'state'
+import { pools } from '@ape.swap/apeswap-lists'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -154,6 +173,14 @@ export const useBondNftContract = (address: string) => {
   return useContract(address, BOND_NFT_ABI) as BondNft
 }
 
+export const useSousChef = (id: number) => {
+  // Using selector to avoid circular dependecies
+  const chainId = useSelector((state: AppState) => state.application.chainId)
+  const config = pools.find((pool) => pool.sousId === id)
+
+  return useContract(config ? config.contractAddress[chainId as SupportedChainId] : '', SOUS_CHEF_ABI) as SousChef
+}
+
 export const useMasterChefContract = () => {
   const { chainId } = useWeb3React()
   return useContract<Masterchef>(MASTER_CHEF_V1_ADDRESS[chainId as SupportedChainId], MASTER_CHEF_ABI)
@@ -182,6 +209,11 @@ export function useNfbContract() {
   return useContract<NonFungibleBananas>('0x9f707A412302a3aD64028A9F73f354725C992081', NFB_ABI)
 }
 
+export const useTreasury = () => {
+  const { chainId } = useWeb3React()
+  return useContract<Treasury>(TREASURY_ADDRESSES[chainId as SupportedChainId], TREASURY_ABI)
+}
+
 export function useWETHContract(withSignerIfPossible?: boolean) {
   const { chainId } = useWeb3React()
   return useContract<Weth>(
@@ -189,4 +221,9 @@ export function useWETHContract(withSignerIfPossible?: boolean) {
     WETH_ABI,
     withSignerIfPossible,
   )
+}
+
+export function useZapContract(withSignerIfPossible?: boolean) {
+  const { chainId } = useWeb3React()
+  return useContract<Zap>(chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined, ZAP_ABI, withSignerIfPossible)
 }

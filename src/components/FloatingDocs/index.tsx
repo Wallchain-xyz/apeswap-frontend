@@ -6,13 +6,13 @@ import { Flex, Svg } from 'components/uikit'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 export const FloatingDocs = () => {
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
   const { chainId } = useWeb3React()
   const getDocsLink = () => {
     const networkLabel = NETWORK_LABEL[chainId as SupportedChainId]
     const farmTypes = networkLabel ? FARMS[networkLabel] : ''
     DOC_LINKS['FARMS'] = `https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/farms/${farmTypes}`
-    return DOC_LINKS[ROUTE_NAMES[pathname ?? '/'] || 'HOME']
+    return DOC_LINKS[ROUTE_NAMES[asPath ?? '/'] || 'HOME']
   }
 
   return (

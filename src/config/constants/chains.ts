@@ -190,7 +190,7 @@ export enum LIST_VIEW_PRODUCTS {
   MAXIMIZERS = 'maximizers',
   JUNGLE_FARMS = 'jungle-farms',
   POOLS = 'pools',
-  FARMS = 'banana-farms',
+  FARMS = 'farms',
 }
 
 export enum OTHER_PRODUCTS {
@@ -207,7 +207,12 @@ export enum OTHER_PRODUCTS {
 
 // These products are list view components that have a specific chain redirect component
 export const AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS: Record<LIST_VIEW_PRODUCTS, SupportedChainId[]> = {
-  [LIST_VIEW_PRODUCTS.BILLS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.TLOS],
+  [LIST_VIEW_PRODUCTS.BILLS]: [
+    SupportedChainId.BSC,
+    SupportedChainId.POLYGON,
+    SupportedChainId.TLOS,
+    SupportedChainId.ARBITRUM_ONE,
+  ],
   [LIST_VIEW_PRODUCTS.FARMS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.TLOS],
   [LIST_VIEW_PRODUCTS.MAXIMIZERS]: [SupportedChainId.BSC],
   [LIST_VIEW_PRODUCTS.JUNGLE_FARMS]: [SupportedChainId.BSC],

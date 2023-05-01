@@ -70,6 +70,7 @@ import {
   URL,
   Bubble,
   Audit,
+  BananaIcon,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -259,6 +260,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Bubble {...props} getStyles={getStyles} />
     case icons.AUDIT:
       return <Audit {...props} getStyles={getStyles} />
+    case icons.BANANA_ICON:
+      return <BananaIcon {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:

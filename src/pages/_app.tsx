@@ -34,10 +34,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <Web3Provider>
-        <BlockNumberProvider>
-          <Updaters />
-          <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <Web3Provider>
+          <BlockNumberProvider>
+            <Updaters />
             <RefreshContextProvider>
               <MatchBreakpointsProvider>
                 <LanguageProvider>
@@ -54,9 +54,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 </LanguageProvider>
               </MatchBreakpointsProvider>
             </RefreshContextProvider>
-          </ThemeProvider>
-        </BlockNumberProvider>
-      </Web3Provider>
+          </BlockNumberProvider>
+        </Web3Provider>
+      </ThemeProvider>
     </Provider>
   )
 }

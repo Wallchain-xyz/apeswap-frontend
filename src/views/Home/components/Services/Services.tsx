@@ -1,10 +1,11 @@
+'use client'
+// TODO: Remove need for window so we can remove the client render
 import { useEffect, useState } from 'react'
 import SwiperCore from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useSwiper from 'hooks/useSwiper'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
-// import useWindowSize from 'hooks/useDimensions'
-// import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
+import useWindowSize from 'hooks/useDimensions'
 import { useTranslation } from 'contexts/Localization'
 import { getDotPos } from 'utils/getDotPos'
 import { YieldCard, styles } from './styles'
@@ -20,7 +21,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
   useFetchHomepageServiceStats(loadServices)
   const [activeSlide, setActiveSlide] = useState(0)
   const { observerRef, isIntersecting } = useIntersectionObserver()
-  // const { width } = useWindowSize()
+  const { width } = useWindowSize()
   const { t } = useTranslation()
   const serviceData = useHomepageServiceStats()
   const displayData =
@@ -84,7 +85,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
           {stats?.map((stat) => {
             const { name, tokenImage } = handleEachService(id, stat)
             return (
-              <a href={stat?.link} rel="noopener noreferrer" key={stat?.apr}>
+              <a href={stat?.link} rel="noopener noreferrer" key={stat?.apr} sx={{ textDecoration: 'none' }}>
                 <Flex
                   sx={{
                     width: ['100%', '100%', '95%'],
@@ -186,7 +187,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
           }}
         >
           {displayData ? (
-            0 < 1488 ? (
+            width ?? 0 < 1488 ? (
               <Swiper
                 id="serviceSwiper"
                 initialSlide={0}

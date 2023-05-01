@@ -65,6 +65,7 @@ export { default as SwitchArrows } from './SwitchArrows'
 export { default as BillsM1 } from './BillsM1'
 export { default as BillsM2 } from './BillsM2'
 export { default as BillsM3 } from './BillsM3'
-export { default as URL } from "./URL";
-export { default as Bubble } from "./Bubble";
-export { default as Audit } from "./Audit";
+export { default as URL } from './URL'
+export { default as Bubble } from './Bubble'
+export { default as Audit } from './Audit'
+export { default as BananaIcon } from './BananaIcon'

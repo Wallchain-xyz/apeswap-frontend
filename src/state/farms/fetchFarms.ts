@@ -32,7 +32,6 @@ const fetchFarms = async (
   farmLpAprs: FarmLpAprsType | undefined,
   farms: Farm[],
 ) => {
-  console.log(farms)
   // Different farm ids
   const farmV1Ids: string[] = []
   const farmV2Ids: string[] = []
@@ -63,7 +62,7 @@ const fetchFarms = async (
     return fetchDualFarmCalls(farm, chainId)
   })
   // Get call values and chunk the farms to correct sizes
-  const farmV1Vals: any = await multicall(chainId, [...masterchefABI, ...erc20], farmV1Calls)
+  const farmV1Vals: any = await multicall(chainId, [...masterchefABI, ...erc20], farmV1Calls, true, 500)
   const farmV1ChunkSize = farmV1Calls.length / farmsV1.length
   const farmV1ChunkedFarms = chunk(farmV1Vals, farmV1ChunkSize)
 
