@@ -7,7 +7,7 @@ import { BillActionsProps } from './types'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import { BuyButton } from './styles'
-import { Button } from 'components/uikit'
+import { Button, Flex } from 'components/uikit'
 import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import JSBI from 'jsbi'
 import { useUserZapSlippageTolerance } from 'state/user/hooks'
@@ -27,12 +27,12 @@ const BillActions: React.FC<BillActionsProps> = ({
   pendingTrx,
   errorMessage,
 }) => {
-  const { lpToken, contractAddress, index } = bill
+  const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
 
-  const { chainId, account } = useWeb3React()
+  const { chainId } = useWeb3React()
   const { onApprove } = useApproveBill(
     lpToken?.address?.[chainId as SupportedChainId] ?? '',
     contractAddress[chainId as SupportedChainId] ?? '',
@@ -41,24 +41,14 @@ const BillActions: React.FC<BillActionsProps> = ({
   const showApproveBillFlow = !new BigNumber(bill?.userData?.allowance ?? '0').gt(0)
 
   const [pendingApprove, setPendingApprove] = useState(false)
-  // const { toastSuccess, toastError } = useAddPopup()
   const { t } = useTranslation()
 
   const handleApprove = async () => {
     setPendingApprove(true)
-    await onApprove()
-      .then((resp) => {
-        const trxHash = resp?.transactionHash
-        // toastSuccess(t('Approve Successful'), {
-        //   text: t('View Transaction'),
-        //   url: getEtherscanLink(trxHash, 'transaction', chainId),
-        // })
-      })
-      .catch((e) => {
-        console.error(e)
-        // toastError(e?.data?.message || t('Error: Please try again.'))
-        setPendingApprove(false)
-      })
+    await onApprove().catch((e) => {
+      console.error(e)
+      setPendingApprove(false)
+    })
     setPendingApprove(false)
   }
 
@@ -76,7 +66,7 @@ const BillActions: React.FC<BillActionsProps> = ({
             : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
         </Button>
       ) : currencyB && showApproveBillFlow ? (
-        <Button onClick={onApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
+        <Button onClick={handleApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
           {t('Enable')}
         </Button>
       ) : (
@@ -90,7 +80,8 @@ const BillActions: React.FC<BillActionsProps> = ({
             parseFloat(balance) < parseFloat(value) ||
             pendingApprove ||
             pendingTrx ||
-            !!errorMessage || zapRouteState === TradeState.LOADING
+            !!errorMessage ||
+            zapRouteState === TradeState.LOADING
           }
         >
           {errorMessage && !pendingTrx ? errorMessage : t('Buy')}

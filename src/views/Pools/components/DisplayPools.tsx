@@ -17,15 +17,15 @@ import CalcButton from 'components/RoiCalculator/CalcButton'
 import Actions from '../Actions'
 import HarvestAction from '../Actions/HarvestAction'
 
-const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] | null }> = ({
+const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] | null; isActive: boolean }> = ({
   pools,
   openId,
   poolTags,
+  isActive,
 }) => {
   const { chainId } = useWeb3React()
   const { asPath, push } = useRouter()
   const { t } = useTranslation()
-  const isActive = !asPath.includes('history')
 
   const poolsListView = pools.map((pool) => {
     console.log(pool)

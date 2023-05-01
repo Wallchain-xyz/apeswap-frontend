@@ -17,6 +17,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   setFilterOption,
   filterOption,
   setSortOption,
+  setIsActive,
   sortOption,
   checkboxLabel,
   showOnlyCheckbox,
@@ -30,8 +31,8 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [expanded, setExpended] = useState<boolean | undefined>(false)
-  const { push, asPath } = useRouter()
-  const isExact = true
+  const { push, asPath, basePath } = useRouter()
+  const isExact = !asPath.includes('history')
   const [colorMode] = useColorMode()
   const [usedSearch, setUsedSearch] = useState<boolean | undefined>(false)
 
@@ -49,13 +50,8 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   )
 
   const handleToogle = useCallback(() => {
-    handleTracking('active')
-    if (isExact) {
-      push(`${asPath}/history`)
-    } else {
-      push(asPath)
-    }
-  }, [handleTracking, push, isExact, asPath])
+    setIsActive((prev) => !prev)
+  }, [setIsActive])
 
   const handleExpandedBtn = () => {
     setExpended(!expanded)
@@ -97,7 +93,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       <>
         <Flex>
           <Text sx={styles.searchText}>{t('Search')}</Text>
-          <Input value={query} onChange={handleQueryChange} variant="search" sx={styles.searchInput} />
+          <Input value={query} onChange={handleQueryChange} icon="search" sx={styles.searchInput} />
           <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
             <Svg icon="MenuSettings" width="18px" />
           </Flex>

@@ -4,7 +4,7 @@ import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
-import { usePollPools, usePoolOrderings, usePoolTags, usePools } from 'state/pools/hooks'
+import { usePoolOrderings, usePoolTags, usePools } from 'state/pools/hooks'
 import Banner from 'components/Banner'
 import DisplayPools from './components/DisplayPools'
 import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
@@ -46,7 +46,7 @@ const Pools: React.FC = () => {
   const search = windowVisible ? window?.location.search : ''
   const params = new URLSearchParams(search)
   const urlSearchedPool = parseInt(params.get('id') || '')
-  const isActive = !asPath.includes('history')
+  const [isActive, setIsActive] = useState(true)
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
@@ -174,6 +174,7 @@ const Pools: React.FC = () => {
             setFilterOption={setFilterOption}
             filterOption={filterOption}
             setSortOption={setSortOption}
+            setIsActive={setIsActive}
             sortOption={sortOption}
             checkboxLabel="Staked"
             showOnlyCheckbox={stakedOnly}
@@ -187,7 +188,7 @@ const Pools: React.FC = () => {
         {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS.pools.includes(chainId as SupportedChainId) ? (
           <ListView404 product={LIST_VIEW_PRODUCTS.POOLS} />
         ) : (
-          <DisplayPools pools={renderPools()} openId={urlSearchedPool} poolTags={poolTags} />
+          <DisplayPools pools={renderPools()} openId={urlSearchedPool} poolTags={poolTags} isActive={isActive} />
         )}
         <div ref={loadMoreRef} />
       </Flex>

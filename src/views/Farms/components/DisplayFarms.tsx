@@ -19,7 +19,17 @@ import { useAppDispatch } from 'state/hooks'
 import { selectOutputCurrency } from 'state/zap/actions'
 import { Field, selectCurrency } from 'state/swap/actions'
 
-const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: string; farmTags?: any[] }) => {
+const DisplayFarms = ({
+  farms,
+  openPid,
+  farmTags,
+  isActive,
+}: {
+  farms: Farm[]
+  openPid?: string
+  farmTags?: any[]
+  isActive: boolean
+}) => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -137,7 +147,7 @@ const DisplayFarms = ({ farms, openPid, farmTags }: { farms: Farm[]; openPid?: s
             <Flex sx={{ ...styles.onlyDesktop, maxWidth: '180px', width: '100%' }}>
               <ListViewContent
                 title={t('APR')}
-                value={`${farm?.apr}%`}
+                value={`${isActive ? farm?.apr : 0}%`}
                 value2={`${farm?.lpApr ?? 0}%`}
                 value2Icon={
                   <span style={{ marginRight: '7px', transform: 'rotate(45deg)' }}>

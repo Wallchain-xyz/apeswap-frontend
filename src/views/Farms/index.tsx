@@ -12,7 +12,6 @@ import { BLUE_CHIPS, NUMBER_OF_FARMS_VISIBLE, SORT_OPTIONS, STABLES } from './co
 import DisplayFarms from './components/DisplayFarms'
 import { Farm, FarmTypes } from 'state/farms/types'
 import { orderBy } from 'lodash'
-import { useRouter } from 'next/router'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
@@ -35,8 +34,7 @@ const Farms = () => {
   const urlSearchedFarm = '' //parseInt(params?.get('pid'))
   const [stakedOnly, setStakedOnly] = useState(false)
   const { farmOrderings } = useFarmOrderings(chainId as SupportedChainId)
-  const { asPath } = useRouter()
-  const isActive = !asPath.includes('history')
+  const [isActive, setIsActive] = useState(true)
   const { t } = useTranslation()
 
   const getActiveFarms = () => {
@@ -143,7 +141,6 @@ const Farms = () => {
         return filteredFarm?.contractAddress ? filteredFarm?.contractAddress : ''
       })
 
-  console.log(hasHarvestPids, hasHarvestTypes, hasHarvestContracts)
   const renderFarms = () => {
     let farms = isActive ? activeFarms : inactiveFarms
 
@@ -232,6 +229,7 @@ const Farms = () => {
           setSortOption={setSortOption}
           sortOption={sortOption}
           checkboxLabel="Staked"
+          setIsActive={setIsActive}
           showOnlyCheckbox={stakedOnly}
           setShowOnlyCheckbox={setStakedOnly}
           toogleLabels={['ACTIVE', 'INACTIVE']}
@@ -252,7 +250,7 @@ const Farms = () => {
           <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>
       ) : (
-        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} />
+        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]}  isActive={isActive}/>
       )}
       <div ref={loadMoreRef} />
     </Flex>
