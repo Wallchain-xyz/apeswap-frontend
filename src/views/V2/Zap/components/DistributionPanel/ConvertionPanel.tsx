@@ -13,7 +13,7 @@ interface ConvertionPanelProps {
 
 const ConvertionPanel: React.FC<ConvertionPanelProps> = ({ zap }) => {
   const { t } = useTranslation()
-  const { chainId, currencyIn, currencyOut1, currencyOut2, pairOut } = zap
+  const { currencyIn, currencyOut1, currencyOut2, pairOut } = zap
 
   // This is the true value out as this is the estimated LP pair values
 

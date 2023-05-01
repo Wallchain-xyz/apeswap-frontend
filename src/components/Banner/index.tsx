@@ -65,7 +65,7 @@ const Banner: React.FC<{
             },
           }}
         >
-          {link.includes('?modal') ? t('Tutorial') : t('Learn More')} <LearnMoreArrow color={titleColor || 'text'} />
+          {link.includes('?modal') ? t('Tutorial') : t('Learn More')} <LearnMoreArrow color={titleColor || 'text'} size="20px" />
         </Button>
       </Flex>
       {children}

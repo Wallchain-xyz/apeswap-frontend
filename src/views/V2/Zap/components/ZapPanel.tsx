@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React from 'react'
 import { Flex, NumericInput, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { Spinner } from 'theme-ui'

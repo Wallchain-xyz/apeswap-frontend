@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-// import { useHarvest } from 'hooks/useHarvest'
 import { useAppDispatch } from 'state/hooks'
-import { getEtherscanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from 'views/Farms/components/styles'
-import { useRouter } from 'next/router'
 import { Button, Flex, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import ListViewContent from 'components/ListView/ListViewContent'
@@ -13,10 +10,8 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import useHarvest from '../hooks/useHarvest'
 import { FarmTypes } from 'state/farms/types'
 import { updateFarmUserEarnings } from 'state/farms'
-import { useAddPopup } from 'state/application/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { Transaction } from 'ethers'
-import { ApproveTransactionInfo, TransactionType } from 'state/transactions/types'
+import { TransactionType } from 'state/transactions/types'
 
 interface HarvestActionsProps {
   id: string
@@ -41,16 +36,9 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   const handleHarvest = useHarvest(farmType, pid, contractAddress)
-  //   const { onHarvest } = useHarvest(pid, v2Flag)
-  //   const { toastSuccess } = useToast()
-  const popup = useAddPopup()
   const addTransaction = useTransactionAdder()
-
   const { t } = useTranslation()
-  //   const { push } = useRouter()
 
-  //   const { showGeneralHarvestModal } = useIsModalShown()
-  //   const displayGHCircular = () => showGeneralHarvestModal && showCircular(chainId, history, '?modal=circular-gh')
   return (
     <Flex sx={styles.actionContainer}>
       <ListViewContent

@@ -10,7 +10,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import useModal from 'hooks/useModal'
 import { useWeb3React } from '@web3-react/core'
 
-const useAddLiquidityModal = (zapIntoProductType?: ZapType) => {
+const useAddLiquidityModal = (zapIntoProductType?: ZapType, clearStack = false) => {
   const { chainId } = useWeb3React()
   const [poolAddress, setPoolAddress] = useState(' ')
   const [pid, setPid] = useState('')
@@ -26,6 +26,7 @@ const useAddLiquidityModal = (zapIntoProductType?: ZapType) => {
     true,
     true,
     'dualLiquidityModal',
+    clearStack,
   )
 
   const nativeToETH = useCallback(

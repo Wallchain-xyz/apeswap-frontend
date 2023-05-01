@@ -18,6 +18,7 @@ import Buy from 'views/Bonds/actions/Buy'
 import { Bills } from 'views/Bonds/types'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import ModalProvider from 'contexts/ModalContext'
 
 const modalProps = {
   sx: {
@@ -50,14 +51,14 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
   const [loading, setLoading] = useState(false)
   const vestingTime = getTimePeriods(parseInt(bill.vestingTime ?? '0'), true)
 
-  const onAddLiquidityModal = useAddLiquidityModal()
+  const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
 
   const onHandleReturnedBillId = async (id: string) => {
     setBillId(id)
   }
 
   return (
-    <Flex key={billId} id={billId}>
+    <ModalProvider>
       {billId ? (
         <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
       ) : (
@@ -132,7 +133,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill }) => {
           </ModalBodyContainer>
         </Modal>
       )}
-    </Flex>
+    </ModalProvider>
   )
 }
 

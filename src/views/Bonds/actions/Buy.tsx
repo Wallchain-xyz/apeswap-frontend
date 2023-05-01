@@ -53,7 +53,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
   )
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
-  // const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
 
   const billsCurrencies = {

@@ -20,6 +20,7 @@ import { Flex, Modal } from 'components/uikit'
 import DistributionPanel from 'views/V2/Zap/components/DistributionPanel/DistributionPanel'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
 import { Percent } from '@ape.swap/sdk-core'
+import ModalProvider from 'contexts/ModalContext'
 
 interface DualDepositModalProps {
   onDismiss: () => void
@@ -127,7 +128,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
   }, [])
 
   return (
-    <>
+    <ModalProvider>
       <Modal title={t('Stake LP tokens')} onDismiss={onDismiss} {...modalProps}>
         <Box sx={{ margin: '15px 0' }}>
           <DualCurrencyPanel
@@ -166,7 +167,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
           product={product}
         />
       </Modal>
-    </>
+    </ModalProvider>
   )
 }
 

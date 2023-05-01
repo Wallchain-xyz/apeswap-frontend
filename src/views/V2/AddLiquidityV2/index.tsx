@@ -23,8 +23,6 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
   const {
     dependentField,
     currencies,
-    pair,
-    pairState,
     currencyBalances,
     parsedAmounts,
     price,

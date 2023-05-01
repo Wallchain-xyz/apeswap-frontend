@@ -1,10 +1,8 @@
-import { Currency, Percent } from '@ape.swap/sdk-core'
-import { useWeb3React } from '@web3-react/core'
+import { Percent } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { ConfirmationPendingContent, TransactionSubmittedContent } from 'components/TransactionConfirmationModal'
 import { Button, Flex, Modal, NumericInput, Text } from 'components/uikit'
-import Input from 'components/uikit/Input/Input'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { useTranslation } from 'contexts/Localization'
 import { BigNumber } from 'ethers'
@@ -15,7 +13,6 @@ import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import { useCallback, useMemo, useState } from 'react'
 import { useBurnV3ActionHandlers, useBurnV3State, useDerivedV3BurnInfo } from 'state/burn/v3/hooks'
 import { Switch } from 'theme-ui'
-import { unwrappedToken } from 'utils/unwrappedToken'
 import RangeTag from 'views/Positions/components/RangeTag'
 import styles from 'views/Positions/components/styles'
 import Remove from './actions/Remove'
@@ -38,16 +35,13 @@ const RemoveLiquidity = ({
   const [txHash, setTxHash] = useState<string>('')
   const { t } = useTranslation()
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
-  const { account, chainId, provider } = useWeb3React()
   const { position } = useV3PositionFromTokenId(tokenId ? BigNumber.from(tokenId) : undefined)
 
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
-  const currency0 = token0 ? unwrappedToken(token0) : undefined
-  const currency1 = token1 ? unwrappedToken(token1) : undefined
 
-  const [token0PriceUsd, token0PriceUsdLoading] = useTokenPriceUsd(token0)
-  const [token1PriceUsd, token1PriceUsdLoading] = useTokenPriceUsd(token1)
+  const [token0PriceUsd] = useTokenPriceUsd(token0)
+  const [token1PriceUsd] = useTokenPriceUsd(token1)
 
   // flag for receiving WETH
   const [receiveWETH, setReceiveWETH] = useState(false)
@@ -63,7 +57,6 @@ const RemoveLiquidity = ({
     liquidityValue1,
     feeValue0,
     feeValue1,
-    outOfRange,
     error,
   } = useDerivedV3BurnInfo(position, receiveWETH)
   const { onPercentSelect } = useBurnV3ActionHandlers()

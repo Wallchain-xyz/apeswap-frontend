@@ -29,7 +29,13 @@ import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
 import track from 'utils/track'
 
-const ZapLiquidity = ({ currencyIdA }: { currencyIdA: string | undefined }) => {
+const ZapLiquidity = ({
+  currencyIdA,
+}: {
+  currencyIdA: string | undefined
+  currencyIdB: string | undefined
+  currencyIdC: string | undefined
+}) => {
   useSetZapInputList()
   useDefaultCurrencies()
 
