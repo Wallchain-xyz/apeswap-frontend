@@ -122,8 +122,6 @@ export const routingApi = createApi({
               { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
             )
           }
-
-          console.log(result)
           return { data: result.data as GetQuoteResult }
         } catch (e) {
           console.log(e)

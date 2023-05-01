@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Flex, Svg } from 'components/uikit'
 import { useCurrency } from 'hooks/Tokens'
 import ZapPanel from './components/ZapPanel'
@@ -17,7 +17,7 @@ import { useZapCallback } from 'hooks/useZapCallback'
 import DistributionPanel from './components/DistributionPanel/DistributionPanel'
 import DexPanel from 'components/DexPanel'
 import { useWeb3React } from '@web3-react/core'
-import { useUserSlippageTolerance, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
@@ -25,16 +25,11 @@ import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from '../AddLiquidityV2/components/
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
 import { TradeState } from 'state/routing/types'
+import { getBalanceNumber } from 'utils/getBalanceNumber'
+import BigNumber from 'bignumber.js'
+import track from 'utils/track'
 
-const ZapLiquidity = ({
-  currencyIdA,
-  currencyIdB,
-  currencyIdC,
-}: {
-  currencyIdA: string | undefined
-  currencyIdB: string | undefined
-  currencyIdC: string | undefined
-}) => {
+const ZapLiquidity = ({ currencyIdA }: { currencyIdA: string | undefined }) => {
   useSetZapInputList()
   useDefaultCurrencies()
 
@@ -62,7 +57,6 @@ const ZapLiquidity = ({
 
   const handleCurrencySelect = useCallback(
     (field: Field, currency: Currency[]) => {
-      console.log(currency)
       onCurrencySelection(field, currency)
     },
     [onCurrencySelection],
@@ -81,19 +75,17 @@ const ZapLiquidity = ({
           zapErrorMessage: undefined,
           txHash: hash,
         })
-        // track({
-        //   event: 'zap',
-        //   chain: chainId,
-        //   data: {
-        //     cat: 'liquidity',
-        //     token1: zap.currencyIn.currency.getSymbol(chainId),
-        //     token2: `${zap.currencyOut1.outputCurrency.getSymbol(chainId)}-${zap.currencyOut2.outputCurrency.getSymbol(
-        //       chainId,
-        //     )}`,
-        //     amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
-        //     usdAmount: tradeValueUsd,
-        //   },
-        // })
+        track({
+          event: 'zap',
+          chain: chainId,
+          data: {
+            cat: 'liquidity',
+            token1: zap.currencyIn.currency.symbol,
+            token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
+            amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+            usdAmount: tradeValueUsd,
+          },
+        })
       })
       .catch((error: any) => {
         setZapState({

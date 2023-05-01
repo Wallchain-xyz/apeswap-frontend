@@ -66,7 +66,6 @@ const fetchPoolTokenStatsAndApr = (
   // Calculate apr
   let apr
   if (pool?.sousId === 0) {
-    console.log(stakingToken)
     apr = getFarmV2Apr(
       bananaAlloc,
       new BigNumber(stakingToken?.price ?? 0),

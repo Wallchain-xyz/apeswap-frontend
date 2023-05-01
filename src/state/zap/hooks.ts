@@ -61,7 +61,6 @@ export function useZapActionHandlers(): {
         )
       } else {
         const currency2 = currencies[1]
-        console.log(currency, currency2)
         dispatch(
           selectOutputCurrency({
             currency1: currency.isNative ? 'ETH' : currency.address,
@@ -138,17 +137,11 @@ export function useDerivedZapInfo() {
     recipient,
   } = useZapState()
 
-  console.log(useZapState())
-  console.log(outputCurrencyId1)
-  console.log(outputCurrencyId2)
-
   const { account, chainId } = useWeb3React()
 
   const inputCurrency = useCurrency(inputCurrencyId)
   const out0 = useCurrency(useMemo(() => outputCurrencyId1, [outputCurrencyId1]))
   const out1 = useCurrency(useMemo(() => outputCurrencyId2, [outputCurrencyId2]))
-  console.log(out0)
-  console.log(out1)
 
   const outputPair = useV2Pair(out0 ?? undefined, out1 ?? undefined)
   const totalSupply = useTotalSupply(outputPair?.[1]?.liquidityToken)
@@ -163,7 +156,6 @@ export function useDerivedZapInfo() {
   ])
 
   // Change to currency amount. Divide the typed input by 2 to get correct distributions
-  console.log(typedValue)
   const halfTypedValue = typedValue && new BigNumber(typedValue || '').div(2).toString()
 
   const parsedAmount = useMemo(
@@ -171,12 +163,9 @@ export function useDerivedZapInfo() {
     [inputCurrency, halfTypedValue],
   )
 
-  console.log(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
   const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
   const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2])
 
-  console.log(bestZapOne)
-  console.log(bestZapTwo)
 
   const zap = useMemo(
     () =>

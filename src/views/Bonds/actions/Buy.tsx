@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { getEtherscanLink } from 'utils'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { Field } from 'state/swap/actions'
 import { useTranslation } from 'contexts/Localization'
@@ -13,7 +12,6 @@ import { useUserZapSlippageTolerance } from 'state/user/hooks'
 import BillActions from './BillActions'
 import track from 'utils/track'
 import UpdateSlippage from 'components/DualDepositModal/UpdateSlippage'
-import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, Percent, SupportedChainId } from '@ape.swap/sdk-core'
@@ -78,15 +76,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
 
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
-  console.log(zap)
-  console.log(
-    zap,
-    ZapType.ZAP_T_BILL,
-    zapSlippage,
-    recipient,
-    contractAddress[chainId as SupportedChainId] || '',
-    maxPrice,
-  )
   const { callback: zapCallback } = useZapCallback(
     zap,
     ZapType.ZAP_T_BILL,
@@ -151,21 +140,14 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
     setPendingTrx(true)
     onTransactionSubmited(true)
     if (currencyB) {
-      console.log('IN HERE')
       await onBuyBill()
         .then((resp: ContractTransaction) => {
-          const trxHash = resp.hash
           searchForBillId(resp, billNftAddress)
-          // toastSuccess(t('Buy Successful'), {
-          //   text: t('View Transaction'),
-          //   url: getEtherscanLink(trxHash, 'transaction', chainId),
-          // })
           dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
           dispatch(fetchBillsUserDataAsync(chainId, account))
         })
         .catch((e) => {
           console.error(e)
-          // toastError(e?.data?.message || t('Error: Please try again.'))
           setPendingTrx(false)
           onTransactionSubmited(false)
         })
@@ -187,7 +169,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
             })
             .catch((e) => {
               console.error(e)
-              // toastError(e?.data?.message || t('Error: Please try again.'))
               setPendingTrx(false)
               onTransactionSubmited(false)
             })
@@ -215,11 +196,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
         .catch((e: any) => {
           setZapSlippage(originalSlippage)
           console.error(e)
-          // toastError(
-          //   e?.message.includes('INSUFFICIENT')
-          //     ? t('Slippage Error: Please go to the GET LP modal and check your slippage using the ⚙️ icon')
-          //     : e?.message || t('Error: Please try again.'),
-          // )
           setPendingTrx(false)
           onTransactionSubmited(false)
         })
@@ -235,9 +211,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
     onBuyBill,
     onTransactionSubmited,
     searchForBillId,
-    t,
-    // toastError,
-    // toastSuccess,
     zapCallback,
     zap,
     typedValue,

@@ -28,7 +28,6 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
   const { t } = useTranslation()
 
   const poolsListView = pools.map((pool) => {
-    console.log(pool)
     const token1 = pool?.stakingToken?.symbol
     const token2 = pool?.rewardToken?.symbol
     const totalDollarAmountStaked = Math.round(

@@ -36,4 +36,3 @@ class TokenLogoLookupTable {
   }
 }
 
-export default new TokenLogoLookupTable()

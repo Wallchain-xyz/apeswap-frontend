@@ -62,7 +62,7 @@ const Farms = () => {
     const iFarms: Farm[] = []
     farms?.forEach((farm) => {
       if (farm.farmType === FarmTypes.MASTER_CHEF_V1 || farm.farmType === FarmTypes.MASTER_CHEF_V2) {
-        if (farm.pid === 0 || farm.multiplier !== '0X') {
+        if (farm.pid !== 0 && farm.multiplier === '0X') {
           iFarms.push(farm)
         }
       }
@@ -250,7 +250,7 @@ const Farms = () => {
           <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>
       ) : (
-        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]}  isActive={isActive}/>
+        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} isActive={isActive} />
       )}
       <div ref={loadMoreRef} />
     </Flex>

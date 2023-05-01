@@ -23,8 +23,6 @@ export function mergeBestZaps(
   const currencyIn = bestZapOne?.inputAmount.currency || bestZapTwo?.inputAmount.currency
   const slippageTolerance = allowedSlippage
 
-  console.log(bestZapOne)
-  console.log(bestZapTwo)
 
   // We need to check if a zap path will wrap to not estimate a route
 
@@ -38,11 +36,6 @@ export function mergeBestZaps(
   // If the input token and output token are the same we need to handle values differently
   const inAndOutAreTheSame1Flag = currencyIn === out1 || inAndOutWrappedOne
   const inAndOutAreTheSame2Flag = currencyIn === out2 || inAndOutWrappedTwo
-
-  console.log(inAndOutAreTheSame1Flag)
-  console.log(inAndOutAreTheSame2Flag)
-  console.log(currencyIn, out1)
-  console.log(currencyIn, out2)
 
   // output currencies
   const outputCurrencyOne = out1?.wrapped

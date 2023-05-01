@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { fetchPoolsUserDataAsync } from 'state/pools'
-import { getEtherscanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import { useAppDispatch } from 'state/hooks'
 import { useWeb3React } from '@web3-react/core'
@@ -19,25 +18,14 @@ const HarvestAll: React.FC<HarvestActionsProps> = ({ sousIds, disabled }) => {
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   const { onHarvestAll } = useSousHarvestAll(sousIds)
-  // const { toastSuccess } = useToast()
   const { t } = useTranslation()
 
   const handleHarvestAll = async () => {
     setPendingTrx(true)
-    await onHarvestAll()
-      .then((resp) => {
-        resp.map((trx) =>
-          // toastSuccess(t('Harvest Successful'), {
-          //   text: t('View Transaction'),
-          //   url: getEtherscanLink(trx.transactionHash, 'transaction', chainId),
-          // })
-          console.log(trx),
-        )
-      })
-      .catch((e) => {
-        console.error(e)
-        setPendingTrx(false)
-      })
+    await onHarvestAll().catch((e) => {
+      console.error(e)
+      setPendingTrx(false)
+    })
     dispatch(fetchPoolsUserDataAsync(chainId as SupportedChainId, account ?? ''))
     setPendingTrx(false)
   }

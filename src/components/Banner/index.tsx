@@ -19,7 +19,6 @@ const Banner: React.FC<{
 }> = ({ banner, children, title, listViewBreak, margin, titleColor, link, maxWidth = 1200 }) => {
   const { push } = useRouter()
   const [colorMode] = useColorMode()
-  console.log(useColorMode())
   const { t } = useTranslation()
   const loaded = useProgressiveImage(`../images/banners/${banner}-${colorMode === 'dark' ? 'night' : 'day'}.svg`)
 
