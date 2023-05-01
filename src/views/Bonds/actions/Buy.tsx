@@ -140,13 +140,12 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
     onTransactionSubmited(true)
     if (currencyB) {
       await onBuyBill()
-        .then((resp: ContractTransaction) => {
+        .then((resp: any) => {
           searchForBillId(resp, billNftAddress)
           dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
           dispatch(fetchBillsUserDataAsync(chainId, account))
         })
         .catch((e) => {
-          console.error(e)
           setPendingTrx(false)
           onTransactionSubmited(false)
         })

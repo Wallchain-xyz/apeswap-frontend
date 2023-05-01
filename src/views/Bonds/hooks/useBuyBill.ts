@@ -41,7 +41,7 @@ const useBuyBill = (
     addTransaction(tx, {
       type: TransactionType.BUY,
     })
-    return tx
+    return tx.wait()
   }, [bondContract, amount, account, chainId, billType, usdAmount, addTransaction, maxPrice])
 
   return { onBuyBill: handleBuyBill }
