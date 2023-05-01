@@ -33,6 +33,7 @@ export enum TransactionType {
   BUY,
   TRANSFER,
   CLAIM_BILL,
+  ZAP,
 }
 
 interface BaseTransactionInfo {
@@ -161,6 +162,11 @@ export interface TransferTransactionInfo {
   uniAmountRaw?: string
 }
 
+export interface ZapTransactionInfo {
+  type: TransactionType.ZAP
+  uniAmountRaw?: string
+}
+
 export type TransactionInfo =
   | ApproveTransactionInfo
   | ExactOutputSwapTransactionInfo
@@ -180,6 +186,7 @@ export type TransactionInfo =
   | BuyTransactionInfo
   | ClaimBillTransactionInfo
   | TransferTransactionInfo
+  | ZapTransactionInfo
 
 export interface TransactionDetails {
   hash: string

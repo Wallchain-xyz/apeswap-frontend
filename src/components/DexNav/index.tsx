@@ -84,9 +84,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         />
         <CogIcon sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal} /> */}
         <Flex
-          as={Link}
-          href={`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}${asPath}`}
-          // onClick={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
+          onClick={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
           sx={{
             position: 'relative',
             mr: '10px',
@@ -106,8 +104,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             {v2Flag ? 'V2' : 'V3'}
           </Text>
           <Switch
-            onClick={() => push(`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}${asPath}`)}
-            // onChange={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
+            onChange={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
             checked={!v2Flag}
             sx={{
               mr: '0px',

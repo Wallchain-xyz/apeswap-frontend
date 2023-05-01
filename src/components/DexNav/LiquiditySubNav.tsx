@@ -49,6 +49,12 @@ export const V2LiquiditySubNav = () => {
           Positions
         </Text>
       </Flex>
+      <Flex onClick={() => push('/zap/v2')} to="/zap" id="zap-link" sx={{ ...styles.liquiditySelector, mr: '20px' }}>
+        <Flex sx={{ marginRight: '5px' }}>
+          <Svg color={pathname.includes('zap') ? 'text' : 'textDisabled'} icon="ZapIcon" />
+        </Flex>
+        <Text color={pathname.includes('zap') ? 'text' : 'textDisabled'}>Zap</Text>
+      </Flex>
       <Flex sx={styles.liquiditySelector} onClick={() => push('/add-liquidity/v2')}>
         <Text
           color={pathname.includes('add-liquidity/v2') ? 'text' : 'textDisabled'}

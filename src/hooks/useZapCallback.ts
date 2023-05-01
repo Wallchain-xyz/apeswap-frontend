@@ -10,12 +10,10 @@ import { useWeb3React } from '@web3-react/core'
 import useENS from './useENS'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
-import { BIPS_BASE } from 'config/constants/misc'
-import JSBI from 'jsbi'
 import { useZapContract } from './useContract'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 import { MergedZap } from 'state/zap/actions'
-import { Trade } from '@ape.swap/v2-sdk'
+import { TransactionType } from 'state/transactions/types'
 
 export enum SwapCallbackState {
   INVALID,
@@ -226,7 +224,7 @@ export function useZapCallback(
                       ? recipientAddressOrName
                       : recipientAddressOrName
                   }`
-
+            addTransaction(response, { type: TransactionType.ZAP })
             return response.hash
           })
           .catch((error: any) => {
