@@ -26,7 +26,6 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
-import { ContractTransaction } from 'ethers'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddLiquidityModal }) => {
   const {
