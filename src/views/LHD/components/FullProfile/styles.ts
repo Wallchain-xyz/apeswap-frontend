@@ -3,6 +3,8 @@ import { ThemeUIStyleObject } from 'theme-ui'
 export const styles: Record<
   | 'mainContainer'
   | 'topContainer'
+  | 'titleContainer'
+  | 'titleText'
   | 'back'
   | 'lastUpdated'
   | 'lowerContainer'
@@ -12,7 +14,10 @@ export const styles: Record<
   | 'liquidityConCont'
   | 'infoCardDesktop'
   | 'formula'
-  | 'loadingSpinner', ThemeUIStyleObject> = {
+  | 'loadingSpinner'
+  | 'chartTokenImage',
+  ThemeUIStyleObject
+> = {
   mainContainer: {
     mt: '30px',
     width: '100%',
@@ -20,7 +25,17 @@ export const styles: Record<
   },
   topContainer: {
     width: '100%',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+  },
+  titleContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    mt: ['20px'],
+  },
+  titleText: {
+    fontWeight: 600,
+    fontSize: ['16px'],
+    lineHeight: ['20px'],
   },
   back: {
     fontSize: ['12px', '12px', '12px', '14px'],
@@ -36,7 +51,7 @@ export const styles: Record<
   lowerContainer: {
     width: '100%',
     mt: '15px',
-    flexDirection: ['column', 'column', 'column', 'row']
+    flexDirection: ['column', 'column', 'column', 'row'],
   },
   layout: {
     minWidth: ['100%', '100%', '100%', 'calc(100% - 370px)'],
@@ -52,10 +67,11 @@ export const styles: Record<
     height: ['380px', '380px', '380px', '430px'],
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
   },
   infoCardMobile: {
     width: '100%',
-    display: ['flex', 'flex', 'flex', 'none']
+    display: ['flex', 'flex', 'flex', 'none'],
   },
   liquidityConCont: {
     width: ['100vw', '100vw', '100%'],
@@ -73,12 +89,15 @@ export const styles: Record<
     fontWeight: 300,
     fontSize: ['10px', '10px', '10px', '12px'],
     color: 'textDisabled',
-    m: '10px 0 30px 0'
+    m: '10px 0 30px 0',
   },
   loadingSpinner: {
     width: '100%',
     height: 'calc(100vh - 60px)',
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+  chartTokenImage: {
+    borderRadius: '50%',
+  },
 }

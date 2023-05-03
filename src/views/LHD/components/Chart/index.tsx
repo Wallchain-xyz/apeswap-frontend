@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Text } from 'components/uikit'
 import { createPortal } from 'react-dom'
+import { styles } from '../FullProfile/styles'
 
 import {
   Chart as ChartJS,
@@ -18,6 +19,7 @@ import { LiquidityHealthChart } from '../../../../state/lhd/types'
 import { getColor } from '../../utils/getColor'
 import { useTranslation } from '../../../../contexts/Localization'
 import PriceChange from '../FullProfile/components/PercentageChange'
+import { formatDollar } from '../../../../utils/formatNumbers'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
@@ -86,7 +88,7 @@ const CustomTooltip = ({ show, x, y, data }) => {
       >
         <Flex sx={{ flexDirection: 'row' }}>
           <Text sx={{ fontWeight: 400 }}>Market Cap:</Text>
-          <Text sx={{ alignItems: 'flex-end' }}>${data?.mcap}</Text>
+          <Text sx={{ alignItems: 'flex-end' }}>{formatDollar({ num: data?.mcap })}</Text>
         </Flex>
         <Flex sx={{ flexDirection: 'row' }}>
           <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity:</Text>
@@ -192,6 +194,29 @@ const Chart = ({ chartData }) => {
     },
   }
 
+  function isBelowBottomLine(chart, point) {
+    const { x, y } = point
+    const line1Meta = chart.getDatasetMeta(0)
+    const xScale = chart.scales[line1Meta.xAxisID]
+    const yScale = chart.scales[line1Meta.yAxisID]
+
+    const xPixel = xScale.getPixelForValue(x)
+    const yPixel = yScale.getPixelForValue(y)
+
+    const line1Dataset = chart.config.data.datasets[0]
+    const index = line1Dataset.data.findIndex((linePoint) => linePoint.x >= x)
+
+    const point1 = line1Dataset.data[index - 1]
+    const point2 = line1Dataset.data[index]
+
+    const slope = (point2?.y - point1?.y) / (point2?.x - point1?.x)
+    const yIntercept = point1?.y - slope * point1?.x
+
+    const bottomLineY = slope * x + yIntercept
+
+    return y > bottomLineY
+  }
+
   const customTooltipHandler = (context) => {
     const { tooltip } = context
 
@@ -218,9 +243,9 @@ const Chart = ({ chartData }) => {
     const xScale = chart.scales['x']
     const yScale = chart.scales['y']
     const xPixel1 = xScale?.getPixelForValue(point1.x)
-    const yPixel1 = yScale?.getPixelForValue(point1.y - 2)
+    const yPixel1 = yScale?.getPixelForValue(point1.y)
     const xPixel2 = xScale?.getPixelForValue(point2.x)
-    const yPixel2 = yScale?.getPixelForValue(point2.y + 2)
+    const yPixel2 = yScale?.getPixelForValue(point2.y)
 
     ctx.beginPath()
     ctx.setLineDash([5, 5])
@@ -245,14 +270,6 @@ const Chart = ({ chartData }) => {
       dataset?.data?.forEach(function (point: any) {
         const { x, y, r, data } = point
 
-        if (r == 10) {
-          if (!point1) {
-            point1 = point
-          } else {
-            point2 = point
-          }
-        }
-
         const imageData = new Image()
         imageData.src = `${data.image}`
 
@@ -265,10 +282,23 @@ const Chart = ({ chartData }) => {
         const imageX = xPixel - size / 2
         const imageY = yPixel - size / 2
 
-        ctx.globalAlpha = 0.7
-
         ctx.beginPath()
-        ctx.strokeStyle = 'green'
+
+        if (r == 10) {
+          ctx.globalAlpha = 1
+          if (!point1) {
+            point1 = point
+            ctx.strokeStyle = '#1179A6'
+          } else {
+            point2 = point
+            ctx.strokeStyle = '#904DC4'
+          }
+        } else {
+          ctx.globalAlpha = 0.7
+          const borderColor = isBelowBottomLine(chart, { x, y }) ? '#38A611' : '#DF4141'
+          ctx.strokeStyle = borderColor
+        }
+
         ctx.lineWidth = 3
         ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI) // Add 3 to the radius to draw the green border outside the image
         ctx.stroke()
@@ -280,14 +310,15 @@ const Chart = ({ chartData }) => {
         ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI) // Draw the white border inside the green border
         ctx.stroke()
 
+        if (point1 && point2) {
+          drawDebtLine(chart, point1, point2)
+        }
+
         // Draw the image
         ctx.drawImage(imageData, imageX, imageY, size, size)
 
         ctx.globalAlpha = 1
       })
-      if (point1 && point2) {
-        drawDebtLine(chart, point1, point2)
-      }
     },
   }
 
@@ -375,18 +406,19 @@ const Chart = ({ chartData }) => {
         showLine: true,
       },
       {
-        label: 'Scatter Data',
+        label: 'Comparable Tokens',
         data: chartData?.tokens,
         backgroundColor: 'transparent',
         borderColor: 'transparent',
         showLine: false,
+        hitRadius: 30,
       },
     ],
   }
 
   return (
     <>
-      <Scatter options={options} data={data} ref={canvasRef} />
+      <Scatter options={options} data={data} ref={canvasRef} sx={{ ml: '20px', mr: '20px', mt: '20px' }} />
       <CustomTooltip show={tooltipState.show} x={tooltipState.x} y={tooltipState.y} data={tooltipState.data} />
     </>
   )

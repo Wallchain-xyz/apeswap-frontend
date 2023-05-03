@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
 import { Flex, Link, Spinner, Svg, Text } from 'components/uikit'
 import { ExternalDataOption, TokenProfile } from 'state/lhd/types'
@@ -11,13 +11,22 @@ import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 
-const FullProfile = ({ chainID, address }: {
-  chainID: string | string[] | undefined,
+const FullProfile = ({
+  chainID,
+  address,
+}: {
+  chainID: string | string[] | undefined
   address: string | string[] | undefined
 }) => {
-  useFetchProfile(chainID, address)
+  const fetchProfile = useFetchProfile()
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (chainID && address) {
+      fetchProfile(chainID, address)
+    }
+  }, [chainID, address, fetchProfile])
 
   if (fullProfile) {
     return (
@@ -26,7 +35,7 @@ const FullProfile = ({ chainID, address }: {
           <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
             <Text sx={styles.back}>
               <Flex sx={{ mr: '5px' }}>
-                <Svg icon='caret' direction='left' width={7} />
+                <Svg icon="caret" direction="left" width={7} />
               </Flex>
               {t('Back')}
             </Text>
@@ -39,6 +48,9 @@ const FullProfile = ({ chainID, address }: {
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
+              <Flex sx={styles.titleContainer}>
+                <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
+              </Flex>
               <Chart chartData={fullProfile?.healthChartData} />
             </Flex>
             <Flex sx={styles.infoCardMobile}>
@@ -52,9 +64,7 @@ const FullProfile = ({ chainID, address }: {
             <InfoCards fullProfile={fullProfile} />
           </Flex>
         </Flex>
-        <Text sx={styles.formula}>
-          Formula version: {fullProfile.formulaVersion}
-        </Text>
+        <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
       </Flex>
     )
   }
