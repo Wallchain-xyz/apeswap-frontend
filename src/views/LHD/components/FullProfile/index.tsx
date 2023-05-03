@@ -39,7 +39,7 @@ const FullProfile = ({ chainID, address }: {
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
-              <Chart />
+              <Chart chartData={fullProfile?.healthChartData} />
             </Flex>
             <Flex sx={styles.infoCardMobile}>
               <InfoCards fullProfile={fullProfile} />
