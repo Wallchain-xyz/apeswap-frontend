@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Text } from 'components/uikit'
 import { createPortal } from 'react-dom'
-import { styles } from '../FullProfile/styles'
 
 import {
   Chart as ChartJS,
@@ -86,11 +85,11 @@ const CustomTooltip = ({ show, x, y, data }) => {
           gap: '10px',
         }}
       >
-        <Flex sx={{ flexDirection: 'row' }}>
+        <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text sx={{ fontWeight: 400 }}>Market Cap:</Text>
           <Text sx={{ alignItems: 'flex-end' }}>{formatDollar({ num: data?.mcap })}</Text>
         </Flex>
-        <Flex sx={{ flexDirection: 'row' }}>
+        <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity:</Text>
           <Text sx={{ alignItems: 'flex-end' }}>{Math.round(data?.extractableLiquidityPercentage)}%</Text>
         </Flex>
@@ -100,7 +99,7 @@ const CustomTooltip = ({ show, x, y, data }) => {
   )
 }
 
-const Chart = ({ chartData }) => {
+const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const canvasRef = useRef(null)
   const [zoomPlugin, setZoomPlugin] = useState(null)
   const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
@@ -314,8 +313,15 @@ const Chart = ({ chartData }) => {
           drawDebtLine(chart, point1, point2)
         }
 
-        // Draw the image
+        ctx.save()
+        ctx.beginPath()
+        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
+        ctx.closePath()
+        ctx.clip()
+
         ctx.drawImage(imageData, imageX, imageY, size, size)
+
+        ctx.restore()
 
         ctx.globalAlpha = 1
       })
