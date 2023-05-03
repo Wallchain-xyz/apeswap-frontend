@@ -38,6 +38,7 @@ const CustomTooltip = ({ show, x, y, data }) => {
         background: 'white2',
         flexDirection: 'column',
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+        width: '350px',
       }}
     >
       <Flex
@@ -45,9 +46,13 @@ const CustomTooltip = ({ show, x, y, data }) => {
           background: 'white3',
           flexDirection: 'row',
           gap: '15px',
-          padding: '20px',
+          pl: '20px',
+          pr: '20px',
+          pt: '15px',
+          pb: '10px',
           borderTopLeftRadius: '10px',
           borderTopRightRadius: '10px',
+          justifyContent: 'space-between',
         }}
       >
         <Flex>
