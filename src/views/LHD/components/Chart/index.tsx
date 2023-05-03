@@ -19,6 +19,7 @@ import { getColor } from '../../utils/getColor'
 import { useTranslation } from '../../../../contexts/Localization'
 import PriceChange from '../FullProfile/components/PercentageChange'
 import { formatDollar } from '../../../../utils/formatNumbers'
+import useIsMobile from '../../../../hooks/useIsMobile'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
@@ -55,7 +56,7 @@ const CustomTooltip = ({ show, x, y, data }) => {
           justifyContent: 'space-between',
         }}
       >
-        <Flex>
+        <Flex sx={{ width: '10px' }}>
           <img src={data?.image} width="40px" height="40px" sx={{ borderRadius: '50%' }} />
         </Flex>
         <Flex sx={{ flexDirection: 'column' }}>
@@ -108,6 +109,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const canvasRef = useRef(null)
   const [zoomPlugin, setZoomPlugin] = useState(null)
   const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -133,15 +135,25 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     scales: {
       y: {
         title: {
-          display: true,
-          text: 'Extractable Liquidity / Market Cap', // add your Y axis label here
+          display: isMobile !== true,
+          text: 'Extractable Liquidity / Market Cap',
+          color: '#A09F9C',
+          font: {
+            family: 'Poppins',
+            size: 10,
+          },
+          padding: {
+            bottom: 10,
+          },
         },
         ticks: {
           callback: function (value: number) {
             return `${value}%`
           },
           font: {
-            weight: 'bold',
+            family: 'Poppins',
+            size: 10,
+            weight: '500',
           },
         },
         type: 'linear',
@@ -150,15 +162,25 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
       },
       x: {
         title: {
-          display: true,
+          display: isMobile !== true,
           text: 'Market Cap',
+          color: '#A09F9C',
+          font: {
+            family: 'Poppins',
+            size: 10,
+          },
+          padding: {
+            top: 10,
+          },
         },
         ticks: {
           callback: function (value: number) {
             return `$${value}M`
           },
           font: {
-            weight: 'bold',
+            family: 'Poppins',
+            size: 10,
+            weight: '500',
           },
         },
         border: { dash: [4, 4] }, //
@@ -262,15 +284,30 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   }
 
   const CustomImagePlugin = {
-    id: 'printIcons', // plugins won't work without an ID
+    id: 'printIcons',
 
     afterDraw: function (chart: ChartJS) {
       const { ctx } = chart
-      // make sure it is the dataset that has the tokens position information, in this case the dataset 0
-      const dataset = chart.config.data.datasets[2]
-      let point1: any, point2
 
-      //fetch icon and draws it
+      const dataset = chart.config.data.datasets[2]
+      let point1: any, point2: any
+
+      //Have to do this part twice, if do it at the time of drawing the logos then the line will be on top of them
+      dataset?.data?.forEach(function (point: any) {
+        const { x, y, r, data } = point
+        if (r == 10) {
+          if (!point1) {
+            point1 = point
+          } else {
+            point2 = point
+          }
+        }
+
+        if (point1 && point2) {
+          drawDebtLine(chart, point1, point2)
+        }
+      })
+
       dataset?.data?.forEach(function (point: any) {
         const { x, y, r, data } = point
 
@@ -314,10 +351,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI) // Draw the white border inside the green border
         ctx.stroke()
 
-        if (point1 && point2) {
-          drawDebtLine(chart, point1, point2)
-        }
-
         ctx.save()
         ctx.beginPath()
         ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
@@ -352,8 +385,8 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
       // Create red gradient for the area below the bottom line
       const redGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
-      redGradient.addColorStop(0, 'rgba(233, 35, 35, 0.1)')
-      redGradient.addColorStop(1, 'rgba(166, 17, 17, 0.1)')
+      redGradient.addColorStop(0, 'rgba(233, 35, 35, 0.2)')
+      redGradient.addColorStop(1, 'rgba(233, 35, 35, 0.1)')
 
       // Draw the area between the lines
       ctx.save()
@@ -429,7 +462,20 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
   return (
     <>
-      <Scatter options={options} data={data} ref={canvasRef} sx={{ ml: '20px', mr: '20px', mt: '20px' }} />
+      <Scatter
+        options={options}
+        data={data}
+        ref={canvasRef}
+        sx={{ ml: '20px', mr: '20px', mt: '20px' }}
+        height={isMobile ? '240px' : 'inherit'}
+      />
+      {isMobile && (
+        <Flex sx={{ justifyContent: 'space-between', mt: '10px', gap: '20px' }}>
+          <Text sx={{ fontSize: '10px', fontWeight: '400' }}>Y: Extractable Liquidity / Market Cap</Text>
+          <Text sx={{ fontSize: '10px', fontWeight: '400' }}>X: Market Cap</Text>
+        </Flex>
+      )}
+
       <CustomTooltip show={tooltipState.show} x={tooltipState.x} y={tooltipState.y} data={tooltipState.data} />
     </>
   )

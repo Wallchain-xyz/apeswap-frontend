@@ -64,6 +64,7 @@ export const styles: Record<
     background: 'white2',
     borderRadius: '10px',
     ml: ['-10px', '-10px', '0px'],
+    pb: '10px',
     height: ['380px', '380px', '380px', '430px'],
     justifyContent: 'center',
     alignItems: 'center',

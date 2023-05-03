@@ -6,7 +6,8 @@ import store from 'state'
 
 //TODO: move this to a const file and/or make it a env variable
 
-const apiEndpoint = 'https://lhd-temp-api.herokuapp.com/liquidity-health-dashboard'
+const apiEndpoint = 'http://localhost:4200/liquidity-health-dashboard'
+// const apiEndpoint = 'https://lhd-temp-api.herokuapp.com/liquidity-health-dashboard'
 const getSearchResults = async (searchQuery: string): Promise<SimpleTokenProfile[]> => {
   const res = await axios(`${apiEndpoint}/profiles/search/${searchQuery}`)
 
