@@ -3,7 +3,7 @@ import { useAppDispatch } from '../hooks'
 import { fetchFullProfile, fetchInitialProfiles, fetchProfiles } from './actions'
 import { SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
-import { addFullProfile, addSearchProfiles } from './reducer'
+import { addFullProfile, addSearchProfiles, handleQueriedAPI } from './reducer'
 import { useSelector } from 'react-redux'
 
 export const useLoadInitialProfiles = () => {
@@ -18,12 +18,16 @@ export const useLoadInitialProfiles = () => {
 
 export const useOnSearchProfiles = () => {
   const dispatch = useAppDispatch()
-  return useCallback(async (queryString: string) => {
+  return useCallback(async (queryString: string): Promise<boolean> => {
     try {
+      dispatch(handleQueriedAPI(true))
       const listData: SimpleTokenProfile[] = await fetchProfiles(queryString)
       dispatch(addSearchProfiles(listData))
-    } catch(e) {
-      // Handle error, e.g. dispatch an error action or log to console
+      dispatch(handleQueriedAPI(false))
+      return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
+    } catch (e) {
+      console.error(e)
+      return false
     }
   }, [dispatch])
 }
@@ -44,14 +48,17 @@ export const useFetchProfile = async (chainID?: string | string[] | undefined, a
   }
 }
 
-export const useSimpleProfiles = () => {
-  return useSelector((state: AppState) => state?.lhd?.simpleProfiles)
+export const useSimpleProfiles = (): [SimpleTokenProfile[], boolean] => {
+  return [
+    useSelector((state: AppState) => state.lhd.simpleProfiles),
+    useSelector((state: AppState) => state.lhd.queriedAPI),
+  ]
 }
 
 export const useSearchProfiles = () => {
-  return useSelector((state: AppState) => state?.lhd?.searchProfiles)
+  return useSelector((state: AppState) => state.lhd.searchProfiles)
 }
 
 export const useFullProfile = () => {
-  return useSelector((state: AppState) => state?.lhd?.fullProfile)
+  return useSelector((state: AppState) => state.lhd.fullProfile)
 }

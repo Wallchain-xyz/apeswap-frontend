@@ -1,22 +1,33 @@
 import React from 'react'
-import { Flex } from '../../../../../components/uikit'
+import { Button, Link, Svg } from '../../../../../components/uikit'
 
-const IconButton = ({children}: {children: React.ReactNode}) => {
+const IconButton = ({ href, icon, simpleBtn }: {
+  href: string | undefined,
+  icon: 'filledURL' | 'tickShield' | 'twitter' | 'send' | 'discord'
+  simpleBtn?: boolean
+}) => {
   return (
-    <Flex sx={{
-      background: 'white4',
-      padding: '2px 5px',
-      borderRadius: '8px',
-      mr: '5px',
-      height: '19px',
-      alignItems: 'center',
-      lineHeight: '12px',
-      '&:hover': {
-        cursor: 'pointer',
-      },
-    }}>
-      {children}
-    </Flex>
+    <Button variant='tertiary'
+            disabled={!href}
+            sx={{
+              background: simpleBtn? 'none' : 'white4',
+              padding: '2px 5px',
+              borderRadius: '8px',
+              ml: '5px',
+              height: '19px',
+              alignItems: 'center',
+              lineHeight: '12px',
+            }}>
+      {
+        href ? (
+          <Link href={href ?? ''} target='_blank' sx={{lineHeight: '8px'}}>
+            <Svg icon={icon} width={10} color={!href ? 'textDisabled' : 'text'} />
+          </Link>
+        ) : (
+          <Svg icon={icon} width={10} color={!href ? 'textDisabled' : 'text'} />
+        )
+      }
+    </Button>
   )
 }
 
