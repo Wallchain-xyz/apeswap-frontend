@@ -12,6 +12,11 @@ import {
   Tooltip,
   LineController,
   Filler,
+  BubbleDataPoint,
+  ChartTypeRegistry,
+  Point,
+  ChartOptions,
+  ChartConfiguration,
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
 import { LiquidityHealthChart } from '../../../../state/lhd/types'
@@ -23,7 +28,7 @@ import useIsMobile from '../../../../hooks/useIsMobile'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
-const CustomTooltip = ({ show, x, y, data }) => {
+const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: number; data: any }) => {
   const { t } = useTranslation()
 
   if (!show) return null
@@ -114,7 +119,8 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       import('chartjs-plugin-zoom').then((plugin) => {
-        setZoomPlugin(plugin.default)
+        setZoomPlugin(plugin.default as any)
+        //Chart.register(plugin.default);
       })
     }
   }, [])
@@ -147,8 +153,11 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
           },
         },
         ticks: {
-          callback: function (value: number) {
-            return `${value}%`
+          callback: function (tickValue: string | number, index: number, ticks: any[]) {
+            if (typeof tickValue === 'number') {
+              return `${tickValue}%`
+            }
+            return tickValue
           },
           font: {
             family: 'Poppins',
@@ -174,8 +183,11 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
           },
         },
         ticks: {
-          callback: function (value: number) {
-            return `$${value}M`
+          callback: function (tickValue: string | number, index: number, ticks: any[]) {
+            if (typeof tickValue === 'number') {
+              return `$${tickValue}M`
+            }
+            return tickValue
           },
           font: {
             family: 'Poppins',
@@ -213,14 +225,14 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
       },
       tooltip: {
         enabled: false,
-        external: (context) => {
+        external: (context: any) => {
           customTooltipHandler(context)
         },
       },
     },
-  }
+  } as ChartConfiguration['options']
 
-  function isBelowBottomLine(chart, point) {
+  function isBelowBottomLine(chart: any, point: any) {
     const { x, y } = point
     const line1Meta = chart.getDatasetMeta(0)
     const xScale = chart.scales[line1Meta.xAxisID]
@@ -230,7 +242,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     const yPixel = yScale.getPixelForValue(y)
 
     const line1Dataset = chart.config.data.datasets[0]
-    const index = line1Dataset.data.findIndex((linePoint) => linePoint.x >= x)
+    const index = line1Dataset.data.findIndex((linePoint: { x: number }) => linePoint.x >= x)
 
     const point1 = line1Dataset.data[index - 1]
     const point2 = line1Dataset.data[index]
@@ -243,7 +255,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     return y > bottomLineY
   }
 
-  const customTooltipHandler = (context) => {
+  const customTooltipHandler = (context: { chart?: any; tooltip?: any }) => {
     const { tooltip } = context
 
     if (tooltip.opacity === 0) {
@@ -264,7 +276,11 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     })
   }
 
-  function drawDebtLine(chart, point1, point2) {
+  function drawDebtLine(
+    chart: ChartJS<keyof ChartTypeRegistry, (number | [number, number] | Point | BubbleDataPoint | null)[], unknown>,
+    point1: { x: any; y: any },
+    point2: { x: any; y: any },
+  ) {
     const { ctx } = chart
     const xScale = chart.scales['x']
     const yScale = chart.scales['y']
@@ -463,6 +479,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   return (
     <>
       <Scatter
+        // @ts-ignore
         options={options}
         data={data}
         ref={canvasRef}
