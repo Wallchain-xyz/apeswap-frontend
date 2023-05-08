@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Text } from 'components/uikit'
 import { createPortal } from 'react-dom'
-
 import {
   Chart as ChartJS,
   LinearScale,
   CategoryScale,
-  BarElement,
   PointElement,
   LineElement,
   Tooltip,
@@ -15,7 +13,6 @@ import {
   BubbleDataPoint,
   ChartTypeRegistry,
   Point,
-  ChartOptions,
   ChartConfiguration,
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
@@ -61,17 +58,17 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
           justifyContent: 'space-between',
         }}
       >
-        <Flex sx={{ width: '10px' }}>
+        <Flex sx={{ flex: '0 0 40px' }}>
           <img src={data?.image} width="40px" height="40px" sx={{ borderRadius: '50%' }} />
         </Flex>
-        <Flex sx={{ flexDirection: 'column' }}>
+        <Flex sx={{ flexDirection: 'column', flex: '0 0 190px' }}>
           <Text>{data?.name}</Text>
           <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
             ${data?.currentPrice.toFixed(5)}
             <PriceChange priceChange={data?.priceChange24hr.toFixed(2)} />
           </Text>
         </Flex>
-        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end' }}>
+        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 60px' }}>
           <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['20px'], color: 'textDisabled' }}>
             {t('SCORE')}
           </Text>
@@ -120,20 +117,13 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     if (typeof window !== 'undefined') {
       import('chartjs-plugin-zoom').then((plugin) => {
         setZoomPlugin(plugin.default as any)
-        //Chart.register(plugin.default);
       })
     }
   }, [])
 
   useEffect(() => {
     if (zoomPlugin) {
-      ChartJS.register(
-        zoomPlugin,
-        BarElement,
-
-        CustomImagePlugin,
-        gradientFillBetweenLines,
-      )
+      ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
     }
   }, [zoomPlugin])
 
@@ -234,12 +224,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
   function isBelowBottomLine(chart: any, point: any) {
     const { x, y } = point
-    const line1Meta = chart.getDatasetMeta(0)
-    const xScale = chart.scales[line1Meta.xAxisID]
-    const yScale = chart.scales[line1Meta.yAxisID]
-
-    const xPixel = xScale.getPixelForValue(x)
-    const yPixel = yScale.getPixelForValue(y)
 
     const line1Dataset = chart.config.data.datasets[0]
     const index = line1Dataset.data.findIndex((linePoint: { x: number }) => linePoint.x >= x)
@@ -278,16 +262,26 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
   function drawDebtLine(
     chart: ChartJS<keyof ChartTypeRegistry, (number | [number, number] | Point | BubbleDataPoint | null)[], unknown>,
-    point1: { x: any; y: any },
     point2: { x: any; y: any },
   ) {
     const { ctx } = chart
     const xScale = chart.scales['x']
     const yScale = chart.scales['y']
-    const xPixel1 = xScale?.getPixelForValue(point1.x)
-    const yPixel1 = yScale?.getPixelForValue(point1.y)
+
     const xPixel2 = xScale?.getPixelForValue(point2.x)
     const yPixel2 = yScale?.getPixelForValue(point2.y)
+
+    const line1Dataset = chart.config.data.datasets[0]
+    const index = line1Dataset.data.findIndex((linePoint: { x: number }) => linePoint.x >= point2.x)
+
+    const point1 = line1Dataset.data[index - 1]
+    const point2OnLine1 = line1Dataset.data[index]
+
+    const slope = (point2OnLine1?.y - point1?.y) / (point2OnLine1?.x - point1?.x)
+    const yIntercept = point1?.y - slope * point1?.x
+
+    const xPixel1 = xScale?.getPixelForValue(point2.x)
+    const yPixel1 = yScale?.getPixelForValue(slope * point2.x + yIntercept)
 
     ctx.beginPath()
     ctx.setLineDash([5, 5])
@@ -308,22 +302,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
       const dataset = chart.config.data.datasets[2]
       let point1: any, point2: any
 
-      //Have to do this part twice, if do it at the time of drawing the logos then the line will be on top of them
-      dataset?.data?.forEach(function (point: any) {
-        const { x, y, r, data } = point
-        if (r == 10) {
-          if (!point1) {
-            point1 = point
-          } else {
-            point2 = point
-          }
-        }
-
-        if (point1 && point2) {
-          drawDebtLine(chart, point1, point2)
-        }
-      })
-
       dataset?.data?.forEach(function (point: any) {
         const { x, y, r, data } = point
 
@@ -331,7 +309,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         imageData.src = `${data.image}`
 
         const size = r * 3
-        const chartArea = chart.chartArea
         const xScale = chart.scales['x']
         const yScale = chart.scales['y']
         const xPixel = xScale?.getPixelForValue(x)
@@ -348,6 +325,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
             ctx.strokeStyle = '#1179A6'
           } else {
             point2 = point
+
             ctx.strokeStyle = '#904DC4'
           }
         } else {
@@ -378,33 +356,29 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         ctx.restore()
 
         ctx.globalAlpha = 1
+        if (point2) {
+          drawDebtLine(chart, point2)
+        }
       })
     },
   }
 
   const gradientFillBetweenLines = {
     id: 'gradientFillBetweenLines',
-    beforeDatasetsDraw: (
-      chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any },
-      _args: any,
-      options: any,
-    ) => {
+    beforeDatasetsDraw: (chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any }, _args: any) => {
       const { ctx } = chart
       const line1Meta = chart.getDatasetMeta(0)
       const line2Meta = chart.getDatasetMeta(1)
       const yAxis = chart.scales[line1Meta.yAxisID]
 
-      // Create green gradient for the area between the lines
       const greenGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
       greenGradient.addColorStop(0, 'rgba(56, 166, 17, 0.3)')
       greenGradient.addColorStop(1, 'rgba(191, 220, 181, 0.3)')
 
-      // Create red gradient for the area below the bottom line
       const redGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
       redGradient.addColorStop(0, 'rgba(233, 35, 35, 0.2)')
       redGradient.addColorStop(1, 'rgba(233, 35, 35, 0.1)')
 
-      // Draw the area between the lines
       ctx.save()
       ctx.fillStyle = greenGradient
       ctx.beginPath()
@@ -424,7 +398,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
       ctx.fill()
       ctx.restore()
 
-      // Draw the area below the bottom line
       ctx.save()
       ctx.fillStyle = redGradient
       ctx.beginPath()
@@ -446,23 +419,23 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const data = {
     datasets: [
       {
-        label: 'Line 1',
+        label: 'Sus Upper',
         data: chartData.healthBottom,
         borderColor: '#38A611',
         pointRadius: 0,
         borderWidth: 2,
         tension: 0.4,
-        fill: false, // This line will not be filled.
+        fill: false,
         showLine: true,
       },
       {
-        label: 'Line 2',
+        label: 'Sus Lower',
         data: chartData.healthTop,
         borderColor: '#38A611',
         pointRadius: 0,
         borderWidth: 2,
         tension: 0.4,
-        fill: '-1', // This line will be filled with the area between the lines.
+        fill: '-1',
         showLine: true,
       },
       {
@@ -492,7 +465,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
           <Text sx={{ fontSize: '10px', fontWeight: '400' }}>X: Market Cap</Text>
         </Flex>
       )}
-
       <CustomTooltip show={tooltipState.show} x={tooltipState.x} y={tooltipState.y} data={tooltipState.data} />
     </>
   )
