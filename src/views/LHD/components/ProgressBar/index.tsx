@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from 'theme-ui'
-import { Flex, Text } from '../../../../components/uikit'
+import { Flex, Text } from 'components/uikit'
 import { getColor } from '../../utils/getColor'
 
 interface ProgressBarProps {
@@ -24,7 +24,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ value, position }) => {
         sx={{
           width: '100%',
           height: position === 'right' ? '12px' : '8px',
-          backgroundColor: '#EADFC7',
+          backgroundColor: 'white4',
           borderRadius: '10px',
           overflow: 'hidden',
         }}

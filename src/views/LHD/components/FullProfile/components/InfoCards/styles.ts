@@ -69,6 +69,20 @@ export const styles: Record<
     overflow: 'auto',
     flexDirection: 'column',
     px: '10px',
+    '::-webkit-scrollbar': {
+      width: '3px',
+      background: 'white3',
+
+    },
+    '::-webkit-scrollbar-thumb': {
+      background: 'textDisabled',
+      borderRadius: '8px',
+    },
+    '::-webkit-scrollbar-track': {
+      background: 'white3',
+      color: 'input',
+      borderRadius: '10px',
+    },
   },
   rowContainer: {
     width: '100%',
