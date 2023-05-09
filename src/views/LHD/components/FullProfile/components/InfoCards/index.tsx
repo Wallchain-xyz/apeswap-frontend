@@ -28,7 +28,7 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
     }))
   })
   //just to test a card with lots of rows
-  const dummyArray = [...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners]
+  const dummyArray: any[] = []
 
   return (
     <Flex sx={styles.mainContainer}>
@@ -80,58 +80,63 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
             {t('Liquidity Ownership')}
           </Text>
         </Flex>
-        <Flex sx={styles.ownershipContainer}>
-          <Flex sx={styles.chart}>
-            <DoughnutChart owned={fullProfile?.validOwnedLiquidity}
-                           notOwned={fullProfile.totalValidLiquidity - fullProfile.validOwnedLiquidity} />
-          </Flex>
-          <Flex sx={styles.chartDetails}>
-            <HealthSummaryRow ttTitle={t('Owned')}
-                              value={formatDollar({ num: fullProfile.validOwnedLiquidity })}
-                              circleColor={'#38A611'}
-                              lineHeight='24px' />
-            <HealthSummaryRow ttTitle={t('Not Owned')}
-                              value={formatDollar({ num: fullProfile.totalValidLiquidity - fullProfile.validOwnedLiquidity })}
-                              circleColor={'#F4BE37'}
-                              lineHeight='24px' />
-          </Flex>
-        </Flex>
-        <Flex sx={styles.titleContainer}>
-          <Text sx={styles.titleText}>
-            {t('Whitelisted Addresses')}
-          </Text>
-        </Flex>
-        <Flex sx={styles.whiteContainer}>
-          <Flex sx={styles.ownerRowsContainer}>
-            {//change this before merge
-              dummyArray.length > 0 ? dummyArray.map((whiteListedOwner) => {
-                  return (
-                    <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress}>
-                      <Text sx={{ display: 'flex', alignItems: 'center' }}>
-                        {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
-                        <IconButton href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/address/${whiteListedOwner.lpAddress}`}
-                                    icon='filledURL'
-                                    simpleBtn />
-                      </Text>
-                      <Text sx={{ display: 'flex', alignItems: 'center' }}>
-                        {formatDollar({ num: whiteListedOwner.amount })}
-                        <Flex sx={{ ml: '3px' }}>
-                          {whiteListedOwner.reason === 'known' ? (
-                            <Svg icon='tickShield' color='success' />
-                          ) : (
-                            <Svg icon='yellowQuestion' />
-                          )}
+        {
+          dummyArray.length > 0 ? (
+            <>
+              <Flex sx={styles.ownershipContainer}>
+                <Flex sx={styles.chart}>
+                  <DoughnutChart owned={fullProfile?.validOwnedLiquidity}
+                                 notOwned={fullProfile.totalValidLiquidity - fullProfile.validOwnedLiquidity} />
+                </Flex>
+                <Flex sx={styles.chartDetails}>
+                  <HealthSummaryRow ttTitle={t('Owned')}
+                                    value={formatDollar({ num: fullProfile.validOwnedLiquidity })}
+                                    circleColor={'#38A611'}
+                                    lineHeight='24px' />
+                  <HealthSummaryRow ttTitle={t('Not Owned')}
+                                    value={formatDollar({ num: fullProfile.totalValidLiquidity - fullProfile.validOwnedLiquidity })}
+                                    circleColor={'#F4BE37'}
+                                    lineHeight='24px' />
+                </Flex>
+              </Flex>
+              <Flex sx={styles.titleContainer}>
+                <Text sx={styles.titleText}>
+                  {t('Whitelisted Addresses')}
+                </Text>
+              </Flex>
+              <Flex sx={styles.whiteContainer}>
+                <Flex sx={styles.ownerRowsContainer}>
+                  {//change this before launch
+                    dummyArray.map((whiteListedOwner) => {
+                      return (
+                        <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress}>
+                          <Text sx={{ display: 'flex', alignItems: 'center' }}>
+                            {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
+                            <IconButton href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/address/${whiteListedOwner.lpAddress}`}
+                                        icon='filledURL'
+                                        simpleBtn />
+                          </Text>
+                          <Text sx={{ display: 'flex', alignItems: 'center' }}>
+                            {formatDollar({ num: whiteListedOwner.amount })}
+                            <Flex sx={{ ml: '3px' }}>
+                              {whiteListedOwner.reason === 'known' ? (
+                                <Svg icon='tickShield' color='success' />
+                              ) : (
+                                <Svg icon='yellowQuestion' />
+                              )}
+                            </Flex>
+                          </Text>
                         </Flex>
-                      </Text>
-                    </Flex>
-                  )
-                })
-                : (
-                  <>monkey</>
-                )
-            }
-          </Flex>
-        </Flex>
+                      )
+                    })
+                  }
+                </Flex>
+              </Flex>
+            </>
+            ) : (
+              <>asd</>
+            )
+        }
       </Flex>
     </Flex>
   )
