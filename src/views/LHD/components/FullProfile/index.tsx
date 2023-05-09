@@ -10,6 +10,7 @@ import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
+import AreYouContributor from '../AreYouContributor'
 
 const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
@@ -52,6 +53,7 @@ const FullProfile = ({ chainID, address }: {
             <InfoCards fullProfile={fullProfile} />
           </Flex>
         </Flex>
+        <AreYouContributor />
         <Text sx={styles.formula}>
           Formula version: {fullProfile.formulaVersion}
         </Text>

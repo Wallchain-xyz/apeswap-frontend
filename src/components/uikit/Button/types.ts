@@ -11,9 +11,9 @@ export enum sizes {
 
 export type Sizes = (typeof sizes)[keyof typeof sizes]
 
-export const buttonFontSizes: Record<sizes | any, number> = {
+export const buttonFontSizes: Record<sizes | any, number | string> = {
   [sizes.SMALL]: 1,
-  [sizes.MEDIUM]: 3,
+  [sizes.MEDIUM]: '16px',
   [sizes.LARGE]: 6,
 }
 

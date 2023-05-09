@@ -204,7 +204,7 @@ const components = {
     },
     secondary: {
       ...buttonBaseStyles,
-      background: 'white2',
+      background: 'white1',
       border: 'secondaryButton',
       color: 'yellow',
 

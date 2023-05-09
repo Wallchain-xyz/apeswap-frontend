@@ -11,7 +11,8 @@ export const styles: Record<
   | 'chartDetails'
   | 'whiteContainer'
   | 'ownerRowsContainer'
-  | 'rowContainer',
+  | 'rowContainer'
+  | 'emptyMonkeyCont',
   ThemeUIStyleObject> = {
   mainContainer: {
     width: '100%',
@@ -90,5 +91,13 @@ export const styles: Record<
     fontWeight: 500,
     fontSize: '12px',
     lineHeight: '14px',
+  },
+  emptyMonkeyCont: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    p: '20px',
   }
 }

@@ -18,7 +18,7 @@ const TableRow = ({ index, pool }: {
 
   const getBlockExplorerURL = (chain: string, address: string) => {
     // @ts-ignore
-    if (BLOCK_EXPLORER[chain]) return `${BLOCK_EXPLORER[chain]}/address/${address}`
+    if (BLOCK_EXPLORER[chain]) return `${BLOCK_EXPLORER[chain]}address/${address}`
     return ''
   }
 
@@ -94,7 +94,7 @@ const TableRow = ({ index, pool }: {
           {pool?.dex}
         </Text>
       </Flex>
-      <Flex sx={styles.colCont}>
+      <Flex sx={{ ...styles.colCont, justifyContent: 'flex-end' }}>
         <Text sx={{ fontWeight: 500, fontSize: '10px' }}>
           {`${pool?.lpAddress.slice(0, 4)}...${pool?.lpAddress.slice(-4)}`}
         </Text>

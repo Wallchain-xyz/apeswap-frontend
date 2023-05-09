@@ -85,7 +85,6 @@ const Button = ({
         },
         ...hoverStyle,
         width: fullWidth ? '100%' : 'max-content',
-        color: 'primaryBright',
       }}
     >
       {React.isValidElement(startIcon) && React.cloneElement(startIcon)}

@@ -105,6 +105,7 @@ export enum icons {
   FILLED_URL = "filledURL",
   YELLOW_QUESTION = "yellowQuestion",
   BANANA_ICON = 'bananaIcon',
+  SCROLL_TOP = 'scrollTop'
 }
 
 export enum directions {

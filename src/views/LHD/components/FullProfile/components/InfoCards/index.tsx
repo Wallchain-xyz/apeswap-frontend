@@ -10,6 +10,7 @@ import { Svg } from 'components/uikit'
 import IconButton from '../IconButton'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
+import { Button } from '../../../../../../components/uikit'
 
 const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
@@ -28,7 +29,7 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
     }))
   })
   //just to test a card with lots of rows
-  const dummyArray: any[] = []
+  const dummyArray: any[] = [...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners]
 
   return (
     <Flex sx={styles.mainContainer}>
@@ -112,9 +113,10 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                         <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress}>
                           <Text sx={{ display: 'flex', alignItems: 'center' }}>
                             {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
-                            <IconButton href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/address/${whiteListedOwner.lpAddress}`}
-                                        icon='filledURL'
-                                        simpleBtn />
+                            <IconButton
+                              href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/address/${whiteListedOwner.lpAddress}`}
+                              icon='filledURL'
+                              simpleBtn />
                           </Text>
                           <Text sx={{ display: 'flex', alignItems: 'center' }}>
                             {formatDollar({ num: whiteListedOwner.amount })}
@@ -133,9 +135,18 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                 </Flex>
               </Flex>
             </>
-            ) : (
-              <>asd</>
-            )
+          ) : (
+            <Flex sx={styles.emptyMonkeyCont}>
+              <Svg icon='placeholderMonkey' />
+              <Text sx={{ fontWeight: 700, fontSize: ['21px'], lineHeight: ['31.5px'], mt: '15px' }}>
+                {t('Ownership data not found')}
+              </Text>
+              <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['18px'], textAlign: 'center', mt: '15px' }}>
+                {t(`If you’re a contributor to this project, you can submit updated liquidity data through GitHub.`)}
+              </Text>
+              <Button sx={{ mt: '15px' }}>{t('SUBMIT DATA UPDATE')}</Button>
+            </Flex>
+          )
         }
       </Flex>
     </Flex>

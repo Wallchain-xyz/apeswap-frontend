@@ -76,3 +76,4 @@ export { default as Share } from "./Share"
 export { default as FilledURL } from "./FilledURL"
 export { default as YellowQuestionMark } from './YellowQuestionMark'
 export { default as BananaIcon } from './BananaIcon'
+export { default as ScrollTop } from './ScrollTop'
