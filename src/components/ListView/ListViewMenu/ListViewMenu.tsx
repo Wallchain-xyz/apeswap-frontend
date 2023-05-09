@@ -17,6 +17,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   setFilterOption,
   filterOption,
   setSortOption,
+  setIsActive,
   sortOption,
   checkboxLabel,
   showOnlyCheckbox,
@@ -30,8 +31,8 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [expanded, setExpended] = useState<boolean | undefined>(false)
-  const { push, asPath } = useRouter()
-  const isExact = true
+  const { push, asPath, basePath } = useRouter()
+  const isExact = !asPath.includes('history')
   const [colorMode] = useColorMode()
   const [usedSearch, setUsedSearch] = useState<boolean | undefined>(false)
 
@@ -49,13 +50,8 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   )
 
   const handleToogle = useCallback(() => {
-    handleTracking('active')
-    if (isExact) {
-      push(`${asPath}/history`)
-    } else {
-      push(asPath)
-    }
-  }, [handleTracking, history, isExact, asPath])
+    setIsActive((prev) => !prev)
+  }, [setIsActive])
 
   const handleExpandedBtn = () => {
     setExpended(!expanded)
@@ -76,7 +72,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   }
 
   const handleFilterChange = (value: string) => {
-    setFilterOption(value)
+    setFilterOption && setFilterOption(value)
     handleTracking('filter')
   }
 
@@ -183,9 +179,9 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       </>
       {showMonkeyImage &&
         (colorMode === 'dark' ? (
-          <Image src="/images/farm-night-farmer.svg" sx={styles.monkey} />
+          <Image src="/images/farm-night-farmer.svg" sx={styles.monkey}  alt=''/>
         ) : (
-          <Image src="/images/farm-day-farmer.svg" sx={styles.monkey} />
+          <Image src="/images/farm-day-farmer.svg" sx={styles.monkey} alt='' />
         ))}
     </Flex>
   )

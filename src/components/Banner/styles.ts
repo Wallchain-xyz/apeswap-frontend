@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { Flex, Skeleton } from 'components/uikit'
-import { ArrowDown } from 'react-feather'
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const styles: Record<string, ThemeUIStyleObject> = {
@@ -68,7 +67,7 @@ export const FlexSkeleton = styled(Skeleton)<{ maxWidth?: number; listViewBreak?
   }
 `
 
-export const LearnMoreArrow = styled(ArrowDown)`
+export const LearnMoreArrow = styled(Flex)`
   transform: rotate(270deg);
   margin-left: 10px;
   width: calc(4px + 0.9vw);

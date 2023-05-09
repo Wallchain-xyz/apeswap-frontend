@@ -24,11 +24,14 @@ export const styles: Record<'infoRow' | 'linkRow' | 'titleText' | 'contentText' 
   },
   iconButton: {
     background: 'lvl1',
+    textDecoration: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: 'fit-content',
+    height: '30px',
     padding: '2px 5px',
     borderRadius: '8px',
     margin: '0 5px 5px 0',
-    alignItems: 'center',
     '&:hover': {
       cursor: 'pointer',
     },

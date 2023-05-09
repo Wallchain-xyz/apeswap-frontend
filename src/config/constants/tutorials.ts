@@ -20,7 +20,6 @@ export const getMetamaskLinks = (chainId: SupportedChainId) => {
 export const ROUTE_NAMES: Record<string, string> = {
   '/': 'HOME',
   '/jungle-farms': 'JUNGLE_FARMS',
-  '/banana-farms': 'FARMS',
   '/farms': 'FARMS',
   '/swap': 'SWAP',
   '/pools': 'POOLS',
@@ -35,7 +34,7 @@ export const ROUTE_NAMES: Record<string, string> = {
   '/limit-orders': 'ORDERS',
   '/iao': 'IAO',
   '/gnana': 'GNANA',
-  '/treasury-bills': 'TREASURY_BILL',
+  '/bonds': 'TREASURY_BILL',
   '/nft': 'NFT',
   '/auction': 'AUCTION',
   '/staking': 'STAKING',

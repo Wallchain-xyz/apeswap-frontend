@@ -1,16 +1,16 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { styles } from './styles'
 import { Box } from 'theme-ui'
 import CountUp from 'react-countup'
 import { useTranslation } from 'contexts/Localization'
 import { grayIcons } from './grayChains'
 import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
+import { Button, Flex, Link, Text } from 'components/uikit'
+import { useHomepageStats } from 'state/homepage/hooks'
 import useSelectChain from 'hooks/useSelectChain'
 import { useRouter } from 'next/router'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { Button, Flex, Link, Text } from 'components/uikit'
 import Image from 'next/image'
-import { useHomepageStats } from 'state/homepage/hooks'
 
 const DefiRedefined = () => {
   const rawStats = useHomepageStats()
@@ -24,7 +24,7 @@ const DefiRedefined = () => {
   }, [])
 
   const handleNetworkSwitch = (chainId: SupportedChainId) => {
-    push('/treasury-bills')
+    push('/bonds')
     switchNetwork(chainId)
   }
 
@@ -39,10 +39,10 @@ const DefiRedefined = () => {
               <CountUp end={rawStats?.bondingPartnerCount} decimals={0} duration={3} separator="," />{' '}
             </Text>
           )}
-          {t('communities that are building project-owned liquidity through Treasury Bills.')}
+          {t('communities building project-owned liquidity through ApeSwap Bonds.')}
         </Text>
         <Flex sx={{ alignItems: 'center', marginTop: ['25px', '25px', '0px'] }}>
-          <Text sx={styles.availableOn}>{t('BILLS AVAILABLE ON')}</Text>
+          <Text sx={styles.availableOn}>{t('BONDS AVAILABLE ON')}</Text>
           {AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS].map((chainId) => {
             return (
               <Flex
@@ -55,7 +55,7 @@ const DefiRedefined = () => {
             )
           })}
         </Flex>
-        <Link href="/treasury-bills" sx={{ textDecoration: 'none' }}>
+        <Link href="/bonds">
           <Flex sx={styles.billImage}>
             <Box
               sx={{ ...styles.image, backgroundImage: `url('/images/homepage/treasury-bills-${randomImage}.jpg')` }}
@@ -75,19 +75,19 @@ const DefiRedefined = () => {
           >
             {t('Learn more')}
           </Button>
-          <Link href="/treasury-bills" sx={{ textDecoration: 'none' }}>
-            <Button sx={{ fontSize: ['14px', '14px', '16px'], width: '138px' }}>{t('Buy a bill')}</Button>
+          <Link href="/bonds" sx={{ textDecoration: 'none' }}>
+            <Button sx={{ fontSize: ['14px', '14px', '16px'], width: '138px' }}>{t('Buy a bond')}</Button>
           </Link>
         </Flex>
       </Flex>
-      <Flex sx={{ width: ['0', '100%'], justifyContent: 'center' }}>
-        <Flex sx={{ ...styles.imageWrapper, background: 'lvl1' }} onClick={() => push(`/treasury-bills`)}>
+      <Flex sx={{ width: ['0', '0', '100%'], justifyContent: 'center' }}>
+        <Flex sx={{ ...styles.imageWrapper, background: 'lvl1' }} onClick={() => push(`/bonds`)}>
           <Image
             src={`/images/homepage/treasury-bills-${randomImage}.jpg`}
+            alt="bond"
             sx={styles.image}
-            alt=""
-            width={500}
-            height={500}
+            width={400}
+            height={400}
           />
         </Flex>
       </Flex>

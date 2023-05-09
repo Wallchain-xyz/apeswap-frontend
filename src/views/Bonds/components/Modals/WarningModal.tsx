@@ -19,11 +19,12 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
     true,
     true,
     `billsModal${index}`,
+    true
   )
 
   return (
-    <Modal onDismiss={onDismiss} maxWidth="385px">
-      <Flex alignItems="center" justifyContent="center" mt="10px">
+    <Modal onDismiss={onDismiss} maxWidth="385px" minWidth="320px">
+      <Flex sx={{ alignItems: 'center', justifyContent: 'center' }} mt="10px">
         <IconButton
           icon="close"
           color="text"
@@ -37,8 +38,8 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
           <Svg icon="error" width="25px" color="error" />
         </Text>
       </Flex>
-      <Flex mt="30px" mb="30px" flexDirection="column" alignItems="center">
-        <Flex flexDirection="column">
+      <Flex mt="30px" mb="30px" sx={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Flex sx={{ flexDirection: 'column' }}>
           <Flex>
             <Text style={{ fontWeight: 600 }}>
               The {bill.earnToken.symbol} you recieve from this {bill.token.symbol}-{bill.quoteToken.symbol} ApeSwap
@@ -50,7 +51,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
           </Flex>
         </Flex>
       </Flex>
-      <Flex mt="20px" alignItems="center" onClick={() => setConfirmBuy((prev) => !prev)} style={{ cursor: 'pointer' }}>
+      <Flex mt="20px" onClick={() => setConfirmBuy((prev) => !prev)} sx={{ cursor: 'pointer', alignItems: 'center' }}>
         <CheckBox checked={confirmBuy} />
         <Text ml="10px" fontSize="12px" bold>
           {t(
@@ -59,7 +60,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
           )}
         </Text>
       </Flex>
-      <Flex justifyContent="center" mt={15}>
+      <Flex sx={{ justifyContent: 'center' }} mt={15}>
         <StyledButton onClick={onPresentBuyBillsModal} disabled={!confirmBuy}>
           {t('Continue')}
         </StyledButton>

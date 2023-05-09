@@ -1,6 +1,6 @@
 // @ts-nocheck
 import styled from '@emotion/styled'
-import { Button, CheckBox, Flex, Text } from 'components/uikit'
+import { Button, Flex, Text } from 'components/uikit'
 
 export const StyledCard = styled.div`
   overflow: visible;

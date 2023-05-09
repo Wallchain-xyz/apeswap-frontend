@@ -64,12 +64,12 @@ const AssetOverview: React.FC<{ activeView: number }> = ({ activeView }) => {
   const treasuryAssets = assets?.filter((asset) => asset.location === 'Operational Funds')
   const polAssets = assets?.filter((asset) => asset.location === 'POL')
   const mergedAssets = getMergedAssets(assets)
+  const { theme } = useThemeUI()
 
   const cleanedAssets = sortAndAddAssets([mergedAssets, treasuryAssets, polAssets][activeView])
   const data = useMemo(() => setData(cleanedAssets ?? []), [cleanedAssets])
   const { t } = useTranslation()
   const total = cleanedAssets?.reduce((a, b) => a + b.value, 0)
-  const theme = useThemeUI()
   return (
     <Flex sx={styles.cardContainer}>
       <Flex sx={{ flexDirection: 'column', textAlign: 'center', mb: '5px' }}>
@@ -118,11 +118,11 @@ const AssetOverview: React.FC<{ activeView: number }> = ({ activeView }) => {
                     },
                     titleFont: { family: 'poppins', weight: '700', size: 16 },
                     bodyFont: { family: 'poppins', weight: '500', size: 14 },
-                    titleColor: 'text',
-                    backgroundColor: 'white2',
+                    titleColor: theme.rawColors?.text?.toString(),
+                    backgroundColor: theme.rawColors?.white2?.toString(),
                     boxPadding: 5,
-                    bodyColor: 'text',
-                    borderColor: 'white2',
+                    bodyColor: theme.rawColors?.text?.toString(),
+                    borderColor: theme.rawColors?.white2?.toString(),
                     bodySpacing: 20,
                     borderWidth: 1,
                     caretSize: 8,

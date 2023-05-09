@@ -85,4 +85,12 @@ export const styles = {
       },
     },
   },
+  buyButtonContainerFull: {
+    width: '100%',
+    padding: '10px 0 0 0',
+    '@media screen and (min-width: 1180px)': {
+      width: '90%',
+      padding: '0px',
+    },
+  },
 }

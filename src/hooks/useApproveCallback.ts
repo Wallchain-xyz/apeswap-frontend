@@ -3,9 +3,9 @@ import { Currency, CurrencyAmount, Percent, TradeType } from '@ape.swap/sdk-core
 import useSwapApproval from 'lib/hooks/swap/useSwapApproval'
 import { ApprovalState, useApproval } from 'lib/hooks/useApproval'
 import { useCallback } from 'react'
-
 import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 import { TransactionType } from '../state/transactions/types'
+import useZapApproval from './useZapApproval'
 export { ApprovalState } from 'lib/hooks/useApproval'
 
 function useGetAndTrackApproval(getApproval: ReturnType<typeof useApproval>[1]) {
@@ -34,5 +34,13 @@ export function useApproveCallbackFromTrade(
   allowedSlippage: Percent,
 ): [ApprovalState, () => Promise<void>] {
   const [approval, getApproval] = useSwapApproval(trade, allowedSlippage, useHasPendingApproval)
+  return [approval, useGetAndTrackApproval(getApproval)]
+}
+
+export function useApproveCallbackFromZap(
+  zap: any,
+  allowedSlippage: Percent,
+): [ApprovalState, () => Promise<void>] {
+  const [approval, getApproval] = useZapApproval(zap, allowedSlippage, useHasPendingApproval)
   return [approval, useGetAndTrackApproval(getApproval)]
 }

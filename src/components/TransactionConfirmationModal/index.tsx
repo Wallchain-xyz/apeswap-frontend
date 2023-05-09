@@ -175,7 +175,7 @@ const TransactionConfirmationModal: React.FC<ConfirmationModalProps> = ({
   if (!chainId) return null
 
   return (
-    <Flex sx={{ width: '420px' }}>
+    <Flex sx={{ width: '420px', zIndex: 112 }}>
       <Modal title={title} onDismiss={handleDismiss} maxWidth="100%">
         <Flex sx={{ width: '380px', maxWidth: '100%' }}>
           {attemptingTxn ? (

@@ -1,18 +1,19 @@
+'use client'
+// TODO: When updating homepage remove mobile hook and client
 import React, { useEffect, useState } from 'react'
 import CountUp from 'react-countup'
 import { useTranslation } from 'contexts/Localization'
 import { statsData } from './statsData'
-import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { Flex, Skeleton, Text } from 'components/uikit'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import { useFetchHomepageStats, useHomepageStats } from 'state/homepage/hooks'
 import { CardWrapper, StyledCard } from './styles'
 import { useTheme } from '@emotion/react'
+import useIsMobile from 'hooks/useIsMobile'
 
 const StatCards: React.FC = () => {
-  const { isSm, isXs } = useMatchBreakpoints()
   const [loadStats, setLoadStats] = useState(false)
-  const isMobile = isSm || isXs
+  const isMobile = useIsMobile()
   const { observerRef, isIntersecting } = useIntersectionObserver()
   const { t } = useTranslation()
   const theme = useTheme()

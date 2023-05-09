@@ -67,41 +67,41 @@ export const SkeletonWrapper = styled(Flex)`
   top: 0;
   justify-content: center;
   padding-bottom: 50px;
-  & :nth-child(2),
-  & :nth-child(3),
-  & :nth-child(4),
-  & :nth-child(5),
-  & :nth-child(6) {
+  & :nth-of-type(2),
+  & :nth-of-type(3),
+  & :nth-of-type(4),
+  & :nth-of-type(5),
+  & :nth-of-type(6) {
     display: none;
   }
   @media screen and (min-width: 555px) and (max-width: 855px) {
     justify-content: space-around;
-    & :nth-child(2) {
+    & :nth-of-type(2) {
       display: block;
     }
   }
   @media screen and (min-width: 855px) and (max-width: 1155px) {
     justify-content: space-around;
-    & :nth-child(2),
-    & :nth-child(3) {
+    & :nth-of-type(2),
+    & :nth-of-type(3) {
       display: block;
     }
   }
   @media screen and (min-width: 1155px) and (max-width: 1405px) {
     justify-content: space-between;
-    & :nth-child(2),
-    & :nth-child(3),
-    & :nth-child(4) {
+    & :nth-of-type(2),
+    & :nth-of-type(3),
+    & :nth-of-type(4) {
       display: block;
     }
   }
   @media screen and (min-width: 1405px) {
     justify-content: space-between;
-    & :nth-child(2),
-    & :nth-child(3),
-    & :nth-child(4),
-    & :nth-child(5),
-    & :nth-child(6) {
+    & :nth-of-type(2),
+    & :nth-of-type(3),
+    & :nth-of-type(4),
+    & :nth-of-type(5),
+    & :nth-of-type(6) {
       display: block;
     }
   }

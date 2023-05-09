@@ -17,29 +17,26 @@ const ButtonsRow: React.FC<{ projectLink: string; twitter: string; bubble?: stri
 
   return (
     <Flex sx={{ justifyContent: 'center' }}>
-      <Flex sx={styles.iconButton}>
-        <Link href={projectLink} target="_blank">
-          <Svg icon="URL" width={18} />
-        </Link>
+      <Flex sx={styles.iconButton} as={Link} href={projectLink} target="_blank">
+        <Svg icon="URL" width={18} />
       </Flex>
-      <Flex sx={styles.iconButton}>
-        <Link href={twitter} target="_blank">
-          <Svg icon="twitter" width={18} color="text" />
-        </Link>
+      <Flex sx={styles.iconButton} as={Link} href={twitter} target="_blank">
+        <Svg icon="twitter" width={18} color="text" />
       </Flex>
       {chainId === ChainId.BSC && bubble && (
-        <Flex sx={styles.iconButton}>
-          <Link href={bubbleURL} target="_blank">
-            <Svg icon="bubble" width={18} color="text" />
-          </Link>
+        <Flex sx={styles.iconButton} as={Link} href={bubbleURL} target="_blank">
+          <Svg icon="bubble" width={18} color="text" />
         </Flex>
       )}
       {audit && (
-        <Flex sx={{ ...styles.iconButton, margin: '0 0 5px 0', '& svg': { marginRight: '5px' } }}>
-          <Link href={audit} target="_blank">
-            <Svg icon="audit" width={18} color="text" />
-            <Text sx={{ paddingRight: '5px' }}>{t('Audit')}</Text>
-          </Link>
+        <Flex
+          sx={{ ...styles.iconButton, margin: '0 0 5px 0', '& svg': { marginRight: '5px' } }}
+          as={Link}
+          href={audit}
+          target="_blank"
+        >
+          <Svg icon="audit" width={18} color="text" />
+          <Text sx={{ paddingRight: '5px' }}>{t('Audit')}</Text>
         </Flex>
       )}
     </Flex>

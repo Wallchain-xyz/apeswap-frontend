@@ -20,11 +20,6 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/zap',
-        destination: '/add-liquidity',
-        permanent: false,
-      },
-      {
         source: '/migrate',
         destination: '/add-liquidity',
         permanent: false,

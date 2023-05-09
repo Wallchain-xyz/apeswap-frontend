@@ -1,3 +1,4 @@
+import { Protocol } from '@ape.swap/router-sdk'
 import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
 import { useMemo } from 'react'
 import { RouterPreference } from 'state/routing/slice'
@@ -20,6 +21,7 @@ export function useBestTrade(
   tradeType: TradeType,
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
+  protocols?: Protocol[],
 ): {
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
@@ -38,6 +40,7 @@ export function useBestTrade(
     autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,
     debouncedOtherCurrency,
     clientSideRouter ? RouterPreference.CLIENT : RouterPreference.API,
+    protocols,
   )
 
   const isLoading = routingAPITrade.state === TradeState.LOADING

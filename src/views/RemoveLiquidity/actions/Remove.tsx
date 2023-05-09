@@ -5,17 +5,15 @@ import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
-import useModal from 'hooks/useModal'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { Dispatch, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useCallback } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
-import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { currencyId } from 'utils/currencyId'
 import track from 'utils/track'
-import RemoveLiquidityConfirmation from '../components/RemoveLiquidityConfirmation'
 
 const DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
 
@@ -27,8 +25,6 @@ const Remove = ({
   tokenId,
   feeValue0,
   feeValue1,
-  feeAmount,
-  inRange,
   error,
   setAttemptingTxn,
   setTxHash,
@@ -52,7 +48,6 @@ const Remove = ({
   const positionManager = useV3NFTPositionManagerContract()
   const allowedSlippage = useUserSlippageToleranceWithDefault(DEFAULT_REMOVE_V3_LIQUIDITY_SLIPPAGE_TOLERANCE) // custom from users
   const deadline = useTransactionDeadline() // custom from users settings
-  const isExpertMode = useIsExpertMode()
 
   const [currencyAUsdVal] = useTokenPriceUsd(liquidityValue0?.currency ?? undefined)
   const [currencyBUsdVal] = useTokenPriceUsd(liquidityValue1?.currency ?? undefined)

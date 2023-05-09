@@ -64,17 +64,15 @@ export function useV3MintActionHandlers(noLiquidity: boolean | undefined): {
   const onLeftRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeLeftRangeInput({ typedValue }))
-      // push({ query: { ...query, minPrice: typedValue } }, undefined, { shallow: true })
     },
-    [dispatch, push, query],
+    [dispatch],
   )
 
   const onRightRangeInput = useCallback(
     (typedValue: string) => {
       dispatch(typeRightRangeInput({ typedValue }))
-      // push({ query: { ...query, maxPrice: typedValue } }, undefined, { shallow: true })
     },
-    [dispatch, push, query],
+    [dispatch],
   )
 
   const onStartPriceInput = useCallback(

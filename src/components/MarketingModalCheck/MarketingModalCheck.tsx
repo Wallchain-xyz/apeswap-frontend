@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 // import { MarketingModal } from 'components/uikit'
 // import { LendingBodies } from 'components/MarketingModalContent/Lending/'
 // import CircularModal from 'components/CircularModal'
-import { useTranslation } from 'contexts/Localization'
 import { useRouter } from 'next/router'
 // import MoonPayModal from 'views/Topup/MoonpayModal'
 // import GnanaModal from 'components/GnanaModal'
@@ -12,12 +11,10 @@ import { useRouter } from 'next/router'
 import { SET_DEFAULT_MODAL_KEY, SHOW_DEFAULT_MODAL_KEY, SET_DEF_MOD_KEY, SHOW_DEF_MOD_KEY } from './constants'
 // import { circularRoute } from 'utils'
 import Tutorial from 'components/MarketingModals/Tutorial'
-import { useWeb3React } from '@web3-react/core'
+import GnanaModal from 'components/GnanaModal'
 
 const MarketingModalCheck = () => {
-  const { chainId } = useWeb3React()
   const { pathname, replace, query } = useRouter()
-  const { t } = useTranslation()
 
   const modalQuery = query.modal
 
@@ -50,13 +47,13 @@ const MarketingModalCheck = () => {
   const tutorial = modalQuery === 'tutorial'
   // const lendingRoute = location.search.includes('modal=3')
   // const telosQuestRoute = location.search.includes('modal=telos-quests')
-  const moonpayRoute = modalQuery === 'moonpay'
-  // const getGnanaRoute = location.search.includes('modal=gnana')
+  // const moonpayRoute = modalQuery === 'moonpay'
+  const getGnanaRoute = modalQuery === 'gnana'
   // const buyRoute = circularRoute(chainId, location, 'modal=circular-buy')
   // const sellRoute = circularRoute(chainId, location, 'modal=circular-sell')
   // const phRoute = circularRoute(chainId, location, 'modal=circular-ph')
   // const ghRoute = circularRoute(chainId, location, 'modal=circular-gh')
-  const newsletterRoute = modalQuery === 'newsletter'
+  // const newsletterRoute = modalQuery === 'newsletter'
 
   const onDismiss = () => {
     replace({
@@ -64,7 +61,13 @@ const MarketingModalCheck = () => {
     })
   }
 
-  return tutorial ? <Tutorial location={pathname} onDismiss={onDismiss} /> : <></>
+  return tutorial ? (
+    <Tutorial location={pathname} onDismiss={onDismiss} />
+  ) : getGnanaRoute ? (
+    <GnanaModal onDismiss={onDismiss} />
+  ) : (
+    <></>
+  )
   //  moonpayRoute ? (
   //   <MoonPayModal onDismiss={onDismiss} />
   // ) : newsletterRoute ? (

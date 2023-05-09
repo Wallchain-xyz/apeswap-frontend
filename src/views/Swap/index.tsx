@@ -1,18 +1,15 @@
-import { Currency, CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import DexPanel from 'components/DexPanel'
 import { Flex } from 'components/uikit'
-import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
-import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
-import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
+import { useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/formatNumbers'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
-import { supportedChainId } from 'utils/supportedChainId'
 import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import Risk from './components/Risk/Risk'
@@ -21,44 +18,46 @@ import TradeDetails from './components/TradeDetails'
 
 const Swap = () => {
   const { chainId } = useWeb3React()
-  const loadedUrlParams = useDefaultsFromURLSearch()
+  // const loadedUrlParams = useDefaultsFromURLSearch()
+
+  // TODO: Add token warning stuff
 
   // token warning stuff
-  const [loadedInputCurrency, loadedOutputCurrency] = [
-    useCurrency(loadedUrlParams?.[Field.INPUT]?.currencyId),
-    useCurrency(loadedUrlParams?.[Field.OUTPUT]?.currencyId),
-  ]
+  // const [loadedInputCurrency, loadedOutputCurrency] = [
+  //   useCurrency(loadedUrlParams?.[Field.INPUT]?.currencyId),
+  //   useCurrency(loadedUrlParams?.[Field.OUTPUT]?.currencyId),
+  // ]
 
-  const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
-  const urlLoadedTokens: Token[] = useMemo(
-    () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
-    [loadedInputCurrency, loadedOutputCurrency],
-  )
+  // const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
+  // const urlLoadedTokens: Token[] = useMemo(
+  //   () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
+  //   [loadedInputCurrency, loadedOutputCurrency],
+  // )
 
-  const handleConfirmTokenWarning = useCallback(() => {
-    setDismissTokenWarning(true)
-  }, [])
+  // const handleConfirmTokenWarning = useCallback(() => {
+  //   setDismissTokenWarning(true)
+  // }, [])
 
   // dismiss warning if all imported tokens are in active lists
-  const defaultTokens = useAllTokens()
-  const importTokensNotInDefault = useMemo(
-    () =>
-      urlLoadedTokens &&
-      urlLoadedTokens
-        .filter((token: Token) => {
-          return !(token.address in defaultTokens)
-        })
-        .filter((token: Token) => {
-          // Any token addresses that are loaded from the shorthands map do not need to show the import URL
-          const supported = supportedChainId(chainId)
-          if (!supported) return true
-          return !Object.keys(TOKEN_SHORTHANDS).some((shorthand) => {
-            const shorthandTokenAddress = TOKEN_SHORTHANDS[shorthand][supported]
-            return shorthandTokenAddress && shorthandTokenAddress === token.address
-          })
-        }),
-    [chainId, defaultTokens, urlLoadedTokens],
-  )
+  // const defaultTokens = useAllTokens()
+  // const importTokensNotInDefault = useMemo(
+  //   () =>
+  //     urlLoadedTokens &&
+  //     urlLoadedTokens
+  //       .filter((token: Token) => {
+  //         return !(token.address in defaultTokens)
+  //       })
+  //       .filter((token: Token) => {
+  //         // Any token addresses that are loaded from the shorthands map do not need to show the import URL
+  //         const supported = supportedChainId(chainId)
+  //         if (!supported) return true
+  //         return !Object.keys(TOKEN_SHORTHANDS).some((shorthand) => {
+  //           const shorthandTokenAddress = TOKEN_SHORTHANDS[shorthand][supported]
+  //           return shorthandTokenAddress && shorthandTokenAddress === token.address
+  //         })
+  //       }),
+  //   [chainId, defaultTokens, urlLoadedTokens],
+  // )
 
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
@@ -93,13 +92,13 @@ const Swap = () => {
     [independentField, parsedAmount, showWrap, trade],
   )
 
+  console.log()
   const [routeNotFound, routeIsLoading, routeIsSyncing] = useMemo(
     () => [!trade?.swaps, TradeState.LOADING === tradeState, TradeState.SYNCING === tradeState],
     [trade, tradeState],
   )
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
-  const isValid = !swapInputError
+  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
   const formattedAmounts = useMemo(
@@ -116,7 +115,6 @@ const Swap = () => {
     () => maxAmountSpend(currencyBalances[Field.INPUT]),
     [currencyBalances],
   )
-  const showMaxButton = Boolean(maxInputAmount?.greaterThan(0) && !parsedAmounts[Field.INPUT]?.equalTo(maxInputAmount))
 
   // const stablecoinPriceImpact = useMemo(
   //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),

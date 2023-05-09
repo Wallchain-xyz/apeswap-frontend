@@ -7,7 +7,6 @@ import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { RemoveLiquidityModalProps } from './types'
 import { styles } from './styles'
 import PoolInfo from '../PoolInfo'
-import { useWeb3React } from '@web3-react/core'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../Actions'
 

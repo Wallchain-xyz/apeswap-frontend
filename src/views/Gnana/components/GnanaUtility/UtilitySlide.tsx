@@ -17,7 +17,7 @@ const UtilitySlide: React.FC<UtilitySlidesProps> = ({ action, icon, title, detai
 
   return (
     <Flex sx={{ ...styles.mainContainer }}>
-      <a href={href ?? '#convert'} target={href ? '_blank' : ''} rel="noreferrer">
+      <a href={href ?? '#convert'} target={href ? '_blank' : ''} rel="noreferrer" sx={{ textDecoration: 'none' }}>
         <Flex sx={{ ...styles.subContainer }}>
           <Box sx={styles.box}>
             <Text sx={styles.action}>{t(`${action}`)}</Text>

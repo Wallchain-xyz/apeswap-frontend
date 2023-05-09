@@ -16,10 +16,15 @@ import swap from './swap/reducer'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
+import zap from './zap/reducer'
 import homepage from './homepage'
 import lhd from './lhd/reducer'
 import bills from './bills'
 import protocolDashboard from './protocolDashboard'
+import farms from './farms'
+import stats from './stats'
+
+import pools from './pools'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
 
@@ -38,9 +43,13 @@ const store = configureStore({
     burnV3,
     multicall: multicall.reducer,
     lists,
+    zap,
     homepage,
     bills,
     protocolDashboard,
+    farms,
+    stats,
+    pools,
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

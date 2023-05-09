@@ -167,6 +167,7 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
     true,
     true,
     'addLiquidityModal',
+    true
   )
 
   const renderAction = () => {

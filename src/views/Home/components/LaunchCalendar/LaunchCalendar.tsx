@@ -5,9 +5,7 @@ import SwiperCore from 'swiper'
 import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 import { useFetchHomepageLaunchCalendar, useHomepageLaunchCalendar } from 'state/homepage/hooks'
-import { useTheme } from '@emotion/react'
 import { Flex, Skeleton, Text } from 'components/uikit'
-import Image from 'next/image'
 import {
   Bubble,
   CalendarImg,
@@ -25,7 +23,6 @@ const LaunchCalendar: React.FC = () => {
   useFetchHomepageLaunchCalendar(loadNews)
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)
-  const theme = useTheme()
   const launchCal = useHomepageLaunchCalendar()
   const sortLaunch = launchCal?.filter((launch) => new Date(launch.launchTime) > today)
   const launchCalLength = sortLaunch?.length || 0

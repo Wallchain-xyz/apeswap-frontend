@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from '../../contexts/Localization'
 import { styles } from './styles'
 import { ListViewContentProps } from './types'
-import { Flex, Skeleton, Svg, Text } from 'components/uikit'
+import { Flex, ListTag, Skeleton, Svg, Text } from 'components/uikit'
 import TooltipBubble from 'components/uikit/Tooltip'
 
 const ListViewContent: React.FC<ListViewContentProps> = ({
@@ -35,7 +35,7 @@ const ListViewContent: React.FC<ListViewContentProps> = ({
             >
               <Text sx={styles.titleText}>
                 {t(`${title}`)}
-                <span sx={{ml:"5px"}}>
+                <span sx={{ ml: '5px' }}>
                   <Svg icon="question" width="12px" />
                 </span>
               </Text>
@@ -46,7 +46,7 @@ const ListViewContent: React.FC<ListViewContentProps> = ({
           <Flex sx={{ alignItems: 'center' }}>
             {tag ? (
               <Flex sx={{ mr: '5px' }}>
-                <Flex variant={tag} />
+                <ListTag variant={tag} />
               </Flex>
             ) : (
               <Text sx={styles.titleText}>{title}</Text>
