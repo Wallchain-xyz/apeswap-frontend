@@ -10,6 +10,8 @@ import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
+import { Helmet } from 'react-helmet';
+
 
 const FullProfile = ({ chainID, address }: {
   chainID: string | string[] | undefined,
@@ -19,8 +21,25 @@ const FullProfile = ({ chainID, address }: {
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
 
+  // const cardImage = `https://hosting.com/folder/${address}`; // Replace with your dynamic image URL logic
+  const cardImage = `https://i.imgur.com/rF0bm3d.png`; // Replace with your dynamic image URL logic
+
+
   if (fullProfile) {
     return (
+      <>
+          {/* META TEST */}
+        <Helmet>
+          <meta property="og:image" content={cardImage} />
+          <meta name="twitter:image" content={cardImage} />
+          <meta property="og:title" content="{Token} Health}" />
+          <meta property="og:description" content="LHD desc" />
+          <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:title" content="{Token} Health}" />
+          <meta name="twitter:description" content="LHD Description" />
+          <meta name="twitter:card" content="summary_large_image" />
+        </Helmet>
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
           <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
@@ -56,6 +75,7 @@ const FullProfile = ({ chainID, address }: {
           Formula version: {fullProfile.formulaVersion}
         </Text>
       </Flex>
+      </>
     )
   }
   return (

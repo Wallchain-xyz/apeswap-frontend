@@ -415,7 +415,7 @@ const SharableCard = ({
         >
 
         <Bar
-          property = "STRENGHT"
+          property = "STRENGTH "
           value = {healthScore}
           color = {color}
         />
@@ -425,7 +425,7 @@ const SharableCard = ({
           color = {color}
         />
         <Bar
-          property = "CONCENTRARTION"
+          property = "CONCENTRATION"
           value = {concentrationScore}
           color = {color}
         />

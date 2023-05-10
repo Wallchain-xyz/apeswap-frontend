@@ -29,6 +29,7 @@ function Bar(data : any) {
   return (
     <Flex sx={{
         justifyContent:'end',
+        alignItems:'center',
       }}>
          <Text sx={{
             fontWeight: 800,
