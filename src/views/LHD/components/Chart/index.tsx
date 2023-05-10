@@ -10,10 +10,8 @@ import {
   Tooltip,
   LineController,
   Filler,
-  BubbleDataPoint,
-  ChartTypeRegistry,
   Point,
-  ChartConfiguration,
+  ChartOptions,
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
 import { LiquidityHealthChart } from '../../../../state/lhd/types'
@@ -127,7 +125,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     }
   }, [zoomPlugin])
 
-  const options = {
+  const options: ChartOptions<'scatter'> = {
     scales: {
       y: {
         title: {
@@ -220,7 +218,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         },
       },
     },
-  } as ChartConfiguration['options']
+  } as ChartOptions<'scatter'>
 
   function isBelowBottomLine(chart: any, point: any) {
     const { x, y } = point
@@ -260,22 +258,19 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     })
   }
 
-  function drawDebtLine(
-    chart: ChartJS<keyof ChartTypeRegistry, (number | [number, number] | Point | BubbleDataPoint | null)[], unknown>,
-    point2: { x: any; y: any },
-  ) {
-    const { ctx } = chart
-    const xScale = chart.scales['x']
-    const yScale = chart.scales['y']
+  function drawDebtLine(chart: ChartJS<'scatter'>, point2: { x: number; y: number }) {
+    const { ctx, scales } = chart
+    const { x: xScale, y: yScale } = scales
 
     const xPixel2 = xScale?.getPixelForValue(point2.x)
     const yPixel2 = yScale?.getPixelForValue(point2.y)
 
     const line1Dataset = chart.config.data.datasets[0]
-    const index = line1Dataset.data.findIndex((linePoint: { x: number }) => linePoint.x >= point2.x)
 
-    const point1 = line1Dataset.data[index - 1]
-    const point2OnLine1 = line1Dataset.data[index]
+    const index = line1Dataset.data.findIndex((x: any) => x.x >= point2.x)
+
+    const point1: Point = line1Dataset.data[index - 1] as Point
+    const point2OnLine1: Point = line1Dataset.data[index] as Point
 
     const slope = (point2OnLine1?.y - point1?.y) / (point2OnLine1?.x - point1?.x)
     const yIntercept = point1?.y - slope * point1?.x
@@ -296,7 +291,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const CustomImagePlugin = {
     id: 'printIcons',
 
-    afterDraw: function (chart: ChartJS) {
+    afterDraw: function (chart: ChartJS<'scatter'>) {
       const { ctx } = chart
 
       const dataset = chart.config.data.datasets[2]
@@ -452,7 +447,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   return (
     <>
       <Scatter
-        // @ts-ignore
         options={options}
         data={data}
         ref={canvasRef}
