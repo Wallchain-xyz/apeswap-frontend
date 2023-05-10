@@ -1,27 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Text } from 'components/uikit'
 import { createPortal } from 'react-dom'
-
 import {
   Chart as ChartJS,
   LinearScale,
   CategoryScale,
-  BarElement,
   PointElement,
   LineElement,
   Tooltip,
   LineController,
   Filler,
+  Point,
+  ChartOptions,
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
 import { LiquidityHealthChart } from '../../../../state/lhd/types'
 import { getColor } from '../../utils/getColor'
 import { useTranslation } from '../../../../contexts/Localization'
 import PriceChange from '../FullProfile/components/PercentageChange'
+import { formatDollar } from '../../../../utils/formatNumbers'
+import useIsMobile from '../../../../hooks/useIsMobile'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
-const CustomTooltip = ({ show, x, y, data }) => {
+const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: number; data: any }) => {
   const { t } = useTranslation()
 
   if (!show) return null
@@ -37,6 +39,7 @@ const CustomTooltip = ({ show, x, y, data }) => {
         background: 'white2',
         flexDirection: 'column',
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+        width: '350px',
       }}
     >
       <Flex
@@ -44,22 +47,26 @@ const CustomTooltip = ({ show, x, y, data }) => {
           background: 'white3',
           flexDirection: 'row',
           gap: '15px',
-          padding: '20px',
+          pl: '20px',
+          pr: '20px',
+          pt: '15px',
+          pb: '10px',
           borderTopLeftRadius: '10px',
           borderTopRightRadius: '10px',
+          justifyContent: 'space-between',
         }}
       >
-        <Flex>
+        <Flex sx={{ flex: '0 0 40px' }}>
           <img src={data?.image} width="40px" height="40px" sx={{ borderRadius: '50%' }} />
         </Flex>
-        <Flex sx={{ flexDirection: 'column' }}>
+        <Flex sx={{ flexDirection: 'column', flex: '0 0 190px' }}>
           <Text>{data?.name}</Text>
           <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
             ${data?.currentPrice.toFixed(5)}
             <PriceChange priceChange={data?.priceChange24hr.toFixed(2)} />
           </Text>
         </Flex>
-        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end' }}>
+        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 60px' }}>
           <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['20px'], color: 'textDisabled' }}>
             {t('SCORE')}
           </Text>
@@ -84,11 +91,11 @@ const CustomTooltip = ({ show, x, y, data }) => {
           gap: '10px',
         }}
       >
-        <Flex sx={{ flexDirection: 'row' }}>
+        <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text sx={{ fontWeight: 400 }}>Market Cap:</Text>
-          <Text sx={{ alignItems: 'flex-end' }}>${data?.mcap}</Text>
+          <Text sx={{ alignItems: 'flex-end' }}>{formatDollar({ num: data?.mcap })}</Text>
         </Flex>
-        <Flex sx={{ flexDirection: 'row' }}>
+        <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity:</Text>
           <Text sx={{ alignItems: 'flex-end' }}>{Math.round(data?.extractableLiquidityPercentage)}%</Text>
         </Flex>
@@ -98,44 +105,52 @@ const CustomTooltip = ({ show, x, y, data }) => {
   )
 }
 
-const Chart = ({ chartData }) => {
+const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const canvasRef = useRef(null)
   const [zoomPlugin, setZoomPlugin] = useState(null)
   const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       import('chartjs-plugin-zoom').then((plugin) => {
-        setZoomPlugin(plugin.default)
+        setZoomPlugin(plugin.default as any)
       })
     }
   }, [])
 
   useEffect(() => {
     if (zoomPlugin) {
-      ChartJS.register(
-        zoomPlugin,
-        BarElement,
-
-        CustomImagePlugin,
-        gradientFillBetweenLines,
-      )
+      ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
     }
   }, [zoomPlugin])
 
-  const options = {
+  const options: ChartOptions<'scatter'> = {
     scales: {
       y: {
         title: {
-          display: true,
-          text: 'Extractable Liquidity / Market Cap', // add your Y axis label here
+          display: isMobile !== true,
+          text: 'Extractable Liquidity / Market Cap',
+          color: '#A09F9C',
+          font: {
+            family: 'Poppins',
+            size: 10,
+          },
+          padding: {
+            bottom: 10,
+          },
         },
         ticks: {
-          callback: function (value: number) {
-            return `${value}%`
+          callback: function (tickValue: string | number, index: number, ticks: any[]) {
+            if (typeof tickValue === 'number') {
+              return `${tickValue}%`
+            }
+            return tickValue
           },
           font: {
-            weight: 'bold',
+            family: 'Poppins',
+            size: 10,
+            weight: '500',
           },
         },
         type: 'linear',
@@ -144,15 +159,28 @@ const Chart = ({ chartData }) => {
       },
       x: {
         title: {
-          display: true,
+          display: isMobile !== true,
           text: 'Market Cap',
+          color: '#A09F9C',
+          font: {
+            family: 'Poppins',
+            size: 10,
+          },
+          padding: {
+            top: 10,
+          },
         },
         ticks: {
-          callback: function (value: number) {
-            return `$${value}M`
+          callback: function (tickValue: string | number, index: number, ticks: any[]) {
+            if (typeof tickValue === 'number') {
+              return `$${tickValue}M`
+            }
+            return tickValue
           },
           font: {
-            weight: 'bold',
+            family: 'Poppins',
+            size: 10,
+            weight: '500',
           },
         },
         border: { dash: [4, 4] }, //
@@ -185,14 +213,31 @@ const Chart = ({ chartData }) => {
       },
       tooltip: {
         enabled: false,
-        external: (context) => {
+        external: (context: any) => {
           customTooltipHandler(context)
         },
       },
     },
+  } as ChartOptions<'scatter'>
+
+  function isBelowBottomLine(chart: any, point: any) {
+    const { x, y } = point
+
+    const line1Dataset = chart.config.data.datasets[0]
+    const index = line1Dataset.data.findIndex((linePoint: { x: number }) => linePoint.x >= x)
+
+    const point1 = line1Dataset.data[index - 1]
+    const point2 = line1Dataset.data[index]
+
+    const slope = (point2?.y - point1?.y) / (point2?.x - point1?.x)
+    const yIntercept = point1?.y - slope * point1?.x
+
+    const bottomLineY = slope * x + yIntercept
+
+    return y > bottomLineY
   }
 
-  const customTooltipHandler = (context) => {
+  const customTooltipHandler = (context: { chart?: any; tooltip?: any }) => {
     const { tooltip } = context
 
     if (tooltip.opacity === 0) {
@@ -213,14 +258,25 @@ const Chart = ({ chartData }) => {
     })
   }
 
-  function drawDebtLine(chart, point1, point2) {
-    const { ctx } = chart
-    const xScale = chart.scales['x']
-    const yScale = chart.scales['y']
-    const xPixel1 = xScale?.getPixelForValue(point1.x)
-    const yPixel1 = yScale?.getPixelForValue(point1.y - 2)
+  function drawDebtLine(chart: ChartJS<'scatter'>, point2: { x: number; y: number }) {
+    const { ctx, scales } = chart
+    const { x: xScale, y: yScale } = scales
+
     const xPixel2 = xScale?.getPixelForValue(point2.x)
-    const yPixel2 = yScale?.getPixelForValue(point2.y + 2)
+    const yPixel2 = yScale?.getPixelForValue(point2.y)
+
+    const line1Dataset = chart.config.data.datasets[0]
+
+    const index = line1Dataset.data.findIndex((x: any) => x.x >= point2.x)
+
+    const point1: Point = line1Dataset.data[index - 1] as Point
+    const point2OnLine1: Point = line1Dataset.data[index] as Point
+
+    const slope = (point2OnLine1?.y - point1?.y) / (point2OnLine1?.x - point1?.x)
+    const yIntercept = point1?.y - slope * point1?.x
+
+    const xPixel1 = xScale?.getPixelForValue(point2.x)
+    const yPixel1 = yScale?.getPixelForValue(slope * point2.x + yIntercept)
 
     ctx.beginPath()
     ctx.setLineDash([5, 5])
@@ -233,31 +289,21 @@ const Chart = ({ chartData }) => {
   }
 
   const CustomImagePlugin = {
-    id: 'printIcons', // plugins won't work without an ID
+    id: 'printIcons',
 
-    afterDraw: function (chart: ChartJS) {
+    afterDraw: function (chart: ChartJS<'scatter'>) {
       const { ctx } = chart
-      // make sure it is the dataset that has the tokens position information, in this case the dataset 0
-      const dataset = chart.config.data.datasets[2]
-      let point1: any, point2
 
-      //fetch icon and draws it
+      const dataset = chart.config.data.datasets[2]
+      let point1: any, point2: any
+
       dataset?.data?.forEach(function (point: any) {
         const { x, y, r, data } = point
-
-        if (r == 10) {
-          if (!point1) {
-            point1 = point
-          } else {
-            point2 = point
-          }
-        }
 
         const imageData = new Image()
         imageData.src = `${data.image}`
 
         const size = r * 3
-        const chartArea = chart.chartArea
         const xScale = chart.scales['x']
         const yScale = chart.scales['y']
         const xPixel = xScale?.getPixelForValue(x)
@@ -265,10 +311,24 @@ const Chart = ({ chartData }) => {
         const imageX = xPixel - size / 2
         const imageY = yPixel - size / 2
 
-        ctx.globalAlpha = 0.7
-
         ctx.beginPath()
-        ctx.strokeStyle = 'green'
+
+        if (r == 10) {
+          ctx.globalAlpha = 1
+          if (!point1) {
+            point1 = point
+            ctx.strokeStyle = '#1179A6'
+          } else {
+            point2 = point
+
+            ctx.strokeStyle = '#904DC4'
+          }
+        } else {
+          ctx.globalAlpha = 0.7
+          const borderColor = isBelowBottomLine(chart, { x, y }) ? '#38A611' : '#DF4141'
+          ctx.strokeStyle = borderColor
+        }
+
         ctx.lineWidth = 3
         ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI) // Add 3 to the radius to draw the green border outside the image
         ctx.stroke()
@@ -280,40 +340,40 @@ const Chart = ({ chartData }) => {
         ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI) // Draw the white border inside the green border
         ctx.stroke()
 
-        // Draw the image
+        ctx.save()
+        ctx.beginPath()
+        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
+        ctx.closePath()
+        ctx.clip()
+
         ctx.drawImage(imageData, imageX, imageY, size, size)
 
+        ctx.restore()
+
         ctx.globalAlpha = 1
+        if (point2) {
+          drawDebtLine(chart, point2)
+        }
       })
-      if (point1 && point2) {
-        drawDebtLine(chart, point1, point2)
-      }
     },
   }
 
   const gradientFillBetweenLines = {
     id: 'gradientFillBetweenLines',
-    beforeDatasetsDraw: (
-      chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any },
-      _args: any,
-      options: any,
-    ) => {
+    beforeDatasetsDraw: (chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any }, _args: any) => {
       const { ctx } = chart
       const line1Meta = chart.getDatasetMeta(0)
       const line2Meta = chart.getDatasetMeta(1)
       const yAxis = chart.scales[line1Meta.yAxisID]
 
-      // Create green gradient for the area between the lines
       const greenGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
       greenGradient.addColorStop(0, 'rgba(56, 166, 17, 0.3)')
       greenGradient.addColorStop(1, 'rgba(191, 220, 181, 0.3)')
 
-      // Create red gradient for the area below the bottom line
       const redGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
-      redGradient.addColorStop(0, 'rgba(233, 35, 35, 0.1)')
-      redGradient.addColorStop(1, 'rgba(166, 17, 17, 0.1)')
+      redGradient.addColorStop(0, 'rgba(233, 35, 35, 0.2)')
+      redGradient.addColorStop(1, 'rgba(233, 35, 35, 0.1)')
 
-      // Draw the area between the lines
       ctx.save()
       ctx.fillStyle = greenGradient
       ctx.beginPath()
@@ -333,7 +393,6 @@ const Chart = ({ chartData }) => {
       ctx.fill()
       ctx.restore()
 
-      // Draw the area below the bottom line
       ctx.save()
       ctx.fillStyle = redGradient
       ctx.beginPath()
@@ -355,38 +414,51 @@ const Chart = ({ chartData }) => {
   const data = {
     datasets: [
       {
-        label: 'Line 1',
+        label: 'Sus Upper',
         data: chartData.healthBottom,
         borderColor: '#38A611',
         pointRadius: 0,
         borderWidth: 2,
         tension: 0.4,
-        fill: false, // This line will not be filled.
+        fill: false,
         showLine: true,
       },
       {
-        label: 'Line 2',
+        label: 'Sus Lower',
         data: chartData.healthTop,
         borderColor: '#38A611',
         pointRadius: 0,
         borderWidth: 2,
         tension: 0.4,
-        fill: '-1', // This line will be filled with the area between the lines.
+        fill: '-1',
         showLine: true,
       },
       {
-        label: 'Scatter Data',
+        label: 'Comparable Tokens',
         data: chartData?.tokens,
         backgroundColor: 'transparent',
         borderColor: 'transparent',
         showLine: false,
+        hitRadius: 30,
       },
     ],
   }
 
   return (
     <>
-      <Scatter options={options} data={data} ref={canvasRef} />
+      <Scatter
+        options={options}
+        data={data}
+        ref={canvasRef}
+        sx={{ ml: '20px', mr: '20px', mt: '20px' }}
+        height={isMobile ? '240px' : 'inherit'}
+      />
+      {isMobile && (
+        <Flex sx={{ justifyContent: 'space-between', mt: '10px', gap: '20px' }}>
+          <Text sx={{ fontSize: '10px', fontWeight: '400' }}>Y: Extractable Liquidity / Market Cap</Text>
+          <Text sx={{ fontSize: '10px', fontWeight: '400' }}>X: Market Cap</Text>
+        </Flex>
+      )}
       <CustomTooltip show={tooltipState.show} x={tooltipState.x} y={tooltipState.y} data={tooltipState.data} />
     </>
   )
