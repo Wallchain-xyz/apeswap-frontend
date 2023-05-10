@@ -4,7 +4,6 @@ export const styles: Record<
   | 'mainContainer'
   | 'leftContainer'
   | 'nameBtnContainer'
-  | 'iconImgCont'
   | 'tokenSymbol'
   | 'priceChange'
   | 'buttons'
@@ -38,15 +37,6 @@ export const styles: Record<
     width: '100%',
     alignItems: ['flex-start'],
     flexDirection: ['column', 'column', 'row'],
-  },
-  iconImgCont: {
-    minWidth: '25px',
-    height: '25px',
-    mt: ['2px'],
-    background: '#fff',
-    borderRadius: '25px',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   tokenSymbol: {
     fontWeight: 700,

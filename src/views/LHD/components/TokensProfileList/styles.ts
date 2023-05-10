@@ -9,12 +9,12 @@ export const styles: Record<
   | 'indexCol'
   | 'indexText'
   | 'nameCol'
-  | 'imageContainer'
   | 'nameText'
   | 'usdCol'
   | 'barCol'
   | 'barContainer'
-  | 'scoreCol', ThemeUIStyleObject> = {
+  | 'scoreCol',
+  ThemeUIStyleObject> = {
   headerContainer: {
     display: 'grid',
     width: 'fit-content',
@@ -31,7 +31,7 @@ export const styles: Record<
     fontSize: ['8px', '8px', '12px'],
   },
   tableContainer: {
-    width: ['calc(100vw - 8px)', 'calc(100vw - 8px)', '100%'],
+    width: ['100vw', '100vw', '100%'],
     overflowY: 'auto',
     position: 'relative',
     mt: '20px',
@@ -67,6 +67,7 @@ export const styles: Record<
     zIndex: 2,
     justifyContent: 'center',
     height: '40px',
+    minWidth: '25px'
   },
   indexText: {
     fontWeight: 300,
@@ -81,14 +82,6 @@ export const styles: Record<
     height: '40px',
     minWidth: '140px',
     alignItems: 'center',
-  },
-  imageContainer: {
-    minWidth: '27px',
-    height: '27px',
-    background: '#fff',
-    borderRadius: '25px',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   nameText: {
     fontWeight: 500,

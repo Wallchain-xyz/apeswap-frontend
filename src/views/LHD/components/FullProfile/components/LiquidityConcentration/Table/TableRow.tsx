@@ -92,6 +92,9 @@ const TableRow = ({ index, pool }: {
             </Flex>
           )}
           {pool?.dex}
+          <Text sx={{ textTransform: 'capitalize', ml: '2px' }}>
+            {pool?.tags}
+          </Text>
         </Text>
       </Flex>
       <Flex sx={{ ...styles.colCont, justifyContent: 'flex-end' }}>

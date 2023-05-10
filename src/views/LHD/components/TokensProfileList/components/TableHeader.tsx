@@ -2,6 +2,7 @@ import { Box } from 'theme-ui'
 import { Flex, Text } from 'components/uikit'
 import React from 'react'
 import { styles } from '../styles'
+import { mobileColumnWidths, mobileMappedColumns } from '../columnsFormat'
 
 const TableHeader = () => {
   const headers = [
@@ -10,7 +11,7 @@ const TableHeader = () => {
     'MarketCap',
     '24h change',
     'Extractable',
-    'Health',
+    'Strength',
     'Concentration',
     'Ownership',
     'Score',
@@ -29,7 +30,7 @@ const TableHeader = () => {
             zIndex: index === 0 || index === 1 || index === headers.length - 1 ? 2 : 1,
             background: 'white2',
             justifyContent: index === 1 ? 'flex-start' : 'center',
-            minWidth: index === 1 ? '140px' : index === 8 ? '68px' : '0',
+            minWidth: `${mobileColumnWidths[index]}px`,
           }}
         >
           <Text sx={{ ...styles.headerText, color: index === 0 ? undefined : 'textDisabled' }}>

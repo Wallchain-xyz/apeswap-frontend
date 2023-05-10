@@ -12,6 +12,7 @@ import useModal from 'hooks/useModal'
 import SharableCard from '../../../SharableCard'
 import { styles } from './styles'
 import { useTranslation } from 'contexts/Localization'
+import TokenImage from '../../../../../../components/TokenImage'
 
 const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
@@ -30,19 +31,13 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
           <Flex sx={{ width: '100%', flexDirection: 'column' }}>
             <Flex sx={styles.nameBtnContainer}>
               <Flex>
-                <Flex sx={styles.iconImgCont}>
-                  <Image src={fullProfile?.addressMapping?.tokenLogoUrl}
-                         alt={'token img'}
-                         width={23}
-                         height={23}
-                         style={{ borderRadius: '25px' }} />
-                </Flex>
+                <TokenImage url={fullProfile?.addressMapping?.tokenLogoUrl} size={25} />
                 <Text sx={styles.tokenSymbol}>
                   {fullProfile?.addressMapping?.tokenSymbol}
                 </Text>
                 <Box sx={styles.priceChange}>
                   <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
-                    ${fullProfile?.currentPrice[0]?.amount.toFixed(5)}
+                    ${fullProfile?.currentPrice[0]?.amount < 0.00001 ? fullProfile?.currentPrice[0]?.amount : fullProfile?.currentPrice[0]?.amount.toFixed(5) }
                     <PriceChange priceChange={fullProfile?.priceChange24hr?.toFixed(2)} />
                   </Text>
                 </Box>
@@ -58,7 +53,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
             <Flex sx={styles.extraInfoCont}>
               <Flex sx={styles.rank}>
                 <Text sx={styles.rankText}>
-                  {t('Rank #')} ?
+                  {t('Rank #')} {fullProfile?.ranking}
                 </Text>
               </Flex>
               <Flex sx={styles.chainsCont}>
@@ -75,7 +70,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
         <Flex sx={{ width: '100%', flexDirection: 'row' }}>
           <Flex sx={styles.singleScoreCont}>
             <Text sx={styles.scoreTitle}>
-              {t('Health')}
+              {t('Strength')}
             </Text>
             <Text sx={styles.scoreTitle}>
               {t('Ownership')}

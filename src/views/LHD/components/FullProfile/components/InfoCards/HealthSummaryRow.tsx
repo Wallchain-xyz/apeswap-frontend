@@ -39,7 +39,7 @@ const HealthSummaryRow = ({ ttTitle, ttBody, value, circleColor, lineHeight = '3
           ttBody && (
             <TooltipBubble
               placement='bottomLeft'
-              transformTip='translate(0%, 0%)'
+              transformTip='translate(-5%, -18%)'
               width='180px'
               body={ttBody}>
                     <span sx={{ ml: '5px' }}>

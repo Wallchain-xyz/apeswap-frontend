@@ -11,6 +11,7 @@ import IconButton from '../IconButton'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { Button } from '../../../../../../components/uikit'
+import TooltipBubble from '../../../../../../components/uikit/Tooltip'
 
 const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
@@ -108,13 +109,13 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
               <Flex sx={styles.whiteContainer}>
                 <Flex sx={styles.ownerRowsContainer}>
                   {//change this before launch
-                    dummyArray.map((whiteListedOwner) => {
+                    dummyArray.map((whiteListedOwner, index) => {
                       return (
-                        <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress}>
+                        <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress + index}>
                           <Text sx={{ display: 'flex', alignItems: 'center' }}>
                             {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
                             <IconButton
-                              href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}/address/${whiteListedOwner.lpAddress}`}
+                              href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}address/${whiteListedOwner.walletAddress}`}
                               icon='filledURL'
                               simpleBtn />
                           </Text>
@@ -124,7 +125,17 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                               {whiteListedOwner.reason === 'known' ? (
                                 <Svg icon='tickShield' color='success' />
                               ) : (
-                                <Svg icon='yellowQuestion' />
+                                <TooltipBubble
+                                  placement='bottomRight'
+                                  transformTip='translate(5%, -18%)'
+                                  width='200px'
+                                  body={<>{t('Suspected owner due to Contract Name / Multisig')}</>}
+                                  sx={{'&::before': {right: '-5%'}, borderRadius: '7px'}}
+                                >
+                                    <span sx={{ ml: '5px' }}>
+                                      <Svg icon='yellowQuestion' width='12px' />
+                                    </span>
+                                </TooltipBubble>
                               )}
                             </Flex>
                           </Text>

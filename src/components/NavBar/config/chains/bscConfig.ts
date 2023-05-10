@@ -49,7 +49,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Liquidity Health',
-        href: `${TEMP_APESWAP_URL}/liquidity-health`,
+        href: `/liquidity-health`,
       },
       {
         label: 'Official IAO',

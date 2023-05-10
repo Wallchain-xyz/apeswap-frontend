@@ -39,6 +39,7 @@ export interface SimpleTokenProfile {
   concentrationScore: number
   ownershipScore: number
   totalScore: number
+  ranking: number
 }
 
 export interface TokenProfile extends SimpleTokenProfile {

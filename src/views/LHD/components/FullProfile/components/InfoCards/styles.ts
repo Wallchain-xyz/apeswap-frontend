@@ -67,7 +67,8 @@ export const styles: Record<
   ownerRowsContainer: {
     width: '100%',
     height: '100%',
-    overflow: 'auto',
+    overflowY: 'auto',
+    overflowX: 'visible',
     flexDirection: 'column',
     px: '10px',
     '::-webkit-scrollbar': {

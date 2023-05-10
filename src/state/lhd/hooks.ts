@@ -62,3 +62,14 @@ export const useSearchProfiles = () => {
 export const useFullProfile = () => {
   return useSelector((state: AppState) => state.lhd.fullProfile)
 }
+
+export const useIndustryAvg = () => {
+  return useSelector((state: AppState) => {
+    return {
+      averageTotalScore: state.lhd.averageTotalScore,
+      chainsSupported: state.lhd.chainsSupported,
+      averageChange: state.lhd.industryAverageChange,
+      tokensVerified: state.lhd.tokensVerified
+    }
+  })
+}

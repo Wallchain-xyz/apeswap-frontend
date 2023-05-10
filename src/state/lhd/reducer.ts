@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 import { SimpleTokenProfile, TokenProfile } from './types'
 
 export interface LHDState {
-  industryAverage: string
+  averageTotalScore: string
   industryAverageChange: string
   chainsSupported: string
-  verifiedTokens: string
+  tokensVerified: string
   simpleProfiles: SimpleTokenProfile[]
   searchProfiles: SimpleTokenProfile[]
   fullProfile: TokenProfile | null
@@ -13,10 +13,10 @@ export interface LHDState {
 }
 
 export const initialState: LHDState = {
-  industryAverage: '',
+  averageTotalScore: '',
   industryAverageChange: '',
   chainsSupported: '',
-  verifiedTokens: '',
+  tokensVerified: '',
   simpleProfiles: [],
   searchProfiles: [],
   fullProfile: null,
@@ -27,14 +27,14 @@ const LHDSlice = createSlice({
   name: 'LHD',
   initialState,
   reducers: {
-    addInitialListData: (state, action: { payload: LHDState }) => {
+    addIndustryData: (state, action: { payload: LHDState }) => {
       const { payload } = action
       return {
         ...state,
-        industryAverage: payload?.industryAverageChange,
+        averageTotalScore: payload?.averageTotalScore,
         industryAverageChange: payload?.industryAverageChange,
         chainsSupported: payload?.chainsSupported,
-        verifiedTokens: payload?.verifiedTokens,
+        tokensVerified: payload?.tokensVerified,
       }
     },
     addSimpleProfiles(state, action: { payload: SimpleTokenProfile[] }) {
@@ -64,5 +64,5 @@ const LHDSlice = createSlice({
   },
 })
 
-export const { addInitialListData, addSimpleProfiles, addFullProfile, addSearchProfiles, handleQueriedAPI } = LHDSlice.actions
+export const { addIndustryData, addSimpleProfiles, addFullProfile, addSearchProfiles, handleQueriedAPI } = LHDSlice.actions
 export default LHDSlice.reducer

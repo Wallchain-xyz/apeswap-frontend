@@ -24,7 +24,7 @@ export const FloatingDocs = () => {
         bottom: ['20px', '20px', '30px'],
         width: ['40px', '40px', '50px'],
         flexDirection: 'column',
-        zIndex: 5,
+        zIndex: 5555,
       }}>
       {showScroll && <ScrollTop />}
       <Flex sx={{ cursor: 'pointer' }}

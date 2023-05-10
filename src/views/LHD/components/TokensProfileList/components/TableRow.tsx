@@ -9,9 +9,18 @@ import PriceChange from '../../FullProfile/components/PercentageChange'
 import ProgressBar from '../../ProgressBar'
 import { getColor } from '../../../utils/getColor'
 import { styles } from '../styles'
+import useAssetLogoSource from '../../../../../hooks/useAssetLogoSource'
+import { TokenInfo } from '@uniswap/token-lists'
+import TokenImage from '../../../../../components/TokenImage'
 
 const TableRow = ({ index, simpleProfile }: { index: number, simpleProfile: SimpleTokenProfile }) => {
   const router = useRouter()
+  const [src, nextSrc] = useAssetLogoSource(
+    simpleProfile?.addressMapping?.tokenAddresses[0]?.address,
+    parseInt(simpleProfile?.addressMapping?.tokenAddresses[0]?.chainId),
+    false,
+    undefined,
+  )
 
   const handleClick = () => {
     const chainID = simpleProfile.addressMapping.tokenAddresses[0].chainId
@@ -22,16 +31,10 @@ const TableRow = ({ index, simpleProfile }: { index: number, simpleProfile: Simp
   return (
     <Box sx={{ ...styles.tableRowContainer, background: index % 2 ? 'white3' : 'white2' }} onClick={handleClick}>
       <Flex sx={{ ...styles.indexCol, background: index % 2 ? 'white3' : 'white2' }}>
-        <Text sx={styles.indexText}>{index}</Text>
+        <Text sx={styles.indexText}>{simpleProfile?.ranking}</Text>
       </Flex>
       <Flex sx={{ ...styles.nameCol, background: index % 2 ? 'white3' : 'white2' }}>
-        <Flex sx={styles.imageContainer}>
-          <Image src={simpleProfile?.addressMapping?.tokenLogoUrl}
-                 alt={'token img'}
-                 width={25}
-                 height={25}
-                 style={{ borderRadius: '25px' }} />
-        </Flex>
+        <TokenImage url={simpleProfile?.addressMapping?.tokenLogoUrl} size={25} />
         <Text sx={styles.nameText}>
           {simpleProfile?.addressMapping?.tokenSymbol}
         </Text>
