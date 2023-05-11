@@ -39,7 +39,7 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         background: 'white2',
         flexDirection: 'column',
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
-        width: '350px',
+        width: '370px',
       }}
     >
       <Flex
@@ -59,14 +59,14 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         <Flex sx={{ flex: '0 0 40px' }}>
           <img src={data?.image} width="40px" height="40px" sx={{ borderRadius: '50%' }} />
         </Flex>
-        <Flex sx={{ flexDirection: 'column', flex: '0 0 190px' }}>
+        <Flex sx={{ flexDirection: 'column', flex: '0 0 220px' }}>
           <Text>{data?.name}</Text>
           <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
             ${data?.currentPrice.toFixed(5)}
             <PriceChange priceChange={data?.priceChange24hr.toFixed(2)} />
           </Text>
         </Flex>
-        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 60px' }}>
+        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 50px' }}>
           <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['20px'], color: 'textDisabled' }}>
             {t('SCORE')}
           </Text>
@@ -92,11 +92,11 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         }}
       >
         <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text sx={{ fontWeight: 400 }}>Market Cap:</Text>
+          <Text sx={{ fontWeight: 400 }}>Market Cap (x-axis):</Text>
           <Text sx={{ alignItems: 'flex-end' }}>{formatDollar({ num: data?.mcap })}</Text>
         </Flex>
         <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity:</Text>
+          <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity (y-axis):</Text>
           <Text sx={{ alignItems: 'flex-end' }}>{Math.round(data?.extractableLiquidityPercentage)}%</Text>
         </Flex>
       </Flex>
@@ -252,8 +252,8 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
     setTooltipState({
       show: true,
-      x: canvasPosition.left + currentItem.element.x,
-      y: canvasPosition.top + currentItem.element.y,
+      x: canvasPosition.left + window.scrollX + currentItem.element.x,
+      y: canvasPosition.top + window.scrollY + currentItem.element.y,
       data: data,
     })
   }
