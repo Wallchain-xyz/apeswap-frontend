@@ -48,7 +48,7 @@ const TableRow = ({ index, pool }: {
           </Flex>
         </Flex>
         <Text sx={{ ...styles.bodyText, ml: '5px' }}>
-          {pool?.baseToken?.symbol}-{pool?.quoteToken?.symbol}
+          {pool?.baseToken?.symbol.toUpperCase()}-{pool?.quoteToken?.symbol.toUpperCase()}
         </Text>
       </Flex>
       <Flex sx={styles.colCont}>

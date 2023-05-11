@@ -3,24 +3,15 @@ import { SimpleTokenProfile } from 'state/lhd/types'
 import { useRouter } from 'next/router'
 import { Box } from 'theme-ui'
 import { Flex, Text } from 'components/uikit'
-import Image from 'next/image'
 import { formatDollar } from 'utils/formatNumbers'
 import PriceChange from '../../FullProfile/components/PercentageChange'
 import ProgressBar from '../../ProgressBar'
 import { getColor } from '../../../utils/getColor'
 import { styles } from '../styles'
-import useAssetLogoSource from '../../../../../hooks/useAssetLogoSource'
-import { TokenInfo } from '@uniswap/token-lists'
-import TokenImage from '../../../../../components/TokenImage'
+import TokenImage from 'components/TokenImage'
 
 const TableRow = ({ index, simpleProfile }: { index: number, simpleProfile: SimpleTokenProfile }) => {
   const router = useRouter()
-  const [src, nextSrc] = useAssetLogoSource(
-    simpleProfile?.addressMapping?.tokenAddresses[0]?.address,
-    parseInt(simpleProfile?.addressMapping?.tokenAddresses[0]?.chainId),
-    false,
-    undefined,
-  )
 
   const handleClick = () => {
     const chainID = simpleProfile.addressMapping.tokenAddresses[0].chainId

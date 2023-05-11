@@ -30,7 +30,7 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
     }))
   })
   //just to test a card with lots of rows
-  const dummyArray: any[] = [...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners]
+  const dummyArray: any[] = [...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners]
 
   return (
     <Flex sx={styles.mainContainer}>

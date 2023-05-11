@@ -13,7 +13,8 @@ export const styles: Record<
   | 'usdCol'
   | 'barCol'
   | 'barContainer'
-  | 'scoreCol',
+  | 'scoreCol'
+  | 'paginationCont',
   ThemeUIStyleObject> = {
   headerContainer: {
     display: 'grid',
@@ -27,6 +28,7 @@ export const styles: Record<
     justifyItems: 'center',
   },
   headerText: {
+    display: 'flex',
     fontWeight: [400, 400, 500],
     fontSize: ['8px', '8px', '12px'],
   },
@@ -36,7 +38,7 @@ export const styles: Record<
     position: 'relative',
     mt: '20px',
     ml: ['-20px', '-20px', 0],
-    borderRadius: '10px',
+    borderRadius: '10px 10px 0 0',
     '::-webkit-scrollbar': {
       height: '3px',
       background: 'white3',
@@ -67,7 +69,7 @@ export const styles: Record<
     zIndex: 2,
     justifyContent: 'center',
     height: '40px',
-    minWidth: '25px'
+    minWidth: '25px',
   },
   indexText: {
     fontWeight: 300,
@@ -114,6 +116,14 @@ export const styles: Record<
     zIndex: 2,
     justifyContent: 'center',
     height: '40px',
+  },
+  paginationCont: {
+    background: 'white2',
+    py: '20px',
+    width: ['100vw', '100vw', '100%'],
+    ml: ['-20px', '-20px', '0px'],
+    justifyContent: 'center',
+    borderRadius: '0 0 10px 10px',
   },
 }
 

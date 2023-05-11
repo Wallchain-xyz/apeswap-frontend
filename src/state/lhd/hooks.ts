@@ -18,34 +18,48 @@ export const useLoadInitialProfiles = () => {
 
 export const useOnSearchProfiles = () => {
   const dispatch = useAppDispatch()
-  return useCallback(async (queryString: string): Promise<boolean> => {
-    try {
-      dispatch(handleQueriedAPI(true))
-      const listData: SimpleTokenProfile[] = await fetchProfiles(queryString)
-      dispatch(addSearchProfiles(listData))
-      dispatch(handleQueriedAPI(false))
-      return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
-    } catch (e) {
-      console.error(e)
-      return false
-    }
-  }, [dispatch])
+  return useCallback(
+    async (queryString: string): Promise<boolean> => {
+      try {
+        dispatch(handleQueriedAPI(true))
+        const listData: SimpleTokenProfile[] = await fetchProfiles(queryString)
+        dispatch(addSearchProfiles(listData))
+        dispatch(handleQueriedAPI(false))
+        return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
+      } catch (e) {
+        console.error(e)
+        return false
+      }
+    },
+    [dispatch],
+  )
 }
 
-export const useFetchProfile = async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
+//export const useFetchProfile = async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
+
+export const useFetchProfile = () => {
   const dispatch = useAppDispatch()
   const fullProfile = useSelector((state: AppState) => state?.lhd?.fullProfile)
-  const exists = fullProfile?.addressMapping?.tokenAddresses.find((tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID)
-  if (!exists) {
-    try {
-      dispatch(addFullProfile(null))
-      const fullProfile: TokenProfile = await fetchFullProfile(`${chainID}/${address}`)
-      if (fullProfile) {
-        dispatch(addFullProfile(fullProfile))
+
+  const fetchProfile = useCallback(
+    async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
+      const exists = fullProfile?.addressMapping?.tokenAddresses.find(
+        (tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID,
+      )
+      if (!exists) {
+        try {
+          dispatch(addFullProfile(null))
+          const fullProfile: TokenProfile = await fetchFullProfile(`${chainID}/${address}`)
+          if (fullProfile) {
+            dispatch(addFullProfile(fullProfile))
+          }
+        } catch (e) {}
       }
-    } catch (e) {
-    }
-  }
+    },
+    [dispatch, fullProfile],
+  )
+
+  return fetchProfile
 }
 
 export const useSimpleProfiles = (): [SimpleTokenProfile[], boolean] => {

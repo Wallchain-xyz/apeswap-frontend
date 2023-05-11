@@ -11,7 +11,7 @@ const PriceChange = ({ priceChange }: { priceChange: string }) => {
   return (
     <Text sx={changeStyle}>
       {isPositive ? '+' : ''}
-      {priceChange} %
+      {priceChange}%
     </Text>
   )
 }
