@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useTranslation } from '../../contexts/Localization'
 import { Button, Flex, Input, Text } from 'components/uikit'
+import { Theme } from 'theme-ui'
 
 interface ModalInputProps {
   max: string
@@ -34,7 +35,7 @@ const StyledInput = styled(Input)`
 
 const StyledButton = styled(Button)`
   border-radius: 6px;
-  color: ${({ theme }) => theme.colors.primaryBright};
+  color: ${({ theme }: { theme: Theme }) => theme?.colors?.primaryBright};
   font-weight: 500;
   font-size: 12px;
   padding: 3px 10px;
