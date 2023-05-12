@@ -56,26 +56,29 @@ function Token(data : any) {
 
         },
         bgToken:{
-          width: '192px',
-          height: '192px',
+          width: '152px',
+          height: '152px',
           overflow:'hidden',borderRadius:'50%', 
         }
       };
       
-      function ImageWithFallback({ src, alt, width, height }: { src: string, alt: string, width: number, height: number }) {
+      function ImageWithFallback({ src, alt, }: { src: string, alt: string, }) {
         if (src.endsWith('.svg')) {
           return (
-            <Flex style={{ position: 'absolute', marginTop: '21px' }}>
+            <Flex style={{ position: 'absolute', marginTop: '21px', width:'150px', height:'150px'}}>
               <ReactSVG
                 src={src}
+                sx={{width:'150px', height:'150px'}}
                 beforeInjection={(svg) => {
-                  svg.setAttribute('width', width.toString());
-                  svg.setAttribute('height', height.toString());
+                  svg.setAttribute('width', '150');
+                  svg.setAttribute('height', '150');
+                  svg.style.width = '100px';
+                  svg.style.height = '100px';
                   svg.style.borderRadius = '50%';
                   svg.style.overflow = 'hidden';
-      
+                  
                   const titleElement = document.createElement('title');
-                  titleElement.textContent = alt;
+                  // titleElement.textContent = alt;
                   svg.prepend(titleElement);
                 }}
               />
@@ -84,7 +87,19 @@ function Token(data : any) {
         } else {
           return (
             <Flex style={{ position: 'absolute', marginTop: '21px' }}>
-              <Image
+              <img
+                src={src}
+                alt={alt}
+                // width={width}
+                // height={height}
+                style={{
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  width:'110px',
+                  height:'110px',
+                }}
+              />
+              {/* <Image
                 src={src}
                 alt={alt}
                 width={width}
@@ -93,7 +108,7 @@ function Token(data : any) {
                   borderRadius: '50%',
                   overflow: 'hidden',
                 }}
-              />
+              /> */}
             </Flex>
           );
         }
@@ -105,17 +120,18 @@ return (
       width: '250px',
       justifyContent: 'center',
       alignItems: 'start',
+      
     }}
   >
     <Flex sx={Styles.container}>
-      {/* <ImageWithFallback
+      <ImageWithFallback
         src={imageUrl ?? ''}
         alt={tokenSymbol + ' token.'}
-        width={192} // Aquí ajustamos las dimensiones
-        height={192}
-      /> */}
+        // width={100} // Aquí ajustamos las dimensiones
+        // height={100}
+      />
 
-      <Image 
+      {/* <Image 
       src={imageUrl}
       alt={tokenSymbol}
       width={192}
@@ -133,7 +149,7 @@ return (
         // ml:'500px',
       }}>
 
-      </Image>
+      </Image> */}
 
       {score <= 40 ? (
         <Bronze sx={Styles.bgToken} />

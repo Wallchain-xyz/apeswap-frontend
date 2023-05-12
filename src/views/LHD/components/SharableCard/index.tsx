@@ -12,7 +12,7 @@ import { getColor } from 'views/LHD/utils/getColor'
 import { FullLogo } from 'components/uikit/Svg/Icons'
 import domtoimage from 'dom-to-image';
 
-
+import rasterizeHTML from 'rasterizehtml';
 
 
 
@@ -58,75 +58,62 @@ const SharableCard = ({
                       }: SharableCardProps) => {
   //put logic and functions here, feel free to create folders and new files within the SharableCard directory
   
-  // const cardRef = useRef();
 
-  // const captureAndUploadImage = async () => {
-  //   setTimeout(async () => {
-  //     const card = document.getElementById('card');
-  
-  //     if (!card) {
-  //       console.error("El elemento no está disponible en el DOM");
-  //       return;
-  //     }
-  
-  //     html2canvas(card, {
-  //       allowTaint: true,
-  //       foreignObjectRendering: false,
-  //       useCORS: true,
-  //       backgroundColor: null,
-  //     }).then(async function (canvas) {
-  //       canvas.toBlob(async (blob) => {
-  //         // Subir la imagen a Cloudinary
-  //         const formData = new FormData();
-  //         formData.append("file", blob);
-  //         formData.append("upload_preset", "nxwuqak6");
-  
-  //         const response = await fetch(
-  //           "https://api.cloudinary.com/v1_1/dsud5svji/image/upload",
-  //           {
-  //             method: "POST",
-  //             body: formData,
-  //           }
-  //         );
-  
-  //         if (response.ok) {
-  //           const result = await response.json();
-  //           const imageUrl = result.secure_url;
-  //           console.log("URL de la imagen:", imageUrl);
-  
-  //           // Aquí puedes agregar el código para usar la URL de la imagen como metadato en tu página
-  //         } else {
-  //           console.error("Error al subir la imagen:", response.statusText);
-  //         }
-  //       }, "image/png");
-  //     });
-  //   }, 1000);
-  // };
-  
-  
-  
-  
 
 
   
-  
-
-  const handleDownloadClick = () => {
-    download();
-  };
   const handleShareClick = () => {
     share();
   };
   
+
+  const handleDownloadClick = () => {
+    // download();
+  };
+  
+
+  // function download() {
+  //   const card = document.getElementById('card') ?? {} as HTMLElement;
+  
+  //   // Create a new canvas element
+  //   const canvas = document.createElement('canvas');
+  
+  //   // Use rasterizeHTML to draw the HTML to the canvas
+  //   rasterizeHTML.drawHTML(card.outerHTML, canvas)
+  //     .then(renderResult => {
+  //       // Create a new image element
+  //       // const img = new Image();
+  
+  //       // Set the source of the image to the data URL of the canvas
+  //       img.src = canvas.toDataURL();
+  
+  //       // Create a new link element
+  //       const link = document.createElement('a');
+  
+  //       // Set the download attribute of the link
+  //       link.download = 'card.png';
+  
+  //       // Set the href of the link to the data URL of the image
+  //       link.href = img.src;
+  
+  //       // Simulate a click on the link
+  //       link.click();
+  //     });
+  // }
+  
+
+
+
+
   // function download() {
   //   const card = document.getElementById('card') ?? {} as HTMLElement;
   //   html2canvas(card, {
-  //     allowTaint: true,
-  //     useCORS: true,
-  //     backgroundColor: null,
-  //     letterRendering:true,
-  //     scale: 2, // scale content
-  //   }).then(function (canvas) {
+  //     allowTaint: true, //Allow using images from other sources
+  //             //  taintTest: false,
+  //              useCORS: true,
+  //              backgroundColor: null, 
+  //              scale:2,
+  //                 }).then(function (canvas) {
   //     const link = document.createElement('a');
   //     link.download = 'card2.png';
   //     link.href = canvas.toDataURL('image/png');
@@ -179,35 +166,35 @@ const SharableCard = ({
   // }
   
   
-  function download() {
-  const card = document.getElementById("card") ?? ({} as HTMLElement);
-  // card.style.borderRadius = "40px";
-  // card.style.overflow = "hidden";
+//   function download() {
+//   const card = document.getElementById("card") ?? ({} as HTMLElement);
+//   // card.style.borderRadius = "40px";
+//   // card.style.overflow = "hidden";
 
-  const scaleFactor = 2; // Ajusta este valor para cambiar el tamaño de la imagen exportada
+//   const scaleFactor = 2; // Ajusta este valor para cambiar el tamaño de la imagen exportada
 
-  domtoimage
-    .toPng(card, {
-      style: {
-        backgroundColor: "transparent",
-        transform: `scale(${scaleFactor})`,
-        transformOrigin: "top left",
-        // borderRadius: "40px",
-        // overflow: "hidden",
-      },
-      width: card.clientWidth * scaleFactor,
-      height: card.clientHeight * scaleFactor,
-    })
-    .then((dataUrl) => {
-      const link = document.createElement("a");
-      link.download = `${tokenSymbol} ${nameDate}.png`;
-      link.href = dataUrl;
-      link.click();
-    })
-    .catch((error) => {
-      // console.error('Error al convertir a PNG:', error);
-    });
-}
+//   domtoimage
+//     .toPng(card, {
+//       style: {
+//         backgroundColor: "transparent",
+//         transform: `scale(${scaleFactor})`,
+//         transformOrigin: "top left",
+//         // borderRadius: "40px",
+//         // overflow: "hidden",
+//       },
+//       width: card.clientWidth * scaleFactor,
+//       height: card.clientHeight * scaleFactor,
+//     })
+//     .then((dataUrl) => {
+//       const link = document.createElement("a");
+//       link.download = `${tokenSymbol} ${nameDate}.png`;
+//       link.href = dataUrl;
+//       link.click();
+//     })
+//     .catch((error) => {
+//       // console.error('Error al convertir a PNG:', error);
+//     });
+// }
 
 
   
@@ -311,7 +298,7 @@ const SharableCard = ({
         position:'relative',
         transform: `scale(${scaleRatio})`,
         transformOrigin: 'center',
-        borderRadius:'40px',
+        borderRadius:'5px',
         overflow: 'hidden',
 
       }}>
@@ -319,7 +306,7 @@ const SharableCard = ({
       sx={{
         // borderRadius:'40px',
         overflow:'hidden',
-        borderRadius:'40px',
+        borderRadius:'5px',
       }}
       >
         <Flex sx={{ 
@@ -332,10 +319,10 @@ const SharableCard = ({
         </Flex>
 
           <Flex>
-          {score <= 40 ? <Bronze sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'40px',}} /> : 
-          score <= 75 ? <Silver sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'40px',}} /> : 
-          score <= 90 ? <Gold sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'40px',}}/> : 
-          <Diamond sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'40px',}}/> }
+          {score <= 40 ? <Bronze sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}} /> : 
+          score <= 75 ? <Silver sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}} /> : 
+          score <= 90 ? <Gold sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}}/> : 
+          <Diamond sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}}/> }
           </Flex>
     
           <Flex
