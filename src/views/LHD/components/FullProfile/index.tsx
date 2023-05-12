@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
 import { Flex, Link, Spinner, Svg, Text } from 'components/uikit'
 import { ExternalDataOption, TokenProfile } from 'state/lhd/types'
@@ -10,25 +10,32 @@ import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet'
 
-
-const FullProfile = ({ chainID, address }: {
-  chainID: string | string[] | undefined,
+const FullProfile = ({
+  chainID,
+  address,
+}: {
+  chainID: string | string[] | undefined
   address: string | string[] | undefined
 }) => {
-  useFetchProfile(chainID, address)
+  const fetchProfile = useFetchProfile()
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
 
   // const cardImage = `https://hosting.com/folder/${address}`; // Replace with your dynamic image URL logic
-  const cardImage = `https://i.imgur.com/rF0bm3d.png`; // Replace with your dynamic image URL logic
+  const cardImage = `https://i.imgur.com/rF0bm3d.png` // Replace with your dynamic image URL logic
 
+  useEffect(() => {
+    if (chainID && address) {
+      fetchProfile(chainID, address)
+    }
+  }, [chainID, address, fetchProfile])
 
   if (fullProfile) {
     return (
       <>
-          {/* META TEST */}
+        {/* META TEST */}
         <Helmet>
           <meta property="og:image" content={cardImage} />
           <meta name="twitter:image" content={cardImage} />
@@ -40,41 +47,42 @@ const FullProfile = ({ chainID, address }: {
           <meta name="twitter:description" content="LHD Description" />
           <meta name="twitter:card" content="summary_large_image" />
         </Helmet>
-      <Flex sx={styles.mainContainer}>
-        <Flex sx={styles.topContainer}>
-          <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
-            <Text sx={styles.back}>
-              <Flex sx={{ mr: '5px' }}>
-                <Svg icon='caret' direction='left' width={7} />
-              </Flex>
-              {t('Back')}
+        <Flex sx={styles.mainContainer}>
+          <Flex sx={styles.topContainer}>
+            <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
+              <Text sx={styles.back}>
+                <Flex sx={{ mr: '5px' }}>
+                  <Svg icon="caret" direction="left" width={7} />
+                </Flex>
+                {t('Back')}
+              </Text>
+            </Link>
+            <Text sx={styles.lastUpdated}>
+              {t('Last updated:')} {new Date(parseInt(fullProfile?.createdAt)).toLocaleString()}
             </Text>
-          </Link>
-          <Text sx={styles.lastUpdated}>
-            {t('Last updated:')} {new Date(parseInt(fullProfile?.createdAt)).toLocaleString()}
-          </Text>
-        </Flex>
-        <TopSectionCards fullProfile={fullProfile} />
-        <Flex sx={styles.lowerContainer}>
-          <Flex sx={styles.layout}>
-            <Flex sx={styles.chartCont}>
-              <Chart chartData={fullProfile?.healthChartData} />
+          </Flex>
+          <TopSectionCards fullProfile={fullProfile} />
+          <Flex sx={styles.lowerContainer}>
+            <Flex sx={styles.layout}>
+              <Flex sx={styles.chartCont}>
+                <Flex sx={styles.titleContainer}>
+                  <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
+                </Flex>
+                <Chart chartData={fullProfile?.healthChartData} />
+              </Flex>
+              <Flex sx={styles.infoCardMobile}>
+                <InfoCards fullProfile={fullProfile} />
+              </Flex>
+              <Flex sx={styles.liquidityConCont}>
+                <LiquidityConcentration fullProfile={fullProfile} />
+              </Flex>
             </Flex>
-            <Flex sx={styles.infoCardMobile}>
+            <Flex sx={styles.infoCardDesktop}>
               <InfoCards fullProfile={fullProfile} />
             </Flex>
-            <Flex sx={styles.liquidityConCont}>
-              <LiquidityConcentration fullProfile={fullProfile} />
-            </Flex>
           </Flex>
-          <Flex sx={styles.infoCardDesktop}>
-            <InfoCards fullProfile={fullProfile} />
-          </Flex>
+          <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
         </Flex>
-        <Text sx={styles.formula}>
-          Formula version: {fullProfile.formulaVersion}
-        </Text>
-      </Flex>
       </>
     )
   }

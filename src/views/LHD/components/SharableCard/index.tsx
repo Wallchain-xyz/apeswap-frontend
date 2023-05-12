@@ -304,9 +304,9 @@ const SharableCard = ({
       }}>
       <Flex id='card'
       sx={{
-        // borderRadius:'40px',
+        borderRadius:'40px',
         overflow:'hidden',
-        borderRadius:'5px',
+        // borderRadius:'5px',
       }}
       >
         <Flex sx={{ 
