@@ -78,24 +78,43 @@ const SharableCard = ({
   
 
 
-
-
   function download() {
-    const card = document.getElementById('card') ?? {} as HTMLElement;
-    html2canvas(card, {
-      allowTaint: true, //Allow using images from other sources
-      //  taintTest: false,
-        useCORS: true,
-        backgroundColor: null, 
-      //  scale:2,
-                  }).then(function (canvas) {
-      const link = document.createElement('a');
-      link.download = 'card2.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    });
+    const card = document.getElementById('card');
     
-  }
+    if (card) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+  
+        rasterizeHTML.drawHTML(card.innerHTML, canvas)
+        .then(() => {
+            const link = document.createElement('a');
+            link.download = 'card2.png';
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .catch((error) => console.error('Error rasterizing HTML: ', error));
+    }
+}
+
+
+  // function download() {
+  //   const card = document.getElementById('card') ?? {} as HTMLElement;
+  //   html2canvas(card, {
+  //     allowTaint: true, //Allow using images from other sources
+  //     //  taintTest: false,
+  //       useCORS: true,
+  //       backgroundColor: null, 
+  //     //  scale:2,
+  //                 }).then(function (canvas) {
+  //     const link = document.createElement('a');
+  //     link.download = 'card2.png';
+  //     link.href = canvas.toDataURL('image/png');
+  //     link.click();
+  //   });
+    
+  // }
 
   // function download() {
   //   const card = document.getElementById('card') ?? {} as HTMLElement;
@@ -284,6 +303,14 @@ const SharableCard = ({
         borderRadius:'5px',
       }}
       >
+ <Token 
+            imageUrl={tokenImageURL ?? ""} 
+            score={totalScore} 
+            tokenSymbol={tokenSymbol} 
+          />
+                
+
+
         <Flex sx={{ 
           position:'absolute',
           mt:'3.4%',
@@ -356,12 +383,7 @@ const SharableCard = ({
           mb:'30px',
          }}
          >
-          <Token 
-            imageUrl={tokenImageURL ?? ""} 
-            score={totalScore} 
-            tokenSymbol={tokenSymbol} 
-          />
-                
+         
         {/* Bars */}
         <Flex
         sx={{
