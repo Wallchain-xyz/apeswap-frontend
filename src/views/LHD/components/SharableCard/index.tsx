@@ -80,42 +80,42 @@ const SharableCard = ({
 
 
 
-  // function download() {
-  //   const card = document.getElementById('card') ?? {} as HTMLElement;
-  //   html2canvas(card, {
-  //     allowTaint: true, //Allow using images from other sources
-  //     //  taintTest: false,
-  //       useCORS: true,
-  //       backgroundColor: null, 
-  //     //  scale:2,
-  //                 }).then(function (canvas) {
-  //     const link = document.createElement('a');
-  //     link.download = 'card2.png';
-  //     link.href = canvas.toDataURL('image/png');
-  //     link.click();
-  //   });
-    
-  // }
-
   function download() {
     const card = document.getElementById('card') ?? {} as HTMLElement;
+    html2canvas(card, {
+      allowTaint: true, //Allow using images from other sources
+      //  taintTest: false,
+        useCORS: true,
+        backgroundColor: null, 
+      //  scale:2,
+                  }).then(function (canvas) {
+      const link = document.createElement('a');
+      link.download = 'card2.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+    
+  }
+
+  // function download() {
+  //   const card = document.getElementById('card') ?? {} as HTMLElement;
   
-    domtoimage.toPng(card, {
-      style: {
-        backgroundColor: 'transparent',
-        // transform: 'scale(2)', // scale content
-      },
-    })
-      .then((dataUrl) => {
-        const link = document.createElement('a');
-        link.download = 'card2.png';
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((error) => {
-        // console.error('Error al convertir a PNG:', error);
-      });
-  }  
+  //   domtoimage.toPng(card, {
+  //     style: {
+  //       backgroundColor: 'transparent',
+  //       // transform: 'scale(2)', // scale content
+  //     },
+  //   })
+  //     .then((dataUrl) => {
+  //       const link = document.createElement('a');
+  //       link.download = 'card2.png';
+  //       link.href = dataUrl;
+  //       link.click();
+  //     })
+  //     .catch((error) => {
+  //       // console.error('Error al convertir a PNG:', error);
+  //     });
+  // }  
  
   // function download() {
   //   const card = document.getElementById("card") ?? ({} as HTMLElement);
