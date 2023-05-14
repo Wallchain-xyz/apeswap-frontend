@@ -65,17 +65,19 @@ function Token(data : any) {
       function ImageWithFallback({ src, alt, }: { src: string, alt: string, }) {
         if (src.endsWith('.svg')) {
           return (
-            <Flex style={{ position: 'absolute', marginTop: '21px', width:'150px', height:'150px'}}>
+            <Flex style={{ position: 'absolute', marginTop: '16px'}}>
               <ReactSVG
                 src={src}
-                sx={{width:'150px', height:'150px'}}
+                width={120}
+                height={120}
+                // sx={{width:'150px', height:'150px'}}
                 beforeInjection={(svg) => {
-                  svg.setAttribute('width', '150');
-                  svg.setAttribute('height', '150');
-                  svg.style.width = '100px';
-                  svg.style.height = '100px';
-                  svg.style.borderRadius = '50%';
-                  svg.style.overflow = 'hidden';
+                  // svg.setAttribute('width', '150');
+                  // svg.setAttribute('height', '150');
+                  // svg.style.width = '100px';
+                  // svg.style.height = '100px';
+                  // svg.style.borderRadius = '50%';
+                  // svg.style.overflow = 'hidden';
                   
                   const titleElement = document.createElement('title');
                   // titleElement.textContent = alt;
@@ -86,17 +88,17 @@ function Token(data : any) {
           );
         } else {
           return (
-            <Flex style={{ position: 'absolute', marginTop: '21px' }}>
+            <Flex style={{ position: 'absolute', marginTop: '16px' }}>
               <img
                 src={src}
                 alt={alt}
-                // width={width}
-                // height={height}
+                width={120}
+                height={120}
                 style={{
                   borderRadius: '50%',
-                  overflow: 'hidden',
-                  width:'110px',
-                  height:'110px',
+                  // overflow: 'hidden',
+                  // width:'110px',
+                  // height:'110px',
                 }}
               />
               {/* <Image

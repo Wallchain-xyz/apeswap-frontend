@@ -45,7 +45,7 @@ const FullProfile = ({
           <meta property="og:type" content="website" />
           <meta name="twitter:title" content="{Token} Health}" />
           <meta name="twitter:description" content="LHD Description" />
-          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:card" content={cardImage}/>
         </Helmet>
         <Flex sx={styles.mainContainer}>
           <Flex sx={styles.topContainer}>
