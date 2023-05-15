@@ -7,16 +7,22 @@ import { addSearchProfiles } from 'state/lhd/reducer'
 import useDebounce from 'hooks/useDebounce'
 import { styles } from './styles'
 import { useAnimation, motion } from 'framer-motion'
+import useModal from 'hooks/useModal'
+import FilterModal from './FilterModal'
 
-const SearchBar = () => {
+const SearchBar = ({ handleNoResults, searchQueryString, setSearchQueryString }: {
+  handleNoResults: (value: boolean) => void,
+  searchQueryString: string,
+  setSearchQueryString: any
+}) => {
   const onSearchProfiles = useOnSearchProfiles()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const [queryString, setQueryString] = useState('')
-  const debouncedQueryString = useDebounce(queryString, 1000)
+  const debouncedQueryString = useDebounce(searchQueryString, 1000)
+  const [onFilterModal] = useModal(<FilterModal />)
 
   const handleChange = (searchQuery: string) => {
-    setQueryString(searchQuery)
+    setSearchQueryString(searchQuery)
   }
 
   //shakes when no results are found
@@ -30,22 +36,25 @@ const SearchBar = () => {
 
   useEffect(() => {
     dispatch(addSearchProfiles([]))
+    handleNoResults(false)
     if (debouncedQueryString?.length >= 2) {
       onSearchProfiles(debouncedQueryString).then(res => {
-        if (res) startShaking()
+        if (res) {
+          handleNoResults(true)
+          startShaking()
+        }
       })
     }
-  }, [dispatch, debouncedQueryString, onSearchProfiles, startShaking])
+  }, [debouncedQueryString, dispatch, handleNoResults, onSearchProfiles, startShaking])
 
   return (
     <Flex sx={styles.searchBarContainer}>
       <motion.div
         animate={controls}
-        style={{ display: 'inline-block', width: '100%', margin: '0 5px' }}
-      >
+        style={{ display: 'inline-block', width: '100%', margin: '0 5px' }}>
         <Input
           placeholder={t('Token name, address, symbol ...')}
-          value={queryString}
+          value={searchQueryString}
           variant='search'
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event.target.value)}
           style={{ backgroundColor: 'white2' }}
@@ -55,7 +64,11 @@ const SearchBar = () => {
       <Button
         variant='tertiary'
         sx={styles.btn}
-        endIcon={<Flex sx={{ ml: '5px' }}><Svg icon='MenuSettings' /></Flex>}
+        endIcon={
+          <Flex sx={{ ml: '5px' }}>
+            <Svg icon='MenuSettings' />
+          </Flex>}
+        onClick={onFilterModal}
       >
         {t('Filters')}
       </Button>

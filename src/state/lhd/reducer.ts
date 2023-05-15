@@ -1,15 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { SimpleTokenProfile, TokenProfile } from './types'
 
+export interface QueryState {
+  mCapMin: number
+  mCapMax: number
+  extMin: number
+  extMax: number
+  scoreMin: number
+  scoreMax: number
+  healthMin: number
+  healthMax: number
+  ownerMin: number
+  ownerMax: number
+  concenMin: number
+  concenMax: number
+}
+
 export interface LHDState {
   averageTotalScore: string
   industryAverageChange: string
   chainsSupported: string
   tokensVerified: string
+  queryState: QueryState
+  tokensTracked: number
   simpleProfiles: SimpleTokenProfile[]
   searchProfiles: SimpleTokenProfile[]
   fullProfile: TokenProfile | null
-  queriedAPI: boolean
 }
 
 export const initialState: LHDState = {
@@ -17,10 +33,24 @@ export const initialState: LHDState = {
   industryAverageChange: '',
   chainsSupported: '',
   tokensVerified: '',
+  tokensTracked: 0,
+  queryState: {
+    mCapMin: 0,
+    mCapMax: 0,
+    extMin: 0,
+    extMax: 0,
+    scoreMin: 0,
+    scoreMax: 0,
+    healthMin: 0,
+    healthMax: 0,
+    ownerMin: 0,
+    ownerMax: 0,
+    concenMin: 0,
+    concenMax: 0
+  },
   simpleProfiles: [],
   searchProfiles: [],
-  fullProfile: null,
-  queriedAPI: false
+  fullProfile: null
 }
 
 const LHDSlice = createSlice({
@@ -35,6 +65,7 @@ const LHDSlice = createSlice({
         industryAverageChange: payload?.industryAverageChange,
         chainsSupported: payload?.chainsSupported,
         tokensVerified: payload?.tokensVerified,
+        tokensTracked: payload?.tokensTracked
       }
     },
     addSimpleProfiles(state, action: { payload: SimpleTokenProfile[] }) {
@@ -55,14 +86,14 @@ const LHDSlice = createSlice({
         fullProfile: action.payload
       }
     },
-    handleQueriedAPI(state, action: { payload: boolean}) {
+    handleQueryStatus(state, action: {payload: QueryState}) {
       return {
         ...state,
-        queriedAPI: action.payload
+        queryState: action.payload
       }
     }
   },
 })
 
-export const { addIndustryData, addSimpleProfiles, addFullProfile, addSearchProfiles, handleQueriedAPI } = LHDSlice.actions
+export const { addIndustryData, addSimpleProfiles, addFullProfile, addSearchProfiles } = LHDSlice.actions
 export default LHDSlice.reducer

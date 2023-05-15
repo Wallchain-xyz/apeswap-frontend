@@ -92,7 +92,6 @@ const Swap = () => {
     [independentField, parsedAmount, showWrap, trade],
   )
 
-  console.log()
   const [routeNotFound, routeIsLoading, routeIsSyncing] = useMemo(
     () => [!trade?.swaps, TradeState.LOADING === tradeState, TradeState.SYNCING === tradeState],
     [trade, tradeState],

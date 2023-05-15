@@ -13,8 +13,7 @@ export const styles: Record<
   | 'usdCol'
   | 'barCol'
   | 'barContainer'
-  | 'scoreCol'
-  | 'paginationCont',
+  | 'scoreCol',
   ThemeUIStyleObject> = {
   headerContainer: {
     display: 'grid',
@@ -31,9 +30,10 @@ export const styles: Record<
     display: 'flex',
     fontWeight: [400, 400, 500],
     fontSize: ['8px', '8px', '12px'],
+    color: 'textDisabled',
   },
   tableContainer: {
-    width: ['100vw', '100vw', '100%'],
+    width: ['calc(100vw - 8px)', 'calc(100vw - 8px)', '100%'],
     overflowY: 'auto',
     position: 'relative',
     mt: '20px',
@@ -79,10 +79,10 @@ export const styles: Record<
   nameCol: {
     padding: '8px',
     position: 'sticky',
-    left: 25,
+    left: 30,
     zIndex: 2,
     height: '40px',
-    minWidth: '140px',
+    minWidth: '125px',
     alignItems: 'center',
   },
   nameText: {
@@ -116,14 +116,6 @@ export const styles: Record<
     zIndex: 2,
     justifyContent: 'center',
     height: '40px',
-  },
-  paginationCont: {
-    background: 'white2',
-    py: '20px',
-    width: ['100vw', '100vw', '100%'],
-    ml: ['-20px', '-20px', '0px'],
-    justifyContent: 'center',
-    borderRadius: '0 0 10px 10px',
   },
 }
 

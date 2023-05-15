@@ -1,6 +1,6 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
-export const styles: Record<string, ThemeUIStyleObject> = {
+export const styles: Record<'btn' | 'paginationCont', ThemeUIStyleObject> = {
   btn: {
     mx: '10px',
     width: '25px',
@@ -11,5 +11,13 @@ export const styles: Record<string, ThemeUIStyleObject> = {
     fontWeight: 500,
     fontSize: '14px',
     border: '2px solid #FFB300',
+  },
+  paginationCont: {
+    background: 'white2',
+    py: '20px',
+    width: ['calc(100vw - 8px)', 'calc(100vw - 8px)', '100%'],
+    ml: ['-20px', '-20px', '0px'],
+    justifyContent: 'center',
+    borderRadius: '0 0 10px 10px',
   },
 }

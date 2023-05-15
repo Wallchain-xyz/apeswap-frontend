@@ -19,6 +19,7 @@ import Blocklist from 'components/Blocklist'
 import MarketingModalCheck from 'components/MarketingModalCheck'
 import { Analytics } from '@vercel/analytics/react'
 import { RefreshContextProvider } from 'contexts/RefreshContext'
+import './styles.css'
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {

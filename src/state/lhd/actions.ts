@@ -7,7 +7,7 @@ import axiosRetry from 'axios-retry'
 
 const apiEndpoint = 'https://lhd-temp-api.herokuapp.com'
 
-export const fetchProfiles = async (query?: string) => {
+export const fetchProfiles = async (query?: string, filters?: string) => {
   try {
     axiosRetry(axios, {
       retries: 5,
@@ -16,6 +16,8 @@ export const fetchProfiles = async (query?: string) => {
     let res
     if (query) {
       res = await axios.get(`${apiEndpoint}/liquidity-health-dashboard/profiles/search/${query}`)
+    } else if (filters) {
+      res = await axios.get(`${apiEndpoint}/liquidity-health-dashboard/profiles?${filters}`)
     } else {
       res = await axios.get(`${apiEndpoint}/liquidity-health-dashboard/profiles`)
     }
@@ -49,6 +51,15 @@ export const fetchInitialProfiles = () => async (dispatch: any) => {
     const listData: SimpleTokenProfile[] = await fetchProfiles()
     const industryAverage = await fetchIndustry()
     dispatch(addIndustryData(industryAverage))
+    dispatch(addSimpleProfiles(listData))
+  } catch (error) {
+    console.warn(error)
+  }
+}
+
+export const fetchProfilesQuery = (query?: string) => async (dispatch: any) => {
+  try {
+    const listData: SimpleTokenProfile[] = await fetchProfiles(undefined, query)
     dispatch(addSimpleProfiles(listData))
   } catch (error) {
     console.warn(error)
