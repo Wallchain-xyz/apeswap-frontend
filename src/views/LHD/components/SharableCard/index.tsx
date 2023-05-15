@@ -76,28 +76,54 @@ const SharableCard = ({
   
 
   
+// htmlToImage
 
-
-  function download() {
-    const card = document.getElementById('card');
-    
-    if (card) {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
+  // function download() {
+  //   const node = document.getElementById('card');
   
-        rasterizeHTML.drawHTML(card.innerHTML, canvas)
-        .then(() => {
-            const link = document.createElement('a');
-            link.download = 'card2.png';
-            link.href = canvas.toDataURL('image/png');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        })
-        .catch((error) => console.error('Error rasterizing HTML: ', error));
-    }
-}
+  //   if (node) {
+  //     htmlToImage.toPng(node)
+  //       .then(function (dataUrl) {
+  //         const link = document.createElement('a');
+  //         link.download = 'card2.png';
+  //         link.href = dataUrl;
+  //         link.click();
+  //       })
+  //       .catch(function (error) {
+  //         console.error('oops, something went wrong!', error);
+  //       });
+  //   } else {
+  //     console.error('No element with id "card" found');
+  //   }
+  // }
+  
 
+
+  // RasterizeHTML 
+
+  //   function download() {
+  //     const card = document.getElementById('card');
+      
+  //     if (card) {
+  //         const canvas = document.createElement('canvas');
+  //         const context = canvas.getContext('2d');
+    
+  //         rasterizeHTML.drawHTML(card.innerHTML, canvas)
+  //         .then(() => {
+  //             const link = document.createElement('a');
+  //             link.download = 'card2.png';
+  //             link.href = canvas.toDataURL('image/png');
+  //             document.body.appendChild(link);
+  //             link.click();
+  //             document.body.removeChild(link);
+  //         })
+  //         .catch((error) => console.error('Error rasterizing HTML: ', error));
+  //     }
+  // }
+
+
+
+  // html2canvas
 
   // function download() {
   //   const card = document.getElementById('card') ?? {} as HTMLElement;
@@ -116,25 +142,27 @@ const SharableCard = ({
     
   // }
 
-  // function download() {
-  //   const card = document.getElementById('card') ?? {} as HTMLElement;
+
+  // DomToImage
+  function download() {
+    const card = document.getElementById('card') ?? {} as HTMLElement;
   
-  //   domtoimage.toPng(card, {
-  //     style: {
-  //       backgroundColor: 'transparent',
-  //       // transform: 'scale(2)', // scale content
-  //     },
-  //   })
-  //     .then((dataUrl) => {
-  //       const link = document.createElement('a');
-  //       link.download = 'card2.png';
-  //       link.href = dataUrl;
-  //       link.click();
-  //     })
-  //     .catch((error) => {
-  //       // console.error('Error al convertir a PNG:', error);
-  //     });
-  // }  
+    domtoimage.toPng(card, {
+      style: {
+        backgroundColor: 'transparent',
+        // transform: 'scale(2)', // scale content
+      },
+    })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'card2.png';
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((error) => {
+        // console.error('Error al convertir a PNG:', error);
+      });
+  }  
  
   // function download() {
   //   const card = document.getElementById("card") ?? ({} as HTMLElement);
@@ -160,35 +188,6 @@ const SharableCard = ({
   // }
   
   
-//   function download() {
-//   const card = document.getElementById("card") ?? ({} as HTMLElement);
-//   // card.style.borderRadius = "40px";
-//   // card.style.overflow = "hidden";
-
-//   const scaleFactor = 2; // Ajusta este valor para cambiar el tamaño de la imagen exportada
-
-//   domtoimage
-//     .toPng(card, {
-//       style: {
-//         backgroundColor: "transparent",
-//         transform: `scale(${scaleFactor})`,
-//         transformOrigin: "top left",
-//         // borderRadius: "40px",
-//         // overflow: "hidden",
-//       },
-//       width: card.clientWidth * scaleFactor,
-//       height: card.clientHeight * scaleFactor,
-//     })
-//     .then((dataUrl) => {
-//       const link = document.createElement("a");
-//       link.download = `${tokenSymbol} ${nameDate}.png`;
-//       link.href = dataUrl;
-//       link.click();
-//     })
-//     .catch((error) => {
-//       // console.error('Error al convertir a PNG:', error);
-//     });
-// }
 
 
   
@@ -303,11 +302,6 @@ const SharableCard = ({
         borderRadius:'5px',
       }}
       >
- <Token 
-            imageUrl={tokenImageURL ?? ""} 
-            score={totalScore} 
-            tokenSymbol={tokenSymbol} 
-          />
                 
 
 
@@ -374,6 +368,7 @@ const SharableCard = ({
         </Flex>
 
         {/* Center */}
+       
          <Flex
          sx={{
           justifyContent:'space-between',
@@ -383,7 +378,11 @@ const SharableCard = ({
           mb:'30px',
          }}
          >
-         
+          <Token 
+            imageUrl={tokenImageURL ?? ""} 
+            score={totalScore} 
+            tokenSymbol={tokenSymbol} 
+          />
         {/* Bars */}
         <Flex
         sx={{

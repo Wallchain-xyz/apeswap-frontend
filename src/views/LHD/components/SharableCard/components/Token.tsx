@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Flex, Modal, Button, Text, Svg } from 'components/uikit'
 import Image from 'next/image'
 import {Bronze, Silver, Gold, Diamond} from './assets/TokenBorder';
@@ -15,6 +15,24 @@ import { ReactSVG } from 'react-svg'; // Importa ReactSVG desde react-svg
 function Token(data : any) {
     const { imageUrl, score: originalValue = 0, tokenSymbol } = data;
     const score = Math.round((originalValue || 0) * 100);
+
+
+    async function getImageDataUrl(imgUrl: string): Promise<string> {
+      const response = await fetch(imgUrl);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+    
+    const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
+
+useEffect(() => {
+  getImageDataUrl(imageUrl).then(setImageDataUrl).catch(console.error);
+}, [imageUrl]);
 
  
     
@@ -90,7 +108,7 @@ function Token(data : any) {
           return (
             <Flex style={{ position: 'absolute', marginTop: '16px' }}>
               <img
-                src={src}
+                src={`${src}`}
                 alt={alt}
                 width={120}
                 height={120}
@@ -126,12 +144,13 @@ return (
     }}
   >
     <Flex sx={Styles.container}>
-      <ImageWithFallback
-        src={imageUrl ?? ''}
-        alt={tokenSymbol + ' token.'}
-        // width={100} // Aquí ajustamos las dimensiones
-        // height={100}
-      />
+
+
+<ImageWithFallback
+  src={imageDataUrl ?? ''}
+  alt={tokenSymbol + ' token.'}
+/>
+
 
       {/* <Image 
       src={imageUrl}
