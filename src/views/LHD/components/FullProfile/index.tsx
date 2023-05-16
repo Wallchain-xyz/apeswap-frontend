@@ -10,7 +10,7 @@ import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
-import { Helmet } from 'react-helmet'
+// import { Helmet } from 'react-helmet'
 import Head from 'next/head'
 
 
@@ -26,7 +26,8 @@ const FullProfile = ({
   const { t } = useTranslation()
 
   // const cardImage = `https://hosting.com/folder/${address}`; // Replace with your dynamic image URL logic
-  const cardImage = `https://i.imgur.com/rF0bm3d.png` // Replace with your dynamic image URL logic
+  const cardImage = `https://academy-public.coinmarketcap.com/optimized-uploads/694cfc7c84c641afad850cb9408bd919.png` // Replace with your dynamic image URL logic
+  // const cardImage = `https://i.imgur.com/rF0bm3d.png` // Replace with your dynamic image URL logic
 
   useEffect(() => {
     if (chainID && address) {
@@ -38,17 +39,30 @@ const FullProfile = ({
     return (
       <>
         {/* META TEST */}
-     <Head>
-  <meta property="og:image" content={cardImage} />
-  <meta name="twitter:image" content={cardImage} />
-  <meta property="og:title" content={`Token Health`} />
-  <meta property="og:description" content="LHD desc" />
-  <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
-  <meta property="og:type" content="website" />
-  {/* <meta name="twitter:title" content={`${Token} Health`} />  */}
-  <meta name="twitter:description" content="LHD Description" />
-  <meta name="twitter:card" content="summary_large_image"/>
-</Head>
+        {/* <Helmet>
+          <meta property="og:image" content={cardImage} />
+          <meta name="twitter:image" content={cardImage} />
+          <meta property="og:title" content="{Token} Health}" />
+          <meta property="og:description" content="LHD desc" />
+          <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:title" content="{Token} Health}" />
+          <meta name="twitter:description" content="LHD Description" />
+          <meta name="twitter:card" content={cardImage}/>
+        </Helmet> */}
+        <Head>
+
+        <meta property="og:title" content={` Health`} />
+        <meta property="og:description" content="LHD desc" />
+        <meta property="og:image" content={cardImage} />
+        <meta name="twitter:title" content={` Health`} />
+        <meta name="twitter:description" content="LHD Description" />
+        <meta name="twitter:image" content={cardImage} />
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
+        <meta property="og:type" content="website" />
+
+        </Head>
 
         <Flex sx={styles.mainContainer}>
           <Flex sx={styles.topContainer}>
