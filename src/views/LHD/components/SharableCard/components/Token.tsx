@@ -109,7 +109,7 @@ useEffect(() => {
             <Flex style={{ position: 'absolute', marginTop: '16px' }}>
               <img
                 src={`${src}`}
-                alt={alt}
+                alt={src}
                 width={120}
                 height={120}
                 style={{

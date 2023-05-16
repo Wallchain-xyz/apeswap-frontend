@@ -11,6 +11,8 @@ import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 import { Helmet } from 'react-helmet'
+import Head from 'next/head'
+
 
 const FullProfile = ({
   chainID,
@@ -36,17 +38,18 @@ const FullProfile = ({
     return (
       <>
         {/* META TEST */}
-        <Helmet>
-          <meta property="og:image" content={cardImage} />
-          <meta name="twitter:image" content={cardImage} />
-          <meta property="og:title" content="{Token} Health}" />
-          <meta property="og:description" content="LHD desc" />
-          <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
-          <meta property="og:type" content="website" />
-          <meta name="twitter:title" content="{Token} Health}" />
-          <meta name="twitter:description" content="LHD Description" />
-          <meta name="twitter:card" content={cardImage}/>
-        </Helmet>
+     <Head>
+  <meta property="og:image" content={cardImage} />
+  <meta name="twitter:image" content={cardImage} />
+  <meta property="og:title" content={`Token Health`} />
+  <meta property="og:description" content="LHD desc" />
+  <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
+  <meta property="og:type" content="website" />
+  {/* <meta name="twitter:title" content={`${Token} Health`} />  */}
+  <meta name="twitter:description" content="LHD Description" />
+  <meta name="twitter:card" content="summary_large_image"/>
+</Head>
+
         <Flex sx={styles.mainContainer}>
           <Flex sx={styles.topContainer}>
             <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>

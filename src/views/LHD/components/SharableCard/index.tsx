@@ -12,10 +12,6 @@ import { getColor } from 'views/LHD/utils/getColor'
 import { FullLogo } from 'components/uikit/Svg/Icons'
 import domtoimage from 'dom-to-image';
 
-import rasterizeHTML from 'rasterizehtml';
-
-import htmlToImage from 'html-to-image';
-
 
 
 
@@ -75,117 +71,29 @@ const SharableCard = ({
   };
   
 
-  
-// htmlToImage
-
-  // function download() {
-  //   const node = document.getElementById('card');
-  
-  //   if (node) {
-  //     htmlToImage.toPng(node)
-  //       .then(function (dataUrl) {
-  //         const link = document.createElement('a');
-  //         link.download = 'card2.png';
-  //         link.href = dataUrl;
-  //         link.click();
-  //       })
-  //       .catch(function (error) {
-  //         console.error('oops, something went wrong!', error);
-  //       });
-  //   } else {
-  //     console.error('No element with id "card" found');
-  //   }
-  // }
-  
-
-
-  // RasterizeHTML 
-
-  //   function download() {
-  //     const card = document.getElementById('card');
-      
-  //     if (card) {
-  //         const canvas = document.createElement('canvas');
-  //         const context = canvas.getContext('2d');
-    
-  //         rasterizeHTML.drawHTML(card.innerHTML, canvas)
-  //         .then(() => {
-  //             const link = document.createElement('a');
-  //             link.download = 'card2.png';
-  //             link.href = canvas.toDataURL('image/png');
-  //             document.body.appendChild(link);
-  //             link.click();
-  //             document.body.removeChild(link);
-  //         })
-  //         .catch((error) => console.error('Error rasterizing HTML: ', error));
-  //     }
-  // }
-
-
-
-  // html2canvas
-
-  // function download() {
-  //   const card = document.getElementById('card') ?? {} as HTMLElement;
-  //   html2canvas(card, {
-  //     allowTaint: true, //Allow using images from other sources
-  //     //  taintTest: false,
-  //       useCORS: true,
-  //       backgroundColor: null, 
-  //     //  scale:2,
-  //                 }).then(function (canvas) {
-  //     const link = document.createElement('a');
-  //     link.download = 'card2.png';
-  //     link.href = canvas.toDataURL('image/png');
-  //     link.click();
-  //   });
-    
-  // }
-
-
-  // DomToImage
   function download() {
-    const card = document.getElementById('card') ?? {} as HTMLElement;
-  
-    domtoimage.toPng(card, {
-      style: {
-        backgroundColor: 'transparent',
-        // transform: 'scale(2)', // scale content
-      },
-    })
+    const card = document.getElementById("card") ?? ({} as HTMLElement);
+    // card.style.borderRadius = "40px";
+    // card.style.overflow = "hidden";
+
+    domtoimage
+      .toPng(card, {
+        style: {
+          backgroundColor: "transparent",
+          overflow: "hidden",
+          // transform: 'scale(2)', // scale content
+        },
+      })
       .then((dataUrl) => {
-        const link = document.createElement('a');
-        link.download = 'card2.png';
+        const link = document.createElement("a");
+        link.download = "card2.png";
         link.href = dataUrl;
         link.click();
       })
       .catch((error) => {
-        // console.error('Error al convertir a PNG:', error);
+        console.error('Error al convertir a PNG:', error);
       });
-  }  
- 
-  // function download() {
-  //   const card = document.getElementById("card") ?? ({} as HTMLElement);
-  //   card.style.borderRadius = "40px";
-  //   card.style.overflow = "hidden";
-
-  //   domtoimage
-  //     .toPng(card, {
-  //       style: {
-  //         backgroundColor: "transparent",
-  //         // transform: 'scale(2)', // scale content
-  //       },
-  //     })
-  //     .then((dataUrl) => {
-  //       const link = document.createElement("a");
-  //       link.download = "card2.png";
-  //       link.href = dataUrl;
-  //       link.click();
-  //     })
-  //     .catch((error) => {
-  //       // console.error('Error al convertir a PNG:', error);
-  //     });
-  // }
+  }
   
   
 
@@ -266,19 +174,6 @@ const SharableCard = ({
   
   // console.log(formattedDate); // Mostrar la fecha formateada en la consola
   
-
-
-
-
-
-  // const background = 
-  //   Math.round((totalScore || 0) * 100) <= 40 ? <Bronze/> : 
-  //   Math.round((totalScore || 0) * 100) <= 75 ? <Silver/> : 
-  //   Math.round((totalScore || 0) * 100) <= 90 ? <Gold/> : <Diamond/> ;
-
-    // const backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(
-    //   renderToStaticMarkup(background)
-    // )}')`;
     
     const score = Math.round((totalScore || 0) * 100);
     const color = score <= 40 ? 'white' : 'black';
@@ -418,7 +313,7 @@ const SharableCard = ({
 
         {/* APE LOGO */}
         <Flex sx={{
-          mt:'-42px',
+          // mt:'-42px',
           ml:'312px',
           position:'absolute',
         }}>
@@ -429,7 +324,7 @@ const SharableCard = ({
         <Flex sx={{
           justifyContent:'space-between',
           padding: '0 60px',
-          marginTop:'36px',
+          marginTop:'76px',
         }}>
           <Text sx={{  color:color, fontSize:'12px', width:'120px', textAlign:'left'}}>EQ-1</Text>
           <Text sx={{ color:color, fontSize:'12px', width:'120px', textAlign:'center'}}>apeswap.click/LHD</Text>
