@@ -5,7 +5,6 @@ import ChainsIcons from '../FullProfile/components/ChainsIcons'
 import Image from 'next/image'
 import Token from './components/Token'
 import Bar from './components/Bar'
-import html2canvas from 'html2canvas';
 import { Bronze,Silver,Gold,Diamond } from './components/assets/Background'
 import { renderToStaticMarkup } from 'react-dom/server';
 import { getColor } from 'views/LHD/utils/getColor'
