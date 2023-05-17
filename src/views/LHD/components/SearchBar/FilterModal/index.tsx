@@ -28,8 +28,8 @@ const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (val
   const filterValues = useLHDFilterValues()
   const [values, setValues] = useState<FilterState>(filterValues)
 
-  const stringHandler = (type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'ext') => {
-    if (type === 'mcap' || type === 'ext') {
+  const stringHandler = (type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable') => {
+    if (type === 'mcap' || type === 'extractable') {
       if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
         return `(${formatDollar({ num: values[type].min })}-${formatDollar({ num: values[type].max })})`
       }
@@ -40,7 +40,7 @@ const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (val
     return ''
   }
   const mCapString = stringHandler('mcap')
-  const extString = stringHandler('ext')
+  const extString = stringHandler('extractable')
   const score = stringHandler('totalScore')
   const health = stringHandler('health')
   const owner = stringHandler('ownership')
@@ -48,7 +48,7 @@ const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (val
   const scoreString = `${score ? `Score: ${score}` : ''}${health ? ` Strength: ${health}` : ''}${owner ? ` Ownership: ${owner}` : ''} ${concen ? ` Concentration: ${concen}` : ''}`
 
   const handler = useCallback((
-    type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'ext',
+    type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable',
     obj: 'min' | 'max',
     value: number,
   ) => {
@@ -96,11 +96,11 @@ const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (val
       </Dropdown>
       <Dropdown title={t('Extractable Liquidity Range')}
                 values={extString}>
-        <InputSlider minRange={initialFilterValues.ext.min}
-                     maxRange={initialFilterValues.ext.max}
-                     values={values.ext}
-                     setMinValue={(value: number) => handler('ext', 'min', value)}
-                     setMaxValue={(value: number) => handler('ext', 'max', value)}
+        <InputSlider minRange={initialFilterValues.extractable.min}
+                     maxRange={initialFilterValues.extractable.max}
+                     values={values.extractable}
+                     setMinValue={(value: number) => handler('extractable', 'min', value)}
+                     setMaxValue={(value: number) => handler('extractable', 'max', value)}
         />
       </Dropdown>
       <Flex sx={{ width: '100%', mt: '20px' }}>
