@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useEffect, useState, useCallback } from 'react'
-import { Button, Flex, Input, Svg } from 'components/uikit'
-import { useOnSearchProfiles } from 'state/lhd/hooks'
+import React, { ChangeEvent, useEffect, useCallback } from 'react'
+import { Button, Flex, Input, Svg, Text } from 'components/uikit'
+import { useLHDFilterValues, useOnFilterProfiles, useOnSearchProfiles } from 'state/lhd/hooks'
 import { useAppDispatch } from 'state/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { addSearchProfiles } from 'state/lhd/reducer'
@@ -9,6 +9,8 @@ import { styles } from './styles'
 import { useAnimation, motion } from 'framer-motion'
 import useModal from 'hooks/useModal'
 import FilterModal from './FilterModal'
+import { countChangedProperties, generateSearchParams } from './helpers'
+import { fetchProfilesQuery } from 'state/lhd/actions'
 
 const SearchBar = ({ handleNoResults, searchQueryString, setSearchQueryString }: {
   handleNoResults: (value: boolean) => void,
@@ -16,14 +18,17 @@ const SearchBar = ({ handleNoResults, searchQueryString, setSearchQueryString }:
   setSearchQueryString: any
 }) => {
   const onSearchProfiles = useOnSearchProfiles()
+  const onFilteredProfiles = useOnFilterProfiles()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const filterState = useLHDFilterValues()
+  const filterString = generateSearchParams(filterState)
+  const changedPropertiesCount = countChangedProperties(filterState)
   const debouncedQueryString = useDebounce(searchQueryString, 1000)
-  const [onFilterModal] = useModal(<FilterModal />)
-
-  const handleChange = (searchQuery: string) => {
+  const handleQueryChange = useCallback((searchQuery: string) => {
     setSearchQueryString(searchQuery)
-  }
+  }, [setSearchQueryString])
+  const [onFilterModal] = useModal(<FilterModal handleQueryChange={handleQueryChange}/>)
 
   //shakes when no results are found
   const controls = useAnimation()
@@ -47,6 +52,18 @@ const SearchBar = ({ handleNoResults, searchQueryString, setSearchQueryString }:
     }
   }, [debouncedQueryString, dispatch, handleNoResults, onSearchProfiles, startShaking])
 
+  useEffect(() => {
+    dispatch(addSearchProfiles([]))
+    handleNoResults(false)
+    if (filterString?.length >= 2) {
+      onFilteredProfiles(filterString).then(res => {
+        if (res) {
+          handleNoResults(true)
+        }
+      })
+    }
+  }, [dispatch, filterString, handleNoResults, onFilteredProfiles])
+
   return (
     <Flex sx={styles.searchBarContainer}>
       <motion.div
@@ -56,13 +73,13 @@ const SearchBar = ({ handleNoResults, searchQueryString, setSearchQueryString }:
           placeholder={t('Token name, address, symbol ...')}
           value={searchQueryString}
           variant='search'
-          onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event.target.value)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => handleQueryChange(event.target.value)}
           style={{ backgroundColor: 'white2' }}
           sx={{ width: '100%', '::placeholder': { fontSize: '10px', fontWeight: 300 } }}
         />
       </motion.div>
       <Button
-        variant='tertiary'
+        variant={changedPropertiesCount === 0 ? 'tertiary' : 'secondary'}
         sx={styles.btn}
         endIcon={
           <Flex sx={{ ml: '5px' }}>
@@ -72,6 +89,36 @@ const SearchBar = ({ handleNoResults, searchQueryString, setSearchQueryString }:
       >
         {t('Filters')}
       </Button>
+      {
+        changedPropertiesCount > 0 && (
+          <Flex
+            sx={{
+              position: 'absolute',
+              right: '0px',
+              top: '0px',
+              zIndex: 10,
+              width: '16px',
+              height: '16px',
+              background: '#FFB300',
+              borderRadius: '25px',
+            }}
+          >
+            <Text sx={{
+              fontSize: '8px',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              lineHeight: '25px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FAFAFA'
+            }}>
+              {changedPropertiesCount}
+            </Text>
+          </Flex>
+        )
+      }
+
     </Flex>
   )
 }

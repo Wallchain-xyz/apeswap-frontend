@@ -33,7 +33,7 @@ export const styles: Record<
     color: 'textDisabled',
   },
   tableContainer: {
-    width: ['calc(100vw - 8px)', 'calc(100vw - 8px)', '100%'],
+    width: ['100vw', '100vw', '100%'],
     overflowY: 'auto',
     position: 'relative',
     mt: '20px',

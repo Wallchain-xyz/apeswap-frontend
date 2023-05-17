@@ -4,29 +4,36 @@ import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
 import NumericInput from 'components/uikit/Input/NumericInput'
 import { Flex, Text } from 'components/uikit'
+import { initialFilterValues, MinMax } from '../../../../../state/lhd/reducer'
+import { formatDollar } from 'utils/formatNumbers'
+import { debounce } from 'lodash'
+import { formatNumber } from '../../../../../utils/formatNumber'
 
-const MCapRange = ({ minRange, maxRange }: { minRange: number; maxRange: number }) => {
-  const [minValue, setMinValue] = useState(minRange)
-  const [maxValue, setMaxValue] = useState(maxRange)
-
+const InputSlider = ({ values, setMinValue, setMaxValue, minRange, maxRange }: {
+  values: MinMax,
+  setMinValue: (value: number) => void,
+  setMaxValue: (value: number) => void,
+  minRange: number,
+  maxRange: number
+}) => {
   const handleMinInputChange = (value: string) => {
     const numValue = value ? parseInt(value) : 0
-    if (numValue <= maxValue && numValue >= minRange) {
+    if (numValue <= values.max && numValue >= minRange) {
       setMinValue(numValue)
     }
   }
 
   const handleMaxInputChange = (value: string) => {
     const numValue = value ? parseInt(value) : 0
-    if (numValue >= minValue && numValue <= maxRange) {
+    if (numValue >= values.min && numValue <= maxRange) {
       setMaxValue(numValue)
     }
   }
 
-  const handleSliderChange = (value: { min: number; max: number }) => {
+  const handleSliderChange = debounce((value: { min: number; max: number }) => {
     setMinValue(value.min)
     setMaxValue(value.max)
-  }
+  }, 10)
 
   return (
     <Box sx={{
@@ -37,29 +44,29 @@ const MCapRange = ({ minRange, maxRange }: { minRange: number; maxRange: number 
         <InputRange
           minValue={minRange}
           maxValue={maxRange}
-          value={{ min: minValue, max: maxValue }}
-          formatLabel={(value) => `${value}%`}
-          // @ts-ignore
-          onChange={handleSliderChange}
+          value={{ min: values.min, max: values.max }}
+          formatLabel={(value) => formatDollar({ num: value })}
+          //@ts-ignore
+          onChange={(value: { min: number; max: number }) => handleSliderChange(value)}
         />
       </Box>
       <Box sx={{ display: 'flex', padding: '5px 10px', justifyContent: 'space-between' }}>
-        <Flex sx={{width: '48%', flexDirection: 'column'}}>
-          <Text sx={{fontWeight: 500, fontSize: '12px', padding: '0 5px'}}>
+        <Flex sx={{ width: '48%', flexDirection: 'column' }}>
+          <Text sx={{ fontWeight: 500, fontSize: '12px', padding: '0 5px' }}>
             Min
           </Text>
           <NumericInput
-            value={minValue.toString()}
+            value={values.min.toString()}
             onUserInput={handleMinInputChange}
             style={{ width: '100%', fontSize: '12px', fontWeight: 400, p: '10px', background: 'lvl2' }}
           />
         </Flex>
-        <Flex sx={{width: '48%', flexDirection: 'column'}}>
-          <Text sx={{fontWeight: 500, fontSize: '12px', padding: '0 5px'}}>
+        <Flex sx={{ width: '48%', flexDirection: 'column' }}>
+          <Text sx={{ fontWeight: 500, fontSize: '12px', padding: '0 5px' }}>
             Max
           </Text>
           <NumericInput
-            value={maxValue.toString()}
+            value={values.max.toString()}
             onUserInput={handleMaxInputChange}
             style={{ width: '100%', fontSize: '12px', fontWeight: 400, p: '10px', background: 'lvl2' }}
           />
@@ -69,4 +76,4 @@ const MCapRange = ({ minRange, maxRange }: { minRange: number; maxRange: number 
   )
 }
 
-export default MCapRange
+export default InputSlider

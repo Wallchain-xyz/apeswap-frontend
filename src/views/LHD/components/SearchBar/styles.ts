@@ -2,6 +2,7 @@ import { ThemeUIStyleObject } from 'theme-ui'
 
 export const styles: Record<'searchBarContainer' | 'btn', ThemeUIStyleObject> = {
   searchBarContainer: {
+    position: 'relative',
     width: '100%',
     mt: '20px',
     backgroundColor: 'white2',
@@ -18,6 +19,7 @@ export const styles: Record<'searchBarContainer' | 'btn', ThemeUIStyleObject> = 
     height: '36px',
     lineHeight: '14px',
     alignItems: 'center',
+    background: 'white3'
   }
 }
 

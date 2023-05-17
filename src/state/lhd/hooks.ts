@@ -33,6 +33,23 @@ export const useOnSearchProfiles = () => {
   )
 }
 
+export const useOnFilterProfiles = () => {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    async (queryString: string): Promise<boolean> => {
+      try {
+        const listData: SimpleTokenProfile[] = await fetchProfiles(undefined, queryString)
+        dispatch(addSearchProfiles(listData))
+        return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
+      } catch (e) {
+        console.error(e)
+        return false
+      }
+    },
+    [dispatch],
+  )
+}
+
 export const useFetchProfile = () => {
   const dispatch = useAppDispatch()
   const fullProfile = useSelector((state: AppState) => state?.lhd?.fullProfile)
@@ -78,5 +95,11 @@ export const useIndustryAvg = () => {
       tokensVerified: state.lhd.tokensVerified,
       tokensTracked: state.lhd.tokensTracked,
     }
+  })
+}
+
+export const useLHDFilterValues = () => {
+  return useSelector((state: AppState) => {
+    return state.lhd.queryState
   })
 }

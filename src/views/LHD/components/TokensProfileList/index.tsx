@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
-import { useIndustryAvg, useSearchProfiles, useSimpleProfiles } from 'state/lhd/hooks'
+import { useIndustryAvg, useLHDFilterValues, useSearchProfiles, useSimpleProfiles } from 'state/lhd/hooks'
 import TableHeader from './components/TableHeader'
 import SkeletonRow from './components/SkeletonRow'
 import { styles } from './styles'
@@ -12,6 +12,8 @@ import { useAppDispatch } from '../../../../state/hooks'
 import SearchBar from '../SearchBar'
 import { sortProfiles } from './utils/sortProfiles'
 import { useTranslation } from 'contexts/Localization'
+import { FilterState, initialFilterValues } from '../../../../state/lhd/reducer'
+import { generateSearchParams } from '../SearchBar/helpers'
 
 const TokensProfileList = () => {
   const { t } = useTranslation()
@@ -23,11 +25,11 @@ const TokensProfileList = () => {
   const { tokensTracked } = useIndustryAvg()
   const totalPages = tokensTracked ? Math.ceil(tokensTracked / 50) : 0
   const dispatch = useAppDispatch()
-
   const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)
-
   const paginatedQuery = `${(currentPage - 1) ? (`offset=${(currentPage - 1) * 50}`) : ''}`
+  const filterState = useLHDFilterValues()
+  const filterString = generateSearchParams(filterState)
 
   useEffect(() => {
     if (paginatedQuery) {
@@ -65,13 +67,13 @@ const TokensProfileList = () => {
               {t('No Results Found')}
             </Text>
           </Flex>
-        ) : searchQueryString.length >= 2 && searchProfiles.length === 0 ? (
+        ) : (searchQueryString.length >= 2 || filterString) && searchProfiles.length === 0 ? (
           <>
             {[...Array(50)].map((i) => {
               return <SkeletonRow key={i} />
             })}
           </>
-        ) : searchQueryString && searchProfiles.length > 0 ? (
+        ) : (searchQueryString || filterString) && searchProfiles.length > 0 ? (
           sortProfiles(searchProfiles.slice(0, 50), sortCol, sortType)?.map((simpleProfile, index) => {
             return <TableRow key={`searchProfile-${index}`}
                              index={index}
@@ -95,7 +97,7 @@ const TokensProfileList = () => {
       <Pagination currentPage={currentPage}
                   onPageChange={(page: number) => setCurrentPage(page)}
                   totalPages={totalPages}
-                  hidePagination={searchProfiles.length > 0 || noResults}
+                  hidePagination={searchProfiles.length > 0 || noResults || !!filterString}
       />
     </>
   )
