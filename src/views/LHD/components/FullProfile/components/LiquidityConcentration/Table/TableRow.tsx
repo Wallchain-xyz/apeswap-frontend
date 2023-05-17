@@ -24,7 +24,6 @@ const TableRow = ({ index, pool }: {
   }
   const tokenLogo1 = pool.baseToken.tokenLogoUrl
   const tokenLogo2 = pool.quoteToken.tokenLogoUrl
-  console.log(pool)
 
   return (
     <Box sx={{ ...styles.rowCont, background: index % 2 ? 'white3' : 'white2' }}>
