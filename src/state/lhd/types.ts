@@ -104,6 +104,7 @@ export type DexScreenerToken = {
   address: string
   name: string
   symbol: string
+  tokenLogoUrl: string
 }
 
 export interface LiquidityOwner {

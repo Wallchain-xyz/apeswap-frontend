@@ -12,7 +12,8 @@ export const styles: Record<
   | 'whiteContainer'
   | 'ownerRowsContainer'
   | 'rowContainer'
-  | 'emptyMonkeyCont',
+  | 'emptyMonkeyCont'
+  | 'imgCont',
   ThemeUIStyleObject> = {
   mainContainer: {
     width: '100%',
@@ -60,6 +61,7 @@ export const styles: Record<
     px: '30px',
   },
   whiteContainer: {
+    height: '100%',
     width: '100%',
     p: '20px',
     maxHeight: '226px',
@@ -100,5 +102,16 @@ export const styles: Record<
     justifyContent: 'center',
     flexDirection: 'column',
     p: '20px',
+  },
+  imgCont: {
+    zIndex: 1,
+    minWidth: '24px',
+    height: '24px',
+    mt: ['2px'],
+    mr: ['5px'],
+    background: '#fff',
+    borderRadius: '25px',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 }

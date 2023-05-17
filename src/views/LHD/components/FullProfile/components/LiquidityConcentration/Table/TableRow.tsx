@@ -9,6 +9,7 @@ import IconButton from '../../IconButton'
 import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
 import { styles } from './styles'
 import { useTranslation } from '../../../../../../../contexts/Localization'
+import TokenImage from '../../../../../../../components/TokenImage'
 
 const TableRow = ({ index, pool }: {
   index: number,
@@ -21,9 +22,9 @@ const TableRow = ({ index, pool }: {
     if (BLOCK_EXPLORER[chain]) return `${BLOCK_EXPLORER[chain]}address/${address}`
     return ''
   }
-
-  const tokenLogo1 = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BANANA.svg'
-  const tokenLogo2 = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BANANA.svg'
+  const tokenLogo1 = pool.baseToken.tokenLogoUrl
+  const tokenLogo2 = pool.quoteToken.tokenLogoUrl
+  console.log(pool)
 
   return (
     <Box sx={{ ...styles.rowCont, background: index % 2 ? 'white3' : 'white2' }}>
@@ -33,18 +34,10 @@ const TableRow = ({ index, pool }: {
       <Flex sx={{ ...styles.lpNameCol, background: index % 2 ? 'white3' : 'white2' }}>
         <Flex sx={{ position: 'relative', minWidth: ['40px'] }}>
           <Flex sx={styles.imgCont}>
-            <Image src={tokenLogo2}
-                   alt={'token img'}
-                   width={22}
-                   height={22}
-                   style={{ borderRadius: '25px' }} />
+            <TokenImage url={tokenLogo1} size={22} />
           </Flex>
           <Flex sx={{ ...styles.imgCont, position: 'absolute', right: '0px', zIndex: -1 }}>
-            <Image src={tokenLogo2}
-                   alt={'token img'}
-                   width={22}
-                   height={22}
-                   style={{ borderRadius: '25px' }} />
+            <TokenImage url={tokenLogo2} size={22} />
           </Flex>
         </Flex>
         <Text sx={{ ...styles.bodyText, ml: '5px' }}>

@@ -12,12 +12,11 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { Button } from '../../../../../../components/uikit'
 import TooltipBubble from '../../../../../../components/uikit/Tooltip'
+import TokenImage from '../../../../../../components/TokenImage'
 
 const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
 })
-
-//TODO: 1) remove dummyArray, 2) add the icons to the rows
 
 const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
@@ -29,8 +28,6 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
       liquidityOwners: undefined,
     }))
   })
-  //just to test a card with lots of rows
-  const dummyArray: any[] = [...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners, ...whitelistedOwners]
 
   return (
     <Flex sx={styles.mainContainer}>
@@ -83,7 +80,7 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
           </Text>
         </Flex>
         {
-          dummyArray.length > 0 ? (
+          whitelistedOwners.length > 0 ? (
             <>
               <Flex sx={styles.ownershipContainer}>
                 <Flex sx={styles.chart}>
@@ -108,11 +105,19 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
               </Flex>
               <Flex sx={styles.whiteContainer}>
                 <Flex sx={styles.ownerRowsContainer}>
-                  {//change this before launch
-                    dummyArray.map((whiteListedOwner, index) => {
+                  {
+                    whitelistedOwners.map((whiteListedOwner, index) => {
                       return (
                         <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress + index}>
                           <Text sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Flex sx={{ position: 'relative', minWidth: ['40px'] }}>
+                              <Flex sx={styles.imgCont}>
+                                <TokenImage url={whiteListedOwner.baseToken.tokenLogoUrl} size={22} />
+                              </Flex>
+                              <Flex sx={{ ...styles.imgCont, position: 'absolute', right: '0px', zIndex: 0 }}>
+                                <TokenImage url={whiteListedOwner.quoteToken.tokenLogoUrl} size={22} />
+                              </Flex>
+                            </Flex>
                             {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
                             <IconButton
                               href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}address/${whiteListedOwner.walletAddress}`}
@@ -127,14 +132,14 @@ const InfoCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                               ) : (
                                 <TooltipBubble
                                   placement='bottomRight'
-                                  transformTip='translate(5%, -18%)'
+                                  transformTip='translate(4%, -4%)'
                                   width='200px'
                                   body={<>{t('Suspected owner due to Contract Name / Multisig')}</>}
                                   sx={{'&::before': {right: '-5%'}, borderRadius: '7px'}}
                                 >
-                                    <span sx={{ ml: '5px' }}>
+                                    <Flex sx={{ ml: '5px' }}>
                                       <Svg icon='yellowQuestion' width='12px' />
-                                    </span>
+                                    </Flex>
                                 </TooltipBubble>
                               )}
                             </Flex>
