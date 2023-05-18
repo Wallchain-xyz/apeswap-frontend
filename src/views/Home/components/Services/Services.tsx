@@ -53,14 +53,14 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
         id === 'farmDetails'
           ? service?.stakeToken?.name.split('-')
           : id === 'billDetails'
-          ? service?.lpTokenName?.split('-')
-          : [service?.stakeToken?.name, service?.rewardToken?.name]
+            ? service?.lpTokenName?.split('-')
+            : [service?.stakeToken?.name, service?.rewardToken?.name]
       const name =
         id === 'farmDetails'
           ? service?.stakeToken?.name
           : id === 'billDetails'
-          ? service?.lpTokenName
-          : service?.rewardToken?.name
+            ? service?.lpTokenName
+            : service?.rewardToken?.name
       return { name, tokenImage }
     }
     if (id === 'lendingDetails') {
@@ -85,7 +85,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
           {stats?.map((stat) => {
             const { name, tokenImage } = handleEachService(id, stat)
             return (
-              <a href={stat?.link} rel="noopener noreferrer" key={stat?.apr} sx={{ textDecoration: 'none' }}>
+              <a href={stat?.link} rel='noopener noreferrer' key={stat?.apr} sx={{ textDecoration: 'none' }}>
                 <Flex
                   sx={{
                     width: ['100%', '100%', '95%'],
@@ -103,7 +103,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                       token2={tokenImage?.[1]}
                       token3={stat?.rewardToken?.name}
                       stakeLp
-                      iconFill="white"
+                      iconFill='white'
                     />
                   ) : id === 'billDetails' ? (
                     <ServiceTokenDisplay
@@ -111,10 +111,10 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                       token2={tokenImage?.[1]}
                       token3={stat.earnTokenName}
                       stakeLp
-                      iconFill="white"
+                      iconFill='white'
                     />
                   ) : id === 'poolDetails' ? (
-                    <ServiceTokenDisplay token1={tokenImage?.[0]} token2={tokenImage?.[1]} iconFill="white" />
+                    <ServiceTokenDisplay token1={tokenImage?.[0]} token2={tokenImage?.[1]} iconFill='white' />
                   ) : (
                     <ServiceTokenDisplay token1={tokenImage?.[0]} />
                   )}
@@ -144,7 +144,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
             )
           })}
         </Flex>
-        <a href={link} rel="noopener noreferrer">
+        <a href={link} rel='noopener noreferrer' style={{ textDecoration: 'none' }}>
           <Flex sx={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             <Text sx={{ color: 'primaryBright', fontSize: '16px', fontWeight: 700 }}>
               {t('See All')} {'>'}
@@ -189,11 +189,11 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
           {displayData ? (
             width ?? 0 < 1488 ? (
               <Swiper
-                id="serviceSwiper"
+                id='serviceSwiper'
                 initialSlide={0}
                 onSwiper={setSwiper}
                 spaceBetween={20}
-                slidesPerView="auto"
+                slidesPerView='auto'
                 loopedSlides={displayData?.length}
                 autoplay={{ delay: 5000 }}
                 loop
@@ -293,7 +293,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
             [...Array(4)].map((i) => {
               return (
                 <Flex key={i}>
-                  <Skeleton height="100%" width="100%" />
+                  <Skeleton height='100%' width='100%' />
                 </Flex>
               )
             })

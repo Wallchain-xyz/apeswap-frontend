@@ -93,7 +93,7 @@ const Values: React.FC = () => {
                   <Link target="_blank" href={value.link || ''} style={{ fontSize: '25px' }}>
                     {value.title}
                   </Link>
-                  <Text textAlign="center">{value.description}</Text>
+                  <Text textAlign="center" sx={{ minHeight: '120px' }}>{value.description}</Text>
                 </ValueCard>
               )
             })
