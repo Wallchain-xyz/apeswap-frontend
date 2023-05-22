@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
 import { Flex, Link, Spinner, Svg, Text } from 'components/uikit'
-import { ExternalDataOption, TokenProfile } from 'state/lhd/types'
+import { chartExtras, ExternalDataOption, TokenProfile } from 'state/lhd/types'
 import Chart from '../Chart'
 import { useTranslation } from 'contexts/Localization'
 import useModal from 'hooks/useModal'
@@ -23,11 +23,17 @@ const FullProfile = ({
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
 
+  const [chartPassBackData, setChartPassBackData] = useState(null)
+
   useEffect(() => {
     if (chainID && address) {
       fetchProfile(chainID, address)
     }
   }, [chainID, address, fetchProfile])
+
+  let handleCallback = (chartData: chartExtras) => {
+    setChartPassBackData(chartData)
+  }
 
   if (fullProfile) {
     return (
@@ -52,23 +58,21 @@ const FullProfile = ({
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
               </Flex>
-              <Chart chartData={fullProfile?.healthChartData} />
+              <Chart chartData={fullProfile?.healthChartData} passBackData={handleCallback} />
             </Flex>
             <Flex sx={styles.infoCardMobile}>
-              <InfoCards fullProfile={fullProfile} />
+              <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />
             </Flex>
             <Flex sx={styles.liquidityConCont}>
               <LiquidityConcentration fullProfile={fullProfile} />
             </Flex>
           </Flex>
           <Flex sx={styles.infoCardDesktop}>
-            <InfoCards fullProfile={fullProfile} />
+            <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />
           </Flex>
         </Flex>
         <AreYouContributor />
-        <Text sx={styles.formula}>
-          Formula version: {fullProfile.formulaVersion}
-        </Text>
+        <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
       </Flex>
     )
   }

@@ -105,7 +105,7 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
   )
 }
 
-const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
+const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; passBackData: any }) => {
   const canvasRef = useRef(null)
   const [zoomPlugin, setZoomPlugin] = useState(null)
   const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
@@ -289,6 +289,9 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
     const xPixel1 = xScale?.getPixelForValue(point2.x)
     const yPixel1 = yScale?.getPixelForValue(slope * point2.x + yIntercept)
+
+    const startDebt = slope * point2.x + yIntercept
+    passBackData({ liquidityDebt: startDebt - point2.y })
 
     ctx.beginPath()
     ctx.setLineDash([5, 5])
