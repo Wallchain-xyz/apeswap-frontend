@@ -63,7 +63,7 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
           <Text>{data?.name}</Text>
           <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
             ${data?.currentPrice.toFixed(5)}
-            <PriceChange priceChange={data?.priceChange24hr.toFixed(2)} />
+            <PriceChange priceChange={data?.priceChange24hr?.toFixed(2)} />
           </Text>
         </Flex>
         <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 50px' }}>
@@ -110,6 +110,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const [zoomPlugin, setZoomPlugin] = useState(null)
   const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
   const isMobile = useIsMobile()
+  const [options, setOptions] = useState({})
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -122,103 +123,114 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   useEffect(() => {
     if (zoomPlugin) {
       ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
+      //ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
     }
   }, [zoomPlugin])
 
-  const options: ChartOptions<'scatter'> = {
-    scales: {
-      y: {
-        title: {
-          display: isMobile !== true,
-          text: 'Extractable Liquidity / Market Cap',
-          color: '#A09F9C',
-          font: {
-            family: 'Poppins',
-            size: 10,
+  useEffect(() => {
+    const newOptions: ChartOptions<'scatter'> = {
+      scales: {
+        y: {
+          title: {
+            display: isMobile !== true,
+            text: 'Extractable Liquidity / Market Cap',
+            color: '#A09F9C',
+            font: {
+              family: 'Poppins',
+              size: 10,
+            },
+            padding: {
+              bottom: 10,
+            },
           },
-          padding: {
-            bottom: 10,
+          ticks: {
+            suggestedMin: 0,
+            callback: function (tickValue: string | number, index: number, ticks: any[]) {
+              if (typeof tickValue === 'number') {
+                return `${tickValue}%`
+              }
+              return tickValue
+            },
+            font: {
+              family: 'Poppins',
+              size: 10,
+              weight: '500',
+            },
           },
+          type: 'linear',
+          border: { dash: [4, 4] },
+          beginAtZero: true,
         },
-        ticks: {
-          callback: function (tickValue: string | number, index: number, ticks: any[]) {
-            if (typeof tickValue === 'number') {
-              return `${tickValue}%`
-            }
-            return tickValue
+        x: {
+          title: {
+            display: isMobile !== true,
+            text: 'Market Cap',
+            color: '#A09F9C',
+            font: {
+              family: 'Poppins',
+              size: 10,
+            },
+            padding: {
+              top: 10,
+            },
           },
-          font: {
-            family: 'Poppins',
-            size: 10,
-            weight: '500',
+          ticks: {
+            callback: function (tickValue: string | number, index: number, ticks: any[]) {
+              if (typeof tickValue === 'number') {
+                return `$${tickValue.toFixed(2)}M`
+              }
+              return tickValue
+            },
+            font: {
+              family: 'Poppins',
+              size: 10,
+              weight: '500',
+            },
           },
+          border: { dash: [4, 4] }, //
+          min: chartData.healthBottom[0].x,
+          beginAtZero: false,
         },
-        type: 'linear',
-        border: { dash: [4, 4] },
-        beginAtZero: true,
       },
-      x: {
-        title: {
-          display: isMobile !== true,
-          text: 'Market Cap',
-          color: '#A09F9C',
-          font: {
-            family: 'Poppins',
-            size: 10,
-          },
-          padding: {
-            top: 10,
-          },
-        },
-        ticks: {
-          callback: function (tickValue: string | number, index: number, ticks: any[]) {
-            if (typeof tickValue === 'number') {
-              return `$${tickValue}M`
-            }
-            return tickValue
-          },
-          font: {
-            family: 'Poppins',
-            size: 10,
-            weight: '500',
-          },
-        },
-        border: { dash: [4, 4] }, //
-        min: chartData.healthBottom[0].x,
-        beginAtZero: false,
-      },
-    },
-    plugins: {
-      zoom: {
-        pan: {
-          enabled: true,
-          mode: 'x',
-        },
+      plugins: {
         zoom: {
-          wheel: {
-            enabled: true,
+          limits: {
+            x: {
+              min: chartData.healthBottom[0].x,
+              max: chartData.healthBottom[chartData.healthBottom.length - 1].x,
+              minRange: 0.1,
+            },
+            y: {
+              min: 1,
+              max: 100,
+              minRange: 1.0,
+            },
           },
-          pinch: {
+          pan: {
             enabled: true,
+            mode: 'x',
           },
-          mode: 'x',
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: 'x',
+          },
         },
-        limits: {
-          x: {
-            min: 1,
-            max: 10,
-            minRange: 1,
+        tooltip: {
+          enabled: false,
+          external: (context: any) => {
+            customTooltipHandler(context)
           },
         },
       },
-      tooltip: {
-        enabled: false,
-        external: (context: any) => {
-          customTooltipHandler(context)
-        },
-      },
-    },
-  } as ChartOptions<'scatter'>
+    } as ChartOptions<'scatter'>
+
+    setOptions(newOptions)
+  }, [chartData])
 
   function isBelowBottomLine(chart: any, point: any) {
     const { x, y } = point

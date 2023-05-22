@@ -1,6 +1,8 @@
 import { desktopMappedColumns, mobileMappedColumns } from './columnsFormat'
 import { ThemeUIStyleObject } from 'theme-ui'
 
+export const columnHeight: string = '60px'
+
 export const styles: Record<
   | 'headerContainer'
   | 'headerText'
@@ -9,12 +11,14 @@ export const styles: Record<
   | 'indexCol'
   | 'indexText'
   | 'nameCol'
+  | 'symbolText'
   | 'nameText'
   | 'usdCol'
   | 'barCol'
   | 'barContainer'
   | 'scoreCol',
-  ThemeUIStyleObject> = {
+  ThemeUIStyleObject
+> = {
   headerContainer: {
     display: 'grid',
     width: 'fit-content',
@@ -43,7 +47,6 @@ export const styles: Record<
       height: '3px',
       background: 'white3',
       width: '98%',
-
     },
     '::-webkit-scrollbar-thumb': {
       background: 'textDisabled',
@@ -68,8 +71,9 @@ export const styles: Record<
     left: 0,
     zIndex: 2,
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
     minWidth: '25px',
+    alignItems: 'center',
   },
   indexText: {
     fontWeight: 300,
@@ -81,22 +85,30 @@ export const styles: Record<
     position: 'sticky',
     left: 30,
     zIndex: 2,
-    height: '40px',
-    minWidth: '125px',
+    height: columnHeight,
+    minWidth: '185px',
     alignItems: 'center',
+  },
+  symbolText: {
+    fontWeight: 500,
+    fontSize: ['10px', '10px', '10px', '12px'],
+    lineHeight: ['18px'],
+    ml: '5px',
   },
   nameText: {
     fontWeight: 500,
     fontSize: ['10px', '10px', '10px', '12px'],
     lineHeight: ['18px'],
     ml: '5px',
+    color: 'textDisabled',
   },
   usdCol: {
     padding: '8px',
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
     fontWeight: 400,
     fontSize: ['10px', '10px', '10px', '12px'],
+    alignItems: 'center',
   },
   barCol: {
     width: '100%',
@@ -106,7 +118,7 @@ export const styles: Record<
     padding: '8px',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
     minWidth: ['80px', '80px', '133px'],
   },
   scoreCol: {
@@ -115,7 +127,7 @@ export const styles: Record<
     right: 0,
     zIndex: 2,
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
+    alignItems: 'center',
   },
 }
-
