@@ -287,11 +287,28 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     const slope = (point2OnLine1?.y - point1?.y) / (point2OnLine1?.x - point1?.x)
     const yIntercept = point1?.y - slope * point1?.x
 
+    // const line2Dataset = chart.config.data.datasets[1]
+    //
+    // const tpoint = line2Dataset.data[index - 1] as Point
+    // const tpointOnLine: Point = line2Dataset.data[index] as Point
+    //
+    // const tSlope = (tpointOnLine?.y - tpoint?.y) / (tpointOnLine?.x - tpoint?.x)
+    // const tIntercept = tpoint?.y - tSlope * tpoint?.x
+    // const tStart = tSlope * tpoint.x + tIntercept
+    // //console.log(t2)
+    // //  console.log(t1)
+    //
+    // console.log('1:')
+    // console.log(tStart)
+    // console.log('2:')
+    // console.log(tpoint.y)
+
     const xPixel1 = xScale?.getPixelForValue(point2.x)
     const yPixel1 = yScale?.getPixelForValue(slope * point2.x + yIntercept)
 
     const startDebt = slope * point2.x + yIntercept
-    passBackData({ liquidityDebt: startDebt - point2.y })
+
+    passBackData({ liquidityDebt: startDebt - point2.y, sustainabilityLower: startDebt })
 
     ctx.beginPath()
     ctx.setLineDash([5, 5])

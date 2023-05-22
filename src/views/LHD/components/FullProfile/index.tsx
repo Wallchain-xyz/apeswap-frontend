@@ -31,7 +31,7 @@ const FullProfile = ({
     }
   }, [chainID, address, fetchProfile])
 
-  let handleCallback = (chartData: chartExtras) => {
+  let handleChartCallback = (chartData: chartExtras) => {
     setChartPassBackData(chartData)
   }
 
@@ -58,7 +58,7 @@ const FullProfile = ({
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
               </Flex>
-              <Chart chartData={fullProfile?.healthChartData} passBackData={handleCallback} />
+              <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
             </Flex>
             <Flex sx={styles.infoCardMobile}>
               <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />

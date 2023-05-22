@@ -63,13 +63,13 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
           <HealthSummaryRow
             ttTitle={t('Sustainability Range (Upper)')}
             ttBody={<>Sustainability Range (Upper)</>}
-            value={'pending data'}
+            value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityUpper })}
             circleColor={'#39A712'}
           />
           <HealthSummaryRow
             ttTitle={t('Sustainability Range (Lower)')}
             ttBody={<>Sustainability Range (Lower)</>}
-            value={'pending data'}
+            value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityLower })}
             circleColor={'#BFDDB5'}
           />
           <HealthSummaryRow
