@@ -51,7 +51,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
           <HealthSummaryRow
             ttTitle={t('Owned Extractable Liquidity')}
             ttBody={<>Owned Extractable Liquidity</>}
-            value={formatDollar({ num: fullProfile?.ownedLiquidity })}
+            value={formatDollar({ num: fullProfile?.ownedExtractableLiquidity })}
             circleColor={'#904DC4'}
           />
           <HealthSummaryRow
