@@ -23,7 +23,7 @@ const FullProfile = ({
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
 
-  const [chartPassBackData, setChartPassBackData] = useState(null)
+  const [chartPassBackData, setChartPassBackData] = useState<chartExtras | null>(null)
 
   useEffect(() => {
     if (chainID && address) {
