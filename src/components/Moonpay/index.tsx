@@ -6,12 +6,8 @@ export default function Moonpay() {
   const [onPresentModal] = useModal(<MoonPayModal onDismiss={() => null} />)
 
   return (
-    <>
-      <Flex justifyContent="center">
-        <Flex onClick={onPresentModal} mr="20px" sx={{ cursor: 'pointer' }}>
-          <Svg icon="card" width="30px" />
-        </Flex>
-      </Flex>
-    </>
+    <Flex onClick={onPresentModal} mr='20px' sx={{ cursor: 'pointer' }}>
+      <Svg icon='card' width='30px' />
+    </Flex>
   )
 }

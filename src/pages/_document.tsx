@@ -18,9 +18,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet" />
-          <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
           <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta
             name="description"
             content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone."

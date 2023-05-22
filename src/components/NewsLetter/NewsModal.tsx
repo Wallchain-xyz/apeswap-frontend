@@ -16,7 +16,7 @@ const NewsModal: React.FC<NewsModalProps> = ({ onDismiss, mailChimpUrl, isNewsMo
         </Flex>
         <Flex sx={styles.modalBody}>
           <Box sx={styles.showApe} />
-          <Newsletter mailChimpUrl={mailChimpUrl} isNewsModal={isNewsModal} />
+          <Newsletter mailChimpUrl={mailChimpUrl} />
         </Flex>
       </Flex>
     </Modal>
