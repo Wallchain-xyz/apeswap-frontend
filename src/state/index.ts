@@ -25,7 +25,7 @@ import stats from './stats'
 
 import pools from './pools'
 
-const PERSISTED_KEYS: string[] = ['user', 'lists', 'transactions']
+const PERSISTED_KEYS: string[] = ['user', 'transactions']
 
 const store = configureStore({
   reducer: {
