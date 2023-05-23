@@ -46,17 +46,17 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
         value={userEarnings}
         valueIcon={
           <Flex sx={{ height: '16px', alignItems: 'center', mr: '3px' }}>
-            <ServiceTokenDisplay token1="BANANA" size={13} />
+            <ServiceTokenDisplay token1='BANANA' size={13} />
           </Flex>
         }
         value2={userEarningsUsd}
         value2Secondary
-        value2Direction="column"
+        value2Direction='column'
         style={styles.columnView}
       />
       <Flex sx={styles.depositContainer}>
         <Button
-          className="noClick"
+          className='noClick'
           disabled={disabled || pendingTrx}
           onClick={async () => {
             setPendingTrx(true)
@@ -74,7 +74,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
           load={pendingTrx}
           sx={styles.styledBtn}
         >
-          <Text sx={{ lineHeight: '20px' }} color="primaryBright">
+          <Text sx={{ lineHeight: '20px', color: disabled ? 'textDisabled' : 'primaryBright' }}>
             {t('HARVEST')}
           </Text>
         </Button>

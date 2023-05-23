@@ -12,22 +12,22 @@ import { CheckBox, Flex, Svg, Text, Toggle } from 'components/uikit'
 import Input from 'components/uikit/Input/Input'
 
 const ListViewMenu: React.FC<ListMenuProps> = ({
-  query,
-  onHandleQueryChange,
-  setFilterOption,
-  filterOption,
-  setSortOption,
-  setIsActive,
-  sortOption,
-  checkboxLabel,
-  showOnlyCheckbox,
-  setShowOnlyCheckbox,
-  toogleLabels,
-  filterOptions,
-  sortOptions,
-  actionButton,
-  showMonkeyImage,
-}) => {
+                                                 query,
+                                                 onHandleQueryChange,
+                                                 setFilterOption,
+                                                 filterOption,
+                                                 setSortOption,
+                                                 setIsActive,
+                                                 sortOption,
+                                                 checkboxLabel,
+                                                 showOnlyCheckbox,
+                                                 setShowOnlyCheckbox,
+                                                 toogleLabels,
+                                                 filterOptions,
+                                                 sortOptions,
+                                                 actionButton,
+                                                 showMonkeyImage,
+                                               }) => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [expanded, setExpended] = useState<boolean | undefined>(false)
@@ -86,16 +86,16 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       sx={{
         ...styles.menuContainer,
         padding: showMonkeyImage
-          ? ['10px 20px', '10px 20px', '10px 120px 10px 10px']
-          : ['10px 20px', '10px 20px', '10px'],
+          ? ['10px 20px', '10px 20px', '10px 20px', '10px 120px 10px 10px']
+          : ['10px 20px', '10px 20px', '10px 20px', '10px'],
       }}
     >
       <>
-        <Flex>
+        <Flex sx={{ width: ['100%', '100%', '100%', 'unset'], maxWidth: '353px' }}>
           <Text sx={styles.searchText}>{t('Search')}</Text>
-          <Input value={query} onChange={handleQueryChange} icon="search" sx={styles.searchInput} />
+          <Input value={query} onChange={handleQueryChange} icon='search' sx={styles.searchInput} />
           <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
-            <Svg icon="MenuSettings" width="18px" />
+            <Svg icon='MenuSettings' width='18px' />
           </Flex>
         </Flex>
         <Flex sx={{ ...styles.onlyMobile, width: '100%' }}>
@@ -127,7 +127,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
                 <Flex sx={styles.container}>
                   <Flex>
                     <Toggle
-                      size="md"
+                      size='md'
                       labels={[t(`${toogleLabels[0]}`).toUpperCase(), t(`${toogleLabels[1]}`).toUpperCase()]}
                       onClick={handleToogle}
                       checked={!isExact}
@@ -136,7 +136,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
                   </Flex>
                   <Flex sx={{ alignItems: 'center' }} onClick={handleCheckBox}>
                     <CheckBox checked={showOnlyCheckbox} />
-                    <Text ml="10px" size="16px" weight={700}>
+                    <Text ml='10px' size='16px' weight={700}>
                       {t(`${checkboxLabel}`)}
                     </Text>
                   </Flex>
@@ -157,7 +157,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
         )}
         <Flex sx={{ minWidth: '150px', ...styles.onlyDesktop }}>
           <Toggle
-            size="md"
+            size='md'
             labels={[t(`${toogleLabels[0]}`).toUpperCase(), t(`${toogleLabels[1]}`).toUpperCase()]}
             onClick={handleToogle}
             checked={!isExact}
@@ -169,7 +169,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
           onClick={handleCheckBox}
         >
           <CheckBox checked={showOnlyCheckbox} />
-          <Text ml="10px" size="16px" weight={700}>
+          <Text ml='10px' size='16px' weight={700}>
             {t(`${checkboxLabel}`)}
           </Text>
         </Flex>
@@ -179,9 +179,9 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       </>
       {showMonkeyImage &&
         (colorMode === 'dark' ? (
-          <Image src="/images/farm-night-farmer.svg" sx={styles.monkey}  alt=''/>
+          <Image src='/images/farm-night-farmer.svg' sx={styles.monkey} alt='' />
         ) : (
-          <Image src="/images/farm-day-farmer.svg" sx={styles.monkey} alt='' />
+          <Image src='/images/farm-day-farmer.svg' sx={styles.monkey} alt='' />
         ))}
     </Flex>
   )

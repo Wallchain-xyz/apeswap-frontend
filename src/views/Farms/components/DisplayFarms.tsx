@@ -226,7 +226,7 @@ const DisplayFarms = ({
               <Flex
                 sx={{
                   width: '100%',
-                  maxWidth: ['130px', '130px', '140px'],
+                  maxWidth: ['130px', '130px', '130px', '140px'],
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}

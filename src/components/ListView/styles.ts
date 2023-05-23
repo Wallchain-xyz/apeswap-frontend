@@ -17,22 +17,17 @@ export const styles: Record<
 > = {
   listCardContainer: {
     borderRadius: 0,
-    flexDirection: 'column',
+    flexDirection: ['column', 'column', 'column', 'row'],
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: (theme) => theme?.colors?.white2,
+    background: 'white2',
     borderBottom: '1px solid rgba(226, 226, 226, .2)',
-    padding: '10px 20px 10px 20px',
+    padding: ['10px 20px 10px 20px', '10px 20px 10px 20px', '10px 20px 10px 20px', '0 30px 0 30px'],
     margin: '0 10px 0 10px',
-    maxWidth: '500px',
+    maxWidth: ['500px', '500px', '500px', '100%'],
     minWidth: '300px',
     width: '100%',
-    '@media screen and (min-width: 852px)': {
-      flexDirection: 'row',
-      height: '86px',
-      padding: '0 30px 0 30px',
-      maxWidth: '100%',
-    },
+    height: ['unset', 'unset', 'unset', '86px'],
   },
   listViewContainer: {
     display: 'flex',
@@ -58,7 +53,7 @@ export const styles: Record<
     my: '5px',
   },
   infoContentMobile: {
-    display: ['flex', 'flex', 'none'],
+    display: ['flex', 'flex', 'flex', 'none'],
     alignItems: 'center',
   },
   tokensContainer: {
