@@ -9,6 +9,7 @@ import { useAllLists } from 'state/lists/hooks'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { acceptListUpdate } from './actions'
+
 export default function Updater(): null {
   const { provider } = useWeb3React()
   const dispatch = useAppDispatch()
