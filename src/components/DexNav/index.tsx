@@ -106,7 +106,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             {v2Flag ? 'V2' : 'V3'}
           </Text>
           <Switch
-            onClick={() => push(`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}${asPath}`)}
+            onChange={() => push(`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}${asPath}`)}
             // onChange={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
             checked={!v2Flag}
             sx={{
