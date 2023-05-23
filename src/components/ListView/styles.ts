@@ -73,7 +73,7 @@ export const styles: Record<
     minHeight: '18px',
   },
   valueText: {
-    fontSize: ['12px', '12px', '16px'],
+    fontSize: ['12px', '12px', '12px', '16px'],
     color: 'primaryBright',
     lineHeight: '16px',
     fontWeight: 700,
@@ -95,7 +95,7 @@ export const styles: Record<
   animationDiv: {
     position: 'relative',
     width: '100%',
-    maxWidth: ['500px', '500px', '100%'],
+    maxWidth: ['500px', '500px', '500px', '100%'],
     minWidth: '300px',
   },
   expandedWrapper: {
