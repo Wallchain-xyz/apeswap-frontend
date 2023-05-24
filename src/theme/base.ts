@@ -53,7 +53,7 @@ const baseTheme = {
   styles: {
     root: {
       fontFamily: 'body',
-      '-webkit-font-smoothing': 'antialiased',
+      webkitFontSmoothing: 'antialiasing',
       fontWeight: 600,
       color: 'text',
       bg: 'background',

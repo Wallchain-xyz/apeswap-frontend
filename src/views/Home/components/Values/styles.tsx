@@ -31,24 +31,11 @@ export const ValueImage = styled(Flex)<{ image?: string }>`
   background-repeat: no-repeat;
 `
 
-export const Bubble = styled(Flex)<{ isActive?: boolean }>`
-  background: ${({ isActive, theme }) =>
-    isActive ? 'linear-gradient(53.53deg, #a16552 15.88%, #e1b242 92.56%)' : theme.colors.white4};
-  height: 14px;
-  width: 14px;
-  border-radius: 50px;
-  margin: 0px 2.5px 0px 2.5px;
-  cursor: pointer;
-  display: block;
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: none;
-  }
-`
-
 export const ValueText = styled(Text)`
   position: absolute;
   font-size: 22px;
   top: 25px;
   text-align: center;
   width: 100%;
+  font-weight: 700;
 `

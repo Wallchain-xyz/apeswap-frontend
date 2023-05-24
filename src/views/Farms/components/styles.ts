@@ -65,6 +65,7 @@ export const styles: Record<
   },
   styledBtn: {
     fontSize: '16px',
+    lineHeight: '20px',
     padding: '10px',
     width: '140px',
     minWidth: ['130px', '130px', '130px', '100px'],
@@ -78,6 +79,8 @@ export const styles: Record<
     width: '100%',
     minWidth: '44px',
     height: '44px',
+    fontSize: '24px',
+    lineHeight: '30px',
     '&:disabled': {
       background: 'white4',
     },

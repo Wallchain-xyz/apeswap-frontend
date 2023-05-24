@@ -126,9 +126,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           disabled={pendingDepositTrx || parseFloat(stakingTokenBalance ?? '0') === 0}
           sx={styles.styledBtn}
         >
-          <Text sx={{ lineHeight: '20px' }} color="primaryBright">
-            {t('DEPOSIT')}
-          </Text>
+          {t('DEPOSIT')}
         </Button>
       )
     }
@@ -142,10 +140,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           size="sm"
           sx={styles.smallBtn}
         >
-          <Text size={24} sx={{ lineHeight: '30px' }} color="primaryBright">
-            {' '}
-            -{' '}
-          </Text>
+          -
         </Button>
         <Button
           onClick={onPresentDeposit}
@@ -154,10 +149,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           size="sm"
           sx={styles.smallBtn}
         >
-          <Text size={24} sx={{ lineHeight: '30px' }} color="primaryBright">
-            {' '}
-            +{' '}
-          </Text>
+          +
         </Button>
       </Flex>
     )

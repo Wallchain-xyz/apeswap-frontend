@@ -6,16 +6,14 @@ import 'swiper/swiper.min.css'
 import useSwiper from 'hooks/useSwiper'
 import SwiperCore from 'swiper'
 import { getDotPos } from 'utils/getDotPos'
-import { Bubble } from '../News/styles'
 import DefiRedefined from './slides/DefiRedefined'
 import ApeSwapV3 from './slides/ApeSwapV3'
-import { Flex } from 'components/uikit'
+import { Flex, SwiperDots } from 'components/uikit'
 
-const slides = [<DefiRedefined key={0} />, <ApeSwapV3 key={1} />]
-
-const WelcomeContent: React.FC = () => {
+const WelcomeContent = ({ randomImage }: { randomImage: number }) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
+  const slides = [<DefiRedefined randomImage={randomImage} key={0} />, <ApeSwapV3 key={1} />]
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)
@@ -69,12 +67,12 @@ const WelcomeContent: React.FC = () => {
                   position: 'relative',
                   width: '95vw',
                   maxWidth: '1412px',
-                  justifyContent: ['center', 'center', 'flex-start'],
+                  justifyContent: ['center', 'center', 'center', 'flex-start'],
                 }}
               >
                 <Flex sx={styles.bubbleContainer}>
                   {[...Array(slides.length)].map((_, i) => {
-                    return <Bubble isActive={i === activeSlide} onClick={() => slideTo(i)} key={i} />
+                    return <SwiperDots isActive={i === activeSlide} onClick={() => slideTo(i)} key={i} />
                   })}
                 </Flex>
               </Flex>

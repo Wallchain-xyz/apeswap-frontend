@@ -7,10 +7,10 @@ import SwiperCore, { Autoplay } from 'swiper'
 import 'swiper/swiper.min.css'
 import track from 'utils/track'
 import { getDotPos } from 'utils/getDotPos'
-import { Bubble, NewsCard, NewsWrapper, SkeletonWrapper } from './styles'
+import { NewsCard, NewsWrapper, SkeletonWrapper } from './styles'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
-import { Flex, Skeleton } from 'components/uikit'
+import { Flex, Skeleton, SwiperDots } from 'components/uikit'
 import { useFetchHomepageNews, useHomepageNews } from 'state/homepage/hooks'
 import { NewsCardType } from 'state/homepage/types'
 
@@ -129,8 +129,8 @@ const News: React.FC = () => {
               </Swiper>
             ) : (
               <SkeletonWrapper>
-                {[...Array(5)].map((i) => {
-                  return <Skeleton width="266px" height="332.5px" key={i} />
+                {[...Array(5)].map((i, index) => {
+                  return <Skeleton width="266px" height="332.5px" key={`skeleton-${index}`} />
                 })}
               </SkeletonWrapper>
             )}
@@ -139,7 +139,9 @@ const News: React.FC = () => {
         {loadImages && (
           <Flex sx={{ position: 'absolute', bottom: '50px', justifyContent: 'center', alignContent: 'center' }}>
             {[...Array(newsLength)].map((_, i) => {
-              return <Bubble isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={i} />
+              return (
+                <SwiperDots isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={`loadingDots-${i}`} />
+              )
             })}
           </Flex>
         )}
