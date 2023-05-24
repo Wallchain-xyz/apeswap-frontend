@@ -21,7 +21,9 @@ const ListCard: React.FC<ListCardProps> = ({
       <Flex sx={styles.listCardContainer} onClick={() => setExpanded((prev) => !prev)}>
         <Flex sx={{ ...styles.titleContainer, maxWidth: ['100%', '100%', '100%', '275px', titleWidth] }}>
           <Flex sx={styles.tokensContainer}>
-            <Flex sx={{ minWidth: ['', '', '', iconsContainer], justifyContent: 'flex-end' }}>{serviceTokenDisplay}</Flex>
+            <Flex sx={{ minWidth: ['', '', '', iconsContainer], justifyContent: 'flex-end' }}>
+              {serviceTokenDisplay}
+            </Flex>
             <Flex sx={{ flexDirection: 'column', marginLeft: '10px' }}>{title}</Flex>
           </Flex>
           <Flex sx={styles.infoContentMobile}>
@@ -29,15 +31,17 @@ const ListCard: React.FC<ListCardProps> = ({
           </Flex>
         </Flex>
         {cardContent && <Flex sx={styles.cardContentContainer}>{cardContent}</Flex>}
-        <Flex
-          sx={{
-            display: ['none', 'none', 'none', 'flex'],
-            minWidth: expandedContent ? '49px' : '20px',
-            justifyContent: 'center',
-          }}
-        >
-          <InfoContent infoContent={infoContent} expandedContent={expandedContent} expanded={expanded} />
-        </Flex>
+        {infoContent && (
+          <Flex
+            sx={{
+              display: ['none', 'none', 'none', 'flex'],
+              minWidth: expandedContent ? '49px' : '20px',
+              justifyContent: 'center',
+            }}
+          >
+            <InfoContent infoContent={infoContent} expandedContent={expandedContent} expanded={expanded} />
+          </Flex>
+        )}
       </Flex>
       <AnimatePresence>
         {expandedContent && expanded && (

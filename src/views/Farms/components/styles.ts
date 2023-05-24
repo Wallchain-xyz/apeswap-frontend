@@ -81,6 +81,7 @@ export const styles: Record<
     height: '44px',
     fontSize: '24px',
     lineHeight: '30px',
+    fontWeight: 600,
     '&:disabled': {
       background: 'white4',
     },

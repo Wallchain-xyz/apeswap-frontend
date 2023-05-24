@@ -118,17 +118,13 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
               />
             </Flex>
             <Flex sx={{ width: '100%', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Box sx={{ width: '240px', margin: '10px 0' }}>
-                <Claim
-                  billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
-                  billIds={[billToRender.id]}
-                  pendingRewards={billToRender?.pendingRewards}
-                  margin={'0'}
-                />
-              </Box>
-              <Box sx={{ width: '240px', mb: 6 }}>
-                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'240px'} />
-              </Box>
+              <Claim
+                billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
+                billIds={[billToRender.id]}
+                pendingRewards={billToRender?.pendingRewards}
+                margin={'0'}
+              />
+              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'240px'} />
             </Flex>
           </Flex>
         ),

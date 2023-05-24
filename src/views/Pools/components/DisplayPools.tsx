@@ -48,7 +48,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
     const userEarningsUsd = `$${(userEarnings * (pool.rewardToken?.price ?? 0)).toFixed(2)}`
     const userTokenBalance = `${getBalanceNumber(
       new BigNumber(pool?.userData?.stakingTokenBalance ?? 0) ?? new BigNumber(0),
-    )?.toFixed(6)}`
+    )?.toFixed(2)}`
     const userTokenBalanceUsd = `$${(
       getBalanceNumber(new BigNumber(pool?.userData?.stakingTokenBalance ?? 0) || new BigNumber(0)) *
       (pool?.stakingToken?.price ?? 0)
@@ -164,7 +164,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
                   value2Direction="column"
                   style={poolStyles.columnView}
                 />
-                <Flex sx={{ width: '100%', maxWidth: ['130px', '130px', '140px'] }}>
+                <Flex sx={{ width: '100%', maxWidth: ['130px', '130px', '130px', '140px'] }}>
                   <Button variant="primary" sx={poolStyles.styledBtn} onClick={openLiquidityUrl}>
                     {t('GET')} {pool?.stakingToken?.symbol}
                   </Button>

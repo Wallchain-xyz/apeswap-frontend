@@ -7,6 +7,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
 import { ClaimButton } from '../components/styles'
 import { Flex } from 'components/uikit'
+import { Button } from '../../../components/uikit'
 
 const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pendingRewards, margin }) => {
   const { onClaimBill, billType } = useClaimBill(billAddress, billIds)
@@ -39,16 +40,15 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
   }
   return (
     <Flex sx={{ width: '100%' }}>
-      <ClaimButton
+      <Button
         onClick={handleClaim}
         load={pendingTrx}
         disabled={pendingTrx || parseFloat(pendingRewards) === 0}
-        buttonSize={buttonSize}
         margin={margin}
-        sx={{ lineHeight: '20px' }}
+        sx={{ lineHeight: '20px', minWidth: '110px' }}
       >
         {t('CLAIM')}
-      </ClaimButton>
+      </Button>
     </Flex>
   )
 }

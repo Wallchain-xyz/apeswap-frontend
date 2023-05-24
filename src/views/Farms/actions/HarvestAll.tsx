@@ -32,7 +32,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({ pids, disabled, farmType
         setPendingTrx(false)
       }}
       load={pendingTrx}
-      sx={{ ...styles.harvestAllBtn }}
+      sx={styles.harvestAllBtn}
     >
       <Text sx={{ lineHeight: '15px', color: disabled ? 'textDisabled' : 'primaryBright' }}>
         {t('HARVEST ALL')} ({pids.length})
