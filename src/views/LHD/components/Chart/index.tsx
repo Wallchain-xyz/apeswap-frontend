@@ -123,12 +123,14 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
   useEffect(() => {
     if (zoomPlugin) {
       ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
-      //ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
     }
   }, [zoomPlugin])
 
   useEffect(() => {
     const newOptions: ChartOptions<'scatter'> = {
+      animation: {
+        duration: 0,
+      },
       scales: {
         y: {
           title: {
@@ -187,7 +189,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
               weight: '500',
             },
           },
-          border: { dash: [4, 4] }, //
+          border: { dash: [4, 4] },
           min: chartData.healthBottom[0].x,
           beginAtZero: false,
         },
@@ -270,45 +272,37 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     })
   }
 
-  function drawDebtLine(chart: ChartJS<'scatter'>, point2: { x: number; y: number }) {
+  function drawDebtLine(chart: ChartJS<'scatter'>, ownedPoint: { x: number; y: number }) {
     const { ctx, scales } = chart
     const { x: xScale, y: yScale } = scales
 
-    const xPixel2 = xScale?.getPixelForValue(point2.x)
-    const yPixel2 = yScale?.getPixelForValue(point2.y)
+    const xPixel2 = xScale?.getPixelForValue(ownedPoint.x)
+    const yPixel2 = yScale?.getPixelForValue(ownedPoint.y)
 
-    const line1Dataset = chart.config.data.datasets[0]
+    //Sus lower data
+    const susLowerDataset = chart.config.data.datasets[0]
+    const index = susLowerDataset.data.findIndex((x: any) => x.x >= ownedPoint.x)
+    const susLowerPoint1: Point = susLowerDataset.data[index - 1] as Point
+    const susLowerPoint2: Point = susLowerDataset.data[index] as Point
+    const susLowerSlope = (susLowerPoint2?.y - susLowerPoint1?.y) / (susLowerPoint2?.x - susLowerPoint1?.x)
+    const susLowerYIntercept = susLowerPoint1?.y - susLowerSlope * susLowerPoint1?.x
+    const xPixel1 = xScale?.getPixelForValue(ownedPoint.x)
+    const yPixel1 = yScale?.getPixelForValue(susLowerSlope * ownedPoint.x + susLowerYIntercept)
+    const susLowerRange = susLowerSlope * ownedPoint.x + susLowerYIntercept
 
-    const index = line1Dataset.data.findIndex((x: any) => x.x >= point2.x)
+    //Sus upper data
+    const susUpperDataset = chart.config.data.datasets[1]
+    const susUpperPoint1: Point = susUpperDataset.data[index - 1] as Point
+    const susUpperPoint2: Point = susUpperDataset.data[index] as Point
+    const susUpperSlope = (susUpperPoint2?.y - susUpperPoint1?.y) / (susUpperPoint2?.x - susUpperPoint1?.x)
+    const susUpperYIntercept = susUpperPoint1?.y - susUpperSlope * susUpperPoint1?.x
+    const susUpperRange = susUpperSlope * ownedPoint.x + susUpperYIntercept
 
-    const point1: Point = line1Dataset.data[index - 1] as Point
-    const point2OnLine1: Point = line1Dataset.data[index] as Point
-
-    const slope = (point2OnLine1?.y - point1?.y) / (point2OnLine1?.x - point1?.x)
-    const yIntercept = point1?.y - slope * point1?.x
-
-    // const line2Dataset = chart.config.data.datasets[1]
-    //
-    // const tpoint = line2Dataset.data[index - 1] as Point
-    // const tpointOnLine: Point = line2Dataset.data[index] as Point
-    //
-    // const tSlope = (tpointOnLine?.y - tpoint?.y) / (tpointOnLine?.x - tpoint?.x)
-    // const tIntercept = tpoint?.y - tSlope * tpoint?.x
-    // const tStart = tSlope * tpoint.x + tIntercept
-    // //console.log(t2)
-    // //  console.log(t1)
-    //
-    // console.log('1:')
-    // console.log(tStart)
-    // console.log('2:')
-    // console.log(tpoint.y)
-
-    const xPixel1 = xScale?.getPixelForValue(point2.x)
-    const yPixel1 = yScale?.getPixelForValue(slope * point2.x + yIntercept)
-
-    const startDebt = slope * point2.x + yIntercept
-
-    passBackData({ liquidityDebt: startDebt - point2.y, sustainabilityLower: startDebt })
+    passBackData({
+      liquidityDebt: susLowerRange - ownedPoint.y,
+      sustainabilityLower: susLowerRange,
+      sustainabilityUpper: susUpperRange,
+    })
 
     ctx.beginPath()
     ctx.setLineDash([5, 5])
@@ -331,7 +325,6 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
 
       dataset?.data?.forEach(function (point: any) {
         const { x, y, r, data } = point
-
         const imageData = new Image()
         imageData.src = `${data.image}`
 
@@ -343,48 +336,49 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         const imageX = xPixel - size / 2
         const imageY = yPixel - size / 2
 
-        ctx.beginPath()
+        const xAxis = chart.scales['x']
+        const xStartPixel = xAxis?.getPixelForValue(xAxis?.min)
 
-        if (r == 10) {
-          ctx.globalAlpha = 1
-          if (!point1) {
-            point1 = point
-            ctx.strokeStyle = '#1179A6'
+        if (xPixel >= xStartPixel) {
+          ctx.beginPath()
+
+          if (r == 10) {
+            ctx.globalAlpha = 1
+            if (!point1) {
+              point1 = point
+              ctx.strokeStyle = '#1179A6'
+            } else {
+              point2 = point
+              ctx.strokeStyle = '#904DC4'
+            }
           } else {
-            point2 = point
-
-            ctx.strokeStyle = '#904DC4'
+            ctx.globalAlpha = 0.7
+            const borderColor = isBelowBottomLine(chart, { x, y }) ? '#38A611' : '#DF4141'
+            ctx.strokeStyle = borderColor
           }
-        } else {
-          ctx.globalAlpha = 0.7
-          const borderColor = isBelowBottomLine(chart, { x, y }) ? '#38A611' : '#DF4141'
-          ctx.strokeStyle = borderColor
-        }
 
-        ctx.lineWidth = 3
-        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI) // Add 3 to the radius to draw the green border outside the image
-        ctx.stroke()
+          ctx.lineWidth = 3
+          ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI)
+          ctx.stroke()
 
-        // Draw a white border inside the green border
-        ctx.beginPath()
-        ctx.strokeStyle = 'white'
-        ctx.lineWidth = 5
-        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI) // Draw the white border inside the green border
-        ctx.stroke()
+          // Draw a white border inside the green border
+          ctx.beginPath()
+          ctx.strokeStyle = 'white'
+          ctx.lineWidth = 5
+          ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
+          ctx.stroke()
 
-        ctx.save()
-        ctx.beginPath()
-        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
-        ctx.closePath()
-        ctx.clip()
-
-        ctx.drawImage(imageData, imageX, imageY, size, size)
-
-        ctx.restore()
-
-        ctx.globalAlpha = 1
-        if (point2) {
-          drawDebtLine(chart, point2)
+          ctx.save()
+          ctx.beginPath()
+          ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
+          ctx.closePath()
+          ctx.clip()
+          ctx.drawImage(imageData, imageX, imageY, size, size)
+          ctx.restore()
+          ctx.globalAlpha = 1
+          if (point2) {
+            drawDebtLine(chart, point2)
+          }
         }
       })
     },
@@ -393,10 +387,14 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
   const gradientFillBetweenLines = {
     id: 'gradientFillBetweenLines',
     beforeDatasetsDraw: (chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any }, _args: any) => {
+      const xAxis = chart.scales['x']
+      const xStartPixel = xAxis?.getPixelForValue(xAxis?.start)
+      const xEndPixel = xAxis?.getPixelForValue(xAxis?.end)
+
       const { ctx } = chart
-      const line1Meta = chart.getDatasetMeta(0)
-      const line2Meta = chart.getDatasetMeta(1)
-      const yAxis = chart.scales[line1Meta.yAxisID]
+      const susLowerLine = chart.getDatasetMeta(0)
+      const susUpperLine = chart.getDatasetMeta(1)
+      const yAxis = chart.scales[susLowerLine.yAxisID]
 
       const greenGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
       greenGradient.addColorStop(0, 'rgba(56, 166, 17, 0.3)')
@@ -410,15 +408,22 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       ctx.fillStyle = greenGradient
       ctx.beginPath()
 
-      ctx.moveTo(line2Meta.data[0]?.x, line2Meta.data[0]?.y)
-      for (let i = 1; i < line2Meta.data.length; i++) {
-        const pointProps = line2Meta.data[i].getProps(['x', 'y'])
-        ctx.lineTo(pointProps.x, pointProps.y)
+      ctx.moveTo(xStartPixel, susUpperLine.data[0]?.y)
+
+      //Map to sus upper
+      for (let i = 1; i < susUpperLine.data.length; i++) {
+        const pointProps = susUpperLine.data[i].getProps(['x', 'y'])
+        if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
+          ctx.lineTo(pointProps.x, pointProps.y)
+        }
       }
 
-      for (let i = line1Meta.data.length - 1; i >= 0; i--) {
-        const pointProps = line1Meta.data[i].getProps(['x', 'y'])
-        ctx.lineTo(pointProps.x, pointProps.y)
+      //Map to sus Lower
+      for (let i = susLowerLine.data.length - 1; i >= 0; i--) {
+        const pointProps = susLowerLine.data[i].getProps(['x', 'y'])
+        if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
+          ctx.lineTo(pointProps.x, pointProps.y)
+        }
       }
 
       ctx.closePath()
@@ -429,14 +434,32 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       ctx.fillStyle = redGradient
       ctx.beginPath()
 
-      ctx.moveTo(line1Meta.data[0].x, line1Meta.data[0].y)
-      for (let i = 1; i < line1Meta.data.length; i++) {
-        const pointProps = line1Meta.data[i].getProps(['x', 'y'])
-        ctx.lineTo(pointProps.x, pointProps.y)
+      // This is the red area
+      ctx.moveTo(xStartPixel, susLowerLine.data[0].y)
+      let amountOutside = 0
+
+      for (let i = 1; i < susLowerLine.data.length; i++) {
+        const pointProps = susLowerLine.data[i].getProps(['x', 'y'])
+        if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
+          ctx.lineTo(pointProps.x, pointProps.y)
+        } else if (amountOutside === 0) {
+          amountOutside++
+        } else if (amountOutside === 1) {
+          // Only need to do this if the first point is outside of x axis, then match y axis to the point of sus lower
+
+          const susLowerDataset = data.datasets[0]
+          const susLowerPoint1: Point = susLowerDataset.data[i - 1] as Point
+          const susLowerPoint2: Point = susLowerDataset.data[i] as Point
+          const susLowerSlope = (susLowerPoint2?.y - susLowerPoint1?.y) / (susLowerPoint2?.x - susLowerPoint1?.x)
+          const susLowerYIntercept = susLowerPoint1?.y - susLowerSlope * susLowerPoint1?.x
+
+          ctx.lineTo(xStartPixel, susLowerYIntercept)
+          amountOutside++
+        }
       }
 
-      ctx.lineTo(line1Meta.data[line1Meta.data.length - 1].x, yAxis?.getPixelForValue(0))
-      ctx.lineTo(line1Meta.data[0].x, yAxis?.getPixelForValue(0))
+      ctx.lineTo(xEndPixel, yAxis?.getPixelForValue(0))
+      ctx.lineTo(xStartPixel, yAxis?.getPixelForValue(0))
       ctx.closePath()
       ctx.fill()
       ctx.restore()
@@ -446,7 +469,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
   const data = {
     datasets: [
       {
-        label: 'Sus Upper',
+        label: 'Sus Lower',
         data: chartData.healthBottom,
         borderColor: '#38A611',
         pointRadius: 0,
@@ -456,7 +479,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         showLine: true,
       },
       {
-        label: 'Sus Lower',
+        label: 'Sus Upper',
         data: chartData.healthTop,
         borderColor: '#38A611',
         pointRadius: 0,
