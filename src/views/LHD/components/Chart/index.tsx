@@ -446,15 +446,14 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           amountOutside++
         } else if (amountOutside === 1) {
           // Only need to do this if the first point is outside of x axis, then match y axis to the point of sus lower
-
-          const susLowerDataset = data.datasets[0]
-          const susLowerPoint1: Point = susLowerDataset.data[i - 1] as Point
-          const susLowerPoint2: Point = susLowerDataset.data[i] as Point
-          const susLowerSlope = (susLowerPoint2?.y - susLowerPoint1?.y) / (susLowerPoint2?.x - susLowerPoint1?.x)
-          const susLowerYIntercept = susLowerPoint1?.y - susLowerSlope * susLowerPoint1?.x
-
-          ctx.lineTo(xStartPixel, susLowerYIntercept)
-          amountOutside++
+          // const susLowerDataset = data.datasets[0]
+          // const susLowerPoint1: Point = susLowerDataset.data[i - 1] as Point
+          // const susLowerPoint2: Point = susLowerDataset.data[i] as Point
+          // const susLowerSlope = (susLowerPoint2?.y - susLowerPoint1?.y) / (susLowerPoint2?.x - susLowerPoint1?.x)
+          // const susLowerYIntercept = susLowerPoint1?.y - susLowerSlope * susLowerPoint1?.x
+          //
+          // ctx.lineTo(xStartPixel, susLowerYIntercept)
+          // amountOutside++
         }
       }
 
