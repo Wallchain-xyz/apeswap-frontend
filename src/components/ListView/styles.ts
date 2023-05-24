@@ -64,7 +64,7 @@ export const styles: Record<
   titleText: {
     opacity: 0.6,
     fontSize: '12px',
-    lineHeight: '16px',
+    lineHeight: ['16px', '16px', '16px', '24px'],
     fontWeight: 400,
   },
   skeleton: {
@@ -79,6 +79,7 @@ export const styles: Record<
     fontWeight: 700,
     mr: '5px',
     display: 'flex',
+    alignItems: 'center',
   },
   secondaryText: {
     fontSize: '12px',

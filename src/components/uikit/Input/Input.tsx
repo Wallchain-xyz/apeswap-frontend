@@ -2,9 +2,9 @@ import { Input as ThemeInput } from 'theme-ui'
 import Flex from '../Flex'
 import Svg from '../Svg'
 
-const Input = ({ variant, ...props }: { variant?: 'search' } | any) => {
+const Input = ({ variant, width, ...props }: { variant?: 'search'; width?: string[] } | any) => {
   return variant === 'search' ? (
-    <Flex sx={{ position: 'relative' }}>
+    <Flex sx={{ position: 'relative', width: width ? width : 'unset' }}>
       <ThemeInput
         {...props}
         sx={{

@@ -19,6 +19,7 @@ import Blocklist from 'components/Blocklist'
 import MarketingModalCheck from 'components/MarketingModalCheck'
 import { Analytics } from '@vercel/analytics/react'
 import { RefreshContextProvider } from 'contexts/RefreshContext'
+import GlobalStyles from '../contexts/GlobalStyles'
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <GlobalStyles />
         <Web3Provider>
           <BlockNumberProvider>
             <Updaters />
