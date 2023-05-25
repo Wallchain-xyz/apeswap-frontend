@@ -11,7 +11,7 @@ import BigNumber from 'bignumber.js'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 interface TransferBillModalProps {
-  onDismiss: () => void
+  onDismiss?: () => void
   bill: Bills
   billId: string
   chainId?: SupportedChainId

@@ -43,7 +43,7 @@ const modalProps = {
 }
 
 interface BillModalProps {
-  onDismiss: () => void
+  onDismiss?: () => void
   bill: Bills
   billId: string | undefined
 }
@@ -67,6 +67,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
   )?.toFixed(4)
   const attributes = userOwnedBillNftData?.attributes?.filter((attrib) => BILL_ATTRIBUTES.includes(attrib.trait_type))
   const claimableUsd = (parseFloat(claimable) * (bill?.earnTokenPrice ?? 0))?.toFixed(2)
+
   const [onPresentTransferBillModal] = useModal(
     <TransferBillModal bill={bill} billId={billId ?? ''} onDismiss={onDismiss} chainId={chainId} />,
     true,

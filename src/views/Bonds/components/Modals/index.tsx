@@ -30,9 +30,9 @@ const BillModal: React.FC<BillModalProps> = ({
   disabled,
 }) => {
   const [onPresentBuyBillsModal] = useModal(
-    <BuyBillModalView bill={bill} onDismiss={() => null} />,
-    true,
-    true,
+    <BuyBillModalView billIndex={bill.index} onDismiss={() => null} />,
+    false,
+    false,
     `billsModal${id}`,
   )
   const [onPresentUserBillModal] = useModal(
