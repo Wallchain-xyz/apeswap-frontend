@@ -16,7 +16,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, Percent, SupportedChainId } from '@ape.swap/sdk-core'
 import useBuyBill from '../hooks/useBuyBill'
-import { Flex, Svg, Text } from 'components/uikit'
+import { Button, Flex, Svg, Text } from 'components/uikit'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { BillValueContainer, TextWrapper } from '../components/Modals/styles'
@@ -275,10 +275,16 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
         <Flex sx={{ ...styles.buttonsContainer }}>
           {billType !== 'reserve' && (
             <Box sx={styles.getLpContainer}>
-              <GetLPButton variant="secondary" onClick={() => onAddLiquidityModal(token, quoteToken, '', '', false)}>
-                <Text sx={{ marginRight: '5px' }}>{t('Get LP')}</Text>
-                <Svg icon="ZapIcon" color="yellow" />
-              </GetLPButton>
+              <Button
+                variant="secondary"
+                onClick={() => onAddLiquidityModal(token, quoteToken, '', '', false)}
+                sx={{ width: '100%' }}
+              >
+                {t('Get LP')}
+                <Flex sx={{ ml: '10px' }}>
+                  <Svg icon="ZapIcon" color="yellow" />
+                </Flex>
+              </Button>
             </Box>
           )}
           <Box sx={billType !== 'reserve' ? styles.buyButtonContainer : styles.buyButtonContainerFull}>

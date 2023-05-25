@@ -46,7 +46,7 @@
     "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
-    "@ape.swap/apeswap-lists": "1.1.60",
+    "@ape.swap/apeswap-lists": "1.1.67",
     "@ape.swap/router-sdk": "^1.2.0",
     "@ape.swap/sdk-core": "^1.0.2",
     "@ape.swap/smart-order-router": "^1.2.1-alpha.2",

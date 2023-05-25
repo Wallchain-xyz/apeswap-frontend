@@ -1,3 +1,4 @@
+'use client'
 import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import styled from '@emotion/styled'

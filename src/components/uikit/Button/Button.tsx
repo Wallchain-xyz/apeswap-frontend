@@ -86,7 +86,6 @@ const Button = ({
         },
         ...hoverStyle,
         width: fullWidth ? '100%' : 'max-content',
-        color: 'primaryBright',
       }}
       {...props}
     >
