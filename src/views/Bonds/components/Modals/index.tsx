@@ -6,6 +6,7 @@ import WarningModal from './WarningModal'
 import useModal from 'hooks/useModal'
 import { Bills } from 'views/Bonds/types'
 import BuyBillModalView from './BuyBillModalView'
+import { Button } from '../../../../components/uikit'
 
 interface BillModalProps {
   bill: Bills
@@ -48,7 +49,7 @@ const BillModal: React.FC<BillModalProps> = ({
   )
 
   return !billCardImage ? (
-    <StyledButton
+    <Button
       onClick={
         buyFlag
           ? parseFloat(bill?.discount ?? '0') < 0
@@ -58,10 +59,15 @@ const BillModal: React.FC<BillModalProps> = ({
       }
       buttonSize={buttonSize}
       disabled={disabled}
-      sx={{ lineHeight: '20px' }}
+      sx={{
+        lineHeight: '20px',
+        minWidth: '109px',
+        width: ['240px', '240px', '240px', '100%'],
+        mt: ['10px', '10px', '10px', '0px'],
+      }}
     >
       {buttonText}
-    </StyledButton>
+    </Button>
   ) : (
     <BillsImage image={billCardImage} onClick={onPresentUserBillModal} style={{ cursor: 'pointer' }} />
   )

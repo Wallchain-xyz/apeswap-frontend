@@ -48,7 +48,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
           <ListViewContent
             tag={bill.billType as ListTagVariants}
             value={bill.lpToken.symbol}
-            style={{ maxWidth: '150px', height: '35px', flexDirection: 'column' }}
+            style={{ maxWidth: '150px', height: '35px', flexDirection: 'column', justifyContent: 'space-between' }}
           />
         ),
         titleContainerWidth: 280,
@@ -61,7 +61,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
             toolTip={`This is the amount of tokens that have vested and available to claim.`}
             toolTipPlacement={'bottomLeft'}
             toolTipTransform={'translate(29%, 0%)'}
-            style={{ width: '100%', justifyContent: 'space-between' }}
+            style={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}
           />
         ) : (
           <Flex style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -86,15 +86,17 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
               toolTipTransform="translate(22%, -4%)"
             />
             <VestedTimer lastBlockTimestamp={billToRender.lastBlockTimestamp} vesting={billToRender.vesting} />
-            <Flex sx={{ minWidth: '220px', alignItems: 'center' }}>
-              <Claim
-                billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
-                billIds={[billToRender.id]}
-                buttonSize={'100px'}
-                pendingRewards={billToRender?.pendingRewards}
-                margin={'0 10px'}
-              />
-              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
+            <Flex sx={{ width: '240px', justifyContent: 'space-between', minWidth: '220px', alignItems: 'center' }}>
+              <Flex sx={{ maxWidth: '109px' }}>
+                <Claim
+                  billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
+                  billIds={[billToRender.id]}
+                  pendingRewards={billToRender?.pendingRewards}
+                />
+              </Flex>
+              <Flex sx={{ maxWidth: '109px' }}>
+                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
+              </Flex>
             </Flex>
           </Flex>
         ),
@@ -109,7 +111,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 toolTip={`This is the amount of unvested tokens that cannot be claimed yet.`}
                 toolTipPlacement={'bottomLeft'}
                 toolTipTransform={'translate(22%, 0%)'}
-                style={{ width: '100%', justifyContent: 'space-between', marginBottom: '5px' }}
+                style={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}
               />
               <VestedTimer
                 lastBlockTimestamp={billToRender.lastBlockTimestamp}
@@ -117,14 +119,21 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 mobileFlag
               />
             </Flex>
-            <Flex sx={{ width: '100%', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <Flex
+              sx={{
+                width: '100%',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
               <Claim
                 billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                 billIds={[billToRender.id]}
                 pendingRewards={billToRender?.pendingRewards}
-                margin={'0'}
               />
-              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'240px'} />
+              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} />
             </Flex>
           </Flex>
         ),

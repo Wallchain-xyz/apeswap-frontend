@@ -137,15 +137,21 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                   })}
             </Flex>
             <Flex sx={{ width: '100%' }}>
-              <Flex sx={{ width: '50%', padding: '5px' }}>
+              <Flex
+                sx={{
+                  width: '50%',
+                  padding: '5px',
+                  height: ['unset', 'unset', 'unset', '54px'],
+                  mt: ['0px', '0px', '0px', '10px'],
+                }}
+              >
                 <Claim
                   billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                   billIds={[billId ?? '0']}
                   pendingRewards={userOwnedBill?.payout ?? '0'}
-                  margin={'0'}
                 />
               </Flex>
-              <Flex sx={{ width: '50%', padding: '5px' }}>
+              <Flex sx={{ width: '50%', padding: '5px', marginTop: '10px' }}>
                 <StyledButton onClick={onPresentTransferBillModal} buttonSize={'100%'} sx={{ lineHeight: '18px' }}>
                   {t('Transfer')}
                 </StyledButton>
@@ -164,7 +170,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Fully Vested')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled' }}>{t('Fully Vested')}</Text>
               <StyledHeadingText ml="10px" bold>
                 <VestedTimer
                   lastBlockTimestamp={userOwnedBill?.lastBlockTimestamp ?? '0'}
@@ -184,16 +190,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Claimable')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled' }}>{t('Claimable')}</Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={25} />
-                <StyledHeadingText ml="10px" bold>
+                <Text sx={{ fontWeight: 700, fontSize: '22px', ml: '10px' }}>
                   {claimable && claimable !== 'NaN' ? (
                     `${claimable} ($${claimableUsd})`
                   ) : (
                     <Skeleton width="150px" height="32.5px" animation="waves" />
                   )}
-                </StyledHeadingText>
+                </Text>
               </Flex>
             </Flex>
           </BillFooterContentContainer>
@@ -207,16 +213,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Pending')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled' }}>{t('Pending')}</Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={25} />
-                <StyledHeadingText ml="10px" bold>
+                <Text sx={{ fontSize: '22px', fontWeight: 700, ml: '10px' }}>
                   {pending && pending !== 'NaN' ? (
                     `${pending} ($${pendingUsd})`
                   ) : (
                     <Skeleton width="150px" height="32.5px" animation="waves" />
                   )}
-                </StyledHeadingText>
+                </Text>
               </Flex>
             </Flex>
           </BillFooterContentContainer>
@@ -232,16 +238,18 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Claimable')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled', lineHeight: '18px', fontSize: '12px', fontWeight: 500 }}>
+                {t('Claimable')}
+              </Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={20} />
-                <StyledHeadingText ml="10px" bold>
+                <Text sx={{ fontWeight: 700, ml: '10px', fontSize: '12px' }}>
                   {claimable && claimable !== 'NaN' ? (
                     `${claimable} ($${claimableUsd})`
                   ) : (
                     <Skeleton width="150px" height="32.5px" animation="waves" />
                   )}
-                </StyledHeadingText>
+                </Text>
               </Flex>
             </Flex>
             <Flex
@@ -253,7 +261,9 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Pending')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled', lineHeight: '18px', fontSize: '12px', fontWeight: 500 }}>
+                {t('Pending')}
+              </Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={20} />
                 <StyledHeadingText ml="10px" bold>
@@ -274,8 +284,10 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Fully Vested')}</TopDescriptionText>
-              <StyledHeadingText ml="10px" bold>
+              <Text sx={{ color: 'textDisabled', lineHeight: '18px', fontSize: '12px', fontWeight: 500 }}>
+                {t('Fully Vested')}
+              </Text>
+              <StyledHeadingText>
                 <VestedTimer
                   lastBlockTimestamp={userOwnedBill?.lastBlockTimestamp ?? '0'}
                   vesting={userOwnedBill?.vesting ?? '0'}

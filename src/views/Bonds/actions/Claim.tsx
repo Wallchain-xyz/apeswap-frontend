@@ -5,11 +5,9 @@ import { ClaimProps } from './types'
 import useClaimBill from '../hooks/useClaimBill'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
-import { ClaimButton } from '../components/styles'
-import { Flex } from 'components/uikit'
-import { Button } from '../../../components/uikit'
+import { Button } from 'components/uikit'
 
-const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pendingRewards, margin }) => {
+const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards }) => {
   const { onClaimBill, billType } = useClaimBill(billAddress, billIds)
   const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
@@ -39,17 +37,19 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
     setPendingTrx(false)
   }
   return (
-    <Flex sx={{ width: '100%' }}>
-      <Button
-        onClick={handleClaim}
-        load={pendingTrx}
-        disabled={pendingTrx || parseFloat(pendingRewards) === 0}
-        margin={margin}
-        sx={{ lineHeight: '20px', minWidth: '110px' }}
-      >
-        {t('CLAIM')}
-      </Button>
-    </Flex>
+    <Button
+      onClick={handleClaim}
+      load={pendingTrx}
+      disabled={pendingTrx || parseFloat(pendingRewards) === 0}
+      sx={{
+        lineHeight: '20px',
+        minWidth: '109px',
+        width: ['240px', '240px', '240px', '100%'],
+        mt: ['10px', '10px', '10px', '0px'],
+      }}
+    >
+      {t('CLAIM')}
+    </Button>
   )
 }
 
