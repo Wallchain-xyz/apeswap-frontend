@@ -10,7 +10,7 @@ import { getColor } from '../../../utils/getColor'
 import { styles } from '../styles'
 import TokenImage from 'components/TokenImage'
 
-const TableRow = ({ index, simpleProfile }: { index: number, simpleProfile: SimpleTokenProfile }) => {
+const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: SimpleTokenProfile }) => {
   const router = useRouter()
 
   const handleClick = () => {
@@ -25,15 +25,17 @@ const TableRow = ({ index, simpleProfile }: { index: number, simpleProfile: Simp
         <Text sx={styles.indexText}>{simpleProfile?.ranking}</Text>
       </Flex>
       <Flex sx={{ ...styles.nameCol, background: index % 2 ? 'white3' : 'white2' }}>
-        <TokenImage url={simpleProfile?.addressMapping?.tokenLogoUrl} size={25} />
-        <Text sx={styles.nameText}>
-          {simpleProfile?.addressMapping?.tokenSymbol}
-        </Text>
+        <TokenImage url={simpleProfile?.addressMapping?.tokenLogoUrl} size={30} />
+        <Flex sx={{ flexDirection: 'column' }}>
+          <Text sx={styles.symbolText}>{simpleProfile?.addressMapping?.tokenSymbol}</Text>
+          <Text sx={styles.nameText}>
+            {simpleProfile?.addressMapping?.tokenName.substring(0, 21).trim()}
+            {simpleProfile?.addressMapping?.tokenName.length > 21 ? '...' : ''}
+          </Text>
+        </Flex>
       </Flex>
       <Flex sx={styles.usdCol}>
-        <Text>
-          {formatDollar({ num: simpleProfile?.mcap?.reduce((sum, current) => sum + current.amount, 0) })}
-        </Text>
+        <Text>{formatDollar({ num: simpleProfile?.mcap?.reduce((sum, current) => sum + current.amount, 0) })}</Text>
       </Flex>
       <Flex sx={styles.usdCol}>
         <Text>
@@ -41,23 +43,21 @@ const TableRow = ({ index, simpleProfile }: { index: number, simpleProfile: Simp
         </Text>
       </Flex>
       <Flex sx={styles.usdCol}>
-        <Text>
-          {formatDollar({ num: simpleProfile?.extractableLiquidity })}
-        </Text>
+        <Text>{formatDollar({ num: simpleProfile?.extractableLiquidity })}</Text>
       </Flex>
       <Flex sx={styles.barCol}>
         <Flex sx={styles.barContainer}>
-          <ProgressBar value={Math.round(simpleProfile?.healthScore * 100)} position='left' />
+          <ProgressBar value={Math.round(simpleProfile?.healthScore * 100)} position="left" />
         </Flex>
       </Flex>
       <Flex sx={styles.barCol}>
         <Flex sx={styles.barContainer}>
-          <ProgressBar value={Math.round(simpleProfile?.concentrationScore * 100)} position='left' />
+          <ProgressBar value={Math.round(simpleProfile?.concentrationScore * 100)} position="left" />
         </Flex>
       </Flex>
       <Flex sx={styles.barCol}>
         <Flex sx={styles.barContainer}>
-          <ProgressBar value={Math.round(simpleProfile?.ownershipScore * 100)} position='left' />
+          <ProgressBar value={Math.round(simpleProfile?.ownershipScore * 100)} position="left" />
         </Flex>
       </Flex>
       <Flex sx={{ ...styles.scoreCol, background: index % 2 ? 'white3' : 'white2' }}>

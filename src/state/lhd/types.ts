@@ -59,6 +59,12 @@ export interface TokenProfile extends SimpleTokenProfile {
   healthChartData: LiquidityHealthChart
 }
 
+export interface chartExtras {
+  liquidityDebt: number
+  sustainabilityLower: number
+  sustainabilityUpper: number
+}
+
 export interface LiquidityHealthChart {
   tokens: ChartItem[]
   healthTop: ChartItem[]
