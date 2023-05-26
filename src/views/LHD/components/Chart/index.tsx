@@ -384,6 +384,19 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     },
   }
 
+  const getYIntercept = (x: number, dataset: any) => {
+    for (let i = 1; i < dataset.data.length; i++) {
+      const point1 = dataset.data[i - 1].getProps(['x', 'y'])
+      const point2 = dataset.data[i].getProps(['x', 'y'])
+      if (point1.x <= x && point2.x >= x) {
+        const slope = (point2.y - point1.y) / (point2.x - point1.x)
+        const y = point1.y + slope * (x - point1.x)
+        return y
+      }
+    }
+    return null // return null if no two points can be found which straddle the desired x value
+  }
+
   const gradientFillBetweenLines = {
     id: 'gradientFillBetweenLines',
     beforeDatasetsDraw: (chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any }, _args: any) => {
@@ -408,7 +421,8 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       ctx.fillStyle = greenGradient
       ctx.beginPath()
 
-      ctx.moveTo(xStartPixel, susUpperLine.data[0]?.y)
+      // ctx.moveTo(xStartPixel, susUpperLine.data[0]?.y)
+      ctx.moveTo(xStartPixel, getYIntercept(xStartPixel, susUpperLine))
 
       //Map to sus upper
       for (let i = 1; i < susUpperLine.data.length; i++) {
@@ -434,8 +448,8 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       ctx.fillStyle = redGradient
       ctx.beginPath()
 
-      // This is the red area
-      ctx.moveTo(xStartPixel, susLowerLine.data[0].y)
+      // ctx.moveTo(xStartPixel, susLowerLine.data[0].y)
+      ctx.moveTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
       let amountOutside = 0
 
       for (let i = 1; i < susLowerLine.data.length; i++) {
@@ -457,8 +471,10 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         }
       }
 
+      //Red fill
       ctx.lineTo(xEndPixel, yAxis?.getPixelForValue(0))
       ctx.lineTo(xStartPixel, yAxis?.getPixelForValue(0))
+
       ctx.closePath()
       ctx.fill()
       ctx.restore()
