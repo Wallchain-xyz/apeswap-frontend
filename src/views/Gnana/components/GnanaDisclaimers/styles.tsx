@@ -32,23 +32,6 @@ export const FirstHeaderCon = styled.div`
   align-items: center;
   margin-bottom: 20px;
 `
-export const FirstHeader = styled(Text)`
-  font-size: 25px;
-  color: ${({ theme }) => (theme.isDark ? '#FFFFFF' : theme.colors.text)};
-  font-weight: 700;
-  text-transform: uppercase;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: none;
-    font-size: 30px;
-  }
-`
-export const FirstHeader2 = styled(FirstHeader)`
-  display: none;
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: unset;
-  }
-`
 
 export const InfoCon = styled.div`
   background: ${({ theme }) => theme.colors.white3};
@@ -225,12 +208,3 @@ export const Footer = styled.div`
 `
 
 export const InfoSect1 = styled.div``
-
-export const LearnMoreBtn = styled(Button)`
-  font-size: 12px;
-  font-weight: 700;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    font-size: 16px;
-  }
-`

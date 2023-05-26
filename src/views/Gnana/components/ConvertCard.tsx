@@ -1,40 +1,24 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-
-// import useApproveTransaction from 'hooks/useApproveTransaction'
-// import { useBanana, useTreasury } from 'hooks/useContract'
-// import { useBuyGoldenBanana } from 'hooks/useGoldenBanana'
-// import { useToast } from 'state/hooks'
-// import { useBananaAddress } from 'hooks/useAddress'
-
 import { useTranslation } from 'contexts/Localization'
 import TokenInput from 'components/TokenInput'
-import {
-  FlexSection,
-  CheckBoxCon,
-  CBS,
-  HeaderCard,
-  Header,
-  TokensDisplay,
-  ContentCard,
-  StyledButton,
-  StyledText,
-  StyledCard,
-} from './styles'
+import { CheckBoxCon, HeaderCard, Header, TokensDisplay, ContentCard, StyledButton, StyledCard } from './styles'
 import { Flex } from 'theme-ui'
 import { useTokenBalance } from 'lib/hooks/useCurrencyBalance'
 import { useWeb3React } from '@web3-react/core'
 import { getFullDisplayBalance } from 'utils/getBalanceNumber'
-import { CheckBox, Text } from 'components/uikit'
+import { Button, CheckBox, Text } from 'components/uikit'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
 import useApproveTransaction from '../useApproveTransaction'
 import { useBuyGoldenBanana } from '../useGoldenBanana'
 import { useTokenContract, useTreasury } from 'hooks/useContract'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useToken } from 'hooks/Tokens'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
+import { useApproveCallback } from '../../../hooks/useApproveCallback'
+import ApproveBtn from '../../../components/ApproveBtn'
 
 interface ConvertCardType {
   fromToken: string
@@ -58,26 +42,11 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
   const { tokenAllowance } = useTokenAllowance(bananaToken ?? undefined, account, treasuryContract?.address)
   const { t } = useTranslation()
   const [triedMore, setTriedMore] = useState(false)
+  const amountToApprove = bananaToken
+    ? CurrencyAmount.fromRawAmount(bananaToken, ethers.constants.MaxInt256.toString())
+    : undefined
 
-  const { isApproving, handleApprove } = useApproveTransaction({
-    onRequiresApproval: async (loadedAccount) => {
-      try {
-        const response = await bananaContract?.allowance(loadedAccount, treasuryContract?.address ?? '')
-        const currentAllowance = new BigNumber(response?.toString() ?? '0')
-        return currentAllowance.gt(0)
-      } catch (error) {
-        return false
-      }
-    },
-    onApprove: () => {
-      return bananaContract
-        ?.approve(treasuryContract?.address ?? '', ethers.constants.MaxUint256)
-        .then((trx) => trx.wait())
-    },
-    onSuccess: async () => {
-      null //toastSuccess(t('Approved!'))
-    },
-  })
+  const [approval, approveCallback] = useApproveCallback(amountToApprove, treasuryContract?.address)
 
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(new BigNumber(bananaBalance?.quotient?.toString() ?? 0))
@@ -151,31 +120,40 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
             <ConnectWalletButton />
           </Flex>
         ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) ? (
-          <StyledButton disabled={disabled} variant="primary" margin="10px" onClick={buy}>
-            {t('CONVERT')}
-          </StyledButton>
+          <Flex sx={{ my: '10px', width: '100%', maxWidth: '200px' }}>
+            <Button disabled={disabled} onClick={buy} sx={{ width: '100%' }}>
+              {t('CONVERT')}
+            </Button>
+          </Flex>
         ) : (
-          <StyledButton margin="10px" disabled={isApproving} onClick={handleApprove}>
-            {t('APPROVE CONTRACT')}
-          </StyledButton>
+          <Flex sx={{ my: '10px', width: '100%', maxWidth: '200px' }}>
+            <ApproveBtn approvalState={approval} approveCallback={approveCallback} hasDarkBg />
+          </Flex>
         )}
 
-        <FlexSection sx={{ flexDirection: 'column', alignItems: 'center', mb: '10px' }}>
-          <Text fontSize="16px" fontWeight={700}>
+        <Flex sx={{ flexDirection: 'column', alignItems: 'center', mb: '10px' }}>
+          <Text sx={{ fontSize: '16px', fontWeight: 700 }}>
             {t('OUTPUT')} {`${toToken} ${gnanaVal ? gnanaVal.toFixed(3) : 0}`}
           </Text>
-          <Text fontSize="12px" fontWeight={500} style={{ color: triedMore ? '#ff0000' : null }}>
+          <Text sx={{ fontSize: '12px', fontWeight: 500, color: triedMore ? '#ff0000' : null }}>
             {t('*Current max conversion is %displayMax%', { displayMax })}
           </Text>
-          <CBS>
+          <Flex
+            sx={{
+              alignItems: 'center',
+              marginTop: '20px',
+              cursor: 'pointer',
+            }}
+            onClick={handleCheckBox}
+          >
             <CheckBoxCon>
               <CheckBox id="checkbox" scale="md" checked={unlimited} onChange={handleCheckBox} background="white2" />
             </CheckBoxCon>
-            <StyledText fontSize="12px" fontWeight={500}>
+            <Text sx={{ fontSize: '12px', fontWeight: 500 }}>
               {t('I understand how GNANA works and I want to enable unlimited buy.')}
-            </StyledText>
-          </CBS>
-        </FlexSection>
+            </Text>
+          </Flex>
+        </Flex>
       </ContentCard>
     </StyledCard>
   )

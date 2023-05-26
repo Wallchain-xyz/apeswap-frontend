@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { InputProps } from 'theme-ui'
-import { Button, Flex, StyledInput } from 'components/uikit'
+import { Button, Flex, StyledInput, Text } from 'components/uikit'
 import styled from '@emotion/styled'
 
 interface TokenInputProps extends InputProps {
@@ -15,10 +15,10 @@ interface TokenInputProps extends InputProps {
 const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelectMax, value }) => {
   const { t } = useTranslation()
   return (
-    <StyledTokenInput>
-      <StyledMaxText>
+    <Flex sx={{ width: '100%', flexDirection: 'column', alignItems: 'flex-end' }}>
+      <Text sx={{ fontSize: '12px', fontWeight: 500 }}>
         {max.toLocaleString()} {symbol} {t('Available')}
-      </StyledMaxText>
+      </Text>
       <StyledInput
         endAdornment={
           <StyledTokenAdornmentWrapper>
@@ -35,11 +35,9 @@ const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelect
         placeholder="0"
         value={value}
       />
-    </StyledTokenInput>
+    </Flex>
   )
 }
-
-const StyledTokenInput = styled.div``
 
 const StyledSpacer = styled(Flex)`
   flex-direction: column;
@@ -62,17 +60,6 @@ const StyledButton = styled(Button)`
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
-`
-
-const StyledMaxText = styled(Flex)`
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  display: flex;
-  font-size: 12px;
-  font-weight: 500;
-  height: 18px;
-  justify-content: flex-end;
-  margin-bottom: 5px;
 `
 
 export default TokenInput

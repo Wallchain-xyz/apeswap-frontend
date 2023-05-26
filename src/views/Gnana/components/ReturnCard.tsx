@@ -12,12 +12,14 @@ import TokenInput from 'components/TokenInput/TokenInput'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { Text } from 'components/uikit'
 import { GNANA_ADDRESSES } from 'config/constants/addresses'
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import useApproveTransaction from '../useApproveTransaction'
-import { useTokenContract, useTreasury } from 'hooks/useContract'
+import { CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
+import { useTreasury } from 'hooks/useContract'
 import { useSellGoldenBanana } from '../useGoldenBanana'
 import { useToken } from 'hooks/Tokens'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
+import { Button } from '../../../components/uikit'
+import ApproveBtn from '../../../components/ApproveBtn'
+import { useApproveCallback } from '../../../hooks/useApproveCallback'
 
 interface ReturnCardType {
   fromToken: string
@@ -29,35 +31,17 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
   const [processing, setProcessing] = useState(false)
   const { chainId, account } = useWeb3React()
   const treasuryContract = useTreasury()
-  // const { toastSuccess } = useToast()
   const valBanana = parseFloat(val) * 0.98
   const { handleSell } = useSellGoldenBanana()
   const gnanaToken = useToken(GNANA_ADDRESSES[chainId as SupportedChainId])
   const goldenBananaBalance = useTokenBalance(account, gnanaToken ?? undefined)
-  const goldenBananaContract = useTokenContract(GNANA_ADDRESSES[chainId as SupportedChainId])
   const { tokenAllowance } = useTokenAllowance(gnanaToken ?? undefined, account, treasuryContract?.address)
   const { t } = useTranslation()
+  const amountToApprove = gnanaToken
+    ? CurrencyAmount.fromRawAmount(gnanaToken, ethers.constants.MaxInt256.toString())
+    : undefined
 
-  const { isApproving, handleApprove } = useApproveTransaction({
-    onRequiresApproval: async (loadedAccount) => {
-      try {
-        const response = await goldenBananaContract?.allowance(loadedAccount, treasuryContract?.address ?? '')
-        const currentAllowance = new BigNumber(response?.toString() ?? '0')
-        return currentAllowance.gt(0)
-      } catch (error) {
-        console.warn(error)
-        return false
-      }
-    },
-    onApprove: () => {
-      return goldenBananaContract
-        ?.approve(treasuryContract?.address ?? '', ethers.constants.MaxUint256)
-        .then((trx) => trx.wait())
-    },
-    onSuccess: async () => {
-      null //toastSuccess(t('Approved!'))
-    },
-  })
+  const [approval, approveCallback] = useApproveCallback(amountToApprove, treasuryContract?.address)
 
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(new BigNumber(goldenBananaBalance?.quotient?.toString() ?? 0))
@@ -107,24 +91,24 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
           <Flex sx={{ margin: '15px 0 10px 0' }}>
             <ConnectWalletButton />
           </Flex>
-        ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) ? (
-          <StyledButton disabled={disabled} variant="primary" margin="10px" onClick={sell}>
-            {t('RETURN')}
-          </StyledButton>
+        ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) || !val ? (
+          <Flex sx={{ my: '10px', width: '100%', maxWidth: '200px' }}>
+            <Button disabled={disabled} onClick={sell} sx={{ width: '100%' }}>
+              {t('RETURN')}
+            </Button>
+          </Flex>
         ) : (
-          <StyledButton margin="10px" disabled={isApproving} onClick={handleApprove}>
-            {t('APPROVE CONTRACT')}
-          </StyledButton>
+          <Flex sx={{ my: '10px', width: '100%', maxWidth: '200px' }}>
+            <ApproveBtn approvalState={approval} approveCallback={approveCallback} hasDarkBg />
+          </Flex>
         )}
 
-        <FlexSection flexDirection="column" alignItems="center" mb="10px">
-          <Text fontSize="16px" fontWeight={700}>
+        <Flex sx={{ flexDirection: 'column', alignItems: 'center', mb: '10px' }}>
+          <Text sx={{ fontSize: '16px', fontWeight: 700 }}>
             {t('OUTPUT')} {`${toToken} ${valBanana ? valBanana?.toFixed(3) : 0}`}
           </Text>
-          <Text fontSize="12px" fontWeight={500}>
-            *After 2% reflect fee
-          </Text>
-        </FlexSection>
+          <Text sx={{ fontSize: '12px', fontWeight: 500 }}>*After 2% reflect fee</Text>
+        </Flex>
       </ContentCard>
     </StyledCard>
   )

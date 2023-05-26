@@ -88,7 +88,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                 sx={{
                   flexDirection: 'column',
                   width: '100%',
-                  justifyContent: 'space-between',
+                  justifyContent: 'space-around',
                   '@media screen and (min-width: 852px)': {
                     flexDirection: 'row',
                   },
@@ -123,7 +123,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                   toolTipPlacement="bottomLeft"
                   toolTipTransform="translate(50%, 0%)"
                 />
-                <Flex sx={{ width: '165px', minWidth: '145px' }}>
+                <Flex sx={{ width: '145px', minWidth: '145px' }}>
                   {account ? (
                     <BillModal
                       bill={bill}

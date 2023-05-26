@@ -9,7 +9,6 @@ import {
   TopCon,
   CenterCard,
   OuterContent,
-  OuterContentText,
   InnerContent,
   InnerContentText,
   Cards,
@@ -56,21 +55,18 @@ const Zone = () => {
             </InnerContent>
           </CenterCard>
         </TopCon>
-
         <OuterContent readingMore={readingMore}>
-          <OuterContentText>
+          <InnerContentText>
             {t(
               'Buying GNANA involves paying a 28% burn fee and a 2% reflect fee for a total cost of 30%. This means that for every 1 BANANA you trade in, you will receive 0.7 GNANA',
             )}
-          </OuterContentText>
+          </InnerContentText>
         </OuterContent>
       </PaddedCard>
-
       <Cards id="convert">
         <ConvertCard fromToken="BANANA" toToken="GNANA" />
         <ReturnCard fromToken="GNANA" toToken="BANANA" />
       </Cards>
-
       <SwiperProvider>
         <GnanaUtility />
       </SwiperProvider>
