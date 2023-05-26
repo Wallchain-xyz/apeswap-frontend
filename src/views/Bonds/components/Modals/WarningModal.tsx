@@ -15,11 +15,11 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
   const { t } = useTranslation()
   const { index } = bill
   const [onPresentBuyBillsModal] = useModal(
-    <BuyBillModalView bill={bill} onDismiss={() => null} />,
+    <BuyBillModalView billIndex={index} onDismiss={() => null} />,
     true,
     true,
     `billsModal${index}`,
-    true
+    true,
   )
 
   return (
