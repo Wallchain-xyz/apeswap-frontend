@@ -394,7 +394,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         return y
       }
     }
-    return null // return null if no two points can be found which straddle the desired x value
+    return null
   }
 
   const gradientFillBetweenLines = {
@@ -421,7 +421,6 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       ctx.fillStyle = greenGradient
       ctx.beginPath()
 
-      // ctx.moveTo(xStartPixel, susUpperLine.data[0]?.y)
       ctx.moveTo(xStartPixel, getYIntercept(xStartPixel, susUpperLine))
 
       //Map to sus upper
@@ -429,6 +428,8 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         const pointProps = susUpperLine.data[i].getProps(['x', 'y'])
         if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
           ctx.lineTo(pointProps.x, pointProps.y)
+        } else if (pointProps.x > xEndPixel) {
+          ctx.lineTo(xEndPixel, getYIntercept(xEndPixel, susUpperLine))
         }
       }
 
@@ -437,6 +438,10 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         const pointProps = susLowerLine.data[i].getProps(['x', 'y'])
         if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
           ctx.lineTo(pointProps.x, pointProps.y)
+        } else if (pointProps.x < xStartPixel) {
+          ctx.lineTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
+        } else {
+          ctx.lineTo(xEndPixel, getYIntercept(xEndPixel, susLowerLine))
         }
       }
 
@@ -448,26 +453,17 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       ctx.fillStyle = redGradient
       ctx.beginPath()
 
-      // ctx.moveTo(xStartPixel, susLowerLine.data[0].y)
       ctx.moveTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
-      let amountOutside = 0
 
+      //Map red area
       for (let i = 1; i < susLowerLine.data.length; i++) {
         const pointProps = susLowerLine.data[i].getProps(['x', 'y'])
         if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
           ctx.lineTo(pointProps.x, pointProps.y)
-        } else if (amountOutside === 0) {
-          amountOutside++
-        } else if (amountOutside === 1) {
-          // Only need to do this if the first point is outside of x axis, then match y axis to the point of sus lower
-          // const susLowerDataset = data.datasets[0]
-          // const susLowerPoint1: Point = susLowerDataset.data[i - 1] as Point
-          // const susLowerPoint2: Point = susLowerDataset.data[i] as Point
-          // const susLowerSlope = (susLowerPoint2?.y - susLowerPoint1?.y) / (susLowerPoint2?.x - susLowerPoint1?.x)
-          // const susLowerYIntercept = susLowerPoint1?.y - susLowerSlope * susLowerPoint1?.x
-          //
-          // ctx.lineTo(xStartPixel, susLowerYIntercept)
-          // amountOutside++
+        } else if (pointProps.x < xStartPixel) {
+          ctx.lineTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
+        } else {
+          ctx.lineTo(xEndPixel, getYIntercept(xEndPixel, susLowerLine))
         }
       }
 
