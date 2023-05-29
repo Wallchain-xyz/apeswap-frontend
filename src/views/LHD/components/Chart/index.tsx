@@ -232,7 +232,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     } as ChartOptions<'scatter'>
 
     setOptions(newOptions)
-  }, [chartData])
+  }, [chartData, isMobile])
 
   function isBelowBottomLine(chart: any, point: any) {
     const { x, y } = point
