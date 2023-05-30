@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Text } from 'components/uikit'
 import HealthSummaryRow from './HealthSummaryRow'
-import { formatDollar } from 'utils/formatNumbers'
+import { formatDollar, formatValue } from 'utils/formatNumbers'
 import { useTranslation } from 'contexts/Localization'
 import { LiquidityOwner, LiquidityPool, TokenProfile } from 'state/lhd/types'
 import { styles } from './styles'
@@ -13,7 +13,6 @@ import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { Button } from '../../../../../../components/uikit'
 import TooltipBubble from '../../../../../../components/uikit/Tooltip'
 import TokenImage from '../../../../../../components/TokenImage'
-import { toNumber } from 'lodash'
 
 const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
@@ -75,12 +74,12 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
           <HealthSummaryRow
             ttTitle={t('Unlocked Supply')}
             ttBody={<>Unlocked Supply</>}
-            value={formatDollar({ num: fullProfile?.unlockedSupply })}
+            value={formatValue({ num: fullProfile?.unlockedSupply })}
           />
           <HealthSummaryRow
             ttTitle={t('Circulating Supply')}
             ttBody={<>Circulating Supply</>}
-            value={formatDollar({ num: fullProfile?.circulatingSupply[0].amount })}
+            value={formatValue({ num: fullProfile?.circulatingSupply[0].amount })}
           />
         </Flex>
       </Flex>

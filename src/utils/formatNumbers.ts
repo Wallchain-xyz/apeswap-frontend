@@ -94,6 +94,31 @@ export const formatDollar = ({
   }
 }
 
+export const formatValue = ({ num, digits = 2, round = true }: any): string => {
+  if (num === 0) return '0.00'
+  if (!num) return '-'
+  if (num < 0.000001) {
+    return '<0.000001'
+  }
+  if (num >= 0.000001 && num < 0.1) {
+    return `${Number(num).toPrecision(3)}`
+  }
+  if (num >= 0.1 && num < 1.05) {
+    return `${num.toFixed(3)}`
+  }
+
+  return numbro(num)
+    .format({
+      average: round,
+      mantissa: num > 1000 ? 2 : digits,
+      abbreviations: {
+        million: 'M',
+        billion: 'B',
+      },
+    })
+    .toUpperCase()
+}
+
 /**
  * Returns a numerical amount of any token formatted in human readable string for use in template.
  *
