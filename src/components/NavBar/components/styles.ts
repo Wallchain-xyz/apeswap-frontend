@@ -50,6 +50,7 @@ const styles: Record<
     margin: '5px',
     cursor: 'pointer',
     textDecoration: 'none',
+    fontWeight: 700,
     ':hover': { boxShadow: '0px 2px 0px 0px', color: 'text' },
   },
   mobileSubMenuContainer: {
@@ -63,6 +64,7 @@ const styles: Record<
     cursor: 'pointer',
   },
   mobileSubItemContainer: {
+    display: 'flex',
     alignItems: 'center',
     padding: '0px 30px',
     height: '40px',

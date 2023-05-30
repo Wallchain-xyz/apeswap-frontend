@@ -9,14 +9,13 @@ import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
 import { icons } from 'components/uikit/Svg/types'
 
-
 export const SOCIAL_LINKS: { label: icons; href: string }[] = [
   { label: icons.TWITTER, href: 'https://twitter.com/ape_swap' },
   { label: icons.TELEGRAM, href: 'https://t.me/ape_swap' },
   { label: icons.DISCORD, href: 'https://apeswap.click/discord' },
 ]
 
-const MobileMenu = ({ dropdownFlag }: { dropdownFlag: boolean }) => {
+const MobileMenu = ({ dropdownFlag, closeNavBar }: { dropdownFlag: boolean; closeNavBar: () => void }) => {
   const { chainId } = useWeb3React()
 
   return (
@@ -39,7 +38,7 @@ const MobileMenu = ({ dropdownFlag }: { dropdownFlag: boolean }) => {
             }}
           >
             {getNavConfig(chainId).map(({ label, items, href }) => {
-              return <SubMenu label={label} menuItems={items} href={href} key={label} />
+              return <SubMenu label={label} menuItems={items} href={href} key={label} closeNavBar={closeNavBar} />
             })}
             <Flex sx={{ height: '130px', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <Flex>

@@ -9,10 +9,12 @@ const SubMenu = ({
   label,
   menuItems,
   href,
+  closeNavBar,
 }: {
   label: string
   menuItems: MenuItem[] | undefined
   href: string | undefined
+  closeNavBar: () => void
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation()
@@ -38,9 +40,9 @@ const SubMenu = ({
           >
             {menuItems?.map(({ label, href }) => {
               return (
-                <Flex sx={styles.mobileSubItemContainer} key={label} as={Link} href={href}>
-                  <Text>{label}</Text>
-                </Flex>
+                <Link sx={styles.mobileSubItemContainer} key={label} href={href} onClick={closeNavBar}>
+                  {label}
+                </Link>
               )
             })}
           </motion.div>

@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Text, Link } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import SubMenu from './SubMenu'
 import { getNavConfig } from '../../config/chains'
 import styles, { NAV_DESKTOP_DISPLAY } from '../styles'
@@ -13,6 +13,11 @@ const DesktopMenu = () => {
   const { t } = useTranslation()
   const { asPath } = useRouter()
   const extendedDexHref = ['/liquidity']
+
+  const clearHoverLabel = useCallback(() => {
+    setHoverLabel('')
+  }, [])
+
   return (
     <Flex
       sx={{
@@ -45,7 +50,9 @@ const DesktopMenu = () => {
               <Text sx={{ textDecoration: 'none' }} weight={700} as={href ? Link : 'p'} href={href}>
                 {t(label)}
               </Text>
-              {hoverLabel === label && items && <SubMenu label={label} menuItems={items} />}
+              {hoverLabel === label && items && (
+                <SubMenu label={label} menuItems={items} clearHoverLabel={clearHoverLabel} />
+              )}
             </Flex>
           )
         })}
