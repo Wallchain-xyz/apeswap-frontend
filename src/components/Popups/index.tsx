@@ -15,6 +15,7 @@ const Popups = () => {
             text={popup.content.text}
             url={popup.content.url}
             linkText={popup.content.urlLabel}
+            errorText={popup.content.errorText}
           />
         )
       })}

@@ -11,9 +11,8 @@ import { getFullDisplayBalance } from 'utils/getBalanceNumber'
 import { Button, CheckBox, Text } from 'components/uikit'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
-import useApproveTransaction from '../useApproveTransaction'
 import { useBuyGoldenBanana } from '../useGoldenBanana'
-import { useTokenContract, useTreasury } from 'hooks/useContract'
+import { useTreasury } from 'hooks/useContract'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useToken } from 'hooks/Tokens'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
@@ -37,8 +36,6 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
   const { handleBuy } = useBuyGoldenBanana()
   const bananaToken = useToken(BANANA_ADDRESSES[chainId as SupportedChainId])
   const bananaBalance = useTokenBalance(account, bananaToken ?? undefined)
-  // const { toastSuccess } = useToast()
-  const bananaContract = useTokenContract(BANANA_ADDRESSES[chainId as SupportedChainId])
   const { tokenAllowance } = useTokenAllowance(bananaToken ?? undefined, account, treasuryContract?.address)
   const { t } = useTranslation()
   const [triedMore, setTriedMore] = useState(false)

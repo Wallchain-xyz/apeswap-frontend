@@ -4,20 +4,11 @@ import Banner from 'components/Banner'
 import GnanaDisclaimers from './components/GnanaDisclaimers/GnanaDisclaimers'
 import ConvertCard from './components/ConvertCard'
 import ReturnCard from './components/ReturnCard'
-import {
-  PaddedCard,
-  TopCon,
-  CenterCard,
-  OuterContent,
-  InnerContent,
-  InnerContentText,
-  Cards,
-  ReadMore,
-  WarningHeader,
-} from './styles'
+import { PaddedCard, TopCon, CenterCard, OuterContent, InnerContent, InnerContentText, Cards } from './styles'
 import SwiperProvider from '../../contexts/SwiperProvider'
-import { Flex } from 'components/uikit'
+import { Text, Flex } from 'components/uikit'
 import dynamic from 'next/dynamic'
+import { useThemeUI } from 'theme-ui'
 
 const GnanaUtility = dynamic(() => import('./components/GnanaUtility/GnanaUtility'), {
   ssr: false,
@@ -26,6 +17,8 @@ const GnanaUtility = dynamic(() => import('./components/GnanaUtility/GnanaUtilit
 const Zone = () => {
   const [readingMore, setReadingMore] = useState(false)
   const { t } = useTranslation()
+  const { colorMode } = useThemeUI()
+  const isDark = colorMode === 'dark'
 
   const toggleReadMore = () => {
     setReadingMore(!readingMore)
@@ -43,8 +36,23 @@ const Zone = () => {
       <PaddedCard>
         <TopCon>
           <CenterCard>
-            <WarningHeader as="h1">{t('HEADS UP, APES!')}</WarningHeader>
-            {!readingMore && <ReadMore onClick={toggleReadMore}>{t('Read More')}</ReadMore>}
+            <Text sx={{ mt: '10px', color: isDark ? 'yellow' : 'primaryBright', fontSize: '30px', fontWeight: 700 }}>
+              {t('HEADS UP, APES!')}
+            </Text>
+            {!readingMore && (
+              <Text
+                onClick={toggleReadMore}
+                sx={{
+                  display: ['flex', 'flex', 'flex', 'none'],
+                  mt: '10px',
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  color: 'primaryBright',
+                }}
+              >
+                {t('READ MORE')}
+              </Text>
+            )}
 
             <InnerContent readingMore={readingMore}>
               <InnerContentText>

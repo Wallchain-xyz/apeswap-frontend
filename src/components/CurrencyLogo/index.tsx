@@ -23,7 +23,11 @@ const CurrencyLogo = ({
 
   return src ? (
     <Image
-      src={src}
+      src={
+        currency?.symbol === 'GNANA'
+          ? 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/GNANA.svg'
+          : src
+      }
       onError={nextSrc}
       alt={currency?.name || ''}
       height={size}

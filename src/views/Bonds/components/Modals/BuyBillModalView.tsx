@@ -5,7 +5,6 @@ import { useTranslation } from 'contexts/Localization'
 import {
   ActionButtonsContainer,
   BillDescriptionContainer,
-  BillsImage,
   BillTitleContainer,
   ModalBodyContainer,
   StyledHeadingText,
@@ -19,6 +18,8 @@ import { Bills } from 'views/Bonds/types'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useBills } from 'state/bills/hooks'
+import Image from 'next/image'
+import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
 
 const modalProps = {
   sx: {
@@ -64,6 +65,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
     <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
   ) : bill ? (
     <Modal onDismiss={onDismiss} {...modalProps}>
+      <ModalHeader>asd</ModalHeader>
       <ModalBodyContainer>
         <IconButton
           icon="close"
@@ -73,11 +75,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
           sx={{ position: 'absolute', right: '20px', top: '25px', zIndex: 50 }}
         />
         <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
-          {loading && !billId ? (
-            <BillsImage image={'/images/bills/bill-nfts.gif'} />
-          ) : (
-            <BillsImage image="images/bills/hidden-bill.jpg" />
-          )}
+          <Image
+            width={2300}
+            height={1350}
+            alt={'hidden-bill'}
+            src={loading && !billId ? '/images/bills/bill-nfts.gif' : '/images/bills/hidden-bill.jpg'}
+            layout="responsive"
+          />
         </Flex>
         <BillDescriptionContainer p="0">
           <Flex sx={{ flexDirection: 'column' }}>

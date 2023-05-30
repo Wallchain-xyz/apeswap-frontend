@@ -1,6 +1,6 @@
 // @ts-nocheck
 import styled from '@emotion/styled'
-import { Button, Text } from 'components/uikit'
+import { Text } from 'components/uikit'
 import { Box } from 'theme-ui'
 
 interface ContentProps {
@@ -37,22 +37,6 @@ export const WarningHeader = styled(Text)`
   color: ${({ theme }) => (theme.isDark ? theme.colors.yellow : theme.colors.primaryBright)};
   font-size: 30px;
   font-weight: 700;
-`
-export const ReadMore = styled(Button)`
-  background: none;
-  padding: 0;
-  margin: 0;
-  text-decoration-line: underline;
-  font-size: 16px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.primaryBright};
-  border-radius: 0;
-  box-shadow: unset;
-  height: 20px;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: none;
-  }
 `
 export const CenterCard = styled.div`
   display: flex;

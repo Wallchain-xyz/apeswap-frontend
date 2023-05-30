@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { useTranslation } from 'contexts/Localization'
-
 import { StyledCard, HeaderCard, Header, TokensDisplay, ContentCard, StyledButton, FlexSection } from './styles'
 import { Flex } from 'theme-ui'
 import { useWeb3React } from '@web3-react/core'
@@ -11,11 +10,9 @@ import { useTokenBalance } from 'lib/hooks/useCurrencyBalance'
 import TokenInput from 'components/TokenInput/TokenInput'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { Text } from 'components/uikit'
-import { GNANA_ADDRESSES } from 'config/constants/addresses'
-import { CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
-import { useTreasury } from 'hooks/useContract'
+import { CurrencyAmount } from '@ape.swap/sdk-core'
+import { useGnanaToken, useTreasury } from 'hooks/useContract'
 import { useSellGoldenBanana } from '../useGoldenBanana'
-import { useToken } from 'hooks/Tokens'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
 import { Button } from '../../../components/uikit'
 import ApproveBtn from '../../../components/ApproveBtn'
@@ -29,11 +26,11 @@ interface ReturnCardType {
 const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
   const [val, setVal] = useState('')
   const [processing, setProcessing] = useState(false)
-  const { chainId, account } = useWeb3React()
+  const { account } = useWeb3React()
   const treasuryContract = useTreasury()
   const valBanana = parseFloat(val) * 0.98
   const { handleSell } = useSellGoldenBanana()
-  const gnanaToken = useToken(GNANA_ADDRESSES[chainId as SupportedChainId])
+  const gnanaToken = useGnanaToken()
   const goldenBananaBalance = useTokenBalance(account, gnanaToken ?? undefined)
   const { tokenAllowance } = useTokenAllowance(gnanaToken ?? undefined, account, treasuryContract?.address)
   const { t } = useTranslation()

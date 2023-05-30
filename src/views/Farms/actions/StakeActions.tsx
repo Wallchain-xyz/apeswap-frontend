@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { getEtherscanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import DepositModal from '../components/Modals/DepositModal'
 import WithdrawModal from 'components/WithdrawModal'
@@ -10,7 +9,7 @@ import { useAppDispatch } from 'state/hooks'
 import useStake from '../hooks/useStake'
 import useUnstake from '../hooks/useUnstake'
 import { FarmTypes } from 'state/farms/types'
-import { Button, Flex, Text } from 'components/uikit'
+import { Button, Flex } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useApprove } from '../hooks/useApprove'
@@ -18,6 +17,7 @@ import { useTokenContract } from 'hooks/useContract'
 import { fetchFarmUserDataAsync } from 'state/farms'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import track from 'utils/track'
+import { useToastError } from 'state/application/hooks'
 
 interface StakeActionsProps {
   id: string
@@ -52,6 +52,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   const onUnstake = useUnstake(farmTypes, pid, contractAddress)
   const lpToken = useTokenContract(stakeLpAddress)
   const { onApprove } = useApprove(lpToken, farmTypes, contractAddress)
+  const toastError = useToastError()
 
   const [onPresentDeposit] = useModal(
     <DepositModal
@@ -74,6 +75,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           })
           .catch((e) => {
             console.error(e)
+            toastError(e)
             setPendingDepositTrx(false)
           })
         dispatch(fetchFarmUserDataAsync(chainId as SupportedChainId, account ?? ''))
@@ -102,6 +104,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           })
           .catch((e) => {
             console.error(e)
+            toastError(e)
             setPendingWithdrawTrx(false)
           })
         dispatch(fetchFarmUserDataAsync(chainId as SupportedChainId, account ?? ''))

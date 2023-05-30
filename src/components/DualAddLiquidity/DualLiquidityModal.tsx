@@ -22,7 +22,7 @@ const modalProps = {
     zIndex: 126,
     overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
-    minWidth: ['90%', '420px'],
+    minWidth: ['90%', '90%', '420px'],
     width: '200px',
     maxWidth: '425px',
   },

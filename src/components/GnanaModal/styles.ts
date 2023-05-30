@@ -2,7 +2,7 @@ import { ThemeUIStyleObject } from 'theme-ui'
 
 export const modalProps = {
   sx: {
-    minWidth: ['90%', '425px'],
+    minWidth: ['90%', '90%', '425px'],
     width: ['200px'],
     maxWidth: '425px',
     height: ['calc(100vh - 15%)', 'auto'],

@@ -32,7 +32,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
           onClick={onDismiss}
           sx={{ position: 'absolute', right: '20px', top: '25px' }}
         />
-        <Text bold fontSize="35px">
+        <Text sx={{ fontSize: '35px', fontWeight: 700 }}>
           <Svg icon="error" width="25px" color="error" />
           <span sx={{ margin: '0px 10px' }}>{t('WARNING')}</span>
           <Svg icon="error" width="25px" color="error" />
@@ -51,16 +51,16 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
           </Flex>
         </Flex>
       </Flex>
-      <Flex mt="20px" onClick={() => setConfirmBuy((prev) => !prev)} sx={{ cursor: 'pointer', alignItems: 'center' }}>
+      <Flex onClick={() => setConfirmBuy((prev) => !prev)} sx={{ cursor: 'pointer', alignItems: 'center', mt: '20px' }}>
         <CheckBox checked={confirmBuy} />
-        <Text ml="10px" fontSize="12px" bold>
+        <Text sx={{ ml: '10px', fontSize: '12px', fontWeight: 500, lineHeight: '18px' }}>
           {t(
             'I understand that I am purchasing %billToken% at a price above the current market rate, and would like to continue.',
             { billToken: bill.earnToken.symbol },
           )}
         </Text>
       </Flex>
-      <Flex sx={{ justifyContent: 'center' }} mt={15}>
+      <Flex sx={{ justifyContent: 'center', mt: '15px' }}>
         <StyledButton onClick={onPresentBuyBillsModal} disabled={!confirmBuy}>
           {t('Continue')}
         </StyledButton>
