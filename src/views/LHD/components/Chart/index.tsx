@@ -122,7 +122,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
 
   useEffect(() => {
     if (zoomPlugin) {
-      ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
+      ChartJS.register(zoomPlugin, logoPlugin, gradientFillBetweenLines)
     }
   }, [zoomPlugin])
 
@@ -316,7 +316,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     }
   }
 
-  const CustomImagePlugin = {
+  const logoPlugin = {
     id: 'printIcons',
 
     afterDraw: function (chart: ChartJS<'scatter'>) {
@@ -360,14 +360,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           }
 
           ctx.lineWidth = 3
+          ctx.fillStyle = 'white'
           ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI)
-          ctx.stroke()
-
-          // Draw a white border inside the green border
-          ctx.beginPath()
-          ctx.strokeStyle = 'white'
-          ctx.lineWidth = 5
-          ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
+          ctx.fill()
           ctx.stroke()
 
           ctx.save()
@@ -375,6 +370,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
           ctx.closePath()
           ctx.clip()
+
           ctx.drawImage(imageData, imageX, imageY, size, size)
           ctx.restore()
           ctx.globalAlpha = 1
