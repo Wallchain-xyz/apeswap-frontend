@@ -17,10 +17,6 @@ const bscConfig: NavConfig[] = [
         label: 'Pro Trading',
         href: 'https://pro.apeswap.finance',
       },
-      {
-        label: 'GNANA',
-        href: `/gnana`,
-      },
     ],
   },
   {
@@ -31,12 +27,16 @@ const bscConfig: NavConfig[] = [
         href: `/farms`,
       },
       {
-        label: 'Staking Pools',
+        label: 'Pools',
         href: `/pools`,
       },
       {
-        label: 'BANANA Maximizers',
+        label: 'Maximizers',
         href: `${TEMP_APESWAP_URL}/maximizers`,
+      },
+      {
+        label: 'GNANA',
+        href: `/gnana`,
       },
     ],
   },

@@ -4,7 +4,7 @@ import { ShowApeType } from './types'
 export const modalProps = {
   sx: {
     width: ['200px'],
-    height: ['', '', '500px'],
+    height: ['', '', '', '500px'],
   },
 }
 
@@ -14,8 +14,8 @@ export const dynamicStyles: Record<
 > = {
   showApe: ({ slideNumber, type }: ShowApeType) => ({
     alignSelf: ['center', 'center', ''],
-    width: ['200px', '200px', '340px'],
-    height: ['200px', '200px', '340px'],
+    width: ['200px', '200px', '200px', '340px'],
+    height: ['200px', '200px', '200px', '340px'],
     background: `url(images/tutorial-modals/${type}-${slideNumber}.svg)`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -51,18 +51,18 @@ export const styles: Record<
     height: '100%',
   },
   contentBody: {
-    flexDirection: ['column', 'column', 'row'],
+    flexDirection: ['column', 'column', 'column', 'row'],
     width: '100%',
     alignItems: 'center',
     height: '100%',
-    justifyContent: ['', '', 'space-between'],
+    justifyContent: ['', '', '', 'space-between'],
   },
   rightCon: {
     width: '100%',
     flexDirection: 'column',
     flex: 1,
-    mr: ['', '', '10px'],
-    maxWidth: ['', '', '55%'],
+    mr: ['', '', '', '10px'],
+    maxWidth: ['', '', '', '55%'],
   },
   right: {
     flexDirection: 'column',
@@ -74,9 +74,9 @@ export const styles: Record<
   },
   title: {
     fontWeight: 700,
-    fontSize: ['18px', '18px', '24px'],
-    lineHeight: ['22px', '22px', '36px'],
-    textTransform: ['capitalize', 'capitalize', 'uppercase'],
+    fontSize: ['18px', '18px', '18px', '24px'],
+    lineHeight: ['22px', '22px', '22px', '36px'],
+    textTransform: ['capitalize', 'capitalize', 'capitalize', 'uppercase'],
     mt: ['10px'],
   },
   description: {
@@ -85,22 +85,22 @@ export const styles: Record<
     lineHeight: '18px',
     textTransform: 'none',
     opacity: 0.5,
-    mt: ['7px', '7px', 0],
+    mt: ['7px', '7px', '7px', 0],
   },
   circles: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: ['8px', '8px', '8px 8px 8px 0px'],
+    padding: ['8px', '8px', '8px', '8px 8px 8px 0px'],
   },
   readyBtn: {
     mt: '10px',
     textTransform: 'uppercase',
     height: '40px',
-    width: ['100%', '100%', '240px'],
+    width: ['100%', '100%', '100%', '240px'],
   },
   modalFooter: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: ['center', 'center', 'flex-start'],
+    alignItems: ['center', 'center', 'center', 'flex-start'],
   },
 }

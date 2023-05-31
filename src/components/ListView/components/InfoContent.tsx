@@ -14,7 +14,7 @@ const InfoContent = ({
       {infoContent && (
         <Flex sx={{ display: 'inline-block' }}>
           <Tooltip body={infoContent} transformTip="translate(11%, 0%)" width="205px">
-            <Svg icon="question" width={'15px'} />
+            <Svg icon="info" width={12} color="text" />
           </Tooltip>
         </Flex>
       )}

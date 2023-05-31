@@ -30,9 +30,10 @@ const styles: Record<
     cursor: 'pointer',
     height: '100%',
     alignItems: 'center',
-    padding: '2px 7.5px 0px 7.5px',
-    margin: '0px 22.5px',
+    margin: '0 10px',
+    minWidth: '80px',
     textDecoration: 'none',
+    justifyContent: 'center',
     display: NAV_DESKTOP_DISPLAY,
   },
   desktopSubMenuContainer: {

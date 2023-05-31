@@ -41,8 +41,38 @@ const SubMenu = ({
             sx={{ overflow: 'hidden' }}
           >
             {menuItems?.map(({ label, href }) => {
+              if (label === 'GNANA') {
+                return (
+                  <Link
+                    sx={{
+                      ...styles.mobileSubItemContainer,
+                    }}
+                    key={label}
+                    href={href}
+                    onClick={closeNavBar}
+                  >
+                    <Text
+                      sx={{
+                        background: 'gradient',
+                        backgroundClip: 'text',
+                        textFillColor: 'transparent',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {label}
+                    </Text>
+                  </Link>
+                )
+              }
               return (
-                <Link sx={styles.mobileSubItemContainer} key={label} href={href} onClick={closeNavBar}>
+                <Link
+                  sx={{
+                    ...styles.mobileSubItemContainer,
+                  }}
+                  key={label}
+                  href={href}
+                  onClick={closeNavBar}
+                >
                   {label}
                 </Link>
               )

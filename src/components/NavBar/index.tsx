@@ -20,7 +20,7 @@ const NavBar = () => {
 
   return (
     <Flex sx={styles.container}>
-      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href="/">
+      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href="/" onClick={closeNavBar}>
         <Svg icon="logo" width="38px" />
       </Flex>
       <MobileMenu dropdownFlag={dropdownFlag} closeNavBar={closeNavBar} />

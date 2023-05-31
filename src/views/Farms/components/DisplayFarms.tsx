@@ -239,7 +239,7 @@ const DisplayFarms = ({
                       farm,
                     )
                   }
-                  sx={styles.styledBtn}
+                  sx={{ ...styles.styledBtn, alignItems: 'flex-start' }}
                 >
                   <Text sx={{ lineHeight: '18px', mr: '5px' }} color="primaryBright">
                     {t('GET LP')}

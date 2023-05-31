@@ -165,7 +165,7 @@ const Pools: React.FC = () => {
 
   return (
     <Flex sx={styles.poolContainer}>
-      <Banner banner="pools" link="?modal=tutorial" title={t('Staking Pools')} listViewBreak maxWidth={1130} />
+      <Banner banner="pools" link="?modal=tutorial" title={t('Pools')} listViewBreak maxWidth={1130} />
       <Flex sx={styles.poolContent}>
         <Flex sx={{ my: '20px' }}>
           <ListViewMenu

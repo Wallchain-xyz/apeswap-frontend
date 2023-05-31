@@ -27,8 +27,7 @@ const TutorialModal: React.FC<TModalProps> = ({
 }) => {
   const [step, setStep] = useState<number>(0)
   const slideNumber = isConnected ? step + 1 : step
-  const { isXxl, isLg, isXl } = useMatchBreakpoints()
-  const isMobile = !isXxl && !isXl && !isLg
+  const { isMobile } = useMatchBreakpoints()
 
   const handleNext = () => {
     setStep(step + 1)
@@ -37,7 +36,9 @@ const TutorialModal: React.FC<TModalProps> = ({
   const renderChildren = () => {
     return children?.map((element, i) => (
       <Flex key={i}>
-        {step === i && <Flex sx={{ width: '100%', flexWrap: 'wrap', mt: ['15px', '15px', '30px'] }}>{element}</Flex>}
+        {step === i && (
+          <Flex sx={{ width: '100%', flexWrap: 'wrap', mt: ['15px', '15px', '15px', '30px'] }}>{element}</Flex>
+        )}
       </Flex>
     ))
   }
