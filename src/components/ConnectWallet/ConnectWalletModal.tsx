@@ -58,7 +58,7 @@ const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
           </Flex>
         )}
       </ModalHeader>
-      <Flex sx={{ height: '400px', flexDirection: 'column', overflow: 'auto' }}>
+      <Flex sx={{ height: '400px', flexDirection: 'column' }}>
         <AnimatePresence initial={false}>
           <motion.div
             key={open ? 'wallets' : 'connect'}
