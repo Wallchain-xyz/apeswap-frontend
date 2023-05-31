@@ -20,6 +20,7 @@ import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquid
 import { useBills } from 'state/bills/hooks'
 import Image from 'next/image'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
+import ModalProvider from '../../../../contexts/ModalContext'
 
 const modalProps = {
   sx: {
@@ -55,15 +56,13 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
   const [loading, setLoading] = useState(false)
   const vestingTime = getTimePeriods(parseInt(bill?.vestingTime ?? '0'), true)
 
-  const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
-
   const onHandleReturnedBillId = async (id: string) => {
     setBillId(id)
   }
 
   return billId && bill ? (
     <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
-  ) : bill ? (
+  ) : (
     <Modal onDismiss={onDismiss} {...modalProps}>
       <ModalHeader hideDivider />
       <ModalBodyContainer>
@@ -119,19 +118,18 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
           </Flex>
           <Flex sx={{ flexDirection: 'column' }}>
             <ActionButtonsContainer>
-              <Buy
-                bill={bill}
-                onBillId={onHandleReturnedBillId}
-                onTransactionSubmited={(trxSent: any) => setLoading(trxSent)}
-                onAddLiquidityModal={onAddLiquidityModal}
-              />
+              {bill && (
+                <Buy
+                  bill={bill}
+                  onBillId={onHandleReturnedBillId}
+                  onTransactionSubmited={(trxSent: any) => setLoading(trxSent)}
+                />
+              )}
             </ActionButtonsContainer>
           </Flex>
         </BillDescriptionContainer>
       </ModalBodyContainer>
     </Modal>
-  ) : (
-    <></>
   )
 }
 

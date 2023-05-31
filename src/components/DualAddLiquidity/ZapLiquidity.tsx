@@ -135,7 +135,6 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [zapable])
 
-
   return (
     <div>
       <Flex sx={styles.liquidityContainer}>

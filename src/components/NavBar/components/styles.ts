@@ -62,6 +62,7 @@ const styles: Record<
     borderColor: 'white3',
     textDecoration: 'none',
     cursor: 'pointer',
+    display: 'flex',
   },
   mobileSubItemContainer: {
     display: 'flex',

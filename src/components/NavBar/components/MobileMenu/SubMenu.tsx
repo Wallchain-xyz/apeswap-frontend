@@ -19,16 +19,18 @@ const SubMenu = ({
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation()
   return (
-    <>
-      <Flex
+    <Flex sx={{ width: '100%', flexDirection: 'column' }}>
+      <Link
         sx={styles.mobileSubMenuContainer}
-        onClick={() => menuItems && setOpened((prev) => !prev)}
-        as={href ? Link : 'p'}
-        href={href}
+        onClick={() => {
+          menuItems && setOpened((prev) => !prev)
+          !menuItems && closeNavBar()
+        }}
+        href={href ?? ''}
       >
         <Text weight={600}>{t(label)}</Text>
         {menuItems && <Svg icon="caret" width="8px" direction={opened ? 'up' : 'down'} />}
-      </Flex>
+      </Link>
       <AnimatePresence>
         {opened && (
           <motion.div
@@ -48,7 +50,7 @@ const SubMenu = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </Flex>
   )
 }
 

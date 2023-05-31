@@ -21,13 +21,6 @@ export interface BuyProps {
   bill: Bills
   onBillId: (billId: string, transactionHash: string) => void
   onTransactionSubmited: (trxSent: boolean) => void
-  onAddLiquidityModal: (
-    token: any,
-    quoteToken: any,
-    poolAddress?: string | undefined,
-    pid?: string | undefined,
-    zapable?: boolean | undefined,
-  ) => void
 }
 
 export interface BillActionsProps {

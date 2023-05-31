@@ -26,8 +26,9 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
+import useAddLiquidityModal from '../../../components/DualAddLiquidity/hooks/useAddLiquidityModal'
 
-const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddLiquidityModal }) => {
+const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
     token,
     quoteToken,
@@ -41,6 +42,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited, onAddL
     billNftAddress,
     maxPayoutTokens,
   } = bill
+  const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
   const { chainId, account, provider } = useWeb3React()
   const { recipient, typedValue } = useZapState()
   const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')

@@ -69,7 +69,7 @@ const BillModal: React.FC<BillModalProps> = ({
     </Button>
   ) : (
     <Flex sx={{ cursor: 'pointer', width: '270px' }} onClick={onPresentUserBillModal}>
-      <Image width={720} height={405} alt={'hidden-bill'} src={billCardImage} layout="responsive" />
+      <Image width={720} height={405} alt={'user-bill'} src={billCardImage} layout="responsive" />
     </Flex>
   )
 }

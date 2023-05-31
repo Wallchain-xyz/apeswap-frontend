@@ -8,6 +8,7 @@ import { LangSelectorButton } from 'components/Langauge'
 import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
 import { icons } from 'components/uikit/Svg/types'
+import { Box } from 'theme-ui'
 
 export const SOCIAL_LINKS: { label: icons; href: string }[] = [
   { label: icons.TWITTER, href: 'https://twitter.com/ape_swap' },
@@ -44,9 +45,9 @@ const MobileMenu = ({ dropdownFlag, closeNavBar }: { dropdownFlag: boolean; clos
               <Flex>
                 <LangSelectorButton />
                 <Moonpay />
-                <span sx={{ mr: '10px' }}>
+                <Box sx={{ mr: '10px' }} onClick={closeNavBar}>
                   <NetworkSelector />
-                </span>
+                </Box>
               </Flex>
               <Flex sx={{ mt: '15px', justifyContent: 'space-around', width: '200px' }}>
                 {SOCIAL_LINKS.map(({ label, href }) => {

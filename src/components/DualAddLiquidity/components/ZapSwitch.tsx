@@ -8,6 +8,7 @@ import MoonPayModal from 'components/Moonpay/MoonpayModal'
 import useModal from 'hooks/useModal'
 import { Flex, Svg, Text } from 'components/uikit'
 import TooltipBubble from 'components/uikit/Tooltip'
+import ZapSlippage from '../../ZapSlippage'
 // import SettingsModal from 'components/Menu/GlobalSettings/SettingsModal'
 
 interface ZapSwitchProps {
@@ -22,7 +23,7 @@ const ZapSwitch: React.FC<ZapSwitchProps> = ({ handleZapSwitch, goZap }) => {
   const isDark = colorMode === 'dark'
 
   const [onPresentModal] = useModal(<MoonPayModal onDismiss={() => null} />)
-  const [onPresentSettingsModal] = useModal(<></>) //<SettingsModal zapSettings={goZap} />
+  const [onPresentSettingsModal] = useModal(<ZapSlippage />) //<SettingsModal zapSettings={goZap} />
 
   return (
     <Flex sx={{ margin: '15px 0 5px 0', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -70,9 +71,9 @@ const ZapSwitch: React.FC<ZapSwitchProps> = ({ handleZapSwitch, goZap }) => {
           position="DEX"
           chainId={chainId}
         /> */}
-        <span sx={{ cursor: 'pointer' }}>
+        <Flex sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal}>
           <Svg icon="cog" width="24px" />
-        </span>
+        </Flex>
       </Flex>
     </Flex>
   )

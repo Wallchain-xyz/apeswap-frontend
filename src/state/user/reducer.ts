@@ -83,7 +83,7 @@ const userSlice = createSlice({
       state.timestamp = currentTimestamp()
     },
     updateUserZapSlippageTolerance(state, action) {
-      state.userSlippageTolerance = action.payload.userSlippageTolerance
+      state.userZapSlippage = action.payload.userZapSlippage
       state.timestamp = currentTimestamp()
     },
     updateUserClientSideRouter(state, action) {
@@ -170,6 +170,6 @@ export const {
   updateUserExpertMode,
   addSerializedPair,
   addSerializedToken,
-  updateUserZapSlippageTolerance
+  updateUserZapSlippageTolerance,
 } = userSlice.actions
 export default userSlice.reducer
