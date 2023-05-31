@@ -304,14 +304,16 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       sustainabilityUpper: susUpperRange,
     })
 
-    ctx.beginPath()
-    ctx.setLineDash([5, 5])
-    ctx.lineWidth = 2
-    ctx.strokeStyle = '#DF4141'
-    ctx.moveTo(xPixel1, yPixel1)
-    ctx.lineTo(xPixel2, yPixel2)
-    ctx.stroke()
-    ctx.setLineDash([])
+    if (ownedPoint.y < susLowerRange) {
+      ctx.beginPath()
+      ctx.setLineDash([5, 5])
+      ctx.lineWidth = 2
+      ctx.strokeStyle = '#DF4141'
+      ctx.moveTo(xPixel1, yPixel1)
+      ctx.lineTo(xPixel2, yPixel2)
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
   }
 
   const CustomImagePlugin = {
