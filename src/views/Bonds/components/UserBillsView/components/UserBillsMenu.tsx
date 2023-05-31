@@ -115,7 +115,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
                         }}
                       />
                     </Flex>
-                    <Flex>
+                    <Flex sx={{ cursor: 'pointer' }} onClick={() => setShowClaimed(!showClaimed)}>
                       <CheckBox checked={showClaimed} onClick={() => setShowClaimed(!showClaimed)} />
                       <Text ml="15px" size="14px">
                         {t('Claimed')}
@@ -158,7 +158,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
               }}
             />
           </Flex>
-          <Flex sx={{ alignItems: 'center' }}>
+          <Flex sx={{ alignItems: 'center', cursor: 'pointer' }} onClick={() => setShowClaimed(!showClaimed)}>
             <CheckBox checked={showClaimed} onClick={() => setShowClaimed(!showClaimed)} />
             <Text ml="15px" size="14px">
               {t('Claimed')}

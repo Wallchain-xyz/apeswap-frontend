@@ -7,7 +7,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
 import { Button } from 'components/uikit'
 
-const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards }) => {
+const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards, mt }) => {
   const { onClaimBill, billType } = useClaimBill(billAddress, billIds)
   const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
@@ -45,7 +45,7 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards }) =
         lineHeight: '20px',
         minWidth: '109px',
         width: ['240px', '240px', '240px', '100%'],
-        mt: ['10px', '10px', '10px', '0px'],
+        mt: mt ?? ['10px', '10px', '10px', '0px'],
       }}
     >
       {t('CLAIM')}

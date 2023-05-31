@@ -12,14 +12,14 @@ import {
 } from './styles'
 import UserBillModalView from './UserBillModalView'
 import { getFirstNonZeroDigits } from 'utils/roundNumber'
-import { Flex, IconButton, ListTag, Modal } from 'components/uikit'
+import { Flex, ListTag, Modal } from 'components/uikit'
 import Buy from 'views/Bonds/actions/Buy'
 import { Bills } from 'views/Bonds/types'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useBills } from 'state/bills/hooks'
 import Image from 'next/image'
-import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
+import ModalHeader from 'components/uikit/Modal/ModalHeader'
 
 const modalProps = {
   sx: {
@@ -65,16 +65,9 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
     <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
   ) : bill ? (
     <Modal onDismiss={onDismiss} {...modalProps}>
-      <ModalHeader>asd</ModalHeader>
+      <ModalHeader hideDivider />
       <ModalBodyContainer>
-        <IconButton
-          icon="close"
-          color="text"
-          variant="transparent"
-          onClick={onDismiss}
-          sx={{ position: 'absolute', right: '20px', top: '25px', zIndex: 50 }}
-        />
-        <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Flex sx={{ alignItems: 'center', justifyContent: 'center', maxWidth: '606px' }}>
           <Image
             width={2300}
             height={1350}

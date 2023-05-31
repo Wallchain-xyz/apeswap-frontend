@@ -1,12 +1,11 @@
 import React from 'react'
-import { StyledButton } from '../styles'
 import UserBillModalView from './UserBillModalView'
-import { BillsImage } from '../UserBillsView/styles'
 import WarningModal from './WarningModal'
 import useModal from 'hooks/useModal'
 import { Bills } from 'views/Bonds/types'
 import BuyBillModalView from './BuyBillModalView'
-import { Button } from '../../../../components/uikit'
+import { Button, Flex } from 'components/uikit'
+import Image from 'next/image'
 
 interface BillModalProps {
   bill: Bills
@@ -69,7 +68,9 @@ const BillModal: React.FC<BillModalProps> = ({
       {buttonText}
     </Button>
   ) : (
-    <BillsImage image={billCardImage} onClick={onPresentUserBillModal} style={{ cursor: 'pointer' }} />
+    <Flex sx={{ cursor: 'pointer', width: '270px' }} onClick={onPresentUserBillModal}>
+      <Image width={720} height={405} alt={'hidden-bill'} src={billCardImage} layout="responsive" />
+    </Flex>
   )
 }
 

@@ -1,10 +1,11 @@
 import React from 'react'
 
 export interface InternalProps {
-  children: React.ReactNode
+  children?: React.ReactNode
   onDismiss?: () => void
   onAnimationComplete?: () => void
   t?: (key: string) => string
+  hideDivider?: boolean
 }
 
 export interface ModalProps extends InternalProps {

@@ -5,29 +5,27 @@ import {
   BillDescriptionContainer,
   BillFooterContentContainer,
   BillsFooterContainer,
-  BillsImage,
   BillTitleContainer,
   GridTextValContainer,
   ModalBodyContainer,
   StyledHeadingText,
-  TopDescriptionText,
   Container,
   MobileFooterContainer,
   MobileFooterContentContainer,
 } from './styles'
 import VestedTimer from '../VestedTimer'
 import TransferBillModal from './TransferBillModal'
-import { StyledButton } from '../styles'
 import { Bills } from 'views/Bonds/types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
-import { Flex, IconButton, ListTag, Modal, Skeleton, Text } from 'components/uikit'
+import { Button, Flex, ListTag, Modal, Skeleton, Text } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import Image from 'next/image'
 import useModal from 'hooks/useModal'
 import { ListTagVariants } from 'components/uikit/Tag/types'
+import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
 
 const modalProps = {
   sx: {
@@ -77,20 +75,30 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
   )
   return (
     <Modal onDismiss={onDismiss} {...modalProps}>
+      <ModalHeader hideDivider />
       <Container>
         <ModalBodyContainer>
-          <IconButton
-            icon="close"
-            color="text"
-            variant="transparent"
-            onClick={onDismiss}
-            sx={{ position: 'absolute', right: '20px', top: '25px' }}
-          />
           {userOwnedBillNftData?.image ? (
-            <BillsImage image={`${userOwnedBillNftData?.image + '?img-width=720'}`} />
+            <Flex sx={{ width: '100%', maxWidth: '606px' }}>
+              <Image
+                priority
+                width={720}
+                height={405}
+                alt={'user-bill'}
+                src={`${userOwnedBillNftData?.image + '?img-width=720'}`}
+                layout="responsive"
+              />
+            </Flex>
           ) : (
-            <Flex sx={{ alignItems: 'center', justifyContnet: 'center' }}>
-              <BillsImage image="/images/bills/bill-nfts.gif" />
+            <Flex sx={{ width: '100%', maxWidth: '606px' }}>
+              <Image
+                priority
+                width={960}
+                height={540}
+                alt={'loading-bill'}
+                src={'/images/bills/bill-nfts.gif'}
+                layout="responsive"
+              />
             </Flex>
           )}
           <BillDescriptionContainer width="100%">
@@ -141,21 +149,29 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
               <Flex
                 sx={{
                   width: '50%',
-                  padding: '5px',
-                  height: ['unset', 'unset', 'unset', '54px'],
-                  mt: ['0px', '0px', '0px', '10px'],
+                  padding: ['10px', '10px', '10px', '10px', '5px'],
+                  height: '58px',
+                  mt: ['0px', '0px', '0px', '0px', '10px'],
                 }}
               >
                 <Claim
                   billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                   billIds={[billId ?? '0']}
                   pendingRewards={userOwnedBill?.payout ?? '0'}
+                  mt={['0px']}
                 />
               </Flex>
-              <Flex sx={{ width: '50%', padding: '5px', marginTop: '10px' }}>
-                <StyledButton onClick={onPresentTransferBillModal} buttonSize={'100%'} sx={{ lineHeight: '18px' }}>
+              <Flex
+                sx={{
+                  width: '50%',
+                  padding: ['10px', '10px', '10px', '10px', '5px'],
+                  height: '58px',
+                  mt: ['0px', '0px', '0px', '0px', '10px'],
+                }}
+              >
+                <Button onClick={onPresentTransferBillModal} sx={{ width: '100%', lineHeight: '20px' }}>
                   {t('Transfer')}
-                </StyledButton>
+                </Button>
               </Flex>
             </Flex>
           </BillDescriptionContainer>

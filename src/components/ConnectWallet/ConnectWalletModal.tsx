@@ -15,7 +15,6 @@ const modalProps = {
     minWidth: ['unset', 'unset', '620px'],
     overflow: 'hidden',
     padding: ['20px', '20px', '30px'],
-    '& hr': { display: 'none' },
   },
 }
 
@@ -45,7 +44,7 @@ const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
   const { t } = useTranslation()
   return (
     <Modal {...modalProps}>
-      <ModalHeader {...{ sx: { height: '24px' } }}>
+      <ModalHeader {...{ sx: { height: '24px' } }} hideDivider>
         {open && (
           <Flex sx={{ width: '100%' }}>
             <Flex onClick={() => setOpen(false)} sx={{ '&:hover': { cursor: 'pointer' } }}>

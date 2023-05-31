@@ -7,6 +7,7 @@ export interface ClaimProps {
   billAddress: string
   pendingRewards: string
   billIds: string[]
+  mt?: string[]
 }
 
 export interface TransferProps {
