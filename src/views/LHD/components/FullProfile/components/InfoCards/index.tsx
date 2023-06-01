@@ -21,13 +21,17 @@ const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
 const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; chartExtras: any }) => {
   const { t } = useTranslation()
 
-  const whitelistedOwners = fullProfile.liquidityPools.flatMap((pool: LiquidityPool) => {
-    return pool.liquidityOwners.map((owner: LiquidityOwner) => ({
-      ...owner,
-      ...pool,
-      liquidityOwners: undefined,
-    }))
-  })
+  const whitelistedOwners = fullProfile.liquidityPools
+    .flatMap((pool: LiquidityPool) => {
+      return pool.liquidityOwners.map((owner: LiquidityOwner) => ({
+        ...owner,
+        ...pool,
+        liquidityOwners: undefined,
+      }))
+    })
+    .filter((owner) => {
+      return owner.isHardAssetPair
+    })
 
   return (
     <Flex sx={styles.mainContainer}>
@@ -134,7 +138,8 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                             <TokenImage url={whiteListedOwner.quoteToken.tokenLogoUrl} size={22} />
                           </Flex>
                         </Flex>
-                        {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
+                        {whiteListedOwner?.baseToken?.symbol?.toUpperCase()}-
+                        {whiteListedOwner?.quoteToken?.symbol?.toUpperCase()}
                         <IconButton
                           href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}address/${
                             whiteListedOwner.walletAddress

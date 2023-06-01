@@ -22,13 +22,13 @@ const TitleCards = () => {
         <Flex sx={{ width: '100%', mt: '10px' }}>
           <Link href=''>
             <Text sx={styles.btnText}>
-              {t('Tutorial')}
+              {t('Learn More')}
             </Text>
           </Link>
-          <Link href=''>
+          <Link href='https://github.com/ApeSwapFinance/lhd-config'>
             <Text
               sx={styles.btnText}>
-              {t('Improve Your Score')}
+              {t('Submit data update')}
             </Text>
           </Link>
         </Flex>
