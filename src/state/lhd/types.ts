@@ -121,3 +121,24 @@ export interface LiquidityOwner {
   lpType: string
   chainId: string
 }
+
+export interface ChainDetail {
+  chainId: string
+  chainName: string
+  coingeckoId: string
+  dexscreenerId?: string
+  logoUrl?: string
+  nodeUrls?: Node[]
+  blockExplorer?: BlockExplorer
+}
+
+export interface Node {
+  url: string
+  isArchiveNode: boolean
+}
+
+export interface BlockExplorer {
+  url: string
+  type: string
+  testToken: string
+}

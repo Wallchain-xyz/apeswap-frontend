@@ -10,6 +10,7 @@ import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
 import { styles } from './styles'
 import { useTranslation } from '../../../../../../../contexts/Localization'
 import TokenImage from '../../../../../../../components/TokenImage'
+import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
 const TableRow = ({ index, pool }: {
   index: number,
@@ -18,8 +19,8 @@ const TableRow = ({ index, pool }: {
   const { t } = useTranslation()
 
   const getBlockExplorerURL = (chain: string, address: string) => {
-    // @ts-ignore
-    if (BLOCK_EXPLORER[chain]) return `${BLOCK_EXPLORER[chain]}address/${address}`
+    const chainInfo = CHAIN_DETAILS.find(chainOption => chainOption.chainId === chain)
+    if (chainInfo) return `${chainInfo.blockExplorer?.url}address/${address}`
     return ''
   }
   const tokenLogo1 = pool.baseToken.tokenLogoUrl

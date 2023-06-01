@@ -13,6 +13,7 @@ import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { Button } from '../../../../../../components/uikit'
 import TooltipBubble from '../../../../../../components/uikit/Tooltip'
 import TokenImage from '../../../../../../components/TokenImage'
+import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
 const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
@@ -127,6 +128,9 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
             <Flex sx={styles.whiteContainer}>
               <Flex sx={styles.ownerRowsContainer}>
                 {whitelistedOwners.map((whiteListedOwner, index) => {
+                  const chainInfo = CHAIN_DETAILS.find(
+                    (chainOption) => chainOption.chainId === whiteListedOwner.chainId,
+                  )
                   return (
                     <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress + index}>
                       <Text sx={{ display: 'flex', alignItems: 'center' }}>
@@ -141,9 +145,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                         {whiteListedOwner?.baseToken?.symbol?.toUpperCase()}-
                         {whiteListedOwner?.quoteToken?.symbol?.toUpperCase()}
                         <IconButton
-                          href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}address/${
-                            whiteListedOwner.walletAddress
-                          }`}
+                          href={`${chainInfo?.blockExplorer?.url}address/${whiteListedOwner.walletAddress}`}
                           icon="filledURL"
                           simpleBtn
                         />
