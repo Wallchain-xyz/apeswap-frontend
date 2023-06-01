@@ -56,7 +56,7 @@ const FullProfile = ({
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
               <Flex sx={styles.titleContainer}>
-                <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
+                <Text sx={styles.titleText}>{t('Token Liquidity Strength')}</Text>
               </Flex>
               <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
             </Flex>

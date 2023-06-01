@@ -38,7 +38,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
     <Flex sx={styles.mainContainer}>
       <Flex sx={{ ...styles.cardContainer, mt: ['15px', '15px', '15px', '0px'] }}>
         <Flex sx={styles.titleContainer}>
-          <Text sx={styles.titleText}>{t('Liquidity Health Summary')}</Text>
+          <Text sx={styles.titleText}>{t('Liquidity Strength Summary')}</Text>
         </Flex>
         <Flex sx={styles.healthRowsContainer}>
           <HealthSummaryRow
