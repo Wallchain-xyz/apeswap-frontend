@@ -11,6 +11,7 @@ import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
+import { useRouter } from 'next/router'
 
 const FullProfile = ({
   chainID,
@@ -22,6 +23,7 @@ const FullProfile = ({
   const fetchProfile = useFetchProfile()
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
+  const router = useRouter()
 
   const [chartPassBackData, setChartPassBackData] = useState<chartExtras | null>(null)
 
@@ -35,18 +37,20 @@ const FullProfile = ({
     setChartPassBackData(chartData)
   }
 
+  const handleBackButton = () => {
+    router.push('/liquidity-health', '/liquidity-health')
+  }
+
   if (fullProfile) {
     return (
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
-          <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
-            <Text sx={styles.back}>
-              <Flex sx={{ mr: '5px' }}>
-                <Svg icon="caret" direction="left" width={7} />
-              </Flex>
-              {t('Back')}
-            </Text>
-          </Link>
+          <Text onClick={handleBackButton} sx={styles.back}>
+            <Flex sx={{ mr: '5px' }}>
+              <Svg icon="caret" direction="left" width={7} />
+            </Flex>
+            {t('Back')}
+          </Text>
           <Text sx={styles.lastUpdated}>
             {t('Last updated:')} {new Date(parseInt(fullProfile?.createdAt)).toLocaleString()}
           </Text>

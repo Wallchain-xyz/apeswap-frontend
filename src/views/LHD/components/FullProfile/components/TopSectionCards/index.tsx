@@ -48,12 +48,13 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                 <IconButton href={fullProfile?.addressMapping?.profileLinks?.twitterUrl} icon='twitter' />
                 <IconButton href={fullProfile?.addressMapping?.profileLinks?.telegramUrl} icon='send' />
                 <IconButton href={fullProfile?.addressMapping?.profileLinks?.discordUrl} icon='discord' />
+                <IconButton href={fullProfile?.addressMapping?.tokenAddresses[0]?.address} icon='copy' />
               </Flex>
             </Flex>
             <Flex sx={styles.extraInfoCont}>
               <Flex sx={styles.rank}>
                 <Text sx={styles.rankText}>
-                  {t('Rank #')} {fullProfile?.ranking}
+                  {t('Rank #')}{fullProfile?.ranking}
                 </Text>
               </Flex>
               <Flex sx={styles.chainsCont}>
