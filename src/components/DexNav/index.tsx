@@ -12,17 +12,24 @@ import { useWeb3React } from '@web3-react/core'
 import { Switch } from 'theme-ui'
 import DexSettings from 'components/DexSettings'
 import SquidBridge from '../SquidBridge/SquidBridge'
+import { AVAILABLE_CHAINS_ON_PRODUCTS, OTHER_PRODUCTS } from '../../config/constants/chains'
 
 interface DexNavProps {
   zapSettings?: boolean
 }
 
 const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
-  const BRIDGE_SUPPORTED_CHAINS = [SupportedChainId.BSC, SupportedChainId.ARBITRUM_ONE, SupportedChainId.POLYGON, SupportedChainId.MAINNET]
+  const BRIDGE_SUPPORTED_CHAINS = [
+    SupportedChainId.BSC,
+    SupportedChainId.ARBITRUM_ONE,
+    SupportedChainId.POLYGON,
+    SupportedChainId.MAINNET,
+  ]
   const { t } = useTranslation()
   const { pathname, push, asPath } = useRouter()
   const { chainId } = useWeb3React()
   const [onBridgeModal] = useModal(<SquidBridge />)
+  const apeV3Available = AVAILABLE_CHAINS_ON_PRODUCTS[OTHER_PRODUCTS.V3].includes(chainId as SupportedChainId)
 
   const v2Flag = pathname.includes('/v2')
   const swapFlag = pathname.includes('/swap')
@@ -38,6 +45,12 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
   // const [onPresentModal] = useModal(<MoonPayModal />)
+
+  const handleSwitch = () => {
+    if (apeV3Available) {
+      push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')
+    }
+  }
 
   return (
     <Flex sx={styles.dexNavContainer}>
@@ -56,21 +69,19 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         >
           {t('Swap')}
         </Text>
-        {chainId && [SupportedChainId.BSC, SupportedChainId.POLYGON].includes(chainId) && (
-          <Text
-            size="14px"
-            variant="link"
-            sx={{
-              ...styles.navLink,
-              color: !onLiquidity && 'textDisabled',
-            }}
-            onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
-            id="liquidity-link"
-            className="liquidity"
-          >
-            {t('Liquidity')}
-          </Text>
-        )}
+        <Text
+          size="14px"
+          variant="link"
+          sx={{
+            ...styles.navLink,
+            color: !onLiquidity && 'textDisabled',
+          }}
+          onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
+          id="liquidity-link"
+          className="liquidity"
+        >
+          {t('Liquidity')}
+        </Text>
       </Flex>
       <Flex sx={styles.navIconContainer}>
         {/* <RunFiatButton
@@ -83,46 +94,49 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           chainId={chainId}
         />
         <CogIcon sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal} /> */}
-        <Flex
-          onClick={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
-          sx={{
-            position: 'relative',
-            mr: '10px',
-            height: 'fit-content',
-            minWidth: 'fit-content',
-            alignItems: 'center',
-            cursor: 'pointer',
-            zIndex: 2,
-          }}
-        >
-          <Text
-            size="13px"
-            weight={700}
-            color="primaryBright"
-            sx={{ position: 'absolute', zIndex: 1, right: v2Flag ? 3 : 11, mt: '2px' }}
-          >
-            {v2Flag ? 'V2' : 'V3'}
-          </Text>
-          <Switch
-            onChange={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
-            checked={!v2Flag}
+        {!swapFlag && (
+          <Flex
+            onClick={handleSwitch}
             sx={{
-              mr: '0px',
-              width: '50px',
-              borderRadius: '10px',
-              backgroundColor: 'yellow',
-              '& > div': {
-                transform: 'translateX(0%)',
-              },
-              'input:checked ~ &': {
-                background: 'linear-gradient(90deg, rgba(161, 101, 82, 1) 0%, rgba(255, 179, 0, 1)) 100%',
-                '> div': {
-                  transform: 'translateX(28px)',
-                },
-              },
+              position: 'relative',
+              mr: '10px',
+              height: 'fit-content',
+              minWidth: 'fit-content',
+              alignItems: 'center',
+              cursor: apeV3Available ? 'pointer' : 'not-allowed',
+              zIndex: 2,
             }}
-          />
-        </Flex>
+          >
+            <Text
+              size="13px"
+              weight={700}
+              color="primaryBright"
+              sx={{ position: 'absolute', zIndex: 1, right: v2Flag ? 3 : 11, mt: '2px' }}
+            >
+              {v2Flag ? 'V2' : 'V3'}
+            </Text>
+            <Switch
+              onChange={handleSwitch}
+              checked={!v2Flag}
+              disabled={!apeV3Available}
+              sx={{
+                mr: '0px',
+                width: '50px',
+                borderRadius: '10px',
+                backgroundColor: 'yellow',
+                '& > div': {
+                  transform: 'translateX(0%)',
+                },
+                'input:checked ~ &': {
+                  background: 'linear-gradient(90deg, rgba(161, 101, 82, 1) 0%, rgba(255, 179, 0, 1)) 100%',
+                  '> div': {
+                    transform: 'translateX(28px)',
+                  },
+                },
+              }}
+            />
+          </Flex>
+        )}
         <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />

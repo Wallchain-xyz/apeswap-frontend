@@ -24,7 +24,7 @@ const NavBar = () => {
         <Svg icon="logo" width="38px" />
       </Flex>
       <MobileMenu dropdownFlag={dropdownFlag} closeNavBar={closeNavBar} />
-      <DesktopMenu />
+      <DesktopMenu closeNavBar={closeNavBar} />
       <Flex
         sx={{
           alignItems: 'center',

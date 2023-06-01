@@ -42,7 +42,7 @@ const NetworkSelector = ({ billsFlag }: { billsFlag?: boolean }) => {
             width="25px"
           />
         )}
-        <Text margin="0px 7.5px" size="15px" sx={{ lineHeight: '0px' }}>
+        <Text margin="0px 7.5px" sx={{ lineHeight: '0px', fontSize: '14px' }}>
           {requestPending
             ? t('Requesting')
             : !chainId

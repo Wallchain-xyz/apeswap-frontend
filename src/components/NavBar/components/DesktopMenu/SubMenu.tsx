@@ -9,10 +9,12 @@ const SubMenu = ({
   label,
   menuItems,
   clearHoverLabel,
+  closeNavBar,
 }: {
   label: string
   menuItems: MenuItem[]
   clearHoverLabel: () => void
+  closeNavBar: () => void
 }) => {
   const [colorMode] = useColorMode()
   const { t } = useTranslation()
@@ -20,6 +22,29 @@ const SubMenu = ({
     <Flex sx={styles.desktopSubMenuContainer}>
       <Flex sx={{ flexDirection: 'column', margin: '20px 0px 0px 20px' }}>
         {menuItems.map(({ label, href }) => {
+          if (label === 'GNANA') {
+            return (
+              <Link
+                sx={{
+                  ...styles.desktopSubMenuItem,
+                }}
+                key={label}
+                href={href}
+                onClick={closeNavBar}
+              >
+                <Text
+                  sx={{
+                    background: 'gradient',
+                    backgroundClip: 'text',
+                    textFillColor: 'transparent',
+                    fontWeight: 700,
+                  }}
+                >
+                  {label}
+                </Text>
+              </Link>
+            )
+          }
           return (
             <Link
               href={href}

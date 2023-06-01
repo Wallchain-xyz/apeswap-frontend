@@ -7,7 +7,7 @@ import { getNavConfig } from '../../config/chains'
 import styles, { NAV_DESKTOP_DISPLAY } from '../styles'
 import { useRouter } from 'next/router'
 
-const DesktopMenu = () => {
+const DesktopMenu = ({ closeNavBar }: { closeNavBar: () => void }) => {
   const { chainId } = useWeb3React()
   const [hoverLabel, setHoverLabel] = useState<string>('')
   const { t } = useTranslation()
@@ -51,7 +51,7 @@ const DesktopMenu = () => {
                 {t(label)}
               </Text>
               {hoverLabel === label && items && (
-                <SubMenu label={label} menuItems={items} clearHoverLabel={clearHoverLabel} />
+                <SubMenu label={label} menuItems={items} clearHoverLabel={clearHoverLabel} closeNavBar={closeNavBar} />
               )}
             </Flex>
           )
