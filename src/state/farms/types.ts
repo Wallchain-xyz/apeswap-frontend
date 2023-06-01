@@ -142,7 +142,7 @@ export interface Farm extends MixedFarmConfig {
   totalLpStakedUsd?: string
   // apr for the farm
   apr?: string
-  // apy fro the farm
+  // apy for the farm
   apy?: string
   // if the farm has a multiplier
   multiplier?: string

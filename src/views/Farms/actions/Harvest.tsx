@@ -21,6 +21,7 @@ interface HarvestActionsProps {
   userEarnings: string
   farmType: FarmTypes
   contractAddress?: string
+  earnTokenSymbol?: string
 }
 
 const HarvestAction: React.FC<HarvestActionsProps> = ({
@@ -31,6 +32,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
   userEarnings,
   farmType,
   contractAddress,
+  earnTokenSymbol,
 }) => {
   const { account, chainId } = useWeb3React()
   const dispatch = useAppDispatch()
@@ -46,7 +48,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
         value={userEarnings}
         valueIcon={
           <Flex sx={{ height: '16px', alignItems: 'center', mr: '3px' }}>
-            <ServiceTokenDisplay token1="BANANA" size={13} />
+            <ServiceTokenDisplay token1={earnTokenSymbol} size={13} />
           </Flex>
         }
         value2={userEarningsUsd}

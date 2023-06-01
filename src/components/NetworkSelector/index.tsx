@@ -48,7 +48,7 @@ const NetworkSelector = ({ billsFlag }: { billsFlag?: boolean }) => {
             : !chainId
             ? NETWORK_LABEL[SupportedChainId.BSC]
             : isSupported
-            ? NETWORK_LABEL[chainId]
+            ? NETWORK_LABEL[chainId]?.toUpperCase()
             : t('Unsupported')}{' '}
         </Text>
       </Flex>

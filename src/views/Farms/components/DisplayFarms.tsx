@@ -275,6 +275,7 @@ const DisplayFarms = ({
               userEarningsUsd={userEarningsUsd}
               farmType={farm.farmType}
               contractAddress={farm?.contractAddress}
+              earnTokenSymbol={farm?.rewardToken?.symbol}
             />
           </Flex>
         ),

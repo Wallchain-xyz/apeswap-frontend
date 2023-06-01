@@ -26,7 +26,7 @@ const DesktopMenu = () => {
         display: NAV_DESKTOP_DISPLAY,
       }}
     >
-      <Flex sx={{ width: 'fit-content', ml: '20px' }}>
+      <Flex sx={{ width: 'fit-content', ml: '10px' }}>
         {getNavConfig(chainId).map(({ label, items, href }) => {
           return (
             <Flex

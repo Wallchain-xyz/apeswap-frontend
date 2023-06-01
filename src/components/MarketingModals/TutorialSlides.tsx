@@ -13,6 +13,8 @@ import ConnectWalletModal from 'components/ConnectWallet/ConnectWalletModal'
 export const SwapSlides = () => {
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
+  const isMobile = useIsMobile()
+
   return [
     <Slide
       key={1}
@@ -40,61 +42,61 @@ export const SwapSlides = () => {
         </>
       }
     />,
-    // <Slide
-    //   key={2}
-    //   step="Step 2"
-    //   slideTitle="Approve Router"
-    //   slideContent={
-    //     <>
-    //       <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
-    //       <Text sx={{ fontStyle: 'italic' }}>
-    //         <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
-    //         <Tooltip
-    //           placement={'topRight'}
-    //           transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
-    //           body={
-    //             <Flex sx={styles.tipBody}>
-    //               {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
-    //             </Flex>
-    //           }
-    //           sx={{ width: ['190px', '190px', '350px'] }}
-    //         >
-    //           <Text sx={styles.tipTitle}>Ape,</Text>
-    //         </Tooltip>{' '}
-    //         <Tooltip
-    //           placement={'topRight'}
-    //           transformTip="translate(4%, 2%)"
-    //           body={
-    //             <Flex sx={styles.tipBody}>
-    //               {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
-    //             </Flex>
-    //           }
-    //           sx={{ width: ['220px', '220px', '350px'] }}
-    //         >
-    //           <Text sx={styles.tipTitle}>Smart,</Text>
-    //         </Tooltip>{' '}
-    //         <Tooltip
-    //           placement={'topRight'}
-    //           transformTip="translate(4%, 2%)"
-    //           body={
-    //             <Flex sx={styles.tipBody}>
-    //               {t(
-    //                 "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
-    //               )}
-    //             </Flex>
-    //           }
-    //           sx={{ width: ['260px', '260px', '350px'] }}
-    //         >
-    //           <Text sx={styles.tipTitle}>Bonus</Text>
-    //         </Tooltip>
-    //         <Text sx={styles.content}>{t(')')}</Text>
-    //       </Text>
-    //     </>
-    //   }
-    // />,
     <Slide
       key={2}
       step="Step 2"
+      slideTitle="Approve Router"
+      slideContent={
+        <>
+          <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
+          <Text sx={{ fontStyle: 'italic' }}>
+            <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
+            <Tooltip
+              placement={'topRight'}
+              transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
+                </Flex>
+              }
+              sx={{ width: ['190px', '190px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>Ape,</Text>
+            </Tooltip>{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(4%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
+                </Flex>
+              }
+              sx={{ width: ['220px', '220px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>Smart,</Text>
+            </Tooltip>{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(4%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['260px', '260px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>Bonus</Text>
+            </Tooltip>
+            <Text sx={styles.content}>{t(')')}</Text>
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={2}
+      step="Step 3"
       slideTitle="Confirm The Swap"
       slideContent={
         <>
