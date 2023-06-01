@@ -42,6 +42,10 @@ export const styles: Record<
     lineHeight: '20px',
     display: 'flex',
     alignItems: 'center',
+    ":hover": {
+      cursor: 'pointer',
+      textDecoration: 'underline',
+    }
   },
   lastUpdated: {
     fontWeight: 300,
