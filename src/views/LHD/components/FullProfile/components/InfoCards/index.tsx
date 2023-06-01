@@ -183,7 +183,12 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
             <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['18px'], textAlign: 'center', mt: '15px' }}>
               {t(`If you’re a contributor to this project, you can submit updated liquidity data through GitHub.`)}
             </Text>
-            <Button sx={{ mt: '15px' }}>{t('SUBMIT DATA UPDATE')}</Button>
+            <Button
+              onClick={() => window.open('https://github.com/ApeSwapFinance/lhd-config', '_blank')}
+              sx={{ mt: '15px' }}
+            >
+              {t('SUBMIT DATA UPDATE')}
+            </Button>
           </Flex>
         )}
       </Flex>

@@ -20,7 +20,7 @@ const TitleCards = () => {
           </Text>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
-          <Link href=''>
+          <Link href='https://apeswap.gitbook.io/apeswap-finance/welcome/master'>
             <Text sx={styles.btnText}>
               {t('Learn More')}
             </Text>
@@ -42,12 +42,12 @@ const TitleCards = () => {
         <StatCard
           title='Chains Supported'
           value={chainsSupported}
-          footerInfo={<Link href={'where.dev'} target='_blank' sx={{ color: 'yellow' }}>See which chains</Link>}
+          footerInfo={<Link href='https://apeswap.gitbook.io/apeswap-finance/welcome/master' target='_blank' sx={{ color: 'yellow' }}>See which chains</Link>}
         />
         <StatCard
           title='Verified Tokens'
           value={tokensVerified}
-          footerInfo={<Link href={'where.dev'} target='_blank' sx={{ color: 'yellow' }}>Verify Your Project?</Link>}
+          footerInfo={<Link href='https://github.com/ApeSwapFinance/lhd-config' target='_blank' sx={{ color: 'yellow' }}>Verify Your Project?</Link>}
         />
       </Flex>
     </Flex>
