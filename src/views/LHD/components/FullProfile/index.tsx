@@ -52,7 +52,8 @@ const FullProfile = ({
             {t('Back')}
           </Text>
           <Text sx={styles.lastUpdated}>
-            {t('Last updated:')} {new Date(parseInt(fullProfile?.createdAt)).toLocaleString()}
+            {t('Last updated')} {Math.round((Date.now() - parseInt(fullProfile?.createdAt)) / 36000) / 100}
+            {t(' hours ago')}
           </Text>
         </Flex>
         <TopSectionCards fullProfile={fullProfile} />
