@@ -13,6 +13,7 @@ import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { Button } from '../../../../../../components/uikit'
 import TooltipBubble from '../../../../../../components/uikit/Tooltip'
 import TokenImage from '../../../../../../components/TokenImage'
+import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
 const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
@@ -21,19 +22,23 @@ const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
 const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; chartExtras: any }) => {
   const { t } = useTranslation()
 
-  const whitelistedOwners = fullProfile.liquidityPools.flatMap((pool: LiquidityPool) => {
-    return pool.liquidityOwners.map((owner: LiquidityOwner) => ({
-      ...owner,
-      ...pool,
-      liquidityOwners: undefined,
-    }))
-  })
+  const whitelistedOwners = fullProfile.liquidityPools
+    .flatMap((pool: LiquidityPool) => {
+      return pool.liquidityOwners.map((owner: LiquidityOwner) => ({
+        ...owner,
+        ...pool,
+        liquidityOwners: undefined,
+      }))
+    })
+    .filter((owner) => {
+      return owner.isHardAssetPair
+    })
 
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={{ ...styles.cardContainer, mt: ['15px', '15px', '15px', '0px'] }}>
         <Flex sx={styles.titleContainer}>
-          <Text sx={styles.titleText}>{t('Liquidity Health Summary')}</Text>
+          <Text sx={styles.titleText}>{t('Liquidity Strength Summary')}</Text>
         </Flex>
         <Flex sx={styles.healthRowsContainer}>
           <HealthSummaryRow
@@ -123,6 +128,9 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
             <Flex sx={styles.whiteContainer}>
               <Flex sx={styles.ownerRowsContainer}>
                 {whitelistedOwners.map((whiteListedOwner, index) => {
+                  const chainInfo = CHAIN_DETAILS.find(
+                    (chainOption) => chainOption.chainId === whiteListedOwner.chainId,
+                  )
                   return (
                     <Flex sx={styles.rowContainer} key={whiteListedOwner.lpAddress + index}>
                       <Text sx={{ display: 'flex', alignItems: 'center' }}>
@@ -134,11 +142,10 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                             <TokenImage url={whiteListedOwner.quoteToken.tokenLogoUrl} size={22} />
                           </Flex>
                         </Flex>
-                        {whiteListedOwner.baseToken.symbol}-{whiteListedOwner.quoteToken.symbol}
+                        {whiteListedOwner?.baseToken?.symbol?.toUpperCase()}-
+                        {whiteListedOwner?.quoteToken?.symbol?.toUpperCase()}
                         <IconButton
-                          href={`${BLOCK_EXPLORER[whiteListedOwner.chainId as unknown as SupportedChainId]}address/${
-                            whiteListedOwner.walletAddress
-                          }`}
+                          href={`${chainInfo?.blockExplorer?.url}address/${whiteListedOwner.walletAddress}`}
                           icon="filledURL"
                           simpleBtn
                         />
@@ -178,7 +185,12 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
             <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['18px'], textAlign: 'center', mt: '15px' }}>
               {t(`If you’re a contributor to this project, you can submit updated liquidity data through GitHub.`)}
             </Text>
-            <Button sx={{ mt: '15px' }}>{t('SUBMIT DATA UPDATE')}</Button>
+            <Button
+              onClick={() => window.open('https://github.com/ApeSwapFinance/lhd-config', '_blank')}
+              sx={{ mt: '15px' }}
+            >
+              {t('SUBMIT DATA UPDATE')}
+            </Button>
           </Flex>
         )}
       </Flex>

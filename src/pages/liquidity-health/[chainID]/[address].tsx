@@ -1,8 +1,8 @@
 // pages/lhd/[chainID]/[address]/index.tsx
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import PageContainer from '../../../../components/PageContainer'
-import FullProfile from '../../../../views/LHD/components/FullProfile'
+import PageContainer from '../../../components/PageContainer'
+import FullProfile from '../../../views/LHD/components/FullProfile'
 
 const MultiParamPage = () => {
   const router = useRouter()

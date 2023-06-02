@@ -26,7 +26,7 @@ export const styles: Record<
   },
   leftContainer: {
     width: ['100%', '100%', 'unset'],
-    minWidth: ['', '', '', '460px'],
+    minWidth: ['', '', '', '500px'],
     background: 'white2',
     borderRadius: '10px',
     padding: '20px',
@@ -63,7 +63,7 @@ export const styles: Record<
   rank: {
     width: '50px',
     height: '20px',
-    background: 'linear-gradient(0deg, rgba(253, 251, 245, 0.5), rgba(253, 251, 245, 0.5)), #FFB300',
+    background: 'linear-gradient(99.09deg, #A16552 0%, #FFB300 106.96%)',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '4px',
@@ -72,7 +72,7 @@ export const styles: Record<
     fontWeight: 500,
     fontSize: ['8px'],
     lineHeight: ['12px'],
-    color: 'input',
+    color: 'white',
   },
   chainsCont: {
     width: '65px',

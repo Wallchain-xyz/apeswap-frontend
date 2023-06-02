@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BLOCK_EXPLORER } from '../../../../../../../config/constants/chains'
 import { LiquidityPool } from '../../../../../../../state/lhd/types'
 import { Box } from 'theme-ui'
@@ -10,16 +10,26 @@ import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
 import { styles } from './styles'
 import { useTranslation } from '../../../../../../../contexts/Localization'
 import TokenImage from '../../../../../../../components/TokenImage'
+import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
 const TableRow = ({ index, pool }: {
   index: number,
   pool: LiquidityPool
 }) => {
+  const [isCopied, setIsCopied] = useState(false)
   const { t } = useTranslation()
 
+  const handleCopyClick = (address: string) => {
+    setIsCopied(true)
+    navigator.clipboard.writeText(address)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 1000)
+  }
+
   const getBlockExplorerURL = (chain: string, address: string) => {
-    // @ts-ignore
-    if (BLOCK_EXPLORER[chain]) return `${BLOCK_EXPLORER[chain]}address/${address}`
+    const chainInfo = CHAIN_DETAILS.find(chainOption => chainOption.chainId === chain)
+    if (chainInfo) return `${chainInfo.blockExplorer?.url}address/${address}`
     return ''
   }
   const tokenLogo1 = pool.baseToken.tokenLogoUrl
@@ -93,8 +103,8 @@ const TableRow = ({ index, pool }: {
         <Text sx={{ fontWeight: 500, fontSize: '10px' }}>
           {`${pool?.lpAddress.slice(0, 4)}...${pool?.lpAddress.slice(-4)}`}
         </Text>
-        <Flex sx={{ ml: '5px' }} onClick={() => navigator.clipboard.writeText(pool?.lpAddress)}>
-          <Svg icon='copy' width={10} />
+        <Flex sx={{ ml: '5px' }} onClick={() => handleCopyClick(pool?.lpAddress)}>
+          <Svg icon={isCopied ? 'success' : 'copy'} width={10} />
         </Flex>
         <IconButton href={getBlockExplorerURL(pool.chainId, pool.lpAddress)}
                     icon='filledURL'

@@ -11,6 +11,7 @@ import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
+import { useRouter } from 'next/router'
 
 const FullProfile = ({
   chainID,
@@ -22,6 +23,7 @@ const FullProfile = ({
   const fetchProfile = useFetchProfile()
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
+  const router = useRouter()
 
   const [chartPassBackData, setChartPassBackData] = useState<chartExtras | null>(null)
 
@@ -35,20 +37,23 @@ const FullProfile = ({
     setChartPassBackData(chartData)
   }
 
+  const handleBackButton = () => {
+    router.push('/liquidity-health', '/liquidity-health')
+  }
+
   if (fullProfile) {
     return (
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
-          <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
-            <Text sx={styles.back}>
-              <Flex sx={{ mr: '5px' }}>
-                <Svg icon="caret" direction="left" width={7} />
-              </Flex>
-              {t('Back')}
-            </Text>
-          </Link>
+          <Text onClick={handleBackButton} sx={styles.back}>
+            <Flex sx={{ mr: '5px' }}>
+              <Svg icon="caret" direction="left" width={7} />
+            </Flex>
+            {t('Back')}
+          </Text>
           <Text sx={styles.lastUpdated}>
-            {t('Last updated:')} {new Date(parseInt(fullProfile?.createdAt)).toLocaleString()}
+            {t('Last updated')} {Math.round((Date.now() - parseInt(fullProfile?.createdAt)) / 36000) / 100}
+            {t(' hours ago')}
           </Text>
         </Flex>
         <TopSectionCards fullProfile={fullProfile} />
@@ -56,7 +61,7 @@ const FullProfile = ({
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
               <Flex sx={styles.titleContainer}>
-                <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
+                <Text sx={styles.titleText}>{t('Token Liquidity Strength')}</Text>
               </Flex>
               <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
             </Flex>
