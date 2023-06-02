@@ -5,7 +5,8 @@ const PriceChange = ({ priceChange }: { priceChange: string }) => {
   const isPositive = parseFloat(priceChange) > 0
   const changeStyle = {
     color: isPositive ? 'success' : 'error',
-    ml: '5px'
+    ml: '5px',
+    fontSize: '10px',
   }
 
   return (

@@ -26,7 +26,7 @@ export const styles: Record<
   },
   leftContainer: {
     width: ['100%', '100%', 'unset'],
-    minWidth: ['', '', '', '460px'],
+    minWidth: ['', '', '', '500px'],
     background: 'white2',
     borderRadius: '10px',
     padding: '20px',
