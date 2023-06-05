@@ -6,6 +6,9 @@ import { Bills } from 'views/Bonds/types'
 import BuyBillModalView from './BuyBillModalView'
 import { Button, Flex } from 'components/uikit'
 import Image from 'next/image'
+import ReflectModal from './ReflectModal'
+
+const REFLECT_BONDS = ['NOOT']
 
 interface BillModalProps {
   bill: Bills
@@ -46,12 +49,15 @@ const BillModal: React.FC<BillModalProps> = ({
     true,
     `billsWarningModal${id}`,
   )
+  const [onPresentReflectModal] = useModal(<ReflectModal bill={bill} />, true, true, `billsReflectWarningModal${id}`)
 
   return !billCardImage ? (
     <Button
       onClick={
         buyFlag
-          ? parseFloat(bill?.discount ?? '0') < 0
+          ? REFLECT_BONDS.includes(bill?.earnToken.symbol)
+            ? onPresentReflectModal
+            : parseFloat(bill?.discount as string) < 0
             ? onPresentBuyWarning
             : onPresentBuyBillsModal
           : onPresentUserBillModal

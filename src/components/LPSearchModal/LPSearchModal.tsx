@@ -30,24 +30,11 @@ const LPSearchModal = ({ onDismiss = () => null, onSelect }: LPSearchModalProps)
     [onDismiss, onSelect],
   )
 
-  const modalProps = {
-    sx: {
-      zIndex: 110,
-      overflowY: 'auto',
-      maxHeight: 'calc(100% - 30px)',
-      minWidth: ['90%', '420px'],
-      width: '200px',
-      maxWidth: '425px',
-    },
-  }
-
   return (
-    <Modal onDismiss={onDismiss} title={t('LP Tokens')} open {...modalProps}>
-      <ScrollableContainer>
-        <Flex sx={{ flexDirection: 'column', width: '380px', maxWidth: '100%' }}>
-          <LPSearcher onSelect={handleLPSelect} />
-        </Flex>
-      </ScrollableContainer>
+    <Modal onDismiss={onDismiss} title={t('LP Tokens')}>
+      <Flex sx={{ flexDirection: 'column', width: '380px', maxWidth: '100%' }}>
+        <LPSearcher onSelect={handleLPSelect} />
+      </Flex>
     </Modal>
   )
 }

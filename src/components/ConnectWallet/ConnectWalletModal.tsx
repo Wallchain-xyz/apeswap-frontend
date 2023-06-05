@@ -9,12 +9,12 @@ import PrioritizedWallets from './components/PrioritizedWallets'
 const modalProps = {
   sx: {
     maxHeight: 'calc(100% - 30px)',
-    height: ['395px', '395px', '470px'],
-    width: ['280px', '280px', '620px'],
-    maxWidth: ['280px', '280px', '620px'],
-    minWidth: ['unset', 'unset', '620px'],
+    height: ['395px', '395px', '395px', '470px'],
+    width: ['280px', '280px', '280px', '620px'],
+    maxWidth: ['280px', '280px', '280px', '620px'],
+    minWidth: ['unset', 'unset', 'unset', '620px'],
     overflow: 'hidden',
-    padding: ['20px', '20px', '30px'],
+    padding: ['20px', '20px', '20px', '30px'],
   },
 }
 

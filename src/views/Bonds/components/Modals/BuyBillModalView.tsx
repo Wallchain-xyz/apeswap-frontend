@@ -16,27 +16,9 @@ import { Flex, ListTag, Modal } from 'components/uikit'
 import Buy from 'views/Bonds/actions/Buy'
 import { Bills } from 'views/Bonds/types'
 import { ListTagVariants } from 'components/uikit/Tag/types'
-import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useBills } from 'state/bills/hooks'
 import Image from 'next/image'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
-import ModalProvider from '../../../../contexts/ModalContext'
-
-const modalProps = {
-  sx: {
-    zIndex: 200,
-    overflowY: 'auto',
-    maxHeight: 'calc(100% - 30px)',
-    width: ['90%'],
-    minWidth: 'unset',
-    '@media screen and (min-width: 1180px)': {
-      maxWidth: '1200px',
-      minWidth: '1200px',
-      overflow: 'inherit',
-    },
-    maxWidth: '350px',
-  },
-}
 
 interface BillModalProps {
   onDismiss?: () => void
@@ -63,7 +45,22 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
   return billId && bill ? (
     <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
   ) : (
-    <Modal onDismiss={onDismiss} {...modalProps}>
+    <Modal
+      onDismiss={onDismiss}
+      sx={{
+        zIndex: 200,
+        overflowY: 'auto',
+        maxHeight: 'calc(100% - 30px)',
+        width: ['90%'],
+        minWidth: 'unset',
+        '@media screen and (min-width: 1180px)': {
+          maxWidth: '1200px',
+          minWidth: '1200px',
+          overflow: 'inherit',
+        },
+        maxWidth: '350px',
+      }}
+    >
       <ModalHeader hideDivider />
       <ModalBodyContainer>
         <Flex sx={{ alignItems: 'center', justifyContent: 'center', maxWidth: '606px' }}>

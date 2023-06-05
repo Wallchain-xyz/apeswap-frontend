@@ -149,10 +149,10 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
+    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', flexDirection: 'column' }}>
       <FixedSizeList
         height={500}
-        itemSize={65}
+        itemSize={55}
         width="100%"
         itemCount={searchCurrencies.length + filteredInactiveTokens.length}
         itemData={[...searchCurrencies, ...filteredInactiveTokens]}

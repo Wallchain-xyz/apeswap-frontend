@@ -1,5 +1,5 @@
 import { Flex, Modal, Text } from 'components/uikit'
-import { useUserSlippageTolerance, useUserTransactionTTL, useUserZapSlippageTolerance } from 'state/user/hooks'
+import { useUserTransactionTTL, useUserZapSlippageTolerance } from 'state/user/hooks'
 import Input from '../uikit/Input/Input'
 import { DEFAULT_DEADLINE_FROM_NOW } from '../../config/constants/misc'
 import React, { useState } from 'react'
@@ -66,7 +66,7 @@ const ZapSlippage = () => {
   }
 
   return (
-    <Modal title="Settings" minWidth="300px" maxWidth="95%">
+    <Modal title="Settingsasd">
       <Flex sx={{ maxWidth: '100%', width: '380px', flexDirection: 'column' }}>
         <Flex sx={{ width: '100%', flexDirection: 'column' }}>
           <Flex sx={{ flexDirection: 'column', mb: '10px' }}>

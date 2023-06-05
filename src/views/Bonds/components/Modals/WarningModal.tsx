@@ -23,7 +23,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
   )
 
   return (
-    <Modal onDismiss={onDismiss} maxWidth="385px" minWidth="320px">
+    <Modal onDismiss={onDismiss}>
       <Flex sx={{ alignItems: 'center', justifyContent: 'center' }} mt="10px">
         <IconButton
           icon="close"

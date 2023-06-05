@@ -201,8 +201,9 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             href="https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity"
             target="_blank"
             textAlign="center"
+            sx={{ textDecoration: 'none' }}
           >
-            <Text size="12px" style={{ lineHeight: '18px', fontWeight: 400, textDecoration: 'underline' }}>
+            <Text size="12px" style={{ lineHeight: '18px', fontWeight: 400, borderBottom: '1px solid' }}>
               Learn more{'>'}
             </Text>
           </Link>

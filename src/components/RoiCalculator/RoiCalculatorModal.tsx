@@ -34,13 +34,6 @@ interface RoiCalculatorModalProps {
   lpCurr2?: string
 }
 
-const modalStyle = {
-  style: {
-    overflowY: 'auto',
-    maxHeight: '85vh',
-  },
-}
-
 const amountButtons = ['100', '1000']
 const intervals = [1, 7, 30, 365]
 const compoundIntervals = [1, 7, 14, 30]
@@ -133,14 +126,7 @@ const RoiCalculatorModal: React.FC<RoiCalculatorModalProps> = (props) => {
   )
 
   return (
-    <Modal
-      onDismiss={onDismiss}
-      title={t('Return Calculator')}
-      minWidth={isMobile ? '320px' : '400px'}
-      maxWidth={isMobile ? '90vw' : '400px'}
-      onAnimationComplete={() => setKeySuffix(keySuffix + 1)}
-      {...modalStyle}
-    >
+    <Modal onDismiss={onDismiss} title={t('Return Calculator')} onAnimationComplete={() => setKeySuffix(keySuffix + 1)}>
       <Box>
         <Heading as="h3" style={styles.title}>
           {label} {isLp && t('LP')}
@@ -152,7 +138,7 @@ const RoiCalculatorModal: React.FC<RoiCalculatorModalProps> = (props) => {
           onMax={() => onTokenAmountChange(maxAmount)}
         />
         <Flex sx={styles.buttonsContainer}>
-          <Flex sx={{ columnGap: ['8px','8px', '17px'] }}>
+          <Flex sx={{ columnGap: ['8px', '8px', '17px'] }}>
             {amountButtons.map((amount) => (
               <Button
                 key={`${amount}`}

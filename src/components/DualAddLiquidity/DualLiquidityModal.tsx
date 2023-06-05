@@ -17,17 +17,6 @@ interface DualLiquidityModalProps {
   zapable?: boolean
 }
 
-const modalProps = {
-  sx: {
-    zIndex: 126,
-    overflowY: 'auto',
-    maxHeight: 'calc(100% - 30px)',
-    minWidth: ['90%', '90%', '420px'],
-    width: '200px',
-    maxWidth: '425px',
-  },
-}
-
 const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
   onDismiss = () => null,
   poolAddress,
@@ -53,11 +42,11 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
   return (
     <>
       {txHash ? (
-        <Modal open {...modalProps} title={t('Confirm ZAP')} onDismiss={onDismiss}>
+        <Modal title={t('Confirm ZAP')} onDismiss={onDismiss}>
           <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} LpToAdd={pairOut ?? undefined} />
         </Modal>
       ) : (
-        <Modal open {...modalProps} title={t('Liquidity')} onDismiss={onDismiss}>
+        <Modal title={t('Liquidity')} onDismiss={onDismiss}>
           <Box>
             <ZapSwitch goZap={goZap} handleZapSwitch={handleZapSwitch} />
             {goZap ? (

@@ -15,7 +15,7 @@ const DexSettings = () => {
   const [flipV3Layout, setFlipV3Layout] = useFlipV3LayoutManager()
 
   return (
-    <Modal title="Settings" minWidth="300px" maxWidth="95%">
+    <Modal title="Settings" sx={{ maxWidth: '420px', minWidth: ['95%', '330px'] }}>
       <Flex sx={{ maxWidth: '100%', width: '380px', flexDirection: 'column' }}>
         <TransactionDetails />
         <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', width: '100%', margin: '5px 0px' }}>

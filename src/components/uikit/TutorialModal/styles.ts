@@ -1,13 +1,6 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 import { ShowApeType } from './types'
 
-export const modalProps = {
-  sx: {
-    width: ['200px'],
-    height: ['', '', '', '500px'],
-  },
-}
-
 export const dynamicStyles: Record<
   'showApe' | 'allCircle',
   (props: { slideNumber?: number; type?: string; isActive?: boolean }) => ThemeUIStyleObject

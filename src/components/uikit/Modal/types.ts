@@ -1,4 +1,5 @@
 import React from 'react'
+import { ThemeUIStyleObject } from 'theme-ui'
 
 export interface InternalProps {
   children?: React.ReactNode
@@ -11,17 +12,7 @@ export interface InternalProps {
 export interface ModalProps extends InternalProps {
   children: React.ReactNode
   open?: boolean
-  minWidth?: string
-  maxWidth?: string
-  paddingWidth?: string
   title?: string
   zIndex?: string | number
-}
-
-export interface ModalTheme {
-  background: string
-}
-
-export interface InjectedProps {
-  handleClose?: () => void
+  sx?: ThemeUIStyleObject
 }

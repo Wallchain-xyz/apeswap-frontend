@@ -27,19 +27,6 @@ import useModal from 'hooks/useModal'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
 
-const modalProps = {
-  sx: {
-    overflowY: 'auto',
-    maxHeight: 'calc(100% - 30px)',
-    minWidth: 'unset',
-    width: ['90%'],
-    '@media screen and (min-width: 1180px)': {
-      maxWidth: '1200px',
-    },
-    maxWidth: '350px',
-  },
-}
-
 interface BillModalProps {
   onDismiss?: () => void
   bill: Bills
@@ -74,7 +61,19 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
     true,
   )
   return (
-    <Modal onDismiss={onDismiss} {...modalProps}>
+    <Modal
+      onDismiss={onDismiss}
+      sx={{
+        overflowY: 'auto',
+        maxHeight: 'calc(100% - 30px)',
+        minWidth: 'unset',
+        width: ['90%'],
+        '@media screen and (min-width: 1180px)': {
+          maxWidth: '1200px',
+        },
+        maxWidth: '350px',
+      }}
+    >
       <ModalHeader hideDivider />
       <Container>
         <ModalBodyContainer>
