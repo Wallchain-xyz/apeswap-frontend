@@ -31,16 +31,30 @@ export const fetchProfiles = async (query?: string, filters?: string) => {
 }
 
 export const fetchIndustry = async () => {
+  const date = new Date()
+  date.setDate(date.getDate() - 7)
+
   try {
     axiosRetry(axios, {
       retries: 5,
       retryCondition: () => true,
     })
     const res = await axios.get(`${apiEndpoint}/industry-stats`)
-    if (res?.data?.statusCode === 500) {
+    const resHistorical = await axios.get(`${apiEndpoint}/industry-stats/${date.toISOString().split('T')[0]}`)
+    if (res?.data?.statusCode === 500 || resHistorical?.data?.statusCode === 500) {
       return null
     }
-    return res.data
+
+    const industryAverageChange =
+      Math.round(
+        ((resHistorical.data.averageTotalScore - res.data.averageTotalScore) / resHistorical.data.averageTotalScore) *
+          10000,
+      ) / 100
+
+    return {
+      ...res.data,
+      industryAverageChange: industryAverageChange > 0 ? '+' + industryAverageChange : industryAverageChange,
+    }
   } catch (error) {
     return null
   }
