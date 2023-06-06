@@ -160,7 +160,15 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                               placement="bottomRight"
                               transformTip="translate(4%, -4%)"
                               width="200px"
-                              body={<>{t('Suspected owner due to Contract Name / Multisig')}</>}
+                              body={
+                                <>
+                                  {t(
+                                    whiteListedOwner.reason === 'burned'
+                                      ? 'We suspect this is owned liquidity due to the LP being burned.'
+                                      : 'We suspect this is owned liquidity from a locking contract or multi-sig wallet.',
+                                  )}
+                                </>
+                              }
                               sx={{ '&::before': { right: '-5%' }, borderRadius: '7px' }}
                             >
                               <Flex sx={{ ml: '5px' }}>
