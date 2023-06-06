@@ -34,7 +34,7 @@ const API_QUERY_PARAMS = {
   protocols: 'v2,v3,mixed',
 }
 const CLIENT_PARAMS = {
-  protocols: [Protocol.MIXED],
+  protocols: [Protocol.V2, Protocol.V3, Protocol.MIXED],
 }
 // Price queries are tuned down to minimize the required RPCs to respond to them.
 // TODO(zzmp): This will be used after testing router caching.

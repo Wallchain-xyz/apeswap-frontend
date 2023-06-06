@@ -48,9 +48,7 @@ const ZapConfirmationModal: React.FC<ZapConfirmationModalProps> = ({
         zIndex: 120,
         overflowY: 'auto',
         maxHeight: 'calc(100% - 30px)',
-        minWidth: ['90%', '420px'],
-        width: '200px',
-        maxWidth: '425px',
+        width: '380px',
       }}
     >
       {zapErrorMessage ? (

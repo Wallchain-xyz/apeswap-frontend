@@ -166,7 +166,6 @@ export function useDerivedZapInfo() {
   const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
   const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2])
 
-
   const zap = useMemo(
     () =>
       mergeBestZaps(

@@ -13,6 +13,7 @@ const TokenListModal = ({
   showCommonBases,
   showCurrencyAmount,
   disableNonToken,
+  isZapInput,
 }: {
   onDismiss: () => void
   onCurrencySelect: (currency: Currency) => void
@@ -21,6 +22,7 @@ const TokenListModal = ({
   showCommonBases?: boolean
   showCurrencyAmount?: boolean
   disableNonToken?: boolean
+  isZapInput?: boolean
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const handleInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +59,7 @@ const TokenListModal = ({
           showCommonBases={showCommonBases}
           showCurrencyAmount={showCurrencyAmount}
           disableNonToken={disableNonToken}
+          isZapInput={isZapInput}
         />
       </Flex>
     </Modal>

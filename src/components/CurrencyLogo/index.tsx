@@ -15,7 +15,7 @@ const CurrencyLogo = ({
   style?: CSSProperties
 }) => {
   const [src, nextSrc] = useAssetLogoSource(
-    currency?.wrapped.address,
+    currency?.wrapped?.address,
     currency?.chainId,
     currency?.isNative,
     (currency as TokenInfo)?.logoURI,
