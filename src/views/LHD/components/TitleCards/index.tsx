@@ -7,7 +7,7 @@ import { useIndustryAvg } from '../../../../state/lhd/hooks'
 
 const TitleCards = () => {
   const { t } = useTranslation()
-  const { averageChange, averageTotalScore, chainsSupported, tokensVerified } = useIndustryAvg()
+  const { averageChange, averageTotalScore, chainsSupported, tokensTracked } = useIndustryAvg()
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.titleContainer}>
@@ -45,8 +45,8 @@ const TitleCards = () => {
           footerInfo={<Link href='https://apeswap.gitbook.io/apeswap-finance/welcome/master' target='_blank' sx={{ color: 'yellow' }}>See which chains</Link>}
         />
         <StatCard
-          title='Verified Tokens'
-          value={tokensVerified}
+          title='Supported Tokens'
+          value={tokensTracked.toString()}
           footerInfo={<Link href='https://github.com/ApeSwapFinance/lhd-config' target='_blank' sx={{ color: 'yellow' }}>Verify Your Project?</Link>}
         />
       </Flex>

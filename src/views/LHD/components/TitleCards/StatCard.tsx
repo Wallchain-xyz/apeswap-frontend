@@ -5,7 +5,7 @@ import { Box } from 'theme-ui'
 import { styles } from './styles'
 
 const StatCard = ({ title, value, footerInfo }: {
-  title: 'Industry Average' | 'Chains Supported' | 'Verified Tokens',
+  title: 'Industry Average' | 'Chains Supported' | 'Supported Tokens',
   value: string,
   footerInfo: React.ReactNode
 }) => {
@@ -13,7 +13,7 @@ const StatCard = ({ title, value, footerInfo }: {
   const Icons = {
     ['Industry Average']: <Svg icon='greenShield' />,
     ['Chains Supported']: <Svg icon='chain' />,
-    ['Verified Tokens']: <Svg icon='verified' />,
+    ['Supported Tokens']: <Svg icon='verified' />,
   }
 
   const icon = Icons[title]
@@ -30,7 +30,7 @@ const StatCard = ({ title, value, footerInfo }: {
         </Text>
       </Flex>
       <Flex sx={styles.valueCont}>
-        <Text sx={styles.valueText}>{value && value !== 'NaN' ? value : '-'}</Text>
+        <Text sx={styles.valueText}>{value && !['NaN', '0'].includes(value) ? value : '-'}</Text>
         <Text sx={styles.footer}>{footerInfo}</Text>
       </Flex>
     </Flex>
