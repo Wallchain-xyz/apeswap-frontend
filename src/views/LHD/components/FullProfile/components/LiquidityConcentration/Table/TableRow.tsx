@@ -78,7 +78,7 @@ const TableRow = ({ index, pool }: {
       </Flex>
       <Flex sx={styles.colCont}>
         <Text sx={styles.bodyText}>
-          {pool?.chainId}
+          {pool?.chainName}
         </Text>
       </Flex>
       <Flex sx={styles.colCont}>

@@ -91,6 +91,7 @@ export interface ChartItemData {
 
 export interface LiquidityPool {
   chainId: string
+  chainName: string
   dex: string
   lpAddress: string
   baseToken: DexScreenerToken
