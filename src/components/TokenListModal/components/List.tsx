@@ -45,10 +45,11 @@ const List = ({
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
   const isAddressSearch = isAddress(debouncedQuery)
-  const filteredObject1: Record<string, any> = useMemo(() => {
+
+  //this function takes the tokens of defaultToken object and filters the tokens we want users zap from.
+  const inputList: Record<string, any> = useMemo(() => {
     if (!zapInputTokens) return {}
     let filteredObject: Record<string, any> = {}
-
     Object.keys(defaultTokens).forEach((key) => {
       Object.values(zapInputTokens[chainId as SupportedChainId]).forEach((subObject) => {
         if (subObject.address && subObject.address[chainId as SupportedChainId]?.toLowerCase() === key.toLowerCase()) {
@@ -62,10 +63,10 @@ const List = ({
   const filteredTokens: Token[] = useMemo(() => {
     if (isZapInput) {
       if (!zapInputTokens) return []
-      return Object.values(filteredObject1).filter(getTokenFilter(debouncedQuery))
+      return Object.values(inputList).filter(getTokenFilter(debouncedQuery))
     }
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
-  }, [isZapInput, defaultTokens, debouncedQuery, zapInputTokens, filteredObject1])
+  }, [isZapInput, defaultTokens, debouncedQuery, zapInputTokens, inputList])
 
   const sortedTokens: Token[] = useMemo(
     () =>
@@ -177,8 +178,8 @@ const List = ({
         height={500}
         itemSize={55}
         width="100%"
-        itemCount={searchCurrencies.length + filteredInactiveTokens.length}
-        itemData={[...searchCurrencies, ...filteredInactiveTokens]}
+        itemCount={isZapInput ? searchCurrencies.length : searchCurrencies.length + filteredInactiveTokens.length}
+        itemData={isZapInput ? searchCurrencies : [...searchCurrencies, ...filteredInactiveTokens]}
         itemKey={itemKey}
         sx={{
           '::-webkit-scrollbar': {

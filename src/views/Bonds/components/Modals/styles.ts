@@ -25,7 +25,7 @@ export const BillDescriptionContainer = styled(Flex)<{ p?: string; minHeight?: n
     width: 540px;
     justify-content: space-between;
     padding: ${({ p }) => p || '20px 30px'};
-    margin: 10px 10px 10px 20px;
+    margin: 0 10px 0 20px;
     min-height: auto;
   }
 `

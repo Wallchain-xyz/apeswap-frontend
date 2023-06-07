@@ -63,7 +63,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
     >
       <ModalHeader hideDivider />
       <ModalBodyContainer>
-        <Flex sx={{ alignItems: 'center', justifyContent: 'center', maxWidth: '606px' }}>
+        <Flex
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            maxWidth: '606px',
+            '@media screen and(min-width: 1180px)': {
+              width: '606px',
+            },
+          }}
+        >
           <Image
             width={2300}
             height={1350}

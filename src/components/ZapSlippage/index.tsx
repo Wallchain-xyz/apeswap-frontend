@@ -66,7 +66,7 @@ const ZapSlippage = () => {
   }
 
   return (
-    <Modal title="Settingsasd">
+    <Modal title="Settings">
       <Flex sx={{ maxWidth: '100%', width: '380px', flexDirection: 'column' }}>
         <Flex sx={{ width: '100%', flexDirection: 'column' }}>
           <Flex sx={{ flexDirection: 'column', mb: '10px' }}>

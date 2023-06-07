@@ -13,6 +13,7 @@ import { Switch } from 'theme-ui'
 import DexSettings from 'components/DexSettings'
 import SquidBridge from '../SquidBridge/SquidBridge'
 import { AVAILABLE_CHAINS_ON_PRODUCTS, OTHER_PRODUCTS } from '../../config/constants/chains'
+import ZapSlippage from '../ZapSlippage'
 
 interface DexNavProps {
   zapSettings?: boolean
@@ -44,6 +45,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
     pathname?.includes('unstake')
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
+  const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
   // const [onPresentModal] = useModal(<MoonPayModal />)
 
   const handleSwitch = () => {
@@ -151,7 +153,10 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           >
             <Svg icon="bridge" />
           </Flex>
-          <Flex onClick={onPresentSettingsModal} sx={{ cursor: 'pointer', mb: '5px' }}>
+          <Flex
+            onClick={zapSettings ? onPresentZapSettingsModal : onPresentSettingsModal}
+            sx={{ cursor: 'pointer', mb: '5px' }}
+          >
             <Svg icon="cog" />
           </Flex>
         </Flex>

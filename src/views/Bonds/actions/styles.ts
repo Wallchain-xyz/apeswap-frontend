@@ -1,18 +1,5 @@
 import styled from '@emotion/styled'
-import { Button, Input } from 'components/uikit'
-
-export const GetLPButton = styled(Button)`
-  height: 44px;
-  width: 100%;
-  border: 3px solid ${({ theme }) => theme.colors.yellow};
-  color: ${({ theme }) => theme.colors.yellow};
-  :hover {
-    border: 3px solid yellow;
-  }
-  @media screen and (min-width: 1180px) {
-    margin: 0 20px;
-  }
-`
+import { Button } from 'components/uikit'
 
 export const BuyButton = styled(Button)`
   width: 100%;
@@ -21,13 +8,6 @@ export const BuyButton = styled(Button)`
   @media screen and (min-width: 1180px) {
     margin: 0 20px;
   }
-`
-
-export const StyledInput = styled(Input)`
-  width: 100%;
-  border: none;
-  font-size: 22px;
-  font-weight: 700;
 `
 
 export const styles = {
@@ -73,15 +53,13 @@ export const styles = {
   },
   updateSlippage: {
     '@media screen and (min-width: 1180px)': {
-      '& div': {
-        position: 'absolute',
-        top: '360px',
-        left: '0px',
-        background: 'lvl1',
-        padding: '10px',
-        borderRadius: '10px',
-        width: '552px',
-      },
+      position: 'absolute',
+      top: '380px',
+      left: '0px',
+      background: 'white2',
+      padding: '10px',
+      borderRadius: '10px',
+      width: '552px',
     },
   },
   buyButtonContainerFull: {

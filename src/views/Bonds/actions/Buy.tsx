@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { Field } from 'state/swap/actions'
 import { useTranslation } from 'contexts/Localization'
 import { BuyProps, DualCurrencySelector } from './types'
-import { GetLPButton, styles } from './styles'
+import { styles } from './styles'
 import DualCurrencyPanel from 'components/DualCurrencyPanel/DualCurrencyPanel'
 import { ZapType } from '@ape.swap/sdk'
 import { useCurrency } from 'hooks/Tokens'
@@ -84,19 +84,22 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
   )
-  const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
+  const rawPriceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
+  const priceImpact = useMemo(() => new Percent(rawPriceImpact, 10_000), [rawPriceImpact])
 
   const showUpdateSlippage =
     zapSlippage.lessThan(priceImpact) &&
     !currencyB &&
     parseFloat(selectedCurrencyBalance?.toExact() ?? '0') >= parseFloat(typedValue)
-  const updateSlippage = () => null
-  useCallback(() => {
+
+  const updateSlippage = useCallback(() => {
     if (zapSlippage.lessThan(priceImpact)) {
-      const newZapSlippage = Math.round(priceImpact + 5)
-      setZapSlippage(new Percent(newZapSlippage))
+      const newZapSlippage = Math.round(rawPriceImpact + 5)
+      const newSlippagePercent = new Percent(newZapSlippage, 10_000)
+      setZapSlippage(newSlippagePercent)
     }
-  }, [priceImpact, setZapSlippage, zapSlippage])
+  }, [priceImpact, rawPriceImpact, setZapSlippage, zapSlippage])
+
   const originalSlippage = useMemo(() => {
     return zapSlippage
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,6 +126,13 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     },
     [onUserInput],
   )
+
+  useEffect(() => {
+    //reset zap state on mount
+    onHandleValueChange('')
+    // @ts-ignore
+    onCurrencySelection(Field.OUTPUT, [billsCurrencies?.currencyA, billsCurrencies?.currencyB])
+  }, [])
 
   const searchForBillId = useCallback(
     (resp: any, billNftAddress: string) => {
@@ -274,7 +284,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             </Text>
           </TextWrapper>
         </BillValueContainer>
-        <Flex sx={{ ...styles.buttonsContainer }}>
+        <Flex sx={styles.buttonsContainer}>
           {billType !== 'reserve' && (
             <Box sx={styles.getLpContainer}>
               <Button
@@ -308,7 +318,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           </Box>
           {showUpdateSlippage && !pendingTrx && (
             <Flex sx={styles.updateSlippage}>
-              <UpdateSlippage priceImpact={priceImpact} updateSlippage={updateSlippage} />
+              <UpdateSlippage priceImpact={rawPriceImpact} updateSlippage={updateSlippage} />
             </Flex>
           )}
         </Flex>

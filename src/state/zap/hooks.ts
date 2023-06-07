@@ -16,9 +16,9 @@ import {
   setZapType,
   typeInput,
 } from './actions'
-import { useTrackedTokenPairs, useUserSlippageTolerance } from '../user/hooks'
+import { useTrackedTokenPairs, useUserZapSlippageTolerance } from '../user/hooks'
 import { useAppDispatch } from 'state/hooks'
-import { Currency, CurrencyAmount, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
 import { useBestTrade } from 'hooks/useBestTrade'
 import { useV2Pair } from 'hooks/useV2Pairs'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
@@ -28,8 +28,6 @@ import useENS from 'hooks/useENS'
 import JSBI from 'jsbi'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
-import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
-import { RouterPreference } from 'state/routing/slice'
 import { Protocol } from '@ape.swap/router-sdk'
 import { mergeBestZaps } from './mergeBestZaps'
 import BigNumber from 'bignumber.js'
@@ -63,8 +61,8 @@ export function useZapActionHandlers(): {
         const currency2 = currencies[1]
         dispatch(
           selectOutputCurrency({
-            currency1: currency.isNative ? 'ETH' : currency.address,
-            currency2: currency2.isNative ? 'ETH' : currency2.address,
+            currency1: currency?.isNative ? 'ETH' : currency?.address,
+            currency2: currency2?.isNative ? 'ETH' : currency2?.address,
           }),
         )
       }
@@ -148,7 +146,7 @@ export function useDerivedZapInfo() {
 
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
-  const [allowedSlippage] = useUserSlippageTolerance()
+  const [allowedSlippage] = useUserZapSlippageTolerance()
 
   const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
     inputCurrency ?? undefined,
@@ -156,7 +154,7 @@ export function useDerivedZapInfo() {
   ])
 
   // Change to currency amount. Divide the typed input by 2 to get correct distributions
-  const halfTypedValue = typedValue && new BigNumber(typedValue || '').div(2).toString()
+  const halfTypedValue = typedValue && new BigNumber(typedValue).div(2).toFixed(18, 5)
 
   const parsedAmount = useMemo(
     () => tryParseCurrencyAmount(halfTypedValue, inputCurrency ?? undefined),
