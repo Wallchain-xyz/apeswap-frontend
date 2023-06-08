@@ -14,7 +14,7 @@ import { useLHDFilterValues } from 'state/lhd/hooks'
 const modalProps = {
   sx: {
     zIndex: 126,
-    overflowY: 'auto',
+    // overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     width: ['90%', '90%', '425px'],
     maxWidth: '425px',
