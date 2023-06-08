@@ -26,27 +26,6 @@ export const Header = styled(Flex)`
   }
 `
 
-export const StyledHeading = styled(Text)`
-  font-size: 15px;
-  max-width: 176px !important;
-  color: white;
-
-  ${({ theme }) => theme.mediaQueries.xs} {
-    font-size: 15px;
-    max-width: 240px !important;
-  }
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    font-size: 22px;
-    max-width: 400px !important;
-  }
-
-  ${({ theme }) => theme.mediaQueries.xl} {
-    font-size: 30px;
-    max-width: 600px !important;
-  }
-`
-
 export const styles = {
   billsViewContainer: {
     position: 'relative',

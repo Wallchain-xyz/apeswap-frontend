@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrency } from 'hooks/Tokens'
@@ -8,17 +7,16 @@ import { gnanaStyles } from './styles'
 import { useWeb3React } from '@web3-react/core'
 import { useThemeUI } from 'theme-ui'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
-import { SupportedChainId, Token } from '@ape.swap/sdk-core'
-import { GNANA_ADDRESSES } from 'config/constants/addresses'
-import { useTokenContract, useTreasury } from 'hooks/useContract'
+import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
+import { useGnanaToken, useTreasury } from 'hooks/useContract'
 import { useBuyGoldenBanana } from 'views/Gnana/useGoldenBanana'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
-import useApproveTransaction from 'views/Gnana/useApproveTransaction'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { Button, CheckBox, Flex, Svg, Text } from 'components/uikit'
-import Dots from 'components/Dots'
 import DexPanel from 'components/DexPanel'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
+import ApproveBtn from '../ApproveBtn'
+import { useApproveCallback } from '../../hooks/useApproveCallback'
 
 const Gnana = () => {
   const { account, chainId } = useWeb3React()
@@ -26,7 +24,7 @@ const Gnana = () => {
   const isDark = colorMode === 'dark'
   const MAX_BUY = 5000
   const bananaToken = useCurrency(BANANA_ADDRESSES[chainId as SupportedChainId])
-  const gnanaToken = useCurrency(GNANA_ADDRESSES[chainId as SupportedChainId])
+  const gnanaToken = useGnanaToken()
   const { t } = useTranslation()
   const [unlimitedGnana, setUnlimitedGnanaMinting] = useState<boolean>(false)
   const [unlimited, setUnlimited] = useState(unlimitedGnana)
@@ -37,8 +35,6 @@ const Gnana = () => {
   const [val, setVal] = useState<string>('0')
   const { handleBuy } = useBuyGoldenBanana()
   const gnanaVal = parseFloat(val) > 0 ? parseFloat(val) * 0.7 : 0
-  // const { toastSuccess } = useToast()
-  const bananaContract = useTokenContract(BANANA_ADDRESSES[chainId as SupportedChainId])
   const accountBananaBalance = useCurrencyBalance(account, bananaToken ?? undefined)
   const displayMax = unlimited ? 'unlimited' : MAX_BUY
   const fullBananaBalance = accountBananaBalance?.toExact()
@@ -67,27 +63,6 @@ const Gnana = () => {
     }, 600)
   }, [triedMore])
 
-  const {
-    isApproving: isApprovingBanana,
-    isApproved: isApprovedBanana,
-    handleApprove: handleApproveBanana,
-  } = useApproveTransaction({
-    onRequiresApproval: async (loadedAccount) => {
-      try {
-        const response = await bananaContract?.allowance(loadedAccount, treasuryContract?.address ?? '')
-        const currentAllowance = new BigNumber(response?.toString() ?? '0')
-        return currentAllowance.gt(0)
-      } catch (error) {
-        return false
-      }
-    },
-    onApprove: async () => {
-      const trx = await bananaContract?.approve(treasuryContract?.address ?? '', ethers.constants.MaxUint256)
-      return await trx?.wait()
-    },
-    onSuccess: async () => null, // toastSuccess(t('Approved!')),
-  })
-
   const buyGnana = useCallback(async () => {
     try {
       setProcessing(true)
@@ -110,31 +85,27 @@ const Gnana = () => {
   }, [unlimited, setUnlimitedGnanaMinting])
 
   const disabled = processing || parseInt(val) === 0 || parseInt(val) > parseInt(fullBananaBalance ?? '0')
+  const amountToApprove = bananaToken
+    ? CurrencyAmount.fromRawAmount(bananaToken, ethers.constants.MaxInt256.toString())
+    : undefined
+  const [approval, approveCallback] = useApproveCallback(amountToApprove, treasuryContract?.address)
 
   const renderActions = () => {
     if (!account) {
       return <ConnectWalletButton />
     }
-    if (parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val)) {
-      return (
-        <Button variant="primary" onClick={buyGnana} disabled={disabled} fullWidth>
-          {(processing && (
-            <>
-              {t('LOADING')}
-              <Dots />
-            </>
-          )) ||
-            t('CONVERT')}
-        </Button>
-      )
-    }
     if (parseFloat(tokenAllowance?.toExact() ?? '0') < parseFloat(val)) {
       return (
-        <Button variant="primary" onClick={handleApproveBanana} disabled={isApprovingBanana} fullWidth>
-          {t('APPROVE CONTRACT')}
-        </Button>
+        <Flex sx={{ my: '10px', width: '100%' }}>
+          <ApproveBtn approvalState={approval} approveCallback={approveCallback} hasDarkBg />
+        </Flex>
       )
     }
+    return (
+      <Button variant="primary" onClick={buyGnana} disabled={disabled || !val} fullWidth load={processing}>
+        {t('CONVERT')}
+      </Button>
+    )
   }
 
   return (
@@ -197,13 +168,11 @@ const Gnana = () => {
             otherCurrency={bananaToken}
             onUserInput={handleChange}
             fieldType={Field.OUTPUT}
-            handleMaxInput={handleSelectMax}
             onCurrencySelect={() => null}
             disabled
             ordersDisabled
             disableTokenSelect
           />
-          {/* ToTokenInput */}
           <Flex sx={{ marginTop: '20px', alignItems: 'center' }}>
             <Flex sx={gnanaStyles.checkboxContainer}>
               <CheckBox

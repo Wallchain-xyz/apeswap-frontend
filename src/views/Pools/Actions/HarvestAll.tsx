@@ -32,7 +32,6 @@ const HarvestAll: React.FC<HarvestActionsProps> = ({ sousIds, disabled }) => {
 
   return (
     <Button
-      size="sm"
       sx={poolStyles.harvestAllBtn}
       disabled={disabled || pendingTrx || sousIds.length <= 0}
       onClick={handleHarvestAll}

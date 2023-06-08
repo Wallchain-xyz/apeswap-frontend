@@ -1,5 +1,5 @@
-import styled from "@emotion/styled"
-import { Button } from "components/uikit"
+import styled from '@emotion/styled'
+import { Button } from 'components/uikit'
 
 const styles = {
   apyButton: {
@@ -21,12 +21,12 @@ const styles = {
   },
   maxButton: {
     margin: '0',
-    fontSize: '14px',
-    lineHeight: .5,
+    fontSize: '12px',
+    lineHeight: 0.5,
     zIndex: 2,
     width: '62px',
     minWidth: '62px',
-    height: '30px',
+    height: '26px',
   },
   container: {
     backgroundColor: 'white4',
@@ -37,7 +37,6 @@ const styles = {
     rowGap: '10px',
   },
   tabContainer: {
-    marginBottom: '30px',
     '&&& span': {
       fontWeight: 700,
       fontSize: '16px',
@@ -70,7 +69,7 @@ const styles = {
   },
   title: {
     fontSize: '16px',
-    margin: '25px 0px 8px 8px',
+    margin: '15px 0px 8px 8px',
   },
   buttonsContainer: {
     justifyContent: 'space-between',

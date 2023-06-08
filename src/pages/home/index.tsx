@@ -1,10 +1,10 @@
 import PageContainer from 'components/PageContainer'
 import Home from 'views/Home'
 
-const HomePage = () => {
+const HomePage = ({ randomImage }: { randomImage: number }) => {
   return (
-    <PageContainer variant='homepage'>
-      <Home />
+    <PageContainer variant="homepage">
+      <Home randomImage={randomImage} />
     </PageContainer>
   )
 }

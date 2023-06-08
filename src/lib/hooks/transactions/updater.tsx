@@ -56,7 +56,7 @@ export default function Updater({ pendingTransactions, onCheck, onReceipt }: Upd
         () =>
           provider.getTransactionReceipt(hash).then((receipt) => {
             if (receipt === null) {
-              console.debug(`Retrying tranasaction receipt for ${hash}`)
+              console.debug(`Retrying transaction receipt for ${hash}`)
               throw new RetryableError()
             }
             return receipt

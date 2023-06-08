@@ -12,7 +12,7 @@ const arbitrumConfig = [
       },
       {
         label: 'Liquidity',
-        href: `${TEMP_APESWAP_URL}/add-liquidity`,
+        href: `/add-liquidity`,
         isNew: false,
       },
       {

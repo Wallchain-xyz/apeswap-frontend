@@ -16,17 +16,17 @@ const Privacy: React.FC<PrivacyProps> = ({ isModal, t }) => {
         <Text sx={styles.privacyLink}>{t('We respect your privacy')}</Text>
       </Link>
       <TooltipBubble
-        placement={(isMobile && !isMd && 'topRight') || 'topLeft'}
+        placement={'topLeft'}
         body={
           <Text>
             ApeSwap will only use your email address for the sole purpose of marketing newsletters. Your personal
             information will not be shared with any third party.
           </Text>
         }
-        transformTip={(isMobile && !isMd && 'translate(12%, 0)') || 'translate(-6%, 0%)'}
-        width={(isMobile && !isMd && '200px') || '260px'}
+        transformTip={'translate(-6%, 0%)'}
+        width={'200px'}
       >
-        <Svg icon="question" width={isMobile ? '12px' : '14px'} />
+        <Svg icon="question" width="12px" />
       </TooltipBubble>
     </Flex>
   )

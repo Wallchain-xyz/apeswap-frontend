@@ -45,6 +45,7 @@ export const styles: Record<string, ThemeUIStyleObject> = {
     padding: '10px',
     borderRadius: '10px',
     cursor: 'pointer',
+    ml: '10px',
   },
   mobileRow: {
     width: '100%',
@@ -65,26 +66,11 @@ export const CardContainer = styled(Flex)`
   min-width: 270px;
   align-items: center;
   margin: 0 0 16px 12px;
+  border-radius: 10px;
+  overflow: hidden;
   @media screen and (max-width: 852px) {
     width: 100%;
     margin: 0 0 10px 0;
-  }
-`
-
-export const BillsImage = styled.div<{ image?: string }>`
-  width: 270px;
-  height: 150px;
-  background-image: ${({ image }) => `url(${image});`}
-  overflow: hidden;
-  border-radius: 10px 10px 0px 0px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  margin-bottom: 8px;
-  @media screen and (max-width: 852px) {
-   width: calc(100vw - 20px);
-   max-width: 480px;
-   height: calc((100vw - 20px)/1.7777);
-   max-height: 270px;
   }
 `
 
@@ -136,14 +122,6 @@ export const DescriptionContainer = styled(Flex)`
 
 export const BillDiagramContainer = styled(Flex)`
   margin-top: 10px;
-`
-
-export const LabelWrapper = styled(Flex)`
-  flex-direction: row;
-  align-items: center;
-  ${({ theme }) => theme.mediaQueries.md} {
-    flex-direction: row;
-  }
 `
 
 export const SearchText = styled(Text)`

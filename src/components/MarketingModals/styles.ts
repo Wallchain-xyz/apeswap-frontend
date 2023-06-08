@@ -121,9 +121,9 @@ export const styles: Record<
 > = {
   container: {
     flexDirection: 'column',
-    mt: ['15px', '15px', '30px'],
+    mt: ['15px', '15px', '15px', '30px'],
     gap: '5px',
-    height: ['150px', '150px', '200px'],
+    height: ['150px', '150px', '150px', '200px'],
   },
   stepNo: {
     width: '100%',
@@ -142,10 +142,10 @@ export const styles: Record<
     textTransform: 'uppercase',
   },
   head: {
-    fontSize: ['12px', '12px', '22px'],
+    fontSize: ['12px', '12px', '12px', '22px'],
     lineHeight: '14px',
     fontWeight: 700,
-    textTransform: ['uppercase', 'uppercase', 'capitalize'],
+    textTransform: ['uppercase', 'uppercase', 'uppercase', 'capitalize'],
     mb: [0, 0, '10px'],
   },
   contentContainer: {
@@ -154,22 +154,22 @@ export const styles: Record<
     flexWrap: 'wrap',
   },
   slideTitle: {
-    fontSize: ['12px', '12px', '22px'],
-    lineHeight: ['12px', '12px', '22px'],
+    fontSize: ['12px', '12px', '12px', '22px'],
+    lineHeight: ['12px', '12px', '12px', '22px'],
     fontWeight: 700,
-    textTransform: ['uppercase', 'uppercase', 'capitalize'],
-    mb: [0, 0, '10px'],
+    textTransform: ['uppercase', 'uppercase', 'uppercase', 'capitalize'],
+    mb: [0, 0, 0, '10px'],
   },
   content: {
-    fontSize: ['12px', '12px', '14px'],
-    fontWeight: [400, 400, 500],
-    lineHeight: ['16px', '16px', '21px'],
+    fontSize: ['12px', '12px', '12px', '14px'],
+    fontWeight: [400, 400, 400, 500],
+    lineHeight: ['16px', '16px', '16px', '21px'],
   },
   yellow: {
     color: 'yellow',
     textDecoration: 'underline',
     cursor: 'pointer',
-    lineHeight: ['24px', '24px', '21px'],
+    lineHeight: ['24px', '24px', '24px', '21px'],
   },
   tipTitle: {
     fontWeight: 700,

@@ -41,7 +41,7 @@ export const styles: Record<
   zapActionsContainer: {
     position: 'relative',
     width: '100%',
-    marginTop: '20px',
+    marginTop: '15px',
   },
   panelTopContainer: {
     width: '100%',

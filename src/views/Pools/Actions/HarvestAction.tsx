@@ -13,6 +13,8 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListViewContent from 'components/ListView/ListViewContent'
 import { Button, Flex } from 'components/uikit'
 import { poolStyles } from '../components/styles'
+import { debounce } from 'lodash'
+import useDebounce from '../../../hooks/useDebounce'
 
 interface HarvestActionsProps {
   sousId: number
@@ -33,6 +35,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   const [pendingApeHarderTrx, setPendingApeHarderTrx] = useState(false)
+  const debouncedPendingApeHarder = useDebounce(pendingApeHarderTrx, 500)
   const { onHarvest } = useSousHarvest(sousId)
   const { onStake } = useSousStake(sousId, earnTokenValueUsd)
   const bananaToken = useCurrency(BANANA_ADDRESSES[chainId as SupportedChainId])
@@ -82,10 +85,10 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
   }
 
   return (
-    <Flex sx={{ ...poolStyles.actionContainer, minWidth: isBananaBanana && ['', '', '380px'] }}>
+    <Flex sx={{ ...poolStyles.actionContainer, minWidth: isBananaBanana && ['', '', '', '380px'] }}>
       <ListViewContent
         title={t('Earned')}
-        value={userEarnings?.toFixed(4)}
+        value={userEarnings?.toFixed(3)}
         valueIcon={
           <Flex sx={{ height: '16px', alignItems: 'center', mr: '3px' }}>
             <ServiceTokenDisplay token1={earnTokenSymbol} size={13} />
@@ -105,13 +108,22 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
         {t('HARVEST')}
       </Button>
       {isBananaBanana && (
-        <Flex sx={{ width: ['100%', '100%', 'unset'], margin: ['15px 0 0 0', '15px 0 0 0', '0 10px'] }}>
+        <Flex
+          sx={{
+            width: ['100%', '100%', '100%', 'unset'],
+            margin: ['15px 0 0 0', '15px 0 0 0', '15px 0 0 0', '0 10px'],
+          }}
+        >
           <Button
             size="md"
             disabled={disabled || pendingApeHarderTrx}
             onClick={handleApeHarder}
-            load={pendingApeHarderTrx}
-            sx={poolStyles.apeHarder}
+            load={debouncedPendingApeHarder}
+            sx={{
+              ...poolStyles.apeHarder,
+              padding: pendingApeHarderTrx ? '10px 0px' : '10px',
+              minWidth: pendingApeHarderTrx ? '145px' : ['130px', '130px', '130px', '125px'],
+            }}
           >
             {t('APE HARDER')}
           </Button>

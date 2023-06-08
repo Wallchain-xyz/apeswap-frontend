@@ -30,4 +30,5 @@ export interface AlertProps {
   size?: sizeProps
   onClose?: () => void
   sx?: any
+  errorText?: string
 }

@@ -54,7 +54,6 @@ const CardView: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender 
           billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
           billIds={[billToRender.id]}
           pendingRewards={billToRender?.pendingRewards}
-          margin={'0 20px 20px 20px'}
         />
       </CardContainer>
     )

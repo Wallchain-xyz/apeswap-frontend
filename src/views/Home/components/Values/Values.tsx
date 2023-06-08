@@ -7,9 +7,9 @@ import useSwiper from 'hooks/useSwiper'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import { useTranslation } from 'contexts/Localization'
 import { getDotPos } from 'utils/getDotPos'
-import { Bubble, ValueCard, ValueImage, ValuesWrapper, ValueText } from './styles'
+import { ValueCard, ValueImage, ValuesWrapper, ValueText } from './styles'
 import { defaultValues } from './defaultValues'
-import { Flex, Link, Skeleton, Text } from 'components/uikit'
+import { Flex, Link, Skeleton, SwiperDots, Text } from 'components/uikit'
 import Image from 'next/image'
 import useIsMobile from 'hooks/useIsMobile'
 
@@ -45,7 +45,7 @@ const Values: React.FC = () => {
     <>
       <div ref={observerRef} />
       <ValuesWrapper>
-        <ValueText bold> {t('Our Values')} </ValueText>
+        <ValueText> {t('Our Values')} </ValueText>
         <Flex style={{ width: '100%', justifyContent: 'center' }}>
           {swiperFlag ? (
             <Swiper
@@ -63,9 +63,9 @@ const Values: React.FC = () => {
               centeredSlides
               onSlideChange={handleSlide}
             >
-              {defaultValues(t).map((value) => {
+              {defaultValues(t).map((value, i) => {
                 return (
-                  <SwiperSlide style={{ maxWidth: '338px', minWidth: '338px' }} key={value.title}>
+                  <SwiperSlide style={{ maxWidth: '338px', minWidth: '338px' }} key={`${value.title}-${i}`}>
                     <ValueCard key={value.title}>
                       {loadValues ? (
                         <Image src={value.logoImg} alt="" width={300} height={300} />
@@ -75,16 +75,16 @@ const Values: React.FC = () => {
                       <Link target="_blank" href={value.link || ''} style={{ fontSize: '25px' }}>
                         {value.title}
                       </Link>
-                      <Text textAlign="center">{value.description}</Text>
+                      <Text sx={{ textAlign: 'center' }}>{value.description}</Text>
                     </ValueCard>
                   </SwiperSlide>
                 )
               })}
             </Swiper>
           ) : (
-            defaultValues(t).map((value) => {
+            defaultValues(t).map((value, i) => {
               return (
-                <ValueCard key={value.title}>
+                <ValueCard key={`${value.title}-${i}`}>
                   {loadValues ? (
                     <ValueImage image={value.logoImg} />
                   ) : (
@@ -93,7 +93,7 @@ const Values: React.FC = () => {
                   <Link target="_blank" href={value.link || ''} style={{ fontSize: '25px' }}>
                     {value.title}
                   </Link>
-                  <Text textAlign="center">{value.description}</Text>
+                  <Text sx={{ textAlign: 'center', minHeight: '120px' }}>{value.description}</Text>
                 </ValueCard>
               )
             })
@@ -110,7 +110,11 @@ const Values: React.FC = () => {
           }}
         >
           {[...Array(defaultValues(t).length)].map((_, i) => {
-            return <Bubble isActive={i === activeSlide} onClick={() => slideVal(i)} key={i} />
+            return (
+              <Flex sx={{ display: ['flex', 'flex', 'flex', 'none'] }} key={`bubbles${i}`}>
+                <SwiperDots isActive={i === activeSlide} onClick={() => slideVal(i)} />
+              </Flex>
+            )
           })}
         </Flex>
       </ValuesWrapper>

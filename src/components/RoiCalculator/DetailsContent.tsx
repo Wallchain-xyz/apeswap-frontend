@@ -91,7 +91,7 @@ const DetailsContent: React.FC<DetailsContentProps> = ({
   return (
     <>
       <Flex
-        sx={{ justifyContent: 'center', alignItems: 'center', columnGap: '10px', marginBottom: '15px' }}
+        sx={{ justifyContent: 'center', alignItems: 'center', columnGap: '10px' }}
         onClick={() => setExpanded((prev) => !prev)}
       >
         <Text

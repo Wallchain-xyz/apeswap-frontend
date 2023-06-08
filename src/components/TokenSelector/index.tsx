@@ -42,7 +42,7 @@ const TokenSelector = ({
       selectedCurrency={currency}
       otherSelectedCurrency={otherCurrency}
       // showCommonBases={showCommonBases}
-      // isZapInput={isZapInput}
+      isZapInput={isZapInput}
     />,
   )
 

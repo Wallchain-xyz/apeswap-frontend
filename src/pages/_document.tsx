@@ -18,14 +18,11 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet" />
-          <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
           <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta
             name="description"
             content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone."
           />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta name="twitter:image" content="https://apeswap.finance/twitter.png" />
           <meta

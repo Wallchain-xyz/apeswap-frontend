@@ -129,7 +129,7 @@ export function useUserZapSlippageTolerance(): [Percent, (slippageTolerance: Per
       }
       dispatch(
         updateUserZapSlippageTolerance({
-          userSlippageTolerance: value,
+          userZapSlippage: value,
         }),
       )
     },

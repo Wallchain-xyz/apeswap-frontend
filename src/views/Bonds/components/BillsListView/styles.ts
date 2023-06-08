@@ -41,6 +41,7 @@ export const styles: Record<string, ThemeUIStyleObject> = {
     padding: '10px',
     borderRadius: '10px',
     cursor: 'pointer',
+    ml: '10px',
   },
   mobileRow: {
     width: '100%',

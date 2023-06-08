@@ -82,10 +82,10 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
             width: '93%',
           }}
         >
-          {stats?.map((stat) => {
+          {stats?.map((stat, i) => {
             const { name, tokenImage } = handleEachService(id, stat)
             return (
-              <a href={stat?.link} rel="noopener noreferrer" key={stat?.apr} sx={{ textDecoration: 'none' }}>
+              <a href={stat?.link} rel="noopener noreferrer" key={`${stat?.apr}-${i}`} sx={{ textDecoration: 'none' }}>
                 <Flex
                   sx={{
                     width: ['100%', '100%', '95%'],
@@ -144,7 +144,7 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
             )
           })}
         </Flex>
-        <a href={link} rel="noopener noreferrer">
+        <a href={link} rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
           <Flex sx={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             <Text sx={{ color: 'primaryBright', fontSize: '16px', fontWeight: 700 }}>
               {t('See All')} {'>'}
@@ -206,14 +206,14 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                   },
                 }}
               >
-                {displayData?.map((service) => {
+                {displayData?.map((service, i) => {
                   return (
                     <SwiperSlide
                       style={{
                         maxWidth: '338px',
                         minWidth: '300px',
                       }}
-                      key={service.title}
+                      key={`${service.title}-${i}`}
                     >
                       <YieldCard image={service.backgroundImg}>
                         <Flex
@@ -252,9 +252,9 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                 })}
               </Swiper>
             ) : (
-              displayData?.map((service) => {
+              displayData?.map((service, i) => {
                 return (
-                  <YieldCard image={service.backgroundImg} key={service.id}>
+                  <YieldCard image={service.backgroundImg} key={`${service.id}-${i}`}>
                     <Flex
                       sx={{
                         flexDirection: 'column',
@@ -290,9 +290,9 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
               })
             )
           ) : (
-            [...Array(4)].map((i) => {
+            [...Array(4)].map((i, index) => {
               return (
-                <Flex key={i}>
+                <Flex key={`${i}-${index}`}>
                   <Skeleton height="100%" width="100%" />
                 </Flex>
               )

@@ -4,14 +4,14 @@ import style from './styles'
 import { IconButton } from '../Button'
 import { InternalProps } from './types'
 
-const ModalHeader: React.FC<InternalProps> = ({ children, onDismiss, ...props }) => {
+const ModalHeader: React.FC<InternalProps> = ({ children, onDismiss, hideDivider, ...props }) => {
   return (
     <>
       <Flex {...props} sx={style.modalHead}>
         {children}
         <IconButton icon="close" color="text" variant="transparent" onClick={onDismiss} />
       </Flex>
-      <Divider />
+      {!hideDivider && <Divider />}
     </>
   )
 }

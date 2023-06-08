@@ -10,6 +10,8 @@ import { Farm } from 'state/farms/types'
 import JungleFarmsEndsIn from './JungleFarmsEndsIn'
 import { Pool } from 'state/pools/types'
 import PoolsEndsIn from './PoolsEndsIn'
+import { Svg } from '../uikit'
+import { Box } from 'theme-ui'
 
 export interface TooltipProps {
   valueTitle?: string
@@ -67,14 +69,20 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
       <Flex sx={{ justifyContent: 'center' }}>
         <Flex sx={{ width: '144px', flexDirection: 'column' }}>
           <Flex sx={styles.linkRow}>
-            <Link href={tokenLink} sx={{ fontSize: '12px', lineHeight: '14px' }} target="_blank">
+            <Link href={tokenLink} sx={styles.link} target="_blank">
               {t('View Token Contract')}
+              <Flex sx={{ ml: '5px' }}>
+                <Svg icon="external" color="text" width={10} />
+              </Flex>
             </Link>
           </Flex>
           {secondURL && (
             <Flex sx={styles.linkRow}>
-              <Link href={secondURL} sx={{ fontSize: '12px', lineHeight: '14px' }} target="_blank">
+              <Link href={secondURL} sx={styles.link} target="_blank">
                 {secondURLTitle}
+                <Flex sx={{ ml: '5px' }}>
+                  <Svg icon="external" color="text" width={10} />
+                </Flex>
               </Link>
             </Flex>
           )}

@@ -1,11 +1,12 @@
-import { Text, useColorMode, useThemeUI } from 'theme-ui'
+import { Text, useColorMode } from 'theme-ui'
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { styles, FlexImage, LearnMoreArrow, FlexSkeleton } from './styles'
+import { styles, FlexImage, FlexSkeleton } from './styles'
 import { BannerTypes, ColorProps } from './types'
 import { Button, Flex } from 'components/uikit'
 import { useRouter } from 'next/router'
 import useProgressiveImage from 'hooks/useProgressiveImage'
+import { Svg } from '../uikit'
 
 const Banner: React.FC<{
   banner: BannerTypes
@@ -65,7 +66,10 @@ const Banner: React.FC<{
             },
           }}
         >
-          {link.includes('?modal') ? t('Tutorial') : t('Learn More')} <LearnMoreArrow color={titleColor || 'text'} size="20px" />
+          {link.includes('?modal') ? t('Tutorial') : t('Learn More')}{' '}
+          <Flex sx={{ ml: '5px' }}>
+            <Svg icon="caret" direction="right" color={titleColor || 'text'} width="10px" />
+          </Flex>
         </Button>
       </Flex>
       {children}

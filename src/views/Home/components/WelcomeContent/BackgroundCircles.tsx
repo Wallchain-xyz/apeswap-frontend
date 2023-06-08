@@ -24,10 +24,10 @@ const BackgroundCircles = () => {
           sx={{
             position: 'absolute',
             borderRadius: '50%',
-            width: ['600px', '900px', '1200px'],
-            height: ['600px', '900px', '1200px'],
-            top: ['100px', '-100px', '-200px'],
-            left: ['-100px', '300px', '500px'],
+            width: ['600px', '600px', '900px', '1200px'],
+            height: ['600px', '600px', '900px', '1200px'],
+            top: ['100px', '100px', '-100px', '-200px'],
+            left: ['-100px', '-100px', '300px', '500px'],
             background: 'home.c3',
             boxShadow: 'none',
           }}
@@ -37,11 +37,11 @@ const BackgroundCircles = () => {
           sx={{
             position: 'absolute',
             borderRadius: '50%',
-            width: ['450px', '675px', '900px'],
-            height: ['450px', '675px', '900px'],
-            top: ['175px', '12.5px', '-50px'],
+            width: ['450px', '450px', '675px', '900px'],
+            height: ['450px', '450px', '675px', '900px'],
+            top: ['175px', '175px', '12.5px', '-50px'],
             background: 'home.c2',
-            left: ['-25px', '425px', '650px'],
+            left: ['-25px', '-25px', '425px', '650px'],
             boxShadow: '0px 0px 200px',
             color: 'home.cShadow',
           }}
@@ -51,10 +51,10 @@ const BackgroundCircles = () => {
           sx={{
             position: 'absolute',
             borderRadius: '50%',
-            width: ['300px', '450px', '600px'],
-            height: ['300px', '450px', '600px'],
-            left: ['50px', '550px', '800px'],
-            top: ['250px', '125px', '100px'],
+            width: ['300px', '300px', '450px', '600px'],
+            height: ['300px', '300px', '450px', '600px'],
+            left: ['50px', '50px', '550px', '800px'],
+            top: ['250px', '250px', '125px', '100px'],
             background: 'home.c1',
             boxShadow: '0px 0px 200px',
             color: 'home.cShadow',
@@ -63,7 +63,7 @@ const BackgroundCircles = () => {
         <Flex
           sx={{
             position: 'absolute',
-            bottom: ['-201px', '-30px', '-201px'],
+            bottom: '-201px',
             width: '100%',
             height: '200px',
             boxShadow: '-40px 0px 50px 80px',

@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
 import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
 import { RPC_PROVIDERS } from 'config/constants/providers'
@@ -34,7 +34,7 @@ const API_QUERY_PARAMS = {
   protocols: 'v2,v3,mixed',
 }
 const CLIENT_PARAMS = {
-  protocols: [Protocol.MIXED],
+  protocols: [Protocol.V2, Protocol.V3, Protocol.MIXED],
 }
 // Price queries are tuned down to minimize the required RPCs to respond to them.
 // TODO(zzmp): This will be used after testing router caching.
@@ -65,7 +65,7 @@ const PRICE_PARAMS = {
 export const routingApi = createApi({
   reducerPath: 'routingApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.uniswap.org/v1/',
+    baseUrl: 'https://nrxga6j96f.execute-api.us-east-1.amazonaws.com/prod/',
   }),
   endpoints: (build) => ({
     getQuote: build.query<
@@ -98,7 +98,6 @@ export const routingApi = createApi({
         } = args
 
         let result
-
         try {
           if (routerPreference === RouterPreference.API) {
             const query = qs.stringify({
@@ -123,11 +122,11 @@ export const routingApi = createApi({
             )
           }
           return { data: result.data as GetQuoteResult }
-        } catch (e) {
-          //console.log(e)
+        } catch (e: any) {
+          console.error(e)
           // TODO: fall back to client-side quoter when auto router fails.
           // deprecate 'legacy' v2/v3 routers first.
-          return { error: e as FetchBaseQueryError }
+          return { error: e.message, meta: e.stack }
         }
       },
       keepUnusedDataFor: 100000,

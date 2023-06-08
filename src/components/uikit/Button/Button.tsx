@@ -10,6 +10,7 @@ const Button = ({
   startIcon,
   endIcon,
   fullWidth,
+  disabled,
   ...props
 }: ButtonProps) => {
   let hoverStyle = {
@@ -68,8 +69,8 @@ const Button = ({
 
   return (
     <ThemeUIButton
-      {...props}
       variant={variant}
+      disabled={disabled}
       sx={{
         variant: `buttons.${variant}`,
         textTransform: 'uppercase',
@@ -86,9 +87,10 @@ const Button = ({
         ...hoverStyle,
         width: fullWidth ? '100%' : 'max-content',
       }}
+      {...props}
     >
       {React.isValidElement(startIcon) && React.cloneElement(startIcon)}
-      {children} {load && <Spinner size={17} ml="5px" mt="4px" />}
+      {children} {load && <Spinner size={16} ml="5px" />}
       {React.isValidElement(endIcon) && React.cloneElement(endIcon)}
     </ThemeUIButton>
   )

@@ -144,7 +144,7 @@ const Actions: React.FC<CardActionProps> = ({
               mr="10px"
               size="sm"
             >
-              {!pendingWithdrawTrx && <Text> - </Text>}
+              {!pendingWithdrawTrx && <>-</>}
             </Button>
             <Button
               onClick={onPresentDeposit}
@@ -153,7 +153,7 @@ const Actions: React.FC<CardActionProps> = ({
               sx={poolStyles.smallBtn}
               size="sm"
             >
-              {!pendingDepositTrx && <Text> + </Text>}
+              {!pendingDepositTrx && <>+</>}
             </Button>
           </Flex>
         )}

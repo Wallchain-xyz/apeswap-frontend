@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { styles } from './styles'
 import { Box } from 'theme-ui'
 import CountUp from 'react-countup'
@@ -12,16 +12,11 @@ import { useRouter } from 'next/router'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import Image from 'next/image'
 
-const DefiRedefined = () => {
+const DefiRedefined = ({ randomImage }: { randomImage: number }) => {
   const rawStats = useHomepageStats()
   const { t } = useTranslation()
   const switchNetwork = useSelectChain()
   const { push } = useRouter()
-
-  const randomImage = useMemo(() => {
-    // this function returns a random number between 1 and 10, which is the amount of bill images
-    return Math.floor(Math.random() * (10 + 1))
-  }, [])
 
   const handleNetworkSwitch = (chainId: SupportedChainId) => {
     push('/bonds')
@@ -80,7 +75,7 @@ const DefiRedefined = () => {
           </Link>
         </Flex>
       </Flex>
-      <Flex sx={{ width: ['0', '0', '100%'], justifyContent: 'center' }}>
+      <Flex sx={{ width: ['0', '0', '0', '100%'], justifyContent: 'center' }}>
         <Flex sx={{ ...styles.imageWrapper, background: 'lvl1' }} onClick={() => push(`/bonds`)}>
           <Image
             src={`/images/homepage/treasury-bills-${randomImage}.jpg`}

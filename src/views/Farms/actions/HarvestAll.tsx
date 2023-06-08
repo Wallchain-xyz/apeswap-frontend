@@ -20,7 +20,6 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({ pids, disabled, farmType
 
   return (
     <Button
-      className="noClick"
       disabled={disabled || pendingTrx}
       onClick={async () => {
         setPendingTrx(true)
@@ -33,9 +32,9 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({ pids, disabled, farmType
         setPendingTrx(false)
       }}
       load={pendingTrx}
-      sx={{ ...styles.harvestAllBtn }}
+      sx={styles.harvestAllBtn}
     >
-      <Text sx={{ lineHeight: '15px' }} color="primaryBright">
+      <Text sx={{ lineHeight: '15px', color: disabled ? 'textDisabled' : 'primaryBright' }}>
         {t('HARVEST ALL')} ({pids.length})
       </Text>
     </Button>
