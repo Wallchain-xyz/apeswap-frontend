@@ -2,13 +2,13 @@ import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 
 export type PopupContent = {
-  txHash: string
+  txHash?: string
   text: string
-  url: string
+  url?: string
   urlLabel: string
+  errorText?: string
   type: 'success' | 'error'
 }
-
 
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
 
@@ -65,12 +65,6 @@ const applicationSlice = createSlice({
   },
 })
 
-export const {
-  updateChainId,
-  setFiatOnrampAvailability,
-  setBananaPrice,
-  addPopup,
-  updateProfileImage,
-  removePopup,
-} = applicationSlice.actions
+export const { updateChainId, setFiatOnrampAvailability, setBananaPrice, addPopup, updateProfileImage, removePopup } =
+  applicationSlice.actions
 export default applicationSlice.reducer

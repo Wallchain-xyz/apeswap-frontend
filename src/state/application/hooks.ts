@@ -101,3 +101,19 @@ export function useBananaPrice(): AppState['application']['bananaPrice'] {
   const bananaPrice = useAppSelector((state: AppState) => state.application.bananaPrice)
   return bananaPrice
 }
+
+export function useToastError(): (content: PopupContent, key?: string, removeAfterMs?: number) => void {
+  const dispatch = useAppDispatch()
+
+  return useCallback(
+    (error: any) => {
+      const content = {
+        type: 'error',
+        text: 'Transaction Failed',
+        errorText: error?.reason,
+      }
+      dispatch(addPopup({ content }))
+    },
+    [dispatch],
+  )
+}

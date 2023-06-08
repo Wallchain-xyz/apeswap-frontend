@@ -9,13 +9,12 @@ import PrioritizedWallets from './components/PrioritizedWallets'
 const modalProps = {
   sx: {
     maxHeight: 'calc(100% - 30px)',
-    height: ['395px', '395px', '470px'],
-    width: ['280px', '280px', '620px'],
-    maxWidth: ['280px', '280px', '620px'],
-    minWidth: ['unset', 'unset', '620px'],
+    height: ['395px', '395px', '395px', '470px'],
+    width: ['280px', '280px', '280px', '620px'],
+    maxWidth: ['280px', '280px', '280px', '620px'],
+    minWidth: ['unset', 'unset', 'unset', '620px'],
     overflow: 'hidden',
-    padding: ['20px', '20px', '30px'],
-    '& hr': { display: 'none' },
+    padding: ['20px', '20px', '20px', '30px'],
   },
 }
 
@@ -45,7 +44,7 @@ const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
   const { t } = useTranslation()
   return (
     <Modal {...modalProps}>
-      <ModalHeader {...{ sx: { height: '24px' } }}>
+      <ModalHeader {...{ sx: { height: '24px' } }} hideDivider>
         {open && (
           <Flex sx={{ width: '100%' }}>
             <Flex onClick={() => setOpen(false)} sx={{ '&:hover': { cursor: 'pointer' } }}>
@@ -58,7 +57,7 @@ const ConnectWalletModal = ({ onDismiss }: { onDismiss: () => void }) => {
           </Flex>
         )}
       </ModalHeader>
-      <Flex sx={{ height: '400px', flexDirection: 'column', overflow: 'scroll' }}>
+      <Flex sx={{ height: '400px', flexDirection: 'column' }}>
         <AnimatePresence initial={false}>
           <motion.div
             key={open ? 'wallets' : 'connect'}

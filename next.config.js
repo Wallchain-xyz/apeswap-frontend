@@ -15,6 +15,8 @@ const nextConfig = {
       'tokens.pancakeswap.finance',
       'ipfs.io',
       'res.cloudinary.com',
+      'apeswap.mypinata.cloud',
+      'assets-cdn.trustwallet.com',
     ],
   },
   async redirects() {

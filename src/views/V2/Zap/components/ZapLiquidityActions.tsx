@@ -95,7 +95,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     )
   }
 
-  return <Flex sx={{ ...styles.zapActionsContainer }}>{renderAction()}</Flex>
+  return <Flex sx={styles.zapActionsContainer}>{renderAction()}</Flex>
 }
 
 export default React.memo(ZapLiquidityActions)

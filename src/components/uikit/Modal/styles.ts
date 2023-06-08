@@ -2,7 +2,7 @@ import { ThemeUIStyleObject } from 'theme-ui'
 
 const styles: Record<string, ThemeUIStyleObject> = {
   container: {
-    padding: '20px 20px',
+    padding: '20px',
     background: 'navbar',
     borderRadius: 'normal',
     color: 'text',
@@ -14,6 +14,11 @@ const styles: Record<string, ThemeUIStyleObject> = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    width: '380px',
+    minWidth: ['95%', 'min(360px, 90%)', '320px'],
+    overflowY: 'auto',
+    maxHeight: 'calc(100% - 30px)',
+    maxWidth: '95vw',
   },
   backdrop: {
     position: 'fixed',

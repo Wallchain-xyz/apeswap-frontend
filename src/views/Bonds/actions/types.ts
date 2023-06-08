@@ -7,8 +7,7 @@ export interface ClaimProps {
   billAddress: string
   pendingRewards: string
   billIds: string[]
-  buttonSize?: string
-  margin: string
+  mt?: string[]
 }
 
 export interface TransferProps {
@@ -22,13 +21,6 @@ export interface BuyProps {
   bill: Bills
   onBillId: (billId: string, transactionHash: string) => void
   onTransactionSubmited: (trxSent: boolean) => void
-  onAddLiquidityModal: (
-    token: any,
-    quoteToken: any,
-    poolAddress?: string | undefined,
-    pid?: string | undefined,
-    zapable?: boolean | undefined,
-  ) => void
 }
 
 export interface BillActionsProps {

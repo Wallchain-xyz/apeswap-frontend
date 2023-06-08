@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box } from 'theme-ui'
 import { CountProps, TModalProps } from './types'
-import { styles, modalProps, dynamicStyles } from './styles'
+import { styles, dynamicStyles } from './styles'
 import useMatchBreakpoints from '../../../hooks/useMatchBreakpoints'
 import { Button, Flex, Modal, Text } from 'components/uikit'
 
@@ -15,20 +15,10 @@ const Circle: React.FC<CountProps> = ({ index, goToStep, isActive }) => {
     />
   )
 }
-const TutorialModal: React.FC<TModalProps> = ({
-  type,
-  title,
-  description,
-  children,
-  onDismiss,
-  t,
-  isConnected,
-  width = '280px',
-}) => {
+const TutorialModal: React.FC<TModalProps> = ({ type, title, description, children, onDismiss, t, isConnected }) => {
   const [step, setStep] = useState<number>(0)
   const slideNumber = isConnected ? step + 1 : step
-  const { isXxl, isLg, isXl } = useMatchBreakpoints()
-  const isMobile = !isXxl && !isXl && !isLg
+  const { isMobile } = useMatchBreakpoints()
 
   const handleNext = () => {
     setStep(step + 1)
@@ -37,7 +27,9 @@ const TutorialModal: React.FC<TModalProps> = ({
   const renderChildren = () => {
     return children?.map((element, i) => (
       <Flex key={i}>
-        {step === i && <Flex sx={{ width: '100%', flexWrap: 'wrap', mt: ['15px', '15px', '30px'] }}>{element}</Flex>}
+        {step === i && (
+          <Flex sx={{ width: '100%', flexWrap: 'wrap', mt: ['15px', '15px', '15px', '30px'] }}>{element}</Flex>
+        )}
       </Flex>
     ))
   }
@@ -52,9 +44,12 @@ const TutorialModal: React.FC<TModalProps> = ({
     <Modal
       zIndex={101}
       onDismiss={onDismiss}
-      minWidth={isMobile ? width : '873px'}
-      maxWidth={isMobile ? width : '873px'}
-      {...modalProps}
+      sx={{
+        width: ['280px', '280px', '280px', '873px'],
+        minWidth: ['280px', '280px', '280px', '873px'],
+        height: ['', '', '', '500px'],
+        overflow: 'visible',
+      }}
     >
       <Flex className="tutorial-modal" sx={styles.modalCon}>
         <Flex width={22} onClick={onDismiss} sx={{ cursor: 'pointer', position: 'absolute', right: '20px' }}>

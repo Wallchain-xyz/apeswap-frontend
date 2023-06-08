@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useSingleCallResult } from 'lib/hooks/multicall'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { usePriceGetter } from './useContract'
+import store from '../state'
 
 const useTokenPriceUsd = (token: Currency | undefined | null, lpFlag?: boolean): [number, boolean] => {
   const priceGetterContract = usePriceGetter()
@@ -14,6 +15,9 @@ const useTokenPriceUsd = (token: Currency | undefined | null, lpFlag?: boolean):
     lpFlag ? 'getLPPrice' : isNative ? 'getETHPrice' : 'getPrice',
     lpFlag ? [address, 18] : isNative ? [0] : [address, 0],
   )
+  if (token?.symbol === 'GNANA') {
+    return [parseFloat(store?.getState()?.application?.bananaPrice ?? '0') * 1.3889, false]
+  }
   const bigNumberResponse = new BigNumber(result?.toString() || 0)
   const value = getBalanceNumber(bigNumberResponse, 18)
   return [value, loading]

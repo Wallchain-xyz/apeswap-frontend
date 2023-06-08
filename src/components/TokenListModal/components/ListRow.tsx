@@ -36,9 +36,9 @@ const ListRow = ({
   const addToMetaMask = () => {
     registerToken(
       currency?.wrapped?.address,
-      currency?.wrapped.symbol,
+      currency?.wrapped?.symbol,
       currency?.decimals,
-      currency instanceof WrappedTokenInfo ? currency?.tokenInfo.logoURI : '',
+      currency instanceof WrappedTokenInfo ? currency?.tokenInfo?.logoURI : '',
     ).then(() => '')
   }
 
@@ -58,7 +58,7 @@ const ListRow = ({
       onClick={() => (searchTokenIsAdded ? onSelect() : (onDismiss(), onImportWarningModal()))}
     >
       <Flex sx={{ alignItems: 'center' }}>
-        <CurrencyLogo currency={currency} size={35} />
+        <CurrencyLogo currency={currency} size={30} />
         <Flex sx={{ flexDirection: 'column', ml: '15px' }}>
           <Flex sx={{ alignItems: 'center' }}>
             <Text weight={600}>{currency.symbol}</Text>

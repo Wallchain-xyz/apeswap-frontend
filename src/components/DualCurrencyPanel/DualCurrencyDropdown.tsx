@@ -119,7 +119,6 @@ const DualCurrencyDropdown: React.FC<{
     [currenciesList, handleCurrencyDynamic],
   )
 
-
   return (
     <Flex sx={{ minWidth: 'max-content' }}>
       {inputCurrencies[0] ? (
@@ -133,6 +132,7 @@ const DualCurrencyDropdown: React.FC<{
               {currenciesList.slice(0, 4).map((item: any, index: number) => {
                 return Item([item.currencyA, item.currencyB], index)
               })}
+
               <DropdownItem size="sm" sx={{ textAlign: 'center' }} onClick={onPresentCurrencyModal}>
                 <Text sx={{ '&:hover': { textDecoration: 'underline' } }}>{t('See all')} &gt;</Text>
               </DropdownItem>

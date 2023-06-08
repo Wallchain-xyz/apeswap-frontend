@@ -18,7 +18,7 @@ import { Pool } from 'state/pools/types'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
 import { Flex } from 'components/uikit'
-import ListViewMenu from 'components/ListView/ListViewMenu/ListViewMenu'
+import ListViewMenu from 'components/ListView/ListViewMenu'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useFetchLiveTagsAndOrdering } from 'state/stats/hooks'
@@ -165,7 +165,7 @@ const Pools: React.FC = () => {
 
   return (
     <Flex sx={styles.poolContainer}>
-      <Banner banner="pools" link="?modal=tutorial" title={t('Staking Pools')} listViewBreak maxWidth={1130} />
+      <Banner banner="pools" link="?modal=tutorial" title={t('Pools')} listViewBreak maxWidth={1130} />
       <Flex sx={styles.poolContent}>
         <Flex sx={{ my: '20px' }}>
           <ListViewMenu

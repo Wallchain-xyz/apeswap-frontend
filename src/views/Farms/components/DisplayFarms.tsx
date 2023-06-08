@@ -226,7 +226,7 @@ const DisplayFarms = ({
               <Flex
                 sx={{
                   width: '100%',
-                  maxWidth: ['130px', '130px', '140px'],
+                  maxWidth: ['130px', '130px', '130px', '140px'],
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
@@ -239,7 +239,7 @@ const DisplayFarms = ({
                       farm,
                     )
                   }
-                  sx={styles.styledBtn}
+                  sx={{ ...styles.styledBtn, alignItems: 'flex-start' }}
                 >
                   <Text sx={{ lineHeight: '18px', mr: '5px' }} color="primaryBright">
                     {t('GET LP')}
@@ -275,6 +275,7 @@ const DisplayFarms = ({
               userEarningsUsd={userEarningsUsd}
               farmType={farm.farmType}
               contractAddress={farm?.contractAddress}
+              earnTokenSymbol={farm?.rewardToken?.symbol}
             />
           </Flex>
         ),

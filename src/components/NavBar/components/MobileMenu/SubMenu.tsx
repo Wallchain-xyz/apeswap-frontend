@@ -9,24 +9,28 @@ const SubMenu = ({
   label,
   menuItems,
   href,
+  closeNavBar,
 }: {
   label: string
   menuItems: MenuItem[] | undefined
   href: string | undefined
+  closeNavBar: () => void
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation()
   return (
-    <>
-      <Flex
+    <Flex sx={{ width: '100%', flexDirection: 'column' }}>
+      <Link
         sx={styles.mobileSubMenuContainer}
-        onClick={() => menuItems && setOpened((prev) => !prev)}
-        as={href ? Link : 'p'}
-        href={href}
+        onClick={() => {
+          menuItems && setOpened((prev) => !prev)
+          !menuItems && closeNavBar()
+        }}
+        href={href ?? ''}
       >
         <Text weight={600}>{t(label)}</Text>
         {menuItems && <Svg icon="caret" width="8px" direction={opened ? 'up' : 'down'} />}
-      </Flex>
+      </Link>
       <AnimatePresence>
         {opened && (
           <motion.div
@@ -37,16 +41,46 @@ const SubMenu = ({
             sx={{ overflow: 'hidden' }}
           >
             {menuItems?.map(({ label, href }) => {
+              if (label === 'GNANA') {
+                return (
+                  <Link
+                    sx={{
+                      ...styles.mobileSubItemContainer,
+                    }}
+                    key={label}
+                    href={href}
+                    onClick={closeNavBar}
+                  >
+                    <Text
+                      sx={{
+                        background: 'gradient',
+                        backgroundClip: 'text',
+                        textFillColor: 'transparent',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {label}
+                    </Text>
+                  </Link>
+                )
+              }
               return (
-                <Flex sx={styles.mobileSubItemContainer} key={label} as={Link} href={href}>
-                  <Text>{label}</Text>
-                </Flex>
+                <Link
+                  sx={{
+                    ...styles.mobileSubItemContainer,
+                  }}
+                  key={label}
+                  href={href}
+                  onClick={closeNavBar}
+                >
+                  {label}
+                </Link>
               )
             })}
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </Flex>
   )
 }
 

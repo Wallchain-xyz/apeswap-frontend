@@ -129,9 +129,19 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
   const { t } = useTranslation()
   return (
     <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
-      <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px 0px' }}>
+      <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pt: '20px' }}>
         <Svg icon="error" color="error" />
-        <Text color="error" sx={{ textAlign: 'center', width: '85%', marginTop: '10px' }}>
+        <Text
+          color="error"
+          sx={{
+            textAlign: 'center',
+            width: '100%',
+            marginTop: '10px',
+            fontSize: '12px',
+            fontWeight: 500,
+            overflow: 'hidden',
+          }}
+        >
           {message}
         </Text>
         <Flex justifyContent="center" mt="20px">
@@ -176,7 +186,7 @@ const TransactionConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return (
     <Flex sx={{ width: '420px', zIndex: 112 }}>
-      <Modal title={title} onDismiss={handleDismiss} maxWidth="100%">
+      <Modal title={title} onDismiss={handleDismiss}>
         <Flex sx={{ width: '380px', maxWidth: '100%' }}>
           {attemptingTxn ? (
             <ConfirmationPendingContent pendingText={pendingText} />

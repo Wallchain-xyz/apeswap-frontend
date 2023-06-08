@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Pair } from '@ape.swap/v2-sdk'
-import { Text, Flex, Link } from 'components/uikit'
+import { Text, Flex, Link, Spinner } from 'components/uikit'
 // import { Link } from 'react-router-dom'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useTranslation } from 'contexts/Localization'
@@ -12,7 +12,6 @@ import DexNav from 'components/DexNav'
 import { styles } from './styles'
 // import RecentTransactions from '../components/RecentTransactions'
 // import LiquiditySubNav from '../components/LiquiditySubNav'
-import { Spinner } from 'theme-ui'
 import { useWeb3React } from '@web3-react/core'
 import { useTokenBalancesWithLoadingIndicator } from 'lib/hooks/useCurrencyBalance'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
@@ -68,7 +67,7 @@ export default function Pool() {
         <FullPositionCard
           key={v2Pair.liquidityToken.address}
           pair={v2Pair}
-          mb={index < allV2PairsWithLiquidity.length - 1 ? '16px' : '0px'}
+          mb={index < allV2PairsWithLiquidity.length - 1 ? '10px' : '0px'}
         />
       ))
     }
@@ -89,7 +88,11 @@ export default function Pool() {
             <Text weight={700} sx={{ textTransform: 'uppercase', textAlign: 'center' }}>
               {t('Add liquidity to receive LP tokens')}
             </Text>
-            {!account && <ConnectWalletButton />}
+            {!account && (
+              <Flex sx={{ mt: '10px' }}>
+                <ConnectWalletButton />
+              </Flex>
+            )}
           </Flex>
           {renderBody()}
         </Flex>

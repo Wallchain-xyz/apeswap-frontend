@@ -58,13 +58,11 @@ const ApeSwapV3 = () => {
             {t('Learn more')}
           </Button>
           <Link href="/add-liquidity" sx={{ textDecoration: 'none' }}>
-            <Button sx={{ fontSize: ['14px', '14px', '16px'], minWidth: ['140px', '140px'] }}>
-              {t('Add liquidity')}
-            </Button>
+            <Button sx={{ fontSize: ['14px', '14px', '14px', '16px'], minWidth: '140px' }}>{t('Add liquidity')}</Button>
           </Link>
         </Flex>
       </Flex>
-      <Flex sx={{ width: ['0', '0', '100%'], justifyContent: 'center' }}>
+      <Flex sx={{ width: ['0', '0', '0', '100%'], justifyContent: 'center' }}>
         <Flex sx={{ ...styles.imageWrapper, background: 'none' }} onClick={() => push(`/bonds`)}>
           <Image src="/images/homepage/add-liquidity-0.png" sx={styles.image} alt="" width={500} height={500} />
         </Flex>

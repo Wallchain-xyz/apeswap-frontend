@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { Currency, Percent, TradeType } from '@ape.swap/sdk-core'
-import { SignatureData, useERC20PermitFromTrade } from 'hooks/useERC20Permit'
+import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import Swap from './Swap'
 import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback'

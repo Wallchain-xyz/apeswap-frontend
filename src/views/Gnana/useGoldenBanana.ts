@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useTreasury } from 'hooks/useContract'
 import BigNumber from 'bignumber.js'
 import track from 'utils/track'
-import { useBananaPrice } from 'state/application/hooks'
+import { useBananaPrice, useToastError } from 'state/application/hooks'
 import { Treasury } from 'config/abi/types'
 
 export const buy = async (contract: Treasury | null, amount: string) => {
@@ -56,26 +56,31 @@ export const useSellGoldenBanana = () => {
 export const useBuyGoldenBanana = () => {
   const treasuryContract = useTreasury()
   const bananaPrice = useBananaPrice()
+  const toastError = useToastError()
 
   const handleBuy = useCallback(
     async (amount: string) => {
       try {
-        const txHash = await buy(treasuryContract, amount)
-        track({
-          event: 'gnana',
-          chain: 56,
-          data: {
-            amount,
-            cat: 'buy',
-            usdAmount: parseFloat(amount) * parseFloat(bananaPrice ?? '0'),
-          },
-        })
-        return txHash
+        return await buy(treasuryContract, amount)
+          .then(() =>
+            track({
+              event: 'gnana',
+              chain: 56,
+              data: {
+                amount,
+                cat: 'buy',
+                usdAmount: parseFloat(amount) * parseFloat(bananaPrice ?? '0'),
+              },
+            }),
+          )
+          .catch((e) => {
+            toastError(e)
+          })
       } catch (e) {
         return false
       }
     },
-    [bananaPrice, treasuryContract],
+    [bananaPrice, toastError, treasuryContract],
   )
 
   return { handleBuy }

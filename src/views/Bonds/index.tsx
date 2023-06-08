@@ -43,7 +43,7 @@ const Bills: React.FC = () => {
           </Flex>
         ) : (
           <>
-            <FirstTimeCard />
+            {/*<FirstTimeCard />*/}
             <BillsNav billsView={billsView} setBillsView={handleBillsViewChange} />
             {billsView === BillsView.AVAILABLE_BILLS ? (
               <BillsListView />

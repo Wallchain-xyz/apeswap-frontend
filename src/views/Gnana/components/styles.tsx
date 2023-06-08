@@ -8,10 +8,12 @@ export const StyledCard = styled.div`
   background: ${({ theme }) => theme.colors.navbar};
   padding: 10px;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
+  ${({ theme }) => theme.mediaQueries.md} {
     width: 50%;
-    margin-top: 0px;
+    margin-top: 0;
     background: transparent;
     box-shadow: none;
   }
@@ -47,13 +49,14 @@ export const ContentCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   border-radius: 10px;
+  height: 100%;
   background: ${({ theme }) => theme.colors.white3};
   margin-top: 10px;
   padding: 10px;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
+  ${({ theme }) => theme.mediaQueries.md} {
     padding: 20px;
   }
 `
@@ -63,10 +66,6 @@ export const StyledButton = styled(Button)`
   text-transform: uppercase;
   margin-top: 15px;
 `
-export const StyledText = styled(Text)`
-  z-index: 199;
-  margin-left: 10px;
-`
 
 export const CheckBoxCon = styled.div`
   display: flex;
@@ -75,18 +74,10 @@ export const CheckBoxCon = styled.div`
   height: 50px;
 `
 
-
 export const FlexSection = styled(Flex)`
-  ${({ theme }) => theme.mediaQueries.sm} {
+  ${({ theme }) => theme.mediaQueries.md} {
     height: 120px;
   }
-`
-
-// ConvertCard
-export const CBS = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
 `
 
 // ConfirmModal

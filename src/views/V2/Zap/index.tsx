@@ -17,11 +17,10 @@ import { useZapCallback } from 'hooks/useZapCallback'
 import DistributionPanel from './components/DistributionPanel/DistributionPanel'
 import DexPanel from 'components/DexPanel'
 import { useWeb3React } from '@web3-react/core'
-import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserZapSlippageTolerance } from 'state/user/hooks'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
-import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from '../AddLiquidityV2/components/Actions'
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
 import { TradeState } from 'state/routing/types'
@@ -48,7 +47,7 @@ const ZapLiquidity = ({
   })
   const { chainId } = useWeb3React()
   const { INPUT, typedValue, recipient, zapType } = useZapState()
-  const zapSlippage = useUserSlippageToleranceWithDefault(DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE)
+  const [zapSlippage] = useUserZapSlippageTolerance()
 
   const currencyA = currencyIdA || INPUT.currencyId
 
@@ -63,9 +62,10 @@ const ZapLiquidity = ({
 
   const handleCurrencySelect = useCallback(
     (field: Field, currency: Currency[]) => {
+      onUserInput(field, '')
       onCurrencySelection(field, currency)
     },
-    [onCurrencySelection],
+    [onCurrencySelection, onUserInput],
   )
 
   const { callback: zapCallback } = useZapCallback(zap as any, zapType, zapSlippage, recipient, '', undefined)
@@ -131,7 +131,7 @@ const ZapLiquidity = ({
 
   return (
     <Flex variant="flex.dexContainer">
-      <DexNav />
+      <DexNav zapSettings />
       <V2LiquiditySubNav />
       <Flex sx={{ marginBottom: '30px' }} />
       <Flex sx={styles.liquidityContainer}>

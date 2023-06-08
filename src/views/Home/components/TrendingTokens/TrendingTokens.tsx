@@ -134,9 +134,9 @@ const TrendingTokens: React.FC = () => {
                 })}
               </>
             ) : (
-              [...Array(NUMBER_OF_TOKENS_TO_DISPLAY)].map((i) => {
+              [...Array(NUMBER_OF_TOKENS_TO_DISPLAY)].map((i, index) => {
                 return (
-                  <TokenContainer active key={i}>
+                  <TokenContainer active key={`tokenCont${index}`}>
                     <Flex sx={{ width: '136px' }}>
                       <Skeleton height="50px" width="136px" />
                     </Flex>

@@ -97,68 +97,66 @@ const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ currencyIdA, curren
   )
 
   return (
-    <div>
-      <Flex sx={styles.liquidityContainer}>
-        {noLiquidity && (
-          <Flex sx={{ ...styles.warningMessageContainer }}>
-            <Text size="14px" weight={700} mb="10px" color="primaryBright">
-              {t('You are the first liquidity provider.')}
-            </Text>
-            <Text size="12px" weight={500} color="primaryBright" sx={{ textAlign: 'center' }}>
-              {t(
-                'The ratio of tokens you add will set the price of this pool. Once you are happy with the rate click supply to review.',
-              )}
-            </Text>
-          </Flex>
-        )}
-        <Flex sx={{ marginTop: '30px' }}>
-          <DexPanel
-            value={formattedAmounts[Field.CURRENCY_A]}
-            panelText="Token 1"
-            currency={currencyA}
-            otherCurrency={currencyB}
-            fieldType={Field.CURRENCY_A}
-            onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.CURRENCY_A, cur)}
-            onUserInput={onFieldAInput}
-            handleMaxInput={() => {
-              onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
-            }}
-            showCommonBases
-          />
+    <Flex sx={styles.liquidityContainer}>
+      {noLiquidity && (
+        <Flex sx={styles.warningMessageContainer}>
+          <Text size="14px" weight={700} mb="10px" color="primaryBright">
+            {t('You are the first liquidity provider.')}
+          </Text>
+          <Text size="12px" weight={500} color="primaryBright" sx={{ textAlign: 'center' }}>
+            {t(
+              'The ratio of tokens you add will set the price of this pool. Once you are happy with the rate click supply to review.',
+            )}
+          </Text>
         </Flex>
-        <AddLiquiditySign />
+      )}
+      <Flex sx={{ marginTop: '30px' }}>
         <DexPanel
-          value={formattedAmounts[Field.CURRENCY_B]}
-          panelText="Token 2"
-          currency={currencyB}
-          otherCurrency={currencyA}
-          fieldType={Field.CURRENCY_B}
-          onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.CURRENCY_B, cur)}
-          onUserInput={onFieldBInput}
+          value={formattedAmounts[Field.CURRENCY_A]}
+          panelText="Token 1"
+          currency={currencyA}
+          otherCurrency={currencyB}
+          fieldType={Field.CURRENCY_A}
+          onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.CURRENCY_A, cur)}
+          onUserInput={onFieldAInput}
           handleMaxInput={() => {
-            onFieldAInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+            onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
           }}
           showCommonBases
         />
-        <PoolInfo
-          currencies={currencies}
-          poolTokenPercentage={poolTokenPercentage}
-          noLiquidity={noLiquidity}
-          price={price}
-          chainId={chainId}
-          liquidityMinted={liquidityMinted}
-        />
-        <AddLiquidityActions
-          currencies={currencies}
-          error={error}
-          parsedAmounts={parsedAmounts}
-          noLiquidity={noLiquidity}
-          liquidityMinted={liquidityMinted}
-          poolTokenPercentage={poolTokenPercentage}
-          price={price}
-        />
       </Flex>
-    </div>
+      <AddLiquiditySign />
+      <DexPanel
+        value={formattedAmounts[Field.CURRENCY_B]}
+        panelText="Token 2"
+        currency={currencyB}
+        otherCurrency={currencyA}
+        fieldType={Field.CURRENCY_B}
+        onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.CURRENCY_B, cur)}
+        onUserInput={onFieldBInput}
+        handleMaxInput={() => {
+          onFieldAInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
+        }}
+        showCommonBases
+      />
+      <PoolInfo
+        currencies={currencies}
+        poolTokenPercentage={poolTokenPercentage}
+        noLiquidity={noLiquidity}
+        price={price}
+        chainId={chainId}
+        liquidityMinted={liquidityMinted}
+      />
+      <AddLiquidityActions
+        currencies={currencies}
+        error={error}
+        parsedAmounts={parsedAmounts}
+        noLiquidity={noLiquidity}
+        liquidityMinted={liquidityMinted}
+        poolTokenPercentage={poolTokenPercentage}
+        price={price}
+      />
+    </Flex>
   )
 }
 

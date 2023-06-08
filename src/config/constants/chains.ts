@@ -201,6 +201,7 @@ export enum OTHER_PRODUCTS {
   NFA_COLLECTION = 'nft',
   NFA_AUCTION = 'auction',
   NFA_STAKING = 'staking',
+  V3 = 'v3',
 }
 
 // Products on different chains and their available chains
@@ -229,6 +230,7 @@ export const AVAILABLE_CHAINS_ON_PRODUCTS: Record<OTHER_PRODUCTS, SupportedChain
   [OTHER_PRODUCTS.NFA_COLLECTION]: [SupportedChainId.BSC],
   [OTHER_PRODUCTS.NFA_AUCTION]: [SupportedChainId.BSC],
   [OTHER_PRODUCTS.NFA_STAKING]: [SupportedChainId.BSC],
+  [OTHER_PRODUCTS.V3]: [SupportedChainId.BSC, SupportedChainId.POLYGON], // chains where we have ape lps v3
 }
 
 // Full product names for readability
@@ -245,6 +247,7 @@ export const FULL_PRODUCT_NAMES: Record<LIST_VIEW_PRODUCTS | OTHER_PRODUCTS, str
   [OTHER_PRODUCTS.NFA_COLLECTION]: 'Nfa Collection',
   [OTHER_PRODUCTS.NFA_AUCTION]: 'Nfa Auction',
   [OTHER_PRODUCTS.NFA_STAKING]: 'Nfa Staking',
+  [OTHER_PRODUCTS.V3]: 'V3 Concentrated Liquidity',
 }
 
 // This is needed for the info page queries

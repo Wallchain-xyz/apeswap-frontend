@@ -53,23 +53,11 @@ const baseTheme = {
   styles: {
     root: {
       fontFamily: 'body',
-      '-webkit-font-smoothing': 'antialiased',
+      webkitFontSmoothing: 'antialiasing',
       fontWeight: 600,
       color: 'text',
       bg: 'background',
       textDecoration: 'none',
-      '::-webkit-scrollbar': {
-        width: '8px',
-      },
-      '::-webkit-scrollbar-thumb': {
-        background: 'text',
-        borderRadius: '8px',
-      },
-      '::-webkit-scrollbar-track': {
-        boxShadow: 'inset 0 0 5px',
-        color: 'input',
-        borderRadius: '10px',
-      },
     },
     a: {
       color: 'text',

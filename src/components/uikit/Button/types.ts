@@ -11,10 +11,10 @@ export enum sizes {
 
 export type Sizes = (typeof sizes)[keyof typeof sizes]
 
-export const buttonFontSizes: Record<sizes | any, number | string> = {
-  [sizes.SMALL]: 1,
+export const buttonFontSizes: Record<sizes | any, string> = {
+  [sizes.SMALL]: '12px',
   [sizes.MEDIUM]: '16px',
-  [sizes.LARGE]: 6,
+  [sizes.LARGE]: '18px',
 }
 
 export const buttonLineHeight: Record<sizes | any, string> = {

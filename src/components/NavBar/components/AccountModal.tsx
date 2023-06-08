@@ -21,7 +21,7 @@ const AccountModal = ({ onDismiss }: { onDismiss: () => void }) => {
     connector.resetState()
   }, [connector])
   return (
-    <Modal title="Your Wallet" minWidth="320px" maxWidth="95%">
+    <Modal title="Your Wallet" sx={{ width: ['310px', '310px', '310px', '520px'] }}>
       <Text weight={700} size="18px" sx={{ margin: '20px 0px' }}>
         {isMobile ? `${account?.slice(0, 15)}....${account?.slice(account.length - 4, account.length)}` : account}
       </Text>
@@ -31,28 +31,24 @@ const AccountModal = ({ onDismiss }: { onDismiss: () => void }) => {
           target="_blank"
           sx={{ ':hover': { textDecoration: 'none' }, ':active': { textDecoration: 'none' } }}
         >
-          <Text mr="5px" size="14px">
-            {t('View on Explorer')}
-          </Text>
+          <Text sx={{ mr: '5px', fontSize: '14px' }}>{t('View on Explorer')}</Text>
           <Svg icon="external" />
         </Link>
         <Flex onClick={() => navigator.clipboard.writeText(account || '')} sx={{ cursor: 'pointer' }}>
-          <Text ml="20px" mr="5px" size="14px">
-            {t('Copy Address')}
-          </Text>
+          <Text sx={{ ml: '20px', mr: '5px', fontSize: '14px' }}>{t('Copy Address')}</Text>
           <Svg icon="copy" width={12} />
         </Flex>
       </Flex>
-      <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '30px' }}>
+      <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '25px' }}>
         <Button
           size="sm"
           onClick={() => {
             disconnect(), dispatch(updateSelectedWallet({ wallet: undefined })), onDismiss()
           }}
-          sx={{ alignSelf: 'center' }}
+          sx={{ alignSelf: 'center', height: '28px' }}
           variant="secondary"
         >
-          <Text color="yellow">Logout</Text>
+          Logout
         </Button>
       </Flex>
     </Modal>

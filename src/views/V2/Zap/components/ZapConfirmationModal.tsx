@@ -1,5 +1,5 @@
 import { Modal } from 'components/uikit'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ConfirmationPendingContent,
   TransactionErrorContent,
@@ -18,17 +18,6 @@ export interface ZapConfirmationModalProps {
   txHash?: string
   zap: MergedZap
   zapErrorMessage?: string
-}
-
-const modalProps = {
-  sx: {
-    zIndex: 120,
-    overflowY: 'auto',
-    maxHeight: 'calc(100% - 30px)',
-    minWidth: ['90%', '420px'],
-    width: '200px',
-    maxWidth: '425px',
-  },
 }
 
 const ZapConfirmationModal: React.FC<ZapConfirmationModalProps> = ({
@@ -52,13 +41,24 @@ const ZapConfirmationModal: React.FC<ZapConfirmationModalProps> = ({
   } LP`
 
   return (
-    <Modal title={title} {...modalProps} onDismiss={onDismiss}>
+    <Modal
+      title={title}
+      onDismiss={onDismiss}
+      sx={{
+        zIndex: 120,
+        overflowY: 'auto',
+        maxHeight: 'calc(100% - 30px)',
+        width: '380px',
+      }}
+    >
       {zapErrorMessage ? (
         <TransactionErrorContent
           onDismiss={onDismiss}
           message={
             zapErrorMessage.includes('INSUFFICIENT')
               ? t('Slippage Error: Please check your slippage using the ⚙️ icon & try again!')
+              : zapErrorMessage.includes('user rejected transaction')
+              ? t('Transaction rejected')
               : zapErrorMessage
           }
         />

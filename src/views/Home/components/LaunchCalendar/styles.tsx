@@ -39,22 +39,13 @@ export const CalendarImg = styled.div<{ image: string }>`
   background-size: cover;
 `
 
-export const Bubble = styled(Flex)<{ isActive?: boolean }>`
-  background: ${({ isActive, theme }) =>
-    isActive ? 'linear-gradient(53.53deg, #a16552 15.88%, #e1b242 92.56%)' : theme.colors.white4};
-  height: 14px;
-  width: 14px;
-  border-radius: 50px;
-  margin: 0px 2.5px 0px 2.5px;
-  cursor: pointer;
-`
-
 export const LaunchText = styled(Text)`
   position: absolute;
   font-size: 22px;
   top: 40px;
   text-align: center;
   width: 100%;
+  font-weight: 700;
 `
 
 export const SkeletonWrapper = styled(Flex)`

@@ -23,7 +23,6 @@ export function mergeBestZaps(
   const currencyIn = bestZapOne?.inputAmount.currency || bestZapTwo?.inputAmount.currency
   const slippageTolerance = allowedSlippage
 
-
   // We need to check if a zap path will wrap to not estimate a route
 
   const inAndOutWrappedOne =
@@ -101,32 +100,41 @@ export function mergeBestZaps(
       ? realizedLPFeeOne
       : realizedLPFeeTwo
 
-  const pairInAmount =
-    outputCurrencyOne &&
-    wOutputOne &&
-    wOutputTwo &&
-    outputCurrencyTwo &&
-    pair
-      ?.priceOf(inAndOutAreTheSame1Flag ? outputCurrencyTwo : outputCurrencyOne)
-      ?.quote(inAndOutAreTheSame1Flag ? wOutputTwo : wOutputOne)
+  let pairInAmount
+  let minPairInAmount
+  let liquidityMinted
+  let poolTokenPercentage
 
-  const minPairInAmount =
-    outputCurrencyOne &&
-    wMinSwapOutOne &&
-    wMinSwapOutTwo &&
-    outputCurrencyTwo &&
-    pair
-      ?.priceOf(inAndOutAreTheSame1Flag ? outputCurrencyTwo : outputCurrencyOne)
-      ?.quote(inAndOutAreTheSame1Flag ? wMinSwapOutTwo : wMinSwapOutOne)
-      ?.quotient.toString()
+  try {
+    pairInAmount =
+      outputCurrencyOne &&
+      wOutputOne &&
+      wOutputTwo &&
+      outputCurrencyTwo &&
+      pair
+        ?.priceOf(inAndOutAreTheSame1Flag ? outputCurrencyTwo : outputCurrencyOne)
+        ?.quote(inAndOutAreTheSame1Flag ? wOutputTwo : wOutputOne)
 
-  const liquidityMinted =
-    wOutputOne && wOutputTwo && totalPairSupply && pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo)
+    minPairInAmount =
+      outputCurrencyOne &&
+      wMinSwapOutOne &&
+      wMinSwapOutTwo &&
+      outputCurrencyTwo &&
+      pair
+        ?.priceOf(inAndOutAreTheSame1Flag ? outputCurrencyTwo : outputCurrencyOne)
+        ?.quote(inAndOutAreTheSame1Flag ? wMinSwapOutTwo : wMinSwapOutOne)
+        ?.quotient.toString()
 
-  const poolTokenPercentage =
-    liquidityMinted && totalPairSupply
-      ? new Percent(liquidityMinted.quotient, totalPairSupply.add(liquidityMinted).quotient)
-      : null
+    liquidityMinted =
+      wOutputOne && wOutputTwo && totalPairSupply && pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo)
+
+    poolTokenPercentage =
+      liquidityMinted && totalPairSupply
+        ? new Percent(liquidityMinted.quotient, totalPairSupply.add(liquidityMinted).quotient)
+        : null
+  } catch (e) {
+    console.error(e)
+  }
 
   return {
     currencyIn: {

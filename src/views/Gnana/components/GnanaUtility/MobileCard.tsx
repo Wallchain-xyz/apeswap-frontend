@@ -6,7 +6,7 @@ import 'swiper/swiper.min.css'
 import { Bubble } from './styles'
 import { getDotPos } from 'utils/getDotPos'
 import { utilitySlides } from './UtilitySlides'
-import { Flex } from 'components/uikit'
+import { Flex, SwiperDots } from 'components/uikit'
 
 const MobileCard = () => {
   const { swiper, setSwiper } = useSwiper()
@@ -41,9 +41,9 @@ const MobileCard = () => {
           )
         })}
       </Swiper>
-      <Flex justifyContent="center" alignContent="center" style={{ width: '100%', marginTop: '30px' }}>
+      <Flex sx={{ justifyContent: 'center', alignContent: 'center', width: '100%', mt: '30px' }}>
         {[...Array(utilitySlides?.length)].map((_, i) => {
-          return <Bubble isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={i} />
+          return <SwiperDots isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={i} />
         })}
       </Flex>
     </>

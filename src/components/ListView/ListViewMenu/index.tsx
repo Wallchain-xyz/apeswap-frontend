@@ -86,14 +86,20 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       sx={{
         ...styles.menuContainer,
         padding: showMonkeyImage
-          ? ['10px 20px', '10px 20px', '10px 120px 10px 10px']
-          : ['10px 20px', '10px 20px', '10px'],
+          ? ['10px 20px', '10px 20px', '10px 20px', '10px 120px 10px 10px']
+          : ['10px 20px', '10px 20px', '10px 20px', '10px'],
       }}
     >
       <>
-        <Flex>
+        <Flex sx={{ width: ['100%', '100%', '100%', 'unset'], maxWidth: '353px' }}>
           <Text sx={styles.searchText}>{t('Search')}</Text>
-          <Input value={query} onChange={handleQueryChange} icon="search" sx={styles.searchInput} />
+          <Input
+            value={query}
+            onChange={handleQueryChange}
+            variant="search"
+            width={['100%', '100%', '100%', 'unset']}
+            sx={styles.searchInput}
+          />
           <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
             <Svg icon="MenuSettings" width="18px" />
           </Flex>
@@ -131,7 +137,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
                       labels={[t(`${toogleLabels[0]}`).toUpperCase(), t(`${toogleLabels[1]}`).toUpperCase()]}
                       onClick={handleToogle}
                       checked={!isExact}
-                      sx={{ height: '36px', alignItems: 'center' }}
+                      sx={{ height: '36px', alignItems: 'center', '& button': { lineHeight: '20px' } }}
                     />
                   </Flex>
                   <Flex sx={{ alignItems: 'center' }} onClick={handleCheckBox}>
@@ -179,9 +185,9 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
       </>
       {showMonkeyImage &&
         (colorMode === 'dark' ? (
-          <Image src="/images/farm-night-farmer.svg" sx={styles.monkey}  alt=''/>
+          <Image src="/images/farm-night-farmer.svg" sx={styles.monkey} alt="" />
         ) : (
-          <Image src="/images/farm-day-farmer.svg" sx={styles.monkey} alt='' />
+          <Image src="/images/farm-day-farmer.svg" sx={styles.monkey} alt="" />
         ))}
     </Flex>
   )

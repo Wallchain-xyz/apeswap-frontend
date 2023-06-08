@@ -52,9 +52,10 @@ import {
   MASTER_CHEF_V2_ADDRESS,
   MINI_APE_ADDRESS,
   TREASURY_ADDRESSES,
+  GNANA_ADDRESSES,
 } from 'config/constants/addresses'
 import WETH_ABI from 'config/abi/weth.json'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { EnsRegistrar } from 'config/abi/types/EnsRegistrar'
 import { EnsPublicResolver } from 'config/abi/types/EnsPublicResolver'
 import QuoterV2Json from '@uniswap/swap-router-contracts/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
@@ -226,4 +227,8 @@ export function useWETHContract(withSignerIfPossible?: boolean) {
 export function useZapContract(withSignerIfPossible?: boolean) {
   const { chainId } = useWeb3React()
   return useContract<Zap>(chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined, ZAP_ABI, withSignerIfPossible)
+}
+
+export const useGnanaToken = () => {
+  return new Token(SupportedChainId.BSC, GNANA_ADDRESSES[56], 18, 'GNANA', 'Golden Banana')
 }

@@ -24,9 +24,8 @@ const useAddLiquidityModal = (zapIntoProductType?: ZapType, clearStack = false) 
       zapable={zapable}
     />,
     true,
-    true,
+    false,
     'dualLiquidityModal',
-    clearStack,
   )
 
   const nativeToETH = useCallback(

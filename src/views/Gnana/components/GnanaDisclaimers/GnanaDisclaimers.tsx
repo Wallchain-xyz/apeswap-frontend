@@ -7,7 +7,6 @@ import {
   InfoText,
   Container,
   Main,
-  FirstHeader,
   FirstHeaderCon,
   Sect,
   Sect1,
@@ -25,8 +24,8 @@ import {
   Text4,
   Main2,
   Footer,
-  LearnMoreBtn,
 } from './styles'
+import { Button, Text } from 'components/uikit'
 
 interface InfoProps {
   content: string
@@ -50,7 +49,14 @@ export const GnanaDisclaimers: React.FC = () => {
     <Container>
       <Main>
         <FirstHeaderCon>
-          <FirstHeader as="h2">{t('GNANA BREAKDOWN')}</FirstHeader>
+          <Text
+            sx={{
+              fontSize: ['25px', '25px', '25px', '30px'],
+              fontWeight: 700,
+            }}
+          >
+            {t('GNANA BREAKDOWN')}
+          </Text>
         </FirstHeaderCon>
 
         <Sect>
@@ -107,7 +113,14 @@ export const GnanaDisclaimers: React.FC = () => {
 
       <Main2>
         <FirstHeaderCon>
-          <FirstHeader as="h2">{t('KEY DISCLAIMERS')}</FirstHeader>
+          <Text
+            sx={{
+              fontSize: ['25px', '25px', '25px', '30px'],
+              fontWeight: 700,
+            }}
+          >
+            {t('KEY DISCLAIMERS')}
+          </Text>
         </FirstHeaderCon>
 
         <InfoSect1>
@@ -125,9 +138,9 @@ export const GnanaDisclaimers: React.FC = () => {
       </Main2>
 
       <Footer>
-        <LearnMoreBtn onClick={learnMore} size="md" mb="20px">
+        <Button onClick={learnMore} size="md" sx={{ mb: ['0px', '0px', '0px', '20px'] }}>
           {t('LEARN MORE')}
-        </LearnMoreBtn>
+        </Button>
       </Footer>
     </Container>
   )

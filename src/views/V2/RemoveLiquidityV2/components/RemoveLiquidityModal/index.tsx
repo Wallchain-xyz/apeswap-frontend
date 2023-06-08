@@ -27,7 +27,7 @@ const RemoveLiquidityModal: React.FC<RemoveLiquidityModalProps> = ({
     currencyA?.symbol ?? ''
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''} ${currencyB?.symbol ?? ''}`
   return (
-    <Modal title={title} maxWidth="95%" minWidth="300px" onDismiss={onDismiss}>
+    <Modal title={title} onDismiss={onDismiss}>
       <Flex sx={{ maxWidth: '100%', width: '420px' }}>
         {attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />

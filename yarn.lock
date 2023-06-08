@@ -10,10 +10,10 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ape.swap/apeswap-lists@1.1.60":
-  version "1.1.60"
-  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.1.60.tgz#68f5e3bd7d5f297287bd582c71b51f8fb145bfb3"
-  integrity sha512-IeFFCdJd6FLxRcGKJ8U2W7pUvPesdJQjSbGldN/s9U2kNfQlTR0OWYNkWVVPEelwyBSyoF9iKT/XKpQWWvNWtg==
+"@ape.swap/apeswap-lists@1.1.67":
+  version "1.1.67"
+  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.1.67.tgz#b1bcb2459fa6d18569bc74c838aa1d1e3738aaf6"
+  integrity sha512-Zm4Bsp07YkoJWXIpigxO6O6mlE7gxe/+hm5EjlpezhhXzAFRTHtGQXLZWcj4UzXgg+DXwPM+KCAFyhJGq4hoTA==
   dependencies:
     "@ape.swap/sdk" "4.4.0"
     bignumber.js "^9.0.2"
@@ -68,10 +68,10 @@
     toformat "^2.0.0"
     yalc "^1.0.0-pre.53"
 
-"@ape.swap/smart-order-router@^1.2.1-alpha.2":
-  version "1.2.1-alpha.2"
-  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.2.1-alpha.2.tgz#cbc59dd992edc41eefcd4b2f8f18b52088670ee9"
-  integrity sha512-Af5bk911yRs7MusuEhHn9On504+RoqynuRlh3M/OLQgSaDPQbueDohKDk//hvXGCzfxcRey8rtpjBqU3jnyIGA==
+"@ape.swap/smart-order-router@1.2.3-alpha.3":
+  version "1.2.3-alpha.3"
+  resolved "https://registry.yarnpkg.com/@ape.swap/smart-order-router/-/smart-order-router-1.2.3-alpha.3.tgz#d12b9bc96c6ca543201ec1c5e485f5627a95f3cb"
+  integrity sha512-GtgQYhrbKNmKPPd5ZXEcHtA9pRssj5Fb51znXaqeyMhJJL6M56Em9b5QKtuWXZUvm2Wv0OXryFDxyekLMJblAQ==
   dependencies:
     "@ape.swap/router-sdk" "^1.2.0"
     "@ape.swap/token-lists" "^1.0.6"

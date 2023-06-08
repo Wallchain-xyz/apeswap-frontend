@@ -17,22 +17,17 @@ export const styles: Record<
 > = {
   listCardContainer: {
     borderRadius: 0,
-    flexDirection: 'column',
+    flexDirection: ['column', 'column', 'column', 'row'],
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: (theme) => theme?.colors?.white2,
+    background: 'white2',
     borderBottom: '1px solid rgba(226, 226, 226, .2)',
-    padding: '10px 20px 10px 20px',
+    padding: ['10px 20px 10px 20px', '10px 20px 10px 20px', '10px 20px 10px 20px', '0 30px 0 30px'],
     margin: '0 10px 0 10px',
-    maxWidth: '500px',
+    maxWidth: ['500px', '500px', '500px', '100%'],
     minWidth: '300px',
     width: '100%',
-    '@media screen and (min-width: 852px)': {
-      flexDirection: 'row',
-      height: '86px',
-      padding: '0 30px 0 30px',
-      maxWidth: '100%',
-    },
+    height: ['unset', 'unset', 'unset', '86px'],
   },
   listViewContainer: {
     display: 'flex',
@@ -58,7 +53,7 @@ export const styles: Record<
     my: '5px',
   },
   infoContentMobile: {
-    display: ['flex', 'flex', 'none'],
+    display: ['flex', 'flex', 'flex', 'none'],
     alignItems: 'center',
   },
   tokensContainer: {
@@ -69,7 +64,7 @@ export const styles: Record<
   titleText: {
     opacity: 0.6,
     fontSize: '12px',
-    lineHeight: '16px',
+    lineHeight: ['16px', '16px', '16px', '24px'],
     fontWeight: 400,
   },
   skeleton: {
@@ -78,12 +73,13 @@ export const styles: Record<
     minHeight: '18px',
   },
   valueText: {
-    fontSize: ['12px', '12px', '16px'],
+    fontSize: ['12px', '12px', '12px', '16px'],
     color: 'primaryBright',
     lineHeight: '16px',
     fontWeight: 700,
     mr: '5px',
     display: 'flex',
+    alignItems: 'center',
   },
   secondaryText: {
     fontSize: '12px',
@@ -100,7 +96,7 @@ export const styles: Record<
   animationDiv: {
     position: 'relative',
     width: '100%',
-    maxWidth: ['500px', '500px', '100%'],
+    maxWidth: ['500px', '500px', '500px', '100%'],
     minWidth: '300px',
   },
   expandedWrapper: {

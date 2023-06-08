@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Flex, Skeleton, Text } from 'components/uikit'
+import { Flex, Text } from 'components/uikit'
 
 export const ModalBodyContainer = styled(Flex)`
   flex-direction: column;
@@ -11,43 +11,7 @@ export const ModalBodyContainer = styled(Flex)`
 
 export const Container = styled.div`
   max-height: 100vh;
-  overflow: scroll;
-  overflow-x: hidden;
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-}
-::-webkit-scrollbar {
-  width: 0; 
-  background: transparent;  
-}
-`
-
-export const BillsImage = styled.div<{ image?: string }>`
-  width: 300px;
-  height: 168px;
-  align-self: center;
-  background-image: ${({ image }) => `url(${image});`}
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  margin-top: 20px;
-  @media screen and (min-width: 1180px) {
-    min-width: 606px;
-    height: 341px;
-    align-self: auto;
-    margin-top: 0px;
-  }
-`
-
-export const ImageSkeleton = styled(Skeleton)`
-  width: 250px;
-  height: 141px;
-  margin-top: 30px;
-  align-self: center;
-  @media screen and (min-width: 1180px) {
-    min-width: 606px;
-    height: 341px;
-    margin-top: 0px;
-  }
+  overflow: auto;
 `
 
 export const BillDescriptionContainer = styled(Flex)<{ p?: string; minHeight?: number; width?: string }>`
@@ -61,7 +25,7 @@ export const BillDescriptionContainer = styled(Flex)<{ p?: string; minHeight?: n
     width: 540px;
     justify-content: space-between;
     padding: ${({ p }) => p || '20px 30px'};
-    margin: 10px 10px 10px 20px;
+    margin: 0 10px 0 20px;
     min-height: auto;
   }
 `
@@ -82,20 +46,10 @@ export const GridTextValContainer = styled(Flex)`
   align-items: center;
   height: 18px;
   width: 100%;
-  margin: 3px 0px;
+  margin: 1px 0px;
   @media screen and (min-width: 1180px) {
     margin: 8px 0px;
   }
-`
-
-export const StyledExit = styled(Text)`
-  position: absolute;
-  top: 15px;
-  right: 25px;
-  font-size: 20px;
-  cursor: pointer;
-  font-weight: 600;
-  z-index: 1;
 `
 
 export const ActionButtonsContainer = styled(Flex)`
@@ -105,14 +59,6 @@ export const ActionButtonsContainer = styled(Flex)`
   @media screen and (min-width: 1180px) {
     flex-direction: row;
     height: auto;
-  }
-`
-
-export const UserActionButtonsContainer = styled(ActionButtonsContainer)`
-  width: 100%;
-  justify-content: space-between;
-  @media screen and (min-width: 1180px) {
-    transform: translate(0px, 25px);
   }
 `
 
