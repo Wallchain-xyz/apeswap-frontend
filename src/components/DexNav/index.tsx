@@ -96,49 +96,47 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           chainId={chainId}
         />
         <CogIcon sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal} /> */}
-        {!swapFlag && (
-          <Flex
-            onClick={handleSwitch}
-            sx={{
-              position: 'relative',
-              mr: '10px',
-              height: 'fit-content',
-              minWidth: 'fit-content',
-              alignItems: 'center',
-              cursor: apeV3Available ? 'pointer' : 'not-allowed',
-              zIndex: 2,
-            }}
+        <Flex
+          onClick={handleSwitch}
+          sx={{
+            position: 'relative',
+            mr: '10px',
+            height: 'fit-content',
+            minWidth: 'fit-content',
+            alignItems: 'center',
+            cursor: apeV3Available ? 'pointer' : 'not-allowed',
+            zIndex: 2,
+          }}
+        >
+          <Text
+            size="13px"
+            weight={700}
+            color="primaryBright"
+            sx={{ position: 'absolute', zIndex: 1, right: v2Flag ? 3 : 11, mt: '2px' }}
           >
-            <Text
-              size="13px"
-              weight={700}
-              color="primaryBright"
-              sx={{ position: 'absolute', zIndex: 1, right: v2Flag ? 3 : 11, mt: '2px' }}
-            >
-              {v2Flag ? 'V2' : 'V3'}
-            </Text>
-            <Switch
-              onChange={handleSwitch}
-              checked={!v2Flag}
-              disabled={!apeV3Available}
-              sx={{
-                mr: '0px',
-                width: '50px',
-                borderRadius: '10px',
-                backgroundColor: 'yellow',
-                '& > div': {
-                  transform: 'translateX(0%)',
+            {v2Flag ? 'V2' : 'V3'}
+          </Text>
+          <Switch
+            onChange={handleSwitch}
+            checked={!v2Flag}
+            disabled={!apeV3Available}
+            sx={{
+              mr: '0px',
+              width: '50px',
+              borderRadius: '10px',
+              backgroundColor: 'yellow',
+              '& > div': {
+                transform: 'translateX(0%)',
+              },
+              'input:checked ~ &': {
+                background: 'linear-gradient(90deg, rgba(161, 101, 82, 1) 0%, rgba(255, 179, 0, 1)) 100%',
+                '> div': {
+                  transform: 'translateX(28px)',
                 },
-                'input:checked ~ &': {
-                  background: 'linear-gradient(90deg, rgba(161, 101, 82, 1) 0%, rgba(255, 179, 0, 1)) 100%',
-                  '> div': {
-                    transform: 'translateX(28px)',
-                  },
-                },
-              }}
-            />
-          </Flex>
-        )}
+              },
+            }}
+          />
+        </Flex>
         <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />

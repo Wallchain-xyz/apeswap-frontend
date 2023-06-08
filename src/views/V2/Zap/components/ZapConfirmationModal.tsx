@@ -1,5 +1,5 @@
 import { Modal } from 'components/uikit'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ConfirmationPendingContent,
   TransactionErrorContent,

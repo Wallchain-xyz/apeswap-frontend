@@ -23,6 +23,7 @@ import { Pair } from '@ape.swap/v2-sdk'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
 import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
 import { TradeState } from 'state/routing/types'
+import ModalProvider from '../../contexts/ModalContext'
 
 interface ZapLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut: Pair) => void
@@ -30,6 +31,7 @@ interface ZapLiquidityProps {
   pid: string
   zapIntoProductType: ZapType
   zapable: boolean
+  txHash?: string
 }
 
 const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
@@ -38,6 +40,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   pid,
   zapIntoProductType,
   zapable,
+  txHash,
 }) => {
   useSetZapInputList()
   const [zapErrorMessage, setZapErrorMessage] = useState<string>('')
@@ -188,14 +191,16 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             <DistributionPanel zap={zap} />
           </Flex>
         )}
-        <ZapLiquidityActions
-          zapInputError={zapInputError}
-          zap={zap}
-          handleZap={handleZap}
-          zapErrorMessage={zapErrorMessage}
-          zapRouteState={zapRouteState}
-          handleDismissConfirmation={handleDismissConfirmation}
-        />
+        <ModalProvider>
+          <ZapLiquidityActions
+            zapInputError={zapInputError}
+            zap={zap}
+            handleZap={handleZap}
+            zapErrorMessage={zapErrorMessage}
+            zapRouteState={zapRouteState}
+            handleDismissConfirmation={handleDismissConfirmation}
+          />
+        </ModalProvider>
         <Flex sx={{ marginTop: '10px', justifyContent: 'center' }}>
           <Link
             href="https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity"
