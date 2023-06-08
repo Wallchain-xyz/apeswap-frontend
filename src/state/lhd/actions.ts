@@ -71,9 +71,9 @@ export const fetchInitialProfiles = () => async (dispatch: any) => {
   }
 }
 
-export const fetchProfilesQuery = (query?: string) => async (dispatch: any) => {
+export const fetchProfilesQuery = (query?: string, filters?: string) => async (dispatch: any) => {
   try {
-    const listData: SimpleTokenProfile[] = await fetchProfiles(undefined, query)
+    const listData: SimpleTokenProfile[] = await fetchProfiles(filters, query)
     dispatch(addSimpleProfiles(listData))
   } catch (error) {
     console.warn(error)

@@ -4,7 +4,7 @@ import { useTranslation } from 'contexts/Localization'
 import Dropdown from './Dropdown'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
 import InputSlider from './InputSlider'
-import { addSearchProfiles, FilterState, initialFilterValues, setFilterState } from 'state/lhd/reducer'
+import { FilterState, initialFilterValues, setFilterState } from 'state/lhd/reducer'
 import { formatDollar } from 'utils/formatNumbers'
 import ScoreSlider from './ScoreSlider'
 import { Box } from 'theme-ui'
@@ -22,7 +22,13 @@ const modalProps = {
   },
 }
 
-const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (value: string) => void, onDismiss?: () => void }) => {
+const FilterModal = ({
+  handleQueryChange,
+  onDismiss,
+}: {
+  handleQueryChange: (value: string) => void
+  onDismiss?: () => void
+}) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const filterValues = useLHDFilterValues()
@@ -45,28 +51,33 @@ const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (val
   const health = stringHandler('health')
   const owner = stringHandler('ownership')
   const concen = stringHandler('concentration')
-  const scoreString = `${score ? `Score: ${score}` : ''}${health ? ` Strength: ${health}` : ''}${owner ? ` Ownership: ${owner}` : ''} ${concen ? ` Concentration: ${concen}` : ''}`
+  const scoreString = `${score ? `Score: ${score}` : ''}${health ? ` Strength: ${health}` : ''}${
+    owner ? ` Ownership: ${owner}` : ''
+  } ${concen ? ` Concentration: ${concen}` : ''}`
 
-  const handler = useCallback((
-    type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable',
-    obj: 'min' | 'max',
-    value: number,
-  ) => {
-    setValues((prevState) => ({
-      ...prevState,
-      [type]: {
-        ...prevState[type],
-        [obj]: value,
-      },
-    }))
-  }, [])
+  const handler = useCallback(
+    (
+      type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable',
+      obj: 'min' | 'max',
+      value: number,
+    ) => {
+      setValues((prevState) => ({
+        ...prevState,
+        [type]: {
+          ...prevState[type],
+          [obj]: value,
+        },
+      }))
+    },
+    [],
+  )
 
   const searchAction = () => {
     dispatch(setFilterState(values))
     onDismiss && onDismiss()
   }
   const clearAction = () => {
-    dispatch(addSearchProfiles([]))
+    //dispatch(addSearchProfiles([]))
     dispatch(setFilterState(initialFilterValues))
     setValues(initialFilterValues)
     handleQueryChange('')
@@ -75,47 +86,44 @@ const FilterModal = ({ handleQueryChange, onDismiss }: { handleQueryChange: (val
   return (
     <Modal {...modalProps}>
       <ModalHeader>
-        <Text sx={{ width: '100%', textAlign: 'center' }}>
-          {t('FILTERS')}
-        </Text>
+        <Text sx={{ width: '100%', textAlign: 'center' }}>{t('FILTERS')}</Text>
       </ModalHeader>
-      <Dropdown title={t('Liquidity Score')}
-                values={scoreString.length > 40 ? `${scoreString.slice(0, 40)}...` : scoreString}>
-        <ScoreSlider values={values}
-                     handler={handler}
+      <Dropdown
+        title={t('Liquidity Score')}
+        values={scoreString.length > 40 ? `${scoreString.slice(0, 40)}...` : scoreString}
+      >
+        <ScoreSlider values={values} handler={handler} />
+      </Dropdown>
+      <Dropdown title={t('Market Cap Range')} values={mCapString}>
+        <InputSlider
+          minRange={initialFilterValues.mcap.min}
+          maxRange={initialFilterValues.mcap.max}
+          values={values.mcap}
+          setMinValue={(value: number) => handler('mcap', 'min', value)}
+          setMaxValue={(value: number) => handler('mcap', 'max', value)}
         />
       </Dropdown>
-      <Dropdown title={t('Market Cap Range')}
-                values={mCapString}>
-        <InputSlider minRange={initialFilterValues.mcap.min}
-                     maxRange={initialFilterValues.mcap.max}
-                     values={values.mcap}
-                     setMinValue={(value: number) => handler('mcap', 'min', value)}
-                     setMaxValue={(value: number) => handler('mcap', 'max', value)}
-        />
-      </Dropdown>
-      <Dropdown title={t('Extractable Liquidity Range')}
-                values={extString}>
-        <InputSlider minRange={initialFilterValues.extractable.min}
-                     maxRange={initialFilterValues.extractable.max}
-                     values={values.extractable}
-                     setMinValue={(value: number) => handler('extractable', 'min', value)}
-                     setMaxValue={(value: number) => handler('extractable', 'max', value)}
+      <Dropdown title={t('Extractable Liquidity Range')} values={extString}>
+        <InputSlider
+          minRange={initialFilterValues.extractable.min}
+          maxRange={initialFilterValues.extractable.max}
+          values={values.extractable}
+          setMinValue={(value: number) => handler('extractable', 'min', value)}
+          setMaxValue={(value: number) => handler('extractable', 'max', value)}
         />
       </Dropdown>
       <Flex sx={{ width: '100%', mt: '20px' }}>
-        <Button variant='secondary'
-                sx={{ display: 'flex', background: 'lvl1', width: '100%', maxWidth: '123px', mr: '20px' }}
-                onClick={clearAction}
+        <Button
+          variant="secondary"
+          sx={{ display: 'flex', background: 'lvl1', width: '100%', maxWidth: '123px', mr: '20px' }}
+          onClick={clearAction}
         >
           {t('Clear')}
           <Box sx={{ ml: '5px' }}>
-            <Svg icon='trash' color='yellow' />
+            <Svg icon="trash" color="yellow" />
           </Box>
         </Button>
-        <Button sx={{ width: '100%' }}
-                onClick={searchAction}
-        >
+        <Button sx={{ width: '100%' }} onClick={searchAction}>
           {t('Search')}
         </Button>
       </Flex>

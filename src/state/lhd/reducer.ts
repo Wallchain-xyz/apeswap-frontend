@@ -45,7 +45,7 @@ export const initialState: LHDState = {
   queryState: initialFilterValues,
   simpleProfiles: [],
   searchProfiles: [],
-  fullProfile: null
+  fullProfile: null,
 }
 
 const LHDSlice = createSlice({
@@ -60,7 +60,7 @@ const LHDSlice = createSlice({
         industryAverageChange: payload?.industryAverageChange,
         chainsSupported: payload?.chainsSupported,
         tokensVerified: payload?.tokensVerified,
-        tokensTracked: payload?.tokensTracked
+        tokensTracked: payload?.tokensTracked,
       }
     },
     addSimpleProfiles(state, action: { payload: SimpleTokenProfile[] }) {
@@ -69,26 +69,20 @@ const LHDSlice = createSlice({
         simpleProfiles: action.payload,
       }
     },
-    addSearchProfiles(state, action: {payload: SimpleTokenProfile[]}){
+    addFullProfile(state, action: { payload: TokenProfile | null }) {
       return {
         ...state,
-        searchProfiles: action.payload
+        fullProfile: action.payload,
       }
     },
-    addFullProfile(state, action: {payload: TokenProfile | null}) {
+    setFilterState(state, action: { payload: FilterState }) {
       return {
         ...state,
-        fullProfile: action.payload
+        queryState: action.payload,
       }
     },
-    setFilterState(state, action: {payload: FilterState}) {
-      return {
-        ...state,
-        queryState: action.payload
-      }
-    }
   },
 })
 
-export const { addIndustryData, addSimpleProfiles, addFullProfile, addSearchProfiles, setFilterState } = LHDSlice.actions
+export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState } = LHDSlice.actions
 export default LHDSlice.reducer
