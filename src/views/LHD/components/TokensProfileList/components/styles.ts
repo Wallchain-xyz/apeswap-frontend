@@ -15,8 +15,9 @@ export const styles: Record<'btn' | 'paginationCont', ThemeUIStyleObject> = {
   paginationCont: {
     background: 'white2',
     py: '20px',
-    width: ['100vw', '100vw', '100%'],
-    ml: ['-20px', '-20px', '0px'],
+    width: ['100vw', 'auto', '100%'],
+    ml: ['-20px', 0, 0],
+    mr: ['-20px', 0, 0],
     justifyContent: 'center',
     borderRadius: '0 0 10px 10px',
   },

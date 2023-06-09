@@ -38,11 +38,12 @@ export const styles: Record<
     color: 'textDisabled',
   },
   tableContainer: {
-    width: ['100vw', '100vw', '100%'],
+    width: ['100vw', 'auto', '100%'],
     overflowY: 'auto',
     position: 'relative',
     mt: '20px',
-    ml: ['-20px', '-20px', 0],
+    ml: ['-20px', 0, 0],
+    mr: ['-20px', 0, 0],
     borderRadius: '10px 10px 0 0',
     '::-webkit-scrollbar': {
       height: '3px',

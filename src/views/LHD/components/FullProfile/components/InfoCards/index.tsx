@@ -61,7 +61,11 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
           <HealthSummaryRow
             ttTitle={t('Liquidity Debt')}
             ttBody={<>Liquidity Debt</>}
-            value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.liquidityDebt })}
+            value={
+              (fullProfile?.mcap[0].amount / 100) * chartExtras?.liquidityDebt > 0
+                ? formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.liquidityDebt })
+                : '$0'
+            }
             circleColor={'#DF4141'}
           />
           <HealthSummaryRow
