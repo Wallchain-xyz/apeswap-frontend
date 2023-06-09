@@ -66,16 +66,16 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
             circleColor={'#DF4141'}
           />
           <HealthSummaryRow
-            ttTitle={t('Sustainability Range (Upper)')}
-            ttBody={<>Sustainability Range (Upper)</>}
-            value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityUpper })}
-            circleColor={'#39A712'}
-          />
-          <HealthSummaryRow
             ttTitle={t('Sustainability Range (Lower)')}
             ttBody={<>Sustainability Range (Lower)</>}
             value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityLower })}
             circleColor={'#BFDDB5'}
+          />
+          <HealthSummaryRow
+            ttTitle={t('Sustainability Range (Upper)')}
+            ttBody={<>Sustainability Range (Upper)</>}
+            value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityUpper })}
+            circleColor={'#39A712'}
           />
           <HealthSummaryRow
             ttTitle={t('Unlocked Supply')}
