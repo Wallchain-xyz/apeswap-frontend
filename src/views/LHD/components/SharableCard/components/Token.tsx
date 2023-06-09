@@ -152,25 +152,25 @@ return (
 />
 
 
-      {/* <Image 
-      src={imageUrl}
+      <Image 
+      src={"https://res.cloudinary.com/dswmrqgwy/image/upload/v1685375572/lhd/ysYIu7Q_hzbccm.png"}
       alt={tokenSymbol}
-      width={192}
-      height={192}
+      width={120}
+      height={120}
 
       sx={{
         mt:'21px',
-        height: '150px',
-        width: '150px',
-        background: `url(${imageUrl})`,
+        height: '40px',
+        width: '40px',
         display: 'block',
         position:'absolute',
-        backgroundSize:'cover',
         borderRadius:'50%',
+        // background: `url(${imageUrl})`,
+        // backgroundSize:'cover',
         // ml:'500px',
       }}>
 
-      </Image> */}
+      </Image>
 
       {score <= 40 ? (
         <Bronze sx={Styles.bgToken} />

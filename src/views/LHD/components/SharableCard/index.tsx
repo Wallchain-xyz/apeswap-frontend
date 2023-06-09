@@ -80,7 +80,7 @@ const SharableCard = ({
         style: {
           backgroundColor: "transparent",
           overflow: "hidden",
-          // transform: 'scale(2)', // scale content
+          // transform: 'scale(2)',
         },
       })
       .then((dataUrl) => {

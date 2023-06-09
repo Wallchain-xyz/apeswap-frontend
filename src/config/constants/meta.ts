@@ -75,4 +75,8 @@ export const customMeta: { [key: string]: PageMeta } = {
     title: 'Limit Orders | ApeSwap : Your One-Stop DeFi Hub',
     description: 'Trade crypto tokens at the price you want using limit orders on the ApeSwap DEX.',
   },
+  '/liquidity-health': {
+    title: 'Liquidity Health | ApeSwap : Your One-Stop DeFi Hub',
+    description: 'Dashboard to see the liquidity health of your favourite crypto projects .',
+  },
 }
