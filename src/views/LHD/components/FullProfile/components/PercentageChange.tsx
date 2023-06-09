@@ -6,7 +6,7 @@ const PriceChange = ({ priceChange }: { priceChange: string }) => {
   const changeStyle = {
     color: isPositive ? 'success' : 'error',
     ml: '5px',
-    fontSize: '10px',
+    fontSize: ['10px', '10px', '10px', '12px'],
   }
 
   return (
