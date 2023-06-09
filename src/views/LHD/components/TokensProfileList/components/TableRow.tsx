@@ -8,8 +8,11 @@ import ProgressBar from '../../ProgressBar'
 import { getColor } from '../../../utils/getColor'
 import { styles } from '../styles'
 import TokenImage from 'components/TokenImage'
+import useIsMobile from 'hooks/useIsMobile'
 
 const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: SimpleTokenProfile }) => {
+  const isMobile = useIsMobile()
+
   return (
     <a
       sx={{ ...styles.linkItem }}
@@ -24,8 +27,8 @@ const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: Simp
           <Flex sx={{ flexDirection: 'column' }}>
             <Text sx={styles.symbolText}>{simpleProfile?.addressMapping?.tokenSymbol}</Text>
             <Text sx={styles.nameText}>
-              {simpleProfile?.addressMapping?.tokenName.substring(0, 21).trim()}
-              {simpleProfile?.addressMapping?.tokenName.length > 21 ? '...' : ''}
+              {simpleProfile?.addressMapping?.tokenName.substring(0, isMobile ? 12 : 18).trim()}
+              {simpleProfile?.addressMapping?.tokenName.length > (isMobile ? 12 : 18) ? '...' : ''}
             </Text>
           </Flex>
         </Flex>
