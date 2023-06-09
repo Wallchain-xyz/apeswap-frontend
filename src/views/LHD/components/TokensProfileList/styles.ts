@@ -118,6 +118,7 @@ export const styles: Record<
   },
   barContainer: {
     padding: '8px',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     height: columnHeight,

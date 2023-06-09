@@ -56,6 +56,9 @@ const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: Simp
         <Flex sx={styles.barCol}>
           <Flex sx={styles.barContainer}>
             <ProgressBar value={Math.round(simpleProfile?.ownershipScore * 100)} position="left" />
+            {simpleProfile?.ownershipScore === 0 && (
+              <Text sx={{ fontWeight: 500, fontSize: '9px', mt: -4, color: 'textDisabled' }}>DATA NEEDED</Text>
+            )}
           </Flex>
         </Flex>
         <Flex sx={{ ...styles.scoreCol, background: index % 2 ? 'white3' : 'white2' }}>
