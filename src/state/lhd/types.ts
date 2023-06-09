@@ -134,13 +134,7 @@ export interface ChainDetail {
   coingeckoId: string
   dexscreenerId?: string
   logoUrl?: string
-  nodeUrls?: Node[]
   blockExplorer?: BlockExplorer
-}
-
-export interface Node {
-  url: string
-  isArchiveNode: boolean
 }
 
 export interface BlockExplorer {
