@@ -16,7 +16,8 @@ export const styles: Record<
   | 'usdCol'
   | 'barCol'
   | 'barContainer'
-  | 'scoreCol',
+  | 'scoreCol'
+  | 'linkItem',
   ThemeUIStyleObject
 > = {
   headerContainer: {
@@ -129,5 +130,8 @@ export const styles: Record<
     justifyContent: 'center',
     height: columnHeight,
     alignItems: 'center',
+  },
+  linkItem: {
+    textDecoration: 'none',
   },
 }
