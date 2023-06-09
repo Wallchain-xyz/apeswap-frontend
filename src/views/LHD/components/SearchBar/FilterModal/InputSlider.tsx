@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { Box } from 'theme-ui'
 import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
@@ -7,7 +6,6 @@ import { Flex, Text } from 'components/uikit'
 import { initialFilterValues, MinMax } from '../../../../../state/lhd/reducer'
 import { formatDollar } from 'utils/formatNumbers'
 import { debounce } from 'lodash'
-import { formatNumber } from '../../../../../utils/formatNumber'
 
 const InputSlider = ({ values, setMinValue, setMaxValue, minRange, maxRange }: {
   values: MinMax,
@@ -18,16 +16,12 @@ const InputSlider = ({ values, setMinValue, setMaxValue, minRange, maxRange }: {
 }) => {
   const handleMinInputChange = (value: string) => {
     const numValue = value ? parseInt(value) : 0
-    if (numValue <= values.max && numValue >= minRange) {
       setMinValue(numValue)
-    }
   }
 
   const handleMaxInputChange = (value: string) => {
     const numValue = value ? parseInt(value) : 0
-    if (numValue >= values.min && numValue <= maxRange) {
-      setMaxValue(numValue)
-    }
+    setMaxValue(numValue)
   }
 
   const handleSliderChange = debounce((value: { min: number; max: number }) => {

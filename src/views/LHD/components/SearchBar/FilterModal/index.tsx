@@ -123,7 +123,18 @@ const FilterModal = ({
             <Svg icon="trash" color="yellow" />
           </Box>
         </Button>
-        <Button sx={{ width: '100%' }} onClick={searchAction}>
+        <Button
+          sx={{ width: '100%' }}
+          disabled={
+            !(
+              values.mcap.max >= initialFilterValues.mcap.min &&
+              values.mcap.min <= initialFilterValues.mcap.max &&
+              values.extractable.max >= initialFilterValues.extractable.min &&
+              values.extractable.min <= initialFilterValues.extractable.max
+            )
+          }
+          onClick={searchAction}
+        >
           {t('Search')}
         </Button>
       </Flex>
