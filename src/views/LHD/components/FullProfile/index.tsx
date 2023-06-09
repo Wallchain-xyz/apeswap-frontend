@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
-import { Flex, Link, Spinner, Svg, Text } from 'components/uikit'
-import { chartExtras, ExternalDataOption, TokenProfile } from 'state/lhd/types'
+import { Flex, Spinner, Svg, Text } from 'components/uikit'
+import { chartExtras, TokenProfile } from 'state/lhd/types'
 import Chart from '../Chart'
 import { useTranslation } from 'contexts/Localization'
-import useModal from 'hooks/useModal'
-import SharableCard from '../SharableCard'
 import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
-import { useRouter } from 'next/router'
+import ExemptAssetNotice from './components/ExemptAssetNotice'
 
 const FullProfile = ({
   chainID,
@@ -56,6 +55,7 @@ const FullProfile = ({
             {t(' hours ago')}
           </Text>
         </Flex>
+        {fullProfile?.mcap[0].amount > 100000000 && <ExemptAssetNotice />}
         <TopSectionCards fullProfile={fullProfile} />
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
