@@ -62,7 +62,7 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         <Flex sx={{ flexDirection: 'column', flex: '0 0 220px' }}>
           <Text>{data?.name}</Text>
           <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
-            ${data?.currentPrice.toFixed(5)}
+            ${data?.currentPrice.toFixed(5) > 0 ? data?.currentPrice.toFixed(5) : data?.currentPrice.toFixed(10)}
             <PriceChange priceChange={data?.priceChange24hr?.toFixed(2)} />
           </Text>
         </Flex>
