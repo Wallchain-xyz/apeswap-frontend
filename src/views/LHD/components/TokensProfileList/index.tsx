@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
-import { useIndustryAvg, useLHDFilterValues, useSearchProfiles, useSimpleProfiles } from 'state/lhd/hooks'
+import { useIndustryAvg, useLHDFilterValues, useSimpleProfiles } from 'state/lhd/hooks'
 import TableHeader from './components/TableHeader'
 import SkeletonRow from './components/SkeletonRow'
 import { styles } from './styles'
@@ -21,7 +21,6 @@ const TokensProfileList = () => {
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
   const { tokensTracked } = useIndustryAvg()
-  const totalPages = tokensTracked ? Math.ceil(tokensTracked / 50) : 0
   const dispatch = useAppDispatch()
   const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)
@@ -69,8 +68,8 @@ const TokensProfileList = () => {
             <Svg icon="placeholderMonkey" />
             <Text sx={{ fontSize: '12px', fontWeight: 500, color: 'textDisabled' }}>{t('No Results Found')}</Text>
           </Flex>
-        ) : simpleProfiles.length > 0 && !searchQueryString ? (
-          sortProfiles(simpleProfiles, sortCol, sortType)?.map((simpleProfile, index) => {
+        ) : simpleProfiles?.data.length > 0 && !searchQueryString ? (
+          sortProfiles(simpleProfiles.data ?? undefined, sortCol, sortType)?.map((simpleProfile, index) => {
             return <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
           })
         ) : (
@@ -84,8 +83,8 @@ const TokensProfileList = () => {
       <Pagination
         currentPage={currentPage}
         onPageChange={(page: number) => setCurrentPage(page)}
-        totalPages={totalPages}
-        hidePagination={noResults || (simpleProfiles.length > 0 && simpleProfiles.length < 50)}
+        totalPages={simpleProfiles ? Math.ceil(simpleProfiles.count / 50) : 0}
+        hidePagination={noResults || (simpleProfiles?.data.length > 0 && simpleProfiles?.data.length < 50)}
       />
     </>
   )

@@ -1,5 +1,5 @@
 import { addIndustryData, addSimpleProfiles } from './reducer'
-import { SimpleTokenProfile } from './types'
+import { ProfilesResponse, SimpleTokenProfile } from './types'
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 
@@ -62,7 +62,7 @@ export const fetchIndustry = async () => {
 
 export const fetchInitialProfiles = () => async (dispatch: any) => {
   try {
-    const listData: SimpleTokenProfile[] = await fetchProfiles()
+    const listData: ProfilesResponse = await fetchProfiles()
     const industryAverage = await fetchIndustry()
     dispatch(addIndustryData(industryAverage))
     dispatch(addSimpleProfiles(listData))
@@ -73,7 +73,7 @@ export const fetchInitialProfiles = () => async (dispatch: any) => {
 
 export const fetchProfilesQuery = (query?: string, filters?: string) => async (dispatch: any) => {
   try {
-    const listData: SimpleTokenProfile[] = await fetchProfiles(filters, query)
+    const listData: ProfilesResponse = await fetchProfiles(filters, query)
     dispatch(addSimpleProfiles(listData))
   } catch (error) {
     console.warn(error)

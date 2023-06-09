@@ -2,19 +2,19 @@ import { useCallback, useEffect } from 'react'
 import { useAppDispatch } from '../hooks'
 // import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
 import { fetchFullProfile, fetchInitialProfiles } from './actions'
-import { SimpleTokenProfile, TokenProfile } from './types'
+import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
 import { addFullProfile, addSimpleProfiles } from './reducer'
 import { useSelector } from 'react-redux'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
-  const simpleProfiles: SimpleTokenProfile[] = useSelector((state: AppState) => state?.lhd?.simpleProfiles)
+  const simpleProfiles: ProfilesResponse | null = useSelector((state: AppState) => state?.lhd?.simpleProfiles)
   useEffect(() => {
-    if (typeof window !== 'undefined' && !simpleProfiles?.length) {
+    if (typeof window !== 'undefined' && !simpleProfiles?.data.length) {
       dispatch(fetchInitialProfiles())
     }
-  }, [dispatch, simpleProfiles?.length])
+  }, [dispatch, simpleProfiles?.data.length])
 }
 
 // export const useOnSearchProfiles = () => {
@@ -77,12 +77,8 @@ export const useFetchProfile = () => {
   )
 }
 
-export const useSimpleProfiles = (): SimpleTokenProfile[] => {
+export const useSimpleProfiles = (): ProfilesResponse => {
   return useSelector((state: AppState) => state.lhd.simpleProfiles)
-}
-
-export const useSearchProfiles = () => {
-  return useSelector((state: AppState) => state.lhd.searchProfiles)
 }
 
 export const useFullProfile = () => {

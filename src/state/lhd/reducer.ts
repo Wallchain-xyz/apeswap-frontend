@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { SimpleTokenProfile, TokenProfile } from './types'
+import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 
 export const initialFilterValues: FilterState = {
   totalScore: { min: 0, max: 100 },
@@ -31,8 +31,7 @@ export interface LHDState {
   tokensVerified: string
   queryState: FilterState
   tokensTracked: number
-  simpleProfiles: SimpleTokenProfile[]
-  searchProfiles: SimpleTokenProfile[]
+  simpleProfiles: ProfilesResponse
   fullProfile: TokenProfile | null
 }
 
@@ -43,8 +42,10 @@ export const initialState: LHDState = {
   tokensVerified: '',
   tokensTracked: 0,
   queryState: initialFilterValues,
-  simpleProfiles: [],
-  searchProfiles: [],
+  simpleProfiles: {
+    data: [],
+    count: 0,
+  },
   fullProfile: null,
 }
 
@@ -63,7 +64,7 @@ const LHDSlice = createSlice({
         tokensTracked: payload?.tokensTracked,
       }
     },
-    addSimpleProfiles(state, action: { payload: SimpleTokenProfile[] }) {
+    addSimpleProfiles(state, action: { payload: ProfilesResponse }) {
       return {
         ...state,
         simpleProfiles: action.payload,
