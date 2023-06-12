@@ -11,6 +11,7 @@ import SharableCard from '../../../SharableCard'
 import { styles } from './styles'
 import { useTranslation } from 'contexts/Localization'
 import TokenImage from '../../../../../../components/TokenImage'
+import Link from 'next/link'
 
 const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
@@ -34,7 +35,10 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
             <Flex sx={styles.nameBtnContainer}>
               <Flex>
                 <TokenImage url={fullProfile?.addressMapping?.tokenLogoUrl} size={25} />
-                <Text sx={styles.tokenSymbol}>{fullProfile?.addressMapping?.tokenSymbol}</Text>
+                <Flex sx={styles.tokenNameCont}>
+                  <Text sx={styles.tokenName}>{fullProfile?.addressMapping?.tokenName}</Text>
+                  <Text sx={styles.tokenSymbol}>{fullProfile?.addressMapping?.tokenSymbol}</Text>
+                </Flex>
                 <Box sx={styles.priceChange}>
                   <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
                     $
@@ -68,6 +72,25 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                 {t('Market Cap:')} ${Math.round(firstValidMcap?.amount).toLocaleString(undefined)}
               </Text>
             </Flex>
+            {fullProfile?.addressMapping?.tags && (
+              <Flex sx={styles.tagRow}>
+                {fullProfile?.addressMapping?.tags.map((tag: string) => (
+                  <Flex key={tag} sx={styles.tag}>
+                    <Text sx={styles.tagText}>{tag.replace('_', ' ')}</Text>
+                  </Flex>
+                ))}
+                <Flex sx={styles.tag}>
+                  <Link
+                    href="https://github.com/ApeSwapFinance/lhd-config"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={styles.tagText}
+                  >
+                    + Add Tag
+                  </Link>
+                </Flex>
+              </Flex>
+            )}
           </Flex>
         </Flex>
       </Flex>
