@@ -191,6 +191,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           },
           border: { dash: [4, 4] },
           min: chartData.healthBottom[0].x,
+          max: chartData.healthBottom[chartData.healthBottom.length - 1].x,
           beginAtZero: false,
         },
       },
