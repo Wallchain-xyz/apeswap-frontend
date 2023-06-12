@@ -37,7 +37,7 @@ export function useBestTrade(
   const [clientSideRouter] = useClientSideRouter()
   const routingAPITrade = useRoutingAPITrade(
     tradeType,
-    autoRouterSupported && isWindowVisible && !debouncedOtherCurrency?.isNative ? debouncedAmount : undefined,
+    autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,
     debouncedOtherCurrency,
     clientSideRouter ? RouterPreference.CLIENT : RouterPreference.API,
     protocols,

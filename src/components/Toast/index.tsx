@@ -45,8 +45,17 @@ const Toast = ({ popKey, popIndex, variant, text, url, linkText, errorText }: Al
           </Link>
         )}
         {errorText && (
-          <Text sx={{ color: 'error', fontSize: '12px', fontWeight: 500, textTransform: 'capitalize' }}>
-            {errorText}
+          <Text
+            sx={{ color: 'error', fontSize: '12px', lineHeight: '18px', fontWeight: 500, textTransform: 'capitalize' }}
+          >
+            {errorText.includes('execution reverted: BEP20: transfer amount exceeds allowance') ||
+            errorText.includes('ds-math-sub-underflow')
+              ? 'Approve contract first'
+              : errorText.includes('INSUFFICIENT_B_AMOUNT') || errorText.includes('INSUFFICIENT_A_AMOUNT')
+              ? 'Increase Slippage'
+              : errorText.includes('user rejected transaction')
+              ? 'User Rejected Transaction'
+              : errorText}
           </Text>
         )}
       </Flex>

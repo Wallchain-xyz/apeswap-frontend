@@ -11,13 +11,14 @@ import { getFullDisplayBalance } from 'utils/getBalanceNumber'
 import { Button, CheckBox, Text } from 'components/uikit'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
-import { useBuyGoldenBanana } from '../useGoldenBanana'
+import { useBuyGnana } from '../useGoldenBanana'
 import { useTreasury } from 'hooks/useContract'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useToken } from 'hooks/Tokens'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
 import ApproveBtn from '../../../components/ApproveBtn'
+import { useToastError } from 'state/application/hooks'
 
 interface ConvertCardType {
   fromToken: string
@@ -33,7 +34,7 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
   const gnanaVal = parseFloat(val) * 0.7
   const [processing, setProcessing] = useState(false)
   const treasuryContract = useTreasury()
-  const { handleBuy } = useBuyGoldenBanana()
+  const handleBuy = useBuyGnana()
   const bananaToken = useToken(BANANA_ADDRESSES[chainId as SupportedChainId])
   const bananaBalance = useTokenBalance(account, bananaToken ?? undefined)
   const { tokenAllowance } = useTokenAllowance(bananaToken ?? undefined, account, treasuryContract?.address)
@@ -42,6 +43,7 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
   const amountToApprove = bananaToken
     ? CurrencyAmount.fromRawAmount(bananaToken, ethers.constants.MaxInt256.toString())
     : undefined
+  const toastError = useToastError()
 
   const [approval, approveCallback] = useApproveCallback(amountToApprove, treasuryContract?.address)
 
@@ -67,17 +69,15 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
   }, [triedMore])
 
   const buy = useCallback(async () => {
-    try {
-      setProcessing(true)
-      await handleBuy(val)
-      setProcessing(false)
-    } catch (e) {
-      setProcessing(false)
-      console.warn(e)
-    }
-  }, [handleBuy, val])
+    setProcessing(true)
+    await handleBuy(val)?.catch((e: any) => {
+      console.error(e)
+      toastError(e)
+    })
+    setProcessing(false)
+  }, [handleBuy, toastError, val])
 
-  const disabled = processing || parseInt(val) === 0 || parseInt(val) > parseInt(fullBalance)
+  const disabled = processing || parseInt(val) === 0 || parseInt(val) > parseInt(fullBalance) || !val
 
   const displayMax = unlimited ? 'unlimited' : MAX_BUY
 
@@ -103,7 +103,6 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
           {fromToken} &gt; {toToken}
         </TokensDisplay>
       </HeaderCard>
-
       <ContentCard>
         <TokenInput
           value={val}
@@ -116,9 +115,19 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
           <Flex sx={{ margin: '15px 0 10px 0' }}>
             <ConnectWalletButton />
           </Flex>
-        ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) ? (
+        ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) || !val ? (
           <Flex sx={{ my: '10px', width: '100%', maxWidth: '200px' }}>
-            <Button disabled={disabled} onClick={buy} sx={{ width: '100%' }}>
+            <Button
+              disabled={disabled}
+              load={processing}
+              onClick={buy}
+              sx={{
+                width: '100%',
+                '&:disabled': {
+                  background: 'white4',
+                },
+              }}
+            >
               {t('CONVERT')}
             </Button>
           </Flex>
@@ -127,7 +136,6 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
             <ApproveBtn approvalState={approval} approveCallback={approveCallback} hasDarkBg />
           </Flex>
         )}
-
         <Flex sx={{ flexDirection: 'column', alignItems: 'center', mb: '10px' }}>
           <Text sx={{ fontSize: '16px', fontWeight: 700 }}>
             {t('OUTPUT')} {`${toToken} ${gnanaVal ? gnanaVal.toFixed(3) : 0}`}
@@ -146,7 +154,7 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
             <CheckBoxCon>
               <CheckBox id="checkbox" scale="md" checked={unlimited} onChange={handleCheckBox} background="white2" />
             </CheckBoxCon>
-            <Text sx={{ fontSize: '12px', fontWeight: 500 }}>
+            <Text sx={{ fontSize: '12px', fontWeight: 500, lineHeight: '18px' }}>
               {t('I understand how GNANA works and I want to enable unlimited buy.')}
             </Text>
           </Flex>

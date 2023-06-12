@@ -84,7 +84,7 @@ const Gnana = () => {
     }
   }, [unlimited, setUnlimitedGnanaMinting])
 
-  const disabled = processing || parseInt(val) === 0 || parseInt(val) > parseInt(fullBananaBalance ?? '0')
+  const disabled = processing || parseFloat(val) === 0 || parseFloat(val) > parseFloat(fullBananaBalance ?? '0')
   const amountToApprove = bananaToken
     ? CurrencyAmount.fromRawAmount(bananaToken, ethers.constants.MaxInt256.toString())
     : undefined
@@ -96,7 +96,7 @@ const Gnana = () => {
     }
     if (parseFloat(tokenAllowance?.toExact() ?? '0') < parseFloat(val)) {
       return (
-        <Flex sx={{ my: '10px', width: '100%' }}>
+        <Flex sx={{ width: '100%' }}>
           <ApproveBtn approvalState={approval} approveCallback={approveCallback} hasDarkBg />
         </Flex>
       )
@@ -135,7 +135,7 @@ const Gnana = () => {
             sx={{ ...gnanaStyles.learnMoreBtn, alignItems: 'center' }}
             onClick={() => window.open('https://apeswap.finance/gnana', '_blank')}
           >
-            {t('Learn More')} <span sx={{ mr: '5px' }} /> <Svg icon="caret" direction="right" />
+            {t('Learn More')} <span sx={{ mr: '5px' }} /> <Svg icon="caret" direction="right" color="primaryBright" />
           </Button>
         </Flex>
       </Flex>

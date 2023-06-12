@@ -21,6 +21,13 @@ import { Analytics } from '@vercel/analytics/react'
 import { RefreshContextProvider } from 'contexts/RefreshContext'
 import GlobalStyles from '../contexts/GlobalStyles'
 import Head from 'next/head'
+import BigNumber from 'bignumber.js'
+
+// This config is required for number formatting
+BigNumber.config({
+  EXPONENTIAL_AT: 1000,
+  DECIMAL_PLACES: 80,
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {

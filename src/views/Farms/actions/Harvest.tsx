@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from 'views/Farms/components/styles'
-import { Button, Flex, Text } from 'components/uikit'
+import { Button, Flex } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import ListViewContent from 'components/ListView/ListViewContent'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
@@ -12,6 +12,7 @@ import { FarmTypes } from 'state/farms/types'
 import { updateFarmUserEarnings } from 'state/farms'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
+import { useToastError } from '../../../state/application/hooks'
 
 interface HarvestActionsProps {
   id: string
@@ -40,6 +41,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
   const handleHarvest = useHarvest(farmType, pid, contractAddress)
   const addTransaction = useTransactionAdder()
   const { t } = useTranslation()
+  const toastError = useToastError()
 
   return (
     <Flex sx={styles.actionContainer}>
@@ -67,6 +69,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
               })
               .catch((e: any) => {
                 console.error(e)
+                toastError(e)
                 setPendingTrx(false)
               })
             dispatch(updateFarmUserEarnings(chainId as SupportedChainId, id, account ?? ''))

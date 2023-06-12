@@ -17,6 +17,7 @@ import { useTokenAllowance } from 'hooks/useTokenAllowance'
 import { Button } from '../../../components/uikit'
 import ApproveBtn from '../../../components/ApproveBtn'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
+import { useToastError } from '../../../state/application/hooks'
 
 interface ReturnCardType {
   fromToken: string
@@ -37,6 +38,7 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
   const amountToApprove = gnanaToken
     ? CurrencyAmount.fromRawAmount(gnanaToken, ethers.constants.MaxInt256.toString())
     : undefined
+  const toastError = useToastError()
 
   const [approval, approveCallback] = useApproveCallback(amountToApprove, treasuryContract?.address)
 
@@ -51,17 +53,19 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
     [setVal],
   )
   const sell = useCallback(async () => {
-    try {
-      setProcessing(true)
-      await handleSell(val)
-      setProcessing(false)
-    } catch (e) {
-      setProcessing(false)
-      console.warn(e)
-    }
-  }, [handleSell, val])
+    setProcessing(true)
+    handleSell(val)
+      .catch((e) => {
+        setProcessing(false)
+        console.error(e)
+        toastError(e)
+      })
+      .finally(() => {
+        setProcessing(false)
+      })
+  }, [toastError, handleSell, val])
 
-  const disabled = processing || parseInt(val) > parseInt(fullBalance) || parseInt(val) === 0
+  const disabled = processing || parseFloat(val) > parseFloat(fullBalance) || parseFloat(val) === 0 || !val
 
   const handleSelectMax = useCallback(() => {
     setVal(fullBalance)
@@ -75,7 +79,6 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
           {fromToken} &gt; {toToken}
         </TokensDisplay>
       </HeaderCard>
-
       <ContentCard>
         <TokenInput
           value={val}
@@ -90,7 +93,17 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
           </Flex>
         ) : parseFloat(tokenAllowance?.toExact() ?? '0') >= parseFloat(val) || !val ? (
           <Flex sx={{ my: '10px', width: '100%', maxWidth: '200px' }}>
-            <Button disabled={disabled} onClick={sell} sx={{ width: '100%' }}>
+            <Button
+              disabled={disabled}
+              onClick={sell}
+              load={processing}
+              sx={{
+                width: '100%',
+                '&:disabled': {
+                  background: 'white4',
+                },
+              }}
+            >
               {t('RETURN')}
             </Button>
           </Flex>
@@ -99,7 +112,6 @@ const ReturnCard: React.FC<ReturnCardType> = ({ fromToken, toToken }) => {
             <ApproveBtn approvalState={approval} approveCallback={approveCallback} hasDarkBg />
           </Flex>
         )}
-
         <Flex sx={{ flexDirection: 'column', alignItems: 'center', mb: '10px' }}>
           <Text sx={{ fontSize: '16px', fontWeight: 700 }}>
             {t('OUTPUT')} {`${toToken} ${valBanana ? valBanana?.toFixed(3) : 0}`}

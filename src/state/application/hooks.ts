@@ -110,7 +110,7 @@ export function useToastError(): (content: PopupContent, key?: string, removeAft
       const content = {
         type: 'error',
         text: 'Transaction Failed',
-        errorText: error?.reason,
+        errorText: error?.reason ? error.reason : error?.message,
       }
       dispatch(addPopup({ content }))
     },

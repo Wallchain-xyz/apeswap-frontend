@@ -180,7 +180,6 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
                 stakingTokenBalance={pool?.userData?.stakingTokenBalance?.toString() ?? ''}
                 stakeTokenAddress={pool?.stakingToken?.address[chainId as SupportedChainId] ?? ''}
                 stakeTokenValueUsd={pool?.stakingToken?.price ?? 0}
-                earnTokenSymbol={pool?.rewardToken?.symbol || pool?.tokenName}
                 sousId={pool?.sousId}
               />
               <Flex sx={{ ...poolStyles.onlyBigScreen, mx: '10px' }}>
@@ -192,6 +191,8 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
                 userEarnings={userEarnings}
                 earnTokenSymbol={pool?.rewardToken?.symbol || pool?.tokenName}
                 earnTokenValueUsd={pool?.rewardToken?.price ?? 0}
+                rawAllowance={userAllowance?.toString() ?? ''}
+                stakeTokenAddress={pool?.stakingToken?.address[chainId as SupportedChainId] ?? ''}
               />
             </Flex>
           </>

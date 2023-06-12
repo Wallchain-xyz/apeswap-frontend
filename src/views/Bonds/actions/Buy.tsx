@@ -27,6 +27,7 @@ import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from '../../../components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import { useToastError } from '../../../state/application/hooks'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
@@ -55,6 +56,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   const { t } = useTranslation()
+  const toastError = useToastError()
 
   const billsCurrencies = {
     currencyA: useCurrency(token.address[chainId as SupportedChainId]),
@@ -157,6 +159,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           dispatch(fetchBillsUserDataAsync(chainId, account))
         })
         .catch((e) => {
+          console.error(e)
+          toastError(e)
           setPendingTrx(false)
           onTransactionSubmited(false)
         })
@@ -205,6 +209,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
         .catch((e: any) => {
           setZapSlippage(originalSlippage)
           console.error(e)
+          toastError(e)
           setPendingTrx(false)
           onTransactionSubmited(false)
         })

@@ -39,13 +39,14 @@ export const gnanaStyles: Record<string, ThemeUIStyleObject> = {
     textDecorationLine: 'underline',
     fontSize: '12px',
     fontWeight: 500,
+    padding: '10px 10px 0 10px',
     color: 'primaryBright',
     '&&:hover': {
       color: 'primaryBright',
     },
   },
   transactions: {
-    margin: '50px 0 0 0',
+    margin: '40px 0 0 0',
     maxWidth: '100%',
     width: '400px',
     height: '100%',
@@ -58,7 +59,7 @@ export const gnanaStyles: Record<string, ThemeUIStyleObject> = {
   },
   arrowDownContainer: {
     width: '100%',
-    height: '50px',
+    height: '40px',
     alignItems: 'center',
     justifyContent: 'center',
   },

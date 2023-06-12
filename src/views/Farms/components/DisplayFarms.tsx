@@ -62,7 +62,7 @@ const DisplayFarms = ({
     const token0 = farm.tokenSymbol
     const token1 = farm.quoteTokenSymbol
     const userAllowance = farm?.userData?.allowance
-    const userEarnings = getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0))?.toFixed(2)
+    const userEarnings = getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0))?.toFixed(3)
     const userSecondEarnings = getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0))?.toFixed(2)
     const userEarningsUsd = `$${(farm.farmType === FarmTypes.DUAL_FARM
       ? getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0)) * farm.earnTokenPrice +
@@ -270,7 +270,7 @@ const DisplayFarms = ({
             <Harvest
               id={farm.id}
               pid={farm.pid}
-              disabled={userEarnings === '0.00'}
+              disabled={userEarnings === '0.000'}
               userEarnings={userEarnings}
               userEarningsUsd={userEarningsUsd}
               farmType={farm.farmType}

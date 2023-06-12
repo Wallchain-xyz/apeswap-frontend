@@ -26,7 +26,6 @@ const ApproveDual: React.FC<ApprovalActionProps> = ({ lpToApprove, pid }) => {
 
   return (
     <Button
-      className="noClick"
       disabled={pendingTrx}
       onClick={async () => {
         setPendingTrx(true)

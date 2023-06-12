@@ -56,12 +56,11 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         </Flex>
       )}
       <Button
-        disabled={pendingTx || parseFloat(fullBalance) < parseFloat(val)}
+        disabled={pendingTx || new BigNumber(fullBalance).lt(val) || !val}
         onClick={async () => {
           setPendingTx(true)
           try {
             await onConfirm(val)
-            onDismiss?.()
           } catch (e) {
             console.error('Transaction Failed')
           } finally {

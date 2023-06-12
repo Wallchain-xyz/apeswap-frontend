@@ -4,10 +4,11 @@ import { StyledButton } from '../styles'
 import BuyBillModalView from './BuyBillModalView'
 import useModal from 'hooks/useModal'
 import { CheckBox, Flex, IconButton, Modal, Svg, Text } from 'components/uikit'
+import { Bills } from 'views/Bonds/types'
 
 interface TransferBillModalProps {
-  onDismiss: () => void
-  bill?: any
+  onDismiss?: () => void
+  bill: Bills
 }
 
 const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => {
@@ -17,7 +18,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
   const [onPresentBuyBillsModal] = useModal(
     <BuyBillModalView billIndex={index} onDismiss={() => null} />,
     true,
-    true,
+    false,
     `billsModal${index}`,
     true,
   )
