@@ -23,7 +23,19 @@ import useIsMobile from '../../../../hooks/useIsMobile'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
-const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: number; data: any }) => {
+const CustomTooltip = ({
+  show,
+  x,
+  y,
+  data,
+  isOwnedExtractable,
+}: {
+  show: boolean
+  x: number
+  y: number
+  data: any
+  isOwnedExtractable: boolean
+}) => {
   const { t } = useTranslation()
 
   if (!show) return null
@@ -96,8 +108,17 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
           <Text sx={{ alignItems: 'flex-end' }}>{formatDollar({ num: data?.mcap })}</Text>
         </Flex>
         <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity (y-axis):</Text>
-          <Text sx={{ alignItems: 'flex-end' }}>{Math.round(data?.extractableLiquidityPercentage)}%</Text>
+          <Text sx={{ fontWeight: 400 }}>
+            {`${isOwnedExtractable === false ? 'Total' : 'Owned'} Extractable Liquidity (y-axis):`}
+          </Text>
+          <Text sx={{ alignItems: 'flex-end' }}>
+            {Math.round(
+              isOwnedExtractable === false
+                ? data?.extractableLiquidityPercentage
+                : data?.ownedExtractableLiquidityPercentage,
+            )}
+            %
+          </Text>
         </Flex>
       </Flex>
     </Flex>,
@@ -108,7 +129,7 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
 const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; passBackData: any }) => {
   const canvasRef = useRef(null)
   const [zoomPlugin, setZoomPlugin] = useState(null)
-  const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
+  const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '', isOwnedExtractable: false })
   const isMobile = useIsMobile()
   const [options, setOptions] = useState({})
 
@@ -261,7 +282,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     }
 
     const currentItem = tooltip.dataPoints[0]
+
     const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
+    console.log(data)
 
     const canvasPosition = context.chart.canvas.getBoundingClientRect()
 
@@ -270,6 +293,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       x: canvasPosition.left + window.scrollX + currentItem.element.x,
       y: canvasPosition.top + window.scrollY + currentItem.element.y,
       data: data,
+      //Last one is the owned extractable liquidity icon
+      isOwnedExtractable:
+        currentItem.dataIndex === context.chart.data.datasets[currentItem.datasetIndex].data.length - 1,
     })
   }
 
@@ -352,6 +378,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
               ctx.strokeStyle = '#1179A6'
             } else {
               point2 = point
+
               ctx.strokeStyle = '#904DC4'
             }
           } else {
@@ -524,7 +551,13 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           <Text sx={{ fontSize: '10px', fontWeight: '400' }}>X: Market Cap</Text>
         </Flex>
       )}
-      <CustomTooltip show={tooltipState.show} x={tooltipState.x} y={tooltipState.y} data={tooltipState.data} />
+      <CustomTooltip
+        show={tooltipState.show}
+        x={tooltipState.x}
+        y={tooltipState.y}
+        data={tooltipState.data}
+        isOwnedExtractable={tooltipState.isOwnedExtractable}
+      />
     </>
   )
 }
