@@ -2,7 +2,7 @@ import { Flex, Text } from 'components/uikit'
 import HealthSummaryRow from './HealthSummaryRow'
 import { formatDollar, formatValue } from 'utils/formatNumbers'
 import { useTranslation } from 'contexts/Localization'
-import { LiquidityOwner, LiquidityPool, TokenProfile } from 'state/lhd/types'
+import { chartExtras, LiquidityOwner, LiquidityPool, TokenProfile } from 'state/lhd/types'
 import { styles } from './styles'
 import dynamic from 'next/dynamic'
 import { Svg } from 'components/uikit'
@@ -16,7 +16,7 @@ const DoughnutChart = dynamic(() => import('./DoughnutChart'), {
   ssr: false,
 })
 
-const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; chartExtras: any }) => {
+const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; chartExtras: chartExtras }) => {
   const { t } = useTranslation()
 
   const whitelistedOwners = fullProfile.liquidityPools

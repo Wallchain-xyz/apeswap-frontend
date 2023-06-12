@@ -24,7 +24,11 @@ const FullProfile = ({
   const { t } = useTranslation()
   const router = useRouter()
 
-  const [chartPassBackData, setChartPassBackData] = useState<chartExtras | null>(null)
+  const [chartPassBackData, setChartPassBackData] = useState<chartExtras>({
+    sustainabilityLower: 0,
+    sustainabilityUpper: 0,
+    liquidityDebt: 0,
+  })
 
   useEffect(() => {
     if (chainID && address) {
@@ -37,7 +41,7 @@ const FullProfile = ({
   }
 
   const handleBackButton = () => {
-    router.push('/liquidity-health', '/liquidity-health')
+    router.push({ pathname: `/liquidity-health?${Math.random() * 10}` }, '/liquidity-health')
   }
 
   if (fullProfile) {

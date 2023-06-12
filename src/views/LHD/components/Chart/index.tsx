@@ -118,7 +118,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         setZoomPlugin(plugin.default as any)
       })
     }
-  }, [])
+  }, [chartData])
 
   useEffect(() => {
     if (zoomPlugin) {
