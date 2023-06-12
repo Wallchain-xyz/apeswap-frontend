@@ -84,7 +84,7 @@ const TokensProfileList = () => {
         currentPage={currentPage}
         onPageChange={(page: number) => setCurrentPage(page)}
         totalPages={simpleProfiles ? Math.ceil(simpleProfiles.count / 50) : 0}
-        hidePagination={noResults}
+        hidePagination={simpleProfiles.count < 51 || noResults}
       />
     </>
   )
