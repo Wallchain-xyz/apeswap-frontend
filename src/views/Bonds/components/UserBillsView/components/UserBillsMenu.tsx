@@ -64,11 +64,11 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
     <Flex sx={styles.menuContainer}>
       {isMobile ? (
         <Flex sx={styles.mobileContainer}>
-          <Flex>
+          <Flex sx={{ width: '100%', maxWidth: '350px' }}>
             <SearchText bold mr="15px">
               {t('Search')}
             </SearchText>
-            <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} />
+            <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} width={'100%'} />
             <Flex sx={styles.expandedButton} onClick={() => setExpended(!expanded)}>
               <Svg icon="MenuSettings" width="18px" />
             </Flex>
@@ -80,7 +80,13 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
                 animate={{ height: 'fit-content', transitionEnd: { overflow: 'visible' } }}
                 transition={{ opacity: { duration: 0.2 } }}
                 exit={{ height: 0, overflow: 'hidden' }}
-                sx={{ position: 'relative', width: '100%', overflow: 'hidden' }}
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
               >
                 <Flex sx={styles.mobileRow}>
                   <Flex sx={styles.inputContainer} pr={3}>
@@ -109,7 +115,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
                         }}
                       />
                     </Flex>
-                    <Flex>
+                    <Flex sx={{ cursor: 'pointer' }} onClick={() => setShowClaimed(!showClaimed)}>
                       <CheckBox checked={showClaimed} onClick={() => setShowClaimed(!showClaimed)} />
                       <Text ml="15px" size="14px">
                         {t('Claimed')}
@@ -152,7 +158,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
               }}
             />
           </Flex>
-          <Flex sx={{ alignItems: 'center' }}>
+          <Flex sx={{ alignItems: 'center', cursor: 'pointer' }} onClick={() => setShowClaimed(!showClaimed)}>
             <CheckBox checked={showClaimed} onClick={() => setShowClaimed(!showClaimed)} />
             <Text ml="15px" size="14px">
               {t('Claimed')}

@@ -6,7 +6,6 @@ export const styles: Record<
 > = {
   modalWrapper: {
     flexDirection: 'column',
-    width: '420px',
   },
   swapSwitchButton: {
     backgroundColor: 'yellow',

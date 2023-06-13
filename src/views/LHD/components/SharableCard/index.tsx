@@ -17,7 +17,7 @@ import domtoimage from 'dom-to-image';
 const modalProps = {
   // sample styles for the modal. This are not checked at all so feel 100% free to change them
   sx: {
-    overflowY: 'auto',
+    // overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     height:'fit-contnet',
     minWidth: 'unset',
@@ -48,14 +48,14 @@ interface SharableCardProps {
 }
 
 const SharableCard = ({
-                        tokenSymbol,
-                        tokenImageURL,
-                        totalScore,
-                        healthScore,
-                        concentrationScore,
-                        ownershipScore,
-                        tokenAddresses,
-                      }: SharableCardProps) => {
+  tokenSymbol,
+  tokenImageURL,
+  totalScore,
+  healthScore,
+  concentrationScore,
+  ownershipScore,
+  tokenAddresses,
+}: SharableCardProps) => {
   //put logic and functions here, feel free to create folders and new files within the SharableCard directory
   
 
@@ -189,6 +189,7 @@ const SharableCard = ({
     const color = score <= 40 ? 'white' : 'black';
 
   return (
+
     <Modal {...modalProps}
     // prope acá y es lo mismo 
     >

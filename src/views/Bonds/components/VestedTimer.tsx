@@ -3,7 +3,6 @@ import React from 'react'
 import getTimePeriods from 'utils/getTimePeriods'
 import { styles } from './UserBillsView/components/styles'
 import { Skeleton, Text } from 'components/uikit'
-import { StyledHeading } from '../styles'
 import ListViewContent from 'components/ListView/ListViewContent'
 import useCurrentTime from 'hooks/useTimer'
 
@@ -19,17 +18,17 @@ const VestedTimer: React.FC<{
   const vestingTime = getTimePeriods(parseInt(lastBlockTimestamp) + parseInt(vesting) - currentTime, true)
 
   return transferModalFlag ? (
-    <Text bold>
+    <Text>
       {vestingTime.days}d, {vestingTime.hours}h, {vestingTime.minutes}m
     </Text>
   ) : userModalFlag ? (
-    <StyledHeading bold>
+    <Text sx={{ fontWeight: 700 }}>
       {vestingTime ? (
         `${vestingTime.days}d, ${vestingTime.hours}h, ${vestingTime.minutes}m`
       ) : (
         <Skeleton width="150px" height="32.5px" animation="waves" />
       )}
-    </StyledHeading>
+    </Text>
   ) : mobileFlag ? (
     <ListViewContent
       title={'Fully Vested'}

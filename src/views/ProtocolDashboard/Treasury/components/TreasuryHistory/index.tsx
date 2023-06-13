@@ -155,8 +155,7 @@ const TreasuryHistory: React.FC = () => {
         <Line
           data={data}
           options={{
-            //@ts-ignore
-            color: theme.colors?.text,
+            color: theme.rawColors?.text?.toString(),
             elements: {
               point: {
                 radius: 0,
@@ -181,8 +180,7 @@ const TreasuryHistory: React.FC = () => {
                 position: 'bottom',
                 fullSize: true,
                 labels: {
-                  //@ts-ignore
-                  color: theme.colors.text,
+                  color: theme.rawColors?.text?.toString(),
                   font: { family: 'poppins', weight: '600' },
                 },
               },

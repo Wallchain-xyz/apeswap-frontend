@@ -5,18 +5,8 @@ import SwiperCore from 'swiper'
 import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 import { useFetchHomepageLaunchCalendar, useHomepageLaunchCalendar } from 'state/homepage/hooks'
-import { useTheme } from '@emotion/react'
-import { Flex, Skeleton, Text } from 'components/uikit'
-import Image from 'next/image'
-import {
-  Bubble,
-  CalendarImg,
-  ColorWrap,
-  LaunchCalendarWrapper,
-  LaunchCard,
-  LaunchText,
-  SkeletonWrapper,
-} from './styles'
+import { Flex, Skeleton, Text, SwiperDots } from 'components/uikit'
+import { CalendarImg, ColorWrap, LaunchCalendarWrapper, LaunchCard, LaunchText, SkeletonWrapper } from './styles'
 
 const LaunchCalendar: React.FC = () => {
   const [loadNews, setLoadNews] = useState(false)
@@ -25,7 +15,6 @@ const LaunchCalendar: React.FC = () => {
   useFetchHomepageLaunchCalendar(loadNews)
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)
-  const theme = useTheme()
   const launchCal = useHomepageLaunchCalendar()
   const sortLaunch = launchCal?.filter((launch) => new Date(launch.launchTime) > today)
   const launchCalLength = sortLaunch?.length || 0
@@ -52,9 +41,9 @@ const LaunchCalendar: React.FC = () => {
       <div ref={observerRef} />
       <ColorWrap>
         <LaunchCalendarWrapper>
-          <LaunchText bold>{t('Launch Calendar')}</LaunchText>
+          <LaunchText>{t('Launch Calendar')}</LaunchText>
           <Flex sx={{ width: '100%', overflow: 'hidden', justifyContent: 'space-around' }}>
-            {sortLaunch ? (
+            {sortLaunch && sortLaunch?.length > 0 ? (
               <Swiper
                 id="launchSwiper"
                 initialSlide={0}
@@ -75,11 +64,11 @@ const LaunchCalendar: React.FC = () => {
                   const slide = (
                     <SwiperSlide
                       style={{ maxWidth: '219px', minWidth: '219px' }}
-                      key={`${launch?.textLine1}-${launch?.launchTime}`}
+                      key={`${launch?.textLine1}-${launch?.launchTime}-${date.toString}-${i}`}
                     >
                       <LaunchCard>
                         <Flex sx={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                          <Text size="30px" mb='10px'>
+                          <Text size="30px" mb="10px">
                             {date.getUTCDate()} {date.toUTCString().split(' ')[2]}
                           </Text>
                           <Text size="12px">
@@ -117,7 +106,7 @@ const LaunchCalendar: React.FC = () => {
 
                   if (i === launchCalLength - 1) {
                     return (
-                      <>
+                      <div key={`${launch?.textLine1}-${launch?.launchTime}-${date.toString}-${i}`}>
                         {slide}
                         <SwiperSlide style={{ maxWidth: '219px', minWidth: '219px' }} key={`${launch?.textLine1}-${i}`}>
                           <Flex>
@@ -126,7 +115,7 @@ const LaunchCalendar: React.FC = () => {
                             </Flex>
                           </Flex>
                         </SwiperSlide>
-                      </>
+                      </div>
                     )
                   }
                   return slide
@@ -134,8 +123,8 @@ const LaunchCalendar: React.FC = () => {
               </Swiper>
             ) : (
               <SkeletonWrapper>
-                {[...Array(6)].map((i) => {
-                  return <Skeleton width="219px" height="219px" key={i} />
+                {[...Array(6)].map((i, index) => {
+                  return <Skeleton width="219px" height="219px" key={`skelet${index}`} />
                 })}
               </SkeletonWrapper>
             )}
@@ -151,7 +140,9 @@ const LaunchCalendar: React.FC = () => {
             }}
           >
             {[...Array(launchCalLength + 1)].map((_, i) => {
-              return <Bubble isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={i} />
+              return (
+                <SwiperDots isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={`launch-bubbles${i}`} />
+              )
             })}
           </Flex>
         </LaunchCalendarWrapper>

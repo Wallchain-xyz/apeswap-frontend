@@ -15,15 +15,12 @@ const nextConfig = {
       'tokens.pancakeswap.finance',
       'ipfs.io',
       'res.cloudinary.com',
+      'apeswap.mypinata.cloud',
+      'assets-cdn.trustwallet.com',
     ],
   },
   async redirects() {
     return [
-      {
-        source: '/zap',
-        destination: '/add-liquidity',
-        permanent: false,
-      },
       {
         source: '/migrate',
         destination: '/add-liquidity',

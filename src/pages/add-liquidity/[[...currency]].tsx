@@ -9,8 +9,12 @@ const AddLiquidityPage = () => {
   const { query, push } = useRouter()
   const [currencyIdA, currencyIdB, feeAmountFromUrl] = (query.currency as string[]) || [undefined, undefined, '']
 
-  if (chainId === SupportedChainId.ARBITRUM_ONE || chainId === SupportedChainId.MAINNET) {
-    push(`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}/add-liquidity`)
+  if (
+    chainId === SupportedChainId.ARBITRUM_ONE ||
+    chainId === SupportedChainId.MAINNET ||
+    chainId === SupportedChainId.TLOS
+  ) {
+    push(`/add-liquidity/v2`)
   }
 
   return (

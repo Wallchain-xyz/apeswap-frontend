@@ -7,7 +7,7 @@ import useIsMobile from 'hooks/useIsMobile'
 import { styles } from './styles'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import  BigNumber from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 import ListViewContent from 'components/ListView/ListViewContent'
 import { Flex } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
@@ -15,6 +15,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListView from 'components/ListView/ListView'
 import VestedTimer from '../../VestedTimer'
 import BillModal from '../../Modals'
+import { ListTagVariants } from 'components/uikit/Tag/types'
 
 const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender }) => {
   const { chainId } = useWeb3React()
@@ -36,18 +37,18 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
     return {
       tokenDisplayProps: {
         token1: token.symbol,
-        token2: quoteToken.symbol,
+        token2: bill.billType === 'reserve' ? earnToken.symbol : quoteToken.symbol,
         token3: earnToken.symbol,
-        stakeLp: true,
+        stakeLp: bill.billType !== 'reserve',
         billArrow: true,
       },
       listProps: {
         id: billToRender.id,
         title: (
           <ListViewContent
-            tag="ape"
+            tag={bill.billType as ListTagVariants}
             value={bill.lpToken.symbol}
-            style={{ maxWidth: '150px', height: '35px', flexDirection: 'column' }}
+            style={{ maxWidth: '150px', height: '35px', flexDirection: 'column', justifyContent: 'space-between' }}
           />
         ),
         titleContainerWidth: 280,
@@ -60,7 +61,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
             toolTip={`This is the amount of tokens that have vested and available to claim.`}
             toolTipPlacement={'bottomLeft'}
             toolTipTransform={'translate(29%, 0%)'}
-            style={{ width: '100%', justifyContent: 'space-between' }}
+            style={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}
           />
         ) : (
           <Flex style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -85,15 +86,17 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
               toolTipTransform="translate(22%, -4%)"
             />
             <VestedTimer lastBlockTimestamp={billToRender.lastBlockTimestamp} vesting={billToRender.vesting} />
-            <Flex sx={{ minWidth: '220px', alignItems: 'center' }}>
-              <Claim
-                billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
-                billIds={[billToRender.id]}
-                buttonSize={'100px'}
-                pendingRewards={billToRender?.pendingRewards}
-                margin={'0 10px'}
-              />
-              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
+            <Flex sx={{ width: '240px', justifyContent: 'space-between', minWidth: '220px', alignItems: 'center' }}>
+              <Flex sx={{ maxWidth: '109px' }}>
+                <Claim
+                  billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
+                  billIds={[billToRender.id]}
+                  pendingRewards={billToRender?.pendingRewards}
+                />
+              </Flex>
+              <Flex sx={{ maxWidth: '109px' }}>
+                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
+              </Flex>
             </Flex>
           </Flex>
         ),
@@ -108,7 +111,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 toolTip={`This is the amount of unvested tokens that cannot be claimed yet.`}
                 toolTipPlacement={'bottomLeft'}
                 toolTipTransform={'translate(22%, 0%)'}
-                style={{ width: '100%', justifyContent: 'space-between', marginBottom: '5px' }}
+                style={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}
               />
               <VestedTimer
                 lastBlockTimestamp={billToRender.lastBlockTimestamp}
@@ -116,18 +119,21 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 mobileFlag
               />
             </Flex>
-            <Flex sx={{ width: '100%', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Box sx={{ width: '240px', margin: '10px 0' }}>
-                <Claim
-                  billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
-                  billIds={[billToRender.id]}
-                  pendingRewards={billToRender?.pendingRewards}
-                  margin={'0'}
-                />
-              </Box>
-              <Box sx={{ width: '240px', mb: 6 }}>
-                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'240px'} />
-              </Box>
+            <Flex
+              sx={{
+                width: '100%',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Claim
+                billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
+                billIds={[billToRender.id]}
+                pendingRewards={billToRender?.pendingRewards}
+              />
+              <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} />
             </Flex>
           </Flex>
         ),

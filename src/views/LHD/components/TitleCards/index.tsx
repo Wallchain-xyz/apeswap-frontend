@@ -1,51 +1,62 @@
-import React from 'react'
-import { Flex, Link, Text } from 'components/uikit'
+import { Flex, Link, ListTag, Text } from 'components/uikit'
 import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
+import { useIndustryAvg } from '../../../../state/lhd/hooks'
 
 const TitleCards = () => {
   const { t } = useTranslation()
+  const { averageChange, averageTotalScore, chainsSupported, tokensTracked } = useIndustryAvg()
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.titleContainer}>
         <Flex sx={{ width: '100%' }}>
           <Text sx={styles.titleText}>{t('Liquidity Health Dashboard')}</Text>
+          <ListTag variant="beta" />
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
           <Text sx={styles.detailText}>
-            {t('Apeswap’s data visualization tool that provides insights into the liquidity levels and sustainability of cryptocurrency projects.')}
+            {t(
+              'ApeSwap’s data visualization tool that provides insights into the liquidity levels and sustainability of cryptocurrency projects.',
+            )}
           </Text>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
-          <Link href=''>
-            <Text sx={styles.btnText}>
-              {t('Learn More')}
-            </Text>
+          <Link href="https://apeswap.gitbook.io/apeswap-finance/welcome/master">
+            <Text sx={styles.btnText}>{t('Learn More')}</Text>
           </Link>
-          <Link href=''>
-            <Text
-              sx={styles.btnText}>
-              {t('Improve your score')}
-            </Text>
+          <Link href="https://github.com/ApeSwapFinance/lhd-config">
+            <Text sx={styles.btnText}>{t('Submit data update')}</Text>
           </Link>
         </Flex>
       </Flex>
       <Flex sx={styles.cardsContainer}>
         <StatCard
-          title='Industry Average'
-          value={'60'}
-          footerInfo={<>+0,45% on the last 7 days</>}
+          title="Industry Average"
+          value={(parseFloat(averageTotalScore) * 100).toFixed()}
+          footerInfo={<>{`${averageChange || Number.isNaN(averageChange) ? '0' : averageChange}% in last 7 days`}</>}
         />
         <StatCard
-          title='Chain supported'
-          value={'19'}
-          footerInfo={<Link href={'where.dev'} target='_blank' sx={{ color: 'yellow' }}>See which chains</Link>}
+          title="Chains Supported"
+          value={chainsSupported}
+          footerInfo={
+            <Link
+              href="https://apeswap.gitbook.io/apeswap-finance/welcome/master"
+              target="_blank"
+              sx={{ color: 'yellow' }}
+            >
+              See which chains
+            </Link>
+          }
         />
         <StatCard
-          title='Verified tokens'
-          value={'235'}
-          footerInfo={<Link href={'where.dev'} target='_blank' sx={{ color: 'yellow' }}>Verify your Project?</Link>}
+          title="Supported Tokens"
+          value={tokensTracked.toString()}
+          footerInfo={
+            <Link href="https://github.com/ApeSwapFinance/lhd-config" target="_blank" sx={{ color: 'yellow' }}>
+              Verify Your Project?
+            </Link>
+          }
         />
       </Flex>
     </Flex>

@@ -6,7 +6,7 @@ export const styles: Record<
 > = {
   mainContainer: {
     width: '100%',
-    height: ['620px', '430px', '550px'],
+    height: ['620px', '620px', '620px', '620px', '550px'],
     justifyContent: 'center',
     position: 'relative',
     overflow: 'hidden',
@@ -41,6 +41,6 @@ export const styles: Record<
     alignContent: 'center',
     zIndex: 1,
     position: 'absolute',
-    top: [0, 0, '-40px'],
+    top: [0, 0, 0, '-40px'],
   },
 }

@@ -1,4 +1,4 @@
-import { Currency, Token } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
 import { useAllTokens, useIsUserAddedToken, useSearchInactiveTokenLists, useToken } from 'hooks/Tokens'
@@ -12,8 +12,9 @@ import { UserAddedToken } from 'state/user/types'
 import ListRow from './ListRow'
 import { CSSProperties } from 'theme-ui'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
-import useCurrencyBalance, { useNativeCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
+import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
+import { useZapInputList } from '../../../state/zap/hooks'
 
 const List = ({
   searchQuery,
@@ -23,6 +24,7 @@ const List = ({
   disableNonToken,
   onCurrencySelect,
   onDismiss,
+  isZapInput,
 }: {
   searchQuery: string
   selectedCurrency?: Currency | null
@@ -32,18 +34,39 @@ const List = ({
   disableNonToken?: boolean
   onCurrencySelect: (currency: Currency) => void
   onDismiss: () => void
+  isZapInput?: boolean
 }) => {
-  const { account } = useWeb3React()
+  const { chainId, account } = useWeb3React()
   const [tokenLoaderTimerElapsed, setTokenLoaderTimerElapsed] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 200)
   const defaultTokens = useAllTokens()
+  const zapInputTokens = useZapInputList()
   const [balances, balancesAreLoading] = useAllTokenBalances()
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
   const isAddressSearch = isAddress(debouncedQuery)
+
+  //this function takes the tokens of defaultToken object and filters the tokens we want users zap from.
+  const inputList: Record<string, any> = useMemo(() => {
+    if (!zapInputTokens) return {}
+    let filteredObject: Record<string, any> = {}
+    Object.keys(defaultTokens).forEach((key) => {
+      Object.values(zapInputTokens[chainId as SupportedChainId]).forEach((subObject) => {
+        if (subObject.address && subObject.address[chainId as SupportedChainId]?.toLowerCase() === key.toLowerCase()) {
+          filteredObject[key] = defaultTokens[key]
+        }
+      })
+    })
+    return filteredObject
+  }, [chainId, defaultTokens, zapInputTokens])
+
   const filteredTokens: Token[] = useMemo(() => {
+    if (isZapInput) {
+      if (!zapInputTokens) return []
+      return Object.values(inputList).filter(getTokenFilter(debouncedQuery))
+    }
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
-  }, [defaultTokens, debouncedQuery])
+  }, [isZapInput, defaultTokens, debouncedQuery, zapInputTokens, inputList])
 
   const sortedTokens: Token[] = useMemo(
     () =>
@@ -78,13 +101,14 @@ const List = ({
   const searchCurrencies: Currency[] = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
 
-    const tokens = filteredSortedTokens.filter((t) => !(t.equals(wrapped) || (disableNonToken && t.isNative)))
+    const zapTokens = filteredSortedTokens
     const natives = (disableNonToken || native.equals(wrapped) ? [wrapped] : [native, wrapped]).filter(
       (n) => n.symbol?.toLowerCase()?.indexOf(s) !== -1 || n.name?.toLowerCase()?.indexOf(s) !== -1,
     )
-
+    if (isZapInput) return searchToken ? [searchToken, ...natives, ...zapTokens] : [...natives, ...zapTokens]
+    const tokens = filteredSortedTokens?.filter((t) => !(t?.equals(wrapped) || (disableNonToken && t?.isNative)))
     return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
-  }, [debouncedQuery, filteredSortedTokens, wrapped, disableNonToken, native, searchToken])
+  }, [debouncedQuery, filteredSortedTokens, disableNonToken, native, wrapped, isZapInput, searchToken])
 
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
   useEffect(() => {
@@ -149,13 +173,13 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', overflowY: 'scroll', flexDirection: 'column' }}>
+    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', flexDirection: 'column' }}>
       <FixedSizeList
         height={500}
-        itemSize={65}
+        itemSize={55}
         width="100%"
-        itemCount={searchCurrencies.length + filteredInactiveTokens.length}
-        itemData={[...searchCurrencies, ...filteredInactiveTokens]}
+        itemCount={isZapInput ? searchCurrencies.length : searchCurrencies.length + filteredInactiveTokens.length}
+        itemData={isZapInput ? searchCurrencies : [...searchCurrencies, ...filteredInactiveTokens]}
         itemKey={itemKey}
         sx={{
           '::-webkit-scrollbar': {

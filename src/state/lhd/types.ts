@@ -39,22 +39,35 @@ export interface SimpleTokenProfile {
   concentrationScore: number
   ownershipScore: number
   totalScore: number
+  ranking: number
+}
+
+export interface ProfilesResponse {
+  count: number
+  data: SimpleTokenProfile[]
 }
 
 export interface TokenProfile extends SimpleTokenProfile {
-  totalValidLiquidity: number;
-  totalExtractableLiquidity: number;
-  ownedLiquidity: number;
-  ownedLiquidityPercentage: number;
-  validOwnedLiquidity: number;
-  circulatingSupply: ExternalDataOption[];
-  currentPrice: ExternalDataOption[];
-  totalSupply: ExternalDataOption[];
-  liquidityPools: LiquidityPool[];
-  formulaVersion: string;
-  createdAt: string;
-  unlockedSupply: number;
+  totalValidLiquidity: number
+  totalExtractableLiquidity: number
+  ownedLiquidity: number
+  ownedExtractableLiquidity: number
+  ownedLiquidityPercentage: number
+  validOwnedLiquidity: number
+  circulatingSupply: ExternalDataOption[]
+  currentPrice: ExternalDataOption[]
+  totalSupply: ExternalDataOption[]
+  liquidityPools: LiquidityPool[]
+  formulaVersion: string
+  createdAt: string
+  unlockedSupply: number
   healthChartData: LiquidityHealthChart
+}
+
+export interface chartExtras {
+  liquidityDebt: number
+  sustainabilityLower: number
+  sustainabilityUpper: number
 }
 
 export interface LiquidityHealthChart {
@@ -83,6 +96,7 @@ export interface ChartItemData {
 
 export interface LiquidityPool {
   chainId: string
+  chainName: string
   dex: string
   lpAddress: string
   baseToken: DexScreenerToken
@@ -102,13 +116,29 @@ export type DexScreenerToken = {
   address: string
   name: string
   symbol: string
+  tokenLogoUrl: string
 }
 
 export interface LiquidityOwner {
-  walletAddress: string;
-  amount?: number;
-  lpAddress?: string;
-  reason: string;
-  lpType: string;
-  chainId: string;
+  walletAddress: string
+  amount?: number
+  lpAddress?: string
+  reason: string
+  lpType: string
+  chainId: string
+}
+
+export interface ChainDetail {
+  chainId: string
+  chainName: string
+  coingeckoId: string
+  dexscreenerId?: string
+  logoUrl?: string
+  blockExplorer?: BlockExplorer
+}
+
+export interface BlockExplorer {
+  url: string
+  type: string
+  testToken: string
 }

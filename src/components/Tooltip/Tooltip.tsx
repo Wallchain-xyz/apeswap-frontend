@@ -6,6 +6,12 @@ import ButtonsRow from './ButtonsRow'
 import { Flex, Link, Text } from 'components/uikit'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import { Farm } from 'state/farms/types'
+import JungleFarmsEndsIn from './JungleFarmsEndsIn'
+import { Pool } from 'state/pools/types'
+import PoolsEndsIn from './PoolsEndsIn'
+import { Svg } from '../uikit'
+import { Box } from 'theme-ui'
 
 export interface TooltipProps {
   valueTitle?: string
@@ -18,8 +24,8 @@ export interface TooltipProps {
   projectLink?: string
   twitter?: string
   audit?: string
-  // jungleFarm?: JungleFarm
-  // pool?: Pool
+  jungleFarm?: Farm
+  pool?: Pool
 }
 
 const Tooltip: React.FunctionComponent<TooltipProps> = ({
@@ -33,8 +39,8 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
   projectLink,
   twitter,
   audit,
-  // jungleFarm,
-  // pool,
+  jungleFarm,
+  pool,
 }) => {
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
@@ -58,19 +64,25 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
           <Text sx={styles.contentText}>{value2Content}</Text>
         </Flex>
       )}
-      {/* {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />}
-      {pool && <PoolsEndsIn pool={pool} />} */}
+      {jungleFarm && <JungleFarmsEndsIn farm={jungleFarm} />}
+      {pool && <PoolsEndsIn pool={pool} />}
       <Flex sx={{ justifyContent: 'center' }}>
         <Flex sx={{ width: '144px', flexDirection: 'column' }}>
           <Flex sx={styles.linkRow}>
-            <Link href={tokenLink} sx={{ fontSize: '12px', lineHeight: '14px' }} target="_blank">
+            <Link href={tokenLink} sx={styles.link} target="_blank">
               {t('View Token Contract')}
+              <Flex sx={{ ml: '5px' }}>
+                <Svg icon="external" color="text" width={10} />
+              </Flex>
             </Link>
           </Flex>
           {secondURL && (
             <Flex sx={styles.linkRow}>
-              <Link href={secondURL} sx={{ fontSize: '12px', lineHeight: '14px' }} target="_blank">
+              <Link href={secondURL} sx={styles.link} target="_blank">
                 {secondURLTitle}
+                <Flex sx={{ ml: '5px' }}>
+                  <Svg icon="external" color="text" width={10} />
+                </Flex>
               </Link>
             </Flex>
           )}

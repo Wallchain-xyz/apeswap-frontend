@@ -103,7 +103,9 @@ export enum icons {
   TICK_SHIELD = "tickShield",
   SHARE = "share",
   FILLED_URL = "filledURL",
-  YELLOW_QUESTION = "yellowQuestion"
+  YELLOW_QUESTION = "yellowQuestion",
+  BANANA_ICON = 'bananaIcon',
+  SCROLL_TOP = 'scrollTop'
 }
 
 export enum directions {

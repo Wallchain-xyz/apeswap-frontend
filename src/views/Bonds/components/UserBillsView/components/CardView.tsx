@@ -6,11 +6,12 @@ import { BillsToRender } from '../types'
 import { formatNumberSI } from 'utils/formatNumber'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import  BigNumber from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Flex, Skeleton } from 'components/uikit'
 import ListViewContent from 'components/ListView/ListViewContent'
 import Claim from 'views/Bonds/actions/Claim'
+import { ListTagVariants } from 'components/uikit/Tag/types'
 
 const CardView: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender }) => {
   const { chainId } = useWeb3React()
@@ -37,7 +38,7 @@ const CardView: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender 
           sx={{ height: '75px', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}
         >
           <ListViewContent
-            tag="ape"
+            tag={bill.billType as ListTagVariants}
             value={bill.lpToken.symbol}
             style={{ height: '35px', width: '130px', flexDirection: 'column' }}
           />
@@ -53,7 +54,6 @@ const CardView: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRender 
           billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
           billIds={[billToRender.id]}
           pendingRewards={billToRender?.pendingRewards}
-          margin={'0 20px 20px 20px'}
         />
       </CardContainer>
     )

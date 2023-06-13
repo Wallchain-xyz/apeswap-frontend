@@ -13,23 +13,15 @@ const Transfer: React.FC<TransferProps> = ({ billNftAddress, billId, toAddress, 
   const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
-  // const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
 
   const handleTransfer = async () => {
     if (!chainId || !account) return
     setPendingTrx(true)
     await onTransfer()
-      .then((resp) => {
-        const trxHash = resp?.hash
-        // toastSuccess(t('Transfer Successful'), {
-        //   text: t('View Transaction'),
-        //   url: getEtherscanLink(trxHash, 'transaction', chainId),
-        // })
-      })
+      .then(() => {})
       .catch((e) => {
         console.error(e)
-        // toastError(e?.data?.message || t('Error: Please try again.'))
         setPendingTrx(false)
       })
     dispatch(fetchUserOwnedBillsDataAsync(chainId, account))

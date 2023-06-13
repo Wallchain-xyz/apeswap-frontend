@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 import { NavConfig } from 'components/NavBar/types'
 
 const bscConfig: NavConfig[] = [
@@ -17,30 +17,26 @@ const bscConfig: NavConfig[] = [
         label: 'Pro Trading',
         href: 'https://pro.apeswap.finance',
       },
-      {
-        label: 'GNANA',
-        href: `${TEMP_APESWAP_URL}/gnana`,
-      },
     ],
   },
   {
     label: 'Stake',
     items: [
       {
-        label: 'Staking Pools',
-        href: `${TEMP_APESWAP_URL}/pools`,
+        label: 'Farms',
+        href: `/farms`,
       },
       {
-        label: 'BANANA Maximizers',
+        label: 'Pools',
+        href: `/pools`,
+      },
+      {
+        label: 'Maximizers',
         href: `${TEMP_APESWAP_URL}/maximizers`,
       },
       {
-        label: 'BANANA Farms',
-        href: `${TEMP_APESWAP_URL}/farms`,
-      },
-      {
-        label: 'Jungle Farms',
-        href: `${TEMP_APESWAP_URL}/jungle-farms`,
+        label: 'GNANA',
+        href: `/gnana`,
       },
     ],
   },
@@ -53,7 +49,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Liquidity Health',
-        href: `${TEMP_APESWAP_URL}/liquidity-health`,
+        href: `/liquidity-health`,
       },
       {
         label: 'Official IAO',
@@ -99,7 +95,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',

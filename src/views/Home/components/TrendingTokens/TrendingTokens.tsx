@@ -74,69 +74,73 @@ const TrendingTokens: React.FC = () => {
               <>
                 {tokens?.slice(tokenDisplayRange.tokenStartIndex, tokenDisplayRange.tokenEndIndex)?.map((token, i) => {
                   return (
-                    <TokenContainer
+                    <Link
                       href={`/swap/?outputCurrency=${token?.contractAddress}`}
                       key={token?.contractAddress}
-                      active={i >= tokenDisplayRange.tokenStartIndex && i < tokenDisplayRange.tokenEndIndex}
-                      onClick={() =>
-                        track({
-                          event: 'tokenClick',
-                          chain: chainId,
-                          data: {
-                            token: token?.tokenTicker,
-                            variation: token?.percentChange,
-                            category: selectedCat,
-                          },
-                        })
-                      }
+                      sx={{ textDecoration: 'none' }}
                     >
-                      <Flex>
-                        <Image
-                          src={token?.logoUrl}
-                          alt={token?.tokenTicker}
-                          sx={{
-                            height: '36px',
-                            width: '36px',
-                            borderRadius: '50px',
-                          }}
-                          height={36}
-                          width={36}
-                        />
-                      </Flex>
-                      <Flex sx={{ height: '36px', width: '100px', flexDirection: 'column', ml: '10px' }}>
-                        <Flex
-                          sx={{ width: '100%', height: '50%', alignItems: 'center', justifyContent: 'space-between' }}
-                        >
-                          <Text size="12px">{token?.tokenTicker}</Text>
-                          <Text size="12px" color={token?.percentChange < 0 ? 'error' : 'success'}>
-                            {token?.percentChange > 0 && '+'}
-                            <CountUp end={token?.percentChange * 100} decimals={2} duration={1.5} />%
-                          </Text>
+                      <TokenContainer
+                        active={i >= tokenDisplayRange.tokenStartIndex && i < tokenDisplayRange.tokenEndIndex}
+                        onClick={() =>
+                          track({
+                            event: 'tokenClick',
+                            chain: chainId,
+                            data: {
+                              token: token?.tokenTicker,
+                              variation: token?.percentChange,
+                              category: selectedCat,
+                            },
+                          })
+                        }
+                      >
+                        <Flex>
+                          <Image
+                            src={token?.logoUrl}
+                            alt={token?.tokenTicker}
+                            sx={{
+                              height: '36px',
+                              width: '36px',
+                              borderRadius: '50px',
+                            }}
+                            height={36}
+                            width={36}
+                          />
                         </Flex>
-                        <Flex alignItems="center" sx={{ width: '100%', height: '50%' }}>
-                          <Text>
-                            $
-                            <CountUp
-                              end={token?.tokenPrice}
-                              decimals={token?.tokenPrice > 1 ? 2 : token?.tokenPrice > 0.01 ? 4 : 6}
-                              duration={1.5}
-                              separator=","
-                            />
-                          </Text>
+                        <Flex sx={{ height: '36px', width: '100px', flexDirection: 'column', ml: '10px' }}>
+                          <Flex
+                            sx={{ width: '100%', height: '50%', alignItems: 'center', justifyContent: 'space-between' }}
+                          >
+                            <Text size="12px">{token?.tokenTicker}</Text>
+                            <Text size="12px" color={token?.percentChange < 0 ? 'error' : 'success'}>
+                              {token?.percentChange > 0 && '+'}
+                              <CountUp end={token?.percentChange * 100} decimals={2} duration={1.5} />%
+                            </Text>
+                          </Flex>
+                          <Flex sx={{ width: '100%', height: '50%', alignItems: 'center' }}>
+                            <Text>
+                              $
+                              <CountUp
+                                end={token?.tokenPrice}
+                                decimals={token?.tokenPrice > 1 ? 2 : token?.tokenPrice > 0.01 ? 4 : 6}
+                                duration={1.5}
+                                separator=","
+                              />
+                            </Text>
+                          </Flex>
                         </Flex>
-                      </Flex>
-                    </TokenContainer>
+                      </TokenContainer>
+                    </Link>
                   )
                 })}
               </>
             ) : (
-              [...Array(NUMBER_OF_TOKENS_TO_DISPLAY)].map((i) => {
+              [...Array(NUMBER_OF_TOKENS_TO_DISPLAY)].map((i, index) => {
                 return (
-                  <Flex active key={i}>
+                  <TokenContainer active key={`tokenCont${index}`}>
                     <Flex sx={{ width: '136px' }}>
                       <Skeleton height="50px" width="136px" />
                     </Flex>
-                  </Flex>
+                  </TokenContainer>
                 )
               })
             )}

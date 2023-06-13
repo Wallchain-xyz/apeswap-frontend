@@ -1,8 +1,6 @@
 import { styles } from './styles'
 import Bnb from './grayChains/bnb'
 import Poly from './grayChains/poly'
-import Tlos from './grayChains/Tlos'
-import Arbitrum from './grayChains/Arbitrum'
 import { Box } from 'theme-ui'
 import { useTranslation } from 'contexts/Localization'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -24,9 +22,11 @@ const ApeSwapV3 = () => {
   return (
     <Flex sx={styles.slideContainer}>
       <Flex sx={styles.slideContent}>
-        <Text sx={{ ...styles.slideTitle }}>{t('Apeswap Liquidity V3')}</Text>
+        <Text sx={{ ...styles.slideTitle, fontSize: ['43px', '43px', '38px', '64px'] }}>
+          {t('Do More With Your Liquidity')}
+        </Text>
         <Text sx={styles.slideSubtitle}>
-          {t('Insert text about Liquidity V3 here, please dont make it super long.')}
+          {t('Leverage ApeSwap’s new V3 capabilities to concentrate your liquidity depth.')}
         </Text>
         <Flex sx={{ alignItems: 'center', marginTop: ['25px', '25px', '0px'] }}>
           <Text sx={styles.availableOn}>{t('AVAILABLE ON')}</Text>
@@ -38,11 +38,6 @@ const ApeSwapV3 = () => {
             sx={{ marginRight: '10px', cursor: 'pointer' }}
             onClick={() => handleNetworkSwitch(SupportedChainId.POLYGON)}
           />
-          <Tlos
-            sx={{ marginRight: '10px', cursor: 'pointer' }}
-            onClick={() => handleNetworkSwitch(SupportedChainId.TLOS)}
-          />
-          <Arbitrum sx={{ cursor: 'pointer' }} onClick={() => handleNetworkSwitch(SupportedChainId.ARBITRUM_ONE)} />
         </Flex>
         <Link href="/add-liquidity" sx={{ textDecoration: 'none' }}>
           <Flex sx={styles.billImage}>
@@ -63,14 +58,12 @@ const ApeSwapV3 = () => {
             {t('Learn more')}
           </Button>
           <Link href="/add-liquidity" sx={{ textDecoration: 'none' }}>
-            <Button sx={{ fontSize: ['14px', '14px', '16px'], minWidth: ['140px', '140px'] }}>
-              {t('Add liquidity')}
-            </Button>
+            <Button sx={{ fontSize: ['14px', '14px', '14px', '16px'], minWidth: '140px' }}>{t('Add liquidity')}</Button>
           </Link>
         </Flex>
       </Flex>
-      <Flex sx={{ width: ['0', '100%'], justifyContent: 'center' }}>
-        <Flex sx={{ ...styles.imageWrapper, background: 'none' }} onClick={() => push(`/treasury-bills`)}>
+      <Flex sx={{ width: ['0', '0', '0', '100%'], justifyContent: 'center' }}>
+        <Flex sx={{ ...styles.imageWrapper, background: 'none' }} onClick={() => push(`/bonds`)}>
           <Image src="/images/homepage/add-liquidity-0.png" sx={styles.image} alt="" width={500} height={500} />
         </Flex>
       </Flex>

@@ -1,29 +1,19 @@
 import React, { useState } from 'react'
-import { getEtherscanLink } from 'utils'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { useTranslation } from 'contexts/Localization'
 import { ClaimProps } from './types'
-// import CircularModal from 'components/CircularModal'
 import useClaimBill from '../hooks/useClaimBill'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state/hooks'
-import useModal from 'hooks/useModal'
-import { MODAL_TYPE } from 'components/MarketingModalCheck/constants'
-import { ClaimButton } from '../components/styles'
-import { Flex } from 'components/uikit'
+import { Button } from 'components/uikit'
 
-const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pendingRewards, margin }) => {
+const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards, mt }) => {
   const { onClaimBill, billType } = useClaimBill(billAddress, billIds)
   const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   // const { toastSuccess } = useToast()
   const { t } = useTranslation()
-  // const [onPresentGHModal] = useModal(<CircularModal actionType={MODAL_TYPE.GENERAL_HARVEST} />, true, true, 'ghModal')
-  // const { showGeneralHarvestModal } = useIsModalShown()
-
-  const displayGHCircular = false // () => showGeneralHarvestModal && onPresentGHModal()
-  const bananaBill = billType === 'bill'
 
   // TODO:
   const handleClaim = async () => {
@@ -47,18 +37,19 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, buttonSize, pending
     setPendingTrx(false)
   }
   return (
-    <Flex sx={{ width: '100%' }}>
-      <ClaimButton
-        onClick={handleClaim}
-        load={pendingTrx}
-        disabled={pendingTrx || parseFloat(pendingRewards) === 0}
-        buttonSize={buttonSize}
-        margin={margin}
-        sx={{ lineHeight: '20px' }}
-      >
-        {t('CLAIM')}
-      </ClaimButton>
-    </Flex>
+    <Button
+      onClick={handleClaim}
+      load={pendingTrx}
+      disabled={pendingTrx || parseFloat(pendingRewards) === 0}
+      sx={{
+        lineHeight: '20px',
+        minWidth: '109px',
+        width: ['240px', '240px', '240px', '100%'],
+        mt: mt ?? ['10px', '10px', '10px', '0px'],
+      }}
+    >
+      {t('CLAIM')}
+    </Button>
   )
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box } from 'theme-ui'
-import { Flex, Text } from '../../../../../../../components/uikit'
-import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
+import { Flex, Text } from 'components/uikit'
 import { styles } from './styles'
 
 const TableHeader = () => {

@@ -19,7 +19,7 @@ const PrioritizedWallets = ({ setOpen, onDismiss }: Props) => {
   return (
     <Flex sx={styles.prioritizedContainer}>
       <Flex sx={{ flexWrap: 'wrap', width: '100%' }}>
-        <Flex sx={{ display: ['none', 'none', 'flex'] }}>
+        <Flex sx={{ display: ['none', 'none', 'none', 'flex'] }}>
           <Svg icon="walletImage" />
         </Flex>
         <Flex sx={styles.infoContainer}>
@@ -58,12 +58,12 @@ const PrioritizedWallets = ({ setOpen, onDismiss }: Props) => {
           }}
           onClick={() => setOpen(true)}
         >
-          <Flex sx={{ height: ['45px', '45px', '65px'], alignItems: 'flex-end' }}>
+          <Flex sx={{ height: ['45px', '45px', '45px', '65px'], alignItems: 'flex-end' }}>
             <Flex sx={styles.moreWallets}>
-              <Flex sx={{ lineHeight: ['24px', '24px', '40px'], fontWeight: [700, 700, 900] }}>. . .</Flex>
+              <Flex sx={{ lineHeight: ['24px', '24px', '24px', '40px'], fontWeight: [700, 700, 700, 900] }}>. . .</Flex>
             </Flex>
           </Flex>
-          <Flex sx={{ height: ['39px', '39px', '49px'], alignItems: 'center' }}>
+          <Flex sx={{ height: ['39px', '39px', '39px', '49px'], alignItems: 'center' }}>
             <Text sx={styles.walletName}>{t('MORE')}</Text>
           </Flex>
         </Button>

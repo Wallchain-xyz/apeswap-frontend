@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
-import { Flex, Link, Spinner, Svg, Text } from 'components/uikit'
-import { ExternalDataOption, TokenProfile } from 'state/lhd/types'
+import { Flex, Spinner, Svg, Text } from 'components/uikit'
+import { chartExtras, TokenProfile } from 'state/lhd/types'
 import Chart from '../Chart'
 import { useTranslation } from 'contexts/Localization'
-import useModal from 'hooks/useModal'
-import SharableCard from '../SharableCard'
 import InfoCards from './components/InfoCards'
 import LiquidityConcentration from './components/LiquidityConcentration'
 import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
-import { Helmet } from 'react-helmet'
-import Head from 'next/head'
-
+import AreYouContributor from '../AreYouContributor'
+import ExemptAssetNotice from './components/ExemptAssetNotice'
 
 const FullProfile = ({
   chainID,
@@ -24,10 +22,13 @@ const FullProfile = ({
   const fetchProfile = useFetchProfile()
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
+  const router = useRouter()
 
-  // const cardImage = `https://hosting.com/folder/${address}`; // Replace with your dynamic image URL logic
-  const cardImage = `https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg` 
-  // const cardImage = `https://i.imgur.com/rF0bm3d.png` // Replace with your dynamic image URL logic
+  const [chartPassBackData, setChartPassBackData] = useState<chartExtras>({
+    sustainabilityLower: 0,
+    sustainabilityUpper: 0,
+    liquidityDebt: 0,
+  })
 
   useEffect(() => {
     if (chainID && address) {
@@ -35,93 +36,53 @@ const FullProfile = ({
     }
   }, [chainID, address, fetchProfile])
 
+  let handleChartCallback = (chartData: chartExtras) => {
+    setChartPassBackData(chartData)
+  }
+
+  const handleBackButton = () => {
+    router.push({ pathname: `/liquidity-health?${Math.random() * 10}` }, '/liquidity-health')
+  }
+
   if (fullProfile) {
     return (
-      <>
-        {/* META TEST */}
-        {/* <Helmet>
-          <meta property="og:image" content={cardImage} />
-          <meta name="twitter:image" content={cardImage} />
-          <meta property="og:title" content="{Token} Health}" />
-          <meta property="og:description" content="LHD desc" />
-          <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
-          <meta property="og:type" content="website" />
-          <meta name="twitter:title" content="{Token} Health}" />
-          <meta name="twitter:description" content="LHD Description" />
-          <meta name="twitter:card" content={cardImage}/>
-        </Helmet> */}
-
-        <Helmet>
-          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-          <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
-          <meta name="twitter:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
-          <meta name="og:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
-          <meta name="twitter:description" content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."/>
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
-        </Helmet>
-        <Head>
-          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-          <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
-          <meta name="twitter:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
-          <meta name="og:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
-          <meta name="twitter:description" content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."/>
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
-        </Head>
-
-
-        {/* <Head>
-
-        <meta property="og:title" content={` Health`} />
-        <meta property="og:description" content="LHD desc" />
-        <meta property="og:image" content={cardImage} />
-        <meta name="twitter:title" content={` Health`} />
-        <meta name="twitter:description" content="LHD Description" />
-        <meta name="twitter:image" content={cardImage} />
-        <meta name="twitter:card" content="summary_large_image"/>
-        <meta property="og:url" content={`https://apeswap.finance/liquidity-health/${address}`} />
-        <meta property="og:type" content="website" />
-
-        </Head> */}
-
-        <Flex sx={styles.mainContainer}>
-          <Flex sx={styles.topContainer}>
-            <Link href={'/liquidity-health'} sx={{ textDecoration: 'none' }}>
-              <Text sx={styles.back}>
-                <Flex sx={{ mr: '5px' }}>
-                  <Svg icon="caret" direction="left" width={7} />
-                </Flex>
-                {t('Back')}
-              </Text>
-            </Link>
-            <Text sx={styles.lastUpdated}>
-              {t('Last updated:')} {new Date(parseInt(fullProfile?.createdAt)).toLocaleString()}
-            </Text>
-          </Flex>
-          <TopSectionCards fullProfile={fullProfile} />
-          <Flex sx={styles.lowerContainer}>
-            <Flex sx={styles.layout}>
-              <Flex sx={styles.chartCont}>
-                <Flex sx={styles.titleContainer}>
-                  <Text sx={styles.titleText}>{t('Token Liquidity Health')}</Text>
-                </Flex>
-                <Chart chartData={fullProfile?.healthChartData} />
-              </Flex>
-              <Flex sx={styles.infoCardMobile}>
-                <InfoCards fullProfile={fullProfile} />
-              </Flex>
-              <Flex sx={styles.liquidityConCont}>
-                <LiquidityConcentration fullProfile={fullProfile} />
-              </Flex>
+      <Flex sx={styles.mainContainer}>
+        <Flex sx={styles.topContainer}>
+          <Text onClick={handleBackButton} sx={styles.back}>
+            <Flex sx={{ mr: '5px' }}>
+              <Svg icon="caret" direction="left" width={7} />
             </Flex>
-            <Flex sx={styles.infoCardDesktop}>
-              <InfoCards fullProfile={fullProfile} />
-            </Flex>
-          </Flex>
-          <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
+            {t('Back')}
+          </Text>
+          <Text sx={styles.lastUpdated}>
+            {t('Last updated')} {Math.round((Date.now() - parseInt(fullProfile?.createdAt)) / 36000) / 100}
+            {t(' hours ago')}
+          </Text>
         </Flex>
-      </>
+        {fullProfile?.mcap[0].amount > 100000000 && <ExemptAssetNotice />}
+        <TopSectionCards fullProfile={fullProfile} />
+        <Flex sx={styles.lowerContainer}>
+          <Flex sx={styles.layout}>
+            <Flex sx={styles.chartCont}>
+              <Flex sx={styles.titleContainer}>
+                <Text sx={styles.titleText}>{t('Token Liquidity Strength')}</Text>
+              </Flex>
+              <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
+            </Flex>
+            <Flex sx={styles.infoCardMobile}>
+              <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />
+            </Flex>
+            <Flex sx={styles.liquidityConCont}>
+              <LiquidityConcentration fullProfile={fullProfile} />
+            </Flex>
+          </Flex>
+          <Flex sx={styles.infoCardDesktop}>
+            <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />
+          </Flex>
+        </Flex>
+        <AreYouContributor />
+        <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
+      </Flex>
     )
   }
   return (

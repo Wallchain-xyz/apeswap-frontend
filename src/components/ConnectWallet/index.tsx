@@ -20,7 +20,7 @@ const ConnectWalletButton = ({ navBarFlag }: { navBarFlag?: boolean }) => {
       >
         <Text
           color="primaryBright"
-          size={navBarFlag ? '14px' : '18px'}
+          size={navBarFlag ? '14px' : '16px'}
           weight={navBarFlag ? 600 : 700}
           sx={{ mt: '1px' }}
         >

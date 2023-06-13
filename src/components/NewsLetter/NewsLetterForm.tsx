@@ -6,12 +6,9 @@ import { Button, Flex, Svg, Text } from 'components/uikit'
 import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { useTranslation } from 'contexts/Localization'
 import { Input } from 'theme-ui'
+import { Spinner } from 'theme-ui'
 
-const NewsletterForm: React.FC<FormType> = ({ status, message, onValidated, isModal }) => {
-  const { isMobile, isTablet, isDesktop } = useMatchBreakpoints()
-  const isMd = isMobile
-  const isLg = isTablet
-  const isXl = isDesktop
+const NewsletterForm: React.FC<FormType> = ({ status, message, onValidated }) => {
   const [subscriber, setSubscriber] = useState('')
   const { t } = useTranslation()
 
@@ -31,61 +28,62 @@ const NewsletterForm: React.FC<FormType> = ({ status, message, onValidated, isMo
     }
   }
 
-  // On route change, reset input, status and message to ""
-
   return (
-    <Flex sx={dynamicStyles.newsletterCon({ isModal, isMobile, status })}>
-      <Flex sx={dynamicStyles.bodyCon({ isModal, isMobile, isTablet })}>
-        <Flex sx={dynamicStyles.content({ isModal })}>
-          <Flex sx={dynamicStyles.left({ isModal })}>
-            <Text sx={dynamicStyles.latestText({ isModal })}>
-              Get the latest news from ApeSwap directly to your{isModal && isMd && <br />} inbox.
-            </Text>
-            {!isModal && <Privacy t={t} />}
-          </Flex>
-
-          <Flex sx={dynamicStyles.formCon({ isModal })}>
-            <Flex
-              className="input-form-container"
-              as="form"
-              onSubmit={(e: MouseEvent) => handleSubmit(e)}
-              sx={dynamicStyles.form({ isModal })}
-            >
-              <Flex sx={{ alignItems: 'center' }}>
-                <Svg icon="message" />
-                <Input
-                  className="input"
-                  name="EMAIL"
-                  onChange={onHandleChange}
-                  value={subscriber}
-                  placeholder={(status === 'success' && message) || 'example@domain.com'}
-                  sx={dynamicStyles.input({ isModal, isLg, isXl, isMd, status })}
-                />
-              </Flex>
-              <Button
-                variant="text"
-                className="input-btn"
-                type="submit"
-                formValues={[subscriber]}
-                disabled={status === 'sending'}
-                sx={styles.submit}
-              >
-                {status === 'sending' ? (
-                  '...'
-                ) : (
-                  <Text weight={400} size="38px" mt="1px">
-                    {'>'}
-                  </Text>
-                )}
-              </Button>
+    <Flex sx={{
+      background: 'white2',
+      width: '100%',
+      borderTopWidth: '5px',
+      borderTopStyle: 'solid',
+      borderTopColor: 'white3',
+      borderBottomWidth: '5px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: 'white3',
+      padding: '15px 20px',
+      justifyContent: 'center',
+    }}>
+      <Flex sx={styles.content}>
+        <Flex sx={styles.left}>
+          <Text sx={styles.latestText}>
+            Get the latest news from ApeSwap directly to your inbox.
+          </Text>
+          <Privacy t={t} />
+        </Flex>
+        <Flex sx={styles.formCon}>
+          <Flex
+            as='form'
+            onSubmit={(e: MouseEvent) => handleSubmit(e)}
+            sx={styles.form}
+          >
+            <Flex sx={{ alignItems: 'center' }}>
+              <Svg icon='message' />
+              <Input
+                name='EMAIL'
+                onChange={onHandleChange}
+                value={subscriber}
+                placeholder={(status === 'success' && message) || 'example@domain.com'}
+                sx={styles.input}
+              />
             </Flex>
-            {status === 'error' && (
-              <Text color="error" sx={styles.status}>
-                {t("Invalid email address. Make sure the format is 'email@domain.com'")}
-              </Text>
-            )}
+            <Button
+              variant='text'
+              type='submit'
+              disabled={status === 'sending'}
+              sx={styles.submit}
+            >
+              {status === 'sending' ? (
+                <Spinner size={20} />
+              ) : (
+                <Text weight={400} size='38px' mt='1px'>
+                  {'>'}
+                </Text>
+              )}
+            </Button>
           </Flex>
-          {isModal && <Privacy isModal={isModal} t={t} />}
+          {status === 'error' && (
+            <Text color='error' sx={styles.status}>
+              {t('Invalid email address. Make sure the format is \'email@domain.com\'')}
+            </Text>
+          )}
         </Flex>
       </Flex>
     </Flex>

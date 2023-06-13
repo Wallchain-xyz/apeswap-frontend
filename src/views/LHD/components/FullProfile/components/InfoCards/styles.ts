@@ -11,7 +11,9 @@ export const styles: Record<
   | 'chartDetails'
   | 'whiteContainer'
   | 'ownerRowsContainer'
-  | 'rowContainer',
+  | 'rowContainer'
+  | 'emptyMonkeyCont'
+  | 'imgCont',
   ThemeUIStyleObject> = {
   mainContainer: {
     width: '100%',
@@ -59,6 +61,7 @@ export const styles: Record<
     px: '30px',
   },
   whiteContainer: {
+    height: '100%',
     width: '100%',
     p: '20px',
     maxHeight: '226px',
@@ -66,7 +69,8 @@ export const styles: Record<
   ownerRowsContainer: {
     width: '100%',
     height: '100%',
-    overflow: 'auto',
+    overflowY: 'auto',
+    overflowX: 'visible',
     flexDirection: 'column',
     px: '10px',
     '::-webkit-scrollbar': {
@@ -90,5 +94,24 @@ export const styles: Record<
     fontWeight: 500,
     fontSize: '12px',
     lineHeight: '14px',
+  },
+  emptyMonkeyCont: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    p: '20px',
+  },
+  imgCont: {
+    zIndex: 1,
+    minWidth: '24px',
+    height: '24px',
+    mt: ['2px'],
+    mr: ['5px'],
+    background: '#fff',
+    borderRadius: '25px',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 }

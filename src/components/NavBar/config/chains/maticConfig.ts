@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 
 const maticConfig = [
   {
@@ -25,12 +25,12 @@ const maticConfig = [
   },
   {
     label: 'Farms',
-    href: `${TEMP_APESWAP_URL}/farms`,
+    href: `/farms`,
     isNew: false,
   },
   {
-    label: 'Bills',
-    href: `${TEMP_APESWAP_URL}/treasury-bills`,
+    label: 'Bonds',
+    href: `/bonds`,
     isNew: true,
   },
   {
@@ -42,7 +42,7 @@ const maticConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',

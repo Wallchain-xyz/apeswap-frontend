@@ -23,13 +23,14 @@ export const styles: Record<
     minWidth: '300px',
     width: '100%',
     alignItems: 'center',
-    flexDirection: ['column', 'column', 'row'],
+    flexDirection: ['column', 'column', 'column', 'row'],
   },
   toogle: {
     height: '36px',
     alignItems: 'center',
     width: '100%',
     '& div': { width: '90px', textAlign: 'center' },
+    '& button': { lineHeight: '20px' },
   },
   searchText: {
     fontWeight: 700,
@@ -42,17 +43,18 @@ export const styles: Record<
     },
   },
   expandedButton: {
-    display: ['flex', 'flex', 'none'],
+    display: ['flex', 'flex', 'flex', 'none'],
     backgroundColor: 'lvl1',
     padding: '10px',
     borderRadius: '10px',
     cursor: 'pointer',
+    ml: '10px'
   },
   container: {
-    width: ['100%', '100%', 'unset'],
+    width: ['100%', '100%', '100%', 'unset'],
     justifyContent: 'space-between',
     maxWidth: '353px',
-    marginTop: ['15px', '15px', '0'],
+    marginTop: ['15px', '15px', '15px', '0'],
   },
   selectContainer: {
     width: '100%',
@@ -79,17 +81,17 @@ export const styles: Record<
     flexWrap: 'wrap',
   },
   onlyDesktop: {
-    display: ['none', 'none', 'flex'],
+    display: ['none', 'none', 'none', 'flex'],
   },
   onlyMobile: {
-    display: ['flex', 'flex', 'none'],
+    display: ['flex', 'flex', 'flex', 'none'],
   },
   monkey: {
     height: '187px',
     width: '134px',
     position: 'absolute',
-    display: ['none', 'none', 'block'],
-    right: '10px',
+    display: ['none', 'none', 'none', 'block'],
+    right: '0px',
     top: '14vw',
     '@media screen and (min-width: 1130px)': {
       top: '175px',

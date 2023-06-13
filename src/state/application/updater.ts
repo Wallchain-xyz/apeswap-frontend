@@ -10,8 +10,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { supportedChainId } from 'utils/supportedChainId'
-
-import { useCloseModal } from './hooks'
 import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
 import { Interface } from 'ethers/lib/utils'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
@@ -24,15 +22,6 @@ export default function Updater(): null {
   const windowVisible = useIsWindowVisible()
 
   const [activeChainId, setActiveChainId] = useState(chainId)
-
-  const closeModal = useCloseModal()
-  const previousAccountValue = useRef(account)
-  useEffect(() => {
-    if (account && account !== previousAccountValue.current) {
-      previousAccountValue.current = account
-      closeModal()
-    }
-  }, [account, closeModal])
 
   useEffect(() => {
     if (provider && chainId && windowVisible) {

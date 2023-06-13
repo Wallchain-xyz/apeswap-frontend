@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Percent, SupportedChainId, TradeType } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Percent, TradeType } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Text } from 'components/uikit'
 import useAutoSlippageTolerance from 'hooks/useAutoSlippageTolerance'
@@ -9,17 +9,16 @@ import { ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
-
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useCurrency } from '../../hooks/Tokens'
 import useENS from 'hooks/useENS'
-import useParsedQueryString from 'hooks/useParsedQueryString'
 import { isAddress } from '../../utils'
 import { AppState } from '../index'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
+import { useRouter } from 'next/router'
 
 export function useSwapState(): AppState['swap'] {
   return useAppSelector((state) => state.swap)
@@ -217,9 +216,9 @@ function validatedRecipient(recipient: any): string | null {
   return null
 }
 
-export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
-  let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
-  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
+export function queryParametersToSwapState(parsedQs: any): SwapState {
+  let inputCurrency = parsedQs?.inputcurrency ?? parsedQs?.inputCurrency ?? ''
+  let outputCurrency = parsedQs?.outputcurrency ?? parsedQs?.outputCurrency ?? ''
   const typedValue = parseTokenAmountURLParameter(parsedQs.exactAmount)
   const independentField = parseIndependentFieldURLParameter(parsedQs.exactField)
 
@@ -250,12 +249,11 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
 export function useDefaultsFromURLSearch(): SwapState {
   const { chainId } = useWeb3React()
   const dispatch = useAppDispatch()
-  const parsedQs = useParsedQueryString()
+  const { query } = useRouter()
   const bananaAddress = chainId ? BANANA_ADDRESSES[chainId] : undefined
-
   const parsedSwapState = useMemo(() => {
-    return queryParametersToSwapState(parsedQs)
-  }, [parsedQs])
+    return queryParametersToSwapState(query)
+  }, [query])
 
   useEffect(() => {
     if (!chainId) return
@@ -273,7 +271,7 @@ export function useDefaultsFromURLSearch(): SwapState {
     )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, chainId])
+  }, [dispatch, chainId, parsedSwapState])
 
   return parsedSwapState
 }

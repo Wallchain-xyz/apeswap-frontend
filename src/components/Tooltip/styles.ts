@@ -1,6 +1,9 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
-export const styles: Record<'infoRow' | 'linkRow' | 'titleText' | 'contentText' | 'iconButton', ThemeUIStyleObject> = {
+export const styles: Record<
+  'infoRow' | 'linkRow' | 'titleText' | 'contentText' | 'iconButton' | 'link',
+  ThemeUIStyleObject
+> = {
   infoRow: {
     justifyContent: 'space-between',
     width: '100%',
@@ -24,13 +27,23 @@ export const styles: Record<'infoRow' | 'linkRow' | 'titleText' | 'contentText' 
   },
   iconButton: {
     background: 'lvl1',
+    textDecoration: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: 'fit-content',
+    height: '30px',
     padding: '2px 5px',
     borderRadius: '8px',
     margin: '0 5px 5px 0',
-    alignItems: 'center',
     '&:hover': {
       cursor: 'pointer',
     },
+  },
+  link: {
+    fontSize: '12px',
+    lineHeight: '14px',
+    display: 'flex',
+    textDecoration: 'none',
+    '&: hover': { textDecoration: 'underline' },
   },
 }

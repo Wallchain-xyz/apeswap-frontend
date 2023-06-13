@@ -1,6 +1,8 @@
 import { desktopMappedColumns, mobileMappedColumns } from './columnsFormat'
 import { ThemeUIStyleObject } from 'theme-ui'
 
+export const columnHeight: string = '60px'
+
 export const styles: Record<
   | 'headerContainer'
   | 'headerText'
@@ -9,12 +11,15 @@ export const styles: Record<
   | 'indexCol'
   | 'indexText'
   | 'nameCol'
-  | 'imageContainer'
+  | 'symbolText'
   | 'nameText'
   | 'usdCol'
   | 'barCol'
   | 'barContainer'
-  | 'scoreCol', ThemeUIStyleObject> = {
+  | 'scoreCol'
+  | 'linkItem',
+  ThemeUIStyleObject
+> = {
   headerContainer: {
     display: 'grid',
     width: 'fit-content',
@@ -27,21 +32,23 @@ export const styles: Record<
     justifyItems: 'center',
   },
   headerText: {
+    display: 'flex',
     fontWeight: [400, 400, 500],
     fontSize: ['8px', '8px', '12px'],
+    color: 'textDisabled',
   },
   tableContainer: {
-    width: ['calc(100vw - 8px)', 'calc(100vw - 8px)', '100%'],
+    width: ['100vw', 'auto', '100%'],
     overflowY: 'auto',
     position: 'relative',
     mt: '20px',
-    ml: ['-20px', '-20px', 0],
-    borderRadius: '10px',
+    ml: ['-20px', 0, 0],
+    mr: ['-20px', 0, 0],
+    borderRadius: '10px 10px 0 0',
     '::-webkit-scrollbar': {
       height: '3px',
       background: 'white3',
       width: '98%',
-
     },
     '::-webkit-scrollbar-thumb': {
       background: 'textDisabled',
@@ -66,7 +73,9 @@ export const styles: Record<
     left: 0,
     zIndex: 2,
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
+    minWidth: '25px',
+    alignItems: 'center',
   },
   indexText: {
     fontWeight: 300,
@@ -76,32 +85,32 @@ export const styles: Record<
   nameCol: {
     padding: '8px',
     position: 'sticky',
-    left: 25,
+    left: 30,
     zIndex: 2,
-    height: '40px',
-    minWidth: '140px',
+    height: columnHeight,
+    minWidth: '130px',
     alignItems: 'center',
   },
-  imageContainer: {
-    minWidth: '27px',
-    height: '27px',
-    background: '#fff',
-    borderRadius: '25px',
-    alignItems: 'center',
-    justifyContent: 'center',
+  symbolText: {
+    fontWeight: 500,
+    fontSize: ['10px', '10px', '10px', '12px'],
+    lineHeight: ['14px'],
+    ml: '5px',
   },
   nameText: {
     fontWeight: 500,
     fontSize: ['10px', '10px', '10px', '12px'],
-    lineHeight: ['18px'],
+    lineHeight: ['14px'],
     ml: '5px',
+    color: 'textDisabled',
   },
   usdCol: {
     padding: '8px',
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
     fontWeight: 400,
     fontSize: ['10px', '10px', '10px', '12px'],
+    alignItems: 'center',
   },
   barCol: {
     width: '100%',
@@ -109,9 +118,10 @@ export const styles: Record<
   },
   barContainer: {
     padding: '8px',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
     minWidth: ['80px', '80px', '133px'],
   },
   scoreCol: {
@@ -120,7 +130,10 @@ export const styles: Record<
     right: 0,
     zIndex: 2,
     justifyContent: 'center',
-    height: '40px',
+    height: columnHeight,
+    alignItems: 'center',
+  },
+  linkItem: {
+    textDecoration: 'none',
   },
 }
-

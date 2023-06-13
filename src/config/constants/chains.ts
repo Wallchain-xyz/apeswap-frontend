@@ -11,7 +11,7 @@ export const MAINNET_CHAINS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  // SupportedChainId.TLOS,
+  SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 
@@ -190,7 +190,7 @@ export enum LIST_VIEW_PRODUCTS {
   MAXIMIZERS = 'maximizers',
   JUNGLE_FARMS = 'jungle-farms',
   POOLS = 'pools',
-  FARMS = 'banana-farms',
+  FARMS = 'farms',
 }
 
 export enum OTHER_PRODUCTS {
@@ -201,13 +201,19 @@ export enum OTHER_PRODUCTS {
   NFA_COLLECTION = 'nft',
   NFA_AUCTION = 'auction',
   NFA_STAKING = 'staking',
+  V3 = 'v3',
 }
 
 // Products on different chains and their available chains
 
 // These products are list view components that have a specific chain redirect component
 export const AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS: Record<LIST_VIEW_PRODUCTS, SupportedChainId[]> = {
-  [LIST_VIEW_PRODUCTS.BILLS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.TLOS],
+  [LIST_VIEW_PRODUCTS.BILLS]: [
+    SupportedChainId.BSC,
+    SupportedChainId.POLYGON,
+    SupportedChainId.TLOS,
+    SupportedChainId.ARBITRUM_ONE,
+  ],
   [LIST_VIEW_PRODUCTS.FARMS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.TLOS],
   [LIST_VIEW_PRODUCTS.MAXIMIZERS]: [SupportedChainId.BSC],
   [LIST_VIEW_PRODUCTS.JUNGLE_FARMS]: [SupportedChainId.BSC],
@@ -224,6 +230,7 @@ export const AVAILABLE_CHAINS_ON_PRODUCTS: Record<OTHER_PRODUCTS, SupportedChain
   [OTHER_PRODUCTS.NFA_COLLECTION]: [SupportedChainId.BSC],
   [OTHER_PRODUCTS.NFA_AUCTION]: [SupportedChainId.BSC],
   [OTHER_PRODUCTS.NFA_STAKING]: [SupportedChainId.BSC],
+  [OTHER_PRODUCTS.V3]: [SupportedChainId.BSC, SupportedChainId.POLYGON], // chains where we have ape lps v3
 }
 
 // Full product names for readability
@@ -240,6 +247,7 @@ export const FULL_PRODUCT_NAMES: Record<LIST_VIEW_PRODUCTS | OTHER_PRODUCTS, str
   [OTHER_PRODUCTS.NFA_COLLECTION]: 'Nfa Collection',
   [OTHER_PRODUCTS.NFA_AUCTION]: 'Nfa Auction',
   [OTHER_PRODUCTS.NFA_STAKING]: 'Nfa Staking',
+  [OTHER_PRODUCTS.V3]: 'V3 Concentrated Liquidity',
 }
 
 // This is needed for the info page queries

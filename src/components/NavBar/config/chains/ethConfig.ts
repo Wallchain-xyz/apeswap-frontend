@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 
 const ethConfig = [
   {
@@ -13,7 +13,7 @@ const ethConfig = [
       },
       {
         label: 'Liquidity',
-        href: `${TEMP_APESWAP_URL}/add-liquidity`,
+        href: `/add-liquidity`,
         isNew: false,
       },
       {
@@ -32,7 +32,7 @@ const ethConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',

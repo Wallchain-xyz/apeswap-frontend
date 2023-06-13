@@ -21,7 +21,7 @@ const Footer = () => {
 
   return (
     <>
-      <Newsletter isNewsModal={false} mailChimpUrl={mailChimpUrl} />
+      <Newsletter mailChimpUrl={mailChimpUrl} />
       <Flex sx={styles.container}>
         <Flex sx={styles.columnContainer}>
           <Flex sx={styles.leftColumnContainer}>

@@ -1,68 +1,89 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { SimpleTokenProfile, TokenProfile } from './types'
+import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
+
+export const initialFilterValues: FilterState = {
+  totalScore: { min: 0, max: 100 },
+  health: { min: 0, max: 100 },
+  ownership: { min: 0, max: 100 },
+  concentration: { min: 0, max: 100 },
+  mcap: { min: 500000, max: 1000000000 },
+  extractable: { min: 4500, max: 100000000 },
+}
+
+export interface MinMax {
+  min: number
+  max: number
+}
+
+export interface FilterState {
+  totalScore: MinMax
+  health: MinMax
+  concentration: MinMax
+  ownership: MinMax
+  mcap: MinMax
+  extractable: MinMax
+}
 
 export interface LHDState {
-  industryAverage: string
+  averageTotalScore: string
   industryAverageChange: string
   chainsSupported: string
-  verifiedTokens: string
-  simpleProfiles: SimpleTokenProfile[]
-  searchProfiles: SimpleTokenProfile[]
+  tokensVerified: string
+  queryState: FilterState
+  tokensTracked: number
+  simpleProfiles: ProfilesResponse
   fullProfile: TokenProfile | null
-  queriedAPI: boolean
 }
 
 export const initialState: LHDState = {
-  industryAverage: '',
+  averageTotalScore: '',
   industryAverageChange: '',
   chainsSupported: '',
-  verifiedTokens: '',
-  simpleProfiles: [],
-  searchProfiles: [],
+  tokensVerified: '',
+  tokensTracked: 0,
+  queryState: initialFilterValues,
+  simpleProfiles: {
+    data: [],
+    count: 0,
+  },
   fullProfile: null,
-  queriedAPI: false
 }
 
 const LHDSlice = createSlice({
   name: 'LHD',
   initialState,
   reducers: {
-    addInitialListData: (state, action: { payload: LHDState }) => {
+    addIndustryData: (state, action: { payload: LHDState }) => {
       const { payload } = action
       return {
         ...state,
-        industryAverage: payload?.industryAverageChange,
+        averageTotalScore: payload?.averageTotalScore,
         industryAverageChange: payload?.industryAverageChange,
         chainsSupported: payload?.chainsSupported,
-        verifiedTokens: payload?.verifiedTokens,
+        tokensVerified: payload?.tokensVerified,
+        tokensTracked: payload?.tokensTracked,
       }
     },
-    addSimpleProfiles(state, action: { payload: SimpleTokenProfile[] }) {
+    addSimpleProfiles(state, action: { payload: ProfilesResponse }) {
       return {
         ...state,
         simpleProfiles: action.payload,
       }
     },
-    addSearchProfiles(state, action: {payload: SimpleTokenProfile[]}){
+    addFullProfile(state, action: { payload: TokenProfile | null }) {
       return {
         ...state,
-        searchProfiles: action.payload
+        fullProfile: action.payload,
       }
     },
-    addFullProfile(state, action: {payload: TokenProfile | null}) {
+    setFilterState(state, action: { payload: FilterState }) {
       return {
         ...state,
-        fullProfile: action.payload
+        queryState: action.payload,
       }
     },
-    handleQueriedAPI(state, action: { payload: boolean}) {
-      return {
-        ...state,
-        queriedAPI: action.payload
-      }
-    }
   },
 })
 
-export const { addInitialListData, addSimpleProfiles, addFullProfile, addSearchProfiles, handleQueriedAPI } = LHDSlice.actions
+export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState } = LHDSlice.actions
 export default LHDSlice.reducer

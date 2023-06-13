@@ -30,8 +30,8 @@ export const customMeta: { [key: string]: PageMeta } = {
     description: 'Buy and sell ApeSwap NFTs and join our NFT community.',
   },
   '/farms': {
-    title: 'BANANA Farms | ApeSwap : Your One-Stop DeFi Hub',
-    description: 'Stake your liquidity provider (LP) tokens in BANANA Farms to earn BANANA.',
+    title: 'Farms | ApeSwap : Your One-Stop DeFi Hub',
+    description: 'Stake your liquidity provider (LP) tokens in Farms to earn.',
   },
   '/jungle-farms': {
     title: 'Jungle Farms | ApeSwap : Your One-Stop DeFi Hub',
@@ -67,8 +67,8 @@ export const customMeta: { [key: string]: PageMeta } = {
   '/staking': {
     title: 'NFA Staking | ApeSwap : Your One-Stop DeFi Hub',
   },
-  '/treasury-bills': {
-    title: 'Treasury Bills | ApeSwap : Your One-Stop DeFi Hub',
+  '/bonds': {
+    title: 'ApeSwap Bonds | ApeSwap : Your One-Stop DeFi Hub',
     description: 'Get BANANA and partner project tokens at a discount using your liquidity provider (LP) tokens.',
   },
   '/limit-orders': {

@@ -23,7 +23,19 @@ import useIsMobile from '../../../../hooks/useIsMobile'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
-const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: number; data: any }) => {
+const CustomTooltip = ({
+  show,
+  x,
+  y,
+  data,
+  isOwnedExtractable,
+}: {
+  show: boolean
+  x: number
+  y: number
+  data: any
+  isOwnedExtractable: boolean
+}) => {
   const { t } = useTranslation()
 
   if (!show) return null
@@ -39,7 +51,7 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         background: 'white2',
         flexDirection: 'column',
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
-        width: '350px',
+        width: '370px',
       }}
     >
       <Flex
@@ -59,14 +71,14 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         <Flex sx={{ flex: '0 0 40px' }}>
           <img src={data?.image} width="40px" height="40px" sx={{ borderRadius: '50%' }} />
         </Flex>
-        <Flex sx={{ flexDirection: 'column', flex: '0 0 190px' }}>
+        <Flex sx={{ flexDirection: 'column', flex: '0 0 220px' }}>
           <Text>{data?.name}</Text>
           <Text sx={{ fontWeight: 700, fontSize: ['14px'] }}>
-            ${data?.currentPrice.toFixed(5)}
-            <PriceChange priceChange={data?.priceChange24hr.toFixed(2)} />
+            ${data?.currentPrice.toFixed(5) > 0 ? data?.currentPrice.toFixed(5) : data?.currentPrice.toFixed(10)}
+            <PriceChange priceChange={data?.priceChange24hr?.toFixed(2)} />
           </Text>
         </Flex>
-        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 60px' }}>
+        <Flex sx={{ flexDirection: 'column', alignItems: 'flex-end', flex: '0 0 50px' }}>
           <Text sx={{ fontWeight: 400, fontSize: ['12px'], lineHeight: ['20px'], color: 'textDisabled' }}>
             {t('SCORE')}
           </Text>
@@ -92,12 +104,21 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
         }}
       >
         <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text sx={{ fontWeight: 400 }}>Market Cap:</Text>
+          <Text sx={{ fontWeight: 400 }}>Market Cap (x-axis):</Text>
           <Text sx={{ alignItems: 'flex-end' }}>{formatDollar({ num: data?.mcap })}</Text>
         </Flex>
         <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text sx={{ fontWeight: 400 }}>Total Extractable Liquidity:</Text>
-          <Text sx={{ alignItems: 'flex-end' }}>{Math.round(data?.extractableLiquidityPercentage)}%</Text>
+          <Text sx={{ fontWeight: 400 }}>
+            {`${isOwnedExtractable === false ? 'Total' : 'Owned'} Extractable Liquidity (y-axis):`}
+          </Text>
+          <Text sx={{ alignItems: 'flex-end' }}>
+            {Math.round(
+              isOwnedExtractable === false
+                ? data?.extractableLiquidityPercentage
+                : data?.ownedExtractableLiquidityPercentage,
+            )}
+            %
+          </Text>
         </Flex>
       </Flex>
     </Flex>,
@@ -105,11 +126,12 @@ const CustomTooltip = ({ show, x, y, data }: { show: boolean; x: number; y: numb
   )
 }
 
-const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
+const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; passBackData: any }) => {
   const canvasRef = useRef(null)
   const [zoomPlugin, setZoomPlugin] = useState(null)
-  const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '' })
+  const [tooltipState, setTooltipState] = useState({ show: false, x: 0, y: 0, data: '', isOwnedExtractable: false })
   const isMobile = useIsMobile()
+  const [options, setOptions] = useState({})
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -117,108 +139,122 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         setZoomPlugin(plugin.default as any)
       })
     }
-  }, [])
+  }, [chartData])
 
   useEffect(() => {
     if (zoomPlugin) {
-      ChartJS.register(zoomPlugin, CustomImagePlugin, gradientFillBetweenLines)
+      ChartJS.register(zoomPlugin, logoPlugin, gradientFillBetweenLines)
     }
   }, [zoomPlugin])
 
-  const options: ChartOptions<'scatter'> = {
-    scales: {
-      y: {
-        title: {
-          display: isMobile !== true,
-          text: 'Extractable Liquidity / Market Cap',
-          color: '#A09F9C',
-          font: {
-            family: 'Poppins',
-            size: 10,
-          },
-          padding: {
-            bottom: 10,
-          },
-        },
-        ticks: {
-          callback: function (tickValue: string | number, index: number, ticks: any[]) {
-            if (typeof tickValue === 'number') {
-              return `${tickValue}%`
-            }
-            return tickValue
-          },
-          font: {
-            family: 'Poppins',
-            size: 10,
-            weight: '500',
-          },
-        },
-        type: 'linear',
-        border: { dash: [4, 4] },
-        beginAtZero: true,
+  useEffect(() => {
+    const newOptions: ChartOptions<'scatter'> = {
+      animation: {
+        duration: 0,
       },
-      x: {
-        title: {
-          display: isMobile !== true,
-          text: 'Market Cap',
-          color: '#A09F9C',
-          font: {
-            family: 'Poppins',
-            size: 10,
+      scales: {
+        y: {
+          title: {
+            display: isMobile !== true,
+            text: 'Extractable Liquidity / Market Cap',
+            color: '#A09F9C',
+            font: {
+              family: 'Poppins',
+              size: 10,
+            },
+            padding: {
+              bottom: 10,
+            },
           },
-          padding: {
-            top: 10,
+          ticks: {
+            suggestedMin: 0,
+            callback: function (tickValue: string | number, index: number, ticks: any[]) {
+              if (typeof tickValue === 'number') {
+                return `${tickValue}%`
+              }
+              return tickValue
+            },
+            font: {
+              family: 'Poppins',
+              size: 10,
+              weight: '500',
+            },
           },
+          type: 'linear',
+          border: { dash: [4, 4] },
+          beginAtZero: true,
         },
-        ticks: {
-          callback: function (tickValue: string | number, index: number, ticks: any[]) {
-            if (typeof tickValue === 'number') {
-              return `$${tickValue}M`
-            }
-            return tickValue
+        x: {
+          title: {
+            display: isMobile !== true,
+            text: 'Market Cap',
+            color: '#A09F9C',
+            font: {
+              family: 'Poppins',
+              size: 10,
+            },
+            padding: {
+              top: 10,
+            },
           },
-          font: {
-            family: 'Poppins',
-            size: 10,
-            weight: '500',
+          ticks: {
+            callback: function (tickValue: string | number, index: number, ticks: any[]) {
+              if (typeof tickValue === 'number') {
+                return `$${tickValue.toFixed(2)}M`
+              }
+              return tickValue
+            },
+            font: {
+              family: 'Poppins',
+              size: 10,
+              weight: '500',
+            },
           },
+          border: { dash: [4, 4] },
+          min: chartData.healthBottom[0].x,
+          max: chartData.healthBottom[chartData.healthBottom.length - 1].x,
+          beginAtZero: false,
         },
-        border: { dash: [4, 4] }, //
-        min: chartData.healthBottom[0].x,
-        beginAtZero: false,
       },
-    },
-    plugins: {
-      zoom: {
-        pan: {
-          enabled: true,
-          mode: 'x',
-        },
+      plugins: {
         zoom: {
-          wheel: {
-            enabled: true,
+          limits: {
+            x: {
+              min: chartData.healthBottom[0].x,
+              max: chartData.healthBottom[chartData.healthBottom.length - 1].x,
+              minRange: 0.1,
+            },
+            y: {
+              min: 1,
+              max: 100,
+              minRange: 1.0,
+            },
           },
-          pinch: {
+          pan: {
             enabled: true,
+            mode: 'x',
           },
-          mode: 'x',
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: 'x',
+          },
         },
-        limits: {
-          x: {
-            min: 1,
-            max: 10,
-            minRange: 1,
+        tooltip: {
+          enabled: false,
+          external: (context: any) => {
+            customTooltipHandler(context)
           },
         },
       },
-      tooltip: {
-        enabled: false,
-        external: (context: any) => {
-          customTooltipHandler(context)
-        },
-      },
-    },
-  } as ChartOptions<'scatter'>
+    } as ChartOptions<'scatter'>
+
+    setOptions(newOptions)
+  }, [chartData, isMobile])
 
   function isBelowBottomLine(chart: any, point: any) {
     const { x, y } = point
@@ -246,49 +282,68 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
     }
 
     const currentItem = tooltip.dataPoints[0]
+
     const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
+    console.log(data)
 
     const canvasPosition = context.chart.canvas.getBoundingClientRect()
 
     setTooltipState({
       show: true,
-      x: canvasPosition.left + currentItem.element.x,
-      y: canvasPosition.top + currentItem.element.y,
+      x: canvasPosition.left + window.scrollX + currentItem.element.x,
+      y: canvasPosition.top + window.scrollY + currentItem.element.y,
       data: data,
+      //Last one is the owned extractable liquidity icon
+      isOwnedExtractable:
+        currentItem.dataIndex === context.chart.data.datasets[currentItem.datasetIndex].data.length - 1,
     })
   }
 
-  function drawDebtLine(chart: ChartJS<'scatter'>, point2: { x: number; y: number }) {
+  function drawDebtLine(chart: ChartJS<'scatter'>, ownedPoint: { x: number; y: number }) {
     const { ctx, scales } = chart
     const { x: xScale, y: yScale } = scales
 
-    const xPixel2 = xScale?.getPixelForValue(point2.x)
-    const yPixel2 = yScale?.getPixelForValue(point2.y)
+    const xPixel2 = xScale?.getPixelForValue(ownedPoint.x)
+    const yPixel2 = yScale?.getPixelForValue(ownedPoint.y)
 
-    const line1Dataset = chart.config.data.datasets[0]
+    //Sus lower data
+    const susLowerDataset = chart.config.data.datasets[0]
+    const index = susLowerDataset.data.findIndex((x: any) => x.x >= ownedPoint.x)
+    const susLowerPoint1: Point = susLowerDataset.data[index - 1] as Point
+    const susLowerPoint2: Point = susLowerDataset.data[index] as Point
+    const susLowerSlope = (susLowerPoint2?.y - susLowerPoint1?.y) / (susLowerPoint2?.x - susLowerPoint1?.x)
+    const susLowerYIntercept = susLowerPoint1?.y - susLowerSlope * susLowerPoint1?.x
+    const xPixel1 = xScale?.getPixelForValue(ownedPoint.x)
+    const yPixel1 = yScale?.getPixelForValue(susLowerSlope * ownedPoint.x + susLowerYIntercept)
+    const susLowerRange = susLowerSlope * ownedPoint.x + susLowerYIntercept
 
-    const index = line1Dataset.data.findIndex((x: any) => x.x >= point2.x)
+    //Sus upper data
+    const susUpperDataset = chart.config.data.datasets[1]
+    const susUpperPoint1: Point = susUpperDataset.data[index - 1] as Point
+    const susUpperPoint2: Point = susUpperDataset.data[index] as Point
+    const susUpperSlope = (susUpperPoint2?.y - susUpperPoint1?.y) / (susUpperPoint2?.x - susUpperPoint1?.x)
+    const susUpperYIntercept = susUpperPoint1?.y - susUpperSlope * susUpperPoint1?.x
+    const susUpperRange = susUpperSlope * ownedPoint.x + susUpperYIntercept
 
-    const point1: Point = line1Dataset.data[index - 1] as Point
-    const point2OnLine1: Point = line1Dataset.data[index] as Point
+    passBackData({
+      liquidityDebt: susLowerRange - ownedPoint.y,
+      sustainabilityLower: susLowerRange,
+      sustainabilityUpper: susUpperRange,
+    })
 
-    const slope = (point2OnLine1?.y - point1?.y) / (point2OnLine1?.x - point1?.x)
-    const yIntercept = point1?.y - slope * point1?.x
-
-    const xPixel1 = xScale?.getPixelForValue(point2.x)
-    const yPixel1 = yScale?.getPixelForValue(slope * point2.x + yIntercept)
-
-    ctx.beginPath()
-    ctx.setLineDash([5, 5])
-    ctx.lineWidth = 2
-    ctx.strokeStyle = '#DF4141'
-    ctx.moveTo(xPixel1, yPixel1)
-    ctx.lineTo(xPixel2, yPixel2)
-    ctx.stroke()
-    ctx.setLineDash([])
+    if (ownedPoint.y < susLowerRange) {
+      ctx.beginPath()
+      ctx.setLineDash([5, 5])
+      ctx.lineWidth = 2
+      ctx.strokeStyle = '#DF4141'
+      ctx.moveTo(xPixel1, yPixel1)
+      ctx.lineTo(xPixel2, yPixel2)
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
   }
 
-  const CustomImagePlugin = {
+  const logoPlugin = {
     id: 'printIcons',
 
     afterDraw: function (chart: ChartJS<'scatter'>) {
@@ -299,7 +354,6 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
 
       dataset?.data?.forEach(function (point: any) {
         const { x, y, r, data } = point
-
         const imageData = new Image()
         imageData.src = `${data.image}`
 
@@ -311,60 +365,75 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         const imageX = xPixel - size / 2
         const imageY = yPixel - size / 2
 
-        ctx.beginPath()
+        const xAxis = chart.scales['x']
+        const xStartPixel = xAxis?.getPixelForValue(xAxis?.min)
 
-        if (r == 10) {
-          ctx.globalAlpha = 1
-          if (!point1) {
-            point1 = point
-            ctx.strokeStyle = '#1179A6'
+        if (xPixel >= xStartPixel) {
+          ctx.beginPath()
+
+          if (r == 10) {
+            ctx.globalAlpha = 1
+            if (!point1) {
+              point1 = point
+              ctx.strokeStyle = '#1179A6'
+            } else {
+              point2 = point
+
+              ctx.strokeStyle = '#904DC4'
+            }
           } else {
-            point2 = point
-
-            ctx.strokeStyle = '#904DC4'
+            ctx.globalAlpha = 0.7
+            const borderColor = isBelowBottomLine(chart, { x, y }) ? '#38A611' : '#DF4141'
+            ctx.strokeStyle = borderColor
           }
-        } else {
-          ctx.globalAlpha = 0.7
-          const borderColor = isBelowBottomLine(chart, { x, y }) ? '#38A611' : '#DF4141'
-          ctx.strokeStyle = borderColor
-        }
 
-        ctx.lineWidth = 3
-        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI) // Add 3 to the radius to draw the green border outside the image
-        ctx.stroke()
+          ctx.lineWidth = 3
+          ctx.fillStyle = 'white'
+          ctx.arc(imageX + size / 2, imageY + size / 2, size / 2 + 3, 0, 2 * Math.PI)
+          ctx.fill()
+          ctx.stroke()
 
-        // Draw a white border inside the green border
-        ctx.beginPath()
-        ctx.strokeStyle = 'white'
-        ctx.lineWidth = 5
-        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI) // Draw the white border inside the green border
-        ctx.stroke()
+          ctx.save()
+          ctx.beginPath()
+          ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
+          ctx.closePath()
+          ctx.clip()
 
-        ctx.save()
-        ctx.beginPath()
-        ctx.arc(imageX + size / 2, imageY + size / 2, size / 2, 0, 2 * Math.PI)
-        ctx.closePath()
-        ctx.clip()
-
-        ctx.drawImage(imageData, imageX, imageY, size, size)
-
-        ctx.restore()
-
-        ctx.globalAlpha = 1
-        if (point2) {
-          drawDebtLine(chart, point2)
+          ctx.drawImage(imageData, imageX, imageY, size, size)
+          ctx.restore()
+          ctx.globalAlpha = 1
+          if (point2) {
+            drawDebtLine(chart, point2)
+          }
         }
       })
     },
   }
 
+  const getYIntercept = (x: number, dataset: any) => {
+    for (let i = 1; i < dataset.data.length; i++) {
+      const point1 = dataset.data[i - 1].getProps(['x', 'y'])
+      const point2 = dataset.data[i].getProps(['x', 'y'])
+      if (point1.x <= x && point2.x >= x) {
+        const slope = (point2.y - point1.y) / (point2.x - point1.x)
+        const y = point1.y + slope * (x - point1.x)
+        return y
+      }
+    }
+    return null
+  }
+
   const gradientFillBetweenLines = {
     id: 'gradientFillBetweenLines',
     beforeDatasetsDraw: (chart: { getDatasetMeta?: any; scales?: any; width?: any; ctx?: any }, _args: any) => {
+      const xAxis = chart.scales['x']
+      const xStartPixel = xAxis?.getPixelForValue(xAxis?.start)
+      const xEndPixel = xAxis?.getPixelForValue(xAxis?.end)
+
       const { ctx } = chart
-      const line1Meta = chart.getDatasetMeta(0)
-      const line2Meta = chart.getDatasetMeta(1)
-      const yAxis = chart.scales[line1Meta.yAxisID]
+      const susLowerLine = chart.getDatasetMeta(0)
+      const susUpperLine = chart.getDatasetMeta(1)
+      const yAxis = chart.scales[susLowerLine.yAxisID]
 
       const greenGradient = ctx.createLinearGradient(0, 0, chart.width, 0)
       greenGradient.addColorStop(0, 'rgba(56, 166, 17, 0.3)')
@@ -378,15 +447,28 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
       ctx.fillStyle = greenGradient
       ctx.beginPath()
 
-      ctx.moveTo(line2Meta.data[0]?.x, line2Meta.data[0]?.y)
-      for (let i = 1; i < line2Meta.data.length; i++) {
-        const pointProps = line2Meta.data[i].getProps(['x', 'y'])
-        ctx.lineTo(pointProps.x, pointProps.y)
+      ctx.moveTo(xStartPixel, getYIntercept(xStartPixel, susUpperLine))
+
+      //Map to sus upper
+      for (let i = 1; i < susUpperLine.data.length; i++) {
+        const pointProps = susUpperLine.data[i].getProps(['x', 'y'])
+        if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
+          ctx.lineTo(pointProps.x, pointProps.y)
+        } else if (pointProps.x > xEndPixel) {
+          ctx.lineTo(xEndPixel, getYIntercept(xEndPixel, susUpperLine))
+        }
       }
 
-      for (let i = line1Meta.data.length - 1; i >= 0; i--) {
-        const pointProps = line1Meta.data[i].getProps(['x', 'y'])
-        ctx.lineTo(pointProps.x, pointProps.y)
+      //Map to sus Lower
+      for (let i = susLowerLine.data.length - 1; i >= 0; i--) {
+        const pointProps = susLowerLine.data[i].getProps(['x', 'y'])
+        if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
+          ctx.lineTo(pointProps.x, pointProps.y)
+        } else if (pointProps.x < xStartPixel) {
+          ctx.lineTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
+        } else {
+          ctx.lineTo(xEndPixel, getYIntercept(xEndPixel, susLowerLine))
+        }
       }
 
       ctx.closePath()
@@ -397,14 +479,24 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
       ctx.fillStyle = redGradient
       ctx.beginPath()
 
-      ctx.moveTo(line1Meta.data[0].x, line1Meta.data[0].y)
-      for (let i = 1; i < line1Meta.data.length; i++) {
-        const pointProps = line1Meta.data[i].getProps(['x', 'y'])
-        ctx.lineTo(pointProps.x, pointProps.y)
+      ctx.moveTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
+
+      //Map red area
+      for (let i = 1; i < susLowerLine.data.length; i++) {
+        const pointProps = susLowerLine.data[i].getProps(['x', 'y'])
+        if (pointProps.x >= xStartPixel && pointProps.x <= xEndPixel) {
+          ctx.lineTo(pointProps.x, pointProps.y)
+        } else if (pointProps.x < xStartPixel) {
+          ctx.lineTo(xStartPixel, getYIntercept(xStartPixel, susLowerLine))
+        } else {
+          ctx.lineTo(xEndPixel, getYIntercept(xEndPixel, susLowerLine))
+        }
       }
 
-      ctx.lineTo(line1Meta.data[line1Meta.data.length - 1].x, yAxis?.getPixelForValue(0))
-      ctx.lineTo(line1Meta.data[0].x, yAxis?.getPixelForValue(0))
+      //Red fill
+      ctx.lineTo(xEndPixel, yAxis?.getPixelForValue(0))
+      ctx.lineTo(xStartPixel, yAxis?.getPixelForValue(0))
+
       ctx.closePath()
       ctx.fill()
       ctx.restore()
@@ -414,7 +506,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
   const data = {
     datasets: [
       {
-        label: 'Sus Upper',
+        label: 'Sus Lower',
         data: chartData.healthBottom,
         borderColor: '#38A611',
         pointRadius: 0,
@@ -424,7 +516,7 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
         showLine: true,
       },
       {
-        label: 'Sus Lower',
+        label: 'Sus Upper',
         data: chartData.healthTop,
         borderColor: '#38A611',
         pointRadius: 0,
@@ -459,7 +551,13 @@ const Chart = ({ chartData }: { chartData: LiquidityHealthChart }) => {
           <Text sx={{ fontSize: '10px', fontWeight: '400' }}>X: Market Cap</Text>
         </Flex>
       )}
-      <CustomTooltip show={tooltipState.show} x={tooltipState.x} y={tooltipState.y} data={tooltipState.data} />
+      <CustomTooltip
+        show={tooltipState.show}
+        x={tooltipState.x}
+        y={tooltipState.y}
+        data={tooltipState.data}
+        isOwnedExtractable={tooltipState.isOwnedExtractable}
+      />
     </>
   )
 }

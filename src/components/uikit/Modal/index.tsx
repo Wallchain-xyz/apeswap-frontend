@@ -13,9 +13,6 @@ const Modal = ({
   open = true,
   title,
   zIndex = 'modal',
-  minWidth = '50%',
-  maxWidth = '80%',
-  paddingWidth = '20px',
   onAnimationComplete,
   ...props
 }: ModalProps) => {
@@ -23,7 +20,7 @@ const Modal = ({
   const onClose = onDismiss || handleClose
 
   return (
-    <Box id={title}>
+    <Box id={title} sx={{ zIndex }}>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -41,7 +38,7 @@ const Modal = ({
             }}
             exit={{ opacity: 0, transform: 'translate(-50%, -50%) scale(0)' }}
             {...props}
-            sx={{ minWidth, maxWidth, zIndex, ...style.container, padding: `20px ${paddingWidth}` }}
+            sx={{ ...style.container, zIndex }}
             onAnimationComplete={onAnimationComplete}
           >
             {title && (

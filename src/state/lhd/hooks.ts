@@ -1,47 +1,64 @@
 import { useCallback, useEffect } from 'react'
 import { useAppDispatch } from '../hooks'
-import { fetchFullProfile, fetchInitialProfiles, fetchProfiles } from './actions'
-import { SimpleTokenProfile, TokenProfile } from './types'
+// import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
+import { fetchFullProfile, fetchInitialProfiles } from './actions'
+import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
-import { addFullProfile, addSearchProfiles, handleQueriedAPI } from './reducer'
+import { addFullProfile, addSimpleProfiles } from './reducer'
 import { useSelector } from 'react-redux'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
-  const simpleProfiles: SimpleTokenProfile[] = useSelector((state: AppState) => state?.lhd?.simpleProfiles)
+  const simpleProfiles: ProfilesResponse | null = useSelector((state: AppState) => state?.lhd?.simpleProfiles)
   useEffect(() => {
-    if (typeof window !== 'undefined' && !simpleProfiles?.length) {
+    if (typeof window !== 'undefined' && !simpleProfiles?.data.length) {
       dispatch(fetchInitialProfiles())
     }
-  }, [dispatch, simpleProfiles?.length])
+  }, [dispatch, simpleProfiles?.data.length])
 }
 
-export const useOnSearchProfiles = () => {
-  const dispatch = useAppDispatch()
-  return useCallback(
-    async (queryString: string): Promise<boolean> => {
-      try {
-        dispatch(handleQueriedAPI(true))
-        const listData: SimpleTokenProfile[] = await fetchProfiles(queryString)
-        dispatch(addSearchProfiles(listData))
-        dispatch(handleQueriedAPI(false))
-        return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
-      } catch (e) {
-        console.error(e)
-        return false
-      }
-    },
-    [dispatch],
-  )
-}
-
-//export const useFetchProfile = async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
+// export const useOnSearchProfiles = () => {
+//   console.log('SEARCH CALLED')
+//   // const dispatch = useAppDispatch()
+//   // return useCallback(
+//   //   async (queryString: string): Promise<boolean> => {
+//   //     try {
+//   //       const listData: SimpleTokenProfile[] = await fetchProfiles(queryString)
+//   //       dispatch(addSimpleProfiles(listData))
+//   //       return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
+//   //     } catch (e) {
+//   //       console.error(e)
+//   //       return false
+//   //     }
+//   //   },
+//   //   [dispatch],
+//   // )
+// }
+//
+// export const useOnFilterProfiles = () => {
+//   console.log('FILTER CALLED CALLED')
+//
+//   // const dispatch = useAppDispatch()
+//   // return useCallback(
+//   //   async (queryString: string): Promise<boolean> => {
+//   //     try {
+//   //       const listData: SimpleTokenProfile[] = await fetchProfiles(undefined, queryString)
+//   //       dispatch(addSimpleProfiles(listData))
+//   //       return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
+//   //     } catch (e) {
+//   //       console.error(e)
+//   //       return false
+//   //     }
+//   //   },
+//   //   [dispatch],
+//   // )
+// }
 
 export const useFetchProfile = () => {
   const dispatch = useAppDispatch()
   const fullProfile = useSelector((state: AppState) => state?.lhd?.fullProfile)
 
-  const fetchProfile = useCallback(
+  return useCallback(
     async (chainID?: string | string[] | undefined, address?: string | string[] | undefined) => {
       const exists = fullProfile?.addressMapping?.tokenAddresses.find(
         (tokenAddress) => tokenAddress.address === address && tokenAddress.chainId === chainID,
@@ -58,21 +75,30 @@ export const useFetchProfile = () => {
     },
     [dispatch, fullProfile],
   )
-
-  return fetchProfile
 }
 
-export const useSimpleProfiles = (): [SimpleTokenProfile[], boolean] => {
-  return [
-    useSelector((state: AppState) => state.lhd.simpleProfiles),
-    useSelector((state: AppState) => state.lhd.queriedAPI),
-  ]
-}
-
-export const useSearchProfiles = () => {
-  return useSelector((state: AppState) => state.lhd.searchProfiles)
+export const useSimpleProfiles = (): ProfilesResponse => {
+  return useSelector((state: AppState) => state.lhd.simpleProfiles)
 }
 
 export const useFullProfile = () => {
   return useSelector((state: AppState) => state.lhd.fullProfile)
+}
+
+export const useIndustryAvg = () => {
+  return useSelector((state: AppState) => {
+    return {
+      averageTotalScore: state.lhd.averageTotalScore,
+      chainsSupported: state.lhd.chainsSupported,
+      averageChange: state.lhd.industryAverageChange,
+      tokensVerified: state.lhd.tokensVerified,
+      tokensTracked: state.lhd.tokensTracked,
+    }
+  })
+}
+
+export const useLHDFilterValues = () => {
+  return useSelector((state: AppState) => {
+    return state.lhd.queryState
+  })
 }

@@ -19,7 +19,7 @@ const SelectLanguageModal = () => {
   const { currentLanguage, t, setLanguage } = useTranslation()
   const { handleClose } = useContext(Context)
   return (
-    <Modal maxWidth="350px" minWidth="350px" title={t('Language')}>
+    <Modal title={t('Language')}>
       <Flex sx={{ height: 'auto', flexDirection: 'column' }}>
         {languageList.map((lang) => (
           <Button

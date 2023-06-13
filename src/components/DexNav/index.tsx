@@ -11,15 +11,26 @@ import { Flex, Link, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { Switch } from 'theme-ui'
 import DexSettings from 'components/DexSettings'
+import SquidBridge from '../SquidBridge/SquidBridge'
+import { AVAILABLE_CHAINS_ON_PRODUCTS, OTHER_PRODUCTS } from '../../config/constants/chains'
+import ZapSlippage from '../ZapSlippage'
 
 interface DexNavProps {
   zapSettings?: boolean
 }
 
 const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
+  const BRIDGE_SUPPORTED_CHAINS = [
+    SupportedChainId.BSC,
+    SupportedChainId.ARBITRUM_ONE,
+    SupportedChainId.POLYGON,
+    SupportedChainId.MAINNET,
+  ]
   const { t } = useTranslation()
   const { pathname, push, asPath } = useRouter()
   const { chainId } = useWeb3React()
+  const [onBridgeModal] = useModal(<SquidBridge />)
+  const apeV3Available = AVAILABLE_CHAINS_ON_PRODUCTS[OTHER_PRODUCTS.V3].includes(chainId as SupportedChainId)
 
   const v2Flag = pathname.includes('/v2')
   const swapFlag = pathname.includes('/swap')
@@ -34,7 +45,14 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
     pathname?.includes('unstake')
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
+  const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
   // const [onPresentModal] = useModal(<MoonPayModal />)
+
+  const handleSwitch = () => {
+    if (apeV3Available) {
+      push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')
+    }
+  }
 
   return (
     <Flex sx={styles.dexNavContainer}>
@@ -53,21 +71,19 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         >
           {t('Swap')}
         </Text>
-        {chainId && [SupportedChainId.BSC, SupportedChainId.POLYGON].includes(chainId) && (
-          <Text
-            size="14px"
-            variant="link"
-            sx={{
-              ...styles.navLink,
-              color: !onLiquidity && 'textDisabled',
-            }}
-            onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
-            id="liquidity-link"
-            className="liquidity"
-          >
-            {t('Liquidity')}
-          </Text>
-        )}
+        <Text
+          size="14px"
+          variant="link"
+          sx={{
+            ...styles.navLink,
+            color: !onLiquidity && 'textDisabled',
+          }}
+          onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
+          id="liquidity-link"
+          className="liquidity"
+        >
+          {t('Liquidity')}
+        </Text>
       </Flex>
       <Flex sx={styles.navIconContainer}>
         {/* <RunFiatButton
@@ -81,16 +97,14 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         />
         <CogIcon sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal} /> */}
         <Flex
-          as={Link}
-          href={`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}${asPath}`}
-          // onClick={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
+          onClick={handleSwitch}
           sx={{
             position: 'relative',
             mr: '10px',
             height: 'fit-content',
             minWidth: 'fit-content',
             alignItems: 'center',
-            cursor: 'pointer',
+            cursor: apeV3Available ? 'pointer' : 'not-allowed',
             zIndex: 2,
           }}
         >
@@ -103,9 +117,9 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             {v2Flag ? 'V2' : 'V3'}
           </Text>
           <Switch
-            onClick={() => push(`${process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}${asPath}`)}
-            // onChange={() => push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')}
+            onChange={handleSwitch}
             checked={!v2Flag}
+            disabled={!apeV3Available}
             sx={{
               mr: '0px',
               width: '50px',
@@ -127,10 +141,20 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
-          <Link href="https://app.multichain.org/#/router" sx={{ height: '0px' }}>
+          <Flex
+            sx={styles.iconCover}
+            onClick={
+              BRIDGE_SUPPORTED_CHAINS.includes(chainId as number)
+                ? onBridgeModal
+                : () => window.open('https://app.multichain.org/#/router', '_blank')
+            }
+          >
             <Svg icon="bridge" />
-          </Link>
-          <Flex onClick={onPresentSettingsModal} sx={{ cursor: 'pointer', mb: '5px' }}>
+          </Flex>
+          <Flex
+            onClick={zapSettings ? onPresentZapSettingsModal : onPresentSettingsModal}
+            sx={{ cursor: 'pointer', mb: '5px' }}
+          >
             <Svg icon="cog" />
           </Flex>
         </Flex>

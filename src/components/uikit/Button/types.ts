@@ -11,10 +11,10 @@ export enum sizes {
 
 export type Sizes = (typeof sizes)[keyof typeof sizes]
 
-export const buttonFontSizes: Record<sizes | any, number> = {
-  [sizes.SMALL]: 1,
-  [sizes.MEDIUM]: 3,
-  [sizes.LARGE]: 6,
+export const buttonFontSizes: Record<sizes | any, string> = {
+  [sizes.SMALL]: '12px',
+  [sizes.MEDIUM]: '16px',
+  [sizes.LARGE]: '18px',
 }
 
 export const buttonLineHeight: Record<sizes | any, string> = {
@@ -63,6 +63,7 @@ export interface IconButtonProps extends Omit<ButtonProps, 'variant'> {
   color?: colorProps
   background?: colorProps
   icon?: iconTypes
+  iconWidth?: number
 }
 
 export type ButtonThemeVariant = {

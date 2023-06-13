@@ -5,12 +5,14 @@ import { icons } from '../Svg/types'
 import { IconButtonProps, iconButtonVariants as variants } from './types'
 import style from './styles'
 import colorValues from 'theme/types'
+import Flex from '../Flex'
 
 const IconButton: React.FC<IconButtonProps> = ({
   icon = icons.DISCORD,
   color = colorValues.white1,
   background = colorValues.yellow,
   variant = variants.PRIMARY,
+  iconWidth,
   children,
   ...props
 }) => {
@@ -19,6 +21,10 @@ const IconButton: React.FC<IconButtonProps> = ({
       {...props}
       variant={variant}
       sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
         variant: `buttons.${variant}`,
         color: 'primaryBright',
         background,
@@ -26,7 +32,11 @@ const IconButton: React.FC<IconButtonProps> = ({
         ...(variant === variants.TRANSPARENT ? style.transparent : {}),
       }}
     >
-      {children || <Svg color={color} icon={icon} {...props} />}
+      {children || (
+        <span sx={{ height: iconWidth, width: iconWidth }}>
+          <Svg color={color} icon={icon} {...props} width={iconWidth} />
+        </span>
+      )}
     </Button>
   )
 }

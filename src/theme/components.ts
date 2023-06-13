@@ -30,6 +30,8 @@ const buttonBaseStyles = {
   fontFamily: 'body',
   cursor: 'pointer',
   fontWeight: 700,
+  display: 'flex',
+  alignItems: 'center',
   '&&': {
     borderRadius: 'normal',
   },
@@ -190,7 +192,7 @@ const components = {
       '&:disabled': {
         cursor: 'not-allowed',
         background: 'white3',
-        color: 'primaryButtonDisable',
+        color: 'textDisabled',
         border: 'primaryBtnDisable',
       },
 
@@ -204,7 +206,7 @@ const components = {
     },
     secondary: {
       ...buttonBaseStyles,
-      background: 'white2',
+      background: 'white1',
       border: 'secondaryButton',
       color: 'yellow',
 

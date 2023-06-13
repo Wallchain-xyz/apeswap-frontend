@@ -10,6 +10,7 @@ export { default as TutorialModal } from './TutorialModal'
 export { default as Spinner } from './Spinner'
 export { default as Link } from './Link'
 export { default as Toggle } from './Toggle'
+export { default as SwiperDots } from './SwiperDots'
 
 // Exports
 export { Button, IconButton } from './Button'
@@ -17,3 +18,4 @@ export { Select, SelectItem } from './Select'
 export { NumericInput, Input, StyledInput } from './Input'
 export { Tabs, Tab } from './Tabs'
 export { Tag, ListTag } from './Tag'
+export { Dropdown, DropdownItem } from './Dropdown'

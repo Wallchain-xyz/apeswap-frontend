@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from 'theme-ui'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useSwiper from 'hooks/useSwiper'
@@ -8,13 +7,11 @@ import SwiperCore, { Autoplay } from 'swiper'
 import 'swiper/swiper.min.css'
 import track from 'utils/track'
 import { getDotPos } from 'utils/getDotPos'
-import { Bubble, NewsCard, NewsWrapper, SkeletonWrapper, styles } from './styles'
+import { NewsCard, NewsWrapper, SkeletonWrapper } from './styles'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
-import { Flex, Skeleton } from 'components/uikit'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { Flex, Skeleton, SwiperDots } from 'components/uikit'
 import { useFetchHomepageNews, useHomepageNews } from 'state/homepage/hooks'
-import Image from 'next/image'
 import { NewsCardType } from 'state/homepage/types'
 
 const SLIDE_DELAY = 5000
@@ -37,7 +34,6 @@ const News: React.FC = () => {
           (new Date(news.StartTime) <= today && new Date(news.EndTime) > today) || (!news.StartTime && !news.EndTime),
       )
     : []
-  //console.log(filterNews)
   const newsLength = filterNews?.length || 0
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)
@@ -101,31 +97,40 @@ const News: React.FC = () => {
                 loopedSlides={newsLength}
                 centeredSlides
                 resizeObserver
+                lazy
+                preloadImages={false}
                 onSlideChange={handleSlide}
               >
                 {filterNews?.map((news, index) => {
                   return (
-                    <SwiperSlide style={{ maxWidth: '266px', minWidth: '266px' }} key={news.id}>
-                      <Box
+                    <SwiperSlide
+                      style={{ maxWidth: '266px', minWidth: '266px' }}
+                      key={`${index}-${news.id}`}
+                      id={`${index}-${news.id}`}
+                    >
+                      <Flex
                         sx={{ maxWidth: '266px', minWidth: '266px' }}
+                        key={`${index}-${news.id}`}
+                        id={`${index}-${news.id}`}
                         onClick={() => clickNews(news?.CardLink, news?.isModal)}
                       >
                         <NewsCard
                           index={activeSlide}
                           image={news?.cardImageUrl?.url}
-                          key={news?.cardImageUrl?.url}
+                          key={`${index}-${news.id}`}
+                          id={`${index}-${news.id}`}
                           listLength={newsLength}
                           onClick={() => trackBannersClick(index + 1, news?.CardLink, chainId)}
                         />
-                      </Box>
+                      </Flex>
                     </SwiperSlide>
                   )
                 })}
               </Swiper>
             ) : (
               <SkeletonWrapper>
-                {[...Array(5)].map((i) => {
-                  return <Skeleton width="266px" height="332.5px" key={i} />
+                {[...Array(5)].map((i, index) => {
+                  return <Skeleton width="266px" height="332.5px" key={`skeleton-${index}`} />
                 })}
               </SkeletonWrapper>
             )}
@@ -134,7 +139,9 @@ const News: React.FC = () => {
         {loadImages && (
           <Flex sx={{ position: 'absolute', bottom: '50px', justifyContent: 'center', alignContent: 'center' }}>
             {[...Array(newsLength)].map((_, i) => {
-              return <Bubble isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={i} />
+              return (
+                <SwiperDots isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={`loadingDots-${i}`} />
+              )
             })}
           </Flex>
         )}

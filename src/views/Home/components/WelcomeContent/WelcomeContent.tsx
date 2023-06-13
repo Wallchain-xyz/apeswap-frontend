@@ -3,19 +3,17 @@ import { styles } from './styles'
 import BackgroundCircles from './BackgroundCircles'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
-import SwiperCore from 'swiper'
-// import { Bubble } from '../News/styles'
-import DefiRedefined from './slides/DefiRedefined'
-import { Flex } from 'components/uikit'
 import useSwiper from 'hooks/useSwiper'
+import SwiperCore from 'swiper'
 import { getDotPos } from 'utils/getDotPos'
+import DefiRedefined from './slides/DefiRedefined'
 import ApeSwapV3 from './slides/ApeSwapV3'
+import { Flex, SwiperDots } from 'components/uikit'
 
-const slides = [<DefiRedefined key={0} />, <ApeSwapV3 key={1} />]
-
-const WelcomeContent: React.FC = () => {
+const WelcomeContent = ({ randomImage }: { randomImage: number }) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
+  const slides = [<DefiRedefined randomImage={randomImage} key={0} />, <ApeSwapV3 key={1} />]
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)
@@ -36,12 +34,14 @@ const WelcomeContent: React.FC = () => {
               <Swiper
                 id="homeSwiper"
                 autoplay={{
-                  delay: 100000,
+                  delay: 15000,
                   disableOnInteraction: false,
                 }}
                 onSwiper={setSwiper}
                 slidesPerView="auto"
                 centeredSlides
+                lazy
+                preloadImages={false}
                 onSlideChange={handleSlide}
                 style={{ width: '100%' }}
               >
@@ -67,12 +67,12 @@ const WelcomeContent: React.FC = () => {
                   position: 'relative',
                   width: '95vw',
                   maxWidth: '1412px',
-                  justifyContent: ['center', 'flex-start', 'flex-start'],
+                  justifyContent: ['center', 'center', 'center', 'flex-start'],
                 }}
               >
                 <Flex sx={styles.bubbleContainer}>
                   {[...Array(slides.length)].map((_, i) => {
-                    return <></> // <Bubble isActive={i === activeSlide} onClick={() => slideTo(i)} key={i} />
+                    return <SwiperDots isActive={i === activeSlide} onClick={() => slideTo(i)} key={i} />
                   })}
                 </Flex>
               </Flex>

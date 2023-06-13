@@ -11,7 +11,7 @@ import BigNumber from 'bignumber.js'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 interface TransferBillModalProps {
-  onDismiss: () => void
+  onDismiss?: () => void
   bill: Bills
   billId: string
   chainId?: SupportedChainId
@@ -27,7 +27,7 @@ const TransferBillModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill, 
     chainId &&
     getBalanceNumber(new BigNumber(userOwnedBill?.payout ?? 0), bill?.earnToken?.decimals?.[chainId] ?? 18)?.toFixed(4)
   return (
-    <Modal onDismiss={onDismiss} maxWidth="380px" minWidth="300px" title="Transfer Bond">
+    <Modal onDismiss={onDismiss} title="Transfer Bond" zIndex={130}>
       <Flex mt="30px">
         <Text weight={700}> {t('Transferring')}: </Text>
       </Flex>

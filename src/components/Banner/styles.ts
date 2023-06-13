@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { Flex, Skeleton } from 'components/uikit'
-import { ArrowDown } from 'react-feather'
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const styles: Record<string, ThemeUIStyleObject> = {
@@ -29,6 +28,7 @@ export const styles: Record<string, ThemeUIStyleObject> = {
   },
   // Style for learn more text
   learnText: {
+    alignItems: 'center',
     mt: '5%',
     fontSize: 'calc(6px + 1.5vw)',
     textTransform: 'capitalize',
@@ -65,14 +65,5 @@ export const FlexSkeleton = styled(Skeleton)<{ maxWidth?: number; listViewBreak?
   @media screen and (min-width: ${({ maxWidth }) => maxWidth}px) {
     height: ${({ maxWidth }) => (maxWidth ? maxWidth / 4 : 10)}px;
     width: ${({ maxWidth }) => maxWidth}px;
-  }
-`
-
-export const LearnMoreArrow = styled(ArrowDown)`
-  transform: rotate(270deg);
-  margin-left: 10px;
-  width: calc(4px + 0.9vw);
-  @media screen and (min-width: 1130px) {
-    width: 14px;
   }
 `

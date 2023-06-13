@@ -10,7 +10,8 @@ export const styles: Record<
   | 'lpNameCol'
   | 'imgCont'
   | 'bodyText'
-  | 'colCont', ThemeUIStyleObject> = {
+  | 'colCont',
+  ThemeUIStyleObject> = {
   headerCont: {
     display: 'grid',
     width: 'fit-content',
@@ -70,5 +71,7 @@ export const styles: Record<
     padding: '8px',
     justifyContent: 'center',
     height: '40px',
+    display: 'flex',
+    alignItems: 'center'
   }
 }

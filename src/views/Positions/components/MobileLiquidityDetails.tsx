@@ -1,5 +1,4 @@
 import { Position } from '@ape.swap/v3-sdk'
-import { useWeb3React } from '@web3-react/core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { Button, Flex, Skeleton, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
@@ -25,9 +24,8 @@ import PriceRangeSection from './PriceRangeSection'
 import styles from './styles'
 
 const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string | undefined }) => {
-  const { chainId, account, provider } = useWeb3React()
   const parsedTokenId = selectedTokenId ? BigNumber.from(selectedTokenId) : undefined
-  const { loading, position: positionDetails } = useV3PositionFromTokenId(parsedTokenId)
+  const { position: positionDetails } = useV3PositionFromTokenId(parsedTokenId)
   const {
     token0: token0Address,
     token1: token1Address,
@@ -58,7 +56,7 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
   const nativeCurrency = useNativeCurrency()
   const nativeWrappedSymbol = nativeCurrency.wrapped.symbol
 
-  const [poolState, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
+  const [, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
 
   const position = useMemo(() => {
     if (pool && liquidity && typeof tickLower === 'number' && typeof tickUpper === 'number') {
@@ -310,7 +308,10 @@ const MobileLiquidityDetails = ({ selectedTokenId }: { selectedTokenId: string |
               {nativeWrappedSymbol}
             </Text>
             <Flex>
-              <Switch onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)} sx={{ background: 'navMenuLogo' }} />
+              <Switch
+                onChange={() => setReceiveWETH((receiveWETH) => !receiveWETH)}
+                sx={{ background: 'navMenuLogo' }}
+              />
             </Flex>
           </Flex>
         )}

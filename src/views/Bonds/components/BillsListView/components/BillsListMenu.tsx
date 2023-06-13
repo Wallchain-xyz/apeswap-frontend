@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { SearchText, styles } from '../styles'
-import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
 import { BillsListMenuProps, FILTER_OPTIONS, SORT_OPTIONS } from '../types'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useWeb3React } from '@web3-react/core'
-import useSelectChain from 'hooks/useSelectChain'
-import useMatchBreakpoints from 'hooks/useMatchBreakpoints'
 import { CheckBox, Flex, Input, Svg, Text, Toggle } from 'components/uikit'
 import MenuSelect from 'components/ListView/ListViewMenu/MenuSelect'
 import NetworkSelector from 'components/NetworkSelector'
@@ -25,8 +21,6 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
   setShowAvailable,
 }) => {
   const { t } = useTranslation()
-  const switchNetwork = useSelectChain()
-  const { chainId } = useWeb3React()
   const isMobile = useIsMobile()
   const [expanded, setExpended] = useState(false)
 
@@ -34,11 +28,11 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
     <Flex sx={styles.menuContainer}>
       {isMobile ? (
         <Flex sx={styles.mobileContainer}>
-          <Flex>
+          <Flex sx={{ width: '100%', maxWidth: '353px' }}>
             <SearchText bold mr="15px">
               {t('Search')}
             </SearchText>
-            <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} />
+            <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} width={'100%'} />
             <Flex sx={styles.expandedButton} onClick={() => setExpended(!expanded)}>
               <Svg icon="MenuSettings" width="18px" />
             </Flex>
@@ -50,7 +44,13 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
                 animate={{ height: 'fit-content', transitionEnd: { overflow: 'visible' } }}
                 transition={{ opacity: { duration: 0.2 } }}
                 exit={{ height: 0, overflow: 'hidden' }}
-                sx={{ position: 'relative', width: '100%', overflow: 'hidden' }}
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
               >
                 <Flex sx={styles.mobileRow}>
                   <Flex sx={styles.inputContainer} pr={3}>
@@ -65,7 +65,8 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
                   </Flex>
                   <Flex sx={styles.networkWrapper}>
                     <NetworkSelector
-                    // supportedChains={AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS]}
+                      // supportedChains={AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS]}
+                      billsFlag
                     />
                   </Flex>
                 </Flex>

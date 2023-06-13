@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BLOCK_EXPLORER } from '../../../../../../../config/constants/chains'
 import { LiquidityPool } from '../../../../../../../state/lhd/types'
 import { Box } from 'theme-ui'
@@ -9,21 +9,31 @@ import IconButton from '../../IconButton'
 import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
 import { styles } from './styles'
 import { useTranslation } from '../../../../../../../contexts/Localization'
+import TokenImage from '../../../../../../../components/TokenImage'
+import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
 const TableRow = ({ index, pool }: {
   index: number,
   pool: LiquidityPool
 }) => {
+  const [isCopied, setIsCopied] = useState(false)
   const { t } = useTranslation()
 
-  const getBlockExplorerURL = (chain: string, address: string) => {
-    // @ts-ignore
-    if (BLOCK_EXPLORER[chain]) return `${BLOCK_EXPLORER[chain]}/address/${address}`
-    return ''
+  const handleCopyClick = (address: string) => {
+    setIsCopied(true)
+    navigator.clipboard.writeText(address)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 1000)
   }
 
-  const tokenLogo1 = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BANANA.svg'
-  const tokenLogo2 = 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BANANA.svg'
+  const getBlockExplorerURL = (chain: string, address: string) => {
+    const chainInfo = CHAIN_DETAILS.find(chainOption => chainOption.chainId === chain)
+    if (chainInfo) return `${chainInfo.blockExplorer?.url}address/${address}`
+    return ''
+  }
+  const tokenLogo1 = pool.baseToken.tokenLogoUrl
+  const tokenLogo2 = pool.quoteToken.tokenLogoUrl
 
   return (
     <Box sx={{ ...styles.rowCont, background: index % 2 ? 'white3' : 'white2' }}>
@@ -33,22 +43,14 @@ const TableRow = ({ index, pool }: {
       <Flex sx={{ ...styles.lpNameCol, background: index % 2 ? 'white3' : 'white2' }}>
         <Flex sx={{ position: 'relative', minWidth: ['40px'] }}>
           <Flex sx={styles.imgCont}>
-            <Image src={tokenLogo2}
-                   alt={'token img'}
-                   width={22}
-                   height={22}
-                   style={{ borderRadius: '25px' }} />
+            <TokenImage url={tokenLogo1} size={22} />
           </Flex>
           <Flex sx={{ ...styles.imgCont, position: 'absolute', right: '0px', zIndex: -1 }}>
-            <Image src={tokenLogo2}
-                   alt={'token img'}
-                   width={22}
-                   height={22}
-                   style={{ borderRadius: '25px' }} />
+            <TokenImage url={tokenLogo2} size={22} />
           </Flex>
         </Flex>
         <Text sx={{ ...styles.bodyText, ml: '5px' }}>
-          {pool?.baseToken?.symbol}-{pool?.quoteToken?.symbol}
+          {pool?.baseToken?.symbol.toUpperCase()}-{pool?.quoteToken?.symbol.toUpperCase()}
         </Text>
       </Flex>
       <Flex sx={styles.colCont}>
@@ -76,7 +78,7 @@ const TableRow = ({ index, pool }: {
       </Flex>
       <Flex sx={styles.colCont}>
         <Text sx={styles.bodyText}>
-          {pool?.chainId}
+          {pool?.chainName}
         </Text>
       </Flex>
       <Flex sx={styles.colCont}>
@@ -92,14 +94,17 @@ const TableRow = ({ index, pool }: {
             </Flex>
           )}
           {pool?.dex}
+          <Text sx={{ textTransform: 'capitalize', ml: '2px' }}>
+            {pool?.tags}
+          </Text>
         </Text>
       </Flex>
-      <Flex sx={styles.colCont}>
+      <Flex sx={{ ...styles.colCont, justifyContent: 'flex-end' }}>
         <Text sx={{ fontWeight: 500, fontSize: '10px' }}>
           {`${pool?.lpAddress.slice(0, 4)}...${pool?.lpAddress.slice(-4)}`}
         </Text>
-        <Flex sx={{ ml: '5px' }} onClick={() => navigator.clipboard.writeText(pool?.lpAddress)}>
-          <Svg icon='copy' width={10} />
+        <Flex sx={{ ml: '5px' }} onClick={() => handleCopyClick(pool?.lpAddress)}>
+          <Svg icon={isCopied ? 'success' : 'copy'} width={10} />
         </Flex>
         <IconButton href={getBlockExplorerURL(pool.chainId, pool.lpAddress)}
                     icon='filledURL'

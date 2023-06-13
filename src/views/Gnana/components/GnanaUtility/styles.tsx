@@ -76,8 +76,7 @@ export const styles = {
   },
   detail: {
     fontWeight: 400,
-    fontSize: '14px',
-    lineHeight: '14px',
+    fontSize: '13px',
   },
 }
 export const showIcon = (icon: string): ThemeUIStyleObject => ({

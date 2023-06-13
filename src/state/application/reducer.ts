@@ -2,36 +2,12 @@ import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 
 export type PopupContent = {
-  txHash: string
+  txHash?: string
   text: string
-  url: string
+  url?: string
   urlLabel: string
+  errorText?: string
   type: 'success' | 'error'
-}
-
-export enum ApplicationModal {
-  ADDRESS_CLAIM,
-  BLOCKED_ACCOUNT,
-  CLAIM_POPUP,
-  DELEGATE,
-  EXECUTE,
-  FEATURE_FLAGS,
-  FIAT_ONRAMP,
-  MENU,
-  METAMASK_CONNECTION_ERROR,
-  NETWORK_FILTER,
-  NETWORK_SELECTOR,
-  POOL_OVERVIEW_OPTIONS,
-  PRIVACY_POLICY,
-  QUEUE,
-  SELF_CLAIM,
-  SETTINGS,
-  SHARE,
-  TIME_SELECTOR,
-  VOTE,
-  WALLET,
-  WALLET_DROPDOWN,
-  UNISWAP_NFT_AIRDROP_CLAIM,
 }
 
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
@@ -39,7 +15,6 @@ type PopupList = Array<{ key: string; show: boolean; content: PopupContent; remo
 export interface ApplicationState {
   readonly chainId: number | null
   readonly fiatOnramp: { available: boolean; availabilityChecked: boolean }
-  readonly openModal: ApplicationModal | null
   readonly popupList: PopupList
   readonly bananaPrice: string | null
   readonly profileImage?: string
@@ -48,7 +23,6 @@ export interface ApplicationState {
 const initialState: ApplicationState = {
   fiatOnramp: { available: false, availabilityChecked: false },
   chainId: null,
-  openModal: null,
   popupList: [],
   bananaPrice: null,
   profileImage: undefined,
@@ -67,9 +41,6 @@ const applicationSlice = createSlice({
     },
     updateProfileImage(state, { payload: { profileImage } }) {
       state.profileImage = profileImage
-    },
-    setOpenModal(state, action) {
-      state.openModal = action.payload
     },
     setBananaPrice(state, action) {
       state.bananaPrice = action.payload
@@ -94,13 +65,6 @@ const applicationSlice = createSlice({
   },
 })
 
-export const {
-  updateChainId,
-  setFiatOnrampAvailability,
-  setBananaPrice,
-  setOpenModal,
-  addPopup,
-  updateProfileImage,
-  removePopup,
-} = applicationSlice.actions
+export const { updateChainId, setFiatOnrampAvailability, setBananaPrice, addPopup, updateProfileImage, removePopup } =
+  applicationSlice.actions
 export default applicationSlice.reducer

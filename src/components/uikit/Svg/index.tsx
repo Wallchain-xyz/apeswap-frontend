@@ -76,7 +76,9 @@ import {
   TickShield,
   Share,
   FilledURL,
-  YellowQuestionMark
+  YellowQuestionMark,
+  BananaIcon,
+  ScrollTop
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -280,6 +282,10 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <FilledURL {...props} getStyles={getStyles}/>
     case icons.YELLOW_QUESTION:
       return <YellowQuestionMark {...props} getStyles={getStyles}/>
+    case icons.BANANA_ICON:
+      return <BananaIcon {...props} getStyles={getStyles} />
+    case icons.SCROLL_TOP:
+      return <ScrollTop {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:

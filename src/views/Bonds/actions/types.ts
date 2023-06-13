@@ -1,12 +1,13 @@
 import { Currency } from '@ape.swap/sdk-core'
 import { Bills } from '../types'
+import { MergedZap } from 'state/zap/actions'
+import { TradeState } from 'state/routing/types'
 
 export interface ClaimProps {
   billAddress: string
   pendingRewards: string
   billIds: string[]
-  buttonSize?: string
-  margin: string
+  mt?: string[]
 }
 
 export interface TransferProps {
@@ -24,7 +25,8 @@ export interface BuyProps {
 
 export interface BillActionsProps {
   bill: Bills
-  zap: any //MergedZap
+  zap: MergedZap
+  zapRouteState: TradeState
   currencyB: Currency
   handleBuy: () => void
   billValue: string

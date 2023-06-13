@@ -5,44 +5,30 @@ import {
   BillDescriptionContainer,
   BillFooterContentContainer,
   BillsFooterContainer,
-  BillsImage,
   BillTitleContainer,
   GridTextValContainer,
   ModalBodyContainer,
   StyledHeadingText,
-  TopDescriptionText,
   Container,
   MobileFooterContainer,
   MobileFooterContentContainer,
 } from './styles'
 import VestedTimer from '../VestedTimer'
 import TransferBillModal from './TransferBillModal'
-import { StyledButton } from '../styles'
 import { Bills } from 'views/Bonds/types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
-import { Flex, IconButton, Modal, Skeleton, Text } from 'components/uikit'
+import { Button, Flex, ListTag, Modal, Skeleton, Text } from 'components/uikit'
 import Claim from 'views/Bonds/actions/Claim'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import Image from 'next/image'
 import useModal from 'hooks/useModal'
-
-const modalProps = {
-  sx: {
-    overflowY: 'auto',
-    maxHeight: 'calc(100% - 30px)',
-    minWidth: 'unset',
-    width: ['90%'],
-    '@media screen and (min-width: 1180px)': {
-      maxWidth: '1200px',
-    },
-    maxWidth: '350px',
-  },
-}
+import { ListTagVariants } from 'components/uikit/Tag/types'
+import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
 
 interface BillModalProps {
-  onDismiss: () => void
+  onDismiss?: () => void
   bill: Bills
   billId: string | undefined
 }
@@ -52,7 +38,7 @@ const BILL_ATTRIBUTES = ['The Legend', 'The Location', 'The Moment', 'The Trend'
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId }) => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
-  const { token, quoteToken, earnToken, lpToken, index, userOwnedBillsData, userOwnedBillsNftData } = bill
+  const { token, quoteToken, earnToken, lpToken, index, userOwnedBillsData, userOwnedBillsNftData, billType } = bill
   const userOwnedBill = userOwnedBillsData?.find((b) => billId && parseInt(b.id) === parseInt(billId))
   const userOwnedBillNftData = userOwnedBillsNftData?.find((b) => billId && parseInt(b.tokenId) === parseInt(billId))
   const pending = getBalanceNumber(
@@ -66,6 +52,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
   )?.toFixed(4)
   const attributes = userOwnedBillNftData?.attributes?.filter((attrib) => BILL_ATTRIBUTES.includes(attrib.trait_type))
   const claimableUsd = (parseFloat(claimable) * (bill?.earnTokenPrice ?? 0))?.toFixed(2)
+
   const [onPresentTransferBillModal] = useModal(
     <TransferBillModal bill={bill} billId={billId ?? ''} onDismiss={onDismiss} chainId={chainId} />,
     true,
@@ -74,35 +61,58 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
     true,
   )
   return (
-    <Modal onDismiss={onDismiss} {...modalProps}>
+    <Modal
+      onDismiss={onDismiss}
+      sx={{
+        overflowY: 'auto',
+        maxHeight: 'calc(100% - 30px)',
+        minWidth: 'unset',
+        width: ['90%'],
+        '@media screen and (min-width: 1180px)': {
+          maxWidth: '1200px',
+        },
+        maxWidth: '350px',
+      }}
+    >
+      <ModalHeader hideDivider />
       <Container>
         <ModalBodyContainer>
-          <IconButton
-            icon="close"
-            color="text"
-            variant="transparent"
-            onClick={onDismiss}
-            sx={{ position: 'absolute', right: '20px', top: '25px' }}
-          />
           {userOwnedBillNftData?.image ? (
-            <BillsImage image={`${userOwnedBillNftData?.image + '?img-width=720'}`} />
+            <Flex sx={{ width: '100%', maxWidth: '606px' }}>
+              <Image
+                priority
+                width={720}
+                height={405}
+                alt={'user-bill'}
+                src={`${userOwnedBillNftData?.image + '?img-width=720'}`}
+                layout="responsive"
+              />
+            </Flex>
           ) : (
-            <Flex sx={{ alignItems: 'center', justifyContnet: 'center' }}>
-              <BillsImage>
-                <Image src="images/bills/bill-nfts.gif" alt="bill-img" height={500} width={500} />
-              </BillsImage>
+            <Flex sx={{ width: '100%', maxWidth: '606px' }}>
+              <Image
+                priority
+                width={960}
+                height={540}
+                alt={'loading-bill'}
+                src={'/images/bills/bill-nfts.gif'}
+                layout="responsive"
+              />
             </Flex>
           )}
           <BillDescriptionContainer width="100%">
             <Flex sx={{ flexDirection: 'column' }}>
               <BillTitleContainer>
+                <Flex sx={{ mb: '5px' }}>
+                  <ListTag variant={billType as ListTagVariants} />
+                </Flex>
                 <Flex sx={{ alignItems: 'center' }}>
                   <ServiceTokenDisplay
                     token1={token.symbol}
-                    token2={quoteToken.symbol}
+                    token2={bill.billType === 'reserve' ? earnToken.symbol : quoteToken.symbol}
                     token3={earnToken.symbol}
                     billArrow
-                    stakeLp
+                    stakeLp={billType !== 'reserve'}
                   />
                   <StyledHeadingText ml="10px" bold>
                     {lpToken.symbol}
@@ -135,18 +145,32 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                   })}
             </Flex>
             <Flex sx={{ width: '100%' }}>
-              <Flex sx={{ width: '50%', padding: '5px' }}>
+              <Flex
+                sx={{
+                  width: '50%',
+                  padding: ['10px', '10px', '10px', '10px', '5px'],
+                  height: '58px',
+                  mt: ['0px', '0px', '0px', '0px', '10px'],
+                }}
+              >
                 <Claim
                   billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                   billIds={[billId ?? '0']}
                   pendingRewards={userOwnedBill?.payout ?? '0'}
-                  margin={'0'}
+                  mt={['0px']}
                 />
               </Flex>
-              <Flex sx={{ width: '50%', padding: '5px' }}>
-                <StyledButton onClick={onPresentTransferBillModal} buttonSize={'100%'} sx={{ lineHeight: '18px' }}>
+              <Flex
+                sx={{
+                  width: '50%',
+                  padding: ['10px', '10px', '10px', '10px', '5px'],
+                  height: '58px',
+                  mt: ['0px', '0px', '0px', '0px', '10px'],
+                }}
+              >
+                <Button onClick={onPresentTransferBillModal} sx={{ width: '100%', lineHeight: '20px' }}>
                   {t('Transfer')}
-                </StyledButton>
+                </Button>
               </Flex>
             </Flex>
           </BillDescriptionContainer>
@@ -162,7 +186,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Fully Vested')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled' }}>{t('Fully Vested')}</Text>
               <StyledHeadingText ml="10px" bold>
                 <VestedTimer
                   lastBlockTimestamp={userOwnedBill?.lastBlockTimestamp ?? '0'}
@@ -182,16 +206,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Claimable')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled' }}>{t('Claimable')}</Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={25} />
-                <StyledHeadingText ml="10px" bold>
+                <Text sx={{ fontWeight: 700, fontSize: '22px', ml: '10px' }}>
                   {claimable && claimable !== 'NaN' ? (
                     `${claimable} ($${claimableUsd})`
                   ) : (
                     <Skeleton width="150px" height="32.5px" animation="waves" />
                   )}
-                </StyledHeadingText>
+                </Text>
               </Flex>
             </Flex>
           </BillFooterContentContainer>
@@ -205,16 +229,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Pending')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled' }}>{t('Pending')}</Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={25} />
-                <StyledHeadingText ml="10px" bold>
+                <Text sx={{ fontSize: '22px', fontWeight: 700, ml: '10px' }}>
                   {pending && pending !== 'NaN' ? (
                     `${pending} ($${pendingUsd})`
                   ) : (
                     <Skeleton width="150px" height="32.5px" animation="waves" />
                   )}
-                </StyledHeadingText>
+                </Text>
               </Flex>
             </Flex>
           </BillFooterContentContainer>
@@ -230,16 +254,18 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Claimable')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled', lineHeight: '18px', fontSize: '12px', fontWeight: 500 }}>
+                {t('Claimable')}
+              </Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={20} />
-                <StyledHeadingText ml="10px" bold>
+                <Text sx={{ fontWeight: 700, ml: '10px', fontSize: '12px' }}>
                   {claimable && claimable !== 'NaN' ? (
                     `${claimable} ($${claimableUsd})`
                   ) : (
                     <Skeleton width="150px" height="32.5px" animation="waves" />
                   )}
-                </StyledHeadingText>
+                </Text>
               </Flex>
             </Flex>
             <Flex
@@ -251,7 +277,9 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Pending')}</TopDescriptionText>
+              <Text sx={{ color: 'textDisabled', lineHeight: '18px', fontSize: '12px', fontWeight: 500 }}>
+                {t('Pending')}
+              </Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={20} />
                 <StyledHeadingText ml="10px" bold>
@@ -272,8 +300,10 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <TopDescriptionText width="auto">{t('Fully Vested')}</TopDescriptionText>
-              <StyledHeadingText ml="10px" bold>
+              <Text sx={{ color: 'textDisabled', lineHeight: '18px', fontSize: '12px', fontWeight: 500 }}>
+                {t('Fully Vested')}
+              </Text>
+              <StyledHeadingText>
                 <VestedTimer
                   lastBlockTimestamp={userOwnedBill?.lastBlockTimestamp ?? '0'}
                   vesting={userOwnedBill?.vesting ?? '0'}

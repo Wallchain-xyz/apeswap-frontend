@@ -9,7 +9,8 @@ const styles: Record<
   | 'navLink'
   | 'liquiditySelector'
   | 'liquiditySelectorContainer'
-  | 'migrate',
+  | 'migrate'
+  | 'iconCover',
   ThemeUIStyleObject
 > = {
   // Token selector container
@@ -67,6 +68,11 @@ const styles: Record<
     marginTop: '20px',
   },
   migrate: { margin: '0 15px', position: 'relative', alignItems: 'center', color: 'textDisabled' },
+  iconCover: {
+    cursor: 'pointer',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
 }
 
 export default styles

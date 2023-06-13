@@ -4,13 +4,17 @@ export const styles: Record<
   | 'mainContainer'
   | 'leftContainer'
   | 'nameBtnContainer'
-  | 'iconImgCont'
+  | 'tokenNameCont'
+  | 'tokenName'
   | 'tokenSymbol'
   | 'priceChange'
   | 'buttons'
   | 'extraInfoCont'
   | 'rank'
   | 'rankText'
+  | 'tagRow'
+  | 'tag'
+  | 'tagText'
   | 'chainsCont'
   | 'marketCap'
   | 'scoresCont'
@@ -20,17 +24,19 @@ export const styles: Record<
   | 'scoreText'
   | 'scoreNumber'
   | 'shareCard'
-  | 'shareText', ThemeUIStyleObject> = {
+  | 'shareText',
+  ThemeUIStyleObject
+> = {
   mainContainer: {
     width: '100%',
     flexDirection: ['column', 'column', 'column', 'row'],
   },
   leftContainer: {
     width: ['100%', '100%', 'unset'],
-    minWidth: ['', '', '', '460px'],
+    minWidth: ['', '', '', '520px'],
     background: 'white2',
     borderRadius: '10px',
-    padding: '20px',
+    padding: '10px 20px',
     alignItems: 'flex-start',
     mr: ['0px', '0px', '0px', '20px'],
   },
@@ -39,19 +45,21 @@ export const styles: Record<
     alignItems: ['flex-start'],
     flexDirection: ['column', 'column', 'row'],
   },
-  iconImgCont: {
-    minWidth: '25px',
-    height: '25px',
-    mt: ['2px'],
-    background: '#fff',
-    borderRadius: '25px',
-    alignItems: 'center',
-    justifyContent: 'center',
+  tokenNameCont: {
+    flexDirection: 'column',
+    lineHeight: ['30px'],
+  },
+  tokenName: {
+    fontWeight: 300,
+    fontSize: ['8px'],
+    lineHeight: ['10px'],
+    mx: '10px',
+    color: 'textDisabled'
   },
   tokenSymbol: {
     fontWeight: 700,
     fontSize: ['22px'],
-    lineHeight: ['30px'],
+    lineHeight: ['20px'],
     mx: '10px',
   },
   priceChange: {
@@ -68,21 +76,40 @@ export const styles: Record<
   extraInfoCont: {
     width: '100%',
     alignItems: 'center',
-    mt: '10px',
+    mt: '6px',
   },
   rank: {
     width: '50px',
     height: '20px',
-    background: 'linear-gradient(0deg, rgba(253, 251, 245, 0.5), rgba(253, 251, 245, 0.5)), #FFB300',
+    background: 'linear-gradient(99.09deg, #A16552 0%, #FFB300 106.96%)',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '4px',
   },
   rankText: {
-    fontWeight: 500,
+    fontWeight: 300,
     fontSize: ['8px'],
     lineHeight: ['12px'],
-    color: 'input',
+    color: 'white',
+  },
+  tagRow: {
+    mt: '6px',
+  },
+  tag: {
+    height: '17px',
+    padding: '0px 8px',
+    marginRight: '6px',
+    background: 'white4',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '4px',
+  },
+  tagText: {
+    fontWeight: 500,
+    fontSize: ['8px'],
+    lineHeight: ['10px'],
+    color: 'textDisabled',
+    textDecoration: 'none',
   },
   chainsCont: {
     width: '65px',
@@ -144,6 +171,6 @@ export const styles: Record<
   shareText: {
     fontWeight: 500,
     fontSize: ['10px'],
-    lineHeight: ['17px']
-  }
+    lineHeight: ['17px'],
+  },
 }
