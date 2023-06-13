@@ -26,6 +26,8 @@ export interface TooltipProps {
   audit?: string
   jungleFarm?: Farm
   pool?: Pool
+  thirdURL?: string
+  thirdURLTitle?: string
 }
 
 const Tooltip: React.FunctionComponent<TooltipProps> = ({
@@ -41,6 +43,8 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
   audit,
   jungleFarm,
   pool,
+  thirdURL,
+  thirdURLTitle,
 }) => {
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
@@ -83,6 +87,13 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
                 <Flex sx={{ ml: '5px' }}>
                   <Svg icon="external" color="text" width={10} />
                 </Flex>
+              </Link>
+            </Flex>
+          )}
+          {thirdURL && (
+            <Flex sx={styles.linkRow}>
+              <Link href={thirdURL} sx={styles.link} target="_blank">
+                {thirdURLTitle}
               </Link>
             </Flex>
           )}

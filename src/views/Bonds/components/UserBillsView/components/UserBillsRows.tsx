@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { Box } from 'theme-ui'
 import { BillsToRender } from '../types'
 import { formatNumberSI } from 'utils/formatNumber'
 import useIsMobile from 'hooks/useIsMobile'

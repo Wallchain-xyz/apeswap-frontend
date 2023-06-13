@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { useTranslation } from 'contexts/Localization'
 import TokenInput from 'components/TokenInput'
-import { CheckBoxCon, HeaderCard, Header, TokensDisplay, ContentCard, StyledButton, StyledCard } from './styles'
+import { HeaderCard, Header, TokensDisplay, ContentCard, StyledCard } from './styles'
 import { Flex } from 'theme-ui'
 import { useTokenBalance } from 'lib/hooks/useCurrencyBalance'
 import { useWeb3React } from '@web3-react/core'
@@ -151,9 +151,9 @@ const ConvertCard: React.FC<ConvertCardType> = ({ fromToken, toToken }) => {
             }}
             onClick={handleCheckBox}
           >
-            <CheckBoxCon>
+            <Flex sx={{ minWidth: '42px', pr: '15px' }}>
               <CheckBox id="checkbox" scale="md" checked={unlimited} onChange={handleCheckBox} background="white2" />
-            </CheckBoxCon>
+            </Flex>
             <Text sx={{ fontSize: '12px', fontWeight: 500, lineHeight: '18px' }}>
               {t('I understand how GNANA works and I want to enable unlimited buy.')}
             </Text>
