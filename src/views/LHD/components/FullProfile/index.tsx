@@ -26,7 +26,7 @@ const FullProfile = ({
   const { t } = useTranslation()
 
   // const cardImage = `https://hosting.com/folder/${address}`; // Replace with your dynamic image URL logic
-  const cardImage = `https://academy-public.coinmarketcap.com/optimized-uploads/694cfc7c84c641afad850cb9408bd919.png` 
+  const cardImage = `https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg` 
   // const cardImage = `https://i.imgur.com/rF0bm3d.png` // Replace with your dynamic image URL logic
 
   useEffect(() => {
@@ -54,8 +54,8 @@ const FullProfile = ({
         <Helmet>
           <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
-          <meta name="twitter:image" content="https://academy-public.coinmarketcap.com/optimized-uploads/694cfc7c84c641afad850cb9408bd919.png" />
-          <meta name="og:image" content="https://academy-public.coinmarketcap.com/optimized-uploads/694cfc7c84c641afad850cb9408bd919.png" />
+          <meta name="twitter:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
+          <meta name="og:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
           <meta name="twitter:description" content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."/>
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
@@ -63,8 +63,8 @@ const FullProfile = ({
         <Head>
           <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
-          <meta name="twitter:image" content="https://academy-public.coinmarketcap.com/optimized-uploads/694cfc7c84c641afad850cb9408bd919.png" />
-          <meta name="og:image" content="https://academy-public.coinmarketcap.com/optimized-uploads/694cfc7c84c641afad850cb9408bd919.png" />
+          <meta name="twitter:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
+          <meta name="og:image" content="https://www.clarin.com/img/2020/01/20/wHgVIk0x_1256x620__1.jpg" />
           <meta name="twitter:description" content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."/>
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />

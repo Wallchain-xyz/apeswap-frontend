@@ -23,15 +23,17 @@ const modalProps = {
     minWidth: 'unset',
     width: ['90%'],
     '@media screen and (min-width: 1180px)': {
-      maxWidth: '10 00px',
+      maxWidth: '800px',
     },
-    maxWidth: '10 00px',
+    maxWidth: '800px',
     alignItems:'center',
     justifyContent:'center',
     display:'flex',
     flexDirection:'column',
     overflowX: 'hidden',
   },
+  title:"Liquidity Health Card",
+  // hideDivider: false,
 }
 
 
@@ -101,19 +103,28 @@ const SharableCard = ({
   
 
   function share() {
-    const card = document.getElementById('card') ?? {} as HTMLElement;
+    // const card = document.getElementById('card') ?? {} as HTMLElement;
     if (navigator.share) {
       navigator
         .share({
           title: 'Custom Title',
           text: 'Custom Text',
-          url: 'Apeswap.com/lhd?{TOKEN}',
+          // url: `Apeswap.Finance/liquidity-health/56/${tokenAddresses[0].address}`,
+          url: tokenAddresses && tokenAddresses[0] ? `/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/'
+
         })
         .then(() => console.log('Shared'))
         .catch((error) => console.log('Error sharing', error));
     } else {
-      console.log('Web Share is not Avaliable in this browser');
+      const text = 'Texto personalizado';
+      const url = tokenAddresses && tokenAddresses[0] ? `Apeswap.Finance/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/';
+      
+      // console.log({tokenAddresses[0].address})
+    
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      window.open(twitterUrl, '_blank', 'width=550,height=420');
     }
+    
   }
 
 
@@ -163,22 +174,24 @@ const SharableCard = ({
   const scaleRatio = containerWidth / maxContainerWidth;
   console.log(scaleRatio);
 
-  const today = new Date(); // Crear objeto de fecha actual
-  const day = today.getDate().toString().padStart(2, '0'); // Obtener día y rellenar con ceros a la izquierda si es necesario
-  const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Obtener mes (los meses comienzan en 0, por lo que se suma 1) y rellenar con ceros a la izquierda si es necesario
-  const year = today.getFullYear(); // Obtener año
+  const today = new Date();
+  const day = today.getDate().toString().padStart(2, '0');
+  const month = (today.getMonth() + 1).toString().padStart(2, '0');
+  const year = today.getFullYear();
   
-  const formattedDate = `${day} - ${month} - ${year}`; // Concatenar los valores con los separadores deseados
-  const nameDate = `${day}-${month}-${year}`; // Concatenar los valores con los separadores deseados
+  const formattedDate = `${day} - ${month} - ${year}`;
+  const nameDate = `${day}-${month}-${year}`;
   
-  // console.log(formattedDate); // Mostrar la fecha formateada en la consola
+
   
     
     const score = Math.round((totalScore || 0) * 100);
     const color = score <= 40 ? 'white' : 'black';
 
   return (
-    <Modal {...modalProps} >
+    <Modal {...modalProps}
+    // prope acá y es lo mismo 
+    >
       <Flex 
       sx={{
         display:'block',
@@ -189,16 +202,7 @@ const SharableCard = ({
         overflow: 'hidden',
 
       }}>
-      <Flex id='card'
-      sx={{
-        // borderRadius:'40px',
-        overflow:'hidden',
-        borderRadius:'5px',
-      }}
-      >
-                
-
-
+      <Flex id='card'sx={{overflow:'hidden', borderRadius:'5px',}}>
         <Flex sx={{ 
           position:'absolute',
           mt:'3.4%',
@@ -209,10 +213,10 @@ const SharableCard = ({
         </Flex>
 
           <Flex>
-          {score <= 40 ? <Bronze sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}} /> : 
-          score <= 75 ? <Silver sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}} /> : 
-          score <= 90 ? <Gold sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}}/> : 
-          <Diamond sx={{width: '760px',height: '400px',    overflow:'hidden', borderRadius:'5px',}}/> }
+          {score <= 40 ? <Bronze sx={{width: '760px',height: '400px', overflow:'hidden', borderRadius:'5px',}} /> : 
+          score <= 75 ? <Silver sx={{width: '760px',height: '400px', overflow:'hidden', borderRadius:'5px',}} /> : 
+          score <= 90 ? <Gold sx={{width: '760px',height: '400px', overflow:'hidden', borderRadius:'5px',}}/> : 
+          <Diamond sx={{width: '760px',height: '400px', overflow:'hidden', borderRadius:'5px',}}/> }
           </Flex>
     
           <Flex
@@ -335,7 +339,10 @@ const SharableCard = ({
        <Flex id="container" sx={{width: '100%',height: 0,maxWidth: '760px',}}/>
         
       {/* <Button onClick={handleShareClick}>Share on Twitter</Button> */}
-      <Button sx={{mt:'20px',}} onClick={handleDownloadClick}>Download Image</Button>
+      <Flex>
+      <Button sx={{m:'20px',}} onClick={handleDownloadClick}>Download Image</Button>
+      <Button sx={{m:'20px',}} onClick={handleShareClick}>Share</Button>
+      </Flex>
       {/* <Button onClick={captureAndUploadImage}>Upload</Button> */}
     </Modal>
   )
