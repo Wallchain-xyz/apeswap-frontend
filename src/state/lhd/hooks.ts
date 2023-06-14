@@ -7,6 +7,7 @@ import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
 import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
@@ -114,16 +115,21 @@ export const useSetLhdAuth = () => {
 }
 
 export const useGetIsLhdAuth = () => {
-  const dispatch = useAppDispatch()
+  const { query } = useRouter()
   const { isLhdAuth } = useSelector((state: AppState) => state.lhd, shallowEqual)
-  const isLdhAuthenticatedRef = useRef('false')
+  const { setLhdAuth } = useSetLhdAuth()
+
+  const isLdhAuthenticatedRef = useRef(false)
+  const isWhiteListedRef = useRef(false)
+
   useEffect(() => {
-    isLdhAuthenticatedRef.current = localStorage.getItem('isLhdAuth') ?? ''
-  }, [])
+    isLdhAuthenticatedRef.current = localStorage.getItem('isLhdAuth') === 'true'
+    isWhiteListedRef.current = query?.whitelist === 'true'
+  }, [query?.whitelist])
 
   const getIsLhdAuth = (): { isAuth: boolean } => {
-    if (!isLhdAuth && isLdhAuthenticatedRef.current === 'true') {
-      dispatch(setIsLhdAuth(true))
+    if ((!isLhdAuth && isLdhAuthenticatedRef.current) || isWhiteListedRef.current) {
+      setLhdAuth(true)
       return { isAuth: true }
     }
     return { isAuth: isLhdAuth }
