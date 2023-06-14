@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { shallowEqual } from 'react-redux'
 import { useAppDispatch } from '../hooks'
 // import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
 import { fetchFullProfile, fetchInitialProfiles } from './actions'
 import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
-import { addFullProfile, addSimpleProfiles } from './reducer'
+import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
 
 export const useLoadInitialProfiles = () => {
@@ -101,4 +102,22 @@ export const useLHDFilterValues = () => {
   return useSelector((state: AppState) => {
     return state.lhd.queryState
   })
+}
+
+export const useGetIsLhdAuth = () => {
+  const dispatch = useAppDispatch()
+  const { isLhdAuth } = useSelector((state: AppState) => state.lhd, shallowEqual)
+  const isLdhAuthenticatedRef = useRef('false')
+  useEffect(() => {
+    isLdhAuthenticatedRef.current = localStorage.getItem('isLhdAuth') ?? ''
+  }, [])
+
+  const getIsLhdAuth = (): { isAuth: boolean } => {
+    if (!isLhdAuth && isLdhAuthenticatedRef.current === 'true') {
+      dispatch(setIsLhdAuth(true))
+      return { isAuth: true }
+    }
+    return { isAuth: isLhdAuth }
+  }
+  return { getIsLhdAuth }
 }

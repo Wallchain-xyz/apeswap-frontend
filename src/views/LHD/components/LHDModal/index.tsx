@@ -1,7 +1,10 @@
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+
 import { Text, Modal, Input } from 'components/uikit'
 import { Flex, Box, Button, Link } from 'theme-ui'
-import Image from 'next/image'
 import { Svg } from 'components/uikit'
+
 import { icons } from 'components/uikit/Svg/types'
 
 const SOCIAL_LINKS: { icon: icons; href: string }[] = [
@@ -10,9 +13,19 @@ const SOCIAL_LINKS: { icon: icons; href: string }[] = [
   { icon: icons.DISCORD, href: 'https://apeswap.click/discord' },
 ]
 
-const LHDModal = () => {
+const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
+  const [isModalOpen, setIsModalOpen] = useState(isLhdAuthModalOpen)
+
+  useEffect(() => {
+    setIsModalOpen(isLhdAuthModalOpen)
+  }, [isLhdAuthModalOpen])
+
+  const handleSubmit = (): void => {
+    setIsModalOpen(false)
+  }
+
   return (
-    <Modal open={true} sx={{ height: ['100%', '100%', '515px'], width: ['100%', '100%', '841px'] }}>
+    <Modal open={isModalOpen} sx={{ height: ['100%', '100%', '515px'], width: ['100%', '100%', '841px'] }}>
       <Flex
         sx={{
           height: '100%',
@@ -69,7 +82,7 @@ const LHDModal = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => console.log(e.target.value)}
             placeholder="Password"
           />
-          <Button sx={{ padding: '5px 10px' }} onClick={() => console.log('Submitted')}>
+          <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit}>
             ACCESS BETA
           </Button>
           <Text sx={{ fontStyle: 'italic', fontSize: '12px' }}>Check our socials to find a password</Text>

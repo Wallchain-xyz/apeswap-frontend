@@ -5,8 +5,12 @@ import TokensProfileList from './components/TokensProfileList'
 import { styles } from './styles'
 import TitleCards from './components/TitleCards'
 import LHDModal from './components/LHDModal'
+import { useGetIsLhdAuth } from 'state/lhd/hooks'
 
 const LHD = () => {
+  const { getIsLhdAuth } = useGetIsLhdAuth()
+  const { isAuth } = getIsLhdAuth()
+
   useLoadInitialProfiles()
   return (
     <Flex sx={styles.mainLHDContainer}>
@@ -14,7 +18,7 @@ const LHD = () => {
         <TitleCards />
         <TokensProfileList />
       </ListViewLayout>
-      <LHDModal />
+      <LHDModal isLhdAuthModalOpen={!isAuth} />
     </Flex>
   )
 }

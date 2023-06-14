@@ -33,6 +33,7 @@ export interface LHDState {
   tokensTracked: number
   simpleProfiles: ProfilesResponse
   fullProfile: TokenProfile | null
+  isLhdAuth: boolean
 }
 
 export const initialState: LHDState = {
@@ -47,6 +48,7 @@ export const initialState: LHDState = {
     count: 0,
   },
   fullProfile: null,
+  isLhdAuth: false,
 }
 
 const LHDSlice = createSlice({
@@ -82,8 +84,14 @@ const LHDSlice = createSlice({
         queryState: action.payload,
       }
     },
+    setIsLhdAuth(state, action: { payload: boolean }) {
+      return {
+        ...state,
+        isLhdAuth: action.payload,
+      }
+    },
   },
 })
 
-export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState } = LHDSlice.actions
+export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState, setIsLhdAuth } = LHDSlice.actions
 export default LHDSlice.reducer
