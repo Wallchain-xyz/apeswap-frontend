@@ -78,6 +78,6 @@ export const customMeta: { [key: string]: PageMeta } = {
   '/liquidity-health': {
     title: 'Liquidity Health | ApeSwap : Your One-Stop DeFi Hub',
     description: 'Dashboard to see the liquidity health of your favourite crypto projects.',
-    image: 'https://i.imgur.com/g1sFeUS.png' 
+    image: 'https://i.imgur.com/g1sFeUS.pngg' 
   },
 }

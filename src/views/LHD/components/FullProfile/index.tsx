@@ -13,7 +13,8 @@ import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
 import Head from 'next/head'
 import { Helmet } from 'react-helmet'
-import { customMeta } from 'config/constants/meta'
+// import { customMeta } from 'config/constants/meta'
+
 
 
 const FullProfile = ({
@@ -49,14 +50,19 @@ const FullProfile = ({
     router.push({ pathname: `/liquidity-health?${Math.random() * 10}` }, '/liquidity-health')
   }
 
-  const currentMeta = customMeta[router.pathname] || {};
-const { image: currentMetaImage } = currentMeta;
+//   const currentMeta = customMeta[router.pathname] || {};
+// const { image: currentMetaImage } = currentMeta;
 
 
   if (fullProfile) {
     return (
       <>
-        <Helmet>
+
+        <Head>
+          <meta name="twitter:image" content={cardImage} />
+          <meta name="og:image" content={cardImage} />
+        </Head>
+        {/* <Helmet>
           <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
           <meta name="twitter:image" content={currentMetaImage || cardImage} />
@@ -64,7 +70,7 @@ const { image: currentMetaImage } = currentMeta;
           <meta name="twitter:description" content="Some description"/>
           <meta name="twitter:card" content={cardImage} />
           <meta name="twitter:title" content="Liquidity Health Dashboard" />
-        </Helmet>
+        </Helmet> */}
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
           <Text onClick={handleBackButton} sx={styles.back}>
