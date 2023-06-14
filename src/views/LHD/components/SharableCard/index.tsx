@@ -20,20 +20,15 @@ const modalProps = {
     // overflowY: 'auto',
     maxHeight: 'calc(100% - 30px)',
     height:'fit-contnet',
-    minWidth: 'unset',
+    // minWidth: 'unset',
     width: ['90%'],
     '@media screen and (min-width: 1180px)': {
       maxWidth: '800px',
     },
     maxWidth: '800px',
-    alignItems:'center',
-    justifyContent:'center',
-    display:'flex',
-    flexDirection:'column',
-    overflowX: 'hidden',
   },
   title:"Liquidity Health Card",
-  // hideDivider: false,
+  
 }
 
 
@@ -95,70 +90,31 @@ const SharableCard = ({
         console.error('Error al convertir a PNG:', error);
       });
   }
-  
-  
-
-
-  
-  
 
   function share() {
     // const card = document.getElementById('card') ?? {} as HTMLElement;
     if (navigator.share) {
       navigator
         .share({
-          title: 'Custom Title',
-          text: 'Custom Text',
-          // url: `Apeswap.Finance/liquidity-health/56/${tokenAddresses[0].address}`,
+          title: "ApeSwap's Liquidity Health Dashboard",
+          text: `Hey, have you seen the liquidity health of ${tokenSymbol} on ApeSwap? Check it out here!`,
           url: tokenAddresses && tokenAddresses[0] ? `/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/'
 
         })
         .then(() => console.log('Shared'))
         .catch((error) => console.log('Error sharing', error));
     } else {
-      const text = 'Texto personalizado';
+      const text = `Hey, have you seen the liquidity health of $${tokenSymbol} on @ApeSwap? Check it out here!`;
       const url = tokenAddresses && tokenAddresses[0] ? `Apeswap.Finance/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/';
       
-      // console.log({tokenAddresses[0].address})
-    
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-      window.open(twitterUrl, '_blank', 'width=550,height=420');
+      window.open(twitterUrl, '_blank', 'width=696,height=420');
     }
     
   }
 
-
-
-
-  // const containerRef = useRef<HTMLDivElement>(null);
-  // const xValueRef = useRef<number>(1);
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (containerRef.current) {
-  //       const containerWidth = containerRef.current.clientWidth;
-  //       xValueRef.current = containerWidth / 600; // Regla de tres
-  //       console.log('X value:', xValueRef.current);
-  //     }
-  //   };
-
-  //   if (containerRef.current) {
-  //     handleResize();
-  //     window.addEventListener('resize', handleResize);
-  //   }
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, [containerRef]);
-
-
-
-
-
-
-
-
-
-
   const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeigth] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -181,10 +137,6 @@ const SharableCard = ({
   
   const formattedDate = `${day} - ${month} - ${year}`;
   const nameDate = `${day}-${month}-${year}`;
-  
-
-  
-    
     const score = Math.round((totalScore || 0) * 100);
     const color = score <= 40 ? 'white' : 'black';
 
@@ -192,7 +144,19 @@ const SharableCard = ({
 
     <Modal {...modalProps}
     // prope acá y es lo mismo 
+    hideDivider
     >
+      <Flex
+      sx={{
+        alignItems:'center',
+        justifyContent:'center',
+        display:'flex',
+        overflowX: 'hidden',
+        flexDirection:'column',
+        // height:'300px',
+        // height:containerHeight/1.4,
+      }}>
+
       <Flex 
       sx={{
         display:'block',
@@ -203,7 +167,10 @@ const SharableCard = ({
         overflow: 'hidden',
 
       }}>
-      <Flex id='card'sx={{overflow:'hidden', borderRadius:'5px',}}>
+      <Flex id='card'sx={{
+        overflow:'hidden',
+        borderRadius:'5px', 
+        }}>
         <Flex sx={{ 
           position:'absolute',
           mt:'3.4%',
@@ -340,11 +307,31 @@ const SharableCard = ({
        <Flex id="container" sx={{width: '100%',height: 0,maxWidth: '760px',}}/>
         
       {/* <Button onClick={handleShareClick}>Share on Twitter</Button> */}
-      <Flex>
-      <Button sx={{m:'20px',}} onClick={handleDownloadClick}>Download Image</Button>
-      <Button sx={{m:'20px',}} onClick={handleShareClick}>Share</Button>
+      <Flex
+      sx={{
+        '@media screen and (max-width: 1180px)': {
+        width: '100%',
+        flexDirection:'column'
+        },
+      }}
+      >
+      <Button sx={{
+        m:'20px',
+        '@media screen and (max-width: 1180px)': {
+        width: '100%',
+        m:'0px',
+        },
+        }} onClick={handleDownloadClick}>Download Image</Button>
+      <Button sx={{
+        m:'20px',
+        '@media screen and (max-width: 1180px)': {
+        width: '100%',
+        m:'0px',
+        mt:'15px'
+        },
+        }} onClick={handleShareClick}>Share</Button>
       </Flex>
-      {/* <Button onClick={captureAndUploadImage}>Upload</Button> */}
+      </Flex>
     </Modal>
   )
   

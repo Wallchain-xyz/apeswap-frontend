@@ -152,7 +152,7 @@ return (
 />
 
 
-      <Image 
+      <img 
       src={"https://res.cloudinary.com/dswmrqgwy/image/upload/v1685375572/lhd/ysYIu7Q_hzbccm.png"}
       alt={tokenSymbol}
       width={120}
@@ -169,8 +169,28 @@ return (
         // backgroundSize:'cover',
         // ml:'500px',
       }}>
+        </img>
+{/* 
+      <Image 
+      src={"https://i0.wp.com/post.greatist.com/wp-content/uploads/sites/2/2022/05/567521-grt-bananas-1296x728-header_body.jpg?w=1155&h=1530"}
+      alt={tokenSymbol}
+      width={120}
+      height={120}
 
-      </Image>
+      sx={{
+        mt:'21px',
+        height: '40px',
+        width: '40px',
+        display: 'block',
+        position:'absolute',
+        borderRadius:'50%',
+        // background: `url(${imageUrl})`,
+        // backgroundSize:'cover',
+        // ml:'500px',
+      }}>
+
+      
+      </Image> */}
 
       {score <= 40 ? (
         <Bronze sx={Styles.bgToken} />
