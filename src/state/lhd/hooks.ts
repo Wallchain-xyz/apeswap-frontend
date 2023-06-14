@@ -14,7 +14,7 @@ export const useLoadInitialProfiles = () => {
     if (typeof window !== 'undefined' && !simpleProfiles?.data.length) {
       dispatch(fetchInitialProfiles())
     }
-  }, [dispatch, simpleProfiles?.data.length])
+  }, [dispatch])
 }
 
 // export const useOnSearchProfiles = () => {

@@ -62,10 +62,10 @@ export const fetchIndustry = async () => {
 
 export const fetchInitialProfiles = () => async (dispatch: any) => {
   try {
-    const listData: ProfilesResponse = await fetchProfiles()
+    // const listData: ProfilesResponse = await fetchProfiles()
     const industryAverage = await fetchIndustry()
     dispatch(addIndustryData(industryAverage))
-    dispatch(addSimpleProfiles(listData))
+    // dispatch(addSimpleProfiles(listData))
   } catch (error) {
     console.warn(error)
   }

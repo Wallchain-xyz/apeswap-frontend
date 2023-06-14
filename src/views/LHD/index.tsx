@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLoadInitialProfiles } from 'state/lhd/hooks'
 import { Flex } from 'components/uikit'
 import ListViewLayout from 'components/ListView/ListViewLayout'
@@ -8,6 +8,7 @@ import TitleCards from './components/TitleCards'
 
 const LHD = () => {
   useLoadInitialProfiles()
+
   return (
     <Flex sx={styles.mainLHDContainer}>
       <ListViewLayout>
