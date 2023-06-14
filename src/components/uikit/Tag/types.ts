@@ -29,9 +29,10 @@ export const listTagVariants = {
   HOT: 'hot',
   AUTO: 'auto',
   MAX: 'max',
-  LIQUIDITY: "liquidity",
-  RESERVE: "reserve",
-  LAUNCH: "launch",
+  yield: 'yield',
+  LIQUIDITY: 'liquidity',
+  RESERVE: 'reserve',
+  LAUNCH: 'launch',
 } as const
 
 export type ListTagVariants = (typeof listTagVariants)[keyof typeof listTagVariants]

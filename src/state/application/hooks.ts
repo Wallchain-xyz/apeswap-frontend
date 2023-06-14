@@ -1,9 +1,14 @@
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-
 import { AppState } from '../index'
 import { addPopup, PopupContent, removePopup, setFiatOnrampAvailability } from './reducer'
+import NFA_ABI from '../../config/abi/nonFungibleApes.json'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { getContract } from '../../utils'
+import { useWeb3React } from '@web3-react/core'
+import NFB_ABI from '../../config/abi/nonFungibleBananas.json'
+import { RPC_PROVIDERS } from '../../config/constants/providers'
 
 /** @ref https://dashboard.moonpay.com/api_reference/client_side_api#ip_addresses */
 interface MoonpayIPAddressesResponse {
@@ -116,4 +121,47 @@ export function useToastError(): (content: PopupContent, key?: string, removeAft
     },
     [dispatch],
   )
+}
+
+export const useGetProfilePic = (): string | undefined => {
+  const { account } = useWeb3React()
+  const [profilePic, setProfilePic] = useState<string | undefined>()
+
+  useEffect(() => {
+    const fetchProfilePic = async () => {
+      if (!account) return
+      try {
+        const nfaContract = getContract(
+          '0x6afC012783e3a6eF8C5f05F8EeE2eDeF6a052Ec4',
+          NFA_ABI,
+          RPC_PROVIDERS[SupportedChainId.BSC],
+          account,
+        )
+        const nfbContract = getContract(
+          '0x9f707A412302a3aD64028A9F73f354725C992081',
+          NFB_ABI,
+          RPC_PROVIDERS[SupportedChainId.BSC],
+          account,
+        )
+        const nfaBalance: number = await nfaContract?.balanceOf(account)
+        const nfbBalance: number = await nfbContract?.balanceOf(account)
+        if (nfaBalance.toString() !== '0') {
+          const nfaNumber = await nfaContract?.tokenOfOwnerByIndex(account, 0)
+          setProfilePic(
+            `https://raw.githubusercontent.com/ApeSwapFinance/non-fungible-apes/main/images/${nfaNumber?.toString()}.png`,
+          )
+        } else if (nfbBalance.toString() !== '0') {
+          const nfbNumber = await nfbContract?.tokenOfOwnerByIndex(account, 0)
+          setProfilePic(
+            `https://ipfs.io/ipfs/QmYhuJnr3GGUnDGtg6rmSXTgo7FzaWgrriqikfgn5SkXhZ/${nfbNumber?.toString()}.png`,
+          )
+        } else setProfilePic(undefined)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    fetchProfilePic()
+  }, [account])
+
+  return profilePic
 }
