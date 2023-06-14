@@ -104,6 +104,15 @@ export const useLHDFilterValues = () => {
   })
 }
 
+export const useSetLhdAuth = () => {
+  const dispatch = useAppDispatch()
+  const setLhdAuth = (isAuth: boolean): void => {
+    localStorage.setItem('isLhdAuth', JSON.stringify(isAuth))
+    dispatch(setIsLhdAuth(isAuth))
+  }
+  return { setLhdAuth }
+}
+
 export const useGetIsLhdAuth = () => {
   const dispatch = useAppDispatch()
   const { isLhdAuth } = useSelector((state: AppState) => state.lhd, shallowEqual)

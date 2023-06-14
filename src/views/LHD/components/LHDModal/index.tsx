@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
+import { useState, useEffect, useCallback } from 'react'
 
+// components
+import Image from 'next/image'
 import { Text, Modal, Input } from 'components/uikit'
 import { Flex, Box, Button, Link } from 'theme-ui'
 import { Svg } from 'components/uikit'
-
 import { icons } from 'components/uikit/Svg/types'
+
+// hooks and actions
+import useDebounce from 'hooks/useDebounce'
+import { useSetLhdAuth } from 'state/lhd/hooks'
+import { fetchIsPasswordVerified } from 'state/lhd/actions'
 
 const SOCIAL_LINKS: { icon: icons; href: string }[] = [
   { icon: icons.TWITTER, href: 'https://twitter.com/ape_swap' },
@@ -15,12 +20,26 @@ const SOCIAL_LINKS: { icon: icons; href: string }[] = [
 
 const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(isLhdAuthModalOpen)
+  const [password, setPassword] = useState<string>('')
+  const [isPasswordVerified, setIsPasswordVerified] = useState<boolean>(false)
+  const { setLhdAuth } = useSetLhdAuth()
+  const debouncedPassword = useDebounce(password, 1000)
+
+  const handleVerifyPassword = useCallback(async (): Promise<void> => {
+    const isPasswordVerified = await fetchIsPasswordVerified(debouncedPassword)
+    setIsPasswordVerified(!!isPasswordVerified)
+  }, [debouncedPassword])
+
+  useEffect(() => {
+    handleVerifyPassword()
+  }, [debouncedPassword, handleVerifyPassword])
 
   useEffect(() => {
     setIsModalOpen(isLhdAuthModalOpen)
   }, [isLhdAuthModalOpen])
 
   const handleSubmit = (): void => {
+    setLhdAuth(isPasswordVerified)
     setIsModalOpen(false)
   }
 
@@ -79,10 +98,11 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
 
           {/* TODO: Create a password input component with validation state as props */}
           <Input
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => console.log(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             placeholder="Password"
+            value={password}
           />
-          <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit}>
+          <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
             ACCESS BETA
           </Button>
           <Text sx={{ fontStyle: 'italic', fontSize: '12px' }}>Check our socials to find a password</Text>
