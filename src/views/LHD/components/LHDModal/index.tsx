@@ -29,8 +29,6 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const debouncedPassword = useDebounce(password, 1000)
   const { colorMode } = useThemeUI()
 
-  const isDark = colorMode === 'dark'
-  console.log({ isDark })
   const passwordStatus =
     !password.length || isLoading || isTyping ? 'default' : isPasswordVerified ? 'success' : 'error'
 

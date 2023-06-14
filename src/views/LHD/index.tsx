@@ -5,11 +5,12 @@ import TokensProfileList from './components/TokensProfileList'
 import { styles } from './styles'
 import TitleCards from './components/TitleCards'
 import LHDModal from './components/LHDModal'
-import { useGetIsLhdAuth } from 'state/lhd/hooks'
+
+import { useSelector } from 'react-redux'
+import { AppState } from 'state'
 
 const LHD = () => {
-  const { getIsLhdAuth } = useGetIsLhdAuth()
-  const { isAuth } = getIsLhdAuth()
+  const { isLhdAuth } = useSelector((state: AppState) => state.lhd)
 
   useLoadInitialProfiles()
   return (
@@ -18,7 +19,7 @@ const LHD = () => {
         <TitleCards />
         <TokensProfileList />
       </ListViewLayout>
-      <LHDModal isLhdAuthModalOpen={!isAuth} />
+      <LHDModal isLhdAuthModalOpen={!isLhdAuth} />
     </Flex>
   )
 }
