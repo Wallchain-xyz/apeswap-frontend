@@ -1,4 +1,4 @@
-import { Input as ThemeInput, InputProps as ThemeInputProps, Spinner } from 'theme-ui'
+import { Input as ThemeInput, Spinner } from 'theme-ui'
 import { Text } from 'components/uikit'
 import Flex from '../Flex'
 import Svg from '../Svg'
@@ -7,21 +7,21 @@ type variant = 'search' | 'password' | 'text'
 type inputStatus = 'default' | 'error' | 'success'
 type color = 'gray' | 'red' | 'green'
 
-type ColorSchemeMap = Record<inputStatus, color>
+type colorSchemeMap = Record<inputStatus, color>
 
-const colorScheme: ColorSchemeMap = {
+const colorScheme: colorSchemeMap = {
   default: 'gray',
   error: 'red',
   success: 'green',
 }
-interface InputProps extends ThemeInputProps {
-  variant?: variant
-  width?: any
-  status?: inputStatus
-  isLoading?: boolean
-}
 
-const Input = ({ variant = 'text', width, status = 'default', isLoading, ...props }: InputProps) => {
+const Input = ({
+  variant = 'search',
+  width,
+  status,
+  isLoading,
+  ...props
+}: { variant?: variant; width?: string[]; status?: inputStatus; isLoading?: boolean } | any) => {
   switch (variant) {
     case 'search':
       return (
@@ -43,7 +43,7 @@ const Input = ({ variant = 'text', width, status = 'default', isLoading, ...prop
       )
 
     case 'password':
-      const statusColor = colorScheme[status]
+      const statusColor = colorScheme[status as inputStatus]
       return (
         <Flex
           sx={{
