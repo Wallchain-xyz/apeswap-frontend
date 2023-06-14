@@ -33,11 +33,13 @@ const FullProfile = ({
   })
 
   useEffect(() => {
+    const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
+
     if (queryString === '') {
-      setQueryString(router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : '')
+      setQueryString(qs)
     }
 
-    if (queryString) {
+    if (qs) {
       router.replace(router.asPath.split('?')[0], router.asPath.split('?')[0])
     }
   }, [])
