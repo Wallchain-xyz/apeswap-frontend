@@ -19,15 +19,17 @@ const SOCIAL_LINKS: { icon: icons; href: string }[] = [
 ]
 
 const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
-  const [isModalOpen, setIsModalOpen] = useState(isLhdAuthModalOpen)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(isLhdAuthModalOpen)
   const [password, setPassword] = useState<string>('')
   const [isPasswordVerified, setIsPasswordVerified] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { setLhdAuth } = useSetLhdAuth()
   const debouncedPassword = useDebounce(password, 1000)
 
   const handleVerifyPassword = useCallback(async (): Promise<void> => {
     const isPasswordVerified = await fetchIsPasswordVerified(debouncedPassword)
     setIsPasswordVerified(!!isPasswordVerified)
+    setIsLoading(false)
   }, [debouncedPassword])
 
   useEffect(() => {
@@ -37,6 +39,11 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   useEffect(() => {
     setIsModalOpen(isLhdAuthModalOpen)
   }, [isLhdAuthModalOpen])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setPassword(e.target.value)
+    setIsLoading(true)
+  }
 
   const handleSubmit = (): void => {
     setLhdAuth(isPasswordVerified)
@@ -95,16 +102,19 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               </Text>
             </Box>
           </Box>
-
-          {/* TODO: Create a password input component with validation state as props */}
-          <Input
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-            placeholder="Password"
-            value={password}
-          />
-          <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
-            ACCESS BETA
-          </Button>
+          <Flex sx={{ width: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <Input
+              onChange={handleChange}
+              placeholder="Password"
+              value={password}
+              variant="password"
+              status={!password.length || isLoading ? 'default' : isPasswordVerified ? 'success' : 'error'}
+              sx={{ padding: '5px 10px', fontSize: '12px' }}
+            />
+            <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
+              ACCESS BETA
+            </Button>
+          </Flex>
           <Text sx={{ fontStyle: 'italic', fontSize: '12px' }}>Check our socials to find a password</Text>
           <Flex sx={{ gap: '20px' }}>
             {SOCIAL_LINKS.map(({ icon, href }) => {
