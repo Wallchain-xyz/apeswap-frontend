@@ -78,7 +78,7 @@ import {
   FilledURL,
   YellowQuestionMark,
   BananaIcon,
-  ScrollTop
+  ScrollTop,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -271,17 +271,17 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
     case icons.GREEN_SHIELD:
       return <GreenShield {...props} getStyles={getStyles} />
     case icons.CHAIN:
-      return <Chain {...props} getStyles={getStyles}/>
+      return <Chain {...props} getStyles={getStyles} />
     case icons.VERIFIED:
-      return <Verified {...props} getStyles={getStyles}/>
+      return <Verified {...props} getStyles={getStyles} />
     case icons.TICK_SHIELD:
-      return <TickShield {...props} getStyles={getStyles}/>
+      return <TickShield {...props} getStyles={getStyles} />
     case icons.SHARE:
-      return <Share {...props} getStyles={getStyles}/>
+      return <Share {...props} getStyles={getStyles} />
     case icons.FILLED_URL:
-      return <FilledURL {...props} getStyles={getStyles}/>
+      return <FilledURL {...props} getStyles={getStyles} />
     case icons.YELLOW_QUESTION:
-      return <YellowQuestionMark {...props} getStyles={getStyles}/>
+      return <YellowQuestionMark {...props} getStyles={getStyles} />
     case icons.BANANA_ICON:
       return <BananaIcon {...props} getStyles={getStyles} />
     case icons.SCROLL_TOP:

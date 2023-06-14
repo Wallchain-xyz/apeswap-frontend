@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 // components
 import Image from 'next/image'
 import { Text, Modal, Input } from 'components/uikit'
-import { Flex, Box, Button, Link } from 'theme-ui'
+import { Flex, Box, Button, Link, useThemeUI } from 'theme-ui'
 import { Svg } from 'components/uikit'
 import { icons } from 'components/uikit/Svg/types'
 
@@ -23,8 +23,27 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const [password, setPassword] = useState<string>('')
   const [isPasswordVerified, setIsPasswordVerified] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isTyping, setIsTyping] = useState<boolean>(false)
+
   const { setLhdAuth } = useSetLhdAuth()
   const debouncedPassword = useDebounce(password, 1000)
+  const { colorMode } = useThemeUI()
+
+  const isDark = colorMode === 'dark'
+  console.log({ isDark })
+  const passwordStatus =
+    !password.length || isLoading || isTyping ? 'default' : isPasswordVerified ? 'success' : 'error'
+
+  const getLiquidityIcon = (): string => {
+    switch (passwordStatus) {
+      case 'error':
+        return '/images/lhd/liquidity-red.svg'
+      case 'success':
+        return '/images/lhd/liquidity-green.svg'
+      default:
+        return colorMode === 'dark' ? '/images/lhd/liquidity-white.svg' : '/images/lhd/liquidity-gray.svg'
+    }
+  }
 
   const handleVerifyPassword = useCallback(async (): Promise<void> => {
     const isPasswordVerified = await fetchIsPasswordVerified(debouncedPassword)
@@ -33,6 +52,8 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   }, [debouncedPassword])
 
   useEffect(() => {
+    setIsTyping(false)
+    setIsLoading(debouncedPassword.length > 0)
     handleVerifyPassword()
   }, [debouncedPassword, handleVerifyPassword])
 
@@ -43,7 +64,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const password = e.target.value
     setPassword(password)
-    setIsLoading(password.length > 0)
+    setIsTyping(true)
   }
 
   const handleSubmit = (): void => {
@@ -69,7 +90,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
             overflow: 'hidden',
           }}
         >
-          <Image src="/images/lhd/ape-pool.svg" alt="ape-pool" fill sx={{ objectFit: 'cover' }} />
+          <Image src="/images/lhd/ape-pool.png" alt="ape-pool" fill sx={{ objectFit: 'cover' }} />
         </Box>
         <Flex sx={{ width: 'auto', flex: 1, flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
           <Box sx={{ px: '10px' }}>
@@ -82,8 +103,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               }}
             >
               <Box sx={{ width: ['32px', '32px', '53px'], height: ['46px', '46px', '76px'], position: 'relative' }}>
-                {/* TODO: Add liquidity icon to Icon theme */}
-                <Image src="/images/lhd/liquidity-white.svg" alt="liquidity-icon" fill />
+                <Image src={getLiquidityIcon()} alt="liquidity-icon" fill />
               </Box>
               <Text
                 weight="bold"
@@ -109,7 +129,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               placeholder="Password"
               value={password}
               variant="password"
-              status={!password.length || isLoading ? 'default' : isPasswordVerified ? 'success' : 'error'}
+              status={passwordStatus}
               isLoading={isLoading}
               sx={{ padding: '5px 10px', fontSize: '12px' }}
             />
