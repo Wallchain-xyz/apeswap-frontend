@@ -24,8 +24,9 @@ class MyDocument extends Document {
             content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone."
           />
           <meta name="theme-color" content="#000000" />
-          {/* <meta name="twitter:image" content="https://apeswap.finance/twitter.png" /> */}
-          <meta name="twitter:image" content="https://i.imgur.com/g1sFeUS.png" />
+          <meta name="twitter:image" content="https://apeswap.finance/twitter.png" />
+          {/* <meta name="twitter:image" content="https://i.imgur.com/g1sFeUS.png" />
+          <meta name="og:image" content="https://i.imgur.com/g1sFeUS.png" /> */}
           <meta
             name="twitter:description"
             content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."
