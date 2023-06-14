@@ -41,8 +41,9 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   }, [isLhdAuthModalOpen])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setPassword(e.target.value)
-    setIsLoading(true)
+    const password = e.target.value
+    setPassword(password)
+    setIsLoading(password.length > 0)
   }
 
   const handleSubmit = (): void => {
@@ -109,6 +110,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               value={password}
               variant="password"
               status={!password.length || isLoading ? 'default' : isPasswordVerified ? 'success' : 'error'}
+              isLoading={isLoading}
               sx={{ padding: '5px 10px', fontSize: '12px' }}
             />
             <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
