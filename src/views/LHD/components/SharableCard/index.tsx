@@ -132,8 +132,7 @@ const SharableCard = ({
 
   useEffect(() => {
     const handleResize = () => {
-      const cardElement = document.getElementById("aaaa");
-      console.log(cardElement)
+      const cardElement = document.getElementById("cardContainer");
       setContainerWidth(document.getElementById("container")?.clientWidth ?? 0);
       setCardHeigth(cardElement?.clientWidth ?? 0);
     };
@@ -146,8 +145,6 @@ const SharableCard = ({
   const maxCardHeight = 400;
   const scaleRatio = containerWidth / maxContainerWidth;
   const heightRatio = (cardHeight * maxCardHeight) / maxContainerWidth;
-  // console.log(scaleRatio);
-  // console.log(heightRatio)
 
   const today = new Date();
   const day = today.getDate().toString().padStart(2, '0');
@@ -167,7 +164,7 @@ const SharableCard = ({
     hideDivider
     >
       <Flex
-      id="aaaa"
+      id="cardContainer"
       sx={{
         alignItems:'center',
         justifyContent:'center',

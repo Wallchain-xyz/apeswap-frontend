@@ -66,7 +66,6 @@ useEffect(() => {
             justifyContent:'center',
             alignItems:'center',
             padding:'10px 20px',
-            // position:'absolute',
             mt:'-30px',
             ml: '0%',
             transform: 'translate(0%, 0%) matrix(1, 0, -0.2, 1, 0, 0);',
@@ -129,23 +128,6 @@ return (
   src={imageDataUrl ?? ''}
   alt={tokenSymbol + ' token.'}
 />
-
-
-      <img 
-      src={"https://res.cloudinary.com/dswmrqgwy/image/upload/v1685375572/lhd/ysYIu7Q_hzbccm.png"}
-      alt={tokenSymbol}
-      width={120}
-      height={120}
-
-      sx={{
-        mt:'21px',
-        height: '40px',
-        width: '40px',
-        display: 'block',
-        position:'absolute',
-        borderRadius:'50%',
-      }}>
-        </img>
       {score <= 40 ? (
         <Bronze sx={Styles.bgToken} />
       ) : score <= 75 ? (

@@ -11,6 +11,7 @@ import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
+import Head from 'next/head'
 
 const FullProfile = ({
   chainID,
@@ -46,6 +47,16 @@ const FullProfile = ({
 
   if (fullProfile) {
     return (
+      <>
+        <Head>
+          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+          <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
+          <meta name="twitter:image" content="https://i.imgur.com/g1sFeUS.png" />
+          <meta name="og:image" content="https://i.imgur.com/g1sFeUS.png" />
+          <meta name="twitter:description" content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."/>
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
+        </Head>
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
           <Text onClick={handleBackButton} sx={styles.back}>
@@ -83,6 +94,7 @@ const FullProfile = ({
         <AreYouContributor />
         <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
       </Flex>
+      </>
     )
   }
   return (
