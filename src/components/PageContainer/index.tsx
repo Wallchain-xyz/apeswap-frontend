@@ -37,9 +37,11 @@ const PageContainer = ({
   children: React.ReactNode
   variant?: 'dex' | 'homepage' | 'listView' | 'lhd'
 }) => {
-  const { asPath } = useRouter()
+  const { asPath, pathname } = useRouter()
+  console.log(pathname)
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
+
 
   return (
     <>
@@ -48,6 +50,7 @@ const PageContainer = ({
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
+        {/* <meta property="og:Twitter" content={image} /> */}
       </Head>
       <Flex
         sx={{
