@@ -71,6 +71,7 @@ useEffect(() => {
             ml: '0%',
             transform: 'translate(0%, 0%) matrix(1, 0, -0.2, 1, 0, 0);',
             borderRadius:'25px 8px;',
+            color:"white"
 
         },
         bgToken:{
@@ -88,17 +89,8 @@ useEffect(() => {
                 src={src}
                 width={120}
                 height={120}
-                // sx={{width:'150px', height:'150px'}}
                 beforeInjection={(svg) => {
-                  // svg.setAttribute('width', '150');
-                  // svg.setAttribute('height', '150');
-                  // svg.style.width = '100px';
-                  // svg.style.height = '100px';
-                  // svg.style.borderRadius = '50%';
-                  // svg.style.overflow = 'hidden';
-                  
                   const titleElement = document.createElement('title');
-                  // titleElement.textContent = alt;
                   svg.prepend(titleElement);
                 }}
               />
@@ -108,27 +100,14 @@ useEffect(() => {
           return (
             <Flex style={{ position: 'absolute', marginTop: '16px' }}>
               <img
-                src={`${src}`}
+                src={`${imageUrl}`}
                 alt={src}
                 width={120}
                 height={120}
                 style={{
                   borderRadius: '50%',
-                  // overflow: 'hidden',
-                  // width:'110px',
-                  // height:'110px',
                 }}
               />
-              {/* <Image
-                src={src}
-                alt={alt}
-                width={width}
-                height={height}
-                style={{
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                }}
-              /> */}
             </Flex>
           );
         }
@@ -165,33 +144,8 @@ return (
         display: 'block',
         position:'absolute',
         borderRadius:'50%',
-        // background: `url(${imageUrl})`,
-        // backgroundSize:'cover',
-        // ml:'500px',
       }}>
         </img>
-{/* 
-      <Image 
-      src={"https://i0.wp.com/post.greatist.com/wp-content/uploads/sites/2/2022/05/567521-grt-bananas-1296x728-header_body.jpg?w=1155&h=1530"}
-      alt={tokenSymbol}
-      width={120}
-      height={120}
-
-      sx={{
-        mt:'21px',
-        height: '40px',
-        width: '40px',
-        display: 'block',
-        position:'absolute',
-        borderRadius:'50%',
-        // background: `url(${imageUrl})`,
-        // backgroundSize:'cover',
-        // ml:'500px',
-      }}>
-
-      
-      </Image> */}
-
       {score <= 40 ? (
         <Bronze sx={Styles.bgToken} />
       ) : score <= 75 ? (

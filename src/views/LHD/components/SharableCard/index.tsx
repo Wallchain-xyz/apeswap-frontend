@@ -66,30 +66,44 @@ const SharableCard = ({
     download();
   };
   
-
   function download() {
-    const card = document.getElementById("card") ?? ({} as HTMLElement);
-    // card.style.borderRadius = "40px";
-    // card.style.overflow = "hidden";
-
+    const card = document.getElementById("card");
+  
+    if (!card) {
+      console.error("No se pudo encontrar el elemento card.");
+      return;
+    }
+  
+    const maxWidth = 1000; // Ancho máximo deseado
+    const cardWidth = card.offsetWidth;
+    const scaleFactor = maxWidth / cardWidth;
+    const canvasWidth = cardWidth * scaleFactor;
+    const canvasHeight = card.offsetHeight * scaleFactor;
+  
+    const options = {
+      width: canvasWidth,
+      height: canvasHeight,
+      style: {
+        backgroundColor: "transparent",
+        overflow: "visible",
+        transform: `scale(${scaleFactor})`,
+        transformOrigin: "top left"
+      }
+    };
+  
     domtoimage
-      .toPng(card, {
-        style: {
-          backgroundColor: "transparent",
-          overflow: "hidden",
-          // transform: 'scale(2)',
-        },
-      })
+      .toPng(card, options)
       .then((dataUrl) => {
         const link = document.createElement("a");
-        link.download = "card2.png";
+        link.download = `${tokenSymbol}-${nameDate}.png`;
         link.href = dataUrl;
         link.click();
       })
       .catch((error) => {
-        console.error('Error al convertir a PNG:', error);
+        console.error("Error al convertir a PNG:", error);
       });
   }
+  
 
   function share() {
     // const card = document.getElementById('card') ?? {} as HTMLElement;
@@ -114,21 +128,26 @@ const SharableCard = ({
   }
 
   const [containerWidth, setContainerWidth] = useState(0);
-  const [containerHeight, setContainerHeigth] = useState(0);
+  const [cardHeight, setCardHeigth] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
-      // setContainerWidth(document.getElementById("container").clientWidth);
+      const cardElement = document.getElementById("aaaa");
+      console.log(cardElement)
       setContainerWidth(document.getElementById("container")?.clientWidth ?? 0);
+      setCardHeigth(cardElement?.clientWidth ?? 0);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const maxContainerWidth = 760; // valor máximo permitido para el ancho de "container"
+  
+  const maxContainerWidth = 760;
+  const maxCardHeight = 400;
   const scaleRatio = containerWidth / maxContainerWidth;
-  console.log(scaleRatio);
+  const heightRatio = (cardHeight * maxCardHeight) / maxContainerWidth;
+  // console.log(scaleRatio);
+  // console.log(heightRatio)
 
   const today = new Date();
   const day = today.getDate().toString().padStart(2, '0');
@@ -137,6 +156,7 @@ const SharableCard = ({
   
   const formattedDate = `${day} - ${month} - ${year}`;
   const nameDate = `${day}-${month}-${year}`;
+
     const score = Math.round((totalScore || 0) * 100);
     const color = score <= 40 ? 'white' : 'black';
 
@@ -147,28 +167,31 @@ const SharableCard = ({
     hideDivider
     >
       <Flex
+      id="aaaa"
       sx={{
         alignItems:'center',
         justifyContent:'center',
         display:'flex',
         overflowX: 'hidden',
         flexDirection:'column',
-        // height:'300px',
-        // height:containerHeight/1.4,
       }}>
 
       <Flex 
       sx={{
         display:'block',
         position:'relative',
-        transform: `scale(${scaleRatio})`,
-        transformOrigin: 'center',
         borderRadius:'5px',
         overflow: 'hidden',
+        height:heightRatio,
+        '@media screen and (max-width: 780px)': {
+          mb:'20px',
+          },
 
       }}>
       <Flex id='card'sx={{
         overflow:'hidden',
+        transformOrigin: 'top',
+        transform: `scale(${scaleRatio})`,
         borderRadius:'5px', 
         }}>
         <Flex sx={{ 
@@ -303,29 +326,33 @@ const SharableCard = ({
         </Flex>
       </Flex>
       </Flex>
+
       </Flex>
        <Flex id="container" sx={{width: '100%',height: 0,maxWidth: '760px',}}/>
         
       {/* <Button onClick={handleShareClick}>Share on Twitter</Button> */}
       <Flex
       sx={{
-        '@media screen and (max-width: 1180px)': {
         width: '100%',
+        justifyContent:'space-between',
+        '@media screen and (max-width: 780px)': {
         flexDirection:'column'
         },
       }}
       >
       <Button sx={{
-        m:'20px',
-        '@media screen and (max-width: 1180px)': {
-        width: '100%',
-        m:'0px',
+        m:'20px 0 0',
+        width: '49%',
+        '@media screen and (max-width: 780px)': {
+          width: '100%',
+          m:'0px',
         },
-        }} onClick={handleDownloadClick}>Download Image</Button>
+      }} onClick={handleDownloadClick}>Download Image</Button>
       <Button sx={{
-        m:'20px',
-        '@media screen and (max-width: 1180px)': {
-        width: '100%',
+        m:'20px 0 0',
+        width: '49%',
+        '@media screen and (max-width: 780px)': {
+          width: '100%',
         m:'0px',
         mt:'15px'
         },
