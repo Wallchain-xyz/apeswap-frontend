@@ -20,8 +20,6 @@ const SearchBar = ({
   searchQueryString: string
   setSearchQueryString: any
 }) => {
-  const onSearchProfiles = fetchProfilesQuery()
-  // const onFilteredProfiles = useOnFilterProfiles()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const filterState = useLHDFilterValues()

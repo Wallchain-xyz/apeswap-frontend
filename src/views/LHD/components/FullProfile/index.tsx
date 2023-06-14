@@ -24,11 +24,25 @@ const FullProfile = ({
   const { t } = useTranslation()
   const router = useRouter()
 
+  const [queryString, setQueryString] = useState('')
+
   const [chartPassBackData, setChartPassBackData] = useState<chartExtras>({
     sustainabilityLower: 0,
     sustainabilityUpper: 0,
     liquidityDebt: 0,
   })
+
+  useEffect(() => {
+    const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
+
+    if (queryString === '') {
+      setQueryString(qs)
+    }
+
+    if (qs) {
+      router.replace(router.asPath.split('?')[0], router.asPath.split('?')[0])
+    }
+  }, [])
 
   useEffect(() => {
     if (chainID && address) {
@@ -41,7 +55,11 @@ const FullProfile = ({
   }
 
   const handleBackButton = () => {
-    router.push({ pathname: `/liquidity-health?${Math.random() * 10}` }, '/liquidity-health')
+    console.log(queryString)
+    router.push(
+      { pathname: `/liquidity-health?${queryString ? queryString : Math.random() * 10}` },
+      `/liquidity-health${queryString ? '?' + queryString : ''}`,
+    )
   }
 
   if (fullProfile) {

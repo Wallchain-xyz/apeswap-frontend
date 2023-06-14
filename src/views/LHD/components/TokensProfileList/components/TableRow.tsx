@@ -9,14 +9,20 @@ import { getColor } from '../../../utils/getColor'
 import { styles } from '../styles'
 import TokenImage from 'components/TokenImage'
 import useIsMobile from 'hooks/useIsMobile'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: SimpleTokenProfile }) => {
   const isMobile = useIsMobile()
+  const router = useRouter()
+  const qs = router.asPath.split('?')
 
   return (
-    <a
+    <Link
       sx={{ ...styles.linkItem }}
-      href={`/liquidity-health/${simpleProfile.addressMapping.tokenAddresses[0].chainId}/${simpleProfile.addressMapping.tokenAddresses[0].address}`}
+      href={`/liquidity-health/${simpleProfile.addressMapping.tokenAddresses[0].chainId}/${
+        simpleProfile.addressMapping.tokenAddresses[0].address
+      }${qs[1] !== undefined ? '?' + qs[1] : ''}`}
     >
       <Box sx={{ ...styles.tableRowContainer, background: index % 2 ? 'white3' : 'white2' }}>
         <Flex sx={{ ...styles.indexCol, background: index % 2 ? 'white3' : 'white2' }}>
@@ -67,7 +73,7 @@ const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: Simp
           </Text>
         </Flex>
       </Box>
-    </a>
+    </Link>
   )
 }
 
