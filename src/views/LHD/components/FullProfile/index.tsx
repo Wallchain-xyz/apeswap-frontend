@@ -12,6 +12,8 @@ import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
 import Head from 'next/head'
+import { Helmet } from 'react-helmet'
+
 
 const FullProfile = ({
   chainID,
@@ -40,6 +42,7 @@ const FullProfile = ({
   let handleChartCallback = (chartData: chartExtras) => {
     setChartPassBackData(chartData)
   }
+  const cardImage = `https://i.imgur.com/g1sFeUS.png` 
 
   const handleBackButton = () => {
     router.push({ pathname: `/liquidity-health?${Math.random() * 10}` }, '/liquidity-health')
@@ -48,15 +51,15 @@ const FullProfile = ({
   if (fullProfile) {
     return (
       <>
-        <Head>
+        <Helmet>
           <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
-          <meta name="twitter:image" content="https://i.imgur.com/g1sFeUS.png" />
-          <meta name="og:image" content="https://i.imgur.com/g1sFeUS.png" />
-          <meta name="twitter:description" content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."/>
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
-        </Head>
+          <meta name="twitter:image" content={cardImage} />
+          <meta name="og:image" content={cardImage} />
+          <meta name="twitter:description" content="Some description"/>
+          <meta name="twitter:card" content={cardImage} />
+          <meta name="twitter:title" content="Liquidity Health Dashboard" />
+        </Helmet>
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
           <Text onClick={handleBackButton} sx={styles.back}>
