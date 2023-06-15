@@ -62,7 +62,7 @@ const PageContainer = ({
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <meta property="og:image" content={image} />
-          <meta property="og:Twitter" content="https://apeswap.finance/twitter.png" />
+          {/* <meta property="og:Twitter" content="https://apeswap.finance/twitter.png" /> */}
           <meta name="twitter:image" content="https://apeswap.finance/twitter.png" />
         </>
       )}
