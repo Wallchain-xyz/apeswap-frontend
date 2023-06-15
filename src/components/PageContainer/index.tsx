@@ -56,6 +56,7 @@ const PageContainer = ({
           <meta property="og:description" content={description} />
           <meta property="og:image" content={imageURL} />
           <meta property="og:Twitter" content={imageURL} />
+          <meta property="og:twitter" content={imageURL} />
         </>
       ) : (
         <>
