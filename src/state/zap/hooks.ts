@@ -154,6 +154,7 @@ export function useDerivedZapInfo() {
   ])
 
   // Change to currency amount. Divide the typed input by 2 to get correct distributions
+  // Uneven amounts will be rounded down, which would generate a dust amount in wallet of 0.000000000000000001
   const halfTypedValue = typedValue && new BigNumber(typedValue).div(2).toFixed(18, 5)
 
   const parsedAmount = useMemo(
@@ -161,8 +162,8 @@ export function useDerivedZapInfo() {
     [inputCurrency, halfTypedValue],
   )
 
-  const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
-  const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2])
+  const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2], false, true)
+  const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2], false, true)
 
   const zap = useMemo(
     () =>
