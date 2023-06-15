@@ -11,7 +11,7 @@ export const MAINNET_CHAINS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  SupportedChainId.TLOS,
+  //SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 
@@ -29,7 +29,7 @@ export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  SupportedChainId.TLOS,
+  //SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 
@@ -49,7 +49,7 @@ export const NETWORK_LABEL: Partial<Record<SupportedChainId, string>> = {
   [SupportedChainId.POLYGON]: 'Polygon',
   [SupportedChainId.POLYGON_MUMBAI]: 'Polygon Testnet',
   [SupportedChainId.MAINNET]: 'Ethereum',
-  [SupportedChainId.TLOS]: 'Telos',
+  //[SupportedChainId.TLOS]: 'Telos',
   [SupportedChainId.ARBITRUM_ONE]: 'Arbitrum',
 }
 

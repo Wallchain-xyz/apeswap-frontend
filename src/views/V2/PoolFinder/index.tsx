@@ -156,7 +156,7 @@ export default function PoolFinder() {
               }}
             >
               <Text textAlign="center">{t('Pool Found!')}</Text>
-              <Link href="/liquidity/v2">
+              <Link href="/v3-liquidity/v2">
                 <Text textAlign="center" style={{ textDecoration: 'underline' }}>
                   {t('Manage this pool.')}
                 </Text>

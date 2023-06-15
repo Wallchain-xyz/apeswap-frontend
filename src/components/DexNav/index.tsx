@@ -50,7 +50,13 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const handleSwitch = () => {
     if (apeV3Available) {
-      push(pathname.includes('/v2') ? '/add-liquidity' : '/add-liquidity/v2')
+      push(
+        pathname.includes('/v3-swap')
+          ? 'https://dex.apeswap.finance/swap'
+          : pathname.includes('/v3-add-liquidity')
+          ? 'https://dex.apeswap.finance/add-liquidity'
+          : 'https://dex.apeswap.finance/liquidity',
+      )
     }
   }
 
@@ -66,7 +72,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             mr: '20px',
             ml: '5px',
           }}
-          onClick={() => push('/swap')}
+          onClick={() => push('/v3-swap')}
           id="swap-link"
         >
           {t('Swap')}
@@ -78,7 +84,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             ...styles.navLink,
             color: !onLiquidity && 'textDisabled',
           }}
-          onClick={() => push(SupportedChainId.MAINNET ? '/add-liquidity' : '/zap')}
+          onClick={() => push('/v3-add-liquidity')}
           id="liquidity-link"
           className="liquidity"
         >

@@ -911,7 +911,7 @@ export const LiquidityV3Slides = () => {
             {t(
               'for each transaction that uses this pair of tokens on your set price range. Don’t forget to CLAIM your rewards periodically in the',
             )}{' '}
-            <Link href="/liquidity" sx={styles.yellow}>
+            <Link href="/v3-liquidity" sx={styles.yellow}>
               {t('Positions')}
             </Link>{' '}
             {t('tab')}
