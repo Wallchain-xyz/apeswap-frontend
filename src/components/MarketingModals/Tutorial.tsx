@@ -46,10 +46,8 @@ const Tutorial: React.FC<{
       case 'farms': {
         return {
           type: `${networkLabel}-farms`,
-          title: `Welcome to ${chainId === SupportedChainId.BSC ? 'BANANA' : networkLabel} Farms`,
-          description: `Earn ${
-            chainId === SupportedChainId.TLOS ? 'TLOS' : 'BANANA'
-          } by staking liquidity provider (LP) tokens!`,
+          title: `Welcome to ApeSwap Farms`,
+          description: `Earn tokens by staking liquidity provider (LP) tokens!`,
           slides: account ? FarmSlides() : [<ConnectWalletSlide key={0} />, ...FarmSlides()],
           width: '300px',
           isConnected: !!account,
