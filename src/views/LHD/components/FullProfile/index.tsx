@@ -58,10 +58,10 @@ const FullProfile = ({
     return (
       <>
 
-        <Head>
+        {/* <Head>
           <meta name="twitter:image" content={cardImage} />
           <meta name="og:image" content={cardImage} />
-        </Head>
+        </Head> */}
         {/* <Helmet>
           <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
           <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
