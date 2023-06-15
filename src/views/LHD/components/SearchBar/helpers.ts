@@ -39,7 +39,9 @@ export const generateSearchParams = (values: FilterState): string => {
   for (const key in values) {
     if (values.hasOwnProperty(key)) {
       if (key === 'tags') {
-        differences.push('tags=' + values[key].join(','))
+        if (values[key].length > 0) {
+          differences.push('tags=' + values[key].join(','))
+        }
         continue
       }
       const value = values[key as keyof FilterState]

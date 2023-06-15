@@ -105,11 +105,7 @@ const FilterModal = ({
       <ModalHeader>
         <Text sx={{ width: '100%', textAlign: 'center' }}>{t('FILTERS')}</Text>
       </ModalHeader>
-      <Dropdown
-        title={t('Tags')}
-        values={tagsString}
-        // values={scoreString.length > 40 ? `${scoreString.slice(0, 40)}...` : scoreString}
-      >
+      <Dropdown title={t('Tags')} values={tagsString}>
         <ButtonSelector values={values} handler={tagHandler} type="tags" />
       </Dropdown>
       <Dropdown

@@ -48,12 +48,16 @@ const TokensProfileList = () => {
       let subKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(-3).toLowerCase() : key
 
       if (result[mainKey]) {
-        let parsedValue = parseFloat(value)
-        // if it's a decimal, multiply by 100
-        if (parsedValue < 1) {
-          parsedValue *= 100
+        if (mainKey === 'tags') {
+          result[mainKey] = value.split(',')
+        } else {
+          let parsedValue = parseFloat(value)
+          // if it's a decimal, multiply by 100
+          if (parsedValue < 1) {
+            parsedValue *= 100
+          }
+          result[mainKey][subKey] = parsedValue
         }
-        result[mainKey][subKey] = parsedValue
       }
     })
 
