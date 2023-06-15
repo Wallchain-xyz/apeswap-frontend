@@ -64,6 +64,13 @@ import {
   SwitchArrows,
   Copy,
   HamburgerClosed,
+  BillsM1,
+  BillsM2,
+  BillsM3,
+  URL,
+  Bubble,
+  Audit,
+  BananaIcon,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -241,6 +248,21 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <ARBITRUM {...props} getStyles={getStyles} />
     case icons.HAMBURGER_CLOSED:
       return <HamburgerClosed {...props} getStyles={getStyles} />
+    case icons.BILLS_M1:
+      return <BillsM1 {...props} getStyles={getStyles} />
+    case icons.BILLS_M2:
+      return <BillsM2 {...props} getStyles={getStyles} />
+    case icons.BILLS_M3:
+      return <BillsM3 {...props} getStyles={getStyles} />
+    case icons.URL:
+      return <URL {...props} getStyles={getStyles} />
+    case icons.BUBBLE:
+      return <Bubble {...props} getStyles={getStyles} />
+    case icons.AUDIT:
+      return <Audit {...props} getStyles={getStyles} />
+    case icons.BANANA_ICON:
+      return <BananaIcon {...props} getStyles={getStyles} />
+
     // Wallet Icons
     case icons.BINANCE_CHAIN:
       return <BinanceChain {...props} getStyles={getStyles} />

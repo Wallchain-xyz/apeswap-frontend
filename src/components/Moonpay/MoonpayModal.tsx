@@ -16,7 +16,7 @@ export default function MoonPayModal({ onDismiss }: { onDismiss: () => void }) {
   const { chainId } = useWeb3React()
 
   return (
-    <Modal title="Buy crypto with MoonPay" onDismiss={onDismiss} minWidth="300px" maxWidth="95%">
+    <Modal title="Buy crypto with MoonPay" onDismiss={onDismiss}>
       <Flex
         sx={{
           width: '420px',

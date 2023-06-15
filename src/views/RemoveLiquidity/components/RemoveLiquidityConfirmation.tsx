@@ -37,7 +37,7 @@ const RemoveLiquidityConfirmation = ({
     feeValue0?.currency.symbol ?? ''
   } and ${liquidityValue1?.toSignificant(4) ?? ''} ${feeValue1?.currency.symbol ?? ''}`
   return (
-    <Modal title="Remove Liquidity" minWidth="300px" maxWidth="95%">
+    <Modal title="Remove Liquidity">
       <Flex sx={{ maxWidth: '100%', width: '420px', flexDirection: 'column' }}>
         {attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />

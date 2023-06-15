@@ -11,7 +11,7 @@ export const DEFAULT_TXN_DISMISS_MS = 10000
 export const BIG_INT_ZERO = JSBI.BigInt(0)
 
 // one basis JSBI.BigInt
-const BIPS_BASE = JSBI.BigInt(10000)
+export const BIPS_BASE = JSBI.BigInt(10000)
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), BIPS_BASE)
 
 // used for warning states
@@ -25,3 +25,13 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')
+
+export enum PRODUCT {
+  FARM,
+  JUNGLE_FARM,
+  DUAL_FARM,
+}
+
+export const BASE_EXCHANGE_URL = 'https://apeswap.finance'
+export const BASE_ADD_LIQUIDITY_URL = `${BASE_EXCHANGE_URL}/add`
+export const BASE_LIQUIDITY_POOL_URL = `${BASE_EXCHANGE_URL}/pool`

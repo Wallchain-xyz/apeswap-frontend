@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 
 const maticConfig = [
   {
@@ -8,12 +8,12 @@ const maticConfig = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://dex.apeswap.finance/swap',
         isNew: false,
       },
       {
         label: 'Liquidity',
-        href: '/add-liquidity',
+        href: 'https://dex.apeswap.finance/zap',
         isNew: false,
       },
       {
@@ -25,12 +25,12 @@ const maticConfig = [
   },
   {
     label: 'Farms',
-    href: `${TEMP_APESWAP_URL}/farms`,
+    href: `/farms`,
     isNew: false,
   },
   {
     label: 'Bonds',
-    href: `${TEMP_APESWAP_URL}/bonds`,
+    href: `/bonds`,
     isNew: true,
   },
   {
@@ -42,7 +42,7 @@ const maticConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -56,10 +56,10 @@ const maticConfig = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
 ]

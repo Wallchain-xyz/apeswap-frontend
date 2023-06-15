@@ -1,10 +1,9 @@
-import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
 import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
-import { RPC_PROVIDERS } from 'config/constants/providers'
+import { getProvider } from 'config/constants/providers'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import qs from 'qs'
-
 import { GetQuoteResult } from './types'
 
 export enum RouterPreference {
@@ -14,15 +13,15 @@ export enum RouterPreference {
 }
 
 const routers = new Map<ChainId, AlphaRouter>()
-function getRouter(chainId: ChainId): AlphaRouter {
-  const router = routers.get(chainId)
-  if (router) return router
+function getRouter(chainId: ChainId, useApeRPC?: boolean): AlphaRouter {
+  // const router = routers.get(chainId)
+  // if (router) return router
 
   const supportedChainId = toSupportedChainId(chainId)
   if (supportedChainId) {
-    const provider = RPC_PROVIDERS[supportedChainId]
+    const provider = getProvider(supportedChainId, useApeRPC)
     const router = new AlphaRouter({ chainId, provider })
-    routers.set(chainId, router)
+    //routers.set(chainId, router)
     return router
   }
 
@@ -35,6 +34,31 @@ const API_QUERY_PARAMS = {
 }
 const CLIENT_PARAMS = {
   protocols: [Protocol.V2, Protocol.V3, Protocol.MIXED],
+}
+// Price queries are tuned down to minimize the required RPCs to respond to them.
+// TODO(zzmp): This will be used after testing router caching.
+const PRICE_PARAMS = {
+  protocols: [Protocol.V2, Protocol.V3],
+  v2PoolSelection: {
+    topN: 2,
+    topNDirectSwaps: 1,
+    topNTokenInOut: 2,
+    topNSecondHop: 1,
+    topNWithEachBaseToken: 2,
+    topNWithBaseToken: 2,
+  },
+  v3PoolSelection: {
+    topN: 2,
+    topNDirectSwaps: 1,
+    topNTokenInOut: 2,
+    topNSecondHop: 1,
+    topNWithEachBaseToken: 2,
+    topNWithBaseToken: 2,
+  },
+  maxSwapsPerPath: 2,
+  minSplits: 1,
+  maxSplits: 1,
+  distributionPercent: 100,
 }
 
 export const routingApi = createApi({
@@ -54,17 +78,27 @@ export const routingApi = createApi({
         tokenOutChainId: ChainId
         tokenOutDecimals: number
         tokenOutSymbol?: string
+        protocols?: Protocol[]
         amount: string
         routerPreference: RouterPreference
         type: 'exactIn' | 'exactOut'
+        useApeRPC?: boolean
       }
     >({
       async queryFn(args, _api, _extraOptions, fetch) {
-        const { tokenInAddress, tokenInChainId, tokenOutAddress, tokenOutChainId, amount, routerPreference, type } =
-          args
+        const {
+          tokenInAddress,
+          tokenInChainId,
+          tokenOutAddress,
+          tokenOutChainId,
+          amount,
+          routerPreference,
+          protocols,
+          type,
+          useApeRPC,
+        } = args
 
         let result
-
         try {
           if (routerPreference === RouterPreference.API) {
             const query = qs.stringify({
@@ -78,20 +112,22 @@ export const routingApi = createApi({
             })
             result = await fetch(`quote?${query}`)
           } else {
-            const router = getRouter(args.tokenInChainId)
+            const router = getRouter(args.tokenInChainId, useApeRPC)
             result = await getClientSideQuote(
               args,
               router,
               // TODO(zzmp): Use PRICE_PARAMS for RouterPreference.PRICE.
               // This change is intentionally being deferred to first see what effect router caching has.
-              CLIENT_PARAMS,
+              // To get routes specifically for zap we need to pass protocol arg
+              { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
             )
           }
           return { data: result.data as GetQuoteResult }
         } catch (e: any) {
+          console.error(e)
           // TODO: fall back to client-side quoter when auto router fails.
           // deprecate 'legacy' v2/v3 routers first.
-          return { error: { status: 'CUSTOM_ERROR', error: e.toString(), data: e } }
+          return { error: e.message, meta: e.stack }
         }
       },
       keepUnusedDataFor: 100000,

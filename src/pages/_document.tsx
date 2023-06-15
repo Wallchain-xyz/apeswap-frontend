@@ -23,7 +23,6 @@ class MyDocument extends Document {
             name="description"
             content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone."
           />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta name="twitter:image" content="https://apeswap.finance/twitter.png" />
           <meta

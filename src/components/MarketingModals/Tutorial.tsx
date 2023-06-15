@@ -93,7 +93,7 @@ const Tutorial: React.FC<{
           isConnected: !!account,
         }
       }
-      case 'treasury-bills': {
+      case 'bonds': {
         return {
           type: 'treasury-bills',
           title: 'Welcome to ApeSwap Bonds',

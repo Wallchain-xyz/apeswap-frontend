@@ -2,7 +2,7 @@ import React from 'react'
 import { Button as ThemeUIButton, Spinner } from 'theme-ui'
 import { ButtonProps, variants, buttonFontSizes, buttonPadding, sizes, buttonLineHeight } from './types'
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   variant = variants.PRIMARY,
   size = sizes.MEDIUM,
   load,
@@ -10,8 +10,9 @@ const Button: React.FC<ButtonProps> = ({
   startIcon,
   endIcon,
   fullWidth,
+  disabled,
   ...props
-}) => {
+}: ButtonProps | any) => {
   let hoverStyle = {
     '&:hover': {
       '&:not([disabled])': {
@@ -68,8 +69,8 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <ThemeUIButton
-      {...props}
       variant={variant}
+      disabled={disabled}
       sx={{
         variant: `buttons.${variant}`,
         textTransform: 'uppercase',
@@ -85,11 +86,11 @@ const Button: React.FC<ButtonProps> = ({
         },
         ...hoverStyle,
         width: fullWidth ? '100%' : 'max-content',
-        color: 'primaryBright',
       }}
+      {...props}
     >
       {React.isValidElement(startIcon) && React.cloneElement(startIcon)}
-      {children} {load && <Spinner size={17} ml="5px" mt='4px' />}
+      {children} {load && <Spinner size={16} ml="5px" />}
       {React.isValidElement(endIcon) && React.cloneElement(endIcon)}
     </ThemeUIButton>
   )

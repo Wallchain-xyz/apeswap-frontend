@@ -117,6 +117,9 @@ export function useDerivedSwapInfo(): {
     isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
     parsedAmount,
     (isExactIn ? outputCurrency : inputCurrency) ?? undefined,
+    undefined,
+    //use Apeswap's nodes to only for swap
+    true,
   )
 
   const currencyBalances = useMemo(

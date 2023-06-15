@@ -7,7 +7,6 @@ import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { RemoveLiquidityModalProps } from './types'
 import { styles } from './styles'
 import PoolInfo from '../PoolInfo'
-import { useWeb3React } from '@web3-react/core'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE } from '../../Actions'
 
@@ -28,7 +27,7 @@ const RemoveLiquidityModal: React.FC<RemoveLiquidityModalProps> = ({
     currencyA?.symbol ?? ''
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''} ${currencyB?.symbol ?? ''}`
   return (
-    <Modal title={title} maxWidth="95%" minWidth="300px" onDismiss={onDismiss}>
+    <Modal title={title} onDismiss={onDismiss}>
       <Flex sx={{ maxWidth: '100%', width: '420px' }}>
         {attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />

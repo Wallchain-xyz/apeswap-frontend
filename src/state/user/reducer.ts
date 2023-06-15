@@ -6,6 +6,7 @@ import { updateVersion } from '../global/actions'
 import { SerializedPair, SerializedToken } from './types'
 
 const currentTimestamp = () => new Date().getTime()
+export const INITIAL_ZAP_SLIPPAGE = 100
 
 export interface UserState {
   selectedWallet?: ConnectionType
@@ -35,6 +36,7 @@ export interface UserState {
 
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number | 'auto'
+  userZapSlippage: number
   userSlippageToleranceHasBeenMigratedToAuto: boolean // temporary flag for migration status
   // hides closed (inactive) positions across the app
   userHideClosedPositions: boolean
@@ -50,6 +52,7 @@ export const initialState: UserState = {
   timestamp: currentTimestamp(),
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
+  userZapSlippage: INITIAL_ZAP_SLIPPAGE,
   userSlippageToleranceHasBeenMigratedToAuto: false,
   userClientSideRouter: true,
   userHideClosedPositions: false,
@@ -77,6 +80,10 @@ const userSlice = createSlice({
     },
     updateUserSlippageTolerance(state, action) {
       state.userSlippageTolerance = action.payload.userSlippageTolerance
+      state.timestamp = currentTimestamp()
+    },
+    updateUserZapSlippageTolerance(state, action) {
+      state.userZapSlippage = action.payload.userZapSlippage
       state.timestamp = currentTimestamp()
     },
     updateUserClientSideRouter(state, action) {
@@ -163,5 +170,6 @@ export const {
   updateUserExpertMode,
   addSerializedPair,
   addSerializedToken,
+  updateUserZapSlippageTolerance,
 } = userSlice.actions
 export default userSlice.reducer

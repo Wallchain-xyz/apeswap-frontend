@@ -9,7 +9,6 @@ import React, { useCallback, useState } from 'react'
 import { Field } from 'state/mint/v2/actions'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
-// import AddLiquidityModal from '../AddLiquidityModal'
 import { styles } from './styles'
 import { AddLiquidityActionsProps } from './types'
 import { useV2RouterContract } from 'hooks/useContract'
@@ -34,6 +33,7 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
   liquidityMinted,
   poolTokenPercentage,
   price,
+  handleConfirmedTx,
 }) => {
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>('')
@@ -118,7 +118,7 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
           gasLimit: calculateGasMargin(estimatedGasLimit),
         }).then((response) => {
           setAttemptingTxn(false)
-
+          handleConfirmedTx && handleConfirmedTx(response.hash)
           addTransaction(response, {
             type: TransactionType.ADD_LIQUIDITY_V2_POOL,
             baseCurrencyId: currencyId(currencyA),
@@ -167,6 +167,7 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
     true,
     true,
     'addLiquidityModal',
+    true,
   )
 
   const renderAction = () => {
@@ -244,7 +245,7 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
     )
   }
 
-  return <Flex sx={{ ...styles.dexActionsContainer }}>{renderAction()}</Flex>
+  return <Flex sx={styles.dexActionsContainer}>{renderAction()}</Flex>
 }
 
 export default React.memo(AddLiquidityActions)

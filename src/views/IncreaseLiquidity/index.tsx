@@ -118,14 +118,12 @@ const IncreaseLiquidity = ({
   const isMobile = useIsMobile()
 
   return (
-    <Modal title="Increase Position" minWidth="300px" maxWidth="95%" paddingWidth={isMobile ? '10px' : '20px'}>
+    <Modal title="Increase Position">
       <Flex
         sx={{
           maxWidth: '100%',
           width: '420px',
           flexDirection: 'column',
-          overflow: 'scroll',
-          maxHeight: '80vh',
         }}
       >
         {attemptingTxn ? (

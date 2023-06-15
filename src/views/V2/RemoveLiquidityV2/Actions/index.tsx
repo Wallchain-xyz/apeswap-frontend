@@ -23,12 +23,7 @@ import ConnectWalletButton from 'components/ConnectWallet'
 
 export const DEFAULT_REMOVE_LIQUIDITY_SLIPPAGE_TOLERANCE = new Percent(5, 100)
 
-const RemoveLiquidityActions: React.FC<RemoveLiquidityActionProps> = ({
-  pair,
-  error,
-  parsedAmounts,
-  tradeValueUsd,
-}) => {
+const RemoveLiquidityActions: React.FC<RemoveLiquidityActionProps> = ({ pair, error, parsedAmounts }) => {
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false)
   const [txHash, setTxHash] = useState<string>('')
   const { t } = useTranslation()

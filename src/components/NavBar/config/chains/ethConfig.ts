@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 
 const ethConfig = [
   {
@@ -8,12 +8,12 @@ const ethConfig = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://dex.apeswap.finance/swap',
         isNew: false,
       },
       {
         label: 'Liquidity',
-        href: `${TEMP_APESWAP_URL}/add-liquidity`,
+        href: `https://dex.apeswap.finance/zap`,
         isNew: false,
       },
       {
@@ -32,7 +32,7 @@ const ethConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -46,27 +46,12 @@ const ethConfig = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
-  //   {
-  //     label: 'Pools',
-  //     icon: 'PoolIcon',
-  //     href: '/pools',
-  //   },
-  //   {
-  //     label: 'IAO',
-  //     icon: 'IfoIcon',
-  //     href: '/iao',
-  //   },
-  //   {
-  //     label: 'GNANA',
-  //     icon: 'ApeZone',
-  //     href: '/gnana',
-  //   },
 ]
 
 export default ethConfig

@@ -30,8 +30,8 @@ export const customMeta: { [key: string]: PageMeta } = {
     description: 'Buy and sell ApeSwap NFTs and join our NFT community.',
   },
   '/farms': {
-    title: 'BANANA Farms | ApeSwap : Your One-Stop DeFi Hub',
-    description: 'Stake your liquidity provider (LP) tokens in BANANA Farms to earn BANANA.',
+    title: 'Farms | ApeSwap : Your One-Stop DeFi Hub',
+    description: 'Stake your liquidity provider (LP) tokens in Farms to earn.',
   },
   '/jungle-farms': {
     title: 'Jungle Farms | ApeSwap : Your One-Stop DeFi Hub',
