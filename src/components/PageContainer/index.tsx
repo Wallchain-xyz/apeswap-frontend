@@ -43,7 +43,7 @@ const PageContainer = ({
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
   // const imageURL = `scottServer/${pathname}.png` 
-  const imageURL = `https://i.imgur.com/g1sFeUS.png` 
+  const imageURL = `https://i.imgur.com/H4hBGz7.png` 
 
 
   return (
@@ -54,7 +54,7 @@ const PageContainer = ({
         <meta property="og:description" content={description} />
         {pathname.includes("/liquidity-health/") ? (
         <>
-          <meta property="og:image" content={imageURL} />
+          {/* <meta property="og:image" content={imageURL} /> */}
           <meta property="og:Twitter" content={imageURL} />
         </>
       ) : (
