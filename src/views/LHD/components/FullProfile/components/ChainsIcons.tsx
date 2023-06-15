@@ -9,9 +9,10 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) =>
   const width = 16
 
   useEffect(() => {
-    let extraChainsCount = 0
+    let [extraChainsCount, foundChainsCount] = [0, 0]
     const newElementsWithIcons = tokenAddresses?.filter((tokenAddress) => {
-      if (icons.hasOwnProperty(tokenAddress.chainId)) {
+      if (icons.hasOwnProperty(tokenAddress.chainId) && foundChainsCount < 4) {
+        foundChainsCount += 1
         return true
       } else {
         extraChainsCount += 1
@@ -29,7 +30,7 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) =>
           key={index}
           style={{
             position: 'absolute',
-            left: index * (width * 0.70), // 25% overlap
+            left: index * (width * 0.7), // 25% overlap
             zIndex: index,
           }}
         >
@@ -40,25 +41,27 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) =>
         <Flex
           sx={{
             position: 'absolute',
-            left: elementsWithIcons.length * (width * 0.70), // 30% overlap
-            zIndex: elementsWithIcons.length+1,
+            left: elementsWithIcons.length * (width * 0.7), // 30% overlap
+            zIndex: elementsWithIcons.length + 1,
             width: '16px',
             height: '16px',
             background: 'white3',
             borderRadius: '25px',
             border: '1px solid #fff',
-            top: '2px'
+            top: '2px',
           }}
         >
-          <Text sx={{
-            fontSize: '8px',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            lineHeight: '25px',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
+          <Text
+            sx={{
+              fontSize: '8px',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              lineHeight: '25px',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             +{extraChains}
           </Text>
         </Flex>

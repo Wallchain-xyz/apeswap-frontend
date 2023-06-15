@@ -131,7 +131,7 @@ const TokensProfileList = () => {
             <Svg icon="placeholderMonkey" />
             <Text sx={{ fontSize: '12px', fontWeight: 500, color: 'textDisabled' }}>{t('No Results Found')}</Text>
           </Flex>
-        ) : simpleProfiles?.data.length > 0 ? (
+        ) : simpleProfiles?.data?.length > 0 ? (
           sortProfiles(simpleProfiles.data ?? undefined, sortCol, sortType)?.map((simpleProfile, index) => {
             return <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
           })
