@@ -14,6 +14,7 @@ export const SwapSlides = () => {
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
   const isMobile = useIsMobile()
+
   return [
     <Slide
       key={1}
@@ -41,61 +42,61 @@ export const SwapSlides = () => {
         </>
       }
     />,
-    // <Slide
-    //   key={2}
-    //   step="Step 2"
-    //   slideTitle="Approve Router"
-    //   slideContent={
-    //     <>
-    //       <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
-    //       <Text sx={{ fontStyle: 'italic' }}>
-    //         <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
-    //         <Tooltip
-    //           placement={'topRight'}
-    //           transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
-    //           body={
-    //             <Flex sx={styles.tipBody}>
-    //               {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
-    //             </Flex>
-    //           }
-    //           sx={{ width: ['190px', '190px', '350px'] }}
-    //         >
-    //           <Text sx={styles.tipTitle}>Ape,</Text>
-    //         </Tooltip>{' '}
-    //         <Tooltip
-    //           placement={'topRight'}
-    //           transformTip="translate(4%, 2%)"
-    //           body={
-    //             <Flex sx={styles.tipBody}>
-    //               {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
-    //             </Flex>
-    //           }
-    //           sx={{ width: ['220px', '220px', '350px'] }}
-    //         >
-    //           <Text sx={styles.tipTitle}>Smart,</Text>
-    //         </Tooltip>{' '}
-    //         <Tooltip
-    //           placement={'topRight'}
-    //           transformTip="translate(4%, 2%)"
-    //           body={
-    //             <Flex sx={styles.tipBody}>
-    //               {t(
-    //                 "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
-    //               )}
-    //             </Flex>
-    //           }
-    //           sx={{ width: ['260px', '260px', '350px'] }}
-    //         >
-    //           <Text sx={styles.tipTitle}>Bonus</Text>
-    //         </Tooltip>
-    //         <Text sx={styles.content}>{t(')')}</Text>
-    //       </Text>
-    //     </>
-    //   }
-    // />,
     <Slide
       key={2}
       step="Step 2"
+      slideTitle="Approve Router"
+      slideContent={
+        <>
+          <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
+          <Text sx={{ fontStyle: 'italic' }}>
+            <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
+            <Tooltip
+              placement={'topRight'}
+              transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
+                </Flex>
+              }
+              sx={{ width: ['190px', '190px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>Ape,</Text>
+            </Tooltip>{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(4%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
+                </Flex>
+              }
+              sx={{ width: ['220px', '220px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>Smart,</Text>
+            </Tooltip>{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(4%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['260px', '260px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>Bonus</Text>
+            </Tooltip>
+            <Text sx={styles.content}>{t(')')}</Text>
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={2}
+      step="Step 3"
       slideTitle="Confirm The Swap"
       slideContent={
         <>
@@ -130,7 +131,7 @@ export const FarmSlides = () => {
                   {t('Contribute equal amounts of two tokens to the DEX to facilitate swaps between them.')}
                 </Flex>
               }
-              sx={{ width: ['250px', '250px', '350px'] }}
+              sx={{ width: ['250px', '250px', '250px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('add liquidity')}</Text>
             </Tooltip>{' '}
@@ -146,7 +147,7 @@ export const FarmSlides = () => {
                   {t('Convert one token directly into an LP token or other product in a single transaction.')}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>ZAP</Text>
             </Tooltip>{' '}
@@ -204,7 +205,7 @@ export const PoolSlides = () => {
                   {t("ApeSwap's governance token that also enables access to exclusive pools and IAO allocations")}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>GNANA,</Text>
             </Tooltip>{' '}
@@ -265,7 +266,7 @@ export const MaximizerSlides = () => {
                   {t('Convert one token directly into an LP token or other product in a single transaction.')}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>ZAP</Text>
             </Tooltip>{' '}
@@ -278,7 +279,7 @@ export const MaximizerSlides = () => {
                   {t('Contribute equal amounts of two tokens to the DEX to facilitate swaps between them.')}
                 </Flex>
               }
-              sx={{ width: ['240px', '240px', '300px'] }}
+              sx={{ width: ['240px', '240px', '240px', '300px'] }}
             >
               <Text sx={{ ...styles.content, ...styles.tipTitle }}>add liquidity</Text>
             </Tooltip>{' '}
@@ -317,7 +318,7 @@ export const MaximizerSlides = () => {
                   {t('Maximizer Vaults will automatically re-stake your earnings periodically.')}
                 </Flex>
               }
-              sx={{ width: ['240px', '240px', '350px'] }}
+              sx={{ width: ['240px', '240px', '240px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('auto-compound')}</Text>
             </Tooltip>{' '}
@@ -381,7 +382,7 @@ export const GnanaSlides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['220px', '220px', '350px'] }}
+              sx={{ width: ['220px', '220px', '220px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('reflect fee')}</Text>
             </Tooltip>{' '}
@@ -411,7 +412,7 @@ export const GnanaSlides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['200px', '200px', '320px'] }}
+              sx={{ width: ['200px', '200px', '200px', '320px'] }}
             >
               <Text sx={styles.tipTitle}>{t('reflect fees,')}</Text>
             </Tooltip>{' '}
@@ -429,7 +430,7 @@ export const GnanaSlides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['275px', '275px', '350px'] }}
+              sx={{ width: ['275px', '275px', '275px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>DAO&apos;s</Text>
             </Tooltip>{' '}
@@ -481,7 +482,7 @@ export const BillsSlides = () => {
                   {t('Contribute equal amounts of two tokens to the DEX to facilitate swaps between them.')}
                 </Flex>
               }
-              sx={{ width: ['230px', '230px', '350px'] }}
+              sx={{ width: ['230px', '230px', '230px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('add liquidity')}</Text>{' '}
             </Tooltip>{' '}
@@ -497,7 +498,7 @@ export const BillsSlides = () => {
                   {t('Convert one token directly into an LP token or other product in a single transaction.')}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>ZAP</Text>
             </Tooltip>{' '}
@@ -527,7 +528,7 @@ export const BillsSlides = () => {
                   {t('Convert one token directly into an LP token or other product in a single transaction.')}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>ZAP</Text>
             </Tooltip>{' '}
@@ -555,7 +556,7 @@ export const BillsSlides = () => {
                   {t('Transferring an ApeSwap Bond NFT will also transfer any unclaimed tokens to the new holder.')}
                 </Flex>
               }
-              sx={{ width: ['200px', '200px', '350px'] }}
+              sx={{ width: ['200px', '200px', '200px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('TRANSFER')}</Text>
             </Tooltip>{' '}
@@ -587,7 +588,7 @@ export const IAOSlides = () => {
                   {t("ApeSwap's governance token that also enables access to exclusive pools and IAO allocations.")}
                 </Flex>
               }
-              sx={{ width: ['270px', '270px', '350px'] }}
+              sx={{ width: ['270px', '270px', '270px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>GNANA</Text>
             </Tooltip>{' '}
@@ -629,7 +630,7 @@ export const IAOSlides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['270px', '270px', '400px'] }}
+              sx={{ width: ['270px', '270px', '270px', '400px'] }}
             >
               <Text sx={styles.tipTitle}>{t('oversubscribed')},</Text>
             </Tooltip>{' '}
@@ -656,7 +657,7 @@ export const IAOSlides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('vest linearly')}</Text>
             </Tooltip>{' '}
@@ -750,7 +751,7 @@ export const LiquiditySlides = () => {
                   {t('Convert one token directly into an LP token or other product in a single transaction.')}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>ZAP</Text>
             </Tooltip>{' '}
@@ -777,7 +778,7 @@ export const LiquiditySlides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('fees')}</Text>
             </Tooltip>{' '}
@@ -829,7 +830,7 @@ export const LiquidityV3Slides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('fee tier')}</Text>
             </Tooltip>
@@ -844,7 +845,7 @@ export const LiquidityV3Slides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('price range')}</Text>
             </Tooltip>
@@ -875,7 +876,7 @@ export const LiquidityV3Slides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>V3 Position NFT</Text>
             </Tooltip>{' '}
@@ -903,17 +904,14 @@ export const LiquidityV3Slides = () => {
                   )}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('fees')}</Text>
             </Tooltip>{' '}
             {t(
               'for each transaction that uses this pair of tokens on your set price range. Don’t forget to CLAIM your rewards periodically in the',
             )}{' '}
-            <Link
-              href="/liquidity"
-              sx={styles.yellow}
-            >
+            <Link href="/v3-liquidity" sx={styles.yellow}>
               {t('Positions')}
             </Link>{' '}
             {t('tab')}
@@ -998,7 +996,7 @@ export const MigrateSlides = () => {
                   {t('Maximizer Vaults will auto-compound your rewards periodically to maximize your yields.')}
                 </Flex>
               }
-              sx={{ width: ['210px', '210px', '350px'] }}
+              sx={{ width: ['210px', '210px', '210px', '350px'] }}
             >
               <Text sx={styles.tipTitle}>{t('Maximizer Vaults')}</Text>
             </Tooltip>{' '}

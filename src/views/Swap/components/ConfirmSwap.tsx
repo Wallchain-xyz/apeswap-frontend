@@ -40,7 +40,7 @@ const ConfirmSwap = ({
     trade?.inputAmount?.currency.symbol ?? ''
   } for ${trade?.outputAmount?.toSignificant(6) ?? ''} ${trade?.outputAmount?.currency.symbol ?? ''}`
   return (
-    <Modal minWidth="300px" maxWidth="95%" title="Confirm Swap">
+    <Modal title="Confirm Swap">
       <Flex sx={{ width: '420px', maxWidth: '100%', flexDirection: 'column' }}>
         {swapErrorMessage ? (
           <TransactionErrorContent

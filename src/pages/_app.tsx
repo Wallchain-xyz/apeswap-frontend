@@ -18,6 +18,16 @@ import Popups from 'components/Popups'
 import Blocklist from 'components/Blocklist'
 import MarketingModalCheck from 'components/MarketingModalCheck'
 import { Analytics } from '@vercel/analytics/react'
+import { RefreshContextProvider } from 'contexts/RefreshContext'
+import GlobalStyles from '../contexts/GlobalStyles'
+import Head from 'next/head'
+import BigNumber from 'bignumber.js'
+
+// This config is required for number formatting
+BigNumber.config({
+  EXPONENTIAL_AT: 1000,
+  DECIMAL_PLACES: 80,
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   const Updaters = () => {
@@ -32,28 +42,36 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <Provider store={store}>
-      <Web3Provider>
-        <BlockNumberProvider>
-          <Updaters />
-          <ThemeProvider theme={theme}>
-            <MatchBreakpointsProvider>
-              <LanguageProvider>
-                <ModalProvider>
-                  <Blocklist>
-                    <NavBar />
-                    <MarketingModalCheck />
-                    <Popups />
-                    <Component {...pageProps} />
-                    <Analytics />
-                    <Footer />
-                  </Blocklist>
-                </ModalProvider>
-              </LanguageProvider>
-            </MatchBreakpointsProvider>
-          </ThemeProvider>
-        </BlockNumberProvider>
-      </Web3Provider>
-    </Provider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1" />
+      </Head>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <Web3Provider>
+            <BlockNumberProvider>
+              <Updaters />
+              <RefreshContextProvider>
+                <MatchBreakpointsProvider>
+                  <LanguageProvider>
+                    <ModalProvider>
+                      <Blocklist>
+                        <NavBar />
+                        <MarketingModalCheck />
+                        <Popups />
+                        <Component {...pageProps} />
+                        <Analytics />
+                        <Footer />
+                      </Blocklist>
+                    </ModalProvider>
+                  </LanguageProvider>
+                </MatchBreakpointsProvider>
+              </RefreshContextProvider>
+            </BlockNumberProvider>
+          </Web3Provider>
+        </ThemeProvider>
+      </Provider>
+    </>
   )
 }

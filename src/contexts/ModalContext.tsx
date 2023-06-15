@@ -65,7 +65,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       {modalNode.map((modal, i) => {
         return (
           <Flex key={nodeId[i]}>
-            <Flex onClick={handleOverlayDismiss} />
+            <Flex onClick={handleOverlayDismiss}/>
             {React.isValidElement(modal) &&
               React.cloneElement(modal, {
                 // @ts-ignore

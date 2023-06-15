@@ -8,12 +8,12 @@ const tlosConfig = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://legacy.apeswap.finance/swap',
         isNew: false,
       },
       {
         label: 'Liquidity',
-        href: '/zap',
+        href: 'https://legacy.apeswap.finance/zap',
         isNew: false,
       },
       {
@@ -25,12 +25,12 @@ const tlosConfig = [
   },
   {
     label: 'Farms',
-    href: `${TEMP_APESWAP_URL}/farms`,
+    href: `https://legacy.apeswap.finance/farms`,
     isNew: false,
   },
   {
     label: 'Bonds',
-    href: `${TEMP_APESWAP_URL}/bonds`,
+    href: `https://legacy.apeswap.finance/bonds`,
     isNew: true,
   },
   {
@@ -42,7 +42,7 @@ const tlosConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -56,10 +56,10 @@ const tlosConfig = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
 ]

@@ -1,6 +1,5 @@
 import { Currency } from '@ape.swap/sdk-core'
-import { Flex, Modal, Svg, Text } from 'components/uikit'
-import useIsMobile from 'hooks/useIsMobile'
+import { Flex, Modal, Svg } from 'components/uikit'
 import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
@@ -14,6 +13,7 @@ const TokenListModal = ({
   showCommonBases,
   showCurrencyAmount,
   disableNonToken,
+  isZapInput,
 }: {
   onDismiss: () => void
   onCurrencySelect: (currency: Currency) => void
@@ -22,6 +22,7 @@ const TokenListModal = ({
   showCommonBases?: boolean
   showCurrencyAmount?: boolean
   disableNonToken?: boolean
+  isZapInput?: boolean
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const handleInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -29,16 +30,9 @@ const TokenListModal = ({
     const checksummedInput = isAddress(input)
     setSearchQuery(checksummedInput || input)
   }, [])
-  const isMobile = useIsMobile()
   return (
-    <Modal
-      title="Tokens"
-      minWidth="300px"
-      maxWidth="95%"
-      onDismiss={onDismiss}
-      paddingWidth={isMobile ? '10px' : '20px'}
-    >
-      <Flex sx={{ position: 'relative', margin: '15px 5px', mb: '20px' }}>
+    <Modal title="Tokens" onDismiss={onDismiss} zIndex={110} sx={{ width: '425px' }}>
+      <Flex sx={{ position: 'relative', margin: '10px 5px' }}>
         <Input
           onChange={handleInput}
           sx={{
@@ -55,7 +49,7 @@ const TokenListModal = ({
           <Svg icon="search" />
         </Flex>
       </Flex>
-      <Flex sx={{ maxWidth: '100%', width: '450px', maxHeight: '65vh' }}>
+      <Flex sx={{ maxWidth: '100%', width: '450px', maxHeight: '65vh', mb: '10px' }}>
         <List
           searchQuery={searchQuery}
           onCurrencySelect={onCurrencySelect}
@@ -65,19 +59,8 @@ const TokenListModal = ({
           showCommonBases={showCommonBases}
           showCurrencyAmount={showCurrencyAmount}
           disableNonToken={disableNonToken}
+          isZapInput={isZapInput}
         />
-      </Flex>
-      <Flex
-        sx={{
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'translate(0px, 10px)',
-          cursor: 'pointer',
-        }}
-        onClick={onDismiss}
-      >
-        <Text sx={{ textDecoration: 'underline' }}> Cancel </Text>
       </Flex>
     </Modal>
   )

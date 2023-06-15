@@ -27,7 +27,7 @@ const WalletCard: React.FC<Props> = ({ walletConfig, onDismiss }) => {
       <Flex sx={styles.iconContainer}>
         <Svg icon={icon} />
       </Flex>
-      <Flex sx={{ height: ['39px', '39px', '49px'], alignItems: 'center' }}>
+      <Flex sx={{ height: ['39px', '39px', '39px', '49px'], alignItems: 'center' }}>
         <Text sx={styles.walletName}>{t(title)}</Text>
       </Flex>
     </Button>

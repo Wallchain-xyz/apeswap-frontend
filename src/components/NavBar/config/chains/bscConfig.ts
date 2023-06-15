@@ -1,4 +1,4 @@
-const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL 
+const TEMP_APESWAP_URL = process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL
 import { NavConfig } from 'components/NavBar/types'
 
 const bscConfig: NavConfig[] = [
@@ -7,11 +7,11 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://dex.apeswap.finance/swap',
       },
       {
         label: 'Liquidity',
-        href: '/add-liquidity',
+        href: 'https://dex.apeswap.finance/zap',
       },
       {
         label: 'Pro Trading',
@@ -19,7 +19,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'GNANA',
-        href: `${TEMP_APESWAP_URL}/gnana`,
+        href: `/gnana`,
       },
     ],
   },
@@ -27,20 +27,21 @@ const bscConfig: NavConfig[] = [
     label: 'Stake',
     items: [
       {
-        label: 'Staking Pools',
-        href: `${TEMP_APESWAP_URL}/pools`,
+        label: 'Pools',
+        href: `/pools`,
+        isNew: true,
       },
       {
-        label: 'BANANA Maximizers',
+        label: 'Farms',
+        href: `/farms`,
+      },
+      {
+        label: 'Maximizers',
         href: `${TEMP_APESWAP_URL}/maximizers`,
       },
       {
-        label: 'BANANA Farms',
-        href: `${TEMP_APESWAP_URL}/farms`,
-      },
-      {
-        label: 'Jungle Farms',
-        href: `${TEMP_APESWAP_URL}/jungle-farms`,
+        label: 'Migrate',
+        href: '/the-migration',
       },
     ],
   },
@@ -49,7 +50,7 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Bonds',
-        href: `${TEMP_APESWAP_URL}/bonds`,
+        href: `/bonds`,
       },
       {
         label: 'Official IAO',
@@ -95,7 +96,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -109,10 +110,10 @@ const bscConfig: NavConfig[] = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
 ]

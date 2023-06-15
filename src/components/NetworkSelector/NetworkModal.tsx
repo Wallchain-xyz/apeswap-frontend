@@ -17,7 +17,7 @@ const NetworkModal = ({
   const dispatch = useAppDispatch()
   const { chainId: selectedChainId } = useWeb3React()
   return (
-    <Modal maxWidth="400px" minWidth="350px" title="Network" onDismiss={onDismiss}>
+    <Modal title="Network" onDismiss={onDismiss}>
       <Flex sx={{ flexDirection: 'column' }}>
         {MAINNET_CHAINS.map((chainId: SupportedChainId) => {
           return (

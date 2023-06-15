@@ -8,7 +8,7 @@ import { LangSelectorButton } from 'components/Langauge'
 import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
 import { icons } from 'components/uikit/Svg/types'
-
+import { Box } from 'theme-ui'
 
 export const SOCIAL_LINKS: { label: icons; href: string }[] = [
   { label: icons.TWITTER, href: 'https://twitter.com/ape_swap' },
@@ -16,7 +16,7 @@ export const SOCIAL_LINKS: { label: icons; href: string }[] = [
   { label: icons.DISCORD, href: 'https://apeswap.click/discord' },
 ]
 
-const MobileMenu = ({ dropdownFlag }: { dropdownFlag: boolean }) => {
+const MobileMenu = ({ dropdownFlag, closeNavBar }: { dropdownFlag: boolean; closeNavBar: () => void }) => {
   const { chainId } = useWeb3React()
 
   return (
@@ -39,15 +39,15 @@ const MobileMenu = ({ dropdownFlag }: { dropdownFlag: boolean }) => {
             }}
           >
             {getNavConfig(chainId).map(({ label, items, href }) => {
-              return <SubMenu label={label} menuItems={items} href={href} key={label} />
+              return <SubMenu label={label} menuItems={items} href={href} key={label} closeNavBar={closeNavBar} />
             })}
             <Flex sx={{ height: '130px', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <Flex>
                 <LangSelectorButton />
                 <Moonpay />
-                <span sx={{ mr: '10px' }}>
+                <Box sx={{ mr: '10px' }} onClick={closeNavBar}>
                   <NetworkSelector />
-                </span>
+                </Box>
               </Flex>
               <Flex sx={{ mt: '15px', justifyContent: 'space-around', width: '200px' }}>
                 {SOCIAL_LINKS.map(({ label, href }) => {

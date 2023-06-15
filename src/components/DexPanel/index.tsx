@@ -24,6 +24,7 @@ const DexPanel = ({
   disableTokenSelect,
   userBalance,
   locked,
+  isZapInput,
 }: DexPanelProps) => {
   const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -57,6 +58,7 @@ const DexPanel = ({
           otherCurrency={otherCurrency}
           onCurrencySelect={onCurrencySelect}
           disableTokenSelect={disableTokenSelect}
+          isZapInput={isZapInput}
         />
       </Flex>
       <Flex sx={styles.panelBottomContainer}>

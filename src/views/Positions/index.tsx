@@ -44,7 +44,7 @@ const Positions = () => {
         <V3LiquiditySubNav />
         <Flex
           sx={{
-            overflowY: 'scroll',
+            overflowY: 'auto',
             height: '511px',
             flexDirection: 'column',
             padding: '0px 4px',

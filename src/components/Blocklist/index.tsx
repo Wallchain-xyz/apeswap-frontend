@@ -115,7 +115,7 @@ export default function Blocklist({ children }: { children: ReactNode }) {
   if (geoLocation.isRestrictedRegion) {
     return (
       <>
-        <Modal minWidth="360px" maxWidth="600px">
+        <Modal>
           <Flex sx={{ width: 'auto', height: 'auto', justifyContent: 'center', flexDirection: 'column' }}>
             <Text weight={700} sx={{ fontFamily: 'poppins', fontSize: '32px' }}>
               Notice

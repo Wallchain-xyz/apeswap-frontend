@@ -1,15 +1,13 @@
-import { NAV_HEIGHT } from 'components/NavBar/components/styles'
-import { Button, Flex, IconButton, Svg, Text, Link } from 'components/uikit'
+import { Flex, IconButton, Svg, Text, Link } from 'components/uikit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
-import { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import styles from './styles'
 
 import { useRemovePopup } from 'state/application/hooks'
-import { Box } from 'theme-ui'
 import { AlertProps } from './types'
 
-const Toast = ({ popKey, popIndex, variant, text, url, linkText }: AlertProps) => {
+const Toast = ({ popKey, popIndex, variant, text, url, linkText, errorText }: AlertProps) => {
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   useEffect(() => {
@@ -37,7 +35,7 @@ const Toast = ({ popKey, popIndex, variant, text, url, linkText }: AlertProps) =
         />
       </Flex>
 
-      <Flex sx={{ ...styles.content }}>
+      <Flex sx={styles.content}>
         <Text>{text}</Text>
 
         {linkText && url && (
@@ -46,10 +44,23 @@ const Toast = ({ popKey, popIndex, variant, text, url, linkText }: AlertProps) =
             <Svg icon="external" />
           </Link>
         )}
+        {errorText && (
+          <Text
+            sx={{ color: 'error', fontSize: '12px', lineHeight: '18px', fontWeight: 500, textTransform: 'capitalize' }}
+          >
+            {errorText.includes('execution reverted: BEP20: transfer amount exceeds allowance') ||
+            errorText.includes('ds-math-sub-underflow')
+              ? 'Approve contract first'
+              : errorText.includes('INSUFFICIENT_B_AMOUNT') || errorText.includes('INSUFFICIENT_A_AMOUNT')
+              ? 'Increase Slippage'
+              : errorText.includes('user rejected transaction')
+              ? 'User Rejected Transaction'
+              : errorText}
+          </Text>
+        )}
       </Flex>
-
-      <Flex onClick={removeThisPopup} sx={{ cursor: 'pointer', height: '20px' }}>
-        <Text>X</Text>
+      <Flex sx={{ alignItems: 'flex-start', pt: '3px' }}>
+        <IconButton icon="close" color="text" variant="transparent" onClick={removeThisPopup} />
       </Flex>
     </motion.div>
   )

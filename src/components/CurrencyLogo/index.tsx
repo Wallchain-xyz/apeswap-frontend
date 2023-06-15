@@ -15,7 +15,7 @@ const CurrencyLogo = ({
   style?: CSSProperties
 }) => {
   const [src, nextSrc] = useAssetLogoSource(
-    currency?.wrapped.address,
+    currency?.wrapped?.address,
     currency?.chainId,
     currency?.isNative,
     (currency as TokenInfo)?.logoURI,
@@ -23,7 +23,11 @@ const CurrencyLogo = ({
 
   return src ? (
     <Image
-      src={src}
+      src={
+        currency?.symbol === 'GNANA'
+          ? 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/GNANA.svg'
+          : src
+      }
       onError={nextSrc}
       alt={currency?.name || ''}
       height={size}

@@ -20,13 +20,13 @@ export const getMetamaskLinks = (chainId: SupportedChainId) => {
 export const ROUTE_NAMES: Record<string, string> = {
   '/': 'HOME',
   '/jungle-farms': 'JUNGLE_FARMS',
-  '/banana-farms': 'FARMS',
   '/farms': 'FARMS',
   '/swap': 'SWAP',
   '/pools': 'POOLS',
   '/maximizers': 'MAXIMIZERS_VAULTS',
   '/add': 'ADD_LIQUIDITY',
   '/add-liquidity': 'ADD_LIQUIDITY',
+  '/add-liquidity/v2': 'ADD_LIQUIDITY_V2',
   '/liquidity': 'LIQUIDITY',
   '/zap': 'LIQUIDITY',
   '/migrate': 'LIQUIDITY',
@@ -60,7 +60,10 @@ export const DOC_LINKS: Record<string, string> = {
   MAXIMIZERS_VAULTS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/vaults',
   ADD_LIQUIDITY:
     'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity-v3',
-  LIQUIDITY: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity-v3',
+  ADD_LIQUIDITY_V2:
+    'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity-v2',
+  LIQUIDITY:
+    'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity/how-to-add-liquidity-v3',
   ORDERS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/limit-orders',
   IAO: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/raise/initial-ape-offerings-iaos',
   GNANA: 'https://apeswap.gitbook.io/apeswap-finance/welcome/apeswap-tokens/gnana',

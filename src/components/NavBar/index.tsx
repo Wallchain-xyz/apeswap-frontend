@@ -4,8 +4,7 @@ import { LangSelectorButton } from 'components/Langauge'
 import Moonpay from 'components/Moonpay'
 import NetworkSelector from 'components/NetworkSelector'
 import { Flex, Link, Svg } from 'components/uikit'
-import { useState } from 'react'
-import { MenuButton } from 'theme-ui'
+import { useCallback, useState } from 'react'
 import AccountLoggedInDisplay from './components/AccountLoggedInDisplay'
 import DesktopMenu from './components/DesktopMenu'
 import MobileMenu from './components/MobileMenu'
@@ -14,13 +13,18 @@ import styles, { NAV_DESKTOP_DISPLAY, NAV_MOBILE_DISPLAY } from './components/st
 const NavBar = () => {
   const { account } = useWeb3React()
   const [dropdownFlag, setDropdownFlag] = useState(false)
+
+  const closeNavBar = useCallback(() => {
+    setDropdownFlag(false)
+  }, [])
+
   return (
     <Flex sx={styles.container}>
-      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href={process.env.NEXT_PUBLIC_LEGACY_APESWAP_URL}>
+      <Flex sx={{ maxWidth: '40px', width: '100%' }} as={Link} href="/" onClick={closeNavBar}>
         <Svg icon="logo" width="38px" />
       </Flex>
-      <MobileMenu dropdownFlag={dropdownFlag} />
-      <DesktopMenu />
+      <MobileMenu dropdownFlag={dropdownFlag} closeNavBar={closeNavBar} />
+      <DesktopMenu closeNavBar={closeNavBar} />
       <Flex
         sx={{
           alignItems: 'center',

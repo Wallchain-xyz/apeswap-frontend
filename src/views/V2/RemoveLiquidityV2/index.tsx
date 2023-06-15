@@ -1,10 +1,8 @@
 import { Percent } from '@ape.swap/sdk-core'
-import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import { V2LiquiditySubNav } from 'components/DexNav/LiquiditySubNav'
-import DexPanel from 'components/DexPanel'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
-import { Button, Flex, NumericInput, Skeleton, Text } from 'components/uikit'
+import { Button, Flex, Link, NumericInput, Skeleton, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrency } from 'hooks/Tokens'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
@@ -74,14 +72,27 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
   return (
     <Flex variant="flex.dexContainer">
       <DexNav />
-      <V2LiquiditySubNav />
+      {/*<V2LiquiditySubNav />*/}
+      <Link
+        sx={{
+          my: '10px',
+          width: 'fit-content',
+          alignItems: 'center',
+          display: 'flex',
+          textDecoration: 'none',
+        }}
+        href="/v3-liquidity"
+      >
+        <Svg icon="caret" direction="left" width="7px" />
+        <Text sx={{ fontSize: '12px', ml: '5px' }}>{t('My LPs')}</Text>
+      </Link>
+
       <Flex sx={{ margin: '0px 0px 5px 0px', justifyContent: 'center', maxWidth: '100%', width: '420px' }}>
         <Text weight={700}>{t('REMOVE LIQUIDITY')}</Text>
       </Flex>
       <Flex sx={{ marginTop: '15px', flexWrap: 'wrap' }}>
         <Flex
           sx={{
-            height: '105px',
             width: '100%',
             background: 'white3',
             borderRadius: '10px',
@@ -111,38 +122,25 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
               }}
             >
               <DoubleCurrencyLogo size={30} currency0={currencyA ?? undefined} currency1={currencyB ?? undefined} />
-              <Text ml="10px">
+              <Text ml="10px" sx={{ fontSize: '14px' }}>
                 {currencyA?.symbol} - {currencyB?.symbol}
               </Text>
             </Flex>
           </Flex>
-          <Flex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text mt="10px">
-              {valueLoading || !usdPrice ? <Skeleton width="50px" animation="waves" /> : `$${usdPrice?.toFixed(2)}`}
+          <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', mt: '10px', height: '24px' }}>
+            <Text sx={{ color: 'textDisabled', fontSize: '12px' }}>
+              {!(formattedAmounts[Field.LIQUIDITY_PERCENT] === '0') &&
+                (valueLoading || !usdPrice ? <Skeleton width="50px" animation="waves" /> : `$${usdPrice?.toFixed(2)}`)}
             </Text>
-            <Button size="sm" onClick={handleMaxInput}>
+            <Button
+              size="sm"
+              onClick={handleMaxInput}
+              sx={{ p: '3px 7px', borderRadius: '5px !important', fontWeight: 600 }}
+            >
               Max
             </Button>
           </Flex>
         </Flex>
-        {/* <DexPanel
-          value={formattedAmounts[Field.LIQUIDITY_PERCENT]}
-          setTradeValueUsd={setTradeValueUsd}
-          panelText={t('Remove:')}
-          currency={currencyA}
-          otherCurrency={currencyB}
-          fieldType={Field.LIQUIDITY_PERCENT}
-          onCurrencySelect={() => null}
-          onUserInput={(val) =>
-            parseInt(val) > 100
-              ? onLiquidityInput('100')
-              : val.toString() === ''
-              ? onLiquidityInput('0')
-              : onLiquidityInput(parseInt(val).toString())
-          }
-          handleMaxInput={handleMaxInput}
-          showCommonBases
-        /> */}
         <PoolInfo pair={pair} parsedAmounts={parsedAmounts} />
         <Actions pair={pair} error={error} parsedAmounts={parsedAmounts} tradeValueUsd={0} />
       </Flex>

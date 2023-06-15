@@ -31,7 +31,7 @@ const AddLiquidityModal: React.FC<AddLiquidityModalProps> = ({
     currencies[Field.CURRENCY_A]?.symbol ?? ''
   } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6) ?? ''} ${currencies[Field.CURRENCY_B]?.symbol ?? ''}`
   return (
-    <Modal title={title} minWidth="300px" maxWidth="95%" onDismiss={onDismiss}>
+    <Modal title={title} onDismiss={onDismiss} zIndex={140}>
       {attemptingTxn ? (
         <ConfirmationPendingContent pendingText={pendingText} />
       ) : txHash ? (

@@ -7,12 +7,12 @@ const arbitrumConfig = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://dex.apeswap.finance/swap',
         isNew: false,
       },
       {
         label: 'Liquidity',
-        href: `${TEMP_APESWAP_URL}/add-liquidity`,
+        href: 'https://dex.apeswap.finance/zap',
         isNew: false,
       },
       {
@@ -24,7 +24,7 @@ const arbitrumConfig = [
   },
   {
     label: 'Bonds',
-    href: `${TEMP_APESWAP_URL}/bonds`,
+    href: `/bonds`,
     isNew: true,
   },
   {
@@ -36,7 +36,7 @@ const arbitrumConfig = [
       },
       {
         label: 'Dashboard',
-        href: `${TEMP_APESWAP_URL}/protocol-dashboard`,
+        href: `/protocol-dashboard`,
       },
       {
         label: 'Documentation',
@@ -50,27 +50,12 @@ const arbitrumConfig = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
-  //   {
-  //     label: 'Pools',
-  //     icon: 'PoolIcon',
-  //     href: '/pools',
-  //   },
-  //   {
-  //     label: 'IAO',
-  //     icon: 'IfoIcon',
-  //     href: '/iao',
-  //   },
-  //   {
-  //     label: 'GNANA',
-  //     icon: 'ApeZone',
-  //     href: '/gnana',
-  //   },
 ]
 
 export default arbitrumConfig

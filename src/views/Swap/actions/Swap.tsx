@@ -144,9 +144,9 @@ const Swap = ({
       {wrapInputError ? (
         <WrapErrorText wrapInputError={wrapInputError} />
       ) : wrapType === WrapType.WRAP ? (
-        <Text>Wrap</Text>
+        <>Wrap</>
       ) : wrapType === WrapType.UNWRAP ? (
-        <Text>Unwrap</Text>
+        <>Unwrap</>
       ) : null}
     </Button>
   ) : (

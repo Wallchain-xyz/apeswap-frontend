@@ -42,7 +42,7 @@ const ConfirmAddLiquidity = ({
   } and ${position?.amount1.toSignificant(4) ?? ''} ${position?.amount1?.currency?.symbol ?? ''}`
 
   return (
-    <Modal title="Add Liquidity" minWidth="300px" maxWidth="95%">
+    <Modal title="Add Liquidity" sx={{ width: '460px' }}>
       <Flex sx={{ maxWidth: '100%', width: '420px', flexDirection: 'column' }}>
         {attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />

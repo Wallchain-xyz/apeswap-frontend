@@ -21,7 +21,6 @@ import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 export function MinimalPositionCard({
   pair,
   showUnwrapped = false,
-  border,
 }: {
   pair: Pair
   showUnwrapped?: boolean

@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compiler: {
-    styledComponents: true,
+    emotion: true,
+  },
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false }
+    return config
   },
   images: {
     domains: [
@@ -10,20 +14,13 @@ const nextConfig = {
       'assets.coingecko.com',
       'tokens.pancakeswap.finance',
       'ipfs.io',
+      'res.cloudinary.com',
+      'apeswap.mypinata.cloud',
+      'assets-cdn.trustwallet.com',
     ],
   },
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/swap',
-        permanent: false,
-      },
-      {
-        source: '/zap',
-        destination: '/add-liquidity',
-        permanent: false,
-      },
       {
         source: '/migrate',
         destination: '/add-liquidity',

@@ -1,7 +1,7 @@
 import TokenLogoLookupTable from 'utils/TokenLogoLookupTable'
 import { chainIdToNetworkName, getNativeLogoURI } from 'lib/hooks/useCurrencyLogoURIs'
 import uriToHttp from 'lib/utils/uriToHttp'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { isAddress } from 'utils'
 
 const BAD_SRCS: { [tokenAddress: string]: true } = {}
@@ -54,6 +54,8 @@ export default function useAssetLogoSource(
 ): [string | undefined, () => void] {
   const [current, setCurrent] = useState<string | undefined>(backupImg || getInitialUrl(address, chainId, isNative))
   const [fallbackSrcs, setFallbackSrcs] = useState<string[] | undefined>(undefined)
+
+  const BAD_SRCS = useRef<{ [tokenAddress: string]: true }>({}).current
 
   useEffect(() => {
     setCurrent(backupImg || getInitialUrl(address, chainId, isNative))

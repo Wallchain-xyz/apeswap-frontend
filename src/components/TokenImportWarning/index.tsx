@@ -18,7 +18,7 @@ const TokenImportWarning = ({
   const addToken = useAddUserToken()
 
   return (
-    <Modal title="Import Warning" minWidth="300px" maxWidth="95%" onDismiss={onDismiss}>
+    <Modal title="Import Warning" onDismiss={onDismiss}>
       <Flex
         sx={{
           width: '450px',
