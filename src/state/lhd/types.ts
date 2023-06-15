@@ -137,6 +137,11 @@ export interface ChainDetail {
   blockExplorer?: BlockExplorer
 }
 
+export interface Tag {
+  value: string
+  label: string
+}
+
 export interface BlockExplorer {
   url: string
   type: string

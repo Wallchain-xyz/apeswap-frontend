@@ -1,4 +1,87 @@
-import { ChainDetail } from 'state/lhd/types'
+import { ChainDetail, Tag } from 'state/lhd/types'
+
+export const TAGS: Tag[] = [
+  {
+    value: 'DEX',
+    label: 'DEX',
+  },
+  {
+    value: 'Bond',
+    label: 'Bond',
+  },
+  {
+    value: 'Lending',
+    label: 'Lending',
+  },
+  {
+    value: 'Liquid_Staking',
+    label: 'Liquid Staking',
+  },
+  {
+    value: 'Yield',
+    label: 'Yield',
+  },
+  {
+    value: 'Stablecoin',
+    label: 'Stablecoin',
+  },
+  {
+    value: 'Yield_Aggregator',
+    label: 'Yield Aggregator',
+  },
+  {
+    value: 'Derivatives',
+    label: 'Derivatives',
+  },
+  {
+    value: 'Synthetics',
+    label: 'Synthetics',
+  },
+  {
+    value: 'Insurance_Security',
+    label: 'Insurance/Security',
+  },
+  {
+    value: 'Metaverse',
+    label: 'Metaverse',
+  },
+  {
+    value: 'GameFi_(Play_to_Earn)',
+    label: 'GameFi (Play to Earn)',
+  },
+  {
+    value: 'X-2-Earn',
+    label: 'X-2-Earn',
+  },
+  {
+    value: 'Wallets',
+    label: 'Wallets',
+  },
+  {
+    value: 'Indexes',
+    label: 'Indexes',
+  },
+  {
+    value: 'NFT_Marketplace',
+    label: 'NFT Marketplace',
+  },
+  {
+    value: 'Oracle',
+    label: 'Oracle',
+  },
+  {
+    value: 'Blockchains',
+    label: 'Blockchains',
+  },
+  {
+    value: 'Gambling',
+    label: 'Gambling',
+  },
+  {
+    value: 'Memecoins',
+    label: 'Memecoins',
+  },
+]
 
 export const CHAIN_DETAILS: ChainDetail[] = [
   // EVM Compatible Chains

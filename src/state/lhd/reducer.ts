@@ -8,6 +8,7 @@ export const initialFilterValues: FilterState = {
   concentration: { min: 0, max: 100 },
   mcap: { min: 500000, max: 1000000000 },
   extractable: { min: 4500, max: 100000000 },
+  tags: [],
 }
 
 export interface MinMax {
@@ -22,6 +23,7 @@ export interface FilterState {
   ownership: MinMax
   mcap: MinMax
   extractable: MinMax
+  tags: string[]
 }
 
 export interface LHDState {
