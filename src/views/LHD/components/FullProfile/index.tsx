@@ -56,21 +56,6 @@ const FullProfile = ({
 
   if (fullProfile) {
     return (
-      <>
-
-        {/* <Head>
-          <meta name="twitter:image" content={cardImage} />
-          <meta name="og:image" content={cardImage} />
-        </Head> */}
-        {/* <Helmet>
-          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-          <meta name="description" content="ApeSwap is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone." />
-          <meta name="twitter:image" content={currentMetaImage || cardImage} />
-  <meta name="og:image" content={currentMetaImage || cardImage} />
-          <meta name="twitter:description" content="Some description"/>
-          <meta name="twitter:card" content={cardImage} />
-          <meta name="twitter:title" content="Liquidity Health Dashboard" />
-        </Helmet> */}
       <Flex sx={styles.mainContainer}>
         <Flex sx={styles.topContainer}>
           <Text onClick={handleBackButton} sx={styles.back}>
@@ -108,7 +93,6 @@ const FullProfile = ({
         <AreYouContributor />
         <Text sx={styles.formula}>Formula version: {fullProfile.formulaVersion}</Text>
       </Flex>
-      </>
     )
   }
   return (
