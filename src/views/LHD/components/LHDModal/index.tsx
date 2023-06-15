@@ -51,8 +51,10 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
 
   useEffect(() => {
     setIsTyping(false)
-    setIsLoading(debouncedPassword.length > 0)
-    handleVerifyPassword()
+    if (debouncedPassword.length > 0) {
+      setIsLoading(true)
+      handleVerifyPassword()
+    }
   }, [debouncedPassword, handleVerifyPassword])
 
   useEffect(() => {
@@ -71,7 +73,11 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   }
 
   return (
-    <Modal open={isModalOpen} sx={{ height: ['100%', '100%', '515px'], width: ['100%', '100%', '841px'] }}>
+    <Modal
+      open={isModalOpen}
+      backdrop={{ background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(5px)' }}
+      sx={{ height: ['100%', '100%', '515px'], width: ['100%', '100%', '841px'], fontWeight: 'light' }}
+    >
       <Flex
         sx={{
           height: '100%',
