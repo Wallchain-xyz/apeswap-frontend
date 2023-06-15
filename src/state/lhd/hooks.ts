@@ -116,7 +116,6 @@ export const useSetLhdAuth = () => {
 
 export const useGetIsLhdAuth = () => {
   const { query } = useRouter()
-  const { isLhdAuth } = useSelector((state: AppState) => state.lhd, shallowEqual)
   const { setLhdAuth } = useSetLhdAuth()
 
   const isLdhAuthenticatedRef = useRef(false)
@@ -128,11 +127,12 @@ export const useGetIsLhdAuth = () => {
   }, [query?.whitelist])
 
   const getIsLhdAuth = (): { isAuth: boolean } => {
-    if ((!isLhdAuth && isLdhAuthenticatedRef.current) || isWhiteListedRef.current) {
+    if (isLdhAuthenticatedRef.current || isWhiteListedRef.current) {
       setLhdAuth(true)
       return { isAuth: true }
     }
-    return { isAuth: isLhdAuth }
+    setLhdAuth(false)
+    return { isAuth: false }
   }
   return { getIsLhdAuth }
 }

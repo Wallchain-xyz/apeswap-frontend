@@ -48,7 +48,7 @@ export const initialState: LHDState = {
     count: 0,
   },
   fullProfile: null,
-  isLhdAuth: false,
+  isLhdAuth: true,
 }
 
 const LHDSlice = createSlice({
