@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
 import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
-import { RPC_PROVIDERS } from 'config/constants/providers'
+import { getProvider } from 'config/constants/providers'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import qs from 'qs'
-
 import { GetQuoteResult } from './types'
 
 export enum RouterPreference {
@@ -14,15 +13,15 @@ export enum RouterPreference {
 }
 
 const routers = new Map<ChainId, AlphaRouter>()
-function getRouter(chainId: ChainId): AlphaRouter {
-  const router = routers.get(chainId)
-  if (router) return router
+function getRouter(chainId: ChainId, useApeRPC?: boolean): AlphaRouter {
+  // const router = routers.get(chainId)
+  // if (router) return router
 
   const supportedChainId = toSupportedChainId(chainId)
   if (supportedChainId) {
-    const provider = RPC_PROVIDERS[supportedChainId]
+    const provider = getProvider(supportedChainId, useApeRPC)
     const router = new AlphaRouter({ chainId, provider })
-    routers.set(chainId, router)
+    //routers.set(chainId, router)
     return router
   }
 
@@ -83,6 +82,7 @@ export const routingApi = createApi({
         amount: string
         routerPreference: RouterPreference
         type: 'exactIn' | 'exactOut'
+        useApeRPC?: boolean
       }
     >({
       async queryFn(args, _api, _extraOptions, fetch) {
@@ -95,6 +95,7 @@ export const routingApi = createApi({
           routerPreference,
           protocols,
           type,
+          useApeRPC,
         } = args
 
         let result
@@ -111,7 +112,7 @@ export const routingApi = createApi({
             })
             result = await fetch(`quote?${query}`)
           } else {
-            const router = getRouter(args.tokenInChainId)
+            const router = getRouter(args.tokenInChainId, useApeRPC)
             result = await getClientSideQuote(
               args,
               router,

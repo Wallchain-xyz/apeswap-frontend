@@ -22,6 +22,7 @@ export function useBestTrade(
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
   protocols?: Protocol[],
+  useApeRPC?: boolean,
 ): {
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
@@ -41,6 +42,7 @@ export function useBestTrade(
     debouncedOtherCurrency,
     clientSideRouter ? RouterPreference.CLIENT : RouterPreference.API,
     protocols,
+    useApeRPC,
   )
 
   const isLoading = routingAPITrade.state === TradeState.LOADING

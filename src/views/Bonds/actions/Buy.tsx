@@ -132,8 +132,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   useEffect(() => {
     //reset zap state on mount
     onHandleValueChange('')
-    // @ts-ignore
-    onCurrencySelection(Field.OUTPUT, [billsCurrencies?.currencyA, billsCurrencies?.currencyB])
   }, [])
 
   const searchForBillId = useCallback(
