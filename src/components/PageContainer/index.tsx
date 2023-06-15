@@ -42,6 +42,9 @@ const PageContainer = ({
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
+  // const imageURL = `scottServer/${pathname}.png` 
+  const imageURL = `https://i.imgur.com/g1sFeUS.png` 
+
 
   return (
     <>
@@ -49,8 +52,17 @@ const PageContainer = ({
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
-        {/* <meta property="og:Twitter" content={image} /> */}
+        {pathname.includes("/liquidity-health/") ? (
+        <>
+          <meta property="og:image" content={imageURL} />
+          <meta property="og:Twitter" content={imageURL} />
+        </>
+      ) : (
+        <>
+          <meta property="og:image" content={image} />
+          <meta property="og:Twitter" content={image} />
+        </>
+      )}
       </Head>
       <Flex
         sx={{

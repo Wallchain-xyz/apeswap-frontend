@@ -28,7 +28,6 @@ const modalProps = {
     maxWidth: '800px',
   },
   title:"Liquidity Health Card",
-  
 }
 
 
@@ -317,7 +316,7 @@ const SharableCard = ({
           padding: '0 60px',
           marginTop:'76px',
         }}>
-          <Text sx={{  color:color, fontSize:'12px', width:'120px', textAlign:'left'}}>EQ-1</Text>
+          <Text sx={{  color:color, fontSize:'12px', width:'120px', textAlign:'left'}}>EQ-1.0</Text>
           <Text sx={{ color:color, fontSize:'12px', width:'120px', textAlign:'center'}}>apeswap.click/LHD</Text>
           <Text sx={{ color:color, fontSize:'12px', width:'120px', textAlign:'right'}}>{formattedDate}</Text>
         </Flex>
