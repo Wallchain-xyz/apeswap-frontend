@@ -41,7 +41,7 @@ const bscConfig: NavConfig[] = [
       },
       {
         label: 'Migrate',
-        href: '/the-migration',
+        href: `${TEMP_APESWAP_URL}/the-migration`,
       },
     ],
   },
