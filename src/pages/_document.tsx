@@ -27,12 +27,12 @@ class MyDocument extends Document {
           {/* <meta name="twitter:image" content="https://apeswap.finance/twitter.png" /> */}
           {/* <meta name="twitter:image" content="https://i.imgur.com/g1sFeUS.png" />
           <meta name="og:image" content="https://i.imgur.com/g1sFeUS.png" /> */}
-          <meta
+          {/* <meta
             name="twitter:description"
             content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."
           />
+          <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" /> */}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
           <Script
             id="google-tag-manager"
             strategy="afterInteractive"

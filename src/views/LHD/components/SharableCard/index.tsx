@@ -28,6 +28,7 @@ const modalProps = {
 
 interface SharableCardProps {
   tokenSymbol?: string
+  tokenName?: string
   tokenImageURL?: string
   totalScore?: number
   healthScore?: number
@@ -40,6 +41,7 @@ interface SharableCardProps {
 const SharableCard = ({
   tokenSymbol,
   tokenImageURL,
+  tokenName,
   totalScore,
   healthScore,
   concentrationScore,
@@ -148,21 +150,35 @@ const SharableCard = ({
   const minute = today.getMinutes().toString().padStart(2, '0')
 
   const dateParam = `${year}${month2}${day}${hour}${minute}`
+  const score = Math.round((totalScore || 0) * 100)
+
+  const goodScore = `
+  ${tokenName} has a Liquidity Health Score of ${score}/100!\nHealthy liquidity indicates that a project is well-prepared for the future.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here!👇 $${tokenSymbol} #${tokenName?.replace(
+    /\s/g,
+    '',
+  )}`
+
+  const badScore = `
+  ${tokenName} has a Liquidity Health Score of ${score}/100!\nHolding a token with poor liquidity health may be risky.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here! 👇 \n $${tokenSymbol} #${tokenName?.replace(
+    /\s/g,
+    '',
+  )}`
+
+  const message = score >= 70 ? goodScore : badScore
+  const color = score <= 40 ? 'white' : 'black'
 
   function share() {
     if (navigator.share) {
       navigator
         .share({
           title: "ApeSwap's Liquidity Health Dashboard",
-          text: `Hey, have you seen the liquidity health of ${tokenSymbol} on ApeSwap? Check it out here!`,
+          text: `${message}`,
           url: `${asPath}?d=${dateParam}`,
-          // url: tokenAddresses && tokenAddresses[0] ? `/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/'
         })
         .then(() => console.log('Shared'))
         .catch((error) => console.log('Error sharing', error))
     } else {
-      const text = `Hey, have you seen the liquidity health of $${tokenSymbol} on @ApeSwap? Check it out here!`
-      // const url = tokenAddresses && tokenAddresses[0] ? `Apeswap.Finance/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/';
+      const text = `${message}`
       const url = `ApeSwap.Finance${asPath}?d=${dateParam}`
 
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
@@ -172,6 +188,7 @@ const SharableCard = ({
     }
   }
 
+  //CARD PROPORTIONAL RESIZING
   const [containerWidth, setContainerWidth] = useState(0)
   const [cardHeight, setCardHeigth] = useState(0)
 
@@ -193,9 +210,6 @@ const SharableCard = ({
 
   const formattedDate = `${day} ${month} ${year}`
   const nameDate = `${day}-${month}-${year}`
-
-  const score = Math.round((totalScore || 0) * 100)
-  const color = score <= 40 ? 'white' : 'black'
 
   return (
     <Modal {...modalProps}>
