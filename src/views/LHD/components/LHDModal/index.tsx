@@ -78,7 +78,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
     <Modal
       open={isModalOpen}
       backdrop={{ background: 'rgba(0, 0, 0, 0.45)', backdropFilter: 'blur(5px)' }}
-      sx={{ height: ['100%', '100%', '570px'], width: ['100%', '100%', '970px'], fontWeight: 'light' }}
+      sx={{ height: ['100%', '100%', '570px'], width: ['100%', '100%', '881px'], fontWeight: 'light' }}
     >
       <Flex
         sx={{
@@ -90,7 +90,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
         <Box
           sx={{
             height: ['30%', '30%', '100%'],
-            width: ['100%', '100%', '55%'],
+            width: ['100%', '100%', '58%'],
             borderRadius: '25px',
             position: 'relative',
             overflow: 'hidden',
@@ -117,7 +117,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
                 gap: ['0', '0', '20px'],
               }}
             >
-              <Box sx={{ width: '53px', height: '76px', position: 'relative' }}>
+              <Box sx={{ width: ['53px', '53px', '72px'], height: ['76px', '76px', '83px'], position: 'relative' }}>
                 <Image src={getLiquidityIcon()} alt="liquidity-icon" fill />
               </Box>
               <Text
@@ -132,7 +132,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               </Text>
             </Flex>
             <Box sx={{ textAlign: 'center', marginTop: ['10px', '10px', '15px'] }}>
-              <Text sx={{ fontSize: '14px', lineHeight: '15px' }}>
+              <Text sx={{ fontSize: ['14px', '14px', '12px'], lineHeight: '15px' }}>
                 ApeSwap’s data visualization tool provides insights into the liquidity levels and sustainability of
                 cryptocurrency projects.
               </Text>
@@ -148,10 +148,14 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               isLoading={isLoading}
               sx={{ padding: '5px 10px', fontSize: ['16px', '16px', '12px'], fontWeight: 'normal' }}
             />
-            <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
+            <Button
+              sx={{ padding: '5px 10px', height: '31px', marginTop: ['10px', '10px', '0px'] }}
+              onClick={handleSubmit}
+              disabled={!isPasswordVerified}
+            >
               ACCESS BETA
             </Button>
-            <Text sx={{ fontStyle: 'italic', fontSize: '12px', mt: ['10px', '10px', '35px'] }}>
+            <Text sx={{ fontStyle: 'italic', fontSize: ['12px', '12px', '10px'], mt: ['10px', '10px', '35px'] }}>
               Check our socials to find a password
             </Text>
             <Flex sx={{ gap: ['10px'], mt: ['10px', '10px', '12px'] }}>
@@ -160,7 +164,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
                   <Link
                     sx={{
                       height: '20px',
-                      width: '40px',
+                      width: '30px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -186,11 +190,11 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               mb: ['20px', '20px', '30px'],
               mt: 'auto',
               gap: '7px',
-              fontSize: '12px',
+              fontSize: '10px',
             }}
           >
-            <Svg icon="caret" color="text" height={'6px'} width={'6px'} direction="left" />
-            <Link href="/" sx={{ textDecoration: 'underline' }}>
+            <Svg icon="caret" color="text" height={'4px'} width={'4px'} direction="left" />
+            <Link href="/" sx={{ textDecoration: 'underline', fontSize: ['12px', '12px', '10px'] }}>
               Back to homepage
             </Link>
           </Flex>
