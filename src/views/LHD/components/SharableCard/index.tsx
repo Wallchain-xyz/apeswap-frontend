@@ -152,14 +152,12 @@ const SharableCard = ({
   const dateParam = `${year}${month2}${day}${hour}${minute}`
   const score = Math.round((totalScore || 0) * 100)
 
-  const goodScore = `
-  ${tokenName} has a Liquidity Health Score of ${score}/100!\nHealthy liquidity indicates that a project is well-prepared for the future.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here!👇 $${tokenSymbol} #${tokenName?.replace(
+  const goodScore = `${tokenName} has a Liquidity Health Score of ${score}/100!\nHealthy liquidity indicates that a project is well-prepared for the future.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here!👇 $${tokenSymbol} #${tokenName?.replace(
     /\s/g,
     '',
   )}`
 
-  const badScore = `
-  ${tokenName} has a Liquidity Health Score of ${score}/100!\nHolding a token with poor liquidity health may be risky.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here! 👇 \n $${tokenSymbol} #${tokenName?.replace(
+  const badScore = `${tokenName} has a Liquidity Health Score of ${score}/100!\nHolding a token with poor liquidity health may be risky.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here! 👇 \n $${tokenSymbol} #${tokenName?.replace(
     /\s/g,
     '',
   )}`

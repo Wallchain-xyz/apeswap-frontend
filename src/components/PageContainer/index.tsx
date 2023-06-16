@@ -42,8 +42,8 @@ const PageContainer = ({
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
   // console.log(asPath)
 
-  const imageURL = `scottServer/${pathname.split('?')[0]}.png` // The split is to remove the parameters at the end of the url of a tokne page 0x234543
-  // const imageURL = `https://i.imgur.com/H4hBGz7.png`
+  // const imageURL = `scottServer/${pathname.split('?')[0]}.png` // The split is to remove the parameters at the end of the url of a tokne page 0x234543
+  const imageURL = `https://i.imgur.com/H4hBGz7.png`
 
   return (
     <>
