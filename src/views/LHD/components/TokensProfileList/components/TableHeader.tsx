@@ -18,8 +18,8 @@ const TableHeader = ({ sortCol, onSortColChange, sortType, onSortTypeChange }: {
     '24h Change',
     'Extractable',
     'Strength',
-    'Concentration',
     'Ownership',
+    'Concentration',
     'Score',
   ]
 

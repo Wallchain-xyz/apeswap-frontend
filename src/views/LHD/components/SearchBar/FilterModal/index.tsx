@@ -10,6 +10,7 @@ import ScoreSlider from './ScoreSlider'
 import { Box } from 'theme-ui'
 import { useDispatch } from 'react-redux'
 import { useLHDFilterValues } from 'state/lhd/hooks'
+import ButtonSelector from './ButtonSelector'
 
 const modalProps = {
   sx: {
@@ -34,17 +35,24 @@ const FilterModal = ({
   const filterValues = useLHDFilterValues()
   const [values, setValues] = useState<FilterState>(filterValues)
 
-  const stringHandler = (type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable') => {
+  const stringHandler = (
+    type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',
+  ) => {
     if (type === 'mcap' || type === 'extractable') {
       if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
         return `(${formatDollar({ num: values[type].min })}-${formatDollar({ num: values[type].max })})`
       }
+    }
+    if (type === 'tags' || type === 'chains') {
+      console.log(values[type].join(','))
+      return values[type].join(',')
     }
     if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
       return `(${values[type].min}-${values[type].max})`
     }
     return ''
   }
+
   const mCapString = stringHandler('mcap')
   const extString = stringHandler('extractable')
   const score = stringHandler('totalScore')
@@ -54,6 +62,8 @@ const FilterModal = ({
   const scoreString = `${score ? `Score: ${score}` : ''}${health ? ` Strength: ${health}` : ''}${
     owner ? ` Ownership: ${owner}` : ''
   } ${concen ? ` Concentration: ${concen}` : ''}`
+  const tagsString = stringHandler('tags')
+  const chainsString = stringHandler('chains')
 
   const handler = useCallback(
     (
@@ -72,6 +82,13 @@ const FilterModal = ({
     [],
   )
 
+  const buttonSelectorHandler = useCallback((type: 'tags' | 'chains', value: string[]) => {
+    setValues((prevState) => ({
+      ...prevState,
+      [type]: value,
+    }))
+  }, [])
+
   const searchAction = () => {
     dispatch(setFilterState(values))
     onDismiss && onDismiss()
@@ -88,6 +105,15 @@ const FilterModal = ({
       <ModalHeader>
         <Text sx={{ width: '100%', textAlign: 'center' }}>{t('FILTERS')}</Text>
       </ModalHeader>
+      <Dropdown
+        title={t('Chains')}
+        values={values['chains'].length > 0 ? `Chains: ${values['chains'].length} selected` : ''}
+      >
+        <ButtonSelector values={values} handler={buttonSelectorHandler} type="chains" />
+      </Dropdown>
+      <Dropdown title={t('Tags')} values={values['tags'].length ? `Tags: ${values['tags'].length} selected` : ''}>
+        <ButtonSelector values={values} handler={buttonSelectorHandler} type="tags" />
+      </Dropdown>
       <Dropdown
         title={t('Liquidity Score')}
         values={scoreString.length > 40 ? `${scoreString.slice(0, 40)}...` : scoreString}

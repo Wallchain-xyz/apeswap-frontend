@@ -11,7 +11,7 @@ const TableHeader = () => {
     'Total Liquidity',
     'Extractable',
     'Chain',
-    'Dex',
+    'DEX',
     'Pair Address',
   ]
 

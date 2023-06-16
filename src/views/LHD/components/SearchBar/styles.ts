@@ -1,6 +1,6 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
-export const styles: Record<'searchBarContainer' | 'btn', ThemeUIStyleObject> = {
+export const styles: Record<'searchBarContainer' | 'btn' | 'filterBtn' | 'filterBtnActive', ThemeUIStyleObject> = {
   searchBarContainer: {
     position: 'relative',
     width: '100%',
@@ -19,8 +19,18 @@ export const styles: Record<'searchBarContainer' | 'btn', ThemeUIStyleObject> = 
     height: '36px',
     lineHeight: '14px',
     alignItems: 'center',
-    background: 'white3'
-  }
+    background: 'white3',
+  },
+  filterBtn: {
+    height: '34px',
+    background: 'white4',
+    fontWeight: '500',
+    border: 'none',
+  },
+  filterBtnActive: {
+    height: '34px',
+    background: 'inheit',
+    fontWeight: '500',
+    border: 'none',
+  },
 }
-
-

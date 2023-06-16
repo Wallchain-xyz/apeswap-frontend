@@ -8,6 +8,8 @@ export const initialFilterValues: FilterState = {
   concentration: { min: 0, max: 100 },
   mcap: { min: 500000, max: 1000000000 },
   extractable: { min: 4500, max: 100000000 },
+  tags: [],
+  chains: [],
 }
 
 export interface MinMax {
@@ -22,6 +24,8 @@ export interface FilterState {
   ownership: MinMax
   mcap: MinMax
   extractable: MinMax
+  tags: string[]
+  chains: string[]
 }
 
 export interface LHDState {
@@ -33,6 +37,7 @@ export interface LHDState {
   tokensTracked: number
   simpleProfiles: ProfilesResponse
   fullProfile: TokenProfile | null
+  isLhdAuth: boolean
 }
 
 export const initialState: LHDState = {
@@ -44,9 +49,10 @@ export const initialState: LHDState = {
   queryState: initialFilterValues,
   simpleProfiles: {
     data: [],
-    count: 0,
+    count: -1,
   },
   fullProfile: null,
+  isLhdAuth: true,
 }
 
 const LHDSlice = createSlice({
@@ -82,8 +88,14 @@ const LHDSlice = createSlice({
         queryState: action.payload,
       }
     },
+    setIsLhdAuth(state, action: { payload: boolean }) {
+      return {
+        ...state,
+        isLhdAuth: action.payload,
+      }
+    },
   },
 })
 
-export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState } = LHDSlice.actions
+export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState, setIsLhdAuth } = LHDSlice.actions
 export default LHDSlice.reducer

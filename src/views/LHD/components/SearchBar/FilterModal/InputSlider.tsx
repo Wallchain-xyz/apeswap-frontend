@@ -34,7 +34,7 @@ const InputSlider = ({ values, setMinValue, setMaxValue, minRange, maxRange }: {
       width: '100%',
       pb: '10px',
     }}>
-      <Box sx={{ mt: '25px', p: '0 28px' }}>
+      <Box sx={{ mt: '25px', p: '0 40px' }}>
         <InputRange
           minValue={minRange}
           maxValue={maxRange}

@@ -19,6 +19,7 @@ export interface AddressMapping {
   tags?: string[]
   profileLinks?: TokenProfileLinks
   isHardAsset?: boolean
+  isExempted?: boolean
   lastAddressMappingUpdate?: string // The last time the address mapping was changed (e.g., new address added, info updated)
   lastTokenProfileUpdate?: string // The last time the token had a profile refresh
   lastSuspectedOwnerSearch?: string // The last time we looked for suspected owners for this token
@@ -135,6 +136,11 @@ export interface ChainDetail {
   dexscreenerId?: string
   logoUrl?: string
   blockExplorer?: BlockExplorer
+}
+
+export interface Tag {
+  value: string
+  label: string
 }
 
 export interface BlockExplorer {

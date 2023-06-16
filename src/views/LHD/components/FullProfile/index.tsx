@@ -28,12 +28,27 @@ const FullProfile = ({
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
   const router = useRouter()
+  const DEX_MISSING_ASSETS = ['CRV']
+
+  const [queryString, setQueryString] = useState('')
 
   const [chartPassBackData, setChartPassBackData] = useState<chartExtras>({
     sustainabilityLower: 0,
     sustainabilityUpper: 0,
     liquidityDebt: 0,
   })
+
+  useEffect(() => {
+    const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
+
+    if (queryString === '') {
+      setQueryString(qs)
+    }
+
+    if (qs) {
+      router.replace(router.asPath.split('?')[0], router.asPath.split('?')[0])
+    }
+  }, [])
 
   useEffect(() => {
     if (chainID && address) {
@@ -47,7 +62,11 @@ const FullProfile = ({
   const cardImage = `https://i.imgur.com/g1sFeUS.png` 
 
   const handleBackButton = () => {
-    router.push({ pathname: `/liquidity-health?${Math.random() * 10}` }, '/liquidity-health')
+    console.log(queryString)
+    router.push(
+      { pathname: `/liquidity-health?${queryString ? queryString : Math.random() * 10}` },
+      `/liquidity-health${queryString ? '?' + queryString : ''}`,
+    )
   }
 
 //   const currentMeta = customMeta[router.pathname] || {};
@@ -69,7 +88,15 @@ const FullProfile = ({
             {t(' hours ago')}
           </Text>
         </Flex>
-        {fullProfile?.mcap[0].amount > 100000000 && <ExemptAssetNotice />}
+        {DEX_MISSING_ASSETS.includes(fullProfile?.addressMapping?.tokenSymbol) ? (
+          <ExemptAssetNotice phraseCondition="dex" />
+        ) : fullProfile?.addressMapping?.isExempted ? (
+          <ExemptAssetNotice phraseCondition="exempt" />
+        ) : fullProfile?.mcap[0]?.amount > 100000000 ? (
+          <ExemptAssetNotice phraseCondition="mcap" />
+        ) : (
+          <></>
+        )}
         <TopSectionCards fullProfile={fullProfile} />
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
