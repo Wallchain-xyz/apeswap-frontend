@@ -1,12 +1,12 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
 export const styles: Record<
-  'mainContainer' | 'contentContainer' | 'visibleIcon' | 'invisibleIcon',
+  'mainContainer' | 'contentContainer' | 'visibleIcon' | 'invisibleIcon' | 'textContainer' | 'text',
   ThemeUIStyleObject
 > = {
   mainContainer: {
     width: '100%',
-    fontSize: ['7px', '10px', '12px', '14px'],
+    fontSize: ['7px', '10px', '12px', '16px'],
     justifyContent: 'center',
     fontWeight: 200,
     background: 'gradient',
@@ -30,5 +30,11 @@ export const styles: Record<
     left: '-1',
     top: '10',
     opacity: 0.2,
+  },
+  textContainer: {
+    flexDirection: 'column',
+  },
+  text: {
+    lineHeight: ['8px', '14px', '18px', '26px'],
   },
 }
