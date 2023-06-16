@@ -48,7 +48,7 @@ const TokensProfileList = () => {
       let subKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(-3).toLowerCase() : key
 
       if (result[mainKey]) {
-        if (mainKey === 'tags') {
+        if (mainKey === 'tags' || mainKey === 'chains') {
           result[mainKey] = value.split(',')
         } else {
           let parsedValue = parseFloat(value)
@@ -117,7 +117,7 @@ const TokensProfileList = () => {
           sortType={sortType}
           onSortTypeChange={(value) => setSortType(value)}
         />
-        {noResults ? (
+        {simpleProfiles && simpleProfiles.count === 0 ? (
           <Flex
             sx={{
               width: '100%',

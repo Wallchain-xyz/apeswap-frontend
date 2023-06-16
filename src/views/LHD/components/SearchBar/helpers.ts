@@ -10,7 +10,7 @@ export function countChangedProperties(current: FilterState): number {
     const typedKey = key as keyof FilterState
 
     // Check if both min and max values have changed for the given property
-    if (typedKey === 'tags') {
+    if (typedKey === 'tags' || typedKey === 'chains') {
       if (initial[typedKey] !== current[typedKey]) {
         changedProperties++
       }
@@ -38,9 +38,9 @@ export const generateSearchParams = (values: FilterState): string => {
 
   for (const key in values) {
     if (values.hasOwnProperty(key)) {
-      if (key === 'tags') {
+      if (key === 'tags' || key === 'chains') {
         if (values[key].length > 0) {
-          differences.push('tags=' + values[key].join(','))
+          differences.push(`${key}=` + values[key].join(','))
         }
         continue
       }

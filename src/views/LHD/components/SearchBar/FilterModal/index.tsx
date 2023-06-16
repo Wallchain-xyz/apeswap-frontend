@@ -10,7 +10,6 @@ import ScoreSlider from './ScoreSlider'
 import { Box } from 'theme-ui'
 import { useDispatch } from 'react-redux'
 import { useLHDFilterValues } from 'state/lhd/hooks'
-import { TAGS } from '../../../utils/config'
 import ButtonSelector from './ButtonSelector'
 
 const modalProps = {
@@ -37,14 +36,14 @@ const FilterModal = ({
   const [values, setValues] = useState<FilterState>(filterValues)
 
   const stringHandler = (
-    type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags',
+    type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',
   ) => {
     if (type === 'mcap' || type === 'extractable') {
       if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
         return `(${formatDollar({ num: values[type].min })}-${formatDollar({ num: values[type].max })})`
       }
     }
-    if (type === 'tags') {
+    if (type === 'tags' || type === 'chains') {
       console.log(values[type].join(','))
       return values[type].join(',')
     }
@@ -64,6 +63,7 @@ const FilterModal = ({
     owner ? ` Ownership: ${owner}` : ''
   } ${concen ? ` Concentration: ${concen}` : ''}`
   const tagsString = stringHandler('tags')
+  const chainsString = stringHandler('chains')
 
   const handler = useCallback(
     (
@@ -82,7 +82,7 @@ const FilterModal = ({
     [],
   )
 
-  const tagHandler = useCallback((type: 'tags', value: string[]) => {
+  const buttonSelectorHandler = useCallback((type: 'tags' | 'chains', value: string[]) => {
     setValues((prevState) => ({
       ...prevState,
       [type]: value,
@@ -105,8 +105,14 @@ const FilterModal = ({
       <ModalHeader>
         <Text sx={{ width: '100%', textAlign: 'center' }}>{t('FILTERS')}</Text>
       </ModalHeader>
-      <Dropdown title={t('Tags')} values={tagsString}>
-        <ButtonSelector values={values} handler={tagHandler} type="tags" />
+      <Dropdown
+        title={t('Chains')}
+        values={values['chains'].length > 0 ? `Chains: ${values['chains'].length} selected` : ''}
+      >
+        <ButtonSelector values={values} handler={buttonSelectorHandler} type="chains" />
+      </Dropdown>
+      <Dropdown title={t('Tags')} values={values['tags'].length ? `Tags: ${values['tags'].length} selected` : ''}>
+        <ButtonSelector values={values} handler={buttonSelectorHandler} type="tags" />
       </Dropdown>
       <Dropdown
         title={t('Liquidity Score')}

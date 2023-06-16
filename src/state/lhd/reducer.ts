@@ -9,6 +9,7 @@ export const initialFilterValues: FilterState = {
   mcap: { min: 500000, max: 1000000000 },
   extractable: { min: 4500, max: 100000000 },
   tags: [],
+  chains: [],
 }
 
 export interface MinMax {
@@ -24,6 +25,7 @@ export interface FilterState {
   mcap: MinMax
   extractable: MinMax
   tags: string[]
+  chains: string[]
 }
 
 export interface LHDState {
@@ -46,7 +48,7 @@ export const initialState: LHDState = {
   queryState: initialFilterValues,
   simpleProfiles: {
     data: [],
-    count: 0,
+    count: -1,
   },
   fullProfile: null,
 }
