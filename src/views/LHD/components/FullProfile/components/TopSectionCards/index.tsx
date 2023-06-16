@@ -19,12 +19,14 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const [onCreateCard] = useModal(
     <SharableCard
       tokenSymbol={fullProfile?.addressMapping?.tokenSymbol}
+      tokenName={fullProfile?.addressMapping?.tokenName}
       tokenImageURL={fullProfile?.addressMapping?.tokenLogoUrl}
       totalScore={fullProfile?.totalScore}
       healthScore={fullProfile?.healthScore}
       concentrationScore={fullProfile?.concentrationScore}
       ownershipScore={fullProfile?.ownershipScore}
       tokenAddresses={fullProfile?.addressMapping.tokenAddresses}
+      formulaVersion={fullProfile?.formulaVersion}
     />,
   )
   return (
