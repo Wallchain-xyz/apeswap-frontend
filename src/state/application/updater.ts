@@ -13,6 +13,7 @@ import { supportedChainId } from 'utils/supportedChainId'
 import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
 import { Interface } from 'ethers/lib/utils'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
+import { useGetIsLhdAuth } from 'state/lhd/hooks'
 
 const NFA_INTERFACE = new Interface(NFA_ABI)
 
@@ -20,6 +21,7 @@ export default function Updater(): null {
   const { account, chainId, provider } = useWeb3React()
   const dispatch = useAppDispatch()
   const windowVisible = useIsWindowVisible()
+  const { getIsLhdAuth } = useGetIsLhdAuth()
 
   const [activeChainId, setActiveChainId] = useState(chainId)
 
@@ -86,6 +88,10 @@ export default function Updater(): null {
       dispatch(setBananaPrice(price))
     }
   }, [dispatch, price])
+
+  useEffect(() => {
+    getIsLhdAuth()
+  }, [getIsLhdAuth])
 
   return null
 }

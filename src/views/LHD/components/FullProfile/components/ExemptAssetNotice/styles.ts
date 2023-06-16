@@ -35,6 +35,7 @@ export const styles: Record<
     flexDirection: 'column',
   },
   text: {
+    color: 'white',
     lineHeight: ['8px', '14px', '18px', '26px'],
   },
 }
