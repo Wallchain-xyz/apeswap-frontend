@@ -155,7 +155,7 @@ const SharableCard = ({
         .share({
           title: "ApeSwap's Liquidity Health Dashboard",
           text: `Hey, have you seen the liquidity health of ${tokenSymbol} on ApeSwap? Check it out here!`,
-          url: `ApeSwap.Finance${asPath}?d=${dateParam}`,
+          url: `${asPath}?d=${dateParam}`,
           // url: tokenAddresses && tokenAddresses[0] ? `/liquidity-health/56/${tokenAddresses[0].address}` : 'Apeswap.Finance/liquidity-health/'
         })
         .then(() => console.log('Shared'))
