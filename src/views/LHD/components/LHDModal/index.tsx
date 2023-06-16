@@ -135,7 +135,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               variant="password"
               status={passwordStatus}
               isLoading={isLoading}
-              sx={{ padding: '5px 10px', fontSize: '12px' }}
+              sx={{ padding: '5px 10px', fontSize: ['16px', '16px', '12px'] }}
             />
             <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
               ACCESS BETA
