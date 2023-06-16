@@ -58,6 +58,12 @@ const PageContainer = ({
             />
             <meta property="og:image" content={imageURL} />
             <meta name="twitter:image" content={imageURL} />
+
+            <meta
+              name="twitter:description"
+              content="ApeSwap’s Liquidity Health Dashboard provides insights into the quality and sustainability of cryptocurrency projects based on different characteristics of their liquidity."
+            />
+            <meta name="twitter:title" content="ApeSwap | Liquidity Health Dashboard" />
           </>
         ) : (
           <>
@@ -65,6 +71,11 @@ const PageContainer = ({
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />
             <meta name="twitter:image" content="https://apeswap.finance/twitter.png" />
+            <meta
+              name="twitter:description"
+              content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."
+            />
+            <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
             {/* <meta property="og:Twitter" content="https://apeswap.finance/twitter.png" /> */}
           </>
         )}
