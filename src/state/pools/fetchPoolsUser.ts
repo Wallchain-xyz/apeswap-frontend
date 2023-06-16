@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js'
 import { MASTER_CHEF, MASTER_CHEF_V2 } from 'config/constants/addresses'
 import { getContract } from 'utils'
 import { ethers } from 'ethers'
-import { RPC_URLS } from 'config/constants/networks'
+import { PUBLIC_RPC_URLS, RPC_URLS } from 'config/constants/networks'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Pool } from './types'
 
@@ -43,7 +43,7 @@ export const fetchUserBalances = async (chainId: number, account: string, poolsC
 
 export const fetchUserStakeBalances = async (chainId: number, account: string, poolsConfig: Pool[]) => {
   const nonMasterPools = poolsConfig.filter((p) => p.sousId !== 0 && p.sousId !== 999)
-  const provider = new ethers.providers.JsonRpcProvider(RPC_URLS[chainId as SupportedChainId][0], chainId)
+  const provider = new ethers.providers.JsonRpcProvider(PUBLIC_RPC_URLS[chainId as SupportedChainId][0], chainId)
   const masterChefAddress = MASTER_CHEF[chainId]
   const masterChefContract = getContract(masterChefAddress, masterChefABI, provider)
   const masterChefV2Address = MASTER_CHEF_V2[chainId]
