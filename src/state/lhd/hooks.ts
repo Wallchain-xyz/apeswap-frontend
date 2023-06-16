@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
 import { useAppDispatch } from '../hooks'
 // import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
@@ -117,17 +117,11 @@ export const useSetLhdAuth = () => {
 export const useGetIsLhdAuth = () => {
   const { query } = useRouter()
   const { setLhdAuth } = useSetLhdAuth()
-
-  const isLdhAuthenticatedRef = useRef(false)
-  const isWhiteListedRef = useRef(false)
-
-  useEffect(() => {
-    isLdhAuthenticatedRef.current = localStorage.getItem('isLhdAuth') === 'true'
-    isWhiteListedRef.current = query?.whitelist === 'true'
-  }, [query?.whitelist])
+  const isWhitelisted = query?.whitelist === 'true'
 
   const getIsLhdAuth = (): { isAuth: boolean } => {
-    if (isLdhAuthenticatedRef.current || isWhiteListedRef.current) {
+    const isLocalLdhAuth = localStorage.getItem('isLhdAuth') === 'true'
+    if (isLocalLdhAuth || isWhitelisted) {
       setLhdAuth(true)
       return { isAuth: true }
     }
