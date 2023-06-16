@@ -8,9 +8,12 @@ import { debounce } from 'lodash'
 import { useTranslation } from 'contexts/Localization'
 import { FilterState } from 'state/lhd/reducer'
 
-const ScoreSlider = ({ values, handler }: {
-  values: FilterState,
-  handler: (type: 'totalScore' | 'health' | 'ownership' | 'concentration', obj: 'min' | 'max', value: number) => void,
+const ScoreSlider = ({
+  values,
+  handler,
+}: {
+  values: FilterState
+  handler: (type: 'totalScore' | 'health' | 'ownership' | 'concentration', obj: 'min' | 'max', value: number) => void
 }) => {
   const { t } = useTranslation()
   const handleMinInputChange = (type: 'totalScore' | 'health' | 'ownership' | 'concentration', value: string) => {
@@ -48,15 +51,15 @@ const ScoreSlider = ({ values, handler }: {
   }, 10)
 
   return (
-    <Box sx={{
-      width: '100%',
-      pb: '10px',
-    }}>
+    <Box
+      sx={{
+        width: '100%',
+        pb: '10px',
+      }}
+    >
       <Box sx={{ display: 'flex', padding: '0px 10px 10px 10px', justifyContent: 'space-between' }}>
         <Flex sx={{ width: '48%', flexDirection: 'column' }}>
-          <Text sx={{ fontWeight: 500, fontSize: '12px', padding: '0 5px' }}>
-            Min
-          </Text>
+          <Text sx={{ fontWeight: 500, fontSize: '12px', padding: '0 5px' }}>Min</Text>
           <NumericInput
             value={values.totalScore.min.toString()}
             onUserInput={(value) => handleMinInputChange('totalScore', value)}
@@ -64,9 +67,7 @@ const ScoreSlider = ({ values, handler }: {
           />
         </Flex>
         <Flex sx={{ width: '48%', flexDirection: 'column' }}>
-          <Text sx={{ fontWeight: 500, fontSize: '12px', padding: '0 5px' }}>
-            Max
-          </Text>
+          <Text sx={{ fontWeight: 500, fontSize: '12px', padding: '0 5px' }}>Max</Text>
           <NumericInput
             value={values.totalScore.max.toString()}
             onUserInput={(value) => handleMaxInputChange('totalScore', value)}
@@ -75,7 +76,9 @@ const ScoreSlider = ({ values, handler }: {
         </Flex>
       </Box>
       <Flex sx={{ flexDirection: 'column', mt: '55px', p: '0 28px', position: 'relative' }}>
-        <Text sx={{fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px'}}>{t('Score')}</Text>
+        <Text sx={{ fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px' }}>
+          {t('Score')}
+        </Text>
         <InputRange
           minValue={0}
           maxValue={100}
@@ -85,7 +88,9 @@ const ScoreSlider = ({ values, handler }: {
         />
       </Flex>
       <Flex sx={{ flexDirection: 'column', mt: '55px', p: '0 28px', position: 'relative' }}>
-        <Text sx={{fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px'}}>{t('Strength')}</Text>
+        <Text sx={{ fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px' }}>
+          {t('Strength')}
+        </Text>
         <InputRange
           minValue={0}
           maxValue={100}
@@ -95,23 +100,27 @@ const ScoreSlider = ({ values, handler }: {
         />
       </Flex>
       <Flex sx={{ flexDirection: 'column', mt: '55px', p: '0 28px', position: 'relative' }}>
-        <Text sx={{fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px'}}>{t('Concentration')}</Text>
-        <InputRange
-          minValue={0}
-          maxValue={100}
-          value={values.concentration}
-          //@ts-ignore
-          onChange={(value: { min: number; max: number }) => handleConcenChange(value)}
-        />
-      </Flex>
-      <Flex sx={{ flexDirection: 'column', mt: '55px', p: '0 28px', position: 'relative' }}>
-        <Text sx={{fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px'}}>{t('Ownership')}</Text>
+        <Text sx={{ fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px' }}>
+          {t('Ownership')}
+        </Text>
         <InputRange
           minValue={0}
           maxValue={100}
           value={values.ownership}
           //@ts-ignore
           onChange={(value: { min: number; max: number }) => handleOwnerChange(value)}
+        />
+      </Flex>
+      <Flex sx={{ flexDirection: 'column', mt: '55px', p: '0 28px', position: 'relative' }}>
+        <Text sx={{ fontWeight: 500, fontSize: '12px', position: 'absolute', top: '-50px', left: '15px' }}>
+          {t('Concentration')}
+        </Text>
+        <InputRange
+          minValue={0}
+          maxValue={100}
+          value={values.concentration}
+          //@ts-ignore
+          onChange={(value: { min: number; max: number }) => handleConcenChange(value)}
         />
       </Flex>
     </Box>

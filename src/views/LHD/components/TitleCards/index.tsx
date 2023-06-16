@@ -12,18 +12,20 @@ const TitleCards = () => {
       <Flex sx={styles.titleContainer}>
         <Flex sx={{ width: '100%' }}>
           <Text sx={styles.titleText}>{t('Liquidity Health Dashboard')}</Text>
-          <ListTag variant="beta" />
+          <Flex sx={{ ml: 1 }}>
+            <ListTag variant="beta" />
+          </Flex>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
           <Text sx={styles.detailText}>
             {t(
-              'ApeSwap’s data visualization tool that provides insights into the liquidity levels and sustainability of cryptocurrency projects.',
+              "ApeSwap's data visualization tool provides insights into the decentralized liquidity profile and sustainability of crypto projects.",
             )}
           </Text>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
           <Link href="https://apeswap.gitbook.io/apeswap-finance/welcome/master">
-            <Text sx={styles.btnText}>{t('Learn More')}</Text>
+            <Text sx={styles.btnText}>{t('Learn more')}</Text>
           </Link>
           <Link href="https://github.com/ApeSwapFinance/lhd-config">
             <Text sx={styles.btnText}>{t('Submit data update')}</Text>

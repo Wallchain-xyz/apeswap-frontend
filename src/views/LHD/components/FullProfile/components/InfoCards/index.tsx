@@ -40,24 +40,26 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
         <Flex sx={styles.healthRowsContainer}>
           <HealthSummaryRow
             ttTitle={t('Total Valid Liquidity')}
-            ttBody={<>Total Valid Liquidity</>}
+            ttBody={<>Includes all liquidity paired with hard assets such as stablecoins or `blue chip` tokens.</>}
             value={formatDollar({ num: fullProfile?.totalValidLiquidity })}
           />
           <HealthSummaryRow
             ttTitle={t('Total Extractable Liquidity')}
-            ttBody={<>Total Extractable Liquidity</>}
+            ttBody={<>Combined value of hard asset liquidity in all valid pairs.</>}
             value={formatDollar({ num: fullProfile?.extractableLiquidity })}
             circleColor={'#1179A6'}
           />
           <HealthSummaryRow
             ttTitle={t('Owned Extractable Liquidity')}
-            ttBody={<>Owned Extractable Liquidity</>}
+            ttBody={<>Protocol owned value of all hard asset liquidity in all valid pairs.</>}
             value={formatDollar({ num: fullProfile?.ownedExtractableLiquidity })}
             circleColor={'#904DC4'}
           />
           <HealthSummaryRow
             ttTitle={t('Liquidity Debt')}
-            ttBody={<>Liquidity Debt</>}
+            ttBody={
+              <>The difference between owned extractable liquidity and the recommended minimum extractable liquidity.</>
+            }
             value={
               (fullProfile?.mcap[0].amount / 100) * chartExtras?.liquidityDebt > 0
                 ? formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.liquidityDebt })
@@ -67,24 +69,24 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
           />
           <HealthSummaryRow
             ttTitle={t('Sustainability Range (Lower)')}
-            ttBody={<>Sustainability Range (Lower)</>}
+            ttBody={<>Lowest recommended extractable liquidity/market cap ratio.</>}
             value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityLower })}
             circleColor={'#BFDDB5'}
           />
           <HealthSummaryRow
             ttTitle={t('Sustainability Range (Upper)')}
-            ttBody={<>Sustainability Range (Upper)</>}
+            ttBody={<>Highest recommended extractable liquidity/market cap ratio.</>}
             value={formatDollar({ num: (fullProfile?.mcap[0].amount / 100) * chartExtras?.sustainabilityUpper })}
             circleColor={'#39A712'}
           />
           <HealthSummaryRow
             ttTitle={t('Unlocked Supply')}
-            ttBody={<>Unlocked Supply</>}
+            ttBody={<>Tokens that are unlocked on-chain across all EVM networks.</>}
             value={formatValue({ num: fullProfile?.unlockedSupply })}
           />
           <HealthSummaryRow
             ttTitle={t('Circulating Supply')}
-            ttBody={<>Circulating Supply</>}
+            ttBody={<>Amount of tokens in the market that are not locked or burnt (per CoinGecko or CoinMarketCap).</>}
             value={formatValue({ num: fullProfile?.circulatingSupply[0].amount })}
           />
         </Flex>
