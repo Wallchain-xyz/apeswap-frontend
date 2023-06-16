@@ -23,6 +23,8 @@ import useIsMobile from '../../../../hooks/useIsMobile'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
+let hideTimeout: NodeJS.Timeout | null = null
+
 const CustomTooltip = ({
   show,
   x,
@@ -277,15 +279,21 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     const { tooltip } = context
 
     if (tooltip.opacity === 0) {
-      setTooltipState((prevState) => ({ ...prevState, show: false }))
+      if (hideTimeout) clearTimeout(hideTimeout)
+
+      hideTimeout = setTimeout(() => {
+        setTooltipState((prevState) => ({ ...prevState, show: false }))
+      }, 500)
       return
     }
 
+    if (hideTimeout) {
+      clearTimeout(hideTimeout)
+      hideTimeout = null
+    }
+
     const currentItem = tooltip.dataPoints[0]
-
     const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
-    console.log(data)
-
     const canvasPosition = context.chart.canvas.getBoundingClientRect()
 
     setTooltipState({
@@ -531,7 +539,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         backgroundColor: 'transparent',
         borderColor: 'transparent',
         showLine: false,
-        hitRadius: 30,
+        hitRadius: 20,
       },
     ],
   }
