@@ -1,10 +1,12 @@
 import React from 'react'
 import { Box } from 'theme-ui'
 import 'react-input-range/lib/css/index.css'
-import { Button, Flex } from 'components/uikit'
+import { Button, Flex, Svg } from 'components/uikit'
 import { FilterState } from 'state/lhd/reducer'
 import { TAGS } from '../../../utils/config'
 import { CHAIN_DETAILS } from '../../../utils/config'
+import { styles } from '../styles'
+import { icons } from '../../SmallChainIcons'
 
 const mappedData = (type: string) => {
   if (type === 'tags') {
@@ -13,7 +15,7 @@ const mappedData = (type: string) => {
     return CHAIN_DETAILS.map((item) => ({
       label: item.chainName,
       value: item.chainId,
-    }))
+    })).sort((a, b) => a.label.localeCompare(b.label))
   }
 }
 
@@ -33,7 +35,6 @@ const ButtonSelector = ({
     } else {
       handler(type, [...values[type], item.value])
     }
-    console.log(values)
   }
 
   const filterApplied = (type: 'tags' | 'chains', item: any): boolean => {
@@ -45,16 +46,18 @@ const ButtonSelector = ({
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         flexWrap: 'wrap',
       }}
     >
       {mappedData(type).map((item, index) => (
-        <Flex key={`tag${index}`} sx={{ flexDirection: 'row', mb: '5px', p: '0 5px' }}>
+        <Flex key={`tag${index}`} sx={{ flexDirection: 'row', mb: '10px', p: '0 5px' }}>
           <Button
             size="sm"
-            variant={filterApplied(type, item) ? 'primary' : 'secondary'}
+            variant={filterApplied(type, item) ? 'primary' : 'tertiary'}
+            sx={filterApplied(type, item) ? styles.filterBtnActive : styles.filterBtn}
             onClick={() => handleButtonClick(type, item)}
+            startIcon={type === 'chains' ? <Flex sx={{ mr: '5px' }}>{icons[item.value]}</Flex> : null}
           >
             {item.label}
           </Button>

@@ -85,20 +85,6 @@ const TokensProfileList = () => {
     }
   }, [fullQuery, dispatch])
 
-  // useEffect(() => {
-  //   // Don't run on the first render
-  //   if (firstUpdate.current) {
-  //     firstUpdate.current = false
-  //     return
-  //   }
-  //
-  //   if (fullQuery) {
-  //     console.log('FULL QUERY CALLED')
-  //     console.log(filterState)
-  //     //  dispatch(fetchProfilesQuery(fullQuery))
-  //   }
-  // }, [filterState, dispatch])
-
   const handleNoResults = useCallback((value: boolean) => {
     setNoResults(value)
   }, [])
