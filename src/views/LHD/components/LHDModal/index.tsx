@@ -32,14 +32,16 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const passwordStatus =
     !password.length || isLoading || isTyping ? 'default' : isPasswordVerified ? 'success' : 'error'
 
+  const isDark = colorMode === 'dark'
+
   const getLiquidityIcon = (): string => {
     switch (passwordStatus) {
       case 'error':
-        return '/images/lhd/liquidity-red.svg'
+        return isDark ? '/images/lhd/liquidity-red-transparent.svg' : '/images/lhd/liquidity-red.svg'
       case 'success':
-        return '/images/lhd/liquidity-green.svg'
+        return isDark ? '/images/lhd/liquidity-green-transparent.svg' : '/images/lhd/liquidity-green.svg'
       default:
-        return colorMode === 'dark' ? '/images/lhd/liquidity-white.svg' : '/images/lhd/liquidity-gray.svg'
+        return isDark ? '/images/lhd/liquidity-white.svg' : '/images/lhd/liquidity-gray.svg'
     }
   }
 
@@ -144,7 +146,7 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               variant="password"
               status={passwordStatus}
               isLoading={isLoading}
-              sx={{ padding: '5px 10px', fontSize: ['16px', '16px', '12px'] }}
+              sx={{ padding: '5px 10px', fontSize: ['16px', '16px', '12px'], fontWeight: 'normal' }}
             />
             <Button sx={{ padding: '5px 10px' }} onClick={handleSubmit} disabled={!isPasswordVerified}>
               ACCESS BETA
