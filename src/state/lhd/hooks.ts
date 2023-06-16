@@ -1,11 +1,13 @@
 import { useCallback, useEffect } from 'react'
+import { shallowEqual } from 'react-redux'
 import { useAppDispatch } from '../hooks'
 // import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
 import { fetchFullProfile, fetchInitialProfiles } from './actions'
 import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
-import { addFullProfile, addSimpleProfiles } from './reducer'
+import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
@@ -101,4 +103,30 @@ export const useLHDFilterValues = () => {
   return useSelector((state: AppState) => {
     return state.lhd.queryState
   })
+}
+
+export const useSetLhdAuth = () => {
+  const dispatch = useAppDispatch()
+  const setLhdAuth = (isAuth: boolean): void => {
+    localStorage.setItem('isLhdAuth', JSON.stringify(isAuth))
+    dispatch(setIsLhdAuth(isAuth))
+  }
+  return { setLhdAuth }
+}
+
+export const useGetIsLhdAuth = () => {
+  const { query } = useRouter()
+  const { setLhdAuth } = useSetLhdAuth()
+  const isWhitelisted = query?.whitelist === 'true'
+
+  const getIsLhdAuth = (): { isAuth: boolean } => {
+    const isLocalLdhAuth = localStorage.getItem('isLhdAuth') === 'true'
+    if (isLocalLdhAuth || isWhitelisted) {
+      setLhdAuth(true)
+      return { isAuth: true }
+    }
+    setLhdAuth(false)
+    return { isAuth: false }
+  }
+  return { getIsLhdAuth }
 }
