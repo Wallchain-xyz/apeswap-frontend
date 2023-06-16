@@ -25,6 +25,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
       concentrationScore={fullProfile?.concentrationScore}
       ownershipScore={fullProfile?.ownershipScore}
       tokenAddresses={fullProfile?.addressMapping.tokenAddresses}
+      formulaVersion={fullProfile?.formulaVersion}
     />,
   )
   return (

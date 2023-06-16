@@ -75,9 +75,9 @@ export const customMeta: { [key: string]: PageMeta } = {
     title: 'Limit Orders | ApeSwap : Your One-Stop DeFi Hub',
     description: 'Trade crypto tokens at the price you want using limit orders on the ApeSwap DEX.',
   },
-  '/liquidity-health/HERE_NEED_TO_ADD_ALL_THE_EXACT_ROUTES_and_IDK': {
-    title: 'Liquidity Health | ApeSwap : Your One-Stop DeFi Hub',
-    description: 'Dashboard to see the liquidity health of your favourite crypto projects.',
+  '/liquidity-health': {
+    title: 'Liquidity Health Dashboard | ApeSwap',
+    description: 'ApeSwap’s Liquidity Health Dashboard provides insights into the quality and sustainability of cryptocurrency projects based on different characteristics of their liquidity.',
     // image: 'https://i.imgur.com/g1sFeUS.png' 
   },
 }
