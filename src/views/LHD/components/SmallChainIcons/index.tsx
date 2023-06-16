@@ -18,9 +18,9 @@ export const icons: { [key: string]: JSX.Element } = {
   '42220': <Icon chain={'42220'} />, // celo
   '288': <Icon chain={'288'} color="black" />, // boba
   '100': <Icon chain={'100'} />, // xdai
+  '324': <Icon chain={'324'}></Icon>, // zksync
 
   // All have 10 or less related assets, not adding icons for now
-  // '324': <></>, // zksync
   // '592': <></>, // astar
   // '106': <></>, // velas
   // '321': <></>, // kcc
