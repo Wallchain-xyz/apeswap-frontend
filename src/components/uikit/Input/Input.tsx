@@ -50,7 +50,7 @@ const Input = ({
             width: width ? width : '100%',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '10px',
+            gap: '5px',
             position: 'relative',
           }}
         >
