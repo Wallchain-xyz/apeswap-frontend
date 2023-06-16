@@ -23,6 +23,7 @@ const FullProfile = ({
   const fullProfile: TokenProfile | null = useFullProfile()
   const { t } = useTranslation()
   const router = useRouter()
+  const DEX_MISSING_ASSETS = ['CRV']
 
   const [queryString, setQueryString] = useState('')
 
@@ -77,18 +78,12 @@ const FullProfile = ({
             {t(' hours ago')}
           </Text>
         </Flex>
-        {fullProfile?.addressMapping?.tokenSymbol === 'CRV' ? (
-          <ExemptAssetNotice
-            lineOne="This asset does not yet have it's primary decentralized exchange integrated on the LHD."
-            lineTwo="See what's next for the LHD and our progress to integrate more DEXes on our socials!"
-          />
+        {DEX_MISSING_ASSETS.includes(fullProfile?.addressMapping?.tokenSymbol) ? (
+          <ExemptAssetNotice phraseCondition="dex" />
         ) : fullProfile?.addressMapping?.isExempted ? (
-          <ExemptAssetNotice
-            lineOne="This ass is for a non-EVM compatible blockchain that ApeSwap has not yet fully integrated. For thorough analysis, compliment LHD with inspection of their blockchain liquidity."
-            lineTwo="See what's next for the LHD and our progress to integrate more chains on our socials!"
-          />
+          <ExemptAssetNotice phraseCondition="exempt" />
         ) : fullProfile?.mcap[0]?.amount > 100000000 ? (
-          <ExemptAssetNotice />
+          <ExemptAssetNotice phraseCondition="mcap" />
         ) : (
           <></>
         )}
