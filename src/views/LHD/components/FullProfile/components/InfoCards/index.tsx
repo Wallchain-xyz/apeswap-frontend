@@ -81,7 +81,12 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
           />
           <HealthSummaryRow
             ttTitle={t('Unlocked Supply')}
-            ttBody={<>Tokens that are unlocked on-chain across all EVM networks.</>}
+            ttBody={
+              <>
+                Early beta metric under development. Measures tokens that are unlocked on chain, intended to be a more
+                accurate measure of circulating supply.
+              </>
+            }
             value={formatValue({ num: fullProfile?.unlockedSupply })}
           />
           <HealthSummaryRow

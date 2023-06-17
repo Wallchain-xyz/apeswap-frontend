@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box } from 'theme-ui'
 import 'react-input-range/lib/css/index.css'
 import { Button, Flex, Svg } from 'components/uikit'
@@ -10,7 +9,7 @@ import { icons } from '../../SmallChainIcons'
 
 const mappedData = (type: string) => {
   if (type === 'tags') {
-    return TAGS
+    return TAGS.sort((a, b) => a.label.localeCompare(b.label))
   } else {
     return CHAIN_DETAILS.map((item) => ({
       label: item.chainName,

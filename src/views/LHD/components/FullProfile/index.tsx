@@ -11,11 +11,6 @@ import { styles } from './styles'
 import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
-import Head from 'next/head'
-import { Helmet } from 'react-helmet'
-// import { customMeta } from 'config/constants/meta'
-
-
 
 const FullProfile = ({
   chainID,
@@ -59,7 +54,6 @@ const FullProfile = ({
   let handleChartCallback = (chartData: chartExtras) => {
     setChartPassBackData(chartData)
   }
-  const cardImage = `https://i.imgur.com/g1sFeUS.png` 
 
   const handleBackButton = () => {
     console.log(queryString)
@@ -68,10 +62,6 @@ const FullProfile = ({
       `/liquidity-health${queryString ? '?' + queryString : ''}`,
     )
   }
-
-//   const currentMeta = customMeta[router.pathname] || {};
-// const { image: currentMetaImage } = currentMeta;
-
 
   if (fullProfile) {
     return (
@@ -90,8 +80,6 @@ const FullProfile = ({
         </Flex>
         {DEX_MISSING_ASSETS.includes(fullProfile?.addressMapping?.tokenSymbol) ? (
           <ExemptAssetNotice phraseCondition="dex" />
-        ) : fullProfile?.addressMapping?.isExempted ? (
-          <ExemptAssetNotice phraseCondition="exempt" />
         ) : fullProfile?.mcap[0]?.amount > 100000000 ? (
           <ExemptAssetNotice phraseCondition="mcap" />
         ) : (

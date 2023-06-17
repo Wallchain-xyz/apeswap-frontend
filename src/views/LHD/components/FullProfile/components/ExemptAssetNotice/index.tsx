@@ -6,7 +6,7 @@ interface ExemptAssetNoticeProps {
   icon?: SvgProps['icon']
   lineOne?: string
   lineTwo?: string
-  phraseCondition?: 'mcap' | 'dex' | 'exempt'
+  phraseCondition?: 'mcap' | 'dex'
 }
 
 const BANNER_PHRASES = {
@@ -18,11 +18,6 @@ const BANNER_PHRASES = {
   dex: {
     lineOne: "This asset does not yet have it's primary decentralized exchange integrated on the LHD.",
     lineTwo: "See what's next for the LHD and our progress to integrate more DEXes on ApeSwap Officer our socials!",
-  },
-  exempt: {
-    lineOne:
-      "This asset is a non-EVM compatible blockchain that ApeSwap has not yet fully integrated. For thorough analysis, compliment LHD with inspection of their blockchain liquidity. See what's next for the LHD and our progress to integrate more chains on ApeSwap official socials!",
-    lineTwo: '',
   },
 }
 

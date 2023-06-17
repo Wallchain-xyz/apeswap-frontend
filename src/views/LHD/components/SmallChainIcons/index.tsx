@@ -19,14 +19,13 @@ export const icons: { [key: string]: JSX.Element } = {
   '288': <Icon chain={'288'} color="black" />, // boba
   '100': <Icon chain={'100'} />, // xdai
   '324': <Icon chain={'324'}></Icon>, // zksync
-
-  // All have 10 or less related assets, not adding icons for now
-  // '592': <></>, // astar
-  // '106': <></>, // velas
-  // '321': <></>, // kcc
-  // '10000': <></>, // smart bch
-  // '42170': <></>, // arbitrum nova
-  // '1116': <></>, // core
-  // '2222': <></>, //Kava
-  // '4689': <></>, // IoTeX
+  '592': <Icon chain={'592'}></Icon>, // astar
+  '106': <Icon chain={'106'}></Icon>, // velas
+  '321': <Icon chain={'321'}></Icon>, // kcc
+  '10000': <Icon chain={'10000'}></Icon>, // smart bch
+  '42170': <Icon chain={'42170'}></Icon>, // arbitrum nova
+  '1116': <Icon chain={'1116'}></Icon>, // core
+  '2222': <Icon chain={'2222'}></Icon>, // Kava
+  '4689': <Icon chain={'4689'}></Icon>, // IoTeX
+  '1313161554': <Icon chain={'1313161554'} />, // aurora
 }
