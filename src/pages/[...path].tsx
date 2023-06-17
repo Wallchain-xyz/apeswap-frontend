@@ -50,6 +50,14 @@ export async function getServerSideProps(context: { query: { path: any } }) {
       },
     }
   }
+  if (path[0] === 'admin-pools') {
+    return {
+      redirect: {
+        destination: 'https://legacy.apeswap.finance/admin-pools',
+        permanent: false,
+      },
+    }
+  }
 
   // For all other paths, redirect to the home page.
   return {
