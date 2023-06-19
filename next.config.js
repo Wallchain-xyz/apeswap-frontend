@@ -3,6 +3,9 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  env: {
+    walletConnectProjectId: process.env.WALLET_CONNECT_PROJECT_ID,
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false }
     return config
