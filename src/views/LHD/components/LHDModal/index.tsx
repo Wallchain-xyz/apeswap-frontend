@@ -132,10 +132,10 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               </Text>
             </Flex>
             <Box sx={{ textAlign: 'center', marginTop: ['10px', '10px', '15px'] }}>
-              <Text sx={{ fontSize: ['14px', '14px', '12px'], lineHeight: '15px' }}>
+              <Box sx={{ fontSize: ['14px', '14px', '12px'], lineHeight: ['25px', '22px', '18px'] }}>
                 ApeSwap’s data visualization tool provides insights into the liquidity levels and sustainability of
                 cryptocurrency projects.
-              </Text>
+              </Box>
             </Box>
           </Box>
           <Flex sx={{ width: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -164,14 +164,19 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
                   <Link
                     sx={{
                       height: '20px',
-                      width: '30px',
+                      width: [
+                        icon === icons.TELEGRAM ? '40px' : '30px',
+                        icon === icons.TELEGRAM ? '40px' : '30px',
+                        icon === icons.TELEGRAM ? '35px' : '25px',
+                      ],
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderRadius: '10px',
                       cursor: 'pointer',
+                      opacity: 0.8,
                       '&:hover': {
-                        opacity: 0.8,
+                        opacity: 0.6,
                       },
                     }}
                     key={icon}
@@ -187,14 +192,14 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
           </Flex>
           <Flex
             sx={{
-              mb: ['20px', '20px', '30px'],
+              mb: '20px',
               mt: 'auto',
               gap: '7px',
               fontSize: '10px',
             }}
           >
             <Svg icon="caret" color="text" height={'4px'} width={'4px'} direction="left" />
-            <Link href="/" sx={{ textDecoration: 'underline', fontSize: ['12px', '12px', '10px'] }}>
+            <Link href="/" sx={{ fontSize: ['12px', '12px', '10px'] }}>
               Back to homepage
             </Link>
           </Flex>
