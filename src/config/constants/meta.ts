@@ -8,7 +8,7 @@ export const DEFAULT_META: PageMeta = {
   title: 'ApeSwap : Your One-Stop DeFi Hub',
   description:
     'ApeSwap is a DeFi Hub on BNB Chain, Polygon, & Ethereum. Swap, stake, and lend cryptocurrencies, from stablecoins to altcoins - all in one place.',
-  image: '%PUBLIC_URL%/logo.png',
+  image: 'https://legacy.apeswap.finance/logo.png',
 }
 
 export const customMeta: { [key: string]: PageMeta } = {
