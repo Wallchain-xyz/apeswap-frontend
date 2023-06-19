@@ -9,7 +9,7 @@ export const styles: Record<
     fontSize: ['7px', '10px', '12px', '16px'],
     justifyContent: 'center',
     fontWeight: 200,
-    background: 'gradient',
+    background: 'white4',
     color: 'white',
     borderRadius: '10px',
     padding: '10px',
@@ -35,7 +35,6 @@ export const styles: Record<
     flexDirection: 'column',
   },
   text: {
-    color: 'white',
     lineHeight: ['8px', '14px', '18px', '26px'],
   },
 }

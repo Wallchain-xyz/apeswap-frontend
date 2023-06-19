@@ -1162,6 +1162,102 @@ export const TheMigrationSlides = () => {
   ]
 }
 
+export const LiquidityHealthSlides = () => {
+  const { t } = useTranslation()
+  return [
+    <Slide
+      key={1}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Health Score"
+      slideContent={
+        <Text sx={styles.content}>
+          {t(
+            `This score ranges from 0 to 100, where a higher score means a better Liquidity Health and sustainability. It's calculated based on a project's Liquidity Strength, Concentration, and Ownership.`,
+          )}
+        </Text>
+      }
+    />,
+    <Slide
+      key={2}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Strength"
+      slideContent={
+        <>
+          <Text sx={styles.content}>
+            {t(
+              `This indicator reflects the strength of the project’s liquidity by analyzing the amount of Extractable Liquidity across all liquidity pools and chains.`,
+            )}
+          </Text>
+          <Text
+            sx={{
+              ...styles.content,
+              fontStyle: 'italic',
+            }}
+          >
+            {t(`Strength is the most important factor for Liquidity Health!`)}
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={3}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Concentration"
+      slideContent={
+        <>
+          <Text sx={styles.content}>
+            {t(
+              `This represents the degree to which a project's liquidity is concentrated. Having fewer, more concentrated liquidity pools is better than having many dispersed liquidity pools.`,
+            )}
+          </Text>
+          <Text
+            sx={{
+              ...styles.content,
+              fontStyle: 'italic',
+            }}
+          >
+            {t(`Concentrated liquidity pools means better swap fees and lower slippage for users!`)}
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={4}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Ownership"
+      slideContent={
+        <>
+          <Text sx={styles.content}>
+            {t(
+              `This reflects how much liquidity is owned by the project itself, relative to the total amount of available liquidity.`,
+            )}
+          </Text>
+          <Text
+            sx={{
+              ...styles.content,
+              fontStyle: 'italic',
+            }}
+          >
+            {t(`Owned liquidity is more reliable than rented liquidity as it doesn’t depend on constant incentives.`)}
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={4}
+      step="WHAT TO DO"
+      slideTitle="Raise Awareness!"
+      slideContent={
+        <Text sx={styles.content}>
+          {t(
+            `Projects can improve their Liquidity Score by working on different aspects of their liquidity health. Share Liquidity Score Cards on social media and tag the projects to raise awareness on how they can improve, or praise their stability.`,
+          )}
+        </Text>
+      }
+    />,
+  ]
+}
+
 export const DefaultSlides = () => {
   const { t } = useTranslation()
   return [

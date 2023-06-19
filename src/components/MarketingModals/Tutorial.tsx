@@ -17,6 +17,7 @@ import {
   TheMigrationSlides,
   DefaultSlides,
   LiquidityV3Slides,
+  LiquidityHealthSlides,
 } from './TutorialSlides'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -151,6 +152,15 @@ const Tutorial: React.FC<{
           slides: account ? LiquidityV3Slides() : [<ConnectWalletSlide key={0} />, ...LiquidityV3Slides()],
           isConnected: !!account,
         }
+      case 'liquidity-health': {
+        return {
+          type: `liquidity-health`,
+          title: 'Welcome to Liquidity Health',
+          description: `Analyze any project's Liquidity Health on our dashboard!`,
+          slides: LiquidityHealthSlides(),
+          isConnected: false,
+        }
+      }
       default:
         return {
           type: 'default',

@@ -13,7 +13,8 @@ export const styles: Record<
   | 'valueCont'
   | 'valueText'
   | 'footer',
-  ThemeUIStyleObject> = {
+  ThemeUIStyleObject
+> = {
   mainContainer: {
     width: '100%',
     flexDirection: ['column', 'column', 'column', 'row'],
@@ -36,9 +37,13 @@ export const styles: Record<
   },
   btnText: {
     fontWeight: 500,
+    textDecoration: 'underline',
     fontSize: ['12px', '12px', '12px', '16px'],
     lineHeight: ['18px', '18px', '18px', '24px'],
     mr: '10px',
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   cardsContainer: {
     width: ['100%', '100%', '100%', '50%'],
@@ -51,13 +56,13 @@ export const styles: Record<
     borderRadius: '10px',
     overflow: 'hidden',
     flexDirection: 'column',
-    ml: ['0','0','0','20px'],
+    ml: ['0', '0', '0', '20px'],
   },
   statsTitleCont: {
     width: '100%',
     backgroundColor: 'white3',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   statsTitle: {
     margin: ['5px 0', '5px 0', '5px 0', '20px 0'],
@@ -83,6 +88,6 @@ export const styles: Record<
   footer: {
     weight: 400,
     fontSize: ['8px', '8px', '8px', '10px'],
-    lineHeight: ['15px']
-  }
+    lineHeight: ['15px'],
+  },
 }
