@@ -11,6 +11,7 @@ import { Box } from 'theme-ui'
 import { useDispatch } from 'react-redux'
 import { useLHDFilterValues } from 'state/lhd/hooks'
 import ButtonSelector from './ButtonSelector'
+import { useRouter } from 'next/router'
 
 const modalProps = {
   sx: {
@@ -44,7 +45,6 @@ const FilterModal = ({
       }
     }
     if (type === 'tags' || type === 'chains') {
-      console.log(values[type].join(','))
       return values[type].join(',')
     }
     if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
@@ -64,6 +64,7 @@ const FilterModal = ({
   } ${concen ? ` Concentration: ${concen}` : ''}`
   const tagsString = stringHandler('tags')
   const chainsString = stringHandler('chains')
+  const router = useRouter()
 
   const handler = useCallback(
     (
@@ -97,7 +98,10 @@ const FilterModal = ({
     //dispatch(addSearchProfiles([]))
     dispatch(setFilterState(initialFilterValues))
     setValues(initialFilterValues)
+    const newUrl = `${router.pathname}`
+    router.replace(newUrl, newUrl)
     handleQueryChange('')
+    onDismiss && onDismiss()
   }
 
   return (
