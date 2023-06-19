@@ -64,6 +64,8 @@ const TokensProfileList = () => {
     return result
   }
 
+
+
   useEffect(() => {
     //Note: we should be able to use router.query here but it's not giving stable results
     let qs = router.asPath.replace(router.pathname + '?', '').replace(router.pathname, '')
@@ -74,7 +76,7 @@ const TokensProfileList = () => {
     } else {
       dispatch(fetchProfilesQuery())
     }
-  }, [])
+  }, [router.asPath])
 
   useEffect(() => {
     if (fullQuery) {
@@ -82,8 +84,8 @@ const TokensProfileList = () => {
       router.replace(newUrl, newUrl)
 
       dispatch(fetchProfilesQuery(fullQuery))
-    }
-  }, [fullQuery, dispatch])
+     }
+  }, [fullQuery,  dispatch])
 
   const handleNoResults = useCallback((value: boolean) => {
     setNoResults(value)
@@ -123,7 +125,7 @@ const TokensProfileList = () => {
           })
         ) : (
           <>
-            {[...Array(50)].map((i) => {
+            {[...Array(50)].map((_, i) => {
               return <SkeletonRow key={i} />
             })}
           </>

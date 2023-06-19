@@ -11,7 +11,7 @@ export function countChangedProperties(current: FilterState): number {
 
     // Check if both min and max values have changed for the given property
     if (typedKey === 'tags' || typedKey === 'chains') {
-      if (initial[typedKey] !== current[typedKey]) {
+      if (initial[typedKey].length !== current[typedKey].length) {
         changedProperties++
       }
     } else {
