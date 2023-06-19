@@ -12,7 +12,7 @@ interface ExemptAssetNoticeProps {
 const BANNER_PHRASES = {
   mcap: {
     lineOne:
-      'CEX liquidity is not yet integrated into Apeswap’s LHD. For large MCAP tokens cross reference with their CEX liquidity.',
+      'CEX liquidity is not yet integrated into Apeswap’s LHD. For large MCAP tokens, cross reference with their CEX liquidity.',
     lineTwo: 'We are working on a way to factor CEX depth in, please stay tuned!',
   },
   dex: {

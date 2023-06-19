@@ -51,12 +51,12 @@ const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: Simp
         </Flex>
         <Flex sx={styles.barCol}>
           <Flex sx={styles.barContainer}>
-            <ProgressBar value={Math.round(simpleProfile?.healthScore * 100)} position="left" />
+            <ProgressBar value={Math.floor(simpleProfile?.healthScore * 100)} position="left" />
           </Flex>
         </Flex>
         <Flex sx={styles.barCol}>
           <Flex sx={styles.barContainer}>
-            <ProgressBar value={Math.round(simpleProfile?.ownershipScore * 100)} position="left" />
+            <ProgressBar value={Math.floor(simpleProfile?.ownershipScore * 100)} position="left" />
             {simpleProfile?.ownershipScore === 0 && (
               <Text sx={{ fontWeight: 500, fontSize: '9px', mt: -4, color: 'textDisabled' }}>DATA NEEDED</Text>
             )}
@@ -64,12 +64,12 @@ const TableRow = ({ index, simpleProfile }: { index: number; simpleProfile: Simp
         </Flex>
         <Flex sx={styles.barCol}>
           <Flex sx={styles.barContainer}>
-            <ProgressBar value={Math.round(simpleProfile?.concentrationScore * 100)} position="left" />
+            <ProgressBar value={Math.floor(simpleProfile?.concentrationScore * 100)} position="left" />
           </Flex>
         </Flex>
         <Flex sx={{ ...styles.scoreCol, background: index % 2 ? 'white3' : 'white2' }}>
           <Text sx={{ fontWeight: 700, fontSize: '12px', color: getColor(simpleProfile?.totalScore * 100) }}>
-            {(simpleProfile?.totalScore * 100)?.toFixed()}
+            {Math.floor(simpleProfile?.totalScore * 100)?.toFixed()}
           </Text>
         </Flex>
       </Box>
