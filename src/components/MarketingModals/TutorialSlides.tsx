@@ -1184,10 +1184,24 @@ export const LiquidityHealthSlides = () => {
       slideContent={
         <>
           <Text sx={styles.content}>
-            {t(
-              `This indicator reflects the strength of the project’s liquidity by analyzing the amount of Extractable Liquidity across all liquidity pools and chains.`,
-            )}
+            {t('This indicator reflects the strength of the project’s liquidity by analyzing the amount of')}{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(0%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'Extractable liquidity is the value of the liquidity which is composed exclusively by blue chip or stable tokens.',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['250px', '250px', '300px', '400px'] }}
+            >
+              <Text sx={styles.tipTitle}>{t('Extractable Liquidity')}</Text>
+            </Tooltip>{' '}
+            {t('across all liquidity pools and chains.')}
           </Text>
+
           <Text
             sx={{
               ...styles.content,
@@ -1238,7 +1252,22 @@ export const LiquidityHealthSlides = () => {
               fontStyle: 'italic',
             }}
           >
-            {t(`Owned liquidity is more reliable than rented liquidity as it doesn’t depend on constant incentives.`)}
+            {t('Owned liquidity is more reliable than')}{' '}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(0%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'Rented liquidity is liquidity provided by users or third parties in exchange for trading fees and/or incentives (e.g., farms).',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['250px', '250px', '300px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>{t('rented liquidity')}</Text>
+            </Tooltip>{' '}
+            {t('as it doesn’t depend on constant incentives.')}
           </Text>
         </>
       }
