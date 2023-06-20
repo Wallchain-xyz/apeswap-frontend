@@ -1,4 +1,5 @@
 import { Flex, Link, ListTag, Text } from 'components/uikit'
+import { useRouter } from 'next/router'
 import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
@@ -6,7 +7,13 @@ import { useIndustryAvg } from '../../../../state/lhd/hooks'
 
 const TitleCards = () => {
   const { t } = useTranslation()
+  const { push } = useRouter()
   const { averageChange, averageTotalScore, chainsSupported, tokensTracked } = useIndustryAvg()
+
+  const openTutorialModal = () => {
+    push({ search: 'modal=tutorial' })
+  }
+
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.titleContainer}>
@@ -24,12 +31,15 @@ const TitleCards = () => {
           </Text>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
-          <Link href="https://apeswap.gitbook.io/apeswap-finance/welcome/master">
-            <Text sx={styles.btnText}>{t('Learn more')}</Text>
-          </Link>
-          <Link href="https://github.com/ApeSwapFinance/lhd-config">
-            <Text sx={styles.btnText}>{t('Submit data update')}</Text>
-          </Link>
+          <Text onClick={() => openTutorialModal()} sx={styles.btnText}>
+            {t('Tutorial')}
+          </Text>
+          <Text
+            onClick={() => window.open('https://github.com/ApeSwapFinance/lhd-config', '_blank')}
+            sx={styles.btnText}
+          >
+            {t('Submit data update')}
+          </Text>
         </Flex>
       </Flex>
       <Flex sx={styles.cardsContainer}>

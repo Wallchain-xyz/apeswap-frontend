@@ -12,7 +12,7 @@ interface ExemptAssetNoticeProps {
 const BANNER_PHRASES = {
   mcap: {
     lineOne:
-      'CEX liquidity is not yet integrated into Apeswap’s LHD. For large MCAP tokens cross reference with their CEX liquidity.',
+      'CEX liquidity is not yet integrated into Apeswap’s LHD. For large MCAP tokens, cross reference with their CEX liquidity.',
     lineTwo: 'We are working on a way to factor CEX depth in, please stay tuned!',
   },
   dex: {
@@ -21,15 +21,15 @@ const BANNER_PHRASES = {
   },
 }
 
-const ExemptAssetNotice: React.FC<ExemptAssetNoticeProps> = ({ icon = 'cog', phraseCondition = 'mcap' }) => {
+const ExemptAssetNotice: React.FC<ExemptAssetNoticeProps> = ({ icon = 'info', phraseCondition = 'mcap' }) => {
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.contentContainer}>
         <Flex sx={styles.visibleIcon}>
-          <Svg width={80} color={'primaryBright'} icon={icon} />
+          <Svg width={50} icon={icon} />
         </Flex>
         <Flex sx={styles.invisibleIcon}>
-          <Svg width={150} color={'primaryBright'} icon={icon} />
+          <Svg width={80} icon={icon} />
         </Flex>
         <Flex sx={styles.textContainer}>
           <Text sx={styles.text}>{BANNER_PHRASES[phraseCondition].lineOne}</Text>

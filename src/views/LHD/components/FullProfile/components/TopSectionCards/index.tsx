@@ -105,19 +105,19 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
           </Flex>
           <Flex sx={{ flexDirection: 'column', width: '100%' }}>
             <Flex sx={{ height: '20px' }}>
-              <ProgressBar value={Math.round(fullProfile?.healthScore * 100)} position="right" />
+              <ProgressBar value={Math.floor(fullProfile?.healthScore * 100)} position="right" />
             </Flex>
             <Flex sx={{ height: '20px' }}>
-              <ProgressBar value={Math.round(fullProfile?.ownershipScore * 100)} position="right" />
+              <ProgressBar value={Math.floor(fullProfile?.ownershipScore * 100)} position="right" />
             </Flex>
             <Flex sx={{ height: '20px' }}>
-              <ProgressBar value={Math.round(fullProfile?.concentrationScore * 100)} position="right" />
+              <ProgressBar value={Math.floor(fullProfile?.concentrationScore * 100)} position="right" />
             </Flex>
           </Flex>
           <Flex sx={styles.scoreCont}>
             <Text sx={styles.scoreText}>{t('SCORE')}</Text>
             <Text sx={{ ...styles.scoreNumber, color: getColor(fullProfile.totalScore * 100) }}>
-              {Math.round(fullProfile.totalScore * 100)}
+              {Math.floor(fullProfile.totalScore * 100)}
             </Text>
           </Flex>
         </Flex>
