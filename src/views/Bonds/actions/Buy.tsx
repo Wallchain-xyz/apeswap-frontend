@@ -50,13 +50,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { recipient, typedValue } = useZapState()
   const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
   const billLPType = useBillLPType(contractAddress[chainId as SupportedChainId] ?? '')
-  let gammaLp: string | undefined = ''
-  if (billLPType == LPType.GAMMA) {
-    gammaLp = useBillLPAddress(contractAddress[chainId as SupportedChainId] ?? '')
-    if (!gammaLp) {
-      throw new Error('Gamma lp address expected but not found')
-    }
-  }
+  const gammaLp = useBillLPAddress(contractAddress[chainId as SupportedChainId] ?? '')
   const { onBuyBill } = useBuyBill(
     contractAddress[chainId as SupportedChainId] ?? '',
     typedValue,

@@ -221,7 +221,7 @@ export function useZapCallback(
   zapType: ZapType,
   allowedSlippage: Percent = DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE, // in bips
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
-  liquidityPool: LiquidityPool | string,
+  liquidityPool: LiquidityPool | string | undefined,
   stakingContractAddress?: string,
   maxPrice?: string,
   poolPid?: string,
@@ -233,6 +233,9 @@ export function useZapCallback(
   const useZapV2: boolean = lpType === LPType.GAMMA
   let swapCalls: SwapCall[] = []
   if (useZapV2) {
+    if (!liquidityPool) {
+      throw new Error('Gamma lp address expected but not found')
+    }
     swapCalls = useZapV2CallArguments(
       zap,
       zapType,
