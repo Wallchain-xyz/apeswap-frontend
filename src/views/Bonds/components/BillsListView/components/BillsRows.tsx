@@ -37,7 +37,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
           ?.minus(new BigNumber(totalPayoutGiven ?? '0'))
           ?.div(new BigNumber(10).pow(earnToken.decimals?.[chainId as SupportedChainId] ?? '0'))
 
-        const thresholdToHide = new BigNumber(11).div(earnTokenPrice ?? '0')
+        const thresholdToHide = new BigNumber(100).div(earnTokenPrice ?? '0')
         const thresholdToShow = new BigNumber(5).div(earnTokenPrice ?? '0')
         const disabled = new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
 
