@@ -22,71 +22,6 @@ export function mergeBestZaps(
   chainId: SupportedChainId,
   is0XApi?: boolean,
 ): MergedZap {
-  // if (is0XApi) {
-  //   console.log('is0xAPI so', bestZapOne, bestZapTwo)
-  //   //TODO: Not sure if matters but might not want to hardcode decimals here
-  //   const currencyIn = bestZapOne?.data?.sellTokenAddress
-  //     ? {
-  //         address: bestZapOne?.data?.sellTokenAddress,
-  //         chainId,
-  //         isNative: bestZapOne?.isNativeInput,
-  //         isToken: true,
-  //         decimals: 18,
-  //       }
-  //     : undefined
-
-  //   const inputAmount =
-  //     bestZapOne?.amount && bestZapTwo?.amount
-  //       ? JSBI.add(JSBI.BigInt(bestZapOne?.amount), JSBI.BigInt(bestZapTwo?.amount))
-  //       : bestZapOne?.amount
-  //       ? JSBI.add(JSBI.BigInt(bestZapOne?.amount), JSBI.BigInt(bestZapOne?.amount))
-  //       : bestZapTwo?.amount
-  //       ? JSBI.add(JSBI.BigInt(bestZapTwo?.amount), JSBI.BigInt(bestZapTwo?.amount))
-  //       : JSBI.BigInt(0)
-
-  //   const [pairState, pair] = outputPair
-
-  //   return {
-  //     currencyIn: {
-  //       currency: currencyIn,
-  //       inputAmount: inputAmount,
-  //     },
-  //     currencyOut1: {
-  //       outputCurrency: {
-  //         address: bestZapOne?.data?.buyTokenAddress || bestZapOne?.data?.sellTokenAddress,
-  //         chainId,
-  //         isNative: out1?.isNative,
-  //         isToken: true,
-  //       },
-  //       outputAmount: bestZapOne?.data?.buyAmount,
-  //       minOutputAmount: 0,
-  //       path: [],
-  //     },
-  //     currencyOut2: {
-  //       outputCurrency: {
-  //         address: bestZapTwo?.data?.buyTokenAddress || bestZapOne?.data?.sellTokenAddress,
-  //         chainId,
-  //         isNative: out2?.isNative,
-  //         isToken: true,
-  //       },
-  //       outputAmount: bestZapTwo?.data?.buyAmount,
-  //       minOutputAmount: 0,
-  //       path: [],
-  //     },
-  //     pairOut: {
-  //       pair,
-  //       pairState,
-  //       totalPairSupply,
-  //       liquidityMinted: 0,
-  //       inAmount: 0,
-  //       minInAmount: 0,
-  //       poolTokenPercentage: 0,
-  //     },
-  //     liquidityProviderFee: undefined,
-  //     totalPriceImpact: undefined,
-  //     chainId,
-  //   }
-  // }
 
   let currencyIn
   if (is0XApi) {
@@ -240,14 +175,6 @@ export function mergeBestZaps(
     liquidityMinted =
       wOutputOne && wOutputTwo && totalPairSupply && pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo)
   }
-  console.log(
-    'liquidityMinted',
-    liquidityMinted,
-    wOutputOne,
-    wOutputTwo,
-    totalPairSupply,
-    pair ?? pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo),
-  )
 
   const poolTokenPercentage =
     liquidityMinted && totalPairSupply

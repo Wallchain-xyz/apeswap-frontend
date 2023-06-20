@@ -46,7 +46,6 @@ export function useBestTrade(
     clientSideRouter ? (zeroXApi ? RouterPreference.ZEROX_API : RouterPreference.CLIENT) : RouterPreference.API,
     protocols,
   )
-  console.log('routingAPITrade', routingAPITrade)
 
   const isLoading = routingAPITrade.state === TradeState.LOADING
   const useFallback = !autoRouterSupported || routingAPITrade.state === TradeState.NO_ROUTE_FOUND

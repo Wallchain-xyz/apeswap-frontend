@@ -48,7 +48,6 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   const [pairState, pair] = useV2Pair(inputCurrencies[0], inputCurrencies[1])
   const isMobile = useIsMobile()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, pair?.liquidityToken ?? inputCurrencies[0])
-  console.log('selectedCurrencyBalance', selectedCurrencyBalance, selectedCurrencyBalance?.toSignificant(6))
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 

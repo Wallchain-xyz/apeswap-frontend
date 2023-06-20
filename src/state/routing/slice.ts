@@ -118,7 +118,6 @@ export const routingApi = createApi({
           type,
         } = args
 
-        console.log('args', args)
         let result
 
         try {
@@ -134,7 +133,6 @@ export const routingApi = createApi({
             })
             result = await fetch(`quote?${query}`)
           } else if (routerPreference === RouterPreference.ZEROX_API) {
-            console.log('ZEROXAPI START')
             const router = get0xApiRouter(args.tokenInChainId)
             const {
               isNativeInput,
@@ -173,7 +171,6 @@ export const routingApi = createApi({
               // To get routes specifically for zap we need to pass protocol arg
               { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
             )
-            console.log('a test swap looks like: ', result)
           }
           return { data: result.data as GetQuoteResult }
         } catch (e) {

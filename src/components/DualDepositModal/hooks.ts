@@ -27,7 +27,6 @@ const useDualDeposit = (
 
   const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
 
-  console.log('used here 0x7f09bD2801A7b795dF29C273C4afbB0Ff15E2D63')
   const { callback: zapCallback } = useZapCallback(
     zap,
     zapType,

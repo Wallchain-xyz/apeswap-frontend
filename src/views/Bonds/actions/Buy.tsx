@@ -120,15 +120,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const consideredValue = currencyB ? typedValue : zap?.pairOut?.liquidityMinted?.toExact()
   const bigValue = new BigNumber(consideredValue).times(new BigNumber(10).pow(18))
   const billValue = bigValue.div(new BigNumber(price ?? 0))?.toString()
-  console.log(
-    ' billValue PRICE',
-    bigValue,
-    consideredValue,
-    zap?.pairOut,
-    zap?.pairOut?.liquidityMinted?.toExact(),
-    price,
-    billValue,
-  )
   const available = new BigNumber(maxTotalPayOut ?? 0)
     ?.minus(new BigNumber(totalPayoutGiven ?? 0))
     ?.div(new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18))

@@ -138,16 +138,12 @@ function useZapV2CallArguments(
         !chainId ||
         !deadline
       ) {
-        console.log(zap)
-        console.log('return []1')
         return []
       }
       if (!contract) {
-        console.log('return []2')
         return []
       }
 
-      console.log('start useZapV2CallArguments')
       const tempSwapMethods: any[] = []
       const { currencyIn, currencyOut1, currencyOut2 } = zap
 
@@ -232,7 +228,6 @@ export function useZapCallback(
   lpType?: LPType,
   // TODO: Fix the any
 ): { state: SwapCallbackState; callback: any; error: string | null } {
-  console.log('ALL ZAP INFO PLS WORK', liquidityPool, zap)
   const { account, chainId, provider } = useWeb3React()
   //TODO: Quick fix check for just gamma bonds
   const useZapV2: boolean = lpType === LPType.GAMMA
@@ -259,7 +254,6 @@ export function useZapCallback(
       poolPid,
     )
   }
-  console.log('swapCalls', swapCalls)
 
   const addTransaction = useTransactionAdder()
 

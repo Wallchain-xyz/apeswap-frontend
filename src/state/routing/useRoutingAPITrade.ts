@@ -50,16 +50,13 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     // Price-fetching is informational and costly, so it's done less frequently.
     pollingInterval: routerPreference === RouterPreference.PRICE ? 120000 : AVERAGE_L1_BLOCK_TIME,
   })
-  console.log('THIS DATA', data, isLoading, isError)
 
   const quoteResult: GetQuoteResult | undefined = useIsValidBlock(Number(data?.blockNumber) || 0) ? data : undefined
-  console.log('AND THIS', quoteResult, currencyIn, currencyOut, tradeType, quoteResult, routerPreference)
   const route = useMemo(() => {
     if (routerPreference === RouterPreference.ZEROX_API) return []
     return computeRoutes(currencyIn, currencyOut, tradeType, quoteResult, routerPreference)
   }, [currencyIn, currencyOut, quoteResult, tradeType, routerPreference])
 
-  console.log('the actual route is', route)
   // get USD gas cost of trade in active chains stablecoin amount
   const gasUseEstimateUSD = useStablecoinAmountFromFiatValue(quoteResult?.gasUseEstimateUSD) ?? null
 
@@ -95,7 +92,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     }
 
     if (routerPreference != RouterPreference.ZEROX_API) {
-      console.log('no route found because', isError, !otherAmount, route, !queryArgs)
       if (isError || !otherAmount || !route || route.length === 0 || !queryArgs) {
         return {
           state: TradeState.NO_ROUTE_FOUND,

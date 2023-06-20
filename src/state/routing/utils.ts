@@ -24,9 +24,7 @@ export function computeRoutes(
   const parsedTokenIn = parseToken(quoteResult.route[0][0].tokenIn)
   const parsedTokenOut = parseToken(quoteResult.route[0][quoteResult.route[0].length - 1].tokenOut)
 
-  console.log('forst', parsedTokenIn.address !== currencyIn.wrapped.address)
   if (parsedTokenIn.address !== currencyIn.wrapped.address) return undefined
-  console.log('second', parsedTokenOut.address !== currencyOut.wrapped.address)
   if (parsedTokenOut.address !== currencyOut.wrapped.address) return undefined
 
   try {

@@ -131,7 +131,6 @@ const BAD_RECIPIENT_ADDRESSES: string[] = [
 
 // from the current swap inputs, compute the best trade and return it.
 export function useDerivedZapInfo(zeroXApi: boolean) {
-  console.log('useDerivedZapInfo')
   const {
     typedValue,
     [Field.INPUT]: { currencyId: inputCurrencyId },
@@ -148,7 +147,6 @@ export function useDerivedZapInfo(zeroXApi: boolean) {
   const outputPair = useV2Pair(out0 ?? undefined, out1 ?? undefined)
   const totalSupply = useTotalSupply(outputPair?.[1]?.liquidityToken)
 
-  console.log('lp = ', out0, out1, outputPair)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
   const [allowedSlippage] = useUserSlippageTolerance()
@@ -167,12 +165,9 @@ export function useDerivedZapInfo(zeroXApi: boolean) {
   )
 
   const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2], zeroXApi)
-  console.log('bestZapOne', bestZapOne)
   const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2], zeroXApi)
-  console.log('bestZapTwo', bestZapTwo)
 
   const is0xApi: boolean = bestZapOne?.trade?.zeroXApi || bestZapTwo?.trade?.zeroXApi || false
-  console.log('is0xApi', is0xApi, bestZapOne?.trade)
   const zap = useMemo(
     () =>
       mergeBestZaps(
