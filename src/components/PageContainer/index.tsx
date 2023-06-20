@@ -40,11 +40,11 @@ const PageContainer = ({
   const { asPath, pathname } = useRouter()
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
-  // console.log(asPath)
 
-  // const imageURL = `scottServer/${pathname.split('?')[0]}.png` // The split is to remove the parameters at the end of the url of a tokne page 0x234543
-  const imageURL = `https://i.imgur.com/H4hBGz7.png`
-
+  const urlParams = pathname.split('/')
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd_share_${urlParams[urlParams.length - 2]}_${
+    urlParams[urlParams.length - 1]
+  }`
   return (
     <>
       <Head>

@@ -11,6 +11,7 @@ import { getColor } from 'views/LHD/utils/getColor'
 import { FullLogo } from 'components/uikit/Svg/Icons'
 import domtoimage from 'dom-to-image'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 const modalProps = {
   // sample styles for the modal. This are not checked at all so feel 100% free to change them
@@ -51,12 +52,8 @@ const SharableCard = ({
 }: SharableCardProps) => {
   //put logic and functions here, feel free to create folders and new files within the SharableCard directory
 
-  const handleShareClick = () => {
-    share()
-  }
-
-  const handleDownloadClick = () => {
-    download()
+  const handleClick = (type: 'download' | 'share') => {
+    processShare(type)
   }
 
   // Automatic Upload function here to create it with domtoimage
@@ -99,7 +96,7 @@ const SharableCard = ({
   //     console.error('Error al generar la imagen:', error);
   //   });
 
-  function download() {
+  function processShare(type: 'download' | 'share') {
     const card = document.getElementById('card')
 
     if (!card) {
@@ -126,11 +123,28 @@ const SharableCard = ({
 
     domtoimage
       .toPng(card, options)
-      .then((dataUrl) => {
-        const link = document.createElement('a')
-        link.download = `${tokenSymbol}-${nameDate}.png`
-        link.href = dataUrl
-        link.click()
+      .then(async (dataUrl) => {
+        if (type === 'download') {
+          const link = document.createElement('a')
+          link.download = `${tokenSymbol}-${nameDate}.png`
+          link.href = dataUrl
+          link.click()
+        } else if (type === 'share') {
+
+          const response = await fetch(dataUrl);
+          const blob = await response.blob();
+
+          let formData = new FormData()
+          formData.append('file', blob, `lhd_share_${tokenAddresses![0].chainId}_${tokenAddresses![0].address}`)
+
+          const result = await axios.post(
+            `https://lhd-temp-api.herokuapp.com/liquidity-health-dashboard/createShareImage`,
+            formData,
+            { headers: { 'Content-Type': 'multipart/form-data' } },
+          )
+
+          share()
+        }
       })
       .catch((error) => {
         console.error('Error al convertir a PNG:', error)
@@ -177,7 +191,9 @@ const SharableCard = ({
         .catch((error) => console.log('Error sharing', error))
     } else {
       const text = `${message}`
-      const url = `ApeSwap.Finance${asPath}?d=${dateParam}`
+      // const url = `ApeSwap.Finance${asPath}?d=${dateParam}`
+      const url = `frontend-git-feat-lhd-ape-swap-finance.vercel.app/${asPath}?d=${dateParam}`
+
 
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
         url,
@@ -395,7 +411,7 @@ const SharableCard = ({
                 m: '0px',
               },
             }}
-            onClick={handleDownloadClick}
+            onClick={() => handleClick('download')}
           >
             Download Image
           </Button>
@@ -409,7 +425,7 @@ const SharableCard = ({
                 mt: '15px',
               },
             }}
-            onClick={handleShareClick}
+            onClick={() => handleClick('share')}
           >
             Share
           </Button>
