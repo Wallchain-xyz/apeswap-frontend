@@ -214,5 +214,6 @@ export function mergeBestZaps(
     liquidityProviderFee,
     totalPriceImpact,
     chainId,
+    zapV2: is0XApi,
   }
 }

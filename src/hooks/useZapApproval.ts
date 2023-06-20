@@ -1,6 +1,7 @@
 import { Currency, CurrencyAmount, Percent, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { ZAP_ADDRESS as ZAP_V2_ADDRESS } from '@ape.swap/zap-tx-builder'
+import { ChainId } from '@ape.swap/zap-tx-builder/dist/src/constants'
 import { useWeb3React } from '@web3-react/core'
 import { useApproval } from 'lib/hooks/useApproval'
 
@@ -17,7 +18,12 @@ export default function useZapApproval(
     : undefined
 
   // TODO: Fix supported chain id
-  const spender = chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined
+  let spender
+  if (zap.zapV2) {
+    spender = chainId ? ZAP_V2_ADDRESS[chainId as ChainId] : undefined
+  } else {
+    spender = chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined
+  }
 
   return useApproval(inAmount, spender, useIsPendingApproval)
 }
