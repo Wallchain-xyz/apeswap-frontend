@@ -21,15 +21,7 @@ export const utilitySlides = [
     action="STAKE"
     icon="exclusive-pools"
     title="Exclusive Pools"
-    detail="Access unique partner pools with higher APRs"
+    detail="Access real yield & other exclusive pools"
     href="https://apeswap.finance/pools"
-  />,
-  <UtilitySlide
-    key={3}
-    action="COMMIT"
-    icon="exclusive-offerings"
-    title="Exclusive Offerings"
-    detail="Access secondary IAO offerings for higher token allocations"
-    href="https://apeswap.finance/iao"
   />,
 ]
