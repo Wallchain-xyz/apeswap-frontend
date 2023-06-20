@@ -54,7 +54,7 @@ const DualActions: React.FC<DualActionsProps> = ({
   const { account } = useWeb3React()
   const [allowedSlippage] = useUserZapSlippageTolerance()
   const { t } = useTranslation()
-  const { zap } = useDerivedZapInfo()
+  const { zap } = useDerivedZapInfo(false)
   const [approval, approveZap] = useApproveCallbackFromZap(zap, allowedSlippage)
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
 

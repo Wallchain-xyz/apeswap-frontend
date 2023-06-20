@@ -54,7 +54,7 @@ const ZapLiquidity = ({
 
   const inputCurrency = useCurrency(currencyA)
 
-  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
+  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo(false)
 
   const { onUserInput, onCurrencySelection } = useZapActionHandlers()
 

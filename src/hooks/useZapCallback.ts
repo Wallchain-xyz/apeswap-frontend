@@ -47,6 +47,7 @@ interface FailedCall {
  */
 
 function useZapV1CallArguments(
+  useZapV2: boolean,
   zap: MergedZap,
   zapType: ZapType,
   allowedSlippage: Percent = DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE, // in bips
@@ -63,6 +64,7 @@ function useZapV1CallArguments(
 
   return useMemo(() => {
     if (
+      useZapV2 ||
       !zap?.currencyIn?.currency ||
       !zap?.pairOut?.pair ||
       !recipient ||
@@ -109,6 +111,7 @@ function useZapV1CallArguments(
 }
 
 function useZapV2CallArguments(
+  useZapV2: boolean,
   zap: MergedZap,
   zapType: ZapType,
   allowedSlippage: Percent = DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE, // in bips
@@ -129,6 +132,7 @@ function useZapV2CallArguments(
   useEffect(() => {
     const fetchData = async () => {
       if (
+        !useZapV2 ||
         !zap?.currencyIn?.currency ||
         !zap?.currencyOut1?.outputCurrency.address ||
         !zap?.currencyOut2?.outputCurrency.address ||
@@ -229,35 +233,42 @@ export function useZapCallback(
   // TODO: Fix the any
 ): { state: SwapCallbackState; callback: any; error: string | null } {
   const { account, chainId, provider } = useWeb3React()
+
   //TODO: Quick fix check for just gamma bonds
   const useZapV2: boolean = lpType === LPType.GAMMA
-  let swapCalls: SwapCall[] = []
   if (useZapV2) {
     if (!liquidityPool) {
       throw new Error('Gamma lp address expected but not found')
     }
-    swapCalls = useZapV2CallArguments(
-      zap,
-      zapType,
-      allowedSlippage,
-      recipientAddressOrName,
-      liquidityPool,
-      stakingContractAddress,
-      maxPrice,
-      poolPid,
-    )
-  } else {
-    swapCalls = useZapV1CallArguments(
-      zap,
-      zapType,
-      allowedSlippage,
-      recipientAddressOrName,
-      stakingContractAddress,
-      maxPrice,
-      poolPid,
-    )
   }
+  const swapCallsV2 = useZapV2CallArguments(
+    useZapV2,
+    zap,
+    zapType,
+    allowedSlippage,
+    recipientAddressOrName,
+    liquidityPool!,
+    stakingContractAddress,
+    maxPrice,
+    poolPid,
+  )
+  const swapCallsV1 = useZapV1CallArguments(
+    useZapV2,
+    zap,
+    zapType,
+    allowedSlippage,
+    recipientAddressOrName,
+    stakingContractAddress,
+    maxPrice,
+    poolPid,
+  )
 
+  let swapCalls: SwapCall[] = []
+  if (useZapV2) {
+    swapCalls = swapCallsV2
+  } else {
+    swapCalls = swapCallsV1
+  }
   const addTransaction = useTransactionAdder()
 
   const { address: recipientAddress } = useENS(recipientAddressOrName)

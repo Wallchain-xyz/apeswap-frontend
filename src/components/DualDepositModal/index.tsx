@@ -78,7 +78,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
     account ?? undefined,
     pair?.liquidityToken ?? currencyA ?? undefined,
   )
-  const { zap } = useDerivedZapInfo()
+  const { zap } = useDerivedZapInfo(false)
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
   const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2)).times(100).toNumber()
   const handleDeposit = useDualDeposit(!!currencyB, onStakeLp, pid ?? 0, setPendingDepositTrx, poolAddress, onDismiss)

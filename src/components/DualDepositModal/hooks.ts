@@ -18,7 +18,7 @@ const useDualDeposit = (
 ) => {
   const { chainId, provider } = useWeb3React()
   const { recipient, typedValue, zapType } = useZapState()
-  const { zap } = useDerivedZapInfo()
+  const { zap } = useDerivedZapInfo(false)
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
   const originalSlippage = useMemo(() => {
     return zapSlippage

@@ -54,7 +54,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const inputCurrency = useCurrency(currencyA)
 
-  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
+  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo(false)
   const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()
 
   const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)

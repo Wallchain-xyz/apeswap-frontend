@@ -35,7 +35,6 @@ import { mergeBestZaps } from './mergeBestZaps'
 import BigNumber from 'bignumber.js'
 import { zapInputTokens } from '@ape.swap/apeswap-lists'
 import { TradeState } from 'state/routing/types'
-import { useAlgebraPair } from 'hooks/useAlgebraPairs'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
