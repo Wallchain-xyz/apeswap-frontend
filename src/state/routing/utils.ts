@@ -4,6 +4,7 @@ import { Pair, Route as V2Route } from '@ape.swap/v2-sdk'
 import { FeeAmount, Pool, Route as V3Route } from '@ape.swap/v3-sdk'
 
 import { GetQuoteResult, InterfaceTrade, V2PoolInRoute, V3PoolInRoute } from './types'
+import { RouterPreference } from './slice'
 
 /**
  * Transforms a Routing API quote into an array of routes that can be used to create
@@ -13,7 +14,8 @@ export function computeRoutes(
   currencyIn: Currency | undefined,
   currencyOut: Currency | undefined,
   tradeType: TradeType,
-  quoteResult: Pick<GetQuoteResult, 'route'> | undefined
+  quoteResult: Pick<GetQuoteResult, 'route'> | undefined,
+  routerPreference: RouterPreference,
 ) {
   if (!quoteResult || !quoteResult.route || !currencyIn || !currencyOut) return undefined
 
@@ -22,7 +24,9 @@ export function computeRoutes(
   const parsedTokenIn = parseToken(quoteResult.route[0][0].tokenIn)
   const parsedTokenOut = parseToken(quoteResult.route[0][quoteResult.route[0].length - 1].tokenOut)
 
+  console.log('forst', parsedTokenIn.address !== currencyIn.wrapped.address)
   if (parsedTokenIn.address !== currencyIn.wrapped.address) return undefined
+  console.log('second', parsedTokenOut.address !== currencyOut.wrapped.address)
   if (parsedTokenOut.address !== currencyOut.wrapped.address) return undefined
 
   try {
@@ -69,22 +73,26 @@ export function transformRoutesToTrade<TTradeType extends TradeType>(
   route: ReturnType<typeof computeRoutes>,
   tradeType: TTradeType,
   blockNumber?: string | null,
-  gasUseEstimateUSD?: CurrencyAmount<Token> | null
+  gasUseEstimateUSD?: CurrencyAmount<Token> | null,
 ): InterfaceTrade<Currency, Currency, TTradeType> {
   return new InterfaceTrade({
     v2Routes:
       route
-        ?.filter((r): r is typeof route[0] & { routev2: NonNullable<typeof route[0]['routev2']> } => r.routev2 !== null)
+        ?.filter(
+          (r): r is (typeof route)[0] & { routev2: NonNullable<(typeof route)[0]['routev2']> } => r.routev2 !== null,
+        )
         .map(({ routev2, inputAmount, outputAmount }) => ({ routev2, inputAmount, outputAmount })) ?? [],
     v3Routes:
       route
-        ?.filter((r): r is typeof route[0] & { routev3: NonNullable<typeof route[0]['routev3']> } => r.routev3 !== null)
+        ?.filter(
+          (r): r is (typeof route)[0] & { routev3: NonNullable<(typeof route)[0]['routev3']> } => r.routev3 !== null,
+        )
         .map(({ routev3, inputAmount, outputAmount }) => ({ routev3, inputAmount, outputAmount })) ?? [],
     mixedRoutes:
       route
         ?.filter(
-          (r): r is typeof route[0] & { mixedRoute: NonNullable<typeof route[0]['mixedRoute']> } =>
-            r.mixedRoute !== null
+          (r): r is (typeof route)[0] & { mixedRoute: NonNullable<(typeof route)[0]['mixedRoute']> } =>
+            r.mixedRoute !== null,
         )
         .map(({ mixedRoute, inputAmount, outputAmount }) => ({ mixedRoute, inputAmount, outputAmount })) ?? [],
     tradeType,
@@ -104,13 +112,13 @@ const parsePool = ({ fee, sqrtRatioX96, liquidity, tickCurrent, tokenIn, tokenOu
     parseInt(fee) as FeeAmount,
     sqrtRatioX96,
     liquidity,
-    parseInt(tickCurrent)
+    parseInt(tickCurrent),
   )
 
 const parsePair = ({ reserve0, reserve1 }: V2PoolInRoute): Pair =>
   new Pair(
     CurrencyAmount.fromRawAmount(parseToken(reserve0.token), reserve0.quotient),
-    CurrencyAmount.fromRawAmount(parseToken(reserve1.token), reserve1.quotient)
+    CurrencyAmount.fromRawAmount(parseToken(reserve1.token), reserve1.quotient),
   )
 
 const genericPoolPairParser = (pool: V3PoolInRoute | V2PoolInRoute): Pool | Pair => {

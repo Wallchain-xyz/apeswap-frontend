@@ -8,6 +8,7 @@ import { InterfaceTrade } from 'state/routing/types'
 // import { BIPS_BASE } from 'config/constants/misc'
 import { computeZapPriceBreakdown } from 'utils/prices'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
+import BigNumber from 'bignumber.js'
 
 // Since a best zap can be null when its the same token we have to check for each possibility
 export function mergeBestZaps(
@@ -19,19 +20,102 @@ export function mergeBestZaps(
   allowedSlippage: Percent | 'auto',
   totalPairSupply: CurrencyAmount<Token> | undefined,
   chainId: SupportedChainId,
+  is0XApi?: boolean,
 ): MergedZap {
-  const currencyIn = bestZapOne?.inputAmount.currency || bestZapTwo?.inputAmount.currency
+  // if (is0XApi) {
+  //   console.log('is0xAPI so', bestZapOne, bestZapTwo)
+  //   //TODO: Not sure if matters but might not want to hardcode decimals here
+  //   const currencyIn = bestZapOne?.data?.sellTokenAddress
+  //     ? {
+  //         address: bestZapOne?.data?.sellTokenAddress,
+  //         chainId,
+  //         isNative: bestZapOne?.isNativeInput,
+  //         isToken: true,
+  //         decimals: 18,
+  //       }
+  //     : undefined
+
+  //   const inputAmount =
+  //     bestZapOne?.amount && bestZapTwo?.amount
+  //       ? JSBI.add(JSBI.BigInt(bestZapOne?.amount), JSBI.BigInt(bestZapTwo?.amount))
+  //       : bestZapOne?.amount
+  //       ? JSBI.add(JSBI.BigInt(bestZapOne?.amount), JSBI.BigInt(bestZapOne?.amount))
+  //       : bestZapTwo?.amount
+  //       ? JSBI.add(JSBI.BigInt(bestZapTwo?.amount), JSBI.BigInt(bestZapTwo?.amount))
+  //       : JSBI.BigInt(0)
+
+  //   const [pairState, pair] = outputPair
+
+  //   return {
+  //     currencyIn: {
+  //       currency: currencyIn,
+  //       inputAmount: inputAmount,
+  //     },
+  //     currencyOut1: {
+  //       outputCurrency: {
+  //         address: bestZapOne?.data?.buyTokenAddress || bestZapOne?.data?.sellTokenAddress,
+  //         chainId,
+  //         isNative: out1?.isNative,
+  //         isToken: true,
+  //       },
+  //       outputAmount: bestZapOne?.data?.buyAmount,
+  //       minOutputAmount: 0,
+  //       path: [],
+  //     },
+  //     currencyOut2: {
+  //       outputCurrency: {
+  //         address: bestZapTwo?.data?.buyTokenAddress || bestZapOne?.data?.sellTokenAddress,
+  //         chainId,
+  //         isNative: out2?.isNative,
+  //         isToken: true,
+  //       },
+  //       outputAmount: bestZapTwo?.data?.buyAmount,
+  //       minOutputAmount: 0,
+  //       path: [],
+  //     },
+  //     pairOut: {
+  //       pair,
+  //       pairState,
+  //       totalPairSupply,
+  //       liquidityMinted: 0,
+  //       inAmount: 0,
+  //       minInAmount: 0,
+  //       poolTokenPercentage: 0,
+  //     },
+  //     liquidityProviderFee: undefined,
+  //     totalPriceImpact: undefined,
+  //     chainId,
+  //   }
+  // }
+
+  let currencyIn
+  if (is0XApi) {
+    currencyIn = bestZapOne?.data?.sellTokenAddress
+      ? {
+          address: bestZapOne?.data?.sellTokenAddress,
+          chainId,
+          isNative: bestZapOne?.isNativeInput,
+          isToken: true,
+          decimals: 18,
+        }
+      : undefined
+  } else {
+    currencyIn = bestZapOne?.inputAmount?.currency || bestZapTwo?.inputAmount?.currency
+  }
+
   const slippageTolerance = allowedSlippage
 
-
   // We need to check if a zap path will wrap to not estimate a route
-
-  const inAndOutWrappedOne =
-    (currencyIn?.isNative && out1?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])) ||
-    (currencyIn?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId]) && out1?.isNative)
-  const inAndOutWrappedTwo =
-    (currencyIn?.isNative && out2?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])) ||
-    (currencyIn?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId]) && out2?.isNative)
+  let inAndOutWrappedOne = currencyIn?.isNative && out1?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])
+  let inAndOutWrappedTwo = currencyIn?.isNative && out2?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])
+  if (!is0XApi) {
+    inAndOutWrappedOne =
+      (currencyIn?.isNative && out1?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])) ||
+      (currencyIn?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId]) && out1?.isNative)
+    inAndOutWrappedTwo =
+      (currencyIn?.isNative && out2?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId])) ||
+      (currencyIn?.wrapped.equals(WRAPPED_NATIVE_CURRENCY[chainId]) && out2?.isNative)
+  }
 
   // If the input token and output token are the same we need to handle values differently
   const inAndOutAreTheSame1Flag = currencyIn === out1 || inAndOutWrappedOne
@@ -43,14 +127,26 @@ export function mergeBestZaps(
 
   const halfInput = bestZapOne?.inputAmount || bestZapTwo?.inputAmount
   // Since we divide the input by two for each route we add both inputs here
-  const inputAmount =
-    bestZapOne && bestZapTwo
-      ? JSBI.add(bestZapOne.inputAmount.quotient, bestZapTwo.inputAmount.quotient)
-      : bestZapOne
-      ? JSBI.add(bestZapOne.inputAmount.quotient, bestZapOne.inputAmount.quotient)
-      : bestZapTwo
-      ? JSBI.add(bestZapTwo.inputAmount.quotient, bestZapTwo.inputAmount.quotient)
-      : JSBI.BigInt(0)
+  let inputAmount
+  if (is0XApi) {
+    inputAmount =
+      bestZapOne?.amount && bestZapTwo?.amount
+        ? JSBI.add(JSBI.BigInt(bestZapOne?.amount), JSBI.BigInt(bestZapTwo?.amount))
+        : bestZapOne?.amount
+        ? JSBI.add(JSBI.BigInt(bestZapOne?.amount), JSBI.BigInt(bestZapOne?.amount))
+        : bestZapTwo?.amount
+        ? JSBI.add(JSBI.BigInt(bestZapTwo?.amount), JSBI.BigInt(bestZapTwo?.amount))
+        : JSBI.BigInt(0)
+  } else {
+    inputAmount =
+      bestZapOne && bestZapTwo
+        ? JSBI.add(bestZapOne.inputAmount.quotient, bestZapTwo.inputAmount.quotient)
+        : bestZapOne
+        ? JSBI.add(bestZapOne.inputAmount.quotient, bestZapOne.inputAmount.quotient)
+        : bestZapTwo
+        ? JSBI.add(bestZapTwo.inputAmount.quotient, bestZapTwo.inputAmount.quotient)
+        : JSBI.BigInt(0)
+  }
 
   // get best paths for each
   const pathOne = bestZapOne ? bestZapOne.routes?.[0].path : []
@@ -66,8 +162,15 @@ export function mergeBestZaps(
   const swapOutOne = outputOne
   const swapOutTwo = outputTwo
 
-  const minSwapOutOne = inAndOutAreTheSame1Flag ? halfInput : bestZapOne?.minimumAmountOut(slippageTolerance)
-  const minSwapOutTwo = inAndOutAreTheSame2Flag ? halfInput : bestZapTwo?.minimumAmountOut(slippageTolerance)
+  let minSwapOutOne
+  let minSwapOutTwo
+  if (is0XApi) {
+    minSwapOutOne = { wrapped: 0, quotient: 0 }
+    minSwapOutTwo = { wrapped: 0, quotient: 0 }
+  } else {
+    minSwapOutOne = inAndOutAreTheSame1Flag ? halfInput : bestZapOne?.minimumAmountOut(slippageTolerance)
+    minSwapOutTwo = inAndOutAreTheSame2Flag ? halfInput : bestZapTwo?.minimumAmountOut(slippageTolerance)
+  }
 
   // Wrap currencies to handle native
   const [wOutputOne, wOutputTwo, wMinSwapOutOne, wMinSwapOutTwo] = [
@@ -77,29 +180,33 @@ export function mergeBestZaps(
     minSwapOutTwo?.wrapped,
   ]
 
-  const { priceImpactWithoutFee: priceImpactWithoutFeeOne, realizedLPFee: realizedLPFeeOne } =
-    computeZapPriceBreakdown(bestZapOne)
+  let totalPriceImpact = 0
+  let liquidityProviderFee = 0
+  if (!is0XApi) {
+    const { priceImpactWithoutFee: priceImpactWithoutFeeOne, realizedLPFee: realizedLPFeeOne } =
+      computeZapPriceBreakdown(bestZapOne)
 
-  const { priceImpactWithoutFee: priceImpactWithoutFeeTwo, realizedLPFee: realizedLPFeeTwo } =
-    computeZapPriceBreakdown(bestZapTwo)
+    const { priceImpactWithoutFee: priceImpactWithoutFeeTwo, realizedLPFee: realizedLPFeeTwo } =
+      computeZapPriceBreakdown(bestZapTwo)
 
-  // Take the greater price impact as that will be used for the LP value
-  const totalPriceImpact =
-    priceImpactWithoutFeeOne && priceImpactWithoutFeeTwo
-      ? priceImpactWithoutFeeOne.greaterThan(priceImpactWithoutFeeTwo)
+    // Take the greater price impact as that will be used for the LP value
+    totalPriceImpact =
+      priceImpactWithoutFeeOne && priceImpactWithoutFeeTwo
+        ? priceImpactWithoutFeeOne.greaterThan(priceImpactWithoutFeeTwo)
+          ? priceImpactWithoutFeeOne
+          : priceImpactWithoutFeeTwo
+        : priceImpactWithoutFeeOne
         ? priceImpactWithoutFeeOne
         : priceImpactWithoutFeeTwo
-      : priceImpactWithoutFeeOne
-      ? priceImpactWithoutFeeOne
-      : priceImpactWithoutFeeTwo
 
-  // Add fees if swap occurs otherwise use swap
-  const liquidityProviderFee =
-    realizedLPFeeOne && realizedLPFeeTwo
-      ? realizedLPFeeOne?.add(realizedLPFeeTwo)
-      : realizedLPFeeOne
-      ? realizedLPFeeOne
-      : realizedLPFeeTwo
+    // Add fees if swap occurs otherwise use swap
+    liquidityProviderFee =
+      realizedLPFeeOne && realizedLPFeeTwo
+        ? realizedLPFeeOne?.add(realizedLPFeeTwo)
+        : realizedLPFeeOne
+        ? realizedLPFeeOne
+        : realizedLPFeeTwo
+  }
 
   const pairInAmount =
     outputCurrencyOne &&
@@ -120,8 +227,27 @@ export function mergeBestZaps(
       ?.quote(inAndOutAreTheSame1Flag ? wMinSwapOutTwo : wMinSwapOutOne)
       ?.quotient.toString()
 
-  const liquidityMinted =
-    wOutputOne && wOutputTwo && totalPairSupply && pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo)
+  let liquidityMinted
+  if (is0XApi) {
+    //TODO IMPORTANT: Temporarily hardcoding 0 value so you can buy buy bond.
+    //but this shows how much bond is worth I think so needs the right value.
+    //Blocked by not being able to get right pair (Only can get V2 rn)
+    liquidityMinted = CurrencyAmount.fromRawAmount(
+      new Token(chainId, '0x9f1a8caf3c8e94e43aa64922d67dff4dc3e88a42', 18),
+      0,
+    )
+  } else {
+    liquidityMinted =
+      wOutputOne && wOutputTwo && totalPairSupply && pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo)
+  }
+  console.log(
+    'liquidityMinted',
+    liquidityMinted,
+    wOutputOne,
+    wOutputTwo,
+    totalPairSupply,
+    pair ?? pair?.getLiquidityMinted(totalPairSupply, wOutputOne, wOutputTwo),
+  )
 
   const poolTokenPercentage =
     liquidityMinted && totalPairSupply

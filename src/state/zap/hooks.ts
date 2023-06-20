@@ -20,7 +20,7 @@ import { useTrackedTokenPairs, useUserSlippageTolerance } from '../user/hooks'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, CurrencyAmount, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
 import { useBestTrade } from 'hooks/useBestTrade'
-import { useV2Pair } from 'hooks/useV2Pairs'
+import { PairState, useV2Pair } from 'hooks/useV2Pairs'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { useWeb3React } from '@web3-react/core'
 import { useTotalSupply } from 'hooks/useTotalSupply'
@@ -35,6 +35,7 @@ import { mergeBestZaps } from './mergeBestZaps'
 import BigNumber from 'bignumber.js'
 import { zapInputTokens } from '@ape.swap/apeswap-lists'
 import { TradeState } from 'state/routing/types'
+import { useAlgebraPair } from 'hooks/useAlgebraPairs'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -129,7 +130,8 @@ const BAD_RECIPIENT_ADDRESSES: string[] = [
 ]
 
 // from the current swap inputs, compute the best trade and return it.
-export function useDerivedZapInfo() {
+export function useDerivedZapInfo(zeroXApi: boolean) {
+  console.log('useDerivedZapInfo')
   const {
     typedValue,
     [Field.INPUT]: { currencyId: inputCurrencyId },
@@ -146,6 +148,7 @@ export function useDerivedZapInfo() {
   const outputPair = useV2Pair(out0 ?? undefined, out1 ?? undefined)
   const totalSupply = useTotalSupply(outputPair?.[1]?.liquidityToken)
 
+  console.log('lp = ', out0, out1, outputPair)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
   const [allowedSlippage] = useUserSlippageTolerance()
@@ -163,10 +166,13 @@ export function useDerivedZapInfo() {
     [inputCurrency, halfTypedValue],
   )
 
-  const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2])
-  const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2])
+  const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2], zeroXApi)
+  console.log('bestZapOne', bestZapOne)
+  const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2], zeroXApi)
+  console.log('bestZapTwo', bestZapTwo)
 
-
+  const is0xApi: boolean = bestZapOne?.trade?.zeroXApi || bestZapTwo?.trade?.zeroXApi || false
+  console.log('is0xApi', is0xApi, bestZapOne?.trade)
   const zap = useMemo(
     () =>
       mergeBestZaps(
@@ -178,6 +184,7 @@ export function useDerivedZapInfo() {
         allowedSlippage,
         totalSupply,
         chainId || SupportedChainId.BSC,
+        is0xApi,
       ),
     [bestZapOne, bestZapTwo, out0, out1, outputPair, allowedSlippage, totalSupply, chainId],
   )

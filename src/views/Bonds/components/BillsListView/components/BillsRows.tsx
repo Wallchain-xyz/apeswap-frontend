@@ -39,7 +39,8 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
 
         const thresholdToHide = new BigNumber(11).div(earnTokenPrice ?? '0')
         const thresholdToShow = new BigNumber(5).div(earnTokenPrice ?? '0')
-        const disabled = new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
+
+        const disabled = false // new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
 
         const displayAvailable = available.minus(thresholdToShow).toFixed(0)
         const explorerLink = BLOCK_EXPLORER[chainId as SupportedChainId]
@@ -130,7 +131,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                       buttonText={disabled ? t('SOLD OUT') : t('BUY')}
                       id={bill.index}
                       buyFlag
-                      disabled={!bill.discount || bill.discount.includes('NaN') || disabled}
+                      disabled={disabled} //{!bill.discount || bill.discount.includes('NaN') || disabled}
                     />
                   ) : (
                     <Flex sx={{ minWidth: '145px' }}>

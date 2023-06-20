@@ -85,7 +85,17 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     }
   }
 
-  const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, '', pid)
+  const { callback: zapCallback } = useZapCallback(
+    zap,
+    zapType,
+    zapSlippage,
+    recipient,
+    //TODO: For ZapV2 fix this
+    'Not used',
+    poolAddress,
+    '',
+    pid,
+  )
 
   const handleZap = useCallback(() => {
     setZapErrorMessage('')

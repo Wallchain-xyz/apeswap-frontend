@@ -22,9 +22,11 @@ export function useBestTrade(
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
   protocols?: Protocol[],
+  zeroXApi?: boolean,
 ): {
   state: TradeState
-  trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
+  //TODO: remove any, but need to for useRoutingAPITrade()
+  trade: InterfaceTrade<Currency, Currency, TradeType> | undefined | any
 } {
   const autoRouterSupported = useAutoRouterSupported()
   const isWindowVisible = useIsWindowVisible()
@@ -39,9 +41,12 @@ export function useBestTrade(
     tradeType,
     autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,
     debouncedOtherCurrency,
-    clientSideRouter ? RouterPreference.CLIENT : RouterPreference.API,
+    //TODO IMPORTANT: hardcoded 0XAPI but should be dynamic. (previously it was)
+    // clientSideRouter ? RouterPreference.CLIENT : RouterPreference.API,
+    clientSideRouter ? (zeroXApi ? RouterPreference.ZEROX_API : RouterPreference.CLIENT) : RouterPreference.API,
     protocols,
   )
+  console.log('routingAPITrade', routingAPITrade)
 
   const isLoading = routingAPITrade.state === TradeState.LOADING
   const useFallback = !autoRouterSupported || routingAPITrade.state === TradeState.NO_ROUTE_FOUND

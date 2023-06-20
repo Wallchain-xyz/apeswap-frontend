@@ -1,0 +1,1473 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IWETH",
+        "name": "wNative",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ITreasury",
+        "name": "goldenBananaTreasury",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_zapAnalyzer",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "lpRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint24",
+            "name": "fee",
+            "type": "uint24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "arrakisFactory",
+            "type": "address"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapLiquidity.AddLiquidityArrakisParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "AddLiquidityArrakis",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "hypervisor",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[4]",
+            "name": "inMin",
+            "type": "uint256[4]"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapLiquidity.AddLiquidityGammaParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "AddLiquidityGamma",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "lpRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapLiquidity.AddLiquidityV2Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "AddLiquidityV2",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "lpRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint24",
+            "name": "fee",
+            "type": "uint24"
+          },
+          {
+            "internalType": "int24",
+            "name": "tickLower",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "tickUpper",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapLiquidity.AddLiquidityV3Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "AddLiquidityV3",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "hypervisor",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "shares",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[4]",
+            "name": "minAmounts",
+            "type": "uint256[4]"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapLiquidity.RemoveLiquidityGammaParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "RemoveLiquidityGamma",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract IV2LiquidityRouter02",
+            "name": "router",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IApePair",
+            "name": "lp",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountAMinRemove",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountBMinRemove",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapLiquidity.RemoveLiquidityV2Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "RemoveLiquidityV2",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract IERC20",
+            "name": "inputToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ZapSwap.SwapType2",
+            "name": "swapType",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "caller",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes[]",
+            "name": "swapData",
+            "type": "bytes[]"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ZapSwap.SwapParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "Swap",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "inputAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ICErc20",
+        "name": "market",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "outputAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "ZapLending",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "inputAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ICErc20",
+        "name": "market",
+        "type": "address"
+      }
+    ],
+    "name": "ZapLendingMarket",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IMiniApeV2",
+            "name": "miniApe",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ApeSwapZapMiniApeV2.zapMiniApeV2Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "ZapMiniApeV2",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IBEP20RewardApeV5",
+            "name": "pool",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ApeSwapZapPools.ZapPoolParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "ZapPool",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract ICustomBill",
+            "name": "bill",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct ApeSwapZapTBills.zapTBillParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "ZapTBill",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IERC20",
+        "name": "inputToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "inputAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vaultPid",
+        "type": "uint256"
+      }
+    ],
+    "name": "ZapVault",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "BANANA",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GNANA",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GNANA_TREASURY",
+    "outputs": [
+      {
+        "internalType": "contract ITreasury",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "LENDING_NATIVE_UNDERLYING",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "WNative",
+    "outputs": [
+      {
+        "internalType": "contract IWETH",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "lpRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint24",
+            "name": "fee",
+            "type": "uint24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "arrakisFactory",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ZapLiquidity.AddLiquidityArrakisParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "addLiquidityArrakis",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0Lp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1Lp",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "hypervisor",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[4]",
+            "name": "inMin",
+            "type": "uint256[4]"
+          }
+        ],
+        "internalType": "struct ZapLiquidity.AddLiquidityGammaParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "addLiquidityGamma",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "lpRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct ZapLiquidity.AddLiquidityV2Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "addLiquidityV2",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0Lp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1Lp",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "lpRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint24",
+            "name": "fee",
+            "type": "uint24"
+          },
+          {
+            "internalType": "int24",
+            "name": "tickLower",
+            "type": "int24"
+          },
+          {
+            "internalType": "int24",
+            "name": "tickUpper",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Desired",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount0Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount1Min",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct ZapLiquidity.AddLiquidityV3Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "addLiquidityV3",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "swapRouter",
+                "type": "address"
+              },
+              {
+                "internalType": "enum IZapAnalyzer.SwapType",
+                "name": "swapType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address[]",
+                "name": "path",
+                "type": "address[]"
+              },
+              {
+                "internalType": "uint24[]",
+                "name": "uniV3PoolFees",
+                "type": "uint24[]"
+              }
+            ],
+            "internalType": "struct IZapAnalyzer.SwapPath[]",
+            "name": "swapPath0",
+            "type": "tuple[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "swapRouter",
+                "type": "address"
+              },
+              {
+                "internalType": "enum IZapAnalyzer.SwapType",
+                "name": "swapType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address[]",
+                "name": "path",
+                "type": "address[]"
+              },
+              {
+                "internalType": "uint24[]",
+                "name": "uniV3PoolFees",
+                "type": "uint24[]"
+              }
+            ],
+            "internalType": "struct IZapAnalyzer.SwapPath[]",
+            "name": "swapPath1",
+            "type": "tuple[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "lpRouter",
+                "type": "address"
+              },
+              {
+                "internalType": "enum IZapAnalyzer.LiquidityType",
+                "name": "liquidityType",
+                "type": "uint8"
+              },
+              {
+                "internalType": "uint24",
+                "name": "uniV3PoolLPFee",
+                "type": "uint24"
+              },
+              {
+                "internalType": "int24",
+                "name": "tickLower",
+                "type": "int24"
+              },
+              {
+                "internalType": "int24",
+                "name": "tickUpper",
+                "type": "int24"
+              },
+              {
+                "internalType": "address",
+                "name": "arrakisFactory",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct IZapAnalyzer.LiquidityPath",
+            "name": "liquidityPath",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct IZapAnalyzer.SwapReturnsParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "estimateSwapReturns",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "swapToToken0",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "swapToToken1",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minAmountSwap0",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minAmountSwap1",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IZapAnalyzer.SwapReturns",
+        "name": "returnValues",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes[]",
+        "name": "data",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "multicall",
+    "outputs": [
+      {
+        "internalType": "bytes[]",
+        "name": "results",
+        "type": "bytes[]"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "hypervisor",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "shares",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[4]",
+            "name": "minAmounts",
+            "type": "uint256[4]"
+          }
+        ],
+        "internalType": "struct ZapLiquidity.RemoveLiquidityGammaParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "removeLiquidityGamma",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount1",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract IV2LiquidityRouter02",
+            "name": "router",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IApePair",
+            "name": "lp",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountAMinRemove",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountBMinRemove",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct ZapLiquidity.RemoveLiquidityV2Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "removeLiquidityV2",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountAReceived",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountBReceived",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract IERC20",
+            "name": "inputToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ZapSwap.SwapType2",
+            "name": "swapType",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "caller",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes[]",
+            "name": "swapData",
+            "type": "bytes[]"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct ZapSwap.SwapParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "swap",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      }
+    ],
+    "name": "unwrapNative",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      }
+    ],
+    "name": "wrapNative",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "zapAnalyzer",
+    "outputs": [
+      {
+        "internalType": "contract IZapAnalyzer",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "inputAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "contract ICErc20",
+        "name": "market",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      }
+    ],
+    "name": "zapLendingMarket",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IMiniApeV2",
+            "name": "miniApe",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ApeSwapZapMiniApeV2.zapMiniApeV2Params",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "zapMiniApeV2",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IBEP20RewardApeV5",
+            "name": "pool",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ApeSwapZapPools.ZapPoolParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "zapPool",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "contract ICustomBill",
+            "name": "bill",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ApeSwapZapTBills.zapTBillParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "zapTBill",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "inputAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IMaximizerVaultApe",
+            "name": "maximizerVaultApe",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "vaultPid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ApeSwapZapVaults.zapVaultParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "zapVault",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }
+]

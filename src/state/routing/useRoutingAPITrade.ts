@@ -26,7 +26,8 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   protocols?: Protocol[],
 ): {
   state: TradeState
-  trade: InterfaceTrade<Currency, Currency, TTradeType> | undefined
+  //TODO: should not have type any, but need it for L107 `return { state: TradeState.VALID, trade: quoteResult }`
+  trade: InterfaceTrade<Currency, Currency, TTradeType> | undefined | any
 } {
   const [currencyIn, currencyOut]: [Currency | undefined, Currency | undefined] = useMemo(
     () =>
@@ -49,24 +50,28 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     // Price-fetching is informational and costly, so it's done less frequently.
     pollingInterval: routerPreference === RouterPreference.PRICE ? 120000 : AVERAGE_L1_BLOCK_TIME,
   })
+  console.log('THIS DATA', data, isLoading, isError)
 
   const quoteResult: GetQuoteResult | undefined = useIsValidBlock(Number(data?.blockNumber) || 0) ? data : undefined
+  console.log('AND THIS', quoteResult, currencyIn, currencyOut, tradeType, quoteResult, routerPreference)
+  const route = useMemo(() => {
+    if (routerPreference === RouterPreference.ZEROX_API) return []
+    return computeRoutes(currencyIn, currencyOut, tradeType, quoteResult, routerPreference)
+  }, [currencyIn, currencyOut, quoteResult, tradeType, routerPreference])
 
-  const route = useMemo(
-    () => computeRoutes(currencyIn, currencyOut, tradeType, quoteResult),
-    [currencyIn, currencyOut, quoteResult, tradeType],
-  )
-
+  console.log('the actual route is', route)
   // get USD gas cost of trade in active chains stablecoin amount
   const gasUseEstimateUSD = useStablecoinAmountFromFiatValue(quoteResult?.gasUseEstimateUSD) ?? null
 
   const isSyncing = currentData !== data
 
   return useMemo(() => {
-    if (!currencyIn || !currencyOut) {
-      return {
-        state: TradeState.INVALID,
-        trade: undefined,
+    if (routerPreference != RouterPreference.ZEROX_API) {
+      if (!currencyIn || !currencyOut) {
+        return {
+          state: TradeState.INVALID,
+          trade: undefined,
+        }
       }
     }
 
@@ -89,14 +94,20 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
       }
     }
 
-    if (isError || !otherAmount || !route || route.length === 0 || !queryArgs) {
-      return {
-        state: TradeState.NO_ROUTE_FOUND,
-        trade: undefined,
+    if (routerPreference != RouterPreference.ZEROX_API) {
+      console.log('no route found because', isError, !otherAmount, route, !queryArgs)
+      if (isError || !otherAmount || !route || route.length === 0 || !queryArgs) {
+        return {
+          state: TradeState.NO_ROUTE_FOUND,
+          trade: undefined,
+        }
       }
     }
 
     try {
+      if (routerPreference === RouterPreference.ZEROX_API) {
+        return { state: TradeState.VALID, trade: { ...data, zeroXApi: true } }
+      }
       const trade = transformRoutesToTrade(route, tradeType, quoteResult?.blockNumber, gasUseEstimateUSD)
       return {
         // always return VALID regardless of isFetching status

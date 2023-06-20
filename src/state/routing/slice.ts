@@ -1,16 +1,20 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
-import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
+import { AlphaRouter, ChainId, Sources, ZeroXRouter } from '@ape.swap/smart-order-router'
 import { RPC_PROVIDERS } from 'config/constants/providers'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import qs from 'qs'
 
 import { GetQuoteResult } from './types'
+import { CurrencyAmount, Token, TradeType } from '@ape.swap/sdk-core'
+import JSBI from 'jsbi'
+import useBlockNumber from 'lib/hooks/useBlockNumber'
 
 export enum RouterPreference {
   API = 'api',
   CLIENT = 'client',
   PRICE = 'price',
+  ZEROX_API = '0xApi',
 }
 
 const routers = new Map<ChainId, AlphaRouter>()
@@ -23,6 +27,22 @@ function getRouter(chainId: ChainId): AlphaRouter {
     const provider = RPC_PROVIDERS[supportedChainId]
     const router = new AlphaRouter({ chainId, provider })
     routers.set(chainId, router)
+    return router
+  }
+
+  throw new Error(`Router does not support this chain (chainId: ${chainId}).`)
+}
+
+const ZeroXrouters = new Map<ChainId, ZeroXRouter>()
+function get0xApiRouter(chainId: ChainId): ZeroXRouter {
+  const router = ZeroXrouters.get(chainId)
+  if (router) return router
+
+  const supportedChainId = toSupportedChainId(chainId)
+  if (supportedChainId) {
+    const provider = RPC_PROVIDERS[supportedChainId]
+    const router = new ZeroXRouter({ chainId, provider })
+    ZeroXrouters.set(chainId, router)
     return router
   }
 
@@ -71,6 +91,7 @@ export const routingApi = createApi({
     getQuote: build.query<
       GetQuoteResult,
       {
+        isNativeInput: boolean
         tokenInAddress: string
         tokenInChainId: ChainId
         tokenInDecimals: number
@@ -86,7 +107,7 @@ export const routingApi = createApi({
       }
     >({
       async queryFn(args, _api, _extraOptions, fetch) {
-        const {
+        let {
           tokenInAddress,
           tokenInChainId,
           tokenOutAddress,
@@ -97,6 +118,7 @@ export const routingApi = createApi({
           type,
         } = args
 
+        console.log('args', args)
         let result
 
         try {
@@ -111,6 +133,36 @@ export const routingApi = createApi({
               type,
             })
             result = await fetch(`quote?${query}`)
+          } else if (routerPreference === RouterPreference.ZEROX_API) {
+            console.log('ZEROXAPI START')
+            const router = get0xApiRouter(args.tokenInChainId)
+            const {
+              isNativeInput,
+              tokenInAddress,
+              tokenInChainId,
+              tokenInDecimals,
+              tokenInSymbol,
+              tokenOutAddress,
+              tokenOutChainId,
+              tokenOutDecimals,
+              tokenOutSymbol,
+              amount,
+              type,
+            } = args
+
+            const currencyIn = new Token(tokenInChainId, tokenInAddress, tokenInDecimals, tokenInSymbol)
+            const currencyOut = new Token(tokenOutChainId, tokenOutAddress, tokenOutDecimals, tokenOutSymbol)
+
+            const currencyAmount = CurrencyAmount.fromRawAmount(currencyIn, JSBI.BigInt(amount))
+
+            const data = await router.route(
+              isNativeInput,
+              currencyAmount,
+              currencyOut,
+              type === 'exactIn' ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
+              { includeSources: [Sources.UniswapV2, Sources.UniswapV3] },
+            )
+            result = { data }
           } else {
             const router = getRouter(args.tokenInChainId)
             result = await getClientSideQuote(
@@ -121,6 +173,7 @@ export const routingApi = createApi({
               // To get routes specifically for zap we need to pass protocol arg
               { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
             )
+            console.log('a test swap looks like: ', result)
           }
           return { data: result.data as GetQuoteResult }
         } catch (e) {

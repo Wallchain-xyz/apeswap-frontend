@@ -28,6 +28,7 @@ export function useRoutingAPIArguments({
       !tokenIn || !tokenOut || !amount || tokenIn.equals(tokenOut)
         ? undefined
         : {
+            isNativeInput: tokenIn.isNative,
             amount: amount.quotient.toString(),
             tokenInAddress: tokenIn.wrapped.address,
             tokenInChainId: tokenIn.wrapped.chainId,

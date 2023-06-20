@@ -68,7 +68,16 @@ const ZapLiquidity = ({
     [onCurrencySelection],
   )
 
-  const { callback: zapCallback } = useZapCallback(zap as any, zapType, zapSlippage, recipient, '', undefined)
+  const { callback: zapCallback } = useZapCallback(
+    zap as any,
+    zapType,
+    zapSlippage,
+    recipient,
+    //TODO: For ZapV2 fix this
+    'Not used',
+    '',
+    undefined,
+  )
 
   const handleZap = useCallback(() => {
     setZapState({

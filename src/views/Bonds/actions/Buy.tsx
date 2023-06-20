@@ -21,12 +21,15 @@ import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { BillValueContainer, TextWrapper } from '../components/Modals/styles'
 import { useBillType } from '../hooks/useBillType'
+import { useBillLPType } from '../hooks/useBillLPType'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from '../../../components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import { LPType } from '@ape.swap/apeswap-lists'
+import { useBillLPAddress } from '../hooks/useBillLPAddress'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
@@ -46,6 +49,14 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { chainId, account, provider } = useWeb3React()
   const { recipient, typedValue } = useZapState()
   const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
+  const billLPType = useBillLPType(contractAddress[chainId as SupportedChainId] ?? '')
+  let gammaLp: string | undefined = ''
+  if (billLPType == LPType.GAMMA) {
+    gammaLp = useBillLPAddress(contractAddress[chainId as SupportedChainId] ?? '')
+    if (!gammaLp) {
+      throw new Error('Gamma lp address expected but not found')
+    }
+  }
   const { onBuyBill } = useBuyBill(
     contractAddress[chainId as SupportedChainId] ?? '',
     typedValue,
@@ -71,7 +82,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     pair?.liquidityToken ?? currencyA ?? undefined,
   )
 
-  const { zap, zapRouteState } = useDerivedZapInfo()
+  const { zap, zapRouteState } = useDerivedZapInfo(billLPType == LPType.GAMMA)
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
 
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
@@ -81,8 +92,11 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     ZapType.ZAP_T_BILL,
     zapSlippage,
     recipient,
+    gammaLp,
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
+    '0',
+    billLPType,
   )
   const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
 
@@ -106,6 +120,15 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const consideredValue = currencyB ? typedValue : zap?.pairOut?.liquidityMinted?.toExact()
   const bigValue = new BigNumber(consideredValue).times(new BigNumber(10).pow(18))
   const billValue = bigValue.div(new BigNumber(price ?? 0))?.toString()
+  console.log(
+    ' billValue PRICE',
+    bigValue,
+    consideredValue,
+    zap?.pairOut,
+    zap?.pairOut?.liquidityMinted?.toExact(),
+    price,
+    billValue,
+  )
   const available = new BigNumber(maxTotalPayOut ?? 0)
     ?.minus(new BigNumber(totalPayoutGiven ?? 0))
     ?.div(new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18))
@@ -178,7 +201,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               cat: 'bill',
               token1: zap.currencyIn.currency.symbol,
               token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
-              amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+              amount: 40, //getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
             },
           })
           track({

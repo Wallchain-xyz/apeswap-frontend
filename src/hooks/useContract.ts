@@ -15,6 +15,7 @@ import BOND_NFT_ABI from 'config/abi/bondNft.json'
 import NFA_ABI from 'config/abi/nonFungibleApes.json'
 import NFB_ABI from 'config/abi/nonFungibleBananas.json'
 import ZAP_ABI from 'config/abi/zap.json'
+import ZAP_V2_ABI from 'config/abi/zapV2.json'
 import SOUS_CHEF_ABI from 'config/abi/sousChef.json'
 import MASTER_CHEF_ABI from 'config/abi/masterchef.json'
 import MASTER_CHEF_V2_ABI from 'config/abi/masterChefV2.json'
@@ -66,10 +67,12 @@ import { Weth } from 'config/abi/types/Weth'
 import { Zap } from 'config/abi/types/Zap'
 import { NonFungibleApes } from 'config/abi/types/NonFungibleApes'
 import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
+import { ZAP_ADDRESS as ZAP_V2_ADDRESS } from '@ape.swap/zap-tx-builder'
 import { NonFungibleBananas } from 'config/abi/types/NonFungibleBananas'
 import { useSelector } from 'react-redux'
 import { AppState } from 'state'
 import { pools } from '@ape.swap/apeswap-lists'
+import { ChainId } from '@ape.swap/zap-tx-builder/dist/src/constants'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -227,6 +230,11 @@ export function useWETHContract(withSignerIfPossible?: boolean) {
 export function useZapContract(withSignerIfPossible?: boolean) {
   const { chainId } = useWeb3React()
   return useContract<Zap>(chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined, ZAP_ABI, withSignerIfPossible)
+}
+
+export function useZapV2Contract(withSignerIfPossible?: boolean) {
+  const { chainId } = useWeb3React()
+  return useContract<Zap>(chainId ? ZAP_V2_ADDRESS[chainId as ChainId] : undefined, ZAP_V2_ABI, withSignerIfPossible)
 }
 
 export const useGnanaToken = () => {

@@ -28,6 +28,7 @@ const BillActions: React.FC<BillActionsProps> = ({
 }) => {
   const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
+  console.log('error zap', zap)
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
 
@@ -51,6 +52,18 @@ const BillActions: React.FC<BillActionsProps> = ({
     setPendingApprove(false)
   }
 
+  console.log(
+    'button disabled because',
+    billValue === 'NaN',
+    parseFloat(billValue) < 0.01,
+    parseFloat(billValue) > parseFloat(purchaseLimit),
+    parseFloat(balance) < parseFloat(value),
+    pendingApprove,
+    pendingTrx,
+    !!errorMessage,
+    zapRouteState === TradeState.LOADING,
+  )
+
   return (
     <>
       {!currencyB && showApproveZapFlow ? (
@@ -72,11 +85,14 @@ const BillActions: React.FC<BillActionsProps> = ({
         <BuyButton
           onClick={handleBuy}
           load={pendingTrx || zapRouteState === TradeState.LOADING}
+          //TODO important: fix loading button
           disabled={
             billValue === 'NaN' ||
-            parseFloat(billValue) < 0.01 ||
+            // TODO important: temporarily disabled because billvalue is always 0 for gamma bills
+            // parseFloat(billValue) < 0.01 ||
             parseFloat(billValue) > parseFloat(purchaseLimit) ||
-            parseFloat(balance) < parseFloat(value) ||
+            // TODO important: temporarliy disabled because can't get LP balance yet
+            // parseFloat(balance) < parseFloat(value) ||
             pendingApprove ||
             pendingTrx ||
             !!errorMessage ||

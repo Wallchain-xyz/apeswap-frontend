@@ -1,5 +1,6 @@
 import { Currency, CurrencyAmount, Percent, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
+import { ZAP_ADDRESS as ZAP_V2_ADDRESS } from '@ape.swap/zap-tx-builder'
 import { useWeb3React } from '@web3-react/core'
 import { useApproval } from 'lib/hooks/useApproval'
 
@@ -12,7 +13,7 @@ export default function useZapApproval(
   const { chainId } = useWeb3React()
 
   const inAmount = zap?.currencyIn?.currency
-    ? CurrencyAmount.fromRawAmount(zap?.currencyIn?.currency, zap.currencyIn?.inputAmount)
+    ? CurrencyAmount.fromRawAmount(zap?.currencyIn?.currency, zap?.currencyIn?.inputAmount)
     : undefined
 
   // TODO: Fix supported chain id
