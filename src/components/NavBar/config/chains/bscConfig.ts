@@ -39,24 +39,11 @@ const bscConfig: NavConfig[] = [
         label: 'Maximizers',
         href: `${TEMP_APESWAP_URL}/maximizers`,
       },
-      {
-        label: 'Migrate',
-        href: `${TEMP_APESWAP_URL}/the-migration`,
-      },
     ],
   },
   {
-    label: 'Raise',
-    items: [
-      {
-        label: 'Bonds',
-        href: `/bonds`,
-      },
-      {
-        label: 'Official IAO',
-        href: `${TEMP_APESWAP_URL}/iao`,
-      },
-    ],
+    label: 'Bonds',
+    href: `/bonds`,
   },
   {
     label: 'Collect',

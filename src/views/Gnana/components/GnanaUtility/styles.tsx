@@ -45,7 +45,7 @@ export const Bubble = styled.div<{ isActive?: boolean }>`
 
 export const styles = {
   mainContainer: {
-    width: '250px',
+    width: '350px',
     margin: '10px',
     maxWidth: '80vw',
     height: '100%',
