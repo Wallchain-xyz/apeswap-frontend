@@ -53,7 +53,7 @@ export const ACCESS_LINKS: { label: string; href: string }[] = [
   },
   {
     label: 'Migration',
-    href: 'https://legacy.apeswap.finance/migration',
+    href: 'https://legacy.apeswap.finance/the-migration',
   },
 ]
 
