@@ -30,7 +30,7 @@ const BillsListView: React.FC = () => {
         ?.minus(new BigNumber(totalPayoutGiven ?? '0'))
         ?.div(new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? '18'))
 
-      const thresholdToHide = new BigNumber(11).div(earnTokenPrice ?? '0')
+      const thresholdToHide = new BigNumber(100).div(earnTokenPrice ?? '0')
       return available.lte(thresholdToHide) || discount === '100.00'
     },
     [chainId],
