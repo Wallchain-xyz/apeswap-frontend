@@ -47,7 +47,6 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
 
   if (theme) {
     theme.initialColorModeName = initialColorMode
-    theme.printColorModeName = initialColorMode
   }
 
   return (

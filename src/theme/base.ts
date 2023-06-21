@@ -19,7 +19,7 @@ const mediaQueries: MediaQueries = {
 }
 
 const baseTheme = {
-  initialColorModeName: 'dark',
+  initialColorModeName: 'light',
   breakpoints: [
     `${breakpointMap.xs}px`,
     `${breakpointMap.sm}px`,
