@@ -84,7 +84,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 width={720}
                 height={405}
                 alt={'user-bill'}
-                src={`${userOwnedBillNftData?.image + '?img-width=480'}`}
+                src={`${userOwnedBillNftData?.image + '?img-width=720'}`}
                 layout="responsive"
               />
             </Flex>
