@@ -66,7 +66,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
               <Tooltip
                 tokenContract={bill?.earnToken?.address[chainId as SupportedChainId] || ''}
                 secondURL={billContractURL}
-                secondURLTitle={t('View Bill Contract')}
+                secondURLTitle={t('View Bond Contract')}
                 thirdURL={`https://bond-insights.apeswap.finance/spotlight/${bill?.contractAddress[
                   chainId as SupportedChainId
                 ]?.toLowerCase()}`}

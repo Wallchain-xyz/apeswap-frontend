@@ -77,6 +77,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
             width={2300}
             height={1350}
             alt={'hidden-bill'}
+            placeholder="empty"
             src={loading && !billId ? '/images/bills/bill-nfts.gif' : '/images/bills/hidden-bill.jpg'}
             layout="responsive"
           />
