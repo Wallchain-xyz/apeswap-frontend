@@ -20,7 +20,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
     <SharableCard
       tokenSymbol={fullProfile?.addressMapping?.tokenSymbol}
       tokenName={fullProfile?.addressMapping?.tokenName}
-      tokenImageURL={fullProfile?.addressMapping?.tokenLogoUrl}
+      tokenImageURL={fullProfile?.addressMapping?.cloudinaryLogoUrl ? fullProfile?.addressMapping?.cloudinaryLogoUrl : fullProfile?.addressMapping?.tokenLogoUrl}
       totalScore={fullProfile?.totalScore}
       healthScore={fullProfile?.healthScore}
       concentrationScore={fullProfile?.concentrationScore}

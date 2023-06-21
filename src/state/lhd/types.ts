@@ -14,6 +14,7 @@ export interface AddressMapping {
   tokenSymbol: string
   tokenName: string
   tokenLogoUrl: string
+  cloudinaryLogoUrl?: string
   tokenAddresses: TokenAddress[]
   knownOwners?: string[]
   tags?: string[]
