@@ -41,7 +41,7 @@ const PageContainer = ({
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
-  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd_share_${query.chainID}_${
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${query.chainID}_${
     query.address
   }`
 
