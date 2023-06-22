@@ -51,7 +51,7 @@ const PageContainer = ({
   //   address
   // }`
 
-  const imageURL = 'https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_42161_0xd77b108d4f6cefaa0cae9506a934e825becca46e'
+  const imageURL = 'https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_42161_0xd77b108d4f6cefaa0cae9506a934e825becca46e.png'
 
   console.log(imageURL)
 
