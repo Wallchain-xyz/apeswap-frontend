@@ -192,7 +192,7 @@ const SharableCard = ({
     } else {
       const text = `${message}`
       // const url = `ApeSwap.Finance${asPath}?d=${dateParam}`
-      const url = `frontend-git-feat-lhd-ape-swap-finance.vercel.app/${asPath}?d=${dateParam}`
+      const url = `https://frontend-git-feat-lhd-ape-swap-finance.vercel.app${asPath}?d=${dateParam}`
 
 
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
