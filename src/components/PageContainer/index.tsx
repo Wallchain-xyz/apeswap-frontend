@@ -37,14 +37,17 @@ const PageContainer = ({
   children: React.ReactNode
   variant?: 'dex' | 'homepage' | 'listView' | 'lhd'
 }) => {
-  const { asPath, pathname } = useRouter()
+  const { asPath, pathname, query } = useRouter()
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
-  const urlParams = pathname.split('/')
-  console.log(urlParams)
-  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd_share_${urlParams[urlParams.length - 2]}_${
-    urlParams[urlParams.length - 1]
+  // const urlParams = asPath.split('/')
+
+
+
+  // console.log(urlParams)
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd_share_${query.chainId}_${
+    query.address
   }`
 
   console.log(imageURL)
