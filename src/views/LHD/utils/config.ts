@@ -122,6 +122,28 @@ export const CHAIN_DETAILS: ChainDetail[] = [
     },
   },
   {
+    chainId: '369',
+    chainName: 'Pulsechain',
+    dexscreenerId: 'pulsechain',
+    coingeckoId: 'pulsechain',
+    blockExplorer: {
+      url: 'https://scan.pulsechain.com/',
+      type: 'blockscout',
+      testToken: '0xbb366a397d7d4d2bedabd9139d4c32a8826605ed',
+    },
+  },
+  {
+    chainId: '1101',
+    chainName: 'zkEVM',
+    dexscreenerId: 'polygonzkevm',
+    coingeckoId: 'polygon-zkevm',
+    blockExplorer: {
+      url: 'https://zkevm.polygonscan.com/',
+      type: 'standard',
+      testToken: '0x2548c94a3092494db3af864cc2cf781a72f55678',
+    },
+  },
+  {
     chainId: '43114',
     chainName: 'Avalanche',
     dexscreenerId: 'avalanche',
