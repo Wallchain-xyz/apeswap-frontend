@@ -9,6 +9,19 @@ import LHDModal from 'views/LHD/components/LHDModal'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'state'
+import { GetServerSideProps } from 'next'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+  const req = context;
+  const pageUrl = "ssssjjjjddd"
+
+  return {
+    props: {
+      pageUrl,
+    },
+  }
+}
 
 const MultiParamPage = () => {
   const router = useRouter()
@@ -22,7 +35,7 @@ const MultiParamPage = () => {
   }, [chainID, address])
 
   return (
-    <PageContainer variant="lhd">
+    <PageContainer variant="lhd" pageDetails={`${chainID}_${address}`}>
       <FullProfile chainID={chainID} address={address} />
       <LHDModal isLhdAuthModalOpen={!isLhdAuth} />
     </PageContainer>

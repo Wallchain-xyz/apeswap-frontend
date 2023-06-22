@@ -32,10 +32,12 @@ const PageContainer = ({
   style,
   children,
   variant = 'dex',
+  pageDetails = '',
 }: {
   style?: CSSProperties
   children: React.ReactNode
   variant?: 'dex' | 'homepage' | 'listView' | 'lhd'
+  pageDetails?: any
 }) => {
   const { asPath, pathname, query} = useRouter()
   const pageMeta = customMeta[asPath] || {}
@@ -47,14 +49,13 @@ const PageContainer = ({
   const chainId = queryParams[0];
   const address = queryParams[1];
 
-  // const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${chainId}_${
-  //   address
-  // }`
+
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${pageDetails}`
 
   // const imageURL = 'https://res.cloudinary.com/dswmrqgwy/image/upload/v1687393980/lhd-share-images/lhd_share_1_0x0000000000095413afc295d19edeb1ad7b71c952.png'
-  const imageURL = 'https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_42161_0xd77b108d4f6cefaa0cae9506a934e825becca46e'
+  // const imageURL = 'https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_42161_0xd77b108d4f6cefaa0cae9506a934e825becca46e'
 
-  console.log(imageURL)
+  // console.log(imageURL)
 
   return (
     <>
@@ -120,3 +121,7 @@ const PageContainer = ({
 }
 
 export default PageContainer
+
+
+
+
