@@ -64,10 +64,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
                     />
                   </Flex>
                   <Flex sx={styles.networkWrapper}>
-                    <NetworkSelector
-                      // supportedChains={AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS]}
-                      billsFlag
-                    />
+                    <NetworkSelector billsFlag />
                   </Flex>
                 </Flex>
               </motion.div>
@@ -78,7 +75,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
               <Toggle
                 size="sm"
                 labels={[t('Available'), t('Sold Out')]}
-                onClick={() => setShowAvailable(!showAvailable)}
+                onChange={() => setShowAvailable(!showAvailable)}
                 checked={!showAvailable}
                 sx={{ height: '36px', alignItems: 'center' }}
               />
@@ -109,7 +106,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
             <Toggle
               size="sm"
               labels={[t('Available'), t('Sold Out')]}
-              onClick={() => setShowAvailable(!showAvailable)}
+              onChange={() => setShowAvailable(!showAvailable)}
               checked={!showAvailable}
               sx={{ height: '36px', alignItems: 'center', width: '100%' }}
             />

@@ -22,39 +22,40 @@ const Bills: React.FC = () => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [billsView, setBillsView] = useState<string>(BillsView.AVAILABLE_BILLS)
+  const value = typeof window !== 'undefined' ? localStorage.getItem('hideTips') : null
+  const hideTips: boolean = value === null ? false : JSON.parse(value)
 
   const handleBillsViewChange = useCallback((newBillsView: string) => {
     setBillsView(newBillsView)
   }, [])
 
   return (
-    <>
-      <Flex sx={styles.billsViewContainer}>
-        <Banner
-          banner={`treasury-bills` as BannerTypes}
-          title={t('ApeSwap Bonds')}
-          link="?modal=tutorial"
-          listViewBreak
-          maxWidth={1130}
-        />
-        {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS].includes(chainId as SupportedChainId) ? (
-          <Flex sx={{ mt: '20px' }}>
-            <ListView404 product={LIST_VIEW_PRODUCTS.BILLS} />
-          </Flex>
-        ) : (
-          <>
-            {/*<FirstTimeCard />*/}
-            <BillsNav billsView={billsView} setBillsView={handleBillsViewChange} />
-            {billsView === BillsView.AVAILABLE_BILLS ? (
-              <BillsListView />
-            ) : (
-              <UserBillsView handleBillsViewChange={handleBillsViewChange} />
-            )}
-          </>
-        )}
-      </Flex>
-    </>
+    <Flex sx={styles.billsViewContainer}>
+      <Banner
+        banner={`treasury-bills` as BannerTypes}
+        title={t('ApeSwap Bonds')}
+        link="?modal=tutorial"
+        listViewBreak
+        maxWidth={1130}
+        openTips
+      />
+      {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS].includes(chainId as SupportedChainId) ? (
+        <Flex sx={{ mt: '20px' }}>
+          <ListView404 product={LIST_VIEW_PRODUCTS.BILLS} />
+        </Flex>
+      ) : (
+        <>
+          {!hideTips && <FirstTimeCard />}
+          <BillsNav billsView={billsView} setBillsView={handleBillsViewChange} />
+          {billsView === BillsView.AVAILABLE_BILLS ? (
+            <BillsListView />
+          ) : (
+            <UserBillsView handleBillsViewChange={handleBillsViewChange} />
+          )}
+        </>
+      )}
+    </Flex>
   )
 }
 
-export default React.memo(Bills)
+export default Bills

@@ -29,7 +29,7 @@ const DiscountContent: React.FC<DiscountContentProps> = ({
   return (
     <Flex sx={{ width: '100%', flexDirection, justifyContent: 'space-between', height: !isMobile && '40px' }}>
       <Flex>
-        <Flex alignItems="flex-start">
+        <Flex>
           <div style={{ display: 'inline-block' }}>
             <TooltipBubble
               placement="bottomLeft"

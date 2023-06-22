@@ -117,7 +117,7 @@ const BillsListView: React.FC = () => {
         showAvailable={showAvailable}
         setShowAvailable={setShowAvailable}
       />
-      <Flex flexDirection="column" sx={{ padding: '20px 0 50px 0' }}>
+      <Flex sx={{ padding: '20px 0 50px 0' }}>
         <BillsRows billsToRender={billsToRender} noResults={noResults} />
       </Flex>
     </MainContainer>
