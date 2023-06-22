@@ -42,9 +42,10 @@ const PageContainer = ({
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
   const urlParams = pathname.split('/')
-  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd_share_${urlParams[urlParams.length - 2]}_${
-    urlParams[urlParams.length - 1]
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd_share_${urlParams[urlParams.length - 3]}_${
+    urlParams[urlParams.length - 2]
   }`
+
   return (
     <>
       <Head>
