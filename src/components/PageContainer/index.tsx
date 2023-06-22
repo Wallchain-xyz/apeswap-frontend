@@ -47,9 +47,11 @@ const PageContainer = ({
   const chainId = queryParams[0];
   const address = queryParams[1];
 
-  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${chainId}_${
-    address
-  }`
+  // const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${chainId}_${
+  //   address
+  // }`
+
+  const imageURL = 'https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_56_0x78f5d389f5cdccfc41594abab4b0ed02f31398b3'
 
   console.log(imageURL)
 
