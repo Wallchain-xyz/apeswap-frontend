@@ -11,31 +11,13 @@ import { useSelector } from 'react-redux'
 import { AppState } from 'state'
 import { GetServerSideProps } from 'next'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-
-  const req = context;
-  const pageUrl = "ssssjjjjddd"
-
-  return {
-    props: {
-      pageUrl,
-    },
-  }
-}
-
 const MultiParamPage = () => {
   const router = useRouter()
   const { chainID, address } = router.query
   const { isLhdAuth } = useSelector((state: AppState) => state.lhd)
 
-  useEffect(() => {
-    if (chainID && address) {
-      // Perform any client-side data fetching or processing based on chainID and address here.
-    }
-  }, [chainID, address])
-
   return (
-    <PageContainer variant="lhd" pageDetails={`${chainID}_${address}`}>
+    <PageContainer variant="lhd" pageParams={`${chainID}_${address}`}>
       <FullProfile chainID={chainID} address={address} />
       <LHDModal isLhdAuthModalOpen={!isLhdAuth} />
     </PageContainer>
