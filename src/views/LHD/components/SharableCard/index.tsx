@@ -130,9 +130,8 @@ const SharableCard = ({
           link.href = dataUrl
           link.click()
         } else if (type === 'share') {
-
-          const response = await fetch(dataUrl);
-          const blob = await response.blob();
+          const response = await fetch(dataUrl)
+          const blob = await response.blob()
 
           let formData = new FormData()
           formData.append('file', blob, `lhd_share_${tokenAddresses![0].chainId}_${tokenAddresses![0].address}`)
@@ -164,7 +163,7 @@ const SharableCard = ({
   const minute = today.getMinutes().toString().padStart(2, '0')
 
   const dateParam = `${year}${month2}${day}${hour}${minute}`
-  const score = Math.round((totalScore || 0) * 100)
+  const score = Math.floor((totalScore || 0) * 100)
 
   const goodScore = `${tokenName} has a Liquidity Health Score of ${score}/100!\nHealthy liquidity indicates that a project is well-prepared for the future.\nDive into the full Liquidity Health Report, DYOR, and gain the upper hand, here!👇 $${tokenSymbol} #${tokenName?.replace(
     /\s/g,

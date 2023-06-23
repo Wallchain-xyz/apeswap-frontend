@@ -16,6 +16,7 @@ import { generateSearchParams } from '../SearchBar/helpers'
 import { useRouter } from 'next/router'
 import { setFilterState, initialFilterValues } from '../../../../state/lhd/reducer'
 import _ from 'lodash'
+import { current } from 'immer'
 
 const TokensProfileList = () => {
   const { t } = useTranslation()
@@ -75,6 +76,15 @@ const TokensProfileList = () => {
       dispatch(fetchProfilesQuery())
     }
   }, [router.asPath])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filterString])
+
+  useEffect(() => {
+    const newUrl = `${router.pathname}${fullQuery !== '' ? '?' : ''}${fullQuery}`
+    router.replace(newUrl, newUrl)
+  }, [currentPage])
 
   useEffect(() => {
     if (fullQuery) {
