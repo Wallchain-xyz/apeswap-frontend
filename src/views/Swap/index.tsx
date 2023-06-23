@@ -7,7 +7,7 @@ import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useMemo } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
-import { useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
+import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
 import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/formatNumbers'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import Actions from './actions'
@@ -119,6 +119,7 @@ const Swap = () => {
   //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
   //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
   // )
+  useDefaultsFromURLSearch()
 
   return (
     <Flex variant="flex.dexContainer">
