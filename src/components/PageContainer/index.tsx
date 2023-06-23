@@ -32,18 +32,18 @@ const PageContainer = ({
   style,
   children,
   variant = 'dex',
-  pageParams = '',
+  pageDetails = '',
 }: {
   style?: CSSProperties
   children: React.ReactNode
   variant?: 'dex' | 'homepage' | 'listView' | 'lhd'
-  pageParams?: string
+  pageDetails?: any
 }) => {
   const { asPath } = useRouter()
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
-  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${pageParams}`
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${pageDetails}`
 
   return (
     <>
