@@ -82,11 +82,6 @@ const TokensProfileList = () => {
   }, [filterString])
 
   useEffect(() => {
-    const newUrl = `${router.pathname}${fullQuery !== '' ? '?' : ''}${fullQuery}`
-    router.replace(newUrl, newUrl)
-  }, [currentPage])
-
-  useEffect(() => {
     if (fullQuery) {
       const newUrl = `${router.pathname}?${fullQuery}`
       router.replace(newUrl, newUrl)
