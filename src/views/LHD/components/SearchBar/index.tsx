@@ -1,15 +1,12 @@
 import React, { ChangeEvent, useEffect, useCallback } from 'react'
 import { Button, Flex, Input, Svg, Text } from 'components/uikit'
 import { useLHDFilterValues } from 'state/lhd/hooks'
-import { useAppDispatch } from 'state/hooks'
 import { useTranslation } from 'contexts/Localization'
-import useDebounce from 'hooks/useDebounce'
 import { styles } from './styles'
 import { useAnimation, motion } from 'framer-motion'
 import useModal from 'hooks/useModal'
 import FilterModal from './FilterModal'
 import { countChangedProperties, generateSearchParams } from './helpers'
-import { fetchProfilesQuery } from 'state/lhd/actions'
 
 const SearchBar = ({
   handleNoResults,
@@ -20,12 +17,10 @@ const SearchBar = ({
   searchQueryString: string
   setSearchQueryString: any
 }) => {
-  const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const filterState = useLHDFilterValues()
   const filterString = generateSearchParams(filterState)
   const changedPropertiesCount = countChangedProperties(filterState)
-  const debouncedQueryString = useDebounce(searchQueryString, 1000)
   const handleQueryChange = useCallback(
     (searchQuery: string) => {
       setSearchQueryString(searchQuery)
@@ -42,10 +37,6 @@ const SearchBar = ({
       transition: { duration: 0.2, repeat: 2 },
     })
   }, [controls])
-
-  useEffect(() => {
-    dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
-  }, [debouncedQueryString, dispatch, handleNoResults, startShaking])
 
   return (
     <Flex sx={styles.searchBarContainer}>

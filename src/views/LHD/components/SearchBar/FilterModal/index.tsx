@@ -26,9 +26,11 @@ const modalProps = {
 
 const FilterModal = ({
   handleQueryChange,
+  openChains,
   onDismiss,
 }: {
   handleQueryChange: (value: string) => void
+  openChains?: boolean
   onDismiss?: () => void
 }) => {
   const { t } = useTranslation()
@@ -110,6 +112,7 @@ const FilterModal = ({
         <Text sx={{ width: '100%', textAlign: 'center' }}>{t('FILTERS')}</Text>
       </ModalHeader>
       <Dropdown
+        open={openChains}
         title={t('Chains')}
         values={values['chains'].length > 0 ? `Chains: ${values['chains'].length} selected` : ''}
       >

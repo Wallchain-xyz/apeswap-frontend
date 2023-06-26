@@ -1,14 +1,27 @@
-import { Flex, Link, ListTag, Text } from 'components/uikit'
+import { Button, Flex, Link, ListTag, Text } from 'components/uikit'
 import { useRouter } from 'next/router'
 import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
 import { useIndustryAvg } from '../../../../state/lhd/hooks'
+import useModal from '../../../../hooks/useModal'
+import { useCallback, useState } from 'react'
+import FilterModal from '../SearchBar/FilterModal'
 
 const TitleCards = () => {
   const { t } = useTranslation()
   const { push } = useRouter()
   const { averageChange, averageTotalScore, chainsSupported, tokensTracked } = useIndustryAvg()
+
+  const [searchQueryString, setSearchQueryString] = useState('')
+  const handleQueryChange = useCallback(
+    (searchQuery: string) => {
+      setSearchQueryString(searchQuery)
+    },
+    [setSearchQueryString],
+  )
+
+  const [onFilterModal] = useModal(<FilterModal handleQueryChange={handleQueryChange} openChains={true} />)
 
   const openTutorialModal = () => {
     push({ search: 'modal=tutorial' })
@@ -52,13 +65,9 @@ const TitleCards = () => {
           title="Chains Supported"
           value={chainsSupported}
           footerInfo={
-            <Link
-              href="https://apeswap.gitbook.io/apeswap-finance/welcome/master"
-              target="_blank"
-              sx={{ color: 'yellow' }}
-            >
+            <Button variant="text" size="sm" onClick={onFilterModal} target="_blank" sx={styles.cardBtnText}>
               See which chains
-            </Link>
+            </Button>
           }
         />
         <StatCard

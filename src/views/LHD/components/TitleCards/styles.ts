@@ -12,7 +12,8 @@ export const styles: Record<
   | 'statsTitle'
   | 'valueCont'
   | 'valueText'
-  | 'footer',
+  | 'footer'
+  | 'cardBtnText',
   ThemeUIStyleObject
 > = {
   mainContainer: {
@@ -89,5 +90,14 @@ export const styles: Record<
     weight: 400,
     fontSize: ['8px', '8px', '8px', '10px'],
     lineHeight: ['15px'],
+  },
+  cardBtnText: {
+    fontWeight: 600,
+    textDecoration: 'underline',
+    textTransform: 'capitalize',
+    fontSize: '10px',
+    lineHeight: '15px',
+    marginTop: '-5px',
+    color: 'yellow',
   },
 }
