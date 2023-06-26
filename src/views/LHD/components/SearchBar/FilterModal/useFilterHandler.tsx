@@ -3,7 +3,11 @@ import { useAppDispatch } from 'state/hooks'
 import { fetchProfilesQuery } from 'state/lhd/actions'
 import useDebounce from 'hooks/useDebounce'
 
-const useFilterHandler = (setSearchQueryString: any, searchQueryString: any, handleNoResults: void) => {
+const useFilterHandler = (
+  setSearchQueryString: any,
+  searchQueryString: any,
+  handleNoResults: (value: boolean) => void,
+) => {
   const dispatch = useAppDispatch()
   const debouncedQueryString = useDebounce(searchQueryString, 1000)
 
@@ -15,6 +19,7 @@ const useFilterHandler = (setSearchQueryString: any, searchQueryString: any, han
   )
 
   useEffect(() => {
+    console.log('EFFECT 1 called')
     dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
   }, [debouncedQueryString, dispatch, handleNoResults])
 

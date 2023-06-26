@@ -7,6 +7,7 @@ import { useAnimation, motion } from 'framer-motion'
 import useModal from 'hooks/useModal'
 import FilterModal from './FilterModal'
 import { countChangedProperties, generateSearchParams } from './helpers'
+import useFilterHandler from './FilterModal/useFilterHandler'
 
 const SearchBar = ({
   handleNoResults,
@@ -21,12 +22,8 @@ const SearchBar = ({
   const filterState = useLHDFilterValues()
   const filterString = generateSearchParams(filterState)
   const changedPropertiesCount = countChangedProperties(filterState)
-  const handleQueryChange = useCallback(
-    (searchQuery: string) => {
-      setSearchQueryString(searchQuery)
-    },
-    [setSearchQueryString],
-  )
+  const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString, handleNoResults)
+
   const [onFilterModal] = useModal(<FilterModal handleQueryChange={handleQueryChange} />)
 
   //shakes when no results are found
