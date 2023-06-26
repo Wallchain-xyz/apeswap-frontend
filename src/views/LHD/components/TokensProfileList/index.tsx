@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
 import { useIndustryAvg, useLHDFilterValues, useSimpleProfiles } from 'state/lhd/hooks'
 import TableHeader from './components/TableHeader'
@@ -16,7 +16,6 @@ import { generateSearchParams } from '../SearchBar/helpers'
 import { useRouter } from 'next/router'
 import { setFilterState, initialFilterValues } from '../../../../state/lhd/reducer'
 import _ from 'lodash'
-import { current } from 'immer'
 
 const TokensProfileList = () => {
   const { t } = useTranslation()
@@ -28,10 +27,12 @@ const TokensProfileList = () => {
   const dispatch = useAppDispatch()
   const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)
-  const paginatedQuery = `${currentPage > 1 ? 'offset=' + (currentPage - 1) * 50 : ''}`
+  const router = useRouter()
+  const paginatedQuery = `${
+    currentPage > 1 ? 'offset=' + (currentPage - 1) * 50 : router.asPath.includes('offset=') ? 'offset=0' : ''
+  }`
   const filterState = useLHDFilterValues()
   const filterString = generateSearchParams(filterState)
-  const router = useRouter()
 
   let fullQuery = `${paginatedQuery}${filterString ? '&' + filterString : ''}`
 
@@ -54,7 +55,7 @@ const TokensProfileList = () => {
         } else {
           let parsedValue = parseFloat(value)
           // if it's a decimal, multiply by 100
-          if (parsedValue <= 1) {
+          if (parsedValue < 1) {
             parsedValue *= 100
           }
           result[mainKey][subKey] = parsedValue
