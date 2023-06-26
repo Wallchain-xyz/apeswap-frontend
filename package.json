@@ -50,7 +50,7 @@
     "@ape.swap/router-sdk": "^1.2.0",
     "@ape.swap/sdk-core": "^1.0.2",
     "@ape.swap/smart-order-router": "1.2.3-alpha.3",
-    "@ape.swap/token-lists": "^1.0.45",
+    "@ape.swap/token-lists": "1.0.46",
     "@ape.swap/v2-sdk": "^1.1.0",
     "@ape.swap/v3-sdk": "^1.2.0",
     "@ape.swap/v2-zap-sdk": "^1.0.0-alpha.12",
