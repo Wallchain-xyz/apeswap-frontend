@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from 'views/Farms/components/styles'
-import { Button, Text } from 'components/uikit'
+import { Button } from 'components/uikit'
 import { FarmTypes } from 'state/farms/types'
 import useHarvestAll from '../hooks/useHarvestAll'
+import { useToastError } from '../../../state/application/hooks'
 
 interface HarvestActionsProps {
   pids: number[]
@@ -15,7 +16,7 @@ interface HarvestActionsProps {
 const HarvestAction: React.FC<HarvestActionsProps> = ({ pids, disabled, farmType, contractAddress }) => {
   const [pendingTrx, setPendingTrx] = useState(false)
   const handleHarvest = useHarvestAll(farmType, pids, contractAddress)
-
+  const toastError = useToastError()
   const { t } = useTranslation()
 
   return (
@@ -27,6 +28,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({ pids, disabled, farmType
           .then(() => {})
           .catch((e: any) => {
             console.error(e)
+            toastError(e)
             setPendingTrx(false)
           })
         setPendingTrx(false)
@@ -34,11 +36,9 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({ pids, disabled, farmType
       load={pendingTrx}
       sx={styles.harvestAllBtn}
     >
-      <Text sx={{ lineHeight: '15px', color: disabled ? 'textDisabled' : 'primaryBright' }}>
-        {t('HARVEST ALL')} ({pids.length})
-      </Text>
+      {t('HARVEST ALL')} ({pids.length})
     </Button>
   )
 }
 
-export default React.memo(HarvestAction)
+export default HarvestAction

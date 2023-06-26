@@ -30,7 +30,7 @@ const DisplayFarms = ({
   farmTags?: any[]
   isActive: boolean
 }) => {
-  const { chainId } = useWeb3React()
+  //const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
@@ -63,7 +63,7 @@ const DisplayFarms = ({
     const token1 = farm.quoteTokenSymbol
     const userAllowance = farm?.userData?.allowance
     const userEarnings = getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0))?.toFixed(3)
-    const userSecondEarnings = getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0))?.toFixed(2)
+    //const userSecondEarnings = getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0))?.toFixed(2)
     const userEarningsUsd = `$${(farm.farmType === FarmTypes.DUAL_FARM
       ? getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0)) * farm.earnTokenPrice +
         getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0)) * (farm?.secondEarnTokenPrice ?? 0)

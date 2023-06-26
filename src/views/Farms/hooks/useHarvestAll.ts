@@ -53,7 +53,7 @@ const useHarvestAll = (farmTypes: FarmTypes[], pids: number[], contractAddress: 
 
   const handleHarvestAll = useCallback(async () => {
     const harvestPromises = pids.map((pid, i) => {
-      return [callReturn(farmTypes[i], pid, contractAddress[i])]
+      return callReturn(farmTypes[i], pid, contractAddress[i])
     }, [])
     return Promise.all(harvestPromises)
   }, [callReturn, farmTypes, contractAddress, pids])

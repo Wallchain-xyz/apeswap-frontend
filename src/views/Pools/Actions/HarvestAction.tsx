@@ -116,11 +116,11 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
               size="md"
               disabled={disabled || pendingApeHarderTrx}
               onClick={handleApeHarder}
-              load={debouncedPendingApeHarder}
+              load={debouncedPendingApeHarder && pendingApeHarderTrx}
               sx={{
                 ...poolStyles.apeHarder,
                 padding: pendingApeHarderTrx ? '10px 0px' : '10px',
-                minWidth: pendingApeHarderTrx ? '145px' : ['130px', '130px', '130px', '125px'],
+                minWidth: pendingApeHarderTrx ? '150px' : ['130px', '130px', '130px', '125px'],
               }}
             >
               {t('APE HARDER')}

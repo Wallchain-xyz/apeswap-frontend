@@ -75,7 +75,7 @@ const Actions: React.FC<CardActionProps> = ({
     />,
     true,
     true,
-    `depositPoolModal${stakeTokenAddress}`,
+    `depositPoolModal${stakeTokenAddress}-${sousId}`,
   )
 
   const [onPresentWithdraw, closeWithdrawModal] = useModal(

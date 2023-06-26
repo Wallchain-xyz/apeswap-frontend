@@ -75,7 +75,7 @@ const TrendingTokens: React.FC = () => {
                 {tokens?.slice(tokenDisplayRange.tokenStartIndex, tokenDisplayRange.tokenEndIndex)?.map((token, i) => {
                   return (
                     <Link
-                      href={`/swap/?outputCurrency=${token?.contractAddress}`}
+                      href={`https://dex.apeswap.finance/swap/?outputCurrency=${token?.contractAddress}`}
                       key={token?.contractAddress}
                       sx={{ textDecoration: 'none' }}
                     >

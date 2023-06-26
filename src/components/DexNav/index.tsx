@@ -110,7 +110,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             height: 'fit-content',
             minWidth: 'fit-content',
             alignItems: 'center',
-            cursor: apeV3Available ? 'pointer' : 'not-allowed',
+            cursor: 'pointer',
             zIndex: 2,
           }}
         >
@@ -125,7 +125,6 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           <Switch
             onChange={handleSwitch}
             checked={!v2Flag}
-            disabled={!apeV3Available}
             sx={{
               mr: '0px',
               width: '50px',

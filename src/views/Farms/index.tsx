@@ -18,6 +18,7 @@ import useBlockNumber from 'lib/hooks/useBlockNumber'
 import HarvestAll from './actions/HarvestAll'
 import BigNumber from 'bignumber.js'
 import { useSetZapOutputList } from 'state/zap/hooks'
+import { getBalanceNumber } from '../../utils/getBalanceNumber'
 
 const Farms = () => {
   const { account, chainId } = useWeb3React()
@@ -118,7 +119,16 @@ const Farms = () => {
     activeFarms &&
     inactiveFarms &&
     [...activeFarms, ...inactiveFarms]
-      .filter((farm) => farm.userData && new BigNumber(farm.userData.rewards).isGreaterThan(0))
+      .filter(
+        (farm: Farm) =>
+          farm.userData &&
+          chainId &&
+          getBalanceNumber(
+            new BigNumber(farm.userData?.rewards ?? ''),
+            farm?.rewardToken?.decimals?.[chainId as SupportedChainId] ?? 18,
+            //farm ?.rewardToken?.decimals?.[chainId] ?? 18,
+          ) > 0.001,
+      )
       .map((filteredFarm) => {
         return filteredFarm.pid
       })
