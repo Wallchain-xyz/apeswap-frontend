@@ -195,7 +195,6 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                 spaceBetween={20}
                 slidesPerView="auto"
                 loopedSlides={displayData?.length}
-                autoplay={{ delay: 5000 }}
                 loop
                 centeredSlides
                 resizeObserver
