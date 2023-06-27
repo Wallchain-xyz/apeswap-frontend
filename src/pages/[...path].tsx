@@ -42,6 +42,38 @@ export async function getServerSideProps(context: { query: { path: any } }) {
       },
     }
   }
+  if (path[0] === 'iao') {
+    return {
+      redirect: {
+        destination: 'https://legacy.apeswap.finance/iao',
+        permanent: false,
+      },
+    }
+  }
+  if (path[0] === 'maximizers') {
+    return {
+      redirect: {
+        destination: 'https://legacy.apeswap.finance/maximizers',
+        permanent: false,
+      },
+    }
+  }
+  if (path[0] === 'the-migration') {
+    return {
+      redirect: {
+        destination: 'https://legacy.apeswap.finance/the-migration',
+        permanent: false,
+      },
+    }
+  }
+  if (path[0] === 'info') {
+    return {
+      redirect: {
+        destination: 'https://legacy.apeswap.finance/info',
+        permanent: false,
+      },
+    }
+  }
   if (path[0] === 'remove' && path[1] && path[1].length > 0 && path[2] && path[2].length > 0) {
     return {
       redirect: {

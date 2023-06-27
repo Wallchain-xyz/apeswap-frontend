@@ -1,6 +1,5 @@
 import config from '../config'
 import WalletCard from './WalletCard'
-import { Login } from '../types'
 import styles from './styles'
 import { Flex } from 'components/uikit'
 

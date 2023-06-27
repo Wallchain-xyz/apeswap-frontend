@@ -29,9 +29,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
       {isMobile ? (
         <Flex sx={styles.mobileContainer}>
           <Flex sx={{ width: '100%', maxWidth: '353px' }}>
-            <SearchText bold mr="15px">
-              {t('Search')}
-            </SearchText>
+            <SearchText sx={{ fontWeight: 700, mr: '15px' }}>{t('Search')}</SearchText>
             <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} width={'100%'} />
             <Flex sx={styles.expandedButton} onClick={() => setExpended(!expanded)}>
               <Svg icon="MenuSettings" width="18px" />
@@ -80,8 +78,11 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
                 sx={{ height: '36px', alignItems: 'center' }}
               />
             </Flex>
-            <Flex sx={{ alignItems: 'center' }} onClick={() => setShowOnlyDiscount(!showOnlyDiscount)}>
-              <CheckBox checked={showOnlyDiscount} />
+            <Flex
+              sx={{ alignItems: 'center', cursor: 'pointer' }}
+              onClick={() => setShowOnlyDiscount(!showOnlyDiscount)}
+            >
+              <CheckBox checked={showOnlyDiscount} onChange={() => setShowOnlyDiscount(!showOnlyDiscount)} />
               <Text ml="15px" size="14px" weight={700} color="success">
                 {t('Discount')}
               </Text>
@@ -91,9 +92,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
       ) : (
         <>
           <Flex>
-            <SearchText bold mr="15px">
-              {t('Search')}
-            </SearchText>
+            <SearchText sx={{ fontWeight: 700, mr: '15px' }}>{t('Search')}</SearchText>
             <Input value={query} onChange={onHandleQueryChange} variant="search" sx={styles.input} />
           </Flex>
           <Flex sx={{ minWidth: '100px' }}>
@@ -115,7 +114,7 @@ const BillsListMenu: React.FC<BillsListMenuProps> = ({
             sx={{ alignItems: 'center', '&: hover': { cursor: 'pointer' } }}
             onClick={() => setShowOnlyDiscount(!showOnlyDiscount)}
           >
-            <CheckBox checked={showOnlyDiscount} onClick={() => setShowOnlyDiscount(!showOnlyDiscount)} />
+            <CheckBox checked={showOnlyDiscount} onChange={() => setShowOnlyDiscount(!showOnlyDiscount)} />
             <Text ml="15px" size="14px" weight={700} color="success">
               {t('Discount')}
             </Text>
