@@ -19,7 +19,6 @@ const useFilterHandler = (
   )
 
   useEffect(() => {
-    console.log('EFFECT 1 called')
     dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
   }, [debouncedQueryString, dispatch, handleNoResults])
 

@@ -342,7 +342,11 @@ const SharableCard = ({
                   mb: '30px',
                 }}
               >
-                <Token imageUrl={tokenImageURL ?? ''} score={totalScore} tokenSymbol={tokenSymbol} />
+                <Token
+                  imageUrl={tokenImageURL ? `${tokenImageURL}.png` : ''}
+                  score={totalScore}
+                  tokenSymbol={tokenSymbol}
+                />
                 {/* Bars */}
                 <Flex
                   sx={{
