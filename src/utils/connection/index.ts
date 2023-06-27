@@ -3,14 +3,17 @@ import { initializeConnector } from '@web3-react/core'
 import { GnosisSafe } from '@web3-react/gnosis-safe'
 import { MetaMask } from '@web3-react/metamask'
 import { Network } from '@web3-react/network'
-import { WalletConnect } from '@web3-react/walletconnect'
+import { WalletConnect as WalletConnectV2 } from '@web3-react/walletconnect-v2'
 import { Connection, ConnectionType } from './types'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { RPC_URLS } from 'config/constants/networks'
 import { RPC_PROVIDERS } from 'config/constants/providers'
+import { MAINNET_CHAINS } from 'config/constants/chains'
 
 // Connections based from uniswap interface
 // https://github.com/Uniswap/interface/blob/main/src/connection/index.ts
+
+const [mainnet, ...optionalChains] = MAINNET_CHAINS
 
 function onError(error: Error) {
   console.debug(`web3-react error: ${error}`)
@@ -44,28 +47,23 @@ export const gnosisSafeConnection: Connection = {
   type: ConnectionType.GNOSIS_SAFE,
 }
 
-const [web3WalletConnect, web3WalletConnectHooks] = initializeConnector<WalletConnect>((actions) => {
-  // Avoid testing for the best URL by only passing a single URL per chain.
-  // Otherwise, WC will not initialize until all URLs have been tested (see getBestUrl in web3-react).
-  const RPC_URLS_WITHOUT_FALLBACKS = Object.entries(RPC_URLS).reduce(
-    (map, [chainId, urls]) => ({
-      ...map,
-      [chainId]: urls[0],
+export const [web3WalletConnectV2, web3WalletConnectHooksV2] = initializeConnector<WalletConnectV2>(
+  (actions) =>
+    new WalletConnectV2({
+      actions,
+      options: {
+        projectId: process.env.walletConnectProjectId!,
+        chains: [mainnet],
+        optionalChains,
+        showQrModal: true,
+      },
+      onError,
     }),
-    {},
-  )
-  return new WalletConnect({
-    actions,
-    options: {
-      rpc: RPC_URLS_WITHOUT_FALLBACKS,
-      qrcode: true,
-    },
-    onError,
-  })
-})
+)
+
 export const walletConnectConnection: Connection = {
-  connector: web3WalletConnect,
-  hooks: web3WalletConnectHooks,
+  connector: web3WalletConnectV2,
+  hooks: web3WalletConnectHooksV2,
   type: ConnectionType.WALLET_CONNECT,
 }
 
