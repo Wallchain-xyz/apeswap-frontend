@@ -23,7 +23,7 @@ type IndustryStats = {
   tokensVerified: number
 }
 
-const getIndustryStats = async (): Promise<IndustryStats> => {
+export const getIndustryStats = async (): Promise<IndustryStats> => {
   const { data } = await axios.get(`${LHD_API}/industry-stats`)
   return data
 }
