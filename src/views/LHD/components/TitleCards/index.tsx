@@ -7,11 +7,19 @@ import { useIndustryAvg } from '../../../../state/lhd/hooks'
 import useModal from '../../../../hooks/useModal'
 import { useCallback, useState } from 'react'
 import FilterModal from '../SearchBar/FilterModal'
+import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
 
 const TitleCards = () => {
   const { t } = useTranslation()
   const { push } = useRouter()
-  const { averageChange, averageTotalScore, chainsSupported, tokensTracked } = useIndustryAvg()
+  const { averageChange } = useIndustryAvg()
+  const { data: industryStats } = useGetIndustryStats()
+
+  const { chainsSupported, averageTotalScore, tokensTracked } = industryStats ?? {
+    chainsSupported: 0,
+    averageTotalScore: 0,
+    tokensTracked: 0,
+  }
 
   const [searchQueryString, setSearchQueryString] = useState('')
   const handleQueryChange = useCallback(
@@ -58,7 +66,7 @@ const TitleCards = () => {
       <Flex sx={styles.cardsContainer}>
         <StatCard
           title="Industry Average"
-          value={(parseFloat(averageTotalScore) * 100).toFixed()}
+          value={Math.round(averageTotalScore * 100)}
           footerInfo={<>{`${averageChange || Number.isNaN(averageChange) ? '0' : averageChange}% in last 7 days`}</>}
         />
         <StatCard
@@ -72,7 +80,7 @@ const TitleCards = () => {
         />
         <StatCard
           title="Supported Tokens"
-          value={tokensTracked.toString()}
+          value={tokensTracked}
           footerInfo={
             <Link href="https://github.com/ApeSwapFinance/lhd-config" target="_blank" sx={{ color: 'yellow' }}>
               Verify Your Project?
