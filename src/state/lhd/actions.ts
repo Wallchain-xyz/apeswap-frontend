@@ -1,4 +1,4 @@
-import { addIndustryData, addSimpleProfiles } from './reducer'
+import { addSimpleProfiles } from './reducer'
 import { ProfilesResponse, SimpleTokenProfile } from './types'
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
@@ -28,47 +28,6 @@ export const fetchProfiles = async (query?: string, filters?: string) => {
     return res.data
   } catch (error) {
     return null
-  }
-}
-
-export const fetchIndustry = async () => {
-  const date = new Date()
-  date.setDate(date.getDate() - 7)
-
-  try {
-    axiosRetry(axios, {
-      retries: 5,
-      retryCondition: () => true,
-    })
-    const res = await axios.get(`${apiEndpoint}/industry-stats`)
-    const resHistorical = await axios.get(`${apiEndpoint}/industry-stats/${date.toISOString().split('T')[0]}`)
-    if (res?.data?.statusCode === 500 || resHistorical?.data?.statusCode === 500) {
-      return null
-    }
-
-    const industryAverageChange =
-      Math.round(
-        ((resHistorical.data.averageTotalScore - res.data.averageTotalScore) / resHistorical.data.averageTotalScore) *
-          10000,
-      ) / 100
-
-    return {
-      ...res.data,
-      industryAverageChange: industryAverageChange > 0 ? '+' + industryAverageChange : industryAverageChange,
-    }
-  } catch (error) {
-    return null
-  }
-}
-
-export const fetchInitialProfiles = () => async (dispatch: any) => {
-  try {
-    // const listData: ProfilesResponse = await fetchProfiles()
-    const industryAverage = await fetchIndustry()
-    dispatch(addIndustryData(industryAverage))
-    // dispatch(addSimpleProfiles(listData))
-  } catch (error) {
-    console.warn(error)
   }
 }
 

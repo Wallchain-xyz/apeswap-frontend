@@ -2,22 +2,12 @@ import { useCallback, useEffect } from 'react'
 import { shallowEqual } from 'react-redux'
 import { useAppDispatch } from '../hooks'
 // import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
-import { fetchFullProfile, fetchInitialProfiles } from './actions'
+import { fetchFullProfile } from './actions'
 import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
 import { AppState } from '../index'
 import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-
-export const useLoadInitialProfiles = () => {
-  const dispatch = useAppDispatch()
-  const simpleProfiles: ProfilesResponse | null = useSelector((state: AppState) => state?.lhd?.simpleProfiles)
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !simpleProfiles?.data.length) {
-      dispatch(fetchInitialProfiles())
-    }
-  }, [dispatch])
-}
 
 // export const useOnSearchProfiles = () => {
 //   console.log('SEARCH CALLED')
@@ -85,18 +75,6 @@ export const useSimpleProfiles = (): ProfilesResponse => {
 
 export const useFullProfile = () => {
   return useSelector((state: AppState) => state.lhd.fullProfile)
-}
-
-export const useIndustryAvg = () => {
-  return useSelector((state: AppState) => {
-    return {
-      averageTotalScore: state.lhd.averageTotalScore,
-      chainsSupported: state.lhd.chainsSupported,
-      averageChange: state.lhd.industryAverageChange,
-      tokensVerified: state.lhd.tokensVerified,
-      tokensTracked: state.lhd.tokensTracked,
-    }
-  })
 }
 
 export const useLHDFilterValues = () => {

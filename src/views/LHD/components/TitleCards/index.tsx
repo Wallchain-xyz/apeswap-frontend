@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
-import { useIndustryAvg } from '../../../../state/lhd/hooks'
 import useModal from '../../../../hooks/useModal'
 import { useCallback, useState } from 'react'
 import FilterModal from '../SearchBar/FilterModal'
@@ -15,7 +14,6 @@ import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustr
 const TitleCards = () => {
   const { t } = useTranslation()
   const { push } = useRouter()
-  const { averageChange } = useIndustryAvg()
   const { data: industryStats } = useGetIndustryStats()
   const { data: historicalIndustryStats } = useGetHistoricalIndustryStats()
 
