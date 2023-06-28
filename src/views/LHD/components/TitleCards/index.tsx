@@ -7,19 +7,28 @@ import { useIndustryAvg } from '../../../../state/lhd/hooks'
 import useModal from '../../../../hooks/useModal'
 import { useCallback, useState } from 'react'
 import FilterModal from '../SearchBar/FilterModal'
+
+// Hooks
 import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
+import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustryStats'
 
 const TitleCards = () => {
   const { t } = useTranslation()
   const { push } = useRouter()
   const { averageChange } = useIndustryAvg()
   const { data: industryStats } = useGetIndustryStats()
+  const { data: historicalIndustryStats } = useGetHistoricalIndustryStats()
 
   const { chainsSupported, averageTotalScore, tokensTracked } = industryStats ?? {
     chainsSupported: 0,
     averageTotalScore: 0,
     tokensTracked: 0,
   }
+
+  const { averageTotalScore: historicalAverageTotalScore } = historicalIndustryStats ?? { averageTotalScore: 0 }
+
+  const industryAverageChange =
+    Math.round(((historicalAverageTotalScore - averageTotalScore) / historicalAverageTotalScore) * 10000) / 100
 
   const [searchQueryString, setSearchQueryString] = useState('')
   const handleQueryChange = useCallback(
@@ -67,7 +76,9 @@ const TitleCards = () => {
         <StatCard
           title="Industry Average"
           value={Math.round(averageTotalScore * 100)}
-          footerInfo={<>{`${averageChange || Number.isNaN(averageChange) ? '0' : averageChange}% in last 7 days`}</>}
+          footerInfo={
+            <>{`${industryAverageChange > 0 ? `+ ${industryAverageChange}` : industryAverageChange}% in last 7 days`}</>
+          }
         />
         <StatCard
           title="Chains Supported"

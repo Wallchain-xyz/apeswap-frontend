@@ -1,27 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
+// Types
+import { IndustryStats } from 'utils/types/lhd'
+
 // Constants
 import { LHD_API } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
-
-type IndustryStats = {
-  averageConcentrationScore: number
-  averageHealthScore: number
-  averageOwnershipScore: number
-  averageTotalScore: number
-  chainsSupported: number
-  coefficients: {
-    concentration: number
-    health: number
-    ownership: number
-  }
-  createdAt: string
-  evmCoverage: string
-  formulaVersion: string
-  tokensTracked: number
-  tokensVerified: number
-}
 
 export const getIndustryStats = async (): Promise<IndustryStats> => {
   const { data } = await axios.get(`${LHD_API}/industry-stats`)
@@ -31,6 +16,6 @@ export const getIndustryStats = async (): Promise<IndustryStats> => {
 export default function useGetIndustryStats() {
   return useQuery({
     queryKey: [QUERY_KEYS.INDUSTRY_STATS],
-    queryFn: () => getIndustryStats(),
+    queryFn: getIndustryStats,
   })
 }

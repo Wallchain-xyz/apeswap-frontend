@@ -2,6 +2,7 @@ import PageContainer from 'components/PageContainer'
 import LHD from 'views/LHD'
 
 import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
+import { getHistoricalIndustryStats } from 'hooks/queries/useGetHistoricalIndustryStats'
 
 const LHDPage = () => {
   return (
@@ -20,6 +21,7 @@ export const getServerSideProps = async () => {
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery([QUERY_KEYS.INDUSTRY_STATS], getIndustryStats)
+  await queryClient.prefetchQuery([QUERY_KEYS.HISTORICAL_INDUSTRY_STATS], getHistoricalIndustryStats)
 
   return {
     props: {
