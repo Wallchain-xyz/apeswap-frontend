@@ -1,6 +1,6 @@
 'use client'
 // TODO: Remove need for window so we can remove the client render
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SwiperCore from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useSwiper from 'hooks/useSwiper'
@@ -103,7 +103,6 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                       token2={tokenImage?.[1]}
                       token3={stat?.rewardToken?.name}
                       stakeLp
-                      iconFill="white"
                     />
                   ) : id === 'billDetails' ? (
                     <ServiceTokenDisplay
@@ -111,10 +110,9 @@ const Services: React.FC<{ bab?: boolean }> = ({ bab }) => {
                       token2={tokenImage?.[1]}
                       token3={stat.earnTokenName}
                       stakeLp
-                      iconFill="white"
                     />
                   ) : id === 'poolDetails' ? (
-                    <ServiceTokenDisplay token1={tokenImage?.[0]} token2={tokenImage?.[1]} iconFill="white" />
+                    <ServiceTokenDisplay token1={tokenImage?.[0]} token2={tokenImage?.[1]} />
                   ) : (
                     <ServiceTokenDisplay token1={tokenImage?.[0]} />
                   )}

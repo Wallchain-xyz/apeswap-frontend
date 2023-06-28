@@ -26,8 +26,8 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
-import useAddLiquidityModal from '../../../components/DualAddLiquidity/hooks/useAddLiquidityModal'
-import { useToastError } from '../../../state/application/hooks'
+import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import { useToastError } from 'state/application/hooks'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
@@ -132,6 +132,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   useEffect(() => {
     //reset zap state on mount
     onHandleValueChange('')
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
 
   const searchForBillId = useCallback(
@@ -231,6 +232,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     lpPrice,
     originalSlippage,
     setZapSlippage,
+    toastError,
   ])
 
   const handleMaxInput = useCallback(() => {
