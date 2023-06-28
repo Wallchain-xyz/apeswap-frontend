@@ -22,18 +22,14 @@ export interface UserState {
       [address: string]: SerializedToken
     }
   }
-
   userExpertMode: boolean
-
   flipV3Layout: boolean
-
   pairs: {
     [chainId: number]: {
       // keyed by token0Address:token1Address
       [key: string]: SerializedPair
     }
   }
-
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number | 'auto'
   userZapSlippage: number

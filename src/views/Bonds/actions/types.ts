@@ -8,6 +8,8 @@ export interface ClaimProps {
   pendingRewards: string
   billIds: string[]
   mt?: string[]
+  earnToken: string
+  hasDarkBg?: boolean
 }
 
 export interface TransferProps {

@@ -68,10 +68,10 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
 
   const StakeLpEarnToken = (
     <Flex sx={{ alignItems: 'center' }}>
-      <TokenWrapper size={size} zIndex={2}>
+      <TokenWrapper size={size} style={{ zIndex: 2 }}>
         <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
-      <TokenWrapper size={size} ml={tokensMargin ? tokensMargin : -15} zIndex={1}>
+      <TokenWrapper size={size} ml={tokensMargin ? tokensMargin : -15} style={{ zIndex: 1 }}>
         <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       {billArrow ? (

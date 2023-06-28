@@ -91,6 +91,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                   billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                   billIds={[billToRender.id]}
                   pendingRewards={billToRender?.pendingRewards}
+                  earnToken={bill.earnToken.symbol}
                 />
               </Flex>
               <Flex sx={{ maxWidth: '109px' }}>
@@ -131,6 +132,8 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                 billIds={[billToRender.id]}
                 pendingRewards={billToRender?.pendingRewards}
+                earnToken={bill.earnToken.symbol}
+                hasDarkBg
               />
               <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} />
             </Flex>

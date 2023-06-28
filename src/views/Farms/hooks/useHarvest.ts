@@ -10,6 +10,8 @@ import { FarmTypes } from 'state/farms/types'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { TransactionType } from 'state/transactions/types'
 import { useToastError } from '../../../state/application/hooks'
+import { useRouter } from 'next/router'
+import { useHideCircular } from 'hooks/useHideCircular'
 
 const useHarvest = (farmType: FarmTypes, pid: number, contractAddress?: string) => {
   const { account } = useWeb3React()
@@ -19,12 +21,15 @@ const useHarvest = (farmType: FarmTypes, pid: number, contractAddress?: string) 
   const miniApeContract = useDualFarmContract()
   const addTransaction = useTransactionAdder()
   const toastError = useToastError()
+  const router = useRouter()
+  const hideCircular = useHideCircular()
 
   return useCallback(async () => {
     if (farmType === FarmTypes.MASTER_CHEF_V1) {
       return masterChefV1Contract
         ?.deposit(pid, '0')
         .then((trx) => {
+          if (!hideCircular) router.push('?modal=circular-gh')
           addTransaction(trx, { type: TransactionType.HARVEST })
           return trx.wait()
         })
@@ -37,6 +42,7 @@ const useHarvest = (farmType: FarmTypes, pid: number, contractAddress?: string) 
       return masterChefV2Contract
         ?.deposit(pid, '0')
         .then((trx) => {
+          if (!hideCircular) router.push('?modal=circular-gh')
           addTransaction(trx, { type: TransactionType.HARVEST })
           return trx.wait()
         })
@@ -79,6 +85,8 @@ const useHarvest = (farmType: FarmTypes, pid: number, contractAddress?: string) 
     jungleFarmContract,
     miniApeContract,
     toastError,
+    router,
+    hideCircular,
   ])
 }
 

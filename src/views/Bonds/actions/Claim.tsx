@@ -8,8 +8,8 @@ import { useAppDispatch } from 'state/hooks'
 import { Button } from 'components/uikit'
 import { useToastError } from 'state/application/hooks'
 
-const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards, mt }) => {
-  const { onClaimBill, billType } = useClaimBill(billAddress, billIds)
+const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards, mt, earnToken, hasDarkBg }) => {
+  const { onClaimBill } = useClaimBill(billAddress, billIds, earnToken)
   const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
@@ -38,6 +38,9 @@ const Claim: React.FC<ClaimProps> = ({ billAddress, billIds, pendingRewards, mt 
         minWidth: '109px',
         width: ['240px', '240px', '240px', '100%'],
         mt: mt ?? ['10px', '10px', '10px', '0px'],
+        '&:disabled': {
+          background: hasDarkBg ? 'white4' : 'white3',
+        },
       }}
     >
       {t('CLAIM')}

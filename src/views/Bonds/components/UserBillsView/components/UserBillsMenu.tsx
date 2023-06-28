@@ -106,7 +106,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
                       <Toggle
                         size="sm"
                         labels={[t('List'), t('Gallery')]}
-                        onClick={() => setListView(!listView)}
+                        onChange={() => setListView(!listView)}
                         checked={!listView}
                         sx={{
                           height: '36px',
@@ -116,7 +116,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
                       />
                     </Flex>
                     <Flex sx={{ cursor: 'pointer' }} onClick={() => setShowClaimed(!showClaimed)}>
-                      <CheckBox checked={showClaimed} onClick={() => setShowClaimed(!showClaimed)} />
+                      <CheckBox checked={showClaimed} onChange={() => setShowClaimed(!showClaimed)} />
                       <Text ml="15px" size="14px">
                         {t('Claimed')}
                       </Text>
@@ -148,7 +148,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
             <Toggle
               size="sm"
               labels={[t('List'), t('Gallery')]}
-              onClick={() => setListView(!listView)}
+              onChange={() => setListView(!listView)}
               checked={!listView}
               sx={{
                 height: '36px',
@@ -159,7 +159,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
             />
           </Flex>
           <Flex sx={{ alignItems: 'center', cursor: 'pointer' }} onClick={() => setShowClaimed(!showClaimed)}>
-            <CheckBox checked={showClaimed} onClick={() => setShowClaimed(!showClaimed)} />
+            <CheckBox checked={showClaimed} onChange={() => setShowClaimed(!showClaimed)} />
             <Text ml="15px" size="14px">
               {t('Claimed')}
             </Text>
