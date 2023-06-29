@@ -79,6 +79,7 @@ import {
   YellowQuestionMark,
   BananaIcon,
   ScrollTop,
+  Explorer,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -134,6 +135,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Home {...props} getStyles={getStyles} />
     case icons.CALCULATOR:
       return <Calculator {...props} getStyles={getStyles} />
+    case icons.EXPLORER:
+      return <Explorer {...props} getStyles={getStyles} />
     case icons.FARM:
       return <Farm {...props} getStyles={getStyles} />
     case icons.FRAME:

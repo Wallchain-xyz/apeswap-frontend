@@ -5,22 +5,37 @@ import IconButton from '../IconButton'
 import ChainsIcons from '../ChainsIcons'
 import ProgressBar from '../../../ProgressBar'
 import { getColor } from '../../../../utils/getColor'
-import { ExternalDataOption, TokenProfile } from 'state/lhd/types'
+import { ExternalDataOption, TokenProfile, TokenProfileLinks } from 'state/lhd/types'
 import useModal from 'hooks/useModal'
 import SharableCard from '../../../SharableCard'
 import { styles } from './styles'
 import { useTranslation } from 'contexts/Localization'
 import TokenImage from '../../../../../../components/TokenImage'
 import Link from 'next/link'
+import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
 const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
   const firstValidMcap = fullProfile?.mcap.find((input: ExternalDataOption) => input?.amount) as ExternalDataOption
+
+  const { siteUrl, auditUrls, twitterUrl, telegramUrl, discordUrl } = fullProfile?.addressMapping
+    ?.profileLinks as TokenProfileLinks
+
+  const getBlockExplorerURL = (chain: string, address: string) => {
+    const chainInfo = CHAIN_DETAILS.find((chainOption) => chainOption.chainId === chain)
+    if (chainInfo) return `${chainInfo.blockExplorer?.url}address/${address}`
+    return ''
+  }
+
   const [onCreateCard] = useModal(
     <SharableCard
       tokenSymbol={fullProfile?.addressMapping?.tokenSymbol}
       tokenName={fullProfile?.addressMapping?.tokenName}
-      tokenImageURL={fullProfile?.addressMapping?.cloudinaryLogoUrl ? fullProfile?.addressMapping?.cloudinaryLogoUrl : fullProfile?.addressMapping?.tokenLogoUrl}
+      tokenImageURL={
+        fullProfile?.addressMapping?.cloudinaryLogoUrl
+          ? fullProfile?.addressMapping?.cloudinaryLogoUrl
+          : fullProfile?.addressMapping?.tokenLogoUrl
+      }
       totalScore={fullProfile?.totalScore}
       healthScore={fullProfile?.healthScore}
       concentrationScore={fullProfile?.concentrationScore}
@@ -52,12 +67,19 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
                 </Box>
               </Flex>
               <Flex sx={styles.buttons}>
-                <IconButton href={fullProfile?.addressMapping?.profileLinks?.siteUrl} icon="filledURL" />
-                <IconButton href={fullProfile?.addressMapping?.profileLinks?.auditUrls?.[0]} icon="tickShield" />
-                <IconButton href={fullProfile?.addressMapping?.profileLinks?.twitterUrl} icon="twitter" />
-                <IconButton href={fullProfile?.addressMapping?.profileLinks?.telegramUrl} icon="send" />
-                <IconButton href={fullProfile?.addressMapping?.profileLinks?.discordUrl} icon="discord" />
+                {siteUrl && <IconButton href={siteUrl} icon="filledURL" />}
+                {auditUrls?.[0] && <IconButton href={auditUrls?.[0]} icon="tickShield" />}
+                {twitterUrl && <IconButton href={twitterUrl} icon="twitter" />}
+                {telegramUrl && <IconButton href={telegramUrl} icon="send" />}
+                {discordUrl && <IconButton href={discordUrl} icon="discord" />}
                 <IconButton href={fullProfile?.addressMapping?.tokenAddresses[0]?.address} icon="copy" />
+                <IconButton
+                  href={getBlockExplorerURL(
+                    fullProfile?.addressMapping?.tokenAddresses[0]?.chainId,
+                    fullProfile?.addressMapping?.tokenAddresses[0]?.address,
+                  )}
+                  icon="explorer"
+                />
               </Flex>
             </Flex>
             <Flex sx={styles.extraInfoCont}>
@@ -116,7 +138,13 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
           </Flex>
           <Flex sx={styles.scoreCont}>
             <Text sx={styles.scoreText}>{t('SCORE')}</Text>
-            <Text sx={{ ...styles.scoreNumber, color: getColor(fullProfile.totalScore * 100) }}>
+            <Text
+              sx={{
+                ...styles.scoreNumber,
+                color: getColor(fullProfile.totalScore * 100),
+                fontSize: Math.floor(fullProfile.totalScore * 100) === 100 ? '48px' : '52px',
+              }}
+            >
               {Math.floor(fullProfile.totalScore * 100)}
             </Text>
           </Flex>

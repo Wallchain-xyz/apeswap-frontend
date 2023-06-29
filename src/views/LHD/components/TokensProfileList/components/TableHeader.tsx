@@ -5,10 +5,15 @@ import { styles } from '../styles'
 import { columnWidths, mobileColumnWidths } from '../columnsFormat'
 import { Svg } from 'components/uikit'
 
-const TableHeader = ({ sortCol, onSortColChange, sortType, onSortTypeChange }: {
-  sortCol: string,
-  onSortColChange: (value: string) => void,
-  sortType: string,
+const TableHeader = ({
+  sortCol,
+  onSortColChange,
+  sortType,
+  onSortTypeChange,
+}: {
+  sortCol: string
+  onSortColChange: (value: string) => void
+  sortType: string
   onSortTypeChange: (value: any) => void
 }) => {
   const headers = [
@@ -45,7 +50,7 @@ const TableHeader = ({ sortCol, onSortColChange, sortType, onSortTypeChange }: {
             zIndex: index === 0 || index === 1 || index === headers.length - 1 ? 2 : 1,
             background: 'white2',
             justifyContent: index === 1 ? 'flex-start' : 'center',
-            minWidth: [`${mobileColumnWidths[index]}px`,`${mobileColumnWidths[index]}px`,`${columnWidths[index]}px`],
+            minWidth: [`${mobileColumnWidths[index]}px`, `${mobileColumnWidths[index]}px`, `${columnWidths[index]}px`],
             display: 'flex',
             cursor: 'pointer',
           }}
@@ -55,7 +60,7 @@ const TableHeader = ({ sortCol, onSortColChange, sortType, onSortTypeChange }: {
             {header}
             {header === sortCol && (
               <Flex sx={{ ml: '3px' }}>
-                <Svg icon='caret' direction={sortType === 'asc' ? 'up' : 'down'} width={6} color='textDisabled' />
+                <Svg icon="caret" direction={sortType === 'asc' ? 'up' : 'down'} width={6} color="textDisabled" />
               </Flex>
             )}
           </Text>

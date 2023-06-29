@@ -59,7 +59,7 @@ const TitleCards = () => {
         <StatCard
           title="Industry Average"
           value={(parseFloat(averageTotalScore) * 100).toFixed()}
-          footerInfo={<>{`${averageChange || Number.isNaN(averageChange) ? '0' : averageChange}% in last 7 days`}</>}
+          footerInfo={<>{`${!averageChange || Number.isNaN(averageChange) ? '0' : averageChange}% in last 7 days`}</>}
         />
         <StatCard
           title="Chains Supported"

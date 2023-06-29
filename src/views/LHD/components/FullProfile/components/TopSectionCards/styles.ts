@@ -54,7 +54,7 @@ export const styles: Record<
     fontSize: ['8px'],
     lineHeight: ['10px'],
     mx: '10px',
-    color: 'textDisabled'
+    color: 'textDisabled',
   },
   tokenSymbol: {
     fontWeight: 700,
@@ -155,7 +155,6 @@ export const styles: Record<
   },
   scoreNumber: {
     fontWeight: 700,
-    fontSize: ['55px'],
     lineHeight: ['40px'],
   },
   shareCard: {
