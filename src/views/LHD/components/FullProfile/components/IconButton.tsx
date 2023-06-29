@@ -7,7 +7,7 @@ const IconButton = ({
   simpleBtn,
 }: {
   href: string | undefined
-  icon: 'filledURL' | 'tickShield' | 'twitter' | 'send' | 'discord' | 'copy'
+  icon: 'filledURL' | 'tickShield' | 'twitter' | 'send' | 'discord' | 'copy' | 'explorer'
   simpleBtn?: boolean
 }) => {
   const [isCopied, setIsCopied] = useState(false)
