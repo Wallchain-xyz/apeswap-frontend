@@ -20,7 +20,11 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
     <SharableCard
       tokenSymbol={fullProfile?.addressMapping?.tokenSymbol}
       tokenName={fullProfile?.addressMapping?.tokenName}
-      tokenImageURL={fullProfile?.addressMapping?.cloudinaryLogoUrl ? fullProfile?.addressMapping?.cloudinaryLogoUrl : fullProfile?.addressMapping?.tokenLogoUrl}
+      tokenImageURL={
+        fullProfile?.addressMapping?.cloudinaryLogoUrl
+          ? fullProfile?.addressMapping?.cloudinaryLogoUrl
+          : fullProfile?.addressMapping?.tokenLogoUrl
+      }
       totalScore={fullProfile?.totalScore}
       healthScore={fullProfile?.healthScore}
       concentrationScore={fullProfile?.concentrationScore}
@@ -116,7 +120,13 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
           </Flex>
           <Flex sx={styles.scoreCont}>
             <Text sx={styles.scoreText}>{t('SCORE')}</Text>
-            <Text sx={{ ...styles.scoreNumber, color: getColor(fullProfile.totalScore * 100) }}>
+            <Text
+              sx={{
+                ...styles.scoreNumber,
+                color: getColor(fullProfile.totalScore * 100),
+                fontSize: Math.floor(fullProfile.totalScore * 100) === 100 ? '48px' : '52px',
+              }}
+            >
               {Math.floor(fullProfile.totalScore * 100)}
             </Text>
           </Flex>
