@@ -3,6 +3,7 @@ import LHD from 'views/LHD'
 
 import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
 import { getHistoricalIndustryStats } from 'hooks/queries/useGetHistoricalIndustryStats'
+import { getLHDProfiles } from 'hooks/queries/useGetLHDProfiles'
 
 const LHDPage = () => {
   return (
@@ -22,6 +23,7 @@ export const getServerSideProps = async () => {
 
   await queryClient.prefetchQuery([QUERY_KEYS.INDUSTRY_STATS], getIndustryStats)
   await queryClient.prefetchQuery([QUERY_KEYS.HISTORICAL_INDUSTRY_STATS], getHistoricalIndustryStats)
+  await queryClient.prefetchQuery([QUERY_KEYS.LHD_PROFILES], () => getLHDProfiles())
 
   return {
     props: {

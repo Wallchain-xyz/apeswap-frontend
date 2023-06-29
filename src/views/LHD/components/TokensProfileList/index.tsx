@@ -17,10 +17,15 @@ import { useRouter } from 'next/router'
 import { setFilterState, initialFilterValues } from '../../../../state/lhd/reducer'
 import _ from 'lodash'
 
+// Hooks
+import useGetLHDProfiles from 'hooks/queries/useGetLHDProfiles'
+
 const TokensProfileList = () => {
   const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(1)
-  const simpleProfiles = useSimpleProfiles()
+  // const simpleProfiles = useSimpleProfiles()
+  const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles()
+  console.log({ simpleProfiles })
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
   const dispatch = useAppDispatch()
@@ -73,7 +78,7 @@ const TokensProfileList = () => {
     if (qs) {
       dispatch(setFilterState(filterOptions))
     } else {
-      dispatch(fetchProfilesQuery())
+      // dispatch(fetchProfilesQuery())
     }
   }, [router.asPath])
 
@@ -86,7 +91,7 @@ const TokensProfileList = () => {
       const newUrl = `${router.pathname}?${fullQuery}`
       router.replace(newUrl, newUrl)
 
-      dispatch(fetchProfilesQuery(fullQuery))
+      // dispatch(fetchProfilesQuery(fullQuery))
     }
   }, [fullQuery, dispatch])
 
