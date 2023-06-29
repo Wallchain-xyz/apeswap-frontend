@@ -24,14 +24,16 @@ const TokensProfileList = () => {
   const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(1)
   // const simpleProfiles = useSimpleProfiles()
-  const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles()
-  console.log({ simpleProfiles })
+  const router = useRouter()
+  console.log({ router })
+  const { query: filters } = router
+  const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles({ filters })
+  // console.log({ simpleProfiles })
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
   const dispatch = useAppDispatch()
   const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)
-  const router = useRouter()
   const paginatedQuery = `${
     currentPage > 1 ? 'offset=' + (currentPage - 1) * 50 : router.asPath.includes('offset=') ? 'offset=0' : ''
   }`
@@ -77,8 +79,9 @@ const TokensProfileList = () => {
 
     if (qs) {
       dispatch(setFilterState(filterOptions))
+      console.log('Filter changed!')
     } else {
-      // dispatch(fetchProfilesQuery())
+      dispatch(fetchProfilesQuery())
     }
   }, [router.asPath])
 
@@ -91,7 +94,8 @@ const TokensProfileList = () => {
       const newUrl = `${router.pathname}?${fullQuery}`
       router.replace(newUrl, newUrl)
 
-      // dispatch(fetchProfilesQuery(fullQuery))
+      console.log('Filter changed!')
+      dispatch(fetchProfilesQuery(fullQuery))
     }
   }, [fullQuery, dispatch])
 
