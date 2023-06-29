@@ -64,3 +64,19 @@ export interface LHDProfiles {
   count: number
   data: SimpleTokenProfile[]
 }
+
+export interface MinMax {
+  min: number
+  max: number
+}
+
+export interface Filters {
+  totalScore?: MinMax
+  health?: MinMax
+  concentration?: MinMax
+  ownership?: MinMax
+  mcap?: MinMax
+  extractable?: MinMax
+  tags?: string[]
+  chains?: string[]
+}
