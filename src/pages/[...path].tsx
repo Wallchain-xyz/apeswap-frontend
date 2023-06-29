@@ -1,16 +1,23 @@
-export async function getServerSideProps(context: { query: { path: any } }) {
-  const { path } = context.query
-
+export async function getServerSideProps(context: { query: any }) {
+  const { path, outputCurrency, inputCurrency } = context.query
   if (Array.isArray(path))
     if (path[0]?.toLowerCase() === 'swap') {
-      // if (path[0] === 'swap' && path[1] && path[1].length > 0 && path[2] && path[2].length > 0) {
-      //   return {
-      //     redirect: {
-      //       destination: `https://dex.apeswap.finance/swap${path[1] / path[2]}`,
-      //       permanent: false,
-      //     },
-      //   }
-      // }
+      if (outputCurrency) {
+        return {
+          redirect: {
+            destination: `https://dex.apeswap.finance/swap?outputCurrency=${outputCurrency}`,
+            permanent: false,
+          },
+        }
+      }
+      if (inputCurrency) {
+        return {
+          redirect: {
+            destination: `https://dex.apeswap.finance/swap?inputCurrency=${inputCurrency}`,
+            permanent: false,
+          },
+        }
+      }
       return {
         redirect: {
           destination: `https://dex.apeswap.finance/swap`,
