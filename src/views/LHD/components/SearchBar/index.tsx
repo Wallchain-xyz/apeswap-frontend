@@ -1,18 +1,16 @@
 import { ChangeEvent, useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { Button, Flex, Input, Svg, Text } from 'components/uikit'
-import { useLHDFilterValues } from 'state/lhd/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
 import { useAnimation, motion } from 'framer-motion'
 import useModal from 'hooks/useModal'
 import FilterModal from './FilterModal'
-import { countChangedProperties, generateSearchParams, queryStringToObject } from './helpers'
+import { countChangedProperties } from './helpers'
 import useFilterHandler from './FilterModal/useFilterHandler'
 
 const SearchBar = () => {
   const { t } = useTranslation()
-  // const filterState = useLHDFilterValues()
   const router = useRouter()
   const { query: filters } = router
 
@@ -20,7 +18,7 @@ const SearchBar = () => {
   const [searchQueryString, setSearchQueryString] = useState<string>(filters.search ? filters.search.toString() : '')
   const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString)
 
-  const [onFilterModal] = useModal(<FilterModal handleQueryChange={handleQueryChange} />)
+  const [onFilterModal] = useModal(<FilterModal />)
 
   //shakes when no results are found
   const controls = useAnimation()

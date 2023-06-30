@@ -6,13 +6,13 @@ import NumericInput from 'components/uikit/Input/NumericInput'
 import { Flex, Text } from 'components/uikit'
 import { debounce } from 'lodash'
 import { useTranslation } from 'contexts/Localization'
-import { FilterState } from 'state/lhd/reducer'
+import { Filters } from 'utils/types/lhd'
 
 const ScoreSlider = ({
   values,
   handler,
 }: {
-  values: FilterState
+  values: Required<Filters>
   handler: (type: 'totalScore' | 'health' | 'ownership' | 'concentration', obj: 'min' | 'max', value: number) => void
 }) => {
   const { t } = useTranslation()

@@ -1,4 +1,4 @@
-import { FilterState, initialFilterValues } from '../../../../state/lhd/reducer'
+import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
 import { Filters } from 'utils/types/lhd'
 import queryString from 'query-string'
 
@@ -7,12 +7,12 @@ import { cloneDeep } from 'lodash'
 export function countChangedProperties(current: Filters): number {
   const parsedFilters = queryString.stringify(current)
   const formattedFilters = queryStringToObject(parsedFilters)
-  const initial = initialFilterValues
+  const initial = INITIAL_FILTER_VALUES
   let changedProperties = 0
 
-  // Iterate over the keys (properties) of the FilterState object
+  // Iterate over the keys (properties) of the Filters object
   for (const key in initial) {
-    // Assert that key is a key of FilterState
+    // Assert that key is a key of Filters
     const typedKey = key as keyof Filters
 
     // Check if both min and max values have changed for the given property
@@ -42,7 +42,7 @@ export const shouldDivideBy100 = (key: string): boolean => {
   return ['totalScore', 'health', 'ownership', 'concentration'].includes(key)
 }
 
-export const generateSearchParams = (values: FilterState): string => {
+export const generateSearchParams = (values: Required<Filters>): string => {
   const differences: string[] = []
 
   for (const key in values) {
@@ -53,8 +53,8 @@ export const generateSearchParams = (values: FilterState): string => {
         }
         continue
       }
-      const value = values[key as keyof FilterState]
-      const initialValue = initialFilterValues[key as keyof FilterState]
+      const value = values[key as keyof Filters]
+      const initialValue = INITIAL_FILTER_VALUES[key as keyof Filters]
 
       if (JSON.stringify(value) !== JSON.stringify(initialValue)) {
         const keyValuePairs = Object.entries(value)
@@ -75,7 +75,7 @@ export const generateSearchParams = (values: FilterState): string => {
 
 export const queryStringToObject = (queryString: string): Required<Filters> => {
   const searchParams = new URLSearchParams(queryString)
-  const result: any = cloneDeep(initialFilterValues)
+  const result: any = cloneDeep(INITIAL_FILTER_VALUES)
 
   searchParams.forEach((value, key) => {
     let mainKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(0, -3) : key
