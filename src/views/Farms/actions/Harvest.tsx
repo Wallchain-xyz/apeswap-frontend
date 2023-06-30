@@ -10,9 +10,6 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import useHarvest from '../hooks/useHarvest'
 import { FarmTypes } from 'state/farms/types'
 import { updateFarmUserEarnings } from 'state/farms'
-import { useTransactionAdder } from 'state/transactions/hooks'
-import { TransactionType } from 'state/transactions/types'
-import { useToastError } from '../../../state/application/hooks'
 
 interface HarvestActionsProps {
   id: string
@@ -39,9 +36,7 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   const handleHarvest = useHarvest(farmType, pid, contractAddress)
-  const addTransaction = useTransactionAdder()
   const { t } = useTranslation()
-  const toastError = useToastError()
 
   return (
     <Flex sx={styles.actionContainer}>
@@ -64,14 +59,6 @@ const HarvestAction: React.FC<HarvestActionsProps> = ({
           onClick={async () => {
             setPendingTrx(true)
             await handleHarvest()
-              .then((resp: any) => {
-                addTransaction(resp, { type: TransactionType.CLAIM, recipient: account ?? '' })
-              })
-              .catch((e: any) => {
-                console.error(e)
-                toastError(e)
-                setPendingTrx(false)
-              })
             dispatch(updateFarmUserEarnings(chainId as SupportedChainId, id, account ?? ''))
             setPendingTrx(false)
           }}

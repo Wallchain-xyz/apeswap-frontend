@@ -264,8 +264,10 @@ export function useDefaultCurrencies() {
 // This will be mostly used by products rather than the dex
 export function useSetZapOutputList(currencyIds: { currencyIdA: string; currencyIdB: string }[]) {
   const dispatch = useAppDispatch()
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useMemo(() => dispatch(setZapNewOutputList({ zapNewOutputList: currencyIds })), [currencyIds.length, dispatch])
+  useEffect(() => {
+    dispatch(setZapNewOutputList({ zapNewOutputList: currencyIds }))
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [currencyIds.length, dispatch])
 }
 
 // Hook to set the dex output list.

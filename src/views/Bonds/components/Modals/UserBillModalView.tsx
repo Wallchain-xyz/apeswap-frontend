@@ -158,6 +158,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                   billIds={[billId ?? '0']}
                   pendingRewards={userOwnedBill?.payout ?? '0'}
                   mt={['0px']}
+                  earnToken={bill.earnToken.symbol}
                 />
               </Flex>
               <Flex

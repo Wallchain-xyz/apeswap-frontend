@@ -173,7 +173,7 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '65vh', maxHeight: '500px', width: '100%', flexDirection: 'column' }}>
+    <Flex sx={{ height: '340px', width: '100%', flexDirection: 'column', background: 'white3', borderRadius: '10px' }}>
       <FixedSizeList
         height={500}
         itemSize={55}

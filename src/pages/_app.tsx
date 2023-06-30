@@ -1,4 +1,4 @@
-import type { AppProps } from 'next/app'
+import type { AppContext, AppProps } from 'next/app'
 import { ThemeProvider } from 'theme-ui'
 import store from 'state'
 import { theme } from 'theme'
@@ -29,7 +29,11 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
-export default function App({ Component, pageProps }: AppProps) {
+interface MyAppProps extends AppProps {
+  initialColorMode: 'dark' | 'light'
+}
+
+export default function App({ Component, pageProps, initialColorMode }: MyAppProps) {
   const Updaters = () => {
     return (
       <>
@@ -39,6 +43,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <ApplicationUpdater />
       </>
     )
+  }
+
+  if (theme) {
+    theme.initialColorModeName = initialColorMode
   }
 
   return (
@@ -74,4 +82,22 @@ export default function App({ Component, pageProps }: AppProps) {
       </Provider>
     </>
   )
+}
+
+App.getInitialProps = async (appContext: AppContext): Promise<{ initialColorMode: string }> => {
+  const req = appContext.ctx.req
+  let initialColorMode = 'light'
+  if (req) {
+    const cookiesString = req.headers.cookie || ''
+    const cookies = Object.fromEntries(
+      cookiesString.split('; ').map((c) => {
+        const [name, v] = c.split('=', 2)
+        return [name, decodeURIComponent(v)]
+      }),
+    )
+    initialColorMode = cookies?.theme || 'dark'
+  }
+  return {
+    initialColorMode: initialColorMode,
+  }
 }

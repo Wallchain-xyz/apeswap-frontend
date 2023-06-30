@@ -2,7 +2,6 @@ import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import VestedTimer from '../VestedTimer'
-import { TopDescriptionText } from './styles'
 import { Bills } from 'views/Bonds/types'
 import { CheckBox, Flex, Input, Modal, Text } from 'components/uikit'
 import Transfer from 'views/Bonds/actions/Transfer'
@@ -28,35 +27,33 @@ const TransferBillModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill, 
     getBalanceNumber(new BigNumber(userOwnedBill?.payout ?? 0), bill?.earnToken?.decimals?.[chainId] ?? 18)?.toFixed(4)
   return (
     <Modal onDismiss={onDismiss} title="Transfer Bond" zIndex={130}>
-      <Flex mt="30px">
-        <Text weight={700}> {t('Transferring')}: </Text>
+      <Flex sx={{ mt: '20px' }}>
+        <Text sx={{ fontWeight: 700 }}> {t('Transferring')}: </Text>
       </Flex>
-      <Flex mt="30px" sx={{ flexDirection: 'column', alignItems: 'center' }} mr="10px">
-        <Text bold size="25px">
+      <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '30px', mr: '10px' }}>
+        <Text sx={{ fontWeight: 700, fontSize: '25px' }}>
           {lpToken.symbol} #{userOwnedBill?.id}
         </Text>
-        <Flex mt="5px">
-          <Flex mr="20px" sx={{ flexDirection: 'column' }}>
-            <TopDescriptionText textAlign="center">{t('Vesting time')}</TopDescriptionText>
+        <Flex sx={{ mt: '5px' }}>
+          <Flex sx={{ flexDirection: 'column', mr: '20px' }}>
+            <Text sx={{ textAlign: 'center', width: '100%', fontSize: '12px', opacity: 0.6 }}>{t('Vesting time')}</Text>
             <VestedTimer
               lastBlockTimestamp={userOwnedBill?.lastBlockTimestamp ?? '0'}
               vesting={userOwnedBill?.vesting ?? '0'}
               transferModalFlag
             />
           </Flex>
-          <Flex ml="20px" sx={{ flexDirection: 'column' }}>
-            <TopDescriptionText textAlign="center">{t('Pending')}</TopDescriptionText>
+          <Flex sx={{ flexDirection: 'column', ml: '20px' }}>
+            <Text sx={{ textAlign: 'center', width: '100%', fontSize: '12px', opacity: 0.6 }}>{t('Pending')}</Text>
             <Flex>
               <ServiceTokenDisplay token1={earnToken.symbol} size={20} />
-              <Text bold ml="5px">
-                {pending}
-              </Text>
+              <Text sx={{ fontWeight: 700, ml: '5px' }}>{pending}</Text>
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-      <Flex mt="30px" sx={{ flexDirection: 'column' }}>
-        <Text bold>{t('Receiving Address')}:</Text>
+      <Flex sx={{ flexDirection: 'column', mt: '30px' }}>
+        <Text sx={{ fontWeight: 700 }}>{t('Receiving Address')}:</Text>
         <Input
           mt="10px"
           size="lg"
@@ -66,19 +63,26 @@ const TransferBillModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill, 
           style={{ width: '345px', border: 'none' }}
         />
       </Flex>
-      <Text mt="30px" size="12px" style={{ color: 'rgba(223, 65, 65, 1)' }}>
-        <Text bold style={{ color: 'rgba(223, 65, 65, 1)' }} size="13px">
-          {t('WARNING')}
+      <Flex sx={{ mt: '15px' }}>
+        <Text sx={{ lineHeight: '18px', fontSize: '12px', color: 'rgba(223, 65, 65, 1)' }}>
+          <Text
+            sx={{ display: 'block', width: '100%', fontWeight: 700, fontSize: '13px', color: 'rgba(223, 65, 65, 1)' }}
+          >
+            {t('WARNING')}
+          </Text>
+          {t('When transfering the NFT all pending rewards will also be transfered to the receiver address.')}
         </Text>
-        {t('When transfering the NFT all pending rewards will also be transfered to the receiver address.')}
-      </Text>
-      <Flex mt="20px" onClick={() => setConfirmSend((prev) => !prev)} sx={{ cursor: 'pointer', alignItems: 'center' }}>
+      </Flex>
+      <Flex
+        onClick={() => setConfirmSend((prev) => !prev)}
+        sx={{ mt: '20px', cursor: 'pointer', alignItems: 'center' }}
+      >
         <CheckBox checked={confirmSend} />
-        <Text ml="10px" size="12px">
+        <Text sx={{ ml: '10px', fontSize: '12px', fontWeight: 500, lineHeight: '18px' }}>
           {t('I understand the new wallet gains ownership of all unclaimed assets.')}
         </Text>
       </Flex>
-      <Flex sx={{ justifyContent: 'center' }} mt="15px">
+      <Flex sx={{ justifyContent: 'center', mt: '15px' }}>
         <Transfer billNftAddress={billNftAddress ?? ''} billId={billId} toAddress={toAddress} disabled={!confirmSend} />
       </Flex>
     </Modal>

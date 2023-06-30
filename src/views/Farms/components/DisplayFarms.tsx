@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js'
 import ListView from 'components/ListView/ListView'
 import { Button, Flex, Svg, Text } from 'components/uikit'
 import ListViewContent from 'components/ListView/ListViewContent'
-import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import { styles } from './styles'
@@ -26,11 +25,11 @@ const DisplayFarms = ({
   isActive,
 }: {
   farms: Farm[]
-  openPid?: string
+  openPid?: string | null
   farmTags?: any[]
   isActive: boolean
 }) => {
-  const { chainId } = useWeb3React()
+  //const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
@@ -63,7 +62,7 @@ const DisplayFarms = ({
     const token1 = farm.quoteTokenSymbol
     const userAllowance = farm?.userData?.allowance
     const userEarnings = getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0))?.toFixed(3)
-    const userSecondEarnings = getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0))?.toFixed(2)
+    //const userSecondEarnings = getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0))?.toFixed(2)
     const userEarningsUsd = `$${(farm.farmType === FarmTypes.DUAL_FARM
       ? getBalanceNumber(new BigNumber(farm?.userData?.rewards ?? 0)) * farm.earnTokenPrice +
         getBalanceNumber(new BigNumber(farm?.userData?.secondRewards ?? 0)) * (farm?.secondEarnTokenPrice ?? 0)
@@ -94,7 +93,7 @@ const DisplayFarms = ({
       },
       listProps: {
         id: farm.id,
-        // open: farm.pid === openPid,
+        open: openPid ? farm.pid === parseInt(openPid) : false,
         title: (
           <ListViewContent
             // @ts-ignore

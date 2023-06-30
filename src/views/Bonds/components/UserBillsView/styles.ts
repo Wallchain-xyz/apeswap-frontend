@@ -114,9 +114,10 @@ export const DescriptionContainer = styled(Flex)`
   padding: 20px 0 0 0;
   width: 100%;
   justify-content: center;
+  cursor: pointer;
   ${({ theme }) => theme.mediaQueries.md} {
     width: 50%;
-    padding: 20px 0px 20px 20px;
+    padding: 0 0 20px 20px;
   }
 `
 
