@@ -17,10 +17,12 @@ const useFilterHandler = (
     },
     [setSearchQueryString],
   )
-  //
-  // useEffect(() => {
-  //   dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
-  // }, [debouncedQueryString, dispatch, handleNoResults])
+
+  useEffect(() => {
+    if (debouncedQueryString) {
+      dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
+    }
+  }, [debouncedQueryString, dispatch, handleNoResults])
 
   return handleQueryChange
 }
