@@ -1,14 +1,9 @@
 import { useCallback, useEffect } from 'react'
-import { useAppDispatch } from 'state/hooks'
-import { fetchProfilesQuery } from 'state/lhd/actions'
 import useDebounce from 'hooks/useDebounce'
+import { useRouter } from 'next/router'
 
-const useFilterHandler = (
-  setSearchQueryString: any,
-  searchQueryString: any,
-  handleNoResults: (value: boolean) => void,
-) => {
-  const dispatch = useAppDispatch()
+const useFilterHandler = (setSearchQueryString: (searchQuery: string) => void, searchQueryString: any) => {
+  const router = useRouter()
   const debouncedQueryString = useDebounce(searchQueryString, 1000)
 
   const handleQueryChange = useCallback(
@@ -19,8 +14,10 @@ const useFilterHandler = (
   )
 
   useEffect(() => {
-    dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
-  }, [debouncedQueryString, dispatch, handleNoResults])
+    router.replace({
+      query: debouncedQueryString ? `search=${debouncedQueryString}` : '',
+    })
+  }, [debouncedQueryString])
 
   return handleQueryChange
 }

@@ -48,8 +48,6 @@ const FilterModal = ({
   const parsedFilters = queryString.stringify(filters)
   const [values, setValues] = useState<Required<Filters>>(queryStringToObject(parsedFilters))
 
-  console.log({ values })
-
   const stringHandler = (
     type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',
   ) => {

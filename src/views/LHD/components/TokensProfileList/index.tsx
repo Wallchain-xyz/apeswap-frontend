@@ -28,7 +28,7 @@ const TokensProfileList = () => {
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
   // const dispatch = useAppDispatch()
-  const [searchQueryString, setSearchQueryString] = useState('')
+  // const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)
   // const simpleProfiles = useSimpleProfiles()
   const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles({ filters })
@@ -114,9 +114,9 @@ const TokensProfileList = () => {
   return (
     <>
       <SearchBar
-        handleNoResults={handleNoResults}
-        searchQueryString={searchQueryString}
-        setSearchQueryString={setSearchQueryString}
+      // handleNoResults={handleNoResults}
+      // searchQueryString={searchQueryString}
+      // setSearchQueryString={setSearchQueryString}
       />
       <Box sx={styles.tableContainer}>
         <TableHeader

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useCallback } from 'react'
+import { ChangeEvent, useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { Button, Flex, Input, Svg, Text } from 'components/uikit'
 import { useLHDFilterValues } from 'state/lhd/hooks'
@@ -9,23 +9,16 @@ import useModal from 'hooks/useModal'
 import FilterModal from './FilterModal'
 import { countChangedProperties, generateSearchParams, queryStringToObject } from './helpers'
 import useFilterHandler from './FilterModal/useFilterHandler'
-import queryString from 'query-string'
 
-const SearchBar = ({
-  handleNoResults,
-  searchQueryString,
-  setSearchQueryString,
-}: {
-  handleNoResults: (value: boolean) => void
-  searchQueryString: string
-  setSearchQueryString: any
-}) => {
+const SearchBar = () => {
   const { t } = useTranslation()
   // const filterState = useLHDFilterValues()
   const router = useRouter()
   const { query: filters } = router
+
   const changedPropertiesCount = countChangedProperties(filters)
-  const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString, handleNoResults)
+  const [searchQueryString, setSearchQueryString] = useState<string>(filters.search ? filters.search.toString() : '')
+  const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString)
 
   const [onFilterModal] = useModal(<FilterModal handleQueryChange={handleQueryChange} />)
 

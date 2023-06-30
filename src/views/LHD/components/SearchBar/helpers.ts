@@ -74,9 +74,7 @@ export const generateSearchParams = (values: FilterState): string => {
 }
 
 export const queryStringToObject = (queryString: string): Required<Filters> => {
-  console.log({ queryString })
   const searchParams = new URLSearchParams(queryString)
-  console.log({ searchParams })
   const result: any = cloneDeep(initialFilterValues)
 
   searchParams.forEach((value, key) => {

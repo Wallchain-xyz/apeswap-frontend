@@ -56,7 +56,6 @@ const FullProfile = ({
   }
 
   const handleBackButton = () => {
-    console.log(queryString)
     router.push(
       { pathname: `/liquidity-health?${queryString ? queryString : Math.random() * 10}` },
       `/liquidity-health${queryString ? '?' + queryString : ''}`,

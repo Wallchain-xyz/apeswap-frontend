@@ -9,17 +9,20 @@ import { LHDProfiles, Filters } from 'utils/types/lhd'
 import { LHD_API } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 
+interface FiltersWithSearch extends Filters {
+  search?: string
+}
+
 export const getLHDProfiles = async ({
-  query,
   filters,
 }: {
   query?: string
-  filters?: Filters
+  filters?: FiltersWithSearch
 }): Promise<LHDProfiles> => {
   let profilesUrl = `${LHD_API}/liquidity-health-dashboard/profiles`
 
-  if (query) {
-    profilesUrl += `/search/${query}`
+  if (filters?.search) {
+    profilesUrl += `/search/${filters.search}`
   } else if (filters) {
     const parsedFilters = queryString.stringify(filters)
     profilesUrl += `?${parsedFilters}`
@@ -28,9 +31,9 @@ export const getLHDProfiles = async ({
   return data
 }
 
-export default function useGetLHDProfiles({ query, filters }: { query?: string; filters?: Filters }) {
+export default function useGetLHDProfiles({ filters }: { query?: string; filters?: FiltersWithSearch }) {
   return useQuery({
     queryKey: [QUERY_KEYS.LHD_PROFILES, filters],
-    queryFn: () => getLHDProfiles({ query, filters }),
+    queryFn: () => getLHDProfiles({ filters }),
   })
 }
