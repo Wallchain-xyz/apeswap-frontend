@@ -97,7 +97,7 @@ const styles: Record<
     background: 'white3',
     fontSize: ['12px', '12px', '12px', '16px'],
     ':nth-of-type(4n)': { mr: ['', '', '', '0px'] },
-    ':nth-last-child(-n+2)': {
+    ':nth-last-of-type(-n+2)': {
       mb: '0px',
     },
   },

@@ -39,13 +39,17 @@ const Bills: React.FC = () => {
         maxWidth={1130}
         openTips
       />
-      {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS].includes(chainId as SupportedChainId) ? (
+      {!chainId ? (
+        <></>
+      ) : !AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.BILLS].includes(
+          (chainId as SupportedChainId) ?? SupportedChainId.BSC,
+        ) ? (
         <Flex sx={{ mt: '20px' }}>
           <ListView404 product={LIST_VIEW_PRODUCTS.BILLS} />
         </Flex>
       ) : (
         <>
-          {!hideTips && <FirstTimeCard />}
+          {!hideTips && chainId && <FirstTimeCard />}
           <BillsNav billsView={billsView} setBillsView={handleBillsViewChange} />
           {billsView === BillsView.AVAILABLE_BILLS ? (
             <BillsListView />

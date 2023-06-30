@@ -95,7 +95,7 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 />
               </Flex>
               <Flex sx={{ maxWidth: '109px' }}>
-                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
+                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} />
               </Flex>
             </Flex>
           </Flex>

@@ -14,7 +14,7 @@ export interface Token {
 export interface Pool extends PoolConfig {
   totalStaked?: string
   startBlock?: number
-  endBlock?: number
+  endBlock?: string
   apr?: number
   userData?: {
     allowance: string

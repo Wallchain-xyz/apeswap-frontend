@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from 'react'
 import { Flex } from 'components/uikit'
 import { styles } from './styles'
 import { useFarmOrderings, useFarms } from 'state/farms/hooks'
@@ -7,7 +8,6 @@ import ListViewMenu from 'components/ListView/ListViewMenu'
 import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListView404 from 'components/ListView404'
-import { useEffect, useRef, useState } from 'react'
 import { BLUE_CHIPS, NUMBER_OF_FARMS_VISIBLE, SORT_OPTIONS, STABLES } from './constants'
 import DisplayFarms from './components/DisplayFarms'
 import { Farm, FarmTypes } from 'state/farms/types'
@@ -32,7 +32,8 @@ const Farms = () => {
   const windowIsVisible = useIsWindowVisible()
   const { search } = windowIsVisible ? window.location : { search: '' }
   const params = new URLSearchParams(search)
-  const urlSearchedFarm = '' //parseInt(params?.get('pid'))
+  const urlSearchedFarm = params?.get('pid') ? params?.get('pid') : ''
+  const urlSearchedJFarm = params?.get('jid') ? params?.get('jid') : ''
   const [stakedOnly, setStakedOnly] = useState(false)
   const { farmOrderings } = useFarmOrderings(chainId as SupportedChainId)
   const [isActive, setIsActive] = useState(true)
@@ -52,7 +53,9 @@ const Farms = () => {
         }
       }
       if (farm.farmType === FarmTypes.JUNLGE_FARM) {
-        if ((farm?.endBlock ?? 0) > (currentBlock ?? 0)) {
+        if (!farm?.endBlock || !currentBlock) {
+          aFarms.push(farm)
+        } else if ((farm?.endBlock ?? 0) > (currentBlock ?? 0)) {
           aFarms.push(farm)
         }
       }
@@ -154,22 +157,44 @@ const Farms = () => {
   const renderFarms = () => {
     let farms = isActive ? activeFarms : inactiveFarms
 
-    // if (urlSearchedFarm) {
-    //   const farmCheck =
-    //     activeFarms?.find((farm) => {
-    //       return farm.pid === urlSearchedFarm
-    //     }) !== undefined
-    //   if (farmCheck) {
-    //     farms = [
-    //       activeFarms?.find((farm: Farm) => {
-    //         return farm.pid === urlSearchedFarm
-    //       }),
-    //       ...activeFarms?.filter((farm) => {
-    //         return farm.pid !== urlSearchedFarm
-    //       }),
-    //     ]
-    //   }
-    // }
+    if (urlSearchedFarm) {
+      const farmCheck =
+        activeFarms?.find((farm) => {
+          return farm.pid === parseInt(urlSearchedFarm) && farm.farmType === FarmTypes.MASTER_CHEF_V2
+        }) !== undefined
+      if (farmCheck) {
+        const urlFarm = activeFarms?.find((farm: Farm) => {
+          return farm.pid === parseInt(urlSearchedFarm) && farm.farmType === FarmTypes.MASTER_CHEF_V2
+        })
+        if (urlFarm) {
+          farms = [
+            urlFarm,
+            ...activeFarms?.filter((farm) => {
+              return !(farm.pid === parseInt(urlSearchedFarm) && farm.farmType === FarmTypes.MASTER_CHEF_V2)
+            }),
+          ]
+        }
+      }
+    }
+    if (urlSearchedJFarm) {
+      const farmCheck =
+        activeFarms?.find((farm) => {
+          return farm.pid === parseInt(urlSearchedJFarm) && farm.farmType === FarmTypes.JUNLGE_FARM
+        }) !== undefined
+      if (farmCheck) {
+        const urlFarm = activeFarms?.find((farm: Farm) => {
+          return farm.pid === parseInt(urlSearchedJFarm) && farm.farmType === FarmTypes.JUNLGE_FARM
+        })
+        if (urlFarm) {
+          farms = [
+            urlFarm,
+            ...activeFarms?.filter((farm) => {
+              return !(farm.pid === parseInt(urlSearchedJFarm) && farm.farmType === FarmTypes.JUNLGE_FARM)
+            }),
+          ]
+        }
+      }
+    }
 
     if (stakedOnly) {
       farms = isActive ? stakedOnlyFarms : stakedOnlyInactiveFarms
@@ -255,12 +280,14 @@ const Farms = () => {
           showMonkeyImage
         />
       </Flex>
-      {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.FARMS].includes(chainId as SupportedChainId) ? (
+      {!chainId ? (
+        <></>
+      ) : !AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.FARMS].includes(chainId as SupportedChainId) ? (
         <Flex mt="20px">
           <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>
       ) : (
-        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} isActive={isActive} />
+        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} isActive={isActive} openPid={urlSearchedFarm} />
       )}
       <div ref={loadMoreRef} />
     </Flex>

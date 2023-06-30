@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js'
 import ListView from 'components/ListView/ListView'
 import { Button, Flex, Svg, Text } from 'components/uikit'
 import ListViewContent from 'components/ListView/ListViewContent'
-import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import { styles } from './styles'
@@ -26,7 +25,7 @@ const DisplayFarms = ({
   isActive,
 }: {
   farms: Farm[]
-  openPid?: string
+  openPid?: string | null
   farmTags?: any[]
   isActive: boolean
 }) => {
@@ -94,7 +93,7 @@ const DisplayFarms = ({
       },
       listProps: {
         id: farm.id,
-        // open: farm.pid === openPid,
+        open: openPid ? farm.pid === parseInt(openPid) : false,
         title: (
           <ListViewContent
             // @ts-ignore

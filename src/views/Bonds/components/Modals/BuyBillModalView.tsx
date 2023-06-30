@@ -97,9 +97,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
                   stakeLp={bill?.billType !== 'reserve'}
                 />
                 <Flex sx={{ flexDirection: 'column' }}>
-                  <StyledHeadingText ml="10px" bold>
-                    {bill?.lpToken.symbol}
-                  </StyledHeadingText>
+                  <StyledHeadingText ml="10px">{bill?.lpToken.symbol}</StyledHeadingText>
                   <TopDescriptionText ml="12px">
                     {t('Vesting Term')}: {`${vestingTime.days}d, ${vestingTime.minutes}h, ${vestingTime.seconds}m`}
                   </TopDescriptionText>
