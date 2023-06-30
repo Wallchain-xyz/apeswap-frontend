@@ -2,10 +2,6 @@
 
 The `frontend` repo is the official frontend repository for ApeSwap.Finance, which is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone.
 
-## Contributions
-
-If you want to contribute to this repo, please refer to the [contributing guidelines](./CONTRIBUTING.md).
-
 ## Getting Started
 
 Getting up and running with the `frontend` repo is a super simple, 2 step process:
