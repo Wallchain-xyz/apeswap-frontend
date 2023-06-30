@@ -22,8 +22,7 @@ const TokensProfileList = () => {
   const [currentPage, setCurrentPage] = useState<number>(filters.offset ? Number(filters.offset) / 50 + 1 : 1)
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
-  const [noResults, setNoResults] = useState(false)
-  const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles({ filters })
+  const { data: simpleProfiles = { count: 0, data: [] }, isFetching } = useGetLHDProfiles({ filters })
   const { t } = useTranslation()
 
   const handlePaginate = (page: number): void => {
@@ -44,7 +43,17 @@ const TokensProfileList = () => {
           sortType={sortType}
           onSortTypeChange={(value) => setSortType(value)}
         />
-        {simpleProfiles && simpleProfiles.count === 0 ? (
+        {isFetching &&
+          !simpleProfiles?.data &&
+          [...Array(50)].map((_, i) => {
+            return <SkeletonRow key={i} />
+          })}
+
+        {simpleProfiles.count > 0 ? (
+          sortProfiles(simpleProfiles.data ?? undefined, sortCol, sortType)?.map((simpleProfile, index) => {
+            return <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
+          })
+        ) : (
           <Flex
             sx={{
               width: '100%',
@@ -58,23 +67,13 @@ const TokensProfileList = () => {
             <Svg icon="placeholderMonkey" />
             <Text sx={{ fontSize: '12px', fontWeight: 500, color: 'textDisabled' }}>{t('No Results Found')}</Text>
           </Flex>
-        ) : simpleProfiles?.data?.length > 0 ? (
-          sortProfiles(simpleProfiles.data ?? undefined, sortCol, sortType)?.map((simpleProfile, index) => {
-            return <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
-          })
-        ) : (
-          <>
-            {[...Array(50)].map((_, i) => {
-              return <SkeletonRow key={i} />
-            })}
-          </>
         )}
       </Box>
       <Pagination
         currentPage={currentPage}
         onPageChange={(page: number) => handlePaginate(page)}
         totalPages={simpleProfiles ? Math.ceil(simpleProfiles.count / 50) : 0}
-        hidePagination={simpleProfiles.count < 51 || noResults}
+        hidePagination={simpleProfiles.count < 51}
       />
     </>
   )
