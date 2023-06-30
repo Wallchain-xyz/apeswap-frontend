@@ -6,22 +6,22 @@ export const SHOW_DEF_MOD_KEY = 'SHOW_DEF_MOD_KEY'
 
 // MODALS CONSTANTS
 export const MODAL_INFO = {
-  sellModal: {
+  'circular-sell': {
     title: 'Selling BANANA?',
     supporting: 'Before You Sell...',
     description: 'Have you tried these products?',
   },
-  buyModal: {
+  'circular-buy': {
     title: "You've Got BANANA!",
     supporting: "Now You're Ready...",
     description: 'Put your new BANANA to work!',
   },
-  generalHarvestModal: {
+  'circular-gh': {
     title: "You've Earned BANANA!",
     supporting: 'Did You Know?',
     description: 'You can use your BANANA to earn more rewards:',
   },
-  poolHarvestModal: {
+  'circular-ph': {
     title: "You've Earned BANANA!",
     supporting: 'Did You Know?',
     description: 'You can use your BANANA to earn more rewards:',
@@ -33,7 +33,7 @@ export const CTA_CARD_INFO = {
   maximizers: {
     title: 'Maximizers',
     description: 'Maximize your yields automatically',
-    destination: 'https://apeswap.finance/maximizers',
+    destination: 'https://legacy.apeswap.finance/maximizers',
   },
   pools: {
     title: 'Pools',

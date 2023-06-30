@@ -14,7 +14,7 @@ interface ModalInputProps {
 
 const ModalInput: React.FC<ModalInputProps> = ({ max, onChange, onSelectMax, value, inputTitle, displayDecimals }) => {
   const { t } = useTranslation()
-  const isBalanceZero = max === '0' || !max
+  const isBalanceZero = max === '0' || !max || max === 'NaN'
   const displayBalance = isBalanceZero ? '0' : parseFloat(max).toFixed(displayDecimals || 4)
 
   return (

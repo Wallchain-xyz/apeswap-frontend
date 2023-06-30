@@ -31,7 +31,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const [expanded, setExpended] = useState<boolean | undefined>(false)
-  const { push, asPath, basePath } = useRouter()
+  const { asPath } = useRouter()
   const isExact = !asPath.includes('history')
   const [colorMode] = useColorMode()
   const [usedSearch, setUsedSearch] = useState<boolean | undefined>(false)
@@ -135,13 +135,13 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
                     <Toggle
                       size="md"
                       labels={[t(`${toogleLabels[0]}`).toUpperCase(), t(`${toogleLabels[1]}`).toUpperCase()]}
-                      onClick={handleToogle}
+                      onChange={handleToogle}
                       checked={!isExact}
                       sx={{ height: '36px', alignItems: 'center', '& button': { lineHeight: '20px' } }}
                     />
                   </Flex>
-                  <Flex sx={{ alignItems: 'center' }} onClick={handleCheckBox}>
-                    <CheckBox checked={showOnlyCheckbox} />
+                  <Flex sx={{ alignItems: 'center', cursor: 'pointer' }} onClick={handleCheckBox}>
+                    <CheckBox checked={showOnlyCheckbox} onChange={handleCheckBox} />
                     <Text ml="10px" size="16px" weight={700}>
                       {t(`${checkboxLabel}`)}
                     </Text>
@@ -165,7 +165,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
           <Toggle
             size="md"
             labels={[t(`${toogleLabels[0]}`).toUpperCase(), t(`${toogleLabels[1]}`).toUpperCase()]}
-            onClick={handleToogle}
+            onChange={handleToogle}
             checked={!isExact}
             sx={styles.toogle}
           />
@@ -174,7 +174,7 @@ const ListViewMenu: React.FC<ListMenuProps> = ({
           sx={{ alignItems: 'center', '&: hover': { cursor: 'pointer' }, ...styles.onlyDesktop }}
           onClick={handleCheckBox}
         >
-          <CheckBox checked={showOnlyCheckbox} />
+          <CheckBox checked={showOnlyCheckbox} onChange={handleCheckBox} />
           <Text ml="10px" size="16px" weight={700}>
             {t(`${checkboxLabel}`)}
           </Text>

@@ -260,7 +260,7 @@ export function useDefaultsFromURLSearch(): SwapState {
 
   useEffect(() => {
     if (!chainId) return
-    const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? undefined
+    const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? 'eth'
     const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? bananaAddress
 
     dispatch(

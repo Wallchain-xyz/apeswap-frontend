@@ -29,7 +29,7 @@ const DiscountContent: React.FC<DiscountContentProps> = ({
   return (
     <Flex sx={{ width: '100%', flexDirection, justifyContent: 'space-between', height: !isMobile && '40px' }}>
       <Flex>
-        <Flex alignItems="flex-start">
+        <Flex>
           <div style={{ display: 'inline-block' }}>
             <TooltipBubble
               placement="bottomLeft"
@@ -48,7 +48,7 @@ const DiscountContent: React.FC<DiscountContentProps> = ({
           <div style={{ marginLeft: '5px' }} />
         </Flex>
       </Flex>
-      <Flex sx={{ flexDirection: 'row' }}>
+      <Flex sx={{ flexDirection: 'row', alignItems: 'center' }}>
         <Flex>
           <Text sx={{ ...styles.valueText, color: valueColor }}>
             {value.includes('NaN') || value.includes('undefined') || value.includes('null') ? (
@@ -59,7 +59,7 @@ const DiscountContent: React.FC<DiscountContentProps> = ({
           </Text>
         </Flex>
         <Flex sx={{ ml: '5px' }}>
-          {value2 && (
+          {value2 && !(value.includes('NaN') || value.includes('undefined') || value.includes('null')) && (
             <Text sx={styles.secondaryText}>
               {value2.includes('NaN') || value2.includes('undefined') || value.includes('null') ? (
                 <Skeleton sx={styles.skeleton} />

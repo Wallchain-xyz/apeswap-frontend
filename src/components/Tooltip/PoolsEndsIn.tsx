@@ -11,7 +11,10 @@ const PoolsEndsIn: React.FC<{ pool: Pool }> = ({ pool }) => {
   const currentBlock = useBlockNumber() ?? 0
   const { t } = useTranslation()
   const timeUntilStart = getTimePeriods(Math.max((pool?.startBlock ?? 0) - currentBlock, 0) * BSC_BLOCK_TIME, true)
-  const timeUntilEnd = getTimePeriods(Math.max((pool?.endBlock ?? 0) - currentBlock, 0) * BSC_BLOCK_TIME, true)
+  const timeUntilEnd = getTimePeriods(
+    Math.max(parseInt(pool?.endBlock ?? '0') - currentBlock, 0) * BSC_BLOCK_TIME,
+    true,
+  )
   return (
     <Flex sx={{ mt: '5px' }}>
       {(pool?.endBlock ?? 0) > 0 && pool?.rewardToken?.symbol !== 'BANANA' && (

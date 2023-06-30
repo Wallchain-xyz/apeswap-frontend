@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
-import { usePoolOrderings, usePoolTags, usePools } from 'state/pools/hooks'
+import { usePoolOrderings, usePools, usePoolTags } from 'state/pools/hooks'
 import Banner from 'components/Banner'
 import DisplayPools from './components/DisplayPools'
 import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
 import ListView404 from 'components/ListView404'
-// import HarvestAll from './components/Actions/HarvestAll'
 import { FILTER_OPTIONS, SORT_OPTIONS } from './poolsOptions'
 import { styles } from './styles'
 import { useRouter } from 'next/router'
@@ -84,7 +83,11 @@ const Pools: React.FC = () => {
       isFinished:
         pool.sousId === 0 || pool.sousId === 999
           ? false
-          : pool.isFinished || (currentBlock ?? 0) > (pool?.endBlock ?? 0),
+          : pool.isFinished
+          ? pool.isFinished
+          : pool?.endBlock
+          ? (currentBlock ?? 0) > parseInt(pool?.endBlock ?? '0')
+          : false,
     }
   })
 
@@ -159,7 +162,6 @@ const Pools: React.FC = () => {
     if (filterOption !== 'allTokens') {
       chosenPools = chosenPools.filter((pool) => pool?.stakingToken.symbol === filterOption.toUpperCase())
     }
-
     return sortPools(chosenPools).slice(0, numberOfPoolsVisible)
   }
 
@@ -185,7 +187,9 @@ const Pools: React.FC = () => {
             actionButton={<HarvestAll sousIds={sousIds} />}
           />
         </Flex>
-        {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS.pools.includes(chainId as SupportedChainId) ? (
+        {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS.pools.includes(
+          (chainId as SupportedChainId) ?? SupportedChainId.BSC,
+        ) ? (
           <ListView404 product={LIST_VIEW_PRODUCTS.POOLS} />
         ) : (
           <DisplayPools pools={renderPools()} openId={urlSearchedPool} poolTags={poolTags} isActive={isActive} />

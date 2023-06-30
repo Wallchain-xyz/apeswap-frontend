@@ -29,7 +29,7 @@ export const useSousUnstake = (sousId: number) => {
           })
       } else if (sousId === 999) {
         trxHash = await masterChefContract
-          ?.withdraw(0, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+          ?.leaveStaking(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
             addTransaction(trx, { type: TransactionType.WITHDRAW })
             return trx.wait()

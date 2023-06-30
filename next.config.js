@@ -20,6 +20,7 @@ const nextConfig = {
       'res.cloudinary.com',
       'apeswap.mypinata.cloud',
       'assets-cdn.trustwallet.com',
+      'apeswap.finance',
     ],
   },
   async redirects() {

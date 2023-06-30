@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
-import { getEtherscanLink } from 'utils'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
 import { useTranslation } from 'contexts/Localization'
-import { Bills } from '../types'
 import { useWeb3React } from '@web3-react/core'
 import useClaimBill from '../hooks/useClaimAll'
-import { StyledButton } from '../components/styles'
 import { useAppDispatch } from 'state/hooks'
-import { useAddPopup } from 'state/application/hooks'
+import { Button } from '../../../components/uikit'
 
 const ClaimAll: React.FC<{
   userOwnedBills: any
@@ -18,7 +15,6 @@ const ClaimAll: React.FC<{
   const { chainId, account } = useWeb3React()
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
-  // const { toastSuccess, toastError } = useAddPopup()
   const { t } = useTranslation()
 
   // TODO: Add toast back
@@ -45,15 +41,15 @@ const ClaimAll: React.FC<{
     setPendingTrx(false)
   }
   return (
-    <StyledButton
+    <Button
       onClick={handleClaim}
       load={pendingTrx}
       disabled={pendingTrx || ownedBillsAmount === 0}
       buttonSize={buttonSize}
-      sx={{ height: '36px', lineHeight: '12px' }}
+      sx={{ height: '36px', lineHeight: '12px', width: buttonSize }}
     >
       {t('Claim All')} ({ownedBillsAmount})
-    </StyledButton>
+    </Button>
   )
 }
 

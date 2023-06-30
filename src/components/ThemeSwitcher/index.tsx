@@ -4,6 +4,12 @@ import { useColorMode } from 'theme-ui'
 const ThemeSwitcher = () => {
   const [colorMode, setColorMode] = useColorMode()
   const isDark = colorMode === 'dark'
+
+  const handleColorModeWithCookie = (newTheme: 'light' | 'dark') => {
+    setColorMode(newTheme)
+    document.cookie = `theme=${newTheme}; path=/; max-age=31536000`
+  }
+
   return (
     <Button
       sx={{
@@ -14,7 +20,7 @@ const ThemeSwitcher = () => {
         },
       }}
       variant="tertiary"
-      onClick={() => setColorMode(isDark ? 'light' : 'dark')}
+      onClick={() => handleColorModeWithCookie(isDark ? 'light' : 'dark')}
     >
       <Flex>
         <Svg icon="island" width="20px" color="island" />

@@ -209,7 +209,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             textAlign="center"
             sx={{ textDecoration: 'none' }}
           >
-            <Text size="12px" style={{ lineHeight: '18px', fontWeight: 400, borderBottom: '1px solid' }}>
+            <Text style={{ fontSize: '12px', lineHeight: '18px', fontWeight: 400, borderBottom: '1px solid' }}>
               Learn more{'>'}
             </Text>
           </Link>

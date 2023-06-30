@@ -119,7 +119,7 @@ const UserBillsView: React.FC<UserBillsViewProps> = ({ handleBillsViewChange }) 
         listView={listView}
         setListView={setListView}
       />
-      <Flex flexDirection="column" sx={{ padding: '20px 0 50px 0', width: '100%' }}>
+      <Flex sx={{ padding: '20px 0 50px 0', width: '100%' }}>
         {billsToRender?.length ? (
           !listView ? (
             <CardView billsToRender={billsToRender} />

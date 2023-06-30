@@ -53,7 +53,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
         </Flex>
       </Flex>
       <Flex onClick={() => setConfirmBuy((prev) => !prev)} sx={{ cursor: 'pointer', alignItems: 'center', mt: '20px' }}>
-        <CheckBox checked={confirmBuy} />
+        <CheckBox checked={confirmBuy} onChange={() => setConfirmBuy(!confirmBuy)} />
         <Text sx={{ ml: '10px', fontSize: '12px', fontWeight: 500, lineHeight: '18px' }}>
           {t(
             'I understand that I am purchasing %billToken% at a price above the current market rate, and would like to continue.',
