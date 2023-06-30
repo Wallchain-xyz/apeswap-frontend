@@ -1,4 +1,7 @@
 import { FilterState, initialFilterValues } from '../../../../state/lhd/reducer'
+import { Filters } from 'utils/types/lhd'
+
+import { cloneDeep } from 'lodash'
 
 export function countChangedProperties(current: FilterState): number {
   const initial = initialFilterValues
@@ -62,4 +65,30 @@ export const generateSearchParams = (values: FilterState): string => {
     }
   }
   return differences.join('&')
+}
+
+export const queryStringToObject = (queryString: string): Required<Filters> => {
+  const searchParams = new URLSearchParams(queryString)
+  console.log({ searchParams })
+  const result: any = cloneDeep(initialFilterValues)
+
+  searchParams.forEach((value, key) => {
+    let mainKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(0, -3) : key
+    let subKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(-3).toLowerCase() : key
+
+    if (result[mainKey]) {
+      if (mainKey === 'tags' || mainKey === 'chains') {
+        result[mainKey] = value.split(',')
+      } else {
+        let parsedValue = parseFloat(value)
+        // if it's a decimal, multiply by 100
+        if (parsedValue < 1) {
+          parsedValue *= 100
+        }
+        result[mainKey][subKey] = parsedValue
+      }
+    }
+  })
+
+  return result
 }

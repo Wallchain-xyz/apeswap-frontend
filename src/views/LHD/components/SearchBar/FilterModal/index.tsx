@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button, Flex, Modal, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import Dropdown from './Dropdown'
@@ -8,10 +8,16 @@ import { FilterState, initialFilterValues, setFilterState } from 'state/lhd/redu
 import { formatDollar } from 'utils/formatNumbers'
 import ScoreSlider from './ScoreSlider'
 import { Box } from 'theme-ui'
-import { useDispatch } from 'react-redux'
-import { useLHDFilterValues } from 'state/lhd/hooks'
+// import { useDispatch } from 'react-redux'
+// import { useLHDFilterValues } from 'state/lhd/hooks'
 import ButtonSelector from './ButtonSelector'
 import { useRouter } from 'next/router'
+
+// Helpers
+import { generateSearchParams, queryStringToObject } from '../helpers'
+
+// Types
+import { Filters } from 'utils/types/lhd'
 
 const modalProps = {
   sx: {
@@ -34,9 +40,14 @@ const FilterModal = ({
   onDismiss?: () => void
 }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const filterValues = useLHDFilterValues()
-  const [values, setValues] = useState<FilterState>(filterValues)
+  // const dispatch = useDispatch()
+  // const filterValues = useLHDFilterValues()
+  const router = useRouter()
+  const { query } = router
+  // TODO: Fix this types, it's not a string
+  const [values, setValues] = useState<Required<Filters>>(queryStringToObject(query as unknown as string))
+
+  console.log({ values })
 
   const stringHandler = (
     type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',
@@ -66,7 +77,6 @@ const FilterModal = ({
   } ${concen ? ` Concentration: ${concen}` : ''}`
   const tagsString = stringHandler('tags')
   const chainsString = stringHandler('chains')
-  const router = useRouter()
 
   const handler = useCallback(
     (
@@ -93,15 +103,21 @@ const FilterModal = ({
   }, [])
 
   const searchAction = () => {
-    dispatch(setFilterState(values))
+    // dispatch(setFilterState(values))
+    const filterString = generateSearchParams(values)
+    router.replace({
+      query: filterString,
+    })
     onDismiss && onDismiss()
   }
   const clearAction = () => {
     //dispatch(addSearchProfiles([]))
-    dispatch(setFilterState(initialFilterValues))
+    // dispatch(setFilterState(initialFilterValues))
     setValues(initialFilterValues)
-    const newUrl = `${router.pathname}`
-    router.replace(newUrl, newUrl)
+    // const newUrl = `${router.pathname}`
+    router.replace({
+      query: '',
+    })
     handleQueryChange('')
     onDismiss && onDismiss()
   }

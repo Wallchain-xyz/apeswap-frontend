@@ -1,103 +1,111 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Box } from 'theme-ui'
-import { useLHDFilterValues, useSimpleProfiles } from 'state/lhd/hooks'
+// import { useLHDFilterValues, useSimpleProfiles } from 'state/lhd/hooks'
 import TableHeader from './components/TableHeader'
 import SkeletonRow from './components/SkeletonRow'
 import { styles } from './styles'
 import TableRow from './components/TableRow'
 import { Flex, Svg, Text } from 'components/uikit'
 import Pagination from './components/Pagination'
-import { fetchProfilesQuery } from '../../../../state/lhd/actions'
+// import { fetchProfilesQuery } from '../../../../state/lhd/actions'
 import { useAppDispatch } from '../../../../state/hooks'
 import SearchBar from '../SearchBar'
 import { sortProfiles } from './utils/sortProfiles'
 import { useTranslation } from 'contexts/Localization'
-import { generateSearchParams } from '../SearchBar/helpers'
+// import { generateSearchParams } from '../SearchBar/helpers'
 import { useRouter } from 'next/router'
-import { setFilterState, initialFilterValues } from '../../../../state/lhd/reducer'
+// import { setFilterState, initialFilterValues } from '../../../../state/lhd/reducer'
 import _ from 'lodash'
+import queryString from 'query-string'
 
 // Hooks
 import useGetLHDProfiles from 'hooks/queries/useGetLHDProfiles'
 
 const TokensProfileList = () => {
-  const { t } = useTranslation()
-  const [currentPage, setCurrentPage] = useState(1)
-  // const simpleProfiles = useSimpleProfiles()
   const router = useRouter()
-  console.log({ router })
   const { query: filters } = router
-  const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles({ filters })
-  // console.log({ simpleProfiles })
+  const [currentPage, setCurrentPage] = useState<number>(filters.offset ? Number(filters.offset) / 50 + 1 : 1)
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
   const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)
-  const paginatedQuery = `${
-    currentPage > 1 ? 'offset=' + (currentPage - 1) * 50 : router.asPath.includes('offset=') ? 'offset=0' : ''
-  }`
-  const filterState = useLHDFilterValues()
-  const filterString = generateSearchParams(filterState)
+  // const simpleProfiles = useSimpleProfiles()
+  const { data: simpleProfiles = { count: 0, data: [] } } = useGetLHDProfiles({ filters })
+  const { t } = useTranslation()
 
-  let fullQuery = `${paginatedQuery}${filterString ? '&' + filterString : ''}`
+  // const paginatedQuery = `${
+  //   currentPage > 1 ? 'offset=' + (currentPage - 1) * 50 : router.asPath.includes('offset=') ? 'offset=0' : ''
+  // }`
+  // const filterState = useLHDFilterValues()
+  // const filterString = generateSearchParams(filterState)
 
-  const queryStringToObject = (queryString: string) => {
-    const searchParams = new URLSearchParams(queryString)
-    const result: any = _.cloneDeep(initialFilterValues)
-
-    searchParams.forEach((value, key) => {
-      if (key === 'offset') {
-        setCurrentPage(Number(value) / 50 + 1)
-        return
-      }
-
-      let mainKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(0, -3) : key
-      let subKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(-3).toLowerCase() : key
-
-      if (result[mainKey]) {
-        if (mainKey === 'tags' || mainKey === 'chains') {
-          result[mainKey] = value.split(',')
-        } else {
-          let parsedValue = parseFloat(value)
-          // if it's a decimal, multiply by 100
-          if (parsedValue < 1) {
-            parsedValue *= 100
-          }
-          result[mainKey][subKey] = parsedValue
-        }
-      }
+  const handlePaginate = (page: number): void => {
+    setCurrentPage(page)
+    const parsedFilters = queryString.stringify({ ...filters, offset: (page - 1) * 50 })
+    router.replace({
+      query: parsedFilters,
     })
-
-    return result
   }
 
-  useEffect(() => {
-    //Note: we should be able to use router.query here but it's not giving stable results
-    let qs = router.asPath.replace(router.pathname + '?', '').replace(router.pathname, '')
-    let filterOptions = queryStringToObject(qs)
+  // let fullQuery = `${paginatedQuery}${filterString ? '&' + filterString : ''}`
 
-    if (qs) {
-      dispatch(setFilterState(filterOptions))
-      console.log('Filter changed!')
-    } else {
-      dispatch(fetchProfilesQuery())
-    }
-  }, [router.asPath])
+  // const queryStringToObject = (queryString: string) => {
+  //   const searchParams = new URLSearchParams(queryString)
+  //   const result: any = _.cloneDeep(initialFilterValues)
 
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [filterString])
+  //   searchParams.forEach((value, key) => {
+  //     if (key === 'offset') {
+  //       setCurrentPage(Number(value) / 50 + 1)
+  //       return
+  //     }
 
-  useEffect(() => {
-    if (fullQuery) {
-      const newUrl = `${router.pathname}?${fullQuery}`
-      router.replace(newUrl, newUrl)
+  //     let mainKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(0, -3) : key
+  //     let subKey = key.endsWith('Min') || key.endsWith('Max') ? key.slice(-3).toLowerCase() : key
 
-      console.log('Filter changed!')
-      dispatch(fetchProfilesQuery(fullQuery))
-    }
-  }, [fullQuery, dispatch])
+  //     if (result[mainKey]) {
+  //       if (mainKey === 'tags' || mainKey === 'chains') {
+  //         result[mainKey] = value.split(',')
+  //       } else {
+  //         let parsedValue = parseFloat(value)
+  //         // if it's a decimal, multiply by 100
+  //         if (parsedValue < 1) {
+  //           parsedValue *= 100
+  //         }
+  //         result[mainKey][subKey] = parsedValue
+  //       }
+  //     }
+  //   })
+
+  //   return result
+  // }
+
+  // useEffect(() => {
+  //   //Note: we should be able to use router.query here but it's not giving stable results
+  //   let qs = router.asPath.replace(router.pathname + '?', '').replace(router.pathname, '')
+  //   let filterOptions = queryStringToObject(qs)
+
+  //   if (qs) {
+  //     dispatch(setFilterState(filterOptions))
+  //     console.log('Filter changed!')
+  //   } else {
+  //     dispatch(fetchProfilesQuery())
+  //   }
+  // }, [router.asPath])
+
+  // useEffect(() => {
+  //   setCurrentPage(1)
+  // }, [filterString])
+
+  // useEffect(() => {
+  //   if (fullQuery) {
+  //     const newUrl = `${router.pathname}?${fullQuery}`
+  //     router.replace(newUrl, newUrl)
+
+  //     console.log('Filter changed!')
+  //     dispatch(fetchProfilesQuery(fullQuery))
+  //   }
+  // }, [fullQuery, dispatch])
 
   const handleNoResults = useCallback((value: boolean) => {
     setNoResults(value)
@@ -145,7 +153,7 @@ const TokensProfileList = () => {
       </Box>
       <Pagination
         currentPage={currentPage}
-        onPageChange={(page: number) => setCurrentPage(page)}
+        onPageChange={(page: number) => handlePaginate(page)}
         totalPages={simpleProfiles ? Math.ceil(simpleProfiles.count / 50) : 0}
         hidePagination={simpleProfiles.count < 51 || noResults}
       />
