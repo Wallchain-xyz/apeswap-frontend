@@ -6,36 +6,44 @@ import { styles } from './styles'
 import TableRow from './components/TableRow'
 import { Flex, Svg, Text } from 'components/uikit'
 import Pagination from './components/Pagination'
-import SearchBar from '../SearchBar'
 import { sortProfiles } from './utils/sortProfiles'
 import { useTranslation } from 'contexts/Localization'
 import { useRouter } from 'next/router'
 import _ from 'lodash'
-import queryString from 'query-string'
 
-// Hooks
-import useGetLHDProfiles from 'hooks/queries/useGetLHDProfiles'
+// Types
+import { LHDProfiles, Filters } from 'utils/types/lhd'
+interface TokensProfileListProps {
+  simpleProfiles: LHDProfiles
+  isLoading: boolean
+  appliedFilters: Filters
+  handleFiltersChange: ({ filters }: { filters: Filters }) => void
+}
 
-const TokensProfileList = () => {
+const TokensProfileList = ({
+  simpleProfiles,
+  isLoading,
+  appliedFilters,
+  handleFiltersChange,
+}: TokensProfileListProps) => {
   const router = useRouter()
   const { query: filters } = router
   const [currentPage, setCurrentPage] = useState<number>(filters.offset ? Number(filters.offset) / 50 + 1 : 1)
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
-  const { data: simpleProfiles = { count: 0, data: [] }, isFetching } = useGetLHDProfiles({ filters })
   const { t } = useTranslation()
 
   const handlePaginate = (page: number): void => {
     setCurrentPage(page)
-    const parsedFilters = queryString.stringify({ ...filters, offset: (page - 1) * 50 })
-    router.replace({
-      query: parsedFilters,
+    handleFiltersChange({ filters: { ...appliedFilters, offset: (page - 1) * 50 } })
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
     })
   }
 
   return (
     <>
-      <SearchBar />
       <Box sx={styles.tableContainer}>
         <TableHeader
           sortCol={sortCol}
@@ -43,8 +51,7 @@ const TokensProfileList = () => {
           sortType={sortType}
           onSortTypeChange={(value) => setSortType(value)}
         />
-        {isFetching &&
-          !simpleProfiles?.data &&
+        {isLoading &&
           [...Array(50)].map((_, i) => {
             return <SkeletonRow key={i} />
           })}

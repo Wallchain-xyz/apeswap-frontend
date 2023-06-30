@@ -9,14 +9,17 @@ import FilterModal from './FilterModal'
 import { countChangedProperties } from './helpers'
 import useFilterHandler from './FilterModal/useFilterHandler'
 
-const SearchBar = () => {
+// Types
+import { Filters } from 'utils/types/lhd'
+
+const SearchBar = ({ handleFiltersChange }: { handleFiltersChange: ({ filters }: { filters: Filters }) => void }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const { query: filters } = router
 
   const changedPropertiesCount = countChangedProperties(filters)
   const [searchQueryString, setSearchQueryString] = useState<string>(filters.search ? filters.search.toString() : '')
-  const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString)
+  const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString, handleFiltersChange)
 
   const [onFilterModal] = useModal(<FilterModal />)
 

@@ -1,10 +1,15 @@
 import { useCallback, useEffect } from 'react'
 import useDebounce from 'hooks/useDebounce'
-import { useRouter } from 'next/router'
 
-const useFilterHandler = (setSearchQueryString: (searchQuery: string) => void, searchQueryString: any) => {
-  const router = useRouter()
-  const debouncedQueryString = useDebounce(searchQueryString, 1000)
+// Types
+import { Filters } from 'utils/types/lhd'
+
+const useFilterHandler = (
+  setSearchQueryString: (searchQuery: string) => void,
+  searchQueryString: string,
+  handleFiltersChange: ({ filters }: { filters: Filters }) => void,
+) => {
+  const debouncedQueryString = useDebounce(searchQueryString, 250)
 
   const handleQueryChange = useCallback(
     (searchQuery: string) => {
@@ -14,9 +19,11 @@ const useFilterHandler = (setSearchQueryString: (searchQuery: string) => void, s
   )
 
   useEffect(() => {
-    router.replace({
-      query: debouncedQueryString ? `search=${debouncedQueryString}` : '',
-    })
+    if (debouncedQueryString) {
+      handleFiltersChange({ filters: { search: debouncedQueryString } })
+    } else {
+      handleFiltersChange({ filters: {} })
+    }
   }, [debouncedQueryString])
 
   return handleQueryChange
