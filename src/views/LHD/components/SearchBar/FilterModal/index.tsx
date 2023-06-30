@@ -12,6 +12,7 @@ import { Box } from 'theme-ui'
 // import { useLHDFilterValues } from 'state/lhd/hooks'
 import ButtonSelector from './ButtonSelector'
 import { useRouter } from 'next/router'
+import queryString from 'query-string'
 
 // Helpers
 import { generateSearchParams, queryStringToObject } from '../helpers'
@@ -43,9 +44,9 @@ const FilterModal = ({
   // const dispatch = useDispatch()
   // const filterValues = useLHDFilterValues()
   const router = useRouter()
-  const { query } = router
-  // TODO: Fix this types, it's not a string
-  const [values, setValues] = useState<Required<Filters>>(queryStringToObject(query as unknown as string))
+  const { query: filters } = router
+  const parsedFilters = queryString.stringify(filters)
+  const [values, setValues] = useState<Required<Filters>>(queryStringToObject(parsedFilters))
 
   console.log({ values })
 

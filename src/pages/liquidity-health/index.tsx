@@ -21,7 +21,6 @@ export default LHDPage
 export const getServerSideProps = async (ctx: any) => {
   const queryClient = new QueryClient()
   const { query: filters } = ctx
-
   await queryClient.prefetchQuery([QUERY_KEYS.INDUSTRY_STATS], getIndustryStats)
   await queryClient.prefetchQuery([QUERY_KEYS.HISTORICAL_INDUSTRY_STATS], getHistoricalIndustryStats)
   await queryClient.prefetchQuery([QUERY_KEYS.LHD_PROFILES, filters], () => getLHDProfiles({ filters }))

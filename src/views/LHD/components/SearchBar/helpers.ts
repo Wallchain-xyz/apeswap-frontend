@@ -1,24 +1,30 @@
 import { FilterState, initialFilterValues } from '../../../../state/lhd/reducer'
 import { Filters } from 'utils/types/lhd'
+import queryString from 'query-string'
 
 import { cloneDeep } from 'lodash'
 
-export function countChangedProperties(current: FilterState): number {
+export function countChangedProperties(current: Filters): number {
+  const parsedFilters = queryString.stringify(current)
+  const formattedFilters = queryStringToObject(parsedFilters)
   const initial = initialFilterValues
   let changedProperties = 0
 
   // Iterate over the keys (properties) of the FilterState object
   for (const key in initial) {
     // Assert that key is a key of FilterState
-    const typedKey = key as keyof FilterState
+    const typedKey = key as keyof Filters
 
     // Check if both min and max values have changed for the given property
     if (typedKey === 'tags' || typedKey === 'chains') {
-      if (initial[typedKey].length !== current[typedKey].length) {
+      if (initial[typedKey].length !== formattedFilters[typedKey].length) {
         changedProperties++
       }
     } else {
-      if (initial[typedKey].min !== current[typedKey].min || initial[typedKey].max !== current[typedKey].max) {
+      if (
+        initial[typedKey].min !== formattedFilters[typedKey].min ||
+        initial[typedKey].max !== formattedFilters[typedKey].max
+      ) {
         changedProperties++
       }
     }
@@ -68,6 +74,7 @@ export const generateSearchParams = (values: FilterState): string => {
 }
 
 export const queryStringToObject = (queryString: string): Required<Filters> => {
+  console.log({ queryString })
   const searchParams = new URLSearchParams(queryString)
   console.log({ searchParams })
   const result: any = cloneDeep(initialFilterValues)
