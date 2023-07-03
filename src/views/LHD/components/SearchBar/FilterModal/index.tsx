@@ -4,16 +4,16 @@ import { useTranslation } from 'contexts/Localization'
 import Dropdown from './Dropdown'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
 import InputSlider from './InputSlider'
-import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
 import { formatDollar } from 'utils/formatNumbers'
 import ScoreSlider from './ScoreSlider'
 import { Box } from 'theme-ui'
 import ButtonSelector from './ButtonSelector'
-import { useRouter } from 'next/router'
-import queryString from 'query-string'
 
 // Helpers
-import { generateSearchParams, queryStringToObject } from '../helpers'
+import { generateSearchParams, getFilterDiff } from '../helpers'
+
+// Constants
+import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
 
 // Types
 import { Filters } from 'utils/types/lhd'
@@ -29,12 +29,16 @@ const modalProps = {
   },
 }
 
-const FilterModal = ({ openChains, onDismiss }: { openChains?: boolean; onDismiss?: () => void }) => {
+interface FilterModalProps {
+  openChains?: boolean
+  appliedFilters: Filters
+  onDismiss?: () => void
+  handleFiltersChange: ({ filters, query }: { filters: Filters; query?: string }) => void
+}
+
+const FilterModal = ({ openChains, appliedFilters, onDismiss, handleFiltersChange }: FilterModalProps) => {
   const { t } = useTranslation()
-  const router = useRouter()
-  const { query: filters } = router
-  const parsedFilters = queryString.stringify(filters)
-  const [values, setValues] = useState<Required<Filters>>(queryStringToObject(parsedFilters))
+  const [values, setValues] = useState<Required<Filters>>({ ...INITIAL_FILTER_VALUES, ...appliedFilters })
 
   const stringHandler = (
     type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',
@@ -93,17 +97,14 @@ const FilterModal = ({ openChains, onDismiss }: { openChains?: boolean; onDismis
   }, [])
 
   const searchAction = () => {
-    const filterString = generateSearchParams(values)
-    router.replace({
-      query: filterString,
-    })
+    const query = generateSearchParams(values)
+    const diff = getFilterDiff(values)
+    handleFiltersChange({ filters: diff, query })
     onDismiss && onDismiss()
   }
   const clearAction = () => {
     setValues(INITIAL_FILTER_VALUES)
-    router.replace({
-      query: '',
-    })
+    handleFiltersChange({ filters: {} })
     onDismiss && onDismiss()
   }
 

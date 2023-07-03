@@ -10,14 +10,16 @@ import TokensProfileList from './components/TokensProfileList'
 import SearchBar from './components/SearchBar'
 import TitleCards from './components/TitleCards'
 import LHDModal from './components/LHDModal'
+import FilterModal from './components/SearchBar/FilterModal'
 
 // Hooks
 import { useSelector } from 'react-redux'
-import { AppState } from 'state'
 import useGetLHDProfiles from 'hooks/queries/useGetLHDProfiles'
+import useModal from 'hooks/useModal'
 
 // Types
 import { Filters } from 'utils/types/lhd'
+import { AppState } from 'state'
 
 const LHD = () => {
   const router = useRouter()
@@ -34,9 +36,16 @@ const LHD = () => {
    * This function is called when the user changes the filters or searches.
    * It updates the applied filters, and updates the URL query string in the same action handler.
    */
-  const handleFiltersChange = ({ filters }: { filters: Filters }): void => {
+  const handleFiltersChange = ({ filters, query }: { filters: Filters; query?: string }): void => {
     setAppliedFilters(filters)
-    const filterString = queryString.stringify(filters)
+    let filterString
+
+    if (query) {
+      filterString = query
+    } else {
+      filterString = queryString.stringify(filters)
+    }
+
     router.replace(
       {
         query: filterString,
@@ -46,11 +55,19 @@ const LHD = () => {
     )
   }
 
+  const [onFilterModal] = useModal(
+    <FilterModal appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} />,
+  )
+
   return (
     <Flex sx={styles.mainLHDContainer}>
       <ListViewLayout>
-        <TitleCards />
-        <SearchBar handleFiltersChange={handleFiltersChange} />
+        <TitleCards appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} />
+        <SearchBar
+          handleFiltersChange={handleFiltersChange}
+          onFilterModal={onFilterModal}
+          searchQuery={(filters.search as unknown as string) ?? ''}
+        />
         <TokensProfileList
           simpleProfiles={simpleProfiles}
           isLoading={isLoading}

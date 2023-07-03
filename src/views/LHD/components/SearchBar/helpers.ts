@@ -15,6 +15,10 @@ export function countChangedProperties(current: Filters): number {
     // Assert that key is a key of Filters
     const typedKey = key as keyof Filters
 
+    if (typedKey === 'offset' || typedKey === 'search') {
+      break
+    }
+
     // Check if both min and max values have changed for the given property
     if (typedKey === 'tags' || typedKey === 'chains') {
       if (initial[typedKey].length !== formattedFilters[typedKey].length) {
@@ -71,6 +75,32 @@ export const generateSearchParams = (values: Required<Filters>): string => {
     }
   }
   return differences.join('&')
+}
+
+export const getFilterDiff = (values: Required<Filters>): Filters => {
+  const differences: Filters = {}
+
+  for (const key in values) {
+    if (values.hasOwnProperty(key)) {
+      if (key === 'tags' || key === 'chains') {
+        if (values[key].length > 0) {
+          differences[key] = values[key]
+        }
+        continue
+      }
+      const value = values[key as keyof Filters]
+      const initialValue = INITIAL_FILTER_VALUES[key as keyof Filters]
+
+      if (JSON.stringify(value) !== JSON.stringify(initialValue)) {
+        const keyValuePairs = Object.entries(value).map(([subKey, subValue]) => {
+          return [subKey, subValue]
+        })
+
+        differences[key as keyof Filters] = Object.fromEntries(keyValuePairs)
+      }
+    }
+  }
+  return differences
 }
 
 export const queryStringToObject = (queryString: string): Required<Filters> => {

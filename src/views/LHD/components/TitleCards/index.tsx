@@ -10,8 +10,19 @@ import FilterModal from '../SearchBar/FilterModal'
 import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
 import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustryStats'
 
-const TitleCards = () => {
-  const [onFilterModal] = useModal(<FilterModal openChains={true} />)
+// Types
+import { Filters } from 'utils/types/lhd'
+
+const TitleCards = ({
+  appliedFilters,
+  handleFiltersChange,
+}: {
+  appliedFilters: Filters
+  handleFiltersChange: ({ filters, query }: { filters: Filters; query?: string }) => void
+}) => {
+  const [onFilterModal] = useModal(
+    <FilterModal appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} openChains={true} />,
+  )
   const { push } = useRouter()
   const { t } = useTranslation()
   const { data: industryStats } = useGetIndustryStats()

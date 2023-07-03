@@ -4,24 +4,26 @@ import { Button, Flex, Input, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
 import { useAnimation, motion } from 'framer-motion'
-import useModal from 'hooks/useModal'
-import FilterModal from './FilterModal'
 import { countChangedProperties } from './helpers'
 import useFilterHandler from './FilterModal/useFilterHandler'
 
 // Types
 import { Filters } from 'utils/types/lhd'
 
-const SearchBar = ({ handleFiltersChange }: { handleFiltersChange: ({ filters }: { filters: Filters }) => void }) => {
+interface SearchBarProps {
+  handleFiltersChange: ({ filters }: { filters: Filters }) => void
+  onFilterModal: () => void
+  searchQuery: string
+}
+
+const SearchBar = ({ handleFiltersChange, onFilterModal, searchQuery }: SearchBarProps) => {
   const { t } = useTranslation()
   const router = useRouter()
   const { query: filters } = router
 
   const changedPropertiesCount = countChangedProperties(filters)
-  const [searchQueryString, setSearchQueryString] = useState<string>(filters.search ? filters.search.toString() : '')
+  const [searchQueryString, setSearchQueryString] = useState<string>(searchQuery)
   const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString, handleFiltersChange)
-
-  const [onFilterModal] = useModal(<FilterModal />)
 
   //shakes when no results are found
   const controls = useAnimation()

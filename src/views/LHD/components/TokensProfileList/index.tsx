@@ -35,7 +35,13 @@ const TokensProfileList = ({
 
   const handlePaginate = (page: number): void => {
     setCurrentPage(page)
-    handleFiltersChange({ filters: { ...appliedFilters, offset: (page - 1) * 50 } })
+    if (page === 1) {
+      // do not add offset to the query string AND cache if the page is 1
+      const { offset, ...rest } = appliedFilters
+      handleFiltersChange({ filters: rest })
+    } else {
+      handleFiltersChange({ filters: { ...appliedFilters, offset: (page - 1) * 50 } })
+    }
     window.scrollTo({
       top: 0,
       behavior: 'smooth',

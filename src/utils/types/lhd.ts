@@ -79,4 +79,6 @@ export interface Filters {
   extractable?: MinMax
   tags?: string[]
   chains?: string[]
+  offset?: number
+  search?: string
 }
