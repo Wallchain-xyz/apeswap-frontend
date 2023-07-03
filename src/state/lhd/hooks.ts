@@ -8,6 +8,7 @@ import { AppState } from '../index'
 import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { isEqual } from 'lodash'
 
 export const useLoadInitialProfiles = () => {
   const dispatch = useAppDispatch()
@@ -88,15 +89,16 @@ export const useFullProfile = () => {
 }
 
 export const useIndustryAvg = () => {
-  return useSelector((state: AppState) => {
-    return {
+  return useSelector(
+    (state: AppState) => ({
       averageTotalScore: state.lhd.averageTotalScore,
       chainsSupported: state.lhd.chainsSupported,
       averageChange: state.lhd.industryAverageChange,
       tokensVerified: state.lhd.tokensVerified,
       tokensTracked: state.lhd.tokensTracked,
-    }
-  })
+    }),
+    isEqual,
+  )
 }
 
 export const useLHDFilterValues = () => {
