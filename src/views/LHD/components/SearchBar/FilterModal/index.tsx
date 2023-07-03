@@ -10,7 +10,7 @@ import { Box } from 'theme-ui'
 import ButtonSelector from './ButtonSelector'
 
 // Helpers
-import { generateSearchParams, getFilterDiff } from '../helpers'
+import { getFilterDiff } from '../helpers'
 
 // Constants
 import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
@@ -97,9 +97,8 @@ const FilterModal = ({ openChains, appliedFilters, onDismiss, handleFiltersChang
   }, [])
 
   const searchAction = () => {
-    const query = generateSearchParams(values)
     const diff = getFilterDiff(values)
-    handleFiltersChange({ filters: diff, query })
+    handleFiltersChange({ filters: diff })
     onDismiss && onDismiss()
   }
   const clearAction = () => {

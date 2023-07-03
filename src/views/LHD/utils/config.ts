@@ -10,6 +10,8 @@ export const INITIAL_FILTER_VALUES: Required<Filters> = {
   extractable: { min: 4500, max: 100000000 },
   tags: [],
   chains: [],
+  search: '',
+  offset: 0,
 }
 
 export const TAGS: Tag[] = [

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Flex } from 'components/uikit'
 import { styles } from './styles'
-import queryString from 'query-string'
 
 // Components
 import ListViewLayout from 'components/ListView/ListViewLayout'
@@ -11,6 +10,12 @@ import SearchBar from './components/SearchBar'
 import TitleCards from './components/TitleCards'
 import LHDModal from './components/LHDModal'
 import FilterModal from './components/SearchBar/FilterModal'
+
+// Helpers
+import { generateSearchParams, queryStringToObject, getFilterDiff } from './components/SearchBar/helpers'
+
+// Constants
+import { INITIAL_FILTER_VALUES } from './utils/config'
 
 // Hooks
 import { useSelector } from 'react-redux'
@@ -24,11 +29,13 @@ import { AppState } from 'state'
 const LHD = () => {
   const router = useRouter()
   const { query: filters } = router
+  const parsedFilters = queryStringToObject(filters as unknown as string)
+  const appliedFiltersDiff = getFilterDiff({ ...INITIAL_FILTER_VALUES, ...parsedFilters })
   /**
    * Applied filters are the source of truth for the LHD filters, and are updated when the user changes the filters or searches.
    * The applied filters are used to fetch the data, and are also used to update the URL query string.
    * */
-  const [appliedFilters, setAppliedFilters] = useState<Filters>(filters)
+  const [appliedFilters, setAppliedFilters] = useState<Filters>(appliedFiltersDiff)
   /** Prevents a race condition between searching and filtering */
   const [isSearchQuery, setIsSearchQuery] = useState<boolean>(false)
   const { data: simpleProfiles = { count: 0, data: [] }, isLoading } = useGetLHDProfiles({ filters: appliedFilters })
@@ -39,16 +46,10 @@ const LHD = () => {
    * This function is called when the user changes the filters or searches.
    * It updates the applied filters, and updates the URL query string in the same action handler.
    */
-  const handleFiltersChange = ({ filters, query }: { filters: Filters; query?: string }): void => {
+  const handleFiltersChange = ({ filters }: { filters: Filters; query?: string }): void => {
     setIsSearchQuery(!!filters?.search)
     setAppliedFilters(filters)
-    let filterString
-
-    if (query) {
-      filterString = query
-    } else {
-      filterString = queryString.stringify(filters)
-    }
+    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filters })
 
     router.replace(
       {

@@ -1,32 +1,34 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import queryString from 'query-string'
 
 // Types
 import { LHDProfiles, Filters } from 'utils/types/lhd'
 
+// Helpers
+import { generateSearchParams } from 'views/LHD/components/SearchBar/helpers'
+
 // Constants
 import { LHD_API } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
+import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
 
 interface FiltersWithSearch extends Filters {
   search?: string
 }
 
-export const getLHDProfiles = async ({
-  filters,
-}: {
-  query?: string
-  filters?: FiltersWithSearch
-}): Promise<LHDProfiles> => {
+export const getLHDProfiles = async ({ filters = {} }: { filters?: FiltersWithSearch }): Promise<LHDProfiles> => {
   let profilesUrl = `${LHD_API}/liquidity-health-dashboard/profiles`
 
+  let parsedFilters = ''
+
   if (filters?.search) {
-    profilesUrl += `/search/${filters.search}`
+    parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, offset: filters.offset ?? 0 })
+    profilesUrl += `/search/${filters?.search}${parsedFilters ? `?${parsedFilters}` : ''}`
   } else if (filters) {
-    const parsedFilters = queryString.stringify(filters)
+    parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filters })
     profilesUrl += `?${parsedFilters}`
   }
+
   const { data } = await axios.get(profilesUrl)
   return data
 }

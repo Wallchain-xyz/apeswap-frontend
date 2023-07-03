@@ -25,18 +25,27 @@ export const generateSearchParams = (values: Required<Filters>): string => {
       }
       const value = values[key as keyof Filters]
       const initialValue = INITIAL_FILTER_VALUES[key as keyof Filters]
-
       if (JSON.stringify(value) !== JSON.stringify(initialValue)) {
-        const keyValuePairs = Object.entries(value)
-          .map(([subKey, subValue]) => {
-            if (shouldDivideBy100(key)) {
-              subValue /= 100
-            }
-            return `${key}${capitalizeFirstLetter(subKey)}=${subValue}`
-          })
-          .join('&')
+        switch (key) {
+          case 'search':
+          case 'offset': {
+            differences.push(`${key}=${value}`)
+            break
+          }
 
-        differences.push(keyValuePairs)
+          default: {
+            const keyValuePairs = Object.entries(value)
+              .map(([subKey, subValue]) => {
+                if (shouldDivideBy100(key)) {
+                  subValue /= 100
+                }
+                return `${key}${capitalizeFirstLetter(subKey)}=${subValue}`
+              })
+              .join('&')
+
+            differences.push(keyValuePairs)
+          }
+        }
       }
     }
   }
