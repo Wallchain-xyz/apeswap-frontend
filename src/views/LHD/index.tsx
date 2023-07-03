@@ -66,7 +66,7 @@ const LHD = () => {
         <SearchBar
           handleFiltersChange={handleFiltersChange}
           onFilterModal={onFilterModal}
-          searchQuery={(filters.search as unknown as string) ?? ''}
+          searchQuery={(filters.search as unknown as string) ?? null}
           appliedFilters={appliedFilters}
         />
         <TokensProfileList

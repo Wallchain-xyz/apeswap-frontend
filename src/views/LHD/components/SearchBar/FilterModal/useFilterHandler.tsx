@@ -5,26 +5,31 @@ import useDebounce from 'hooks/useDebounce'
 import { Filters } from 'utils/types/lhd'
 
 const useFilterHandler = (
-  setSearchQueryString: (searchQuery: string) => void,
-  searchQueryString: string,
+  setSearchQueryParam: (searchQuery: string) => void,
+  searchQueryParam: string | null,
   handleFiltersChange: ({ filters }: { filters: Filters }) => void,
 ) => {
-  const debouncedQueryString = useDebounce(searchQueryString, 250)
+  const debouncedQuery = useDebounce(searchQueryParam, 250)
 
   const handleQueryChange = useCallback(
     (searchQuery: string) => {
-      setSearchQueryString(searchQuery)
+      setSearchQueryParam(searchQuery)
     },
-    [setSearchQueryString],
+    [setSearchQueryParam],
   )
 
   useEffect(() => {
-    if (debouncedQueryString) {
-      handleFiltersChange({ filters: { search: debouncedQueryString } })
+    // Do NOT call handleFiltersChange on component mount
+    if (debouncedQuery === null) {
+      return
+    }
+
+    if (debouncedQuery) {
+      handleFiltersChange({ filters: { search: debouncedQuery } })
     } else {
       handleFiltersChange({ filters: {} })
     }
-  }, [debouncedQueryString])
+  }, [debouncedQuery])
 
   return handleQueryChange
 }

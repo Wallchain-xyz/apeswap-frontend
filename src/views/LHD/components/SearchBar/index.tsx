@@ -12,19 +12,21 @@ import useFilterHandler from './FilterModal/useFilterHandler'
 import { Filters } from 'utils/types/lhd'
 
 interface SearchBarProps {
-  searchQuery: string
+  // searchQuery: string
+  searchQuery: string | null
   appliedFilters: Filters
   handleFiltersChange: ({ filters }: { filters: Filters }) => void
   onFilterModal: () => void
 }
 
 const SearchBar = ({ searchQuery, appliedFilters, handleFiltersChange, onFilterModal }: SearchBarProps) => {
+  const [searchQueryParam, setSearchQueryParam] = useState<string | null>(searchQuery)
+
+  const handleQueryChange = useFilterHandler(setSearchQueryParam, searchQueryParam, handleFiltersChange)
   const { t } = useTranslation()
 
   const { offset, ...resAppliedFilters } = appliedFilters
   const changedPropertiesCount = Object.keys(resAppliedFilters).length
-  const [searchQueryString, setSearchQueryString] = useState<string>(searchQuery)
-  const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString, handleFiltersChange)
 
   //shakes when no results are found
   const controls = useAnimation()
@@ -40,7 +42,7 @@ const SearchBar = ({ searchQuery, appliedFilters, handleFiltersChange, onFilterM
       <motion.div animate={controls} style={{ display: 'inline-block', width: '100%', margin: '0 5px' }}>
         <Input
           placeholder={t('Token name, address, symbol ...')}
-          value={searchQueryString}
+          value={searchQueryParam}
           variant="search"
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleQueryChange(event.target.value)}
           style={{ backgroundColor: 'white2' }}
