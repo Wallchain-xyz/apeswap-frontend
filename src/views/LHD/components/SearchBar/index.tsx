@@ -1,5 +1,4 @@
-import { ChangeEvent, useState, useCallback } from 'react'
-import { useRouter } from 'next/router'
+import { ChangeEvent, useState, useCallback, useEffect } from 'react'
 import { Button, Flex, Input, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
@@ -12,21 +11,38 @@ import useFilterHandler from './FilterModal/useFilterHandler'
 import { Filters } from 'utils/types/lhd'
 
 interface SearchBarProps {
-  // searchQuery: string
-  searchQuery: string | null
+  searchQuery: string
   appliedFilters: Filters
+  isSearchQuery: boolean
+  setIsSearchQuery: (isSearchQuery: boolean) => void
   handleFiltersChange: ({ filters }: { filters: Filters }) => void
   onFilterModal: () => void
 }
 
-const SearchBar = ({ searchQuery, appliedFilters, handleFiltersChange, onFilterModal }: SearchBarProps) => {
-  const [searchQueryParam, setSearchQueryParam] = useState<string | null>(searchQuery)
+const SearchBar = ({
+  appliedFilters,
+  searchQuery,
+  isSearchQuery,
+  setIsSearchQuery,
+  handleFiltersChange,
+  onFilterModal,
+}: SearchBarProps) => {
+  const [searchQueryParam, setSearchQueryParam] = useState<string>(searchQuery)
 
-  const handleQueryChange = useFilterHandler(setSearchQueryParam, searchQueryParam, handleFiltersChange)
+  useEffect(() => {
+    setSearchQueryParam(searchQuery ?? '')
+  }, [searchQuery])
+
+  const handleQueryChange = useFilterHandler({
+    setSearchQueryParam,
+    searchQueryParam,
+    handleFiltersChange,
+    isSearchQuery,
+    setIsSearchQuery,
+  })
   const { t } = useTranslation()
 
-  const { offset, ...resAppliedFilters } = appliedFilters
-  const changedPropertiesCount = Object.keys(resAppliedFilters).length
+  const changedPropertiesCount = Object.keys(appliedFilters).length
 
   //shakes when no results are found
   const controls = useAnimation()

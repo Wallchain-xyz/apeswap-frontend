@@ -29,14 +29,18 @@ const LHD = () => {
    * The applied filters are used to fetch the data, and are also used to update the URL query string.
    * */
   const [appliedFilters, setAppliedFilters] = useState<Filters>(filters)
+  /** Prevents a race condition between searching and filtering */
+  const [isSearchQuery, setIsSearchQuery] = useState<boolean>(false)
   const { data: simpleProfiles = { count: 0, data: [] }, isLoading } = useGetLHDProfiles({ filters: appliedFilters })
   const { isLhdAuth } = useSelector((state: AppState) => state.lhd)
 
+  const { offset, search, ...appliedModalFilters } = appliedFilters
   /**
    * This function is called when the user changes the filters or searches.
    * It updates the applied filters, and updates the URL query string in the same action handler.
    */
   const handleFiltersChange = ({ filters, query }: { filters: Filters; query?: string }): void => {
+    setIsSearchQuery(!!filters?.search)
     setAppliedFilters(filters)
     let filterString
 
@@ -56,18 +60,20 @@ const LHD = () => {
   }
 
   const [onFilterModal] = useModal(
-    <FilterModal appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} />,
+    <FilterModal appliedFilters={appliedModalFilters} handleFiltersChange={handleFiltersChange} />,
   )
 
   return (
     <Flex sx={styles.mainLHDContainer}>
       <ListViewLayout>
-        <TitleCards appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} />
+        <TitleCards appliedFilters={appliedModalFilters} handleFiltersChange={handleFiltersChange} />
         <SearchBar
           handleFiltersChange={handleFiltersChange}
           onFilterModal={onFilterModal}
-          searchQuery={(filters.search as unknown as string) ?? null}
-          appliedFilters={appliedFilters}
+          searchQuery={search ?? ''}
+          appliedFilters={appliedModalFilters}
+          isSearchQuery={isSearchQuery}
+          setIsSearchQuery={setIsSearchQuery}
         />
         <TokensProfileList
           simpleProfiles={simpleProfiles}
