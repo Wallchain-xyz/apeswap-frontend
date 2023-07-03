@@ -74,7 +74,10 @@ const BillsListView: React.FC = () => {
     })
     if (query) {
       billsToReturn = billsToReturn?.filter((bill) => {
-        return bill.lpToken.symbol.toUpperCase().includes(query.toUpperCase())
+        return `${bill.lpToken.symbol.toUpperCase()},
+          ${bill.quoteToken.symbol.toUpperCase()},
+          ${bill.token.symbol.toUpperCase()}
+          ${bill.earnToken.symbol.toUpperCase()}`.includes(query.toUpperCase())
       })
     }
     if (filterOption === 'liquidity') {
