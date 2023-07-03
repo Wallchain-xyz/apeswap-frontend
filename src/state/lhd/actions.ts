@@ -48,7 +48,7 @@ export const fetchIndustry = async () => {
 
     const industryAverageChange =
       Math.round(
-        ((resHistorical.data.averageTotalScore - res.data.averageTotalScore) / resHistorical.data.averageTotalScore) *
+        ((res.data.averageTotalScore - resHistorical.data.averageTotalScore) / resHistorical.data.averageTotalScore) *
           10000,
       ) / 100
 
