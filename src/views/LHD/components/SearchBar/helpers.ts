@@ -1,41 +1,7 @@
 import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
 import { Filters } from 'utils/types/lhd'
-import queryString from 'query-string'
 
 import { cloneDeep } from 'lodash'
-
-export function countChangedProperties(current: Filters): number {
-  const parsedFilters = queryString.stringify(current)
-  const formattedFilters = queryStringToObject(parsedFilters)
-  const initial = INITIAL_FILTER_VALUES
-  let changedProperties = 0
-
-  // Iterate over the keys (properties) of the Filters object
-  for (const key in initial) {
-    // Assert that key is a key of Filters
-    const typedKey = key as keyof Filters
-
-    if (typedKey === 'offset' || typedKey === 'search') {
-      break
-    }
-
-    // Check if both min and max values have changed for the given property
-    if (typedKey === 'tags' || typedKey === 'chains') {
-      if (initial[typedKey].length !== formattedFilters[typedKey].length) {
-        changedProperties++
-      }
-    } else {
-      if (
-        initial[typedKey].min !== formattedFilters[typedKey].min ||
-        initial[typedKey].max !== formattedFilters[typedKey].max
-      ) {
-        changedProperties++
-      }
-    }
-  }
-
-  return changedProperties
-}
 
 // Helper function to capitalize the first letter of a string
 export const capitalizeFirstLetter = (str: string): string => {

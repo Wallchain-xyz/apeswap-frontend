@@ -4,24 +4,25 @@ import { Button, Flex, Input, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
 import { useAnimation, motion } from 'framer-motion'
-import { countChangedProperties } from './helpers'
+
+// Hooks
 import useFilterHandler from './FilterModal/useFilterHandler'
 
 // Types
 import { Filters } from 'utils/types/lhd'
 
 interface SearchBarProps {
+  searchQuery: string
+  appliedFilters: Filters
   handleFiltersChange: ({ filters }: { filters: Filters }) => void
   onFilterModal: () => void
-  searchQuery: string
 }
 
-const SearchBar = ({ handleFiltersChange, onFilterModal, searchQuery }: SearchBarProps) => {
+const SearchBar = ({ searchQuery, appliedFilters, handleFiltersChange, onFilterModal }: SearchBarProps) => {
   const { t } = useTranslation()
-  const router = useRouter()
-  const { query: filters } = router
 
-  const changedPropertiesCount = countChangedProperties(filters)
+  const { offset, ...resAppliedFilters } = appliedFilters
+  const changedPropertiesCount = Object.keys(resAppliedFilters).length
   const [searchQueryString, setSearchQueryString] = useState<string>(searchQuery)
   const handleQueryChange = useFilterHandler(setSearchQueryString, searchQueryString, handleFiltersChange)
 
