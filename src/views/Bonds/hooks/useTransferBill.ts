@@ -18,10 +18,11 @@ const useTransferBill = (billNftAddress: string, billId: string, toAddress: stri
     try {
       const tx = await bondNftContract['safeTransferFrom(address,address,uint256)'](account ?? '', toAddress, billId)
       track({
-        event: billType ?? '',
+        event: 'bond',
         chain: chainId,
         data: {
           cat: 'transfer',
+          type: billType ?? '',
           id: billId,
           from: account,
           to: toAddress,
