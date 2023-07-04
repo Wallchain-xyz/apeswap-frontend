@@ -18,7 +18,8 @@ const DualCurrencyDropdown: React.FC<{
   onCurrencySelect: (currency: DualCurrencySelector) => void
   lpList: DualCurrencySelector[]
   enableZap: boolean
-}> = ({ inputCurrencies, onCurrencySelect, lpList, enableZap }) => {
+  showNativeFirst?: boolean
+}> = ({ inputCurrencies, onCurrencySelect, lpList, enableZap, showNativeFirst }) => {
   useSetZapInputList()
   const allTokens = useAllTokens()
   const rawZapInputList = useZapInputList()
@@ -77,9 +78,12 @@ const DualCurrencyDropdown: React.FC<{
       .map((token) => {
         return { currencyA: token, currencyB: null }
       })
+    if (showNativeFirst) {
+      return [{ currencyA: nativeOnChain(chainId as SupportedChainId), currencyB: null }, lpList[0], parsedList].flat()
+    }
     return [lpList[0], { currencyA: nativeOnChain(chainId as SupportedChainId), currencyB: null }, parsedList].flat()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zapInputList, searchQuery])
+  }, [zapInputList, searchQuery, showNativeFirst])
 
   const handleCurrencyDynamic = useCallback(
     (currency: DualCurrencySelector) => {
@@ -132,7 +136,6 @@ const DualCurrencyDropdown: React.FC<{
               {currenciesList.slice(0, 4).map((item: any, index: number) => {
                 return Item([item.currencyA, item.currencyB], index)
               })}
-
               <DropdownItem size="sm" sx={{ textAlign: 'center' }} onClick={onPresentCurrencyModal}>
                 <Text sx={{ '&:hover': { textDecoration: 'underline' } }}>{t('See all')} &gt;</Text>
               </DropdownItem>

@@ -1,17 +1,18 @@
+import React, { useEffect } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { Spinner } from 'theme-ui'
-import React from 'react'
 import { styles } from './styles'
 import DualCurrencyDropdown from './DualCurrencyDropdown'
 import useIsMobile from 'hooks/useIsMobile'
 import { DualCurrencySelector } from 'views/Bonds/actions/types'
-import { Currency } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { PairState, useV2Pair } from 'hooks/useV2Pairs'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { Flex, NumericInput, Text } from 'components/uikit'
 import Dots from 'components/Dots'
+import { nativeOnChain } from '../../config/constants/tokens'
 
 /**
  * Dropdown component that supports both single currencies and currency pairs. An array of pairs is passed as lpList,
@@ -44,10 +45,12 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   lpList,
   enableZap,
 }) => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const [pairState, pair] = useV2Pair(inputCurrencies[0], inputCurrencies[1])
+  const [, lpPair] = useV2Pair(lpList[0].currencyA, lpList[0]?.currencyB)
   const isMobile = useIsMobile()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, pair?.liquidityToken ?? inputCurrencies[0])
+  const pairBalance = useCurrencyBalance(account, lpPair?.liquidityToken)
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 
@@ -55,6 +58,13 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
     pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0],
     pairState === PairState.EXISTS && true,
   )
+
+  useEffect(() => {
+    if (pairBalance?.toExact() === '0') {
+      onCurrencySelect({ currencyA: nativeOnChain(chainId as SupportedChainId), currencyB: undefined })
+    }
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [pairBalance?.toExact(), chainId])
 
   return (
     <Flex sx={styles.dexPanelContainer}>
@@ -70,6 +80,7 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
           onCurrencySelect={onCurrencySelect}
           lpList={lpList}
           enableZap={enableZap ?? true}
+          showNativeFirst={pairBalance?.toExact() === '0'}
         />
       </Flex>
       <Flex sx={styles.panelBottomContainer}>

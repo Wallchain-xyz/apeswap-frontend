@@ -34,6 +34,15 @@ interface MyAppProps extends AppProps {
 }
 
 export default function App({ Component, pageProps, initialColorMode }: MyAppProps) {
+  //initialize user's theme preference to keep consistence between SSR and client-side
+  if (typeof window !== 'undefined') {
+    if (!window?.localStorage?.getItem('theme-ui-color-mode')) {
+      window.localStorage.setItem('theme-ui-color-mode', initialColorMode)
+    }
+  }
+  if (theme) {
+    theme.initialColorModeName = initialColorMode
+  }
   const Updaters = () => {
     return (
       <>
@@ -43,10 +52,6 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
         <ApplicationUpdater />
       </>
     )
-  }
-
-  if (theme) {
-    theme.initialColorModeName = initialColorMode
   }
 
   return (
@@ -85,6 +90,7 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
 }
 
 App.getInitialProps = async (appContext: AppContext): Promise<{ initialColorMode: string }> => {
+  //Gets cookie from HTTP request to make SSR consistent with user's theme preference
   const req = appContext.ctx.req
   let initialColorMode = 'light'
   if (req) {

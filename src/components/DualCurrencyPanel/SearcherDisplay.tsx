@@ -23,7 +23,7 @@ export function Balance({ balance }: { balance: CurrencyAmount<Currency> }) {
   return <StyledBalanceText title={balance?.toExact()}>{balance?.toSignificant(5)}</StyledBalanceText>
 }
 
-const SearcherDisplay: React.FC<{ item: { currencyA: Currency; currencyB: Currency } }> = ({ item }) => {
+const SearcherDisplay: React.FC<{ item: { currencyA: Currency; currencyB: Currency | undefined} }> = ({ item }) => {
   const { account } = useWeb3React()
   const { currencyA, currencyB } = item
   const [, pair] = useV2Pair(currencyA ?? undefined, currencyB ?? undefined)
