@@ -50,8 +50,9 @@ const LHD = () => {
     setIsSearchQuery(!!filters?.search)
 
     let filtersToApply: Filters = filters
+    const { offset, ...rest } = filters
 
-    if (Object.keys(filters).length > 0) {
+    if (Object.keys(rest).length > 0) {
       filtersToApply = { ...filters, sort: 'mcap' }
     } else {
     }
