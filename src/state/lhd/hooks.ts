@@ -8,6 +8,7 @@ import { AppState } from '../index'
 import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { isEqual } from 'lodash'
 
 // export const useOnSearchProfiles = () => {
 //   console.log('SEARCH CALLED')

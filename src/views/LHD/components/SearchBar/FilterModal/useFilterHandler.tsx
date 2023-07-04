@@ -19,7 +19,9 @@ const useFilterHandler = (
   )
 
   useEffect(() => {
-    dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
+    if (debouncedQueryString) {
+      dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
+    }
   }, [debouncedQueryString, dispatch, handleNoResults])
 
   return handleQueryChange

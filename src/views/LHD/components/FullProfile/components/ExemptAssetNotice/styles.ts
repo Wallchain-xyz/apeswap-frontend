@@ -6,7 +6,7 @@ export const styles: Record<
 > = {
   mainContainer: {
     width: '100%',
-    fontSize: ['7px', '10px', '12px', '16px'],
+    fontSize: ['7px', '8px', '10px', '16px'],
     justifyContent: 'center',
     fontWeight: 200,
     background: 'white4',
@@ -30,6 +30,7 @@ export const styles: Record<
     left: '-1',
     top: '10',
     opacity: 0.2,
+    width: ['50px', '50px', '80px', '80px']
   },
   textContainer: {
     flexDirection: 'column',

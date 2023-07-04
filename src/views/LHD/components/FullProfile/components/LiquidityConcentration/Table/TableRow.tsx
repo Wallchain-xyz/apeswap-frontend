@@ -1,21 +1,16 @@
-import React, { useState } from 'react'
-import { BLOCK_EXPLORER } from '../../../../../../../config/constants/chains'
+import { useState } from 'react'
 import { LiquidityPool } from '../../../../../../../state/lhd/types'
 import { Box } from 'theme-ui'
 import { Flex, Svg, Text } from '../../../../../../../components/uikit'
-import Image from 'next/image'
 import { formatDollar } from '../../../../../../../utils/formatNumbers'
 import IconButton from '../../IconButton'
-import { desktopMappedColumns, mobileMappedColumns } from './columnsConfig'
 import { styles } from './styles'
 import { useTranslation } from '../../../../../../../contexts/Localization'
 import TokenImage from '../../../../../../../components/TokenImage'
 import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 
-const TableRow = ({ index, pool }: {
-  index: number,
-  pool: LiquidityPool
-}) => {
+const TableRow = ({ index, pool }: { index: number; pool: LiquidityPool }) => {
+  const NON_STANDARD_LPS = ['balancer', 'beethovenx']
   const [isCopied, setIsCopied] = useState(false)
   const { t } = useTranslation()
 
@@ -27,8 +22,12 @@ const TableRow = ({ index, pool }: {
     }, 1000)
   }
 
-  const getBlockExplorerURL = (chain: string, address: string) => {
-    const chainInfo = CHAIN_DETAILS.find(chainOption => chainOption.chainId === chain)
+  const getBlockExplorerURL = (chain: string, address: string, dex: string) => {
+    // Filter out DEXs that don't have normal LP links
+    if (NON_STANDARD_LPS.includes(dex)) return ''
+
+    // Otherwise, use the block explorer for the chain
+    const chainInfo = CHAIN_DETAILS.find((chainOption) => chainOption.chainId === chain)
     if (chainInfo) return `${chainInfo.blockExplorer?.url}address/${address}`
     return ''
   }
@@ -37,9 +36,7 @@ const TableRow = ({ index, pool }: {
 
   return (
     <Box sx={{ ...styles.rowCont, background: index % 2 ? 'white3' : 'white2' }}>
-      <Flex sx={{ ...styles.index, background: index % 2 ? 'white3' : 'white2' }}>
-        {index + 1}
-      </Flex>
+      <Flex sx={{ ...styles.index, background: index % 2 ? 'white3' : 'white2' }}>{index + 1}</Flex>
       <Flex sx={{ ...styles.lpNameCol, background: index % 2 ? 'white3' : 'white2' }}>
         <Flex sx={{ position: 'relative', minWidth: ['40px'] }}>
           <Flex sx={styles.imgCont}>
@@ -54,49 +51,37 @@ const TableRow = ({ index, pool }: {
         </Text>
       </Flex>
       <Flex sx={styles.colCont}>
-        {
-          pool.isHardAssetPair ? (
-            <Text sx={{ ...styles.bodyText, color: 'success' }}>
-              {t('Valid')}
-            </Text>
-          ) : (
-            <Text sx={{ ...styles.bodyText, color: 'error' }}>
-              {t('Invalid')}
-            </Text>
-          )
-        }
+        {pool.isHardAssetPair ? (
+          <Text sx={{ ...styles.bodyText, color: 'success' }}>{t('Valid')}</Text>
+        ) : (
+          <Text sx={{ ...styles.bodyText, color: 'error' }}>{t('Invalid')}</Text>
+        )}
       </Flex>
       <Flex sx={styles.colCont}>
-        <Text sx={styles.bodyText}>
-          {formatDollar({ num: pool?.pairTotalLiquidityUsd })}
-        </Text>
+        <Text sx={styles.bodyText}>{formatDollar({ num: pool?.pairTotalLiquidityUsd })}</Text>
       </Flex>
       <Flex sx={styles.colCont}>
-        <Text sx={styles.bodyText}>
-          {formatDollar({ num: pool?.pairExtractableLiquidityUsd })}
-        </Text>
+        <Text sx={styles.bodyText}>{formatDollar({ num: pool?.pairExtractableLiquidityUsd })}</Text>
       </Flex>
       <Flex sx={styles.colCont}>
-        <Text sx={styles.bodyText}>
-          {pool?.chainName}
-        </Text>
+        <Text sx={styles.bodyText}>{pool?.chainName}</Text>
       </Flex>
       <Flex sx={styles.colCont}>
-        <Text sx={{
-          ...styles.bodyText,
-          textTransform: 'capitalize',
-          display: 'flex',
-          overflow: 'hidden',
-        }}>
+        <Text
+          sx={{
+            ...styles.bodyText,
+            textTransform: 'capitalize',
+            display: 'flex',
+            overflow: 'hidden',
+          }}
+        >
           {pool?.dex === 'apeswap' && (
             <Flex sx={{ mr: '3px' }}>
-              <Svg icon='logo' width={15} />
+              <Svg icon="logo" width={15} />
             </Flex>
           )}
           {pool?.dex}
-          <Text sx={{ textTransform: 'capitalize', ml: '2px' }}>
-            {pool?.tags}
-          </Text>
+          <Text sx={{ textTransform: 'capitalize', ml: '2px' }}>{pool?.tags}</Text>
         </Text>
       </Flex>
       <Flex sx={{ ...styles.colCont, justifyContent: 'flex-end' }}>
@@ -106,9 +91,7 @@ const TableRow = ({ index, pool }: {
         <Flex sx={{ ml: '5px' }} onClick={() => handleCopyClick(pool?.lpAddress)}>
           <Svg icon={isCopied ? 'success' : 'copy'} width={10} />
         </Flex>
-        <IconButton href={getBlockExplorerURL(pool.chainId, pool.lpAddress)}
-                    icon='filledURL'
-                    simpleBtn />
+        <IconButton href={getBlockExplorerURL(pool.chainId, pool.lpAddress, pool.dex)} icon="filledURL" simpleBtn />
       </Flex>
     </Box>
   )

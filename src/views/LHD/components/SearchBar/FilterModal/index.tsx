@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button, Flex, Modal, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import Dropdown from './Dropdown'
@@ -160,8 +160,11 @@ const FilterModal = ({
           sx={{ width: '100%' }}
           disabled={
             !(
+              values.totalScore.max > values.totalScore.min &&
+              values.mcap.max > values.mcap.min &&
               values.mcap.max >= initialFilterValues.mcap.min &&
               values.mcap.min <= initialFilterValues.mcap.max &&
+              values.extractable.max > values.extractable.min &&
               values.extractable.max >= initialFilterValues.extractable.min &&
               values.extractable.min <= initialFilterValues.extractable.max
             )

@@ -54,7 +54,7 @@ const TokensProfileList = () => {
         } else {
           let parsedValue = parseFloat(value)
           // if it's a decimal, multiply by 100
-          if (parsedValue < 1) {
+          if (parsedValue <= 1) {
             parsedValue *= 100
           }
           result[mainKey][subKey] = parsedValue
