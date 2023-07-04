@@ -2,6 +2,30 @@ import { ChainDetail, Tag } from 'state/lhd/types'
 
 export const TAGS: Tag[] = [
   {
+    value: 'Marketing_Solution',
+    label: 'Marketing Solution',
+  },
+  {
+    value: 'Infrastructure',
+    label: 'Infrastructure',
+  },
+  {
+    value: 'AI',
+    label: 'AI',
+  },
+  {
+    value: 'NFTs',
+    label: 'NFTs',
+  },
+  {
+    value: 'Bridge',
+    label: 'Bridge',
+  },
+  {
+    value: 'Launchpad',
+    label: 'Launchpad',
+  },
+  {
     value: 'DEX',
     label: 'DEX',
   },
@@ -38,7 +62,7 @@ export const TAGS: Tag[] = [
     label: 'Synthetics',
   },
   {
-    value: 'Insurance_Security',
+    value: 'Insurance/Security',
     label: 'Insurance/Security',
   },
   {
@@ -46,20 +70,20 @@ export const TAGS: Tag[] = [
     label: 'Metaverse',
   },
   {
-    value: 'GameFi_(Play_to_Earn)',
-    label: 'GameFi (Play to Earn)',
+    value: 'GameFi',
+    label: 'GameFi',
   },
   {
     value: 'X-2-Earn',
     label: 'X-2-Earn',
   },
   {
-    value: 'Wallets',
-    label: 'Wallets',
+    value: 'Wallet',
+    label: 'Wallet',
   },
   {
-    value: 'Indexes',
-    label: 'Indexes',
+    value: 'Index',
+    label: 'Index',
   },
   {
     value: 'NFT_Marketplace',
@@ -70,16 +94,16 @@ export const TAGS: Tag[] = [
     label: 'Oracle',
   },
   {
-    value: 'Blockchains',
-    label: 'Blockchains',
+    value: 'Blockchain',
+    label: 'Blockchain',
   },
   {
     value: 'Gambling',
     label: 'Gambling',
   },
   {
-    value: 'Memecoins',
-    label: 'Memecoins',
+    value: 'Memecoin',
+    label: 'Memecoin',
   },
 ]
 
