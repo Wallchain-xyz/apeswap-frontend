@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
+import { ProfilesResponse, TokenProfile } from './types'
 
 export const initialFilterValues: FilterState = {
   totalScore: { min: 0, max: 100 },
@@ -29,23 +29,13 @@ export interface FilterState {
 }
 
 export interface LHDState {
-  averageTotalScore: string
-  industryAverageChange: string
-  chainsSupported: string
-  tokensVerified: string
   queryState: FilterState
-  tokensTracked: number
   simpleProfiles: ProfilesResponse
   fullProfile: TokenProfile | null
   isLhdAuth: boolean
 }
 
 export const initialState: LHDState = {
-  averageTotalScore: '',
-  industryAverageChange: '',
-  chainsSupported: '',
-  tokensVerified: '',
-  tokensTracked: 0,
   queryState: initialFilterValues,
   simpleProfiles: {
     data: [],
@@ -59,17 +49,6 @@ const LHDSlice = createSlice({
   name: 'LHD',
   initialState,
   reducers: {
-    addIndustryData: (state, action: { payload: LHDState }) => {
-      const { payload } = action
-      return {
-        ...state,
-        averageTotalScore: payload?.averageTotalScore,
-        industryAverageChange: payload?.industryAverageChange,
-        chainsSupported: payload?.chainsSupported,
-        tokensVerified: payload?.tokensVerified,
-        tokensTracked: payload?.tokensTracked,
-      }
-    },
     addSimpleProfiles(state, action: { payload: ProfilesResponse }) {
       return {
         ...state,
@@ -97,5 +76,5 @@ const LHDSlice = createSlice({
   },
 })
 
-export const { addIndustryData, addSimpleProfiles, addFullProfile, setFilterState, setIsLhdAuth } = LHDSlice.actions
+export const { addSimpleProfiles, addFullProfile, setFilterState, setIsLhdAuth } = LHDSlice.actions
 export default LHDSlice.reducer

@@ -6,3 +6,5 @@ export const moonPayBaseUrl =
   'https://buy-staging.moonpay.io?apiKey=pk_test_ofxbUiq0BDNvCBwRbO5mHjG7gKBKLWY2&colorCode=%23ffb300'
 
 export const mailChimpUrl = `https://finance.us10.list-manage.com/subscribe/post?u=${process.env.NEXT_PUBLIC_MAILCHIMP_U}&id=${process.env.NEXT_PUBLIC_MAILCHIMP_ID}`
+
+export const LHD_API = 'https://lhd-temp-api.herokuapp.com'

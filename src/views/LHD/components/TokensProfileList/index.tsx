@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
-import { useIndustryAvg, useLHDFilterValues, useSimpleProfiles } from 'state/lhd/hooks'
+import { useLHDFilterValues, useSimpleProfiles } from 'state/lhd/hooks'
 import TableHeader from './components/TableHeader'
 import SkeletonRow from './components/SkeletonRow'
 import { styles } from './styles'
@@ -23,7 +23,6 @@ const TokensProfileList = () => {
   const simpleProfiles = useSimpleProfiles()
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
-  const { tokensTracked } = useIndustryAvg()
   const dispatch = useAppDispatch()
   const [searchQueryString, setSearchQueryString] = useState('')
   const [noResults, setNoResults] = useState(false)

@@ -3,15 +3,30 @@ import { useRouter } from 'next/router'
 import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
-import { useIndustryAvg } from '../../../../state/lhd/hooks'
 import useModal from '../../../../hooks/useModal'
 import { useCallback, useState } from 'react'
 import FilterModal from '../SearchBar/FilterModal'
 
+// Hooks
+import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
+import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustryStats'
+
 const TitleCards = () => {
   const { t } = useTranslation()
   const { push } = useRouter()
-  const { averageChange, averageTotalScore, chainsSupported, tokensTracked } = useIndustryAvg()
+  const { data: industryStats } = useGetIndustryStats()
+  const { data: historicalIndustryStats } = useGetHistoricalIndustryStats()
+
+  const { chainsSupported, averageTotalScore, tokensTracked } = industryStats ?? {
+    chainsSupported: 0,
+    averageTotalScore: 0,
+    tokensTracked: 0,
+  }
+
+  const { averageTotalScore: historicalAverageTotalScore } = historicalIndustryStats ?? { averageTotalScore: 0 }
+
+  const industryAverageChange =
+    Math.round(((historicalAverageTotalScore - averageTotalScore) / historicalAverageTotalScore) * 10000) / 100
 
   const [searchQueryString, setSearchQueryString] = useState('')
   const handleQueryChange = useCallback(
@@ -58,8 +73,10 @@ const TitleCards = () => {
       <Flex sx={styles.cardsContainer}>
         <StatCard
           title="Industry Average"
-          value={(parseFloat(averageTotalScore) * 100).toFixed()}
-          footerInfo={<>{`${!averageChange || Number.isNaN(averageChange) ? '0' : averageChange}% in last 7 days`}</>}
+          value={Math.round(averageTotalScore * 100)}
+          footerInfo={
+            <>{`${industryAverageChange > 0 ? `+ ${industryAverageChange}` : industryAverageChange}% in last 7 days`}</>
+          }
         />
         <StatCard
           title="Chains Supported"
@@ -72,7 +89,7 @@ const TitleCards = () => {
         />
         <StatCard
           title="Supported Tokens"
-          value={tokensTracked.toString()}
+          value={tokensTracked}
           footerInfo={
             <Link href="https://github.com/ApeSwapFinance/lhd-config" target="_blank" sx={{ color: 'yellow' }}>
               Verify Your Project?
