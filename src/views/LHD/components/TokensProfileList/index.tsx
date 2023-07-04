@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Box } from 'theme-ui'
 import TableHeader from './components/TableHeader'
 import SkeletonRow from './components/SkeletonRow'
@@ -56,6 +56,16 @@ const TokensProfileList = ({
     })
   }
 
+  const renderSortedProfiles = useMemo(() => {
+    return sortProfiles(simpleProfiles.data, sortCol, sortType)?.map((simpleProfile, index) => {
+      return (
+        <>
+          <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
+        </>
+      )
+    })
+  }, [simpleProfiles.data, sortCol, sortType])
+
   return (
     <>
       <Box sx={styles.tableContainer}>
@@ -70,10 +80,8 @@ const TokensProfileList = ({
             return <SkeletonRow key={i} />
           })}
 
-        {simpleProfiles.count > 0 ? (
-          sortProfiles(simpleProfiles.data ?? undefined, sortCol, sortType)?.map((simpleProfile, index) => {
-            return <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
-          })
+        {simpleProfiles.data.length > 0 ? (
+          renderSortedProfiles
         ) : (
           <Flex
             sx={{
