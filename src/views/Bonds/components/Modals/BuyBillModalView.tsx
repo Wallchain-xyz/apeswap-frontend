@@ -68,8 +68,8 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
             alignItems: 'center',
             justifyContent: 'center',
             maxWidth: '606px',
-            '@media screen and(min-width: 1180px)': {
-              width: '606px',
+            '@media screen and (min-width: 1180px)': {
+              minWidth: '606px',
             },
           }}
         >
@@ -115,7 +115,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
               </Flex>
               <Flex sx={{ alignItems: 'center' }}>
                 <ServiceTokenDisplay token1={bill?.earnToken?.symbol} />
-                <StyledHeadingText ml="10px" bold>
+                <StyledHeadingText ml="10px">
                   ${getFirstNonZeroDigits(discountEarnTokenPrice ?? 0)} ({bill?.discount}% Discount)
                 </StyledHeadingText>
               </Flex>

@@ -1,9 +1,6 @@
-// import track from 'utils/track'
+import React from 'react'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useTranslation } from 'contexts/Localization'
-import React from 'react'
-// import MoonPayModal from 'views/Topup/MoonpayModal'
-// import SettingsModal from '../../../../components/Menu/GlobalSettings/SettingsModal'
 import styles from './styles'
 import { useRouter } from 'next/router'
 import useModal from 'hooks/useModal'
@@ -12,7 +9,6 @@ import { useWeb3React } from '@web3-react/core'
 import { Switch } from 'theme-ui'
 import DexSettings from 'components/DexSettings'
 import SquidBridge from '../SquidBridge/SquidBridge'
-import { AVAILABLE_CHAINS_ON_PRODUCTS, OTHER_PRODUCTS } from '../../config/constants/chains'
 import ZapSlippage from '../ZapSlippage'
 
 interface DexNavProps {
@@ -30,10 +26,8 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
   const { pathname, push, asPath } = useRouter()
   const { chainId } = useWeb3React()
   const [onBridgeModal] = useModal(<SquidBridge />)
-  const apeV3Available = AVAILABLE_CHAINS_ON_PRODUCTS[OTHER_PRODUCTS.V3].includes(chainId as SupportedChainId)
 
   const v2Flag = pathname.includes('/v2')
-  const swapFlag = pathname.includes('/swap')
 
   const onLiquidity =
     pathname?.includes('add-liquidity') ||
@@ -49,15 +43,13 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
   // const [onPresentModal] = useModal(<MoonPayModal />)
 
   const handleSwitch = () => {
-    if (apeV3Available) {
-      push(
-        pathname.includes('/v3-swap')
-          ? 'https://dex.apeswap.finance/swap'
-          : pathname.includes('/v3-add-liquidity')
+    push(
+      pathname.includes('/v3-swap')
+        ? 'https://dex.apeswap.finance/swap'
+        : pathname.includes('/v3-add-liquidity')
           ? 'https://dex.apeswap.finance/add-liquidity'
           : 'https://dex.apeswap.finance/liquidity',
-      )
-    }
+    )
   }
 
   return (

@@ -41,5 +41,5 @@ export interface BillActionsProps {
 
 export interface DualCurrencySelector {
   currencyA: Currency
-  currencyB: Currency
+  currencyB: Currency | undefined
 }
