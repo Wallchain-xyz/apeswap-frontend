@@ -518,6 +518,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
 
     const currentItem = tooltip.dataPoints[0]
     const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
+
+    if (!data) return
+
     const canvasPosition = context.chart.canvas.getBoundingClientRect()
 
     setTooltipState({

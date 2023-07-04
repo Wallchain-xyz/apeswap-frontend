@@ -161,10 +161,12 @@ const FilterModal = ({ openChains, appliedFilters, onDismiss, handleFiltersChang
           sx={{ width: '100%' }}
           disabled={
             !(
+              values.totalScore.max > values.totalScore.min &&
               values.mcap.max >= INITIAL_FILTER_VALUES.mcap.min &&
               values.mcap.min <= INITIAL_FILTER_VALUES.mcap.max &&
               values.extractable.max >= INITIAL_FILTER_VALUES.extractable.min &&
-              values.extractable.min <= INITIAL_FILTER_VALUES.extractable.max
+              values.extractable.min <= INITIAL_FILTER_VALUES.extractable.max &&
+              values.mcap.max > values.mcap.min
             )
           }
           onClick={searchAction}

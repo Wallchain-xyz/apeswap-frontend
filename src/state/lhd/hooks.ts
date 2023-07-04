@@ -6,6 +6,7 @@ import { AppState } from '../index'
 import { addFullProfile, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { isEqual } from 'lodash'
 
 export const useFetchProfile = () => {
   const dispatch = useAppDispatch()

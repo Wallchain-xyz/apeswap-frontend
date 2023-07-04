@@ -9,8 +9,9 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) =>
   const width = 16
 
   useEffect(() => {
+    const filteredTokenAddresses = uniqueByChainId(tokenAddresses)
     let [extraChainsCount, foundChainsCount] = [0, 0]
-    const newElementsWithIcons = tokenAddresses?.filter((tokenAddress) => {
+    const newElementsWithIcons = filteredTokenAddresses?.filter((tokenAddress) => {
       if (icons.hasOwnProperty(tokenAddress.chainId) && foundChainsCount < 4) {
         foundChainsCount += 1
         return true
@@ -22,6 +23,19 @@ const ChainsIcons = ({ tokenAddresses }: { tokenAddresses?: TokenAddress[] }) =>
     setExtraChains(extraChainsCount)
     setElementsWithIcons(newElementsWithIcons ?? [])
   }, [tokenAddresses])
+
+  const uniqueByChainId = (tokens: TokenAddress[] | undefined): TokenAddress[] => {
+    const seen = new Map()
+    tokens = tokens ?? []
+    return tokens.filter((token) => {
+      const duplicate = seen.get(token.chainId)
+      if (!duplicate) {
+        seen.set(token.chainId, true)
+        return true
+      }
+      return false
+    })
+  }
 
   return (
     <div style={{ position: 'relative' }}>

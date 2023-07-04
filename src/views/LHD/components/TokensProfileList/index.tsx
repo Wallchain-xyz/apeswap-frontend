@@ -80,7 +80,6 @@ const TokensProfileList = ({
         )}
       </Box>
       <Pagination
-        // currentPage={currentPage}
         currentPage={currentPage}
         onPageChange={(page: number) => handlePaginate(page)}
         totalPages={simpleProfiles ? Math.ceil(simpleProfiles.count / 50) : 0}

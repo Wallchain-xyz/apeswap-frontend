@@ -1,4 +1,3 @@
-import React from 'react'
 import { TokenProfile } from 'state/lhd/types'
 import { Flex, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
@@ -11,20 +10,13 @@ const LiquidityConcentration = ({ fullProfile }: { fullProfile: TokenProfile }) 
 
   return (
     <Flex sx={styles.mainContainer}>
-      <Text sx={styles.title}>
-        {t('Liquidity Concentration')}
-      </Text>
+      <Text sx={styles.title}>{t('Liquidity Concentration')}</Text>
       <Flex sx={styles.tableCont}>
         <TableHeader />
-        {
-          fullProfile?.liquidityPools.length > 0 && (
-            fullProfile.liquidityPools.map((pool, index) => {
-              return <TableRow key={`${pool.lpAddress}-${pool.chainId}-${index}`}
-                               index={index}
-                               pool={pool} />
-            })
-          )
-        }
+        {fullProfile?.liquidityPools.length > 0 &&
+          fullProfile.liquidityPools.map((pool, index) => {
+            return <TableRow key={`${pool.lpAddress}-${pool.chainId}-${index}`} index={index} pool={pool} />
+          })}
       </Flex>
     </Flex>
   )

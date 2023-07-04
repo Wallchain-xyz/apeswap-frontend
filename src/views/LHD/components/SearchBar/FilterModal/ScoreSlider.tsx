@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box } from 'theme-ui'
 import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
@@ -25,7 +24,7 @@ const ScoreSlider = ({
 
   const handleMaxInputChange = (type: 'totalScore' | 'health' | 'ownership' | 'concentration', value: string) => {
     const numValue = value ? parseInt(value) : 0
-    if (numValue >= values[type].min && numValue <= 100) {
+    if (numValue <= 100) {
       handler(type, 'max', numValue)
     }
   }
