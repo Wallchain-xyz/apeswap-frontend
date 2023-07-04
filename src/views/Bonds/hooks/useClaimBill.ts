@@ -20,10 +20,11 @@ const useClaimBill = (billAddress: string, billIds: string[], earnToken?: string
     const tx = await bondContract.batchRedeem(billIds)
     addTransaction(tx, { type: TransactionType.CLAIM_BILL })
     track({
-      event: billType ?? '',
+      event: 'bond',
       chain: chainId,
       data: {
         cat: 'claim',
+        type: billType ?? '',
         address: bondContract.address,
         id: billIds,
       },

@@ -195,10 +195,11 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             },
           })
           track({
-            event: billType ?? '',
+            event: 'bond',
             chain: chainId,
             data: {
               cat: 'buy',
+              type: billType ?? '',
               address: contractAddress[chainId as SupportedChainId],
               typedValue,
               usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
