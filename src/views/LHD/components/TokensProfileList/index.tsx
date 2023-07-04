@@ -8,7 +8,6 @@ import { Flex, Svg, Text } from 'components/uikit'
 import Pagination from './components/Pagination'
 import { sortProfiles } from './utils/sortProfiles'
 import { useTranslation } from 'contexts/Localization'
-import { useRouter } from 'next/router'
 import _ from 'lodash'
 
 // Types
@@ -26,18 +25,16 @@ const TokensProfileList = ({
   appliedFilters,
   handleFiltersChange,
 }: TokensProfileListProps) => {
-  const router = useRouter()
-  const { query: filters } = router
-  const [currentPage, setCurrentPage] = useState<number>(filters.offset ? Number(filters.offset) / 50 + 1 : 1)
   const [sortCol, setSortCol] = useState('#')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
   const { t } = useTranslation()
 
+  const { offset, ...rest } = appliedFilters
+  const currentPage = offset ? offset / 50 + 1 : 1
+
   const handlePaginate = (page: number): void => {
-    setCurrentPage(page)
     if (page === 1) {
       // do not add offset to the query string AND cache if the page is 1
-      const { offset, ...rest } = appliedFilters
       handleFiltersChange({ filters: rest })
     } else {
       handleFiltersChange({ filters: { ...appliedFilters, offset: (page - 1) * 50 } })
@@ -83,6 +80,7 @@ const TokensProfileList = ({
         )}
       </Box>
       <Pagination
+        // currentPage={currentPage}
         currentPage={currentPage}
         onPageChange={(page: number) => handlePaginate(page)}
         totalPages={simpleProfiles ? Math.ceil(simpleProfiles.count / 50) : 0}
