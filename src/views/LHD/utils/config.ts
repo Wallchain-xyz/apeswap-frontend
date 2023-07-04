@@ -12,6 +12,7 @@ export const INITIAL_FILTER_VALUES: Required<Filters> = {
   chains: [],
   search: '',
   offset: 0,
+  sort: '',
 }
 
 export const TAGS: Tag[] = [

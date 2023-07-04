@@ -81,4 +81,5 @@ export interface Filters {
   chains?: string[]
   offset?: number
   search?: string
+  sort?: string
 }

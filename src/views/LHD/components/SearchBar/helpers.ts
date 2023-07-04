@@ -28,6 +28,7 @@ export const generateSearchParams = (values: Required<Filters>): string => {
       if (JSON.stringify(value) !== JSON.stringify(initialValue)) {
         switch (key) {
           case 'search':
+          case 'sort':
           case 'offset': {
             differences.push(`${key}=${value}`)
             break
@@ -68,6 +69,7 @@ export const getFilterDiff = (values: Required<Filters>): Filters => {
           break
         case 'search':
         case 'offset':
+        case 'sort':
           differences[key] = value
           break
         default:
@@ -90,6 +92,7 @@ export const queryStringToObject = (queryString: string): Required<Filters> => {
     switch (key) {
       case 'offset':
       case 'search':
+      case 'sort':
         result[key] = value
         break
       default:

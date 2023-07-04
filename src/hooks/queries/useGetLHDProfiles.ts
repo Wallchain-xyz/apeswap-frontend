@@ -21,11 +21,13 @@ export const getLHDProfiles = async ({ filters = {} }: { filters?: FiltersWithSe
 
   let parsedFilters = ''
 
-  if (filters?.search) {
-    parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, offset: filters.offset ?? 0 })
+  const { search, ...rest } = filters
+
+  if (search) {
+    parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...rest })
     profilesUrl += `/search/${filters?.search}${parsedFilters ? `?${parsedFilters}` : ''}`
   } else if (filters) {
-    parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filters })
+    parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...rest })
     profilesUrl += `?${parsedFilters}`
   }
 

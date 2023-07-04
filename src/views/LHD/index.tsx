@@ -41,15 +41,22 @@ const LHD = () => {
   const { data: simpleProfiles = { count: 0, data: [] }, isLoading } = useGetLHDProfiles({ filters: appliedFilters })
   const { isLhdAuth } = useSelector((state: AppState) => state.lhd)
 
-  const { offset, search, ...appliedModalFilters } = appliedFilters
+  const { offset, search, sort, ...appliedModalFilters } = appliedFilters
   /**
    * This function is called when the user changes the filters or searches.
    * It updates the applied filters, and updates the URL query string in the same action handler.
    */
   const handleFiltersChange = ({ filters }: { filters: Filters; query?: string }): void => {
     setIsSearchQuery(!!filters?.search)
-    setAppliedFilters(filters)
-    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filters })
+
+    let filtersToApply: Filters = filters
+
+    if (Object.keys(filters).length > 0) {
+      filtersToApply = { ...filters, sort: 'mcap' }
+    } else {
+    }
+    setAppliedFilters(filtersToApply)
+    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filtersToApply })
 
     router.replace(
       {

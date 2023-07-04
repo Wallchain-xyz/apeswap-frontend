@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box } from 'theme-ui'
 import TableHeader from './components/TableHeader'
 import SkeletonRow from './components/SkeletonRow'
@@ -25,9 +25,20 @@ const TokensProfileList = ({
   appliedFilters,
   handleFiltersChange,
 }: TokensProfileListProps) => {
-  const [sortCol, setSortCol] = useState('#')
-  const [sortType, setSortType] = useState<'asc' | 'desc'>('asc')
+  const [sortCol, setSortCol] = useState(appliedFilters.sort ? 'Market Cap' : '#')
+  const [sortType, setSortType] = useState<'asc' | 'desc'>(appliedFilters.sort ? 'desc' : 'asc')
+
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (appliedFilters.sort) {
+      setSortCol('Market Cap')
+      setSortType('desc')
+    } else {
+      setSortCol('#')
+      setSortType('asc')
+    }
+  }, [appliedFilters.sort])
 
   const { offset, ...rest } = appliedFilters
   const currentPage = offset ? offset / 50 + 1 : 1
