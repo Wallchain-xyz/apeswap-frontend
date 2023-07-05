@@ -76,5 +76,5 @@ export const DOC_LINKS: Record<string, string> = {
   APESTATS: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/apestats',
   PROTOCOL_DASHBOARD: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/protocol-dashboard',
   THE_MIGRATION: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/hard-cap-migration-masterapev2',
-  LIQUIDITY_HEALTH: 'https://apeswap.gitbook.io/apeswap-finance/',
+  LIQUIDITY_HEALTH: 'https://apeswap.gitbook.io/apeswap-finance/product-and-features/liquidity-health-dashboard',
 }
