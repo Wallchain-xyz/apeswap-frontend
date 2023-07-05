@@ -31,6 +31,7 @@ const SearchBar = ({
   onFilterModal,
 }: SearchBarProps) => {
   const [searchQueryParam, setSearchQueryParam] = useState<string>(searchQuery)
+  const { t } = useTranslation()
 
   useEffect(() => {
     setSearchQueryParam(searchQuery ?? '')
@@ -48,7 +49,8 @@ const SearchBar = ({
       label: (
         <Flex sx={{ gap: '2px', justifyContent: 'center', alignItems: 'center', fontSize: '12px' }}>
           {!sort && circle}
-          <Box sx={{ fontSize: '12px' }}>Score</Box> <Box sx={{ color: 'lightGray', fontSize: '12px' }}>(Default)</Box>
+          <Box sx={{ fontSize: '12px' }}>{t('Score')}</Box>{' '}
+          <Box sx={{ color: 'lightGray', fontSize: '12px' }}>({t('Default')})</Box>
         </Flex>
       ),
     },
@@ -61,7 +63,6 @@ const SearchBar = ({
     isSearchQuery,
     setIsSearchQuery,
   })
-  const { t } = useTranslation()
 
   //shakes when no results are found
   const controls = useAnimation()
@@ -86,14 +87,14 @@ const SearchBar = ({
       </motion.div>
       <Flex sx={{ gap: '10px' }}>
         <Select
-          label={<Box sx={{ pl: '10px', fontSize: '12px' }}>Sort</Box>}
+          label={<Box sx={{ pl: '10px', fontSize: '12px' }}>{t('Sort')}</Box>}
           onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
             const { sort, ...filters } = appliedFilters
             handleFiltersChange({ filters: value === SCORE ? filters : { ...filters, sort: value } })
           }}
           sx={{
             zIndex: 11,
-            width: ['100%', '100%', '140px'],
+            width: ['100%', '100%', '200px'],
             height: '36px',
             borderRadius: '10px',
             display: 'flex',
