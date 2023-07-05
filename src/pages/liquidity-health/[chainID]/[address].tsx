@@ -5,22 +5,11 @@ import PageContainer from '../../../components/PageContainer'
 import FullProfile from '../../../views/LHD/components/FullProfile'
 import LHDModal from 'views/LHD/components/LHDModal'
 
-// hooks
+// Hooks
 import { useSelector } from 'react-redux'
 
+// Types
 import { AppState } from 'state'
-import { GetServerSideProps } from 'next'
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const req = context
-  const pageUrl = 'ssssjjjjddd'
-
-  return {
-    props: {
-      pageUrl,
-    },
-  }
-}
 
 const MultiParamPage = () => {
   const router = useRouter()
@@ -35,10 +24,30 @@ const MultiParamPage = () => {
 
   return (
     <PageContainer variant="lhd" pageDetails={`${chainID}_${address}`}>
-      <FullProfile chainID={chainID} address={address} />
+      <FullProfile chainID={chainID as string} address={address as string} />
       <LHDModal isLhdAuthModalOpen={!isLhdAuth} />
     </PageContainer>
   )
 }
 
 export default MultiParamPage
+
+import { getLHDProfile } from 'hooks/queries/useGetLHDProfile'
+import { QUERY_KEYS } from 'config/constants/queryKeys'
+import { dehydrate, QueryClient } from '@tanstack/react-query'
+
+import { GetServerSideProps } from 'next'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient()
+  const { chainID, address } = context.query
+  await queryClient.prefetchQuery([QUERY_KEYS.LHD_PROFILE, chainID, address], () =>
+    getLHDProfile({ chainID: chainID as string, address: address as string }),
+  )
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  }
+}

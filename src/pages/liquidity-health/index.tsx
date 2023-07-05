@@ -1,6 +1,7 @@
 import PageContainer from 'components/PageContainer'
 import LHD from 'views/LHD'
 
+// Hooks
 import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
 import { getHistoricalIndustryStats } from 'hooks/queries/useGetHistoricalIndustryStats'
 import { getLHDProfiles } from 'hooks/queries/useGetLHDProfiles'
@@ -20,10 +21,11 @@ const LHDPage = () => {
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 import { queryStringToObject } from 'views/LHD/components/SearchBar/helpers'
+import { GetServerSideProps } from 'next'
 
 export default LHDPage
 
-export const getServerSideProps = async (ctx: any) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient()
   const { query: filters } = ctx
   const parsedFilters = queryStringToObject(filters as unknown as string)

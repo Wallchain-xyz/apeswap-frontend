@@ -12,15 +12,13 @@ import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
 
-const FullProfile = ({
-  chainID,
-  address,
-}: {
-  chainID: string | string[] | undefined
-  address: string | string[] | undefined
-}) => {
+// Hooks
+import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
+
+const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
   const fetchProfile = useFetchProfile()
-  const fullProfile: TokenProfile | null = useFullProfile()
+  // const fullProfile: TokenProfile | null = useFullProfile()
+  const { data: fullProfile } = useGetLHDProfile({ chainID, address })
   const { t } = useTranslation()
   const router = useRouter()
   const DEX_MISSING_ASSETS = ['CRV']
