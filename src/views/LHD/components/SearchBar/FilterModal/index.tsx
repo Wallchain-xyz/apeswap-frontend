@@ -33,12 +33,13 @@ interface FilterModalProps {
   openChains?: boolean
   appliedFilters: Filters
   onDismiss?: () => void
-  handleFiltersChange: ({ filters, query }: { filters: Filters; query?: string }) => void
+  handleFiltersChange: ({ filters }: { filters: Filters }) => void
 }
 
 const FilterModal = ({ openChains, appliedFilters, onDismiss, handleFiltersChange }: FilterModalProps) => {
   const { t } = useTranslation()
-  const [values, setValues] = useState<Required<Filters>>({ ...INITIAL_FILTER_VALUES, ...appliedFilters })
+  const { offset, search, sort, ...appliedModalFilters } = appliedFilters
+  const [values, setValues] = useState<Required<Filters>>({ ...INITIAL_FILTER_VALUES, ...appliedModalFilters })
 
   const stringHandler = (
     type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',

@@ -6,10 +6,8 @@ import { styles } from './styles'
 // Components
 import ListViewLayout from 'components/ListView/ListViewLayout'
 import TokensProfileList from './components/TokensProfileList'
-import SearchBar from './components/SearchBar'
 import TitleCards from './components/TitleCards'
 import LHDModal from './components/LHDModal'
-import FilterModal from './components/SearchBar/FilterModal'
 
 // Helpers
 import { generateSearchParams, queryStringToObject, getFilterDiff } from './components/SearchBar/helpers'
@@ -20,7 +18,6 @@ import { INITIAL_FILTER_VALUES } from './utils/config'
 // Hooks
 import { useSelector } from 'react-redux'
 import useGetLHDProfiles from 'hooks/queries/useGetLHDProfiles'
-import useModal from 'hooks/useModal'
 
 // Types
 import { Filters } from 'utils/types/lhd'
@@ -49,15 +46,8 @@ const LHD = () => {
   const handleFiltersChange = ({ filters }: { filters: Filters; query?: string }): void => {
     setIsSearchQuery(!!filters?.search)
 
-    let filtersToApply: Filters = filters
-    const { offset, ...rest } = filters
-
-    if (Object.keys(rest).length > 0) {
-      filtersToApply = { ...filters, sort: 'mcap' }
-    } else {
-    }
-    setAppliedFilters(filtersToApply)
-    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filtersToApply })
+    setAppliedFilters(filters)
+    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filters })
 
     router.replace(
       {
@@ -68,25 +58,15 @@ const LHD = () => {
     )
   }
 
-  const [onFilterModal] = useModal(
-    <FilterModal appliedFilters={appliedModalFilters} handleFiltersChange={handleFiltersChange} />,
-  )
-
   return (
     <Flex sx={styles.mainLHDContainer}>
       <ListViewLayout>
         <TitleCards appliedFilters={appliedModalFilters} handleFiltersChange={handleFiltersChange} />
-        <SearchBar
-          handleFiltersChange={handleFiltersChange}
-          onFilterModal={onFilterModal}
-          searchQuery={search ?? ''}
-          appliedFilters={appliedModalFilters}
-          isSearchQuery={isSearchQuery}
-          setIsSearchQuery={setIsSearchQuery}
-        />
         <TokensProfileList
           simpleProfiles={simpleProfiles}
           isLoading={isLoading}
+          isSearchQuery={isSearchQuery}
+          setIsSearchQuery={setIsSearchQuery}
           handleFiltersChange={handleFiltersChange}
           appliedFilters={appliedFilters}
         />

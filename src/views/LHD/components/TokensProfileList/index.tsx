@@ -10,23 +10,39 @@ import { sortProfiles } from './utils/sortProfiles'
 import { useTranslation } from 'contexts/Localization'
 import _ from 'lodash'
 
+// Hooks
+import useModal from 'hooks/useModal'
+
+// Components
+import SearchBar from '../SearchBar'
+import FilterModal from '../SearchBar/FilterModal'
+
 // Types
 import { LHDProfiles, Filters } from 'utils/types/lhd'
 interface TokensProfileListProps {
   simpleProfiles: LHDProfiles
   isLoading: boolean
+  isSearchQuery: boolean
   appliedFilters: Filters
+  setIsSearchQuery: (isSearchQuery: boolean) => void
   handleFiltersChange: ({ filters }: { filters: Filters }) => void
 }
 
 const TokensProfileList = ({
   simpleProfiles,
   isLoading,
+  isSearchQuery,
   appliedFilters,
+  setIsSearchQuery,
   handleFiltersChange,
 }: TokensProfileListProps) => {
-  const [sortCol, setSortCol] = useState(appliedFilters.sort ? 'Market Cap' : '#')
-  const [sortType, setSortType] = useState<'asc' | 'desc'>(appliedFilters.sort ? 'desc' : 'asc')
+  // TODO: Come back to double check the sorting and add types/enums
+  const [sortCol, setSortCol] = useState(appliedFilters.sort ? 'Market Cap' : 'Score')
+  const [sortType, setSortType] = useState<'asc' | 'desc'>('desc')
+
+  const [onFilterModal] = useModal(
+    <FilterModal appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} />,
+  )
 
   const { t } = useTranslation()
 
@@ -35,8 +51,8 @@ const TokensProfileList = ({
       setSortCol('Market Cap')
       setSortType('desc')
     } else {
-      setSortCol('#')
-      setSortType('asc')
+      setSortCol('Score')
+      setSortType('desc')
     }
   }, [appliedFilters.sort])
 
@@ -68,6 +84,14 @@ const TokensProfileList = ({
 
   return (
     <>
+      <SearchBar
+        handleFiltersChange={handleFiltersChange}
+        onFilterModal={onFilterModal}
+        searchQuery={appliedFilters.search ?? ''}
+        appliedFilters={appliedFilters}
+        isSearchQuery={isSearchQuery}
+        setIsSearchQuery={setIsSearchQuery}
+      />
       <Box sx={styles.tableContainer}>
         <TableHeader
           sortCol={sortCol}
