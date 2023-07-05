@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
 import { Flex, Spinner, Svg, Text } from 'components/uikit'
-import { chartExtras, TokenProfile } from 'state/lhd/types'
 import Chart from '../Chart'
 import { useTranslation } from 'contexts/Localization'
 import InfoCards from './components/InfoCards'
@@ -15,9 +13,10 @@ import ExemptAssetNotice from './components/ExemptAssetNotice'
 // Hooks
 import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
 
+// Types
+import { chartExtras } from 'utils/types/lhd'
+
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
-  const fetchProfile = useFetchProfile()
-  // const fullProfile: TokenProfile | null = useFullProfile()
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })
   const { t } = useTranslation()
   const router = useRouter()
@@ -42,12 +41,6 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
       router.replace(router.asPath.split('?')[0], router.asPath.split('?')[0])
     }
   }, [])
-
-  useEffect(() => {
-    if (chainID && address) {
-      fetchProfile(chainID, address)
-    }
-  }, [chainID, address, fetchProfile])
 
   let handleChartCallback = (chartData: chartExtras) => {
     setChartPassBackData(chartData)

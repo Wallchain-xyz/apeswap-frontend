@@ -145,3 +145,9 @@ export interface TokenProfile extends SimpleTokenProfile {
   unlockedSupply: number
   healthChartData: LiquidityHealthChart
 }
+
+export interface chartExtras {
+  liquidityDebt: number
+  sustainabilityLower: number
+  sustainabilityUpper: number
+}
