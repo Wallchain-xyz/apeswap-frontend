@@ -35,7 +35,7 @@ export const getLHDProfiles = async ({ filters = {} }: { filters?: FiltersWithSe
   return data
 }
 
-export default function useGetLHDProfiles({ filters }: { query?: string; filters?: FiltersWithSearch }) {
+export default function useGetLHDProfiles({ filters }: { filters?: FiltersWithSearch }) {
   return useQuery({
     queryKey: [QUERY_KEYS.LHD_PROFILES, filters],
     queryFn: () => getLHDProfiles({ filters }),
