@@ -1172,7 +1172,7 @@ export const LiquidityHealthSlides = () => {
       slideContent={
         <Text sx={styles.content}>
           {t(
-            `This score ranges from 0 to 100, where a higher score means a better Liquidity Health and sustainability. It's calculated based on a project's Liquidity Strength, Concentration, and Ownership.`,
+            `This is an aggregate score that ranges from 0 to 100, where a higher score indicates better Liquidity Health and sustainability. It's calculated based on a project's Liquidity Strength, Concentration, and Ownership.`,
           )}
         </Text>
       }
@@ -1184,31 +1184,17 @@ export const LiquidityHealthSlides = () => {
       slideContent={
         <>
           <Text sx={styles.content}>
-            {t('This indicator reflects the strength of the project’s liquidity by analyzing the amount of')}{' '}
-            <Tooltip
-              placement={'topRight'}
-              transformTip="translate(0%, 2%)"
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t(
-                    'Extractable liquidity is the value of the liquidity which is composed exclusively by blue chip or stable tokens.',
-                  )}
-                </Flex>
-              }
-              sx={{ width: ['250px', '250px', '300px', '400px'] }}
-            >
-              <Text sx={styles.tipTitle}>{t('Extractable Liquidity')}</Text>
-            </Tooltip>{' '}
-            {t('across all liquidity pools and chains.')}
+            {t(
+              ' This indicator reflects the strength of the project’s liquidity by analyzing the total amount of liquidity across all pools and chains, regardless if the project owns that liquidity or if it is rented.',
+            )}
           </Text>
-
           <Text
             sx={{
               ...styles.content,
               fontStyle: 'italic',
             }}
           >
-            {t(`Strength is the most important factor for Liquidity Health!`)}
+            {t(`Simply put, does this project have enough liquidity based on its MCAP?`)}
           </Text>
         </>
       }
@@ -1216,12 +1202,12 @@ export const LiquidityHealthSlides = () => {
     <Slide
       key={3}
       step="HOW IT WORKS"
-      slideTitle="Liquidity Concentration"
+      slideTitle="Liquidity Ownership"
       slideContent={
         <>
           <Text sx={styles.content}>
             {t(
-              `This represents the degree to which a project's liquidity is concentrated. Having fewer, more concentrated liquidity pools is better than having many dispersed liquidity pools.`,
+              'This reflects how much liquidity is owned by the project itself, relative to the projects MCAP. Owned liquidity is more reliable than rented liquidity as it doesn’t depend on constant incentives.',
             )}
           </Text>
           <Text
@@ -1230,7 +1216,9 @@ export const LiquidityHealthSlides = () => {
               fontStyle: 'italic',
             }}
           >
-            {t(`Concentrated liquidity pools means better swap fees and lower slippage for users!`)}
+            {t(
+              `Simply put, does the project own an adequate amount of liquidity to capitalize the token based on its MCAP?`,
+            )}
           </Text>
         </>
       }
@@ -1238,12 +1226,12 @@ export const LiquidityHealthSlides = () => {
     <Slide
       key={4}
       step="HOW IT WORKS"
-      slideTitle="Liquidity Ownership"
+      slideTitle="Liquidity Concentration"
       slideContent={
         <>
           <Text sx={styles.content}>
             {t(
-              `This reflects how much liquidity is owned by the project itself, relative to the total amount of available liquidity.`,
+              `This represents the degree to which a project's liquidity is concentrated to a certain number of pools.`,
             )}
           </Text>
           <Text
@@ -1252,28 +1240,13 @@ export const LiquidityHealthSlides = () => {
               fontStyle: 'italic',
             }}
           >
-            {t('Owned liquidity is more reliable than')}{' '}
-            <Tooltip
-              placement={'topRight'}
-              transformTip="translate(0%, 2%)"
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t(
-                    'Rented liquidity is liquidity provided by users or third parties in exchange for trading fees and/or incentives (e.g., farms).',
-                  )}
-                </Flex>
-              }
-              sx={{ width: ['250px', '250px', '300px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>{t('rented liquidity')}</Text>
-            </Tooltip>{' '}
-            {t('as it doesn’t depend on constant incentives.')}
+            {t(`Simply put, is the project's liquidity too spread out?`)}
           </Text>
         </>
       }
     />,
     <Slide
-      key={4}
+      key={5}
       step="WHAT TO DO"
       slideTitle="Raise Awareness!"
       slideContent={
