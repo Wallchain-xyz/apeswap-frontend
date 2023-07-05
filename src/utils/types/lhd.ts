@@ -151,3 +151,23 @@ export interface chartExtras {
   sustainabilityLower: number
   sustainabilityUpper: number
 }
+
+export interface BlockExplorer {
+  url: string
+  type: string
+  testToken: string
+}
+
+export interface ChainDetail {
+  chainId: string
+  chainName: string
+  coingeckoId: string
+  dexscreenerId?: string
+  logoUrl?: string
+  blockExplorer?: BlockExplorer
+}
+
+export interface Tag {
+  value: string
+  label: string
+}

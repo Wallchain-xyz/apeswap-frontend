@@ -1,4 +1,4 @@
-import { ChainDetail, Tag } from 'state/lhd/types'
+import { ChainDetail, Tag } from 'utils/types/lhd'
 import { Filters } from 'utils/types/lhd'
 
 export const INITIAL_FILTER_VALUES: Required<Filters> = {
