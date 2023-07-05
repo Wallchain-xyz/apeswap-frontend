@@ -179,7 +179,9 @@ const SharableCard = ({
   const color = score <= 40 ? 'white' : 'black'
 
   function share() {
-    if (navigator.share) {
+    const isWindows = navigator.userAgent.includes('Windows') || navigator.appVersion.includes('Windows')
+
+    if (navigator.share && !isWindows) {
       navigator
         .share({
           title: "ApeSwap's Liquidity Health Dashboard",
