@@ -80,6 +80,8 @@ import {
   BananaIcon,
   ScrollTop,
   Explorer,
+  LiquidityIcon,
+  PolygonNew,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -289,6 +291,10 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <BananaIcon {...props} getStyles={getStyles} />
     case icons.SCROLL_TOP:
       return <ScrollTop {...props} getStyles={getStyles} />
+    case icons.LIQUIDITY_ICON:
+      return <LiquidityIcon {...props} getStyles={getStyles} />
+    case icons.POLYGON_NEW:
+      return <PolygonNew {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:
