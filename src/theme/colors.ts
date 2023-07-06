@@ -55,6 +55,7 @@ const Colors = {
     hot: '#DF4141',
     new: '#38A611',
     auto: '#DF4141',
+    beta: '#38A611',
     max: '#38A611',
     real_yield: '#F0B90B',
   },

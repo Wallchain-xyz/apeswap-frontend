@@ -1,5 +1,5 @@
 import React from 'react'
-import { ThemeUIStyleObject } from 'theme-ui'
+import { ThemeUIStyleObject, SxProp } from 'theme-ui'
 
 export interface InternalProps {
   children?: React.ReactNode
@@ -15,4 +15,5 @@ export interface ModalProps extends InternalProps {
   title?: string
   zIndex?: string | number
   sx?: ThemeUIStyleObject
+  backdrop?: SxProp['sx']
 }

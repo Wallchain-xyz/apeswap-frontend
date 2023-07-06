@@ -118,7 +118,7 @@ export const ETH2X_FLI = new Token(
   '0xAa6E8127831c9DE45ae56bB1b0d4D4Da6e5665BD',
   18,
   'ETH2x-FLI',
-  'ETH 2x Flexible Leverage Index',
+  'ETH 2x Flexible Leverage StatCard',
 )
 export const sETH2 = new Token(
   SupportedChainId.MAINNET,

@@ -22,28 +22,63 @@ const variants = {
     maxWidth: ['500px', '500px', '500px', '1150px'],
     padding: '0px 10px',
   },
+  lhd: {
+    maxWidth: ['500px', '600px', '600px', '1150px'],
+    padding: '0px 10px',
+  },
 }
 
 const PageContainer = ({
   style,
   children,
   variant = 'dex',
+  pageDetails = '',
 }: {
   style?: CSSProperties
   children: React.ReactNode
-  variant?: 'dex' | 'homepage' | 'listView'
+  variant?: 'dex' | 'homepage' | 'listView' | 'lhd'
+  pageDetails?: any
 }) => {
   const { asPath } = useRouter()
   const pageMeta = customMeta[asPath] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
 
+  const imageURL = `https://res.cloudinary.com/dswmrqgwy/image/upload/v1/lhd-share-images/lhd_share_${pageDetails}`
+
   return (
     <>
       <Head>
         <title>{title}</title>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
+        {asPath.includes('/liquidity-health/') ? (
+          <>
+            <meta property="og:title" content="ApeSwap | Liquidity Health Dashboard" />
+            <meta
+              property="og:description"
+              content="ApeSwap’s Liquidity Health Dashboard provides insights into the quality and sustainability of cryptocurrency projects based on different characteristics of their liquidity."
+            />
+            <meta property="og:image" content={imageURL} />
+            <meta name="twitter:image" content={imageURL} />
+
+            <meta
+              name="twitter:description"
+              content="ApeSwap’s Liquidity Health Dashboard provides insights into the quality and sustainability of cryptocurrency projects based on different characteristics of their liquidity."
+            />
+            <meta name="twitter:title" content="ApeSwap | Liquidity Health Dashboard" />
+          </>
+        ) : (
+          <>
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={image} />
+            <meta name="twitter:image" content="https://apeswap.finance/twitter.png" />
+            <meta
+              name="twitter:description"
+              content="Swap, stake, and earn cryptocurrencies, all in one place. Accessible, transparent, and secure for everyone."
+            />
+            <meta name="twitter:title" content="ApeSwap: Your One-Stop, Multichain DeFi Hub" />
+            {/* <meta property="og:Twitter" content="https://apeswap.finance/twitter.png" /> */}
+          </>
+        )}
       </Head>
       <Flex
         sx={{

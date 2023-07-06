@@ -42,8 +42,17 @@ const bscConfig: NavConfig[] = [
     ],
   },
   {
-    label: 'Bonds',
-    href: `/bonds`,
+    label: 'Raise',
+    items: [
+      {
+        label: 'Bonds',
+        href: `/bonds`,
+      },
+      {
+        label: 'Liquidity Health',
+        href: `/liquidity-health`,
+      },
+    ],
   },
   {
     label: 'Collect',

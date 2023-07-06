@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, ReactHTMLElement } from 'react'
 
 export enum positions {
   TOP = 'top',
@@ -47,6 +47,7 @@ export interface SelectProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
   active?: number | string
   size?: sizeProps
   width?: string | number
+  label?: JSX.Element
   position?: positionProps
   onChange?: React.ChangeEventHandler<HTMLInputElement>
 }

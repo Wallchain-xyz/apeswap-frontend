@@ -1162,6 +1162,152 @@ export const TheMigrationSlides = () => {
   ]
 }
 
+export const LiquidityHealthSlides = () => {
+  const { t } = useTranslation()
+  return [
+    <Slide
+      key={1}
+      step="INTRODUCTION"
+      slideTitle="What is the Liquidity Health Dashboard?"
+      slideContent={
+        <Text sx={styles.content}>
+          {t(
+            `ApeSwap is creating the first ever industry wide credentialing system that provides various risk ratings on a wide range of crypto assets, leveraging solely on-chain data to power the entire system.`,
+          )}
+        </Text>
+      }
+    />,
+    <Slide
+      key={2}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Health Score"
+      slideContent={
+        <Text sx={styles.content}>
+          {t(
+            `This is an aggregate score that ranges from 0 to 100, where a higher score indicates better Liquidity Health and sustainability. It's calculated based on a project's Liquidity Strength, Ownership, and Concenctration.`,
+          )}
+        </Text>
+      }
+    />,
+    <Slide
+      key={3}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Strength"
+      slideContent={
+        <>
+          <Text sx={styles.content}>
+            {t(`This reflects the strength of the project's liquidity by analyzing the total amount of `)}
+            <Link
+              href={
+                'https://apeswap.gitbook.io/apeswap-finance/product-and-features/liquidity-health-dashboard/lhd-glossary-and-tags'
+              }
+              target="_blank"
+              rel="noreferrer noopener"
+              sx={styles.yellow}
+            >
+              {t(`extractable liquidity`)}
+            </Link>
+            {t(` across all pools and chains, regardless of if the project owns that liquidity or if it is rented.`)}
+          </Text>
+          <Text
+            sx={{
+              ...styles.content,
+              fontStyle: 'italic',
+            }}
+          >
+            {t(`Simply put, does this project have enough liquidity based on its Market Cap?`)}
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={4}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Ownership"
+      slideContent={
+        <>
+          <Text sx={styles.content}>
+            {t(
+              `This reflects how much liquidity is owned by the project itself relative to the project's MCAP. Owned liquidity is more reliable than `,
+            )}
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(0%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t(
+                    'Rented liquidity is liquidity provided by users or third parties in exchange for trading fees and/or incentives (e.g., farms).',
+                  )}
+                </Flex>
+              }
+              sx={{ width: ['250px', '250px', '250px', '350px'] }}
+            >
+              <Text sx={styles.tipTitle}>{t('rented liquidity')}</Text>
+            </Tooltip>{' '}
+            {t('as it doesn’t depend on constant incentives.')}
+          </Text>
+          <Text
+            sx={{
+              ...styles.content,
+              fontStyle: 'italic',
+            }}
+          >
+            {t(
+              `Simply put, does the project own an adequate amount of liquidity to capitalize the token based on its MCAP?`,
+            )}
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={5}
+      step="HOW IT WORKS"
+      slideTitle="Liquidity Concentration"
+      slideContent={
+        <>
+          <Text sx={styles.content}>
+            {t(
+              `This represents the degree to which a project's liquidity is concentrated to a certain number of pools.`,
+            )}
+          </Text>
+          <Text
+            sx={{
+              ...styles.content,
+              fontStyle: 'italic',
+            }}
+          >
+            {t(`Simply put, is the project's liquidity too spread out?`)}
+          </Text>
+        </>
+      }
+    />,
+    <Slide
+      key={6}
+      step="IN SUMMARY"
+      slideTitle="What Does an Ideal Project Look Like?"
+      slideContent={
+        <Text sx={styles.content}>
+          {t(
+            `The project owns an adequate amount of liquidity to capitalize their token and no token emissions are wasted on renting liquidity. All liquidity pools have at least $250k of extractable liquidity and are valid pairs. POL is locked in a contract or gnosis safe.`,
+          )}
+        </Text>
+      }
+    />,
+    <Slide
+      key={7}
+      step="WHAT TO DO"
+      slideTitle="Raise Awareness!"
+      slideContent={
+        <Text sx={styles.content}>
+          {t(
+            `Projects should verify data accuracy, improve their scores, and share achievements if in a healthy position. Users can utilize this information to gain insights into their held tokens, engage with projects by sharing scores, and communicate with DAOs for improvement guidance. Feedback and enhancements to the system from everyone are encouraged.`,
+          )}
+        </Text>
+      }
+    />,
+  ]
+}
+
 export const DefaultSlides = () => {
   const { t } = useTranslation()
   return [

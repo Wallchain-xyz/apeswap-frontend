@@ -14,6 +14,7 @@ const Modal = ({
   title,
   zIndex = 'modal',
   onAnimationComplete,
+  backdrop,
   ...props
 }: ModalProps) => {
   const { handleClose } = useContext(ModalContext)
@@ -60,7 +61,7 @@ const Modal = ({
           </motion.div>
         )}
       </AnimatePresence>
-      {open && <Box sx={style.backdrop} onClick={onClose} />}
+      {open && <Box sx={{ ...style.backdrop, ...backdrop }} onClick={onClose} />}
     </Box>
   )
 }

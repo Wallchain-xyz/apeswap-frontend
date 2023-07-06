@@ -97,7 +97,16 @@ export enum icons {
   URL = 'URL',
   BUBBLE = 'bubble',
   AUDIT = 'audit',
+  GREEN_SHIELD = 'greenShield',
+  CHAIN = 'chain',
+  VERIFIED = 'verified',
+  TICK_SHIELD = 'tickShield',
+  SHARE = 'share',
+  FILLED_URL = 'filledURL',
+  YELLOW_QUESTION = 'yellowQuestion',
   BANANA_ICON = 'bananaIcon',
+  SCROLL_TOP = 'scrollTop',
+  EXPLORER = 'explorer',
 }
 
 export enum directions {
