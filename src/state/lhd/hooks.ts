@@ -1,51 +1,12 @@
-import { useCallback, useEffect } from 'react'
-import { shallowEqual } from 'react-redux'
+import { useCallback } from 'react'
 import { useAppDispatch } from '../hooks'
-// import { fetchFullProfile, fetchInitialProfiles, fetchProfiles, fetchProfilesQuery } from './actions'
 import { fetchFullProfile } from './actions'
-import { ProfilesResponse, SimpleTokenProfile, TokenProfile } from './types'
+import { TokenProfile } from './types'
 import { AppState } from '../index'
-import { addFullProfile, addSimpleProfiles, setIsLhdAuth } from './reducer'
+import { addFullProfile, setIsLhdAuth } from './reducer'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { isEqual } from 'lodash'
-
-// export const useOnSearchProfiles = () => {
-//   console.log('SEARCH CALLED')
-//   // const dispatch = useAppDispatch()
-//   // return useCallback(
-//   //   async (queryString: string): Promise<boolean> => {
-//   //     try {
-//   //       const listData: SimpleTokenProfile[] = await fetchProfiles(queryString)
-//   //       dispatch(addSimpleProfiles(listData))
-//   //       return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
-//   //     } catch (e) {
-//   //       console.error(e)
-//   //       return false
-//   //     }
-//   //   },
-//   //   [dispatch],
-//   // )
-// }
-//
-// export const useOnFilterProfiles = () => {
-//   console.log('FILTER CALLED CALLED')
-//
-//   // const dispatch = useAppDispatch()
-//   // return useCallback(
-//   //   async (queryString: string): Promise<boolean> => {
-//   //     try {
-//   //       const listData: SimpleTokenProfile[] = await fetchProfiles(undefined, queryString)
-//   //       dispatch(addSimpleProfiles(listData))
-//   //       return listData.length === 0 //returns boolean representing if the query returned more than 1 result useful to show error when nothing is found
-//   //     } catch (e) {
-//   //       console.error(e)
-//   //       return false
-//   //     }
-//   //   },
-//   //   [dispatch],
-//   // )
-// }
 
 export const useFetchProfile = () => {
   const dispatch = useAppDispatch()
@@ -70,18 +31,8 @@ export const useFetchProfile = () => {
   )
 }
 
-export const useSimpleProfiles = (): ProfilesResponse => {
-  return useSelector((state: AppState) => state.lhd.simpleProfiles)
-}
-
 export const useFullProfile = () => {
   return useSelector((state: AppState) => state.lhd.fullProfile)
-}
-
-export const useLHDFilterValues = () => {
-  return useSelector((state: AppState) => {
-    return state.lhd.queryState
-  })
 }
 
 export const useSetLhdAuth = () => {

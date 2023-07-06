@@ -44,11 +44,6 @@ export interface SimpleTokenProfile {
   ranking: number
 }
 
-export interface ProfilesResponse {
-  count: number
-  data: SimpleTokenProfile[]
-}
-
 export interface TokenProfile extends SimpleTokenProfile {
   totalValidLiquidity: number
   totalExtractableLiquidity: number

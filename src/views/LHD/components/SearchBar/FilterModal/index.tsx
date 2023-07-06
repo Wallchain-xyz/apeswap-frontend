@@ -4,14 +4,19 @@ import { useTranslation } from 'contexts/Localization'
 import Dropdown from './Dropdown'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
 import InputSlider from './InputSlider'
-import { FilterState, initialFilterValues, setFilterState } from 'state/lhd/reducer'
 import { formatDollar } from 'utils/formatNumbers'
 import ScoreSlider from './ScoreSlider'
 import { Box } from 'theme-ui'
-import { useDispatch } from 'react-redux'
-import { useLHDFilterValues } from 'state/lhd/hooks'
 import ButtonSelector from './ButtonSelector'
-import { useRouter } from 'next/router'
+
+// Helpers
+import { getFilterDiff } from '../helpers'
+
+// Constants
+import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
+
+// Types
+import { Filters } from 'utils/types/lhd'
 
 const modalProps = {
   sx: {
@@ -24,32 +29,33 @@ const modalProps = {
   },
 }
 
-const FilterModal = ({
-  handleQueryChange,
-  openChains,
-  onDismiss,
-}: {
-  handleQueryChange: (value: string) => void
+interface FilterModalProps {
   openChains?: boolean
+  appliedFilters: Filters
   onDismiss?: () => void
-}) => {
+  handleFiltersChange: ({ filters }: { filters: Filters }) => void
+}
+
+const FilterModal = ({ openChains, appliedFilters, onDismiss, handleFiltersChange }: FilterModalProps) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const filterValues = useLHDFilterValues()
-  const [values, setValues] = useState<FilterState>(filterValues)
+  const { offset, search, sort, ...appliedModalFilters } = appliedFilters
+  const [values, setValues] = useState<Required<Filters>>({ ...INITIAL_FILTER_VALUES, ...appliedModalFilters })
 
   const stringHandler = (
     type: 'totalScore' | 'health' | 'ownership' | 'concentration' | 'mcap' | 'extractable' | 'tags' | 'chains',
   ) => {
     if (type === 'mcap' || type === 'extractable') {
-      if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
+      if (
+        values[type].min !== INITIAL_FILTER_VALUES[type].min ||
+        values[type].max !== INITIAL_FILTER_VALUES[type].max
+      ) {
         return `(${formatDollar({ num: values[type].min })}-${formatDollar({ num: values[type].max })})`
       }
     }
     if (type === 'tags' || type === 'chains') {
       return values[type].join(',')
     }
-    if (values[type].min !== initialFilterValues[type].min || values[type].max !== initialFilterValues[type].max) {
+    if (values[type].min !== INITIAL_FILTER_VALUES[type].min || values[type].max !== INITIAL_FILTER_VALUES[type].max) {
       return `(${values[type].min}-${values[type].max})`
     }
     return ''
@@ -66,7 +72,6 @@ const FilterModal = ({
   } ${concen ? ` Concentration: ${concen}` : ''}`
   const tagsString = stringHandler('tags')
   const chainsString = stringHandler('chains')
-  const router = useRouter()
 
   const handler = useCallback(
     (
@@ -93,16 +98,13 @@ const FilterModal = ({
   }, [])
 
   const searchAction = () => {
-    dispatch(setFilterState(values))
+    const diff = getFilterDiff(values)
+    handleFiltersChange({ filters: diff })
     onDismiss && onDismiss()
   }
   const clearAction = () => {
-    //dispatch(addSearchProfiles([]))
-    dispatch(setFilterState(initialFilterValues))
-    setValues(initialFilterValues)
-    const newUrl = `${router.pathname}`
-    router.replace(newUrl, newUrl)
-    handleQueryChange('')
+    setValues(INITIAL_FILTER_VALUES)
+    handleFiltersChange({ filters: {} })
     onDismiss && onDismiss()
   }
 
@@ -129,8 +131,8 @@ const FilterModal = ({
       </Dropdown>
       <Dropdown title={t('Market Cap Range')} values={mCapString}>
         <InputSlider
-          minRange={initialFilterValues.mcap.min}
-          maxRange={initialFilterValues.mcap.max}
+          minRange={INITIAL_FILTER_VALUES.mcap.min}
+          maxRange={INITIAL_FILTER_VALUES.mcap.max}
           values={values.mcap}
           setMinValue={(value: number) => handler('mcap', 'min', value)}
           setMaxValue={(value: number) => handler('mcap', 'max', value)}
@@ -138,8 +140,8 @@ const FilterModal = ({
       </Dropdown>
       <Dropdown title={t('Extractable Liquidity Range')} values={extString}>
         <InputSlider
-          minRange={initialFilterValues.extractable.min}
-          maxRange={initialFilterValues.extractable.max}
+          minRange={INITIAL_FILTER_VALUES.extractable.min}
+          maxRange={INITIAL_FILTER_VALUES.extractable.max}
           values={values.extractable}
           setMinValue={(value: number) => handler('extractable', 'min', value)}
           setMaxValue={(value: number) => handler('extractable', 'max', value)}
@@ -161,12 +163,11 @@ const FilterModal = ({
           disabled={
             !(
               values.totalScore.max > values.totalScore.min &&
-              values.mcap.max > values.mcap.min &&
-              values.mcap.max >= initialFilterValues.mcap.min &&
-              values.mcap.min <= initialFilterValues.mcap.max &&
-              values.extractable.max > values.extractable.min &&
-              values.extractable.max >= initialFilterValues.extractable.min &&
-              values.extractable.min <= initialFilterValues.extractable.max
+              values.mcap.max >= INITIAL_FILTER_VALUES.mcap.min &&
+              values.mcap.min <= INITIAL_FILTER_VALUES.mcap.max &&
+              values.extractable.max >= INITIAL_FILTER_VALUES.extractable.min &&
+              values.extractable.min <= INITIAL_FILTER_VALUES.extractable.max &&
+              values.mcap.max > values.mcap.min
             )
           }
           onClick={searchAction}

@@ -5,11 +5,11 @@ import axios from 'axios'
 import { IndustryStats } from 'utils/types/lhd'
 
 // Constants
-import { LHD_API } from 'config/constants/api'
+import { LHD_API_TEMP } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 
 export const getIndustryStats = async (): Promise<IndustryStats> => {
-  const { data } = await axios.get(`${LHD_API}/industry-stats`)
+  const { data } = await axios.get(`${LHD_API_TEMP}/industry-stats`)
   return data
 }
 

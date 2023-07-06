@@ -1,5 +1,3 @@
-import { addSimpleProfiles } from './reducer'
-import { ProfilesResponse, SimpleTokenProfile } from './types'
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 
@@ -7,38 +5,6 @@ import axiosRetry from 'axios-retry'
 
 const apiEndpoint = 'https://lhd-temp-api.herokuapp.com'
 const lhdApiEndpoint = 'https://lhd-api.apeswap.finance'
-
-export const fetchProfiles = async (query?: string, filters?: string) => {
-  try {
-    axiosRetry(axios, {
-      retries: 5,
-      retryCondition: () => true,
-    })
-    let res
-    if (query) {
-      res = await axios.get(`${apiEndpoint}/liquidity-health-dashboard/profiles/search/${query}`)
-    } else if (filters) {
-      res = await axios.get(`${apiEndpoint}/liquidity-health-dashboard/profiles?${filters}`)
-    } else {
-      res = await axios.get(`${apiEndpoint}/liquidity-health-dashboard/profiles`)
-    }
-    if (res?.data?.statusCode === 500) {
-      return null
-    }
-    return res.data
-  } catch (error) {
-    return null
-  }
-}
-
-export const fetchProfilesQuery = (query?: string, filters?: string) => async (dispatch: any) => {
-  try {
-    const listData: ProfilesResponse = await fetchProfiles(filters, query)
-    dispatch(addSimpleProfiles(listData))
-  } catch (error) {
-    console.warn(error)
-  }
-}
 
 export const fetchFullProfile = async (query?: string) => {
   try {

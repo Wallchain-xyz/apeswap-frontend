@@ -4,16 +4,27 @@ import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'
 import useModal from '../../../../hooks/useModal'
-import { useCallback, useState } from 'react'
 import FilterModal from '../SearchBar/FilterModal'
 
 // Hooks
 import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
 import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustryStats'
 
-const TitleCards = () => {
-  const { t } = useTranslation()
+// Types
+import { Filters } from 'utils/types/lhd'
+
+const TitleCards = ({
+  appliedFilters,
+  handleFiltersChange,
+}: {
+  appliedFilters: Filters
+  handleFiltersChange: ({ filters, query }: { filters: Filters; query?: string }) => void
+}) => {
+  const [onFilterModal] = useModal(
+    <FilterModal appliedFilters={appliedFilters} handleFiltersChange={handleFiltersChange} openChains={true} />,
+  )
   const { push } = useRouter()
+  const { t } = useTranslation()
   const { data: industryStats } = useGetIndustryStats()
   const { data: historicalIndustryStats } = useGetHistoricalIndustryStats()
 
@@ -27,16 +38,6 @@ const TitleCards = () => {
 
   const industryAverageChange =
     Math.round(((historicalAverageTotalScore - averageTotalScore) / historicalAverageTotalScore) * 10000) / 100
-
-  const [searchQueryString, setSearchQueryString] = useState('')
-  const handleQueryChange = useCallback(
-    (searchQuery: string) => {
-      setSearchQueryString(searchQuery)
-    },
-    [setSearchQueryString],
-  )
-
-  const [onFilterModal] = useModal(<FilterModal handleQueryChange={handleQueryChange} openChains={true} />)
 
   const openTutorialModal = () => {
     push({ search: 'modal=tutorial' })

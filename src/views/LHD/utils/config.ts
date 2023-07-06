@@ -1,4 +1,19 @@
 import { ChainDetail, Tag } from 'state/lhd/types'
+import { Filters } from 'utils/types/lhd'
+
+export const INITIAL_FILTER_VALUES: Required<Filters> = {
+  totalScore: { min: 0, max: 100 },
+  health: { min: 0, max: 100 },
+  ownership: { min: 0, max: 100 },
+  concentration: { min: 0, max: 100 },
+  mcap: { min: 500000, max: 1000000000 },
+  extractable: { min: 4500, max: 100000000 },
+  tags: [],
+  chains: [],
+  search: '',
+  offset: 0,
+  sort: '',
+}
 
 export const TAGS: Tag[] = [
   {

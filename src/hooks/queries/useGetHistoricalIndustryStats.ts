@@ -5,13 +5,13 @@ import axios from 'axios'
 import { IndustryStats } from 'utils/types/lhd'
 
 // Constants
-import { LHD_API } from 'config/constants/api'
+import { LHD_API_TEMP } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 
 export const getHistoricalIndustryStats = async (): Promise<IndustryStats> => {
   const date = new Date()
   date.setDate(date.getDate() - 7)
-  const { data } = await axios.get(`${LHD_API}/industry-stats/${date.toISOString().split('T')[0]}`)
+  const { data } = await axios.get(`${LHD_API_TEMP}/industry-stats/${date.toISOString().split('T')[0]}`)
   return data
 }
 

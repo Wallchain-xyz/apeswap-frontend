@@ -1,28 +1,46 @@
 import { useCallback, useEffect } from 'react'
-import { useAppDispatch } from 'state/hooks'
-import { fetchProfilesQuery } from 'state/lhd/actions'
 import useDebounce from 'hooks/useDebounce'
 
-const useFilterHandler = (
-  setSearchQueryString: any,
-  searchQueryString: any,
-  handleNoResults: (value: boolean) => void,
-) => {
-  const dispatch = useAppDispatch()
-  const debouncedQueryString = useDebounce(searchQueryString, 1000)
+// Types
+import { Filters } from 'utils/types/lhd'
+
+interface useFilterHandlerProps {
+  searchQueryParam: string
+  isSearchQuery: boolean
+  setSearchQueryParam: (searchQuery: string) => void
+  setIsSearchQuery: (isSearchQuery: boolean) => void
+  handleFiltersChange: ({ filters }: { filters: Filters }) => void
+}
+
+const useFilterHandler = ({
+  searchQueryParam,
+  isSearchQuery,
+  setSearchQueryParam,
+  handleFiltersChange,
+  setIsSearchQuery,
+}: useFilterHandlerProps) => {
+  const debouncedQuery = useDebounce(searchQueryParam, 250)
 
   const handleQueryChange = useCallback(
     (searchQuery: string) => {
-      setSearchQueryString(searchQuery)
+      setSearchQueryParam(searchQuery)
+      setIsSearchQuery(true)
     },
-    [setSearchQueryString],
+    [setSearchQueryParam],
   )
 
   useEffect(() => {
-    if (debouncedQueryString) {
-      dispatch(fetchProfilesQuery(undefined, debouncedQueryString))
+    // Do NOT call handleFiltersChange on component mount or if searchQuery is not the intended action
+    if (!isSearchQuery) {
+      return
     }
-  }, [debouncedQueryString, dispatch, handleNoResults])
+
+    if (debouncedQuery) {
+      handleFiltersChange({ filters: { search: debouncedQuery } })
+    } else {
+      handleFiltersChange({ filters: {} })
+    }
+  }, [debouncedQuery])
 
   return handleQueryChange
 }
