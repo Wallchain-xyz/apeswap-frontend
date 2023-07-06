@@ -107,6 +107,8 @@ export enum icons {
   BANANA_ICON = 'bananaIcon',
   SCROLL_TOP = 'scrollTop',
   EXPLORER = 'explorer',
+  LIQUIDITY_ICON = 'liquidity',
+  POLYGON_NEW = 'polygonNew'
 }
 
 export enum directions {

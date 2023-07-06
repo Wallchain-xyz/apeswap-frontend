@@ -1,4 +1,4 @@
-import { Button, Flex, Link, ListTag, Text } from 'components/uikit'
+import { Button, Flex, Link, ListTag, Svg, Text } from 'components/uikit'
 import { useRouter } from 'next/router'
 import StatCard from './StatCard'
 import { useTranslation } from 'contexts/Localization'
@@ -14,9 +14,9 @@ import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustr
 import { Filters } from 'utils/types/lhd'
 
 const TitleCards = ({
-  appliedFilters,
-  handleFiltersChange,
-}: {
+                      appliedFilters,
+                      handleFiltersChange,
+                    }: {
   appliedFilters: Filters
   handleFiltersChange: ({ filters, query }: { filters: Filters; query?: string }) => void
 }) => {
@@ -46,17 +46,26 @@ const TitleCards = ({
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.titleContainer}>
-        <Flex sx={{ width: '100%' }}>
-          <Text sx={styles.titleText}>{t('Liquidity Health Dashboard')}</Text>
-          <Flex sx={{ ml: 1 }}>
-            <ListTag variant="beta" />
+        <Flex sx={{ width: '100%', alignItems: 'center' }}>
+          <Flex sx={{ mr: '5px', width: ['18px', '18px', '18px', '30px'] }}>
+            <Svg icon='liquidity' color={'primaryBright'}/>
+          </Flex>
+          <Text sx={{ ...styles.titleText, width: '100%', display: 'flex', alignItems: 'center' }}>
+            {t('Liquidity Health Dashboard')}
+            <Flex sx={{ ml: '10px' }}>
+              <ListTag variant='beta' />
+            </Flex>
+          </Text>
+        </Flex>
+        <Flex sx={{ width: '100%', mt: '5px' }}>
+          <Text sx={{ color: 'textDisabled', fontSize: '12px', fontWeight: 400 }}>{t('In collaboration with')}</Text>
+          <Flex sx={{ml: '10px'}}>
+            <Svg icon='polygonNew' />
           </Flex>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
           <Text sx={styles.detailText}>
-            {t(
-              "ApeSwap's data visualization tool provides insights into the decentralized liquidity profile and sustainability of crypto projects.",
-            )}
+            {t('Our data visualization tool provides insights into the decentralized liquidity profile and sustainability of crypto projects.')}
           </Text>
         </Flex>
         <Flex sx={{ width: '100%', mt: '10px' }}>
@@ -73,26 +82,26 @@ const TitleCards = ({
       </Flex>
       <Flex sx={styles.cardsContainer}>
         <StatCard
-          title="Industry Average"
+          title='Industry Average'
           value={Math.round(averageTotalScore * 100)}
           footerInfo={
             <>{`${industryAverageChange > 0 ? `+ ${industryAverageChange}` : industryAverageChange}% in last 7 days`}</>
           }
         />
         <StatCard
-          title="Chains Supported"
+          title='Chains Supported'
           value={chainsSupported}
           footerInfo={
-            <Button variant="text" size="sm" onClick={onFilterModal} target="_blank" sx={styles.cardBtnText}>
+            <Button variant='text' size='sm' onClick={onFilterModal} target='_blank' sx={styles.cardBtnText}>
               See which chains
             </Button>
           }
         />
         <StatCard
-          title="Supported Tokens"
+          title='Supported Tokens'
           value={tokensTracked}
           footerInfo={
-            <Link href="https://github.com/ApeSwapFinance/lhd-config" target="_blank" sx={{ color: 'yellow' }}>
+            <Link href='https://github.com/ApeSwapFinance/lhd-config' target='_blank' sx={{ color: 'yellow' }}>
               Verify Your Project?
             </Link>
           }
