@@ -227,11 +227,11 @@ const SharableCard = ({
             </Flex>
 
             <Flex>
-              {score <= 40 ? (
+              {score <= 60 ? (
                 <Bronze sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
-              ) : score <= 75 ? (
+              ) : score <= 80 ? (
                 <Silver sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
-              ) : score <= 90 ? (
+              ) : score <= 95 ? (
                 <Gold sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
               ) : (
                 <Diamond sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
