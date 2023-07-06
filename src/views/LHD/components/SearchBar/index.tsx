@@ -43,7 +43,6 @@ const SearchBar = ({
   const circle = <Box>&bull;</Box>
 
   const SORT_OPTIONS = [
-    { value: 'mcap', label: <Flex sx={{ gap: '3px', fontSize: '12px' }}>{sort && circle} Market Cap</Flex> },
     {
       value: SCORE,
       label: (
@@ -54,6 +53,7 @@ const SearchBar = ({
         </Flex>
       ),
     },
+    { value: 'mcap', label: <Flex sx={{ gap: '3px', fontSize: '12px' }}>{sort && circle} Market Cap</Flex> },
   ]
 
   const handleQueryChange = useFilterHandler({
