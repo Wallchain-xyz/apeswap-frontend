@@ -3,7 +3,7 @@ import { Box, Flex } from 'theme-ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { SelectProps, selectPadding, sizes, positions, selectedExtraPadding } from './types'
 import Svg from '../Svg'
-import styles, { dynamicStyles } from './styles'
+import styles from './styles'
 
 const Select = ({
   children,
@@ -18,7 +18,6 @@ const Select = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState(false)
 
-  const labelStyle = dynamicStyles.dropdownItem({ size })
   const handleClick = () => setOpen((prev) => !prev)
 
   const setNativeInput = (val: string) => {
@@ -45,7 +44,7 @@ const Select = ({
           }}
         >
           {label ? (
-            <Box sx={labelStyle}>{label}</Box>
+            <Box>{label}</Box>
           ) : (
             React.Children.map(children, (child) => {
               if ((child as any)?.props?.value !== active) {
