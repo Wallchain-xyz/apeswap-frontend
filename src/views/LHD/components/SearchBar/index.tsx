@@ -62,6 +62,7 @@ const SearchBar = ({
     handleFiltersChange,
     isSearchQuery,
     setIsSearchQuery,
+    appliedFilters,
   })
 
   //shakes when no results are found
@@ -87,7 +88,7 @@ const SearchBar = ({
       </motion.div>
       <Flex sx={{ gap: '10px' }}>
         <Select
-          label={<Box sx={{ pl: '10px', fontSize: '12px' }}>{t('Sort')}</Box>}
+          label={<Box sx={{ pl: '10px', fontSize: '12px' }}>{t(`Sort: ${sort ? 'Mcap' : 'Score'}`)}</Box>}
           onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
             const { sort, ...filters } = appliedFilters
             handleFiltersChange({ filters: value === SCORE ? filters : { ...filters, sort: value } })

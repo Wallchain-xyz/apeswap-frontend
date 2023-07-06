@@ -99,7 +99,7 @@ const FilterModal = ({ openChains, appliedFilters, onDismiss, handleFiltersChang
 
   const searchAction = () => {
     const diff = getFilterDiff(values)
-    handleFiltersChange({ filters: diff })
+    handleFiltersChange({ filters: { ...diff, sort } })
     onDismiss && onDismiss()
   }
   const clearAction = () => {

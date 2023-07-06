@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { LiquidityPool } from '../../../../../../../state/lhd/types'
+import { LiquidityPool } from 'utils/types/lhd'
 import { Box } from 'theme-ui'
 import { Flex, Svg, Text } from '../../../../../../../components/uikit'
 import { formatDollar } from '../../../../../../../utils/formatNumbers'

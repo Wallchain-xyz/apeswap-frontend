@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useFullProfile, useFetchProfile } from 'state/lhd/hooks'
 import { Flex, Spinner, Svg, Text } from 'components/uikit'
-import { chartExtras, TokenProfile } from 'state/lhd/types'
 import Chart from '../Chart'
 import { useTranslation } from 'contexts/Localization'
 import InfoCards from './components/InfoCards'
@@ -12,15 +10,14 @@ import TopSectionCards from './components/TopSectionCards'
 import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
 
-const FullProfile = ({
-  chainID,
-  address,
-}: {
-  chainID: string | string[] | undefined
-  address: string | string[] | undefined
-}) => {
-  const fetchProfile = useFetchProfile()
-  const fullProfile: TokenProfile | null = useFullProfile()
+// Hooks
+import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
+
+// Types
+import { chartExtras } from 'utils/types/lhd'
+
+const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
+  const { data: fullProfile } = useGetLHDProfile({ chainID, address })
   const { t } = useTranslation()
   const router = useRouter()
   const DEX_MISSING_ASSETS = ['CRV']
@@ -44,12 +41,6 @@ const FullProfile = ({
       router.replace(router.asPath.split('?')[0], router.asPath.split('?')[0])
     }
   }, [])
-
-  useEffect(() => {
-    if (chainID && address) {
-      fetchProfile(chainID, address)
-    }
-  }, [chainID, address, fetchProfile])
 
   let handleChartCallback = (chartData: chartExtras) => {
     setChartPassBackData(chartData)

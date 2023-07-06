@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useMemo } from 'react'
 import { Flex, Text } from 'components/uikit'
 import { createPortal } from 'react-dom'
 import {
@@ -14,7 +14,7 @@ import {
   ChartOptions,
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
-import { LiquidityHealthChart } from '../../../../state/lhd/types'
+import { LiquidityHealthChart } from 'utils/types/lhd'
 import { getColor } from '../../utils/getColor'
 import { useTranslation } from '../../../../contexts/Localization'
 import PriceChange from '../FullProfile/components/PercentageChange'
@@ -534,38 +534,40 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     })
   }
 
-  const data = {
-    datasets: [
-      {
-        label: 'Sus Lower',
-        data: chartData.healthBottom,
-        borderColor: '#38A611',
-        pointRadius: 0,
-        borderWidth: 2,
-        tension: 0.4,
-        fill: false,
-        showLine: true,
-      },
-      {
-        label: 'Sus Upper',
-        data: chartData.healthTop,
-        borderColor: '#38A611',
-        pointRadius: 0,
-        borderWidth: 2,
-        tension: 0.4,
-        fill: '-1',
-        showLine: true,
-      },
-      {
-        label: 'Comparable Tokens',
-        data: chartData?.tokens,
-        backgroundColor: 'transparent',
-        borderColor: 'transparent',
-        showLine: false,
-        hitRadius: 20,
-      },
-    ],
-  }
+  const data = useMemo(() => {
+    return {
+      datasets: [
+        {
+          label: 'Sus Lower',
+          data: chartData.healthBottom,
+          borderColor: '#38A611',
+          pointRadius: 0,
+          borderWidth: 2,
+          tension: 0.4,
+          fill: false,
+          showLine: true,
+        },
+        {
+          label: 'Sus Upper',
+          data: chartData.healthTop,
+          borderColor: '#38A611',
+          pointRadius: 0,
+          borderWidth: 2,
+          tension: 0.4,
+          fill: '-1',
+          showLine: true,
+        },
+        {
+          label: 'Comparable Tokens',
+          data: chartData?.tokens,
+          backgroundColor: 'transparent',
+          borderColor: 'transparent',
+          showLine: false,
+          hitRadius: 20,
+        },
+      ],
+    }
+  }, [chartData])
 
   return (
     <>

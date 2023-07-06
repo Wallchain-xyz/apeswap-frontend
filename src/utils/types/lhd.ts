@@ -83,3 +83,91 @@ export interface Filters {
   search?: string
   sort?: string
 }
+
+export type DexScreenerToken = {
+  address: string
+  name: string
+  symbol: string
+  tokenLogoUrl: string
+}
+
+export interface LiquidityOwner {
+  walletAddress: string
+  amount?: number
+  lpAddress?: string
+  reason: string
+  lpType: string
+  chainId: string
+}
+export interface LiquidityPool {
+  chainId: string
+  chainName: string
+  dex: string
+  lpAddress: string
+  baseToken: DexScreenerToken
+  quoteToken: DexScreenerToken
+  baseTokenPriceUsd?: number
+  quoteTokenPriceUsd?: number
+  pairTotalLiquidityUsd: number
+  pairExtractableLiquidityUsd: number
+  pairOwnedLiquidityUsd?: number
+  isHardAssetPair?: boolean
+  tags?: string[]
+  nValue?: number
+  liquidityOwners: LiquidityOwner[]
+}
+
+export interface ChartItem {
+  x: number
+  y: number
+  r: number
+  data: string
+}
+export interface LiquidityHealthChart {
+  tokens: ChartItem[]
+  healthTop: ChartItem[]
+  healthBottom: ChartItem[]
+}
+
+export interface TokenProfile extends SimpleTokenProfile {
+  totalValidLiquidity: number
+  totalExtractableLiquidity: number
+  ownedLiquidity: number
+  ownedExtractableLiquidity: number
+  ownedLiquidityPercentage: number
+  validOwnedLiquidity: number
+  circulatingSupply: ExternalDataOption[]
+  currentPrice: ExternalDataOption[]
+  totalSupply: ExternalDataOption[]
+  liquidityPools: LiquidityPool[]
+  formulaVersion: string
+  createdAt: string
+  unlockedSupply: number
+  healthChartData: LiquidityHealthChart
+}
+
+export interface chartExtras {
+  liquidityDebt: number
+  sustainabilityLower: number
+  sustainabilityUpper: number
+}
+
+export interface BlockExplorer {
+  url: string
+  type: string
+  testToken: string
+}
+
+export interface ChainDetail {
+  chainId: string
+  chainName: string
+  coingeckoId: string
+  dexscreenerId?: string
+  logoUrl?: string
+  blockExplorer?: BlockExplorer
+}
+
+export interface Tag {
+  value: string
+  label: string
+}

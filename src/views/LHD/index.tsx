@@ -14,6 +14,7 @@ import { generateSearchParams, queryStringToObject, getFilterDiff } from './comp
 
 // Constants
 import { INITIAL_FILTER_VALUES } from './utils/config'
+const SCORE = 'score'
 
 // Hooks
 import { useSelector } from 'react-redux'
@@ -46,8 +47,15 @@ const LHD = () => {
   const handleFiltersChange = ({ filters }: { filters: Filters; query?: string }): void => {
     setIsSearchQuery(!!filters?.search)
 
-    setAppliedFilters(filters)
-    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...filters })
+    const validFilters: Filters = Object.keys(filters).reduce((acc, key) => {
+      if (filters[key as keyof Filters]) {
+        return { ...acc, [key]: filters[key as keyof Filters] }
+      }
+      return acc
+    }, {} as Filters)
+
+    setAppliedFilters(validFilters)
+    const filterString = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...validFilters })
 
     router.replace(
       {

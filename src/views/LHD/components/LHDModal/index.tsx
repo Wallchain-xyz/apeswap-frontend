@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
 // components
 import Image from 'next/image'
@@ -10,7 +10,7 @@ import { icons } from 'components/uikit/Svg/types'
 // hooks and actions
 import useDebounce from 'hooks/useDebounce'
 import { useSetLhdAuth } from 'state/lhd/hooks'
-import { fetchIsPasswordVerified } from 'state/lhd/actions'
+import useGetIsPasswordVerified from 'hooks/queries/useGetIsPasswordVerified'
 
 const SOCIAL_LINKS: { icon: icons; href: string }[] = [
   { icon: icons.TWITTER, href: 'https://twitter.com/ape_swap' },
@@ -21,16 +21,13 @@ const SOCIAL_LINKS: { icon: icons; href: string }[] = [
 const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(isLhdAuthModalOpen)
   const [password, setPassword] = useState<string>('')
-  const [isPasswordVerified, setIsPasswordVerified] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isTyping, setIsTyping] = useState<boolean>(false)
 
   const { setLhdAuth } = useSetLhdAuth()
-  const debouncedPassword = useDebounce(password, 1000)
+  const debouncedPassword = useDebounce(password, 500)
+  const { data, isLoading } = useGetIsPasswordVerified({ password: debouncedPassword })
   const { colorMode } = useThemeUI()
 
-  const passwordStatus =
-    !password.length || isLoading || isTyping ? 'default' : isPasswordVerified ? 'success' : 'error'
+  const passwordStatus = !password.length || isLoading ? 'default' : data?.verified ? 'success' : 'error'
 
   const isDark = colorMode === 'dark'
 
@@ -45,20 +42,6 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
     }
   }
 
-  const handleVerifyPassword = useCallback(async (): Promise<void> => {
-    const isPasswordVerified = await fetchIsPasswordVerified(debouncedPassword)
-    setIsPasswordVerified(!!isPasswordVerified)
-    setIsLoading(false)
-  }, [debouncedPassword])
-
-  useEffect(() => {
-    setIsTyping(false)
-    if (debouncedPassword.length > 0) {
-      setIsLoading(true)
-      handleVerifyPassword()
-    }
-  }, [debouncedPassword, handleVerifyPassword])
-
   useEffect(() => {
     setIsModalOpen(isLhdAuthModalOpen)
   }, [isLhdAuthModalOpen])
@@ -66,11 +49,10 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const password = e.target.value
     setPassword(password)
-    setIsTyping(true)
   }
 
   const handleSubmit = (): void => {
-    setLhdAuth(isPasswordVerified)
+    setLhdAuth(!!data?.verified)
     setIsModalOpen(false)
   }
 
@@ -145,13 +127,13 @@ const LHDModal = ({ isLhdAuthModalOpen }: { isLhdAuthModalOpen: boolean }) => {
               value={password}
               variant="password"
               status={passwordStatus}
-              isLoading={isLoading}
+              isLoading={isLoading && !!password}
               sx={{ padding: '5px 10px', fontSize: ['16px', '16px', '12px'], fontWeight: 'normal' }}
             />
             <Button
               sx={{ padding: '5px 10px', height: '31px', marginTop: ['10px', '10px', '0px'] }}
               onClick={handleSubmit}
-              disabled={!isPasswordVerified}
+              disabled={!data?.verified}
             >
               ACCESS BETA
             </Button>
