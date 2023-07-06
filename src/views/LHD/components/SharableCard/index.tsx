@@ -2,13 +2,10 @@ import React, { useRef, useEffect, useState } from 'react'
 import { Flex, Modal, Button, Text, Svg } from 'components/uikit'
 import { TokenAddress } from 'utils/types/lhd'
 import ChainsIcons from '../FullProfile/components/ChainsIcons'
-import Image from 'next/image'
 import Token from './components/Token'
 import Bar from './components/Bar'
 import { Bronze, Silver, Gold, Diamond } from './components/assets/Background'
-import { renderToStaticMarkup } from 'react-dom/server'
 import { getColor } from 'views/LHD/utils/getColor'
-import { FullLogo } from 'components/uikit/Svg/Icons'
 import domtoimage from 'dom-to-image'
 import { useRouter } from 'next/router'
 import axios from 'axios'
@@ -55,46 +52,6 @@ const SharableCard = ({
   const handleClick = (type: 'download' | 'share') => {
     processShare(type)
   }
-
-  // Automatic Upload function here to create it with domtoimage
-
-  // function uploadImageToHosting(imageBlob) {
-  //   // Aquí debes agregar el código para subir el Blob de imagen al servicio de alojamiento deseado.
-  //   // Esto variará dependiendo del servicio de alojamiento que utilices.
-  //   // Consulta la documentación del servicio de alojamiento para obtener más detalles sobre cómo subir imágenes.
-
-  //   // Ejemplo ficticio de subida a un servicio de alojamiento:
-  //   const uploadURL = 'https://example.com/upload'; // URL de la API de subida del servicio de alojamiento
-  //   const formData = new FormData();
-  //   formData.append('image', imageBlob, 'generated-image.png');
-
-  //   fetch(uploadURL, {
-  //     method: 'POST',
-  //     body: formData
-  //   })
-  //   .then(response => {
-  //     if (response.ok) {
-  //       console.log('La imagen se ha subido correctamente.');
-  //       // Aquí puedes realizar acciones adicionales después de la subida exitosa.
-  //     } else {
-  //       console.error('Error al subir la imagen:', response.status, response.statusText);
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.error('Error al subir la imagen:', error);
-  //   });
-  // }
-
-  // // Ejemplo de uso con dom-to-image:
-  // const elementToCapture = document.getElementById('elementId'); // El elemento del DOM que deseas capturar como imagen
-
-  // domtoimage.toBlob(elementToCapture)
-  //   .then((imageBlob) => {
-  //     uploadImageToHosting(imageBlob);
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error al generar la imagen:', error);
-  //   });
 
   function processShare(type: 'download' | 'share') {
     const card = document.getElementById('card')
@@ -192,9 +149,7 @@ const SharableCard = ({
         .catch((error) => console.log('Error sharing', error))
     } else {
       const text = `${message}`
-      // const url = `ApeSwap.Finance${asPath}?d=${dateParam}`
-      // const url = `https://frontend-git-feat-lhd-ape-swap-finance.vercel.app${asPath}?d=${dateParam}`
-      const url = `https://lhd.apeswap.finance${asPath}?d=${dateParam}`
+      const url = `https://apeswap.finance${asPath}?d=${dateParam}`
 
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
         url,
