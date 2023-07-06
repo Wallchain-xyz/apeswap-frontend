@@ -52,7 +52,7 @@ const ListRow = ({
         cursor: 'pointer',
         opacity: (isSelected || otherSelected) && 0.5,
         ':hover': {
-          backgroundColor: 'white3',
+          backgroundColor: 'white4',
         },
       }}
       onClick={() => (searchTokenIsAdded ? onSelect() : (onDismiss(), onImportWarningModal()))}

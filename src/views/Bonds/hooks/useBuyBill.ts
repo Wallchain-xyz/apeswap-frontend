@@ -29,10 +29,11 @@ const useBuyBill = (
       account ?? '',
     )
     track({
-      event: billType ?? '',
+      event: 'bond',
       chain: chainId,
       data: {
         cat: 'buy',
+        type: billType ?? '',
         address: bondContract?.address,
         amount,
         usdAmount,

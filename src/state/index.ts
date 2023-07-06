@@ -1,12 +1,10 @@
-import { AnyAction, ThunkAction, configureStore } from '@reduxjs/toolkit'
+import { AnyAction, ThunkAction, configureStore, Middleware } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
 import multicall from 'lib/state/multicall'
 import { load, save } from 'redux-localstorage-simple'
-// import { isTestEnv } from 'utils/env'
 import application from './application/reducer'
 import burn from './burn/v2/reducer'
 import burnV3 from './burn/v3/reducer'
-// import connection from './connection/reducer'
 import { updateVersion } from './global/actions'
 import lists from './lists/reducer'
 import mint from './mint/v2/reducer'
@@ -23,17 +21,21 @@ import bills from './bills'
 import protocolDashboard from './protocolDashboard'
 import farms from './farms'
 import stats from './stats'
-
 import pools from './pools'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions']
+
+let middleware: Middleware[] = []
+
+if (typeof window !== 'undefined') {
+  middleware = middleware.concat(save({ states: PERSISTED_KEYS, debounce: 1000 }))
+}
 
 const store = configureStore({
   reducer: {
     lhd,
     application,
     user,
-    // connection,
     transactions,
     wallets,
     swap,
@@ -53,10 +55,8 @@ const store = configureStore({
     [routingApi.reducerPath]: routingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: true })
-      .concat(routingApi.middleware)
-      .concat(save({ states: PERSISTED_KEYS, debounce: 1000 })),
-  preloadedState: load({ states: PERSISTED_KEYS, disableWarnings: true }),
+    getDefaultMiddleware({ thunk: true }).concat(routingApi.middleware).concat(middleware),
+  preloadedState: typeof window !== 'undefined' ? load({ states: PERSISTED_KEYS, disableWarnings: true }) : undefined,
 })
 
 store.dispatch(updateVersion())

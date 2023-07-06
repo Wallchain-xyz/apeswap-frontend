@@ -15,41 +15,34 @@ interface BillModalProps {
   buttonText?: string
   id?: number
   billId?: string
-  buttonSize?: string
   buyFlag?: boolean
   billCardImage?: string
   disabled?: boolean
 }
 
-const BillModal: React.FC<BillModalProps> = ({
-  buttonText,
-  bill,
-  id,
-  buttonSize,
-  buyFlag,
-  billId,
-  billCardImage,
-  disabled,
-}) => {
+const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, billId, billCardImage, disabled }) => {
   const [onPresentBuyBillsModal] = useModal(
-    <BuyBillModalView billIndex={bill.index} onDismiss={() => null} />,
+    <BuyBillModalView billIndex={bill.index} />,
     false,
     false,
     `billsModal${id}`,
   )
+
   const [onPresentUserBillModal] = useModal(
-    <UserBillModalView bill={bill} billId={billId} onDismiss={() => null} />,
+    <UserBillModalView bill={bill} billId={billId} />,
     true,
     true,
     `billsModal${bill.billNftAddress}-${billId}`,
   )
-  const [onPresentBuyWarning] = useModal(
-    <WarningModal bill={bill} onDismiss={() => null} />,
+
+  const [onPresentBuyWarning] = useModal(<WarningModal bill={bill} />, true, true, `billsWarningModal${id}`)
+
+  const [onPresentReflectModal] = useModal(
+    <ReflectModal billIndex={bill.index} billSymbol={bill.earnToken.symbol} />,
     true,
     true,
-    `billsWarningModal${id}`,
+    `billsReflectWarningModal${id}`,
   )
-  const [onPresentReflectModal] = useModal(<ReflectModal bill={bill} />, true, true, `billsReflectWarningModal${id}`)
 
   return !billCardImage ? (
     <Button
@@ -62,7 +55,6 @@ const BillModal: React.FC<BillModalProps> = ({
             : onPresentBuyBillsModal
           : onPresentUserBillModal
       }
-      buttonSize={buttonSize}
       disabled={disabled}
       sx={{
         lineHeight: '20px',

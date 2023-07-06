@@ -26,7 +26,7 @@ const DesktopMenu = ({ closeNavBar }: { closeNavBar: () => void }) => {
         display: NAV_DESKTOP_DISPLAY,
       }}
     >
-      <Flex sx={{ width: 'fit-content', ml: '10px' }}>
+      <Flex sx={{ width: 'fit-content', ml: '15px' }}>
         {getNavConfig(chainId).map(({ label, items, href }) => {
           return (
             <Flex

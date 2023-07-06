@@ -56,7 +56,7 @@ const ZapSwitch: React.FC<ZapSwitchProps> = ({ handleZapSwitch, goZap }) => {
           }
           width="180px"
         >
-          <Text lineHeight={0}>
+          <Text>
             <Svg color={'grey' as any} icon="question" width="19px" />
           </Text>
         </TooltipBubble>

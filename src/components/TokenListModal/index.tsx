@@ -31,7 +31,7 @@ const TokenListModal = ({
     setSearchQuery(checksummedInput || input)
   }, [])
   return (
-    <Modal title="Tokens" onDismiss={onDismiss} zIndex={110}>
+    <Modal title="Tokens" onDismiss={onDismiss} zIndex={110} sx={{ height: '485px' }}>
       <Flex sx={{ position: 'relative', margin: '10px 5px' }}>
         <Input
           onChange={handleInput}
@@ -49,7 +49,7 @@ const TokenListModal = ({
           <Svg icon="search" />
         </Flex>
       </Flex>
-      <Flex sx={{ maxWidth: '100%', width: '450px', maxHeight: '65vh', mb: '10px' }}>
+      <Flex sx={{ maxWidth: '100%', width: '450px' }}>
         <List
           searchQuery={searchQuery}
           onCurrencySelect={onCurrencySelect}

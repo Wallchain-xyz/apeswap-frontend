@@ -1,32 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🍌 ApeSwap Frontend
+
+The `frontend` repo is the official frontend repository for ApeSwap.Finance, which is a multichain DeFi Hub offering an accessible, transparent, and secure experience for everyone.
 
 ## Getting Started
 
-First, run the development server:
+Getting up and running with the `frontend` repo is a super simple, 2 step process:
 
-```bash
-yarn dev
+1. Clone the repo
+2. Install dependencies
+
+To do this, open a terminal and run the following commands:
+
+```
+git clone https://github.com/ApeSwapFinance/frontend.git
+cd frontend
+yarn
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result!
+Once everything is downloaded & installed, simply run `yarn dev` to run the repo locally.
 
-You can start editing the page by modifying `pages/StatCard.tsx`. The page auto-updates as you edit the file.
+### Learn More About ApeSwap
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Interested in learning more about ApeSwap.Finance? Head over to our [official documentation](https://apeswap.gitbook.io/apeswap-finance/welcome/master) to read and learn more about our features, functionality, DAO, and ecosystem! 😊
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Socials
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 📰 Medium (Our Blog): https://ape-swap.medium.com
+- 🐦 Twitter: https://twitter.com/ape_swap
+- 💬 Telegram Main Group: https://t.me/ape_swap
+- 💬 Telegram Announcements: https://t.me/ape_swap_news
+- 🖥 GitHub: https://github.com/ApeSwapFinance
+- 🤳 Instagram: https://instagram.com/apeswap.finance
+- 🤩 Reddit: https://www.reddit.com/r/Apeswap/
+- 👾 Discord: https://discord.gg/apeswap

@@ -37,11 +37,15 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
           ?.minus(new BigNumber(totalPayoutGiven ?? '0'))
           ?.div(new BigNumber(10).pow(earnToken.decimals?.[chainId as SupportedChainId] ?? '0'))
 
-        const thresholdToHide = new BigNumber(11).div(earnTokenPrice ?? '0')
+        const thresholdToHide = new BigNumber(100).div(earnTokenPrice ?? '0')
         const thresholdToShow = new BigNumber(5).div(earnTokenPrice ?? '0')
-        const disabled = new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
+        const disabled =
+          maxTotalPayOut && totalPayoutGiven && earnTokenPrice
+            ? new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
+            : false
 
-        const displayAvailable = available.minus(thresholdToShow).toFixed(0)
+        const displayAvailable =
+          available.eq(0) || !thresholdToShow.isFinite() ? null : available.minus(thresholdToShow).toFixed(0)
         const explorerLink = BLOCK_EXPLORER[chainId as SupportedChainId]
         const billContractURL = `${explorerLink}/address/${bill?.contractAddress[chainId as SupportedChainId]}`
 
@@ -66,7 +70,11 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
               <Tooltip
                 tokenContract={bill?.earnToken?.address[chainId as SupportedChainId] || ''}
                 secondURL={billContractURL}
-                secondURLTitle={t('View Bill Contract')}
+                secondURLTitle={t('View Bond Contract')}
+                thirdURL={`https://bond-insights.apeswap.finance/spotlight/${bill?.contractAddress[
+                  chainId as SupportedChainId
+                ]?.toLowerCase()}`}
+                thirdURLTitle={t('View Insights')}
                 twitter={bill?.twitter}
                 projectLink={bill?.projectLink}
                 audit={bill?.audit}
@@ -117,7 +125,7 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                 />
                 <ListViewContent
                   title={t('Available Tokens')}
-                  value={disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 3)}
+                  value={displayAvailable ? (disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 3)) : 'null'}
                   style={{ maxWidth: '125px', height: '40px', flexDirection: 'column' }}
                   toolTip={t('This is the amount of available tokens for purchase.')}
                   toolTipPlacement="bottomLeft"
@@ -162,7 +170,9 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                       />
                       <ListViewContent
                         title={'Available Tokens'}
-                        value={disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 2)}
+                        value={
+                          displayAvailable ? (disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 2)) : 'null'
+                        }
                         toolTip={`This is the amount of available tokens for purchase.`}
                         toolTipPlacement={'bottomLeft'}
                         toolTipTransform={'translate(50%, 0%)'}
@@ -176,7 +186,6 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                         id={bill.index}
                         buyFlag
                         disabled={!bill.discount || bill.discount.includes('NaN') || disabled}
-                        buttonSize={'100%'}
                       />
                     </Flex>
                   </Flex>

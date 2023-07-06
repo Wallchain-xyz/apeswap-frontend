@@ -10,13 +10,14 @@ const useApproveBill = (tokenAddress: string, billAddress: string) => {
   const addTransaction = useTransactionAdder()
 
   const handleApprove = useCallback(async () => {
-    const tx = await tokenContract?.approve(billAddress, ethers.constants.MaxUint256).then((trx) =>
+    const tx = await tokenContract?.approve(billAddress, ethers.constants.MaxUint256).then((trx) => {
       addTransaction(trx, {
         type: TransactionType.APPROVAL,
         tokenAddress: tokenAddress ?? '',
         spender: billAddress ?? '',
-      }),
-    )
+      })
+      return trx.wait()
+    })
     return tx
   }, [billAddress, addTransaction, tokenAddress, tokenContract])
   return { onApprove: handleApprove }

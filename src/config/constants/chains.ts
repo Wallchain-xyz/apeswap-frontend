@@ -11,7 +11,7 @@ export const MAINNET_CHAINS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  SupportedChainId.TLOS,
+  //SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 
@@ -29,7 +29,7 @@ export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.BSC,
   SupportedChainId.POLYGON,
   SupportedChainId.MAINNET,
-  SupportedChainId.TLOS,
+  //SupportedChainId.TLOS,
   SupportedChainId.ARBITRUM_ONE,
 ]
 
@@ -49,7 +49,7 @@ export const NETWORK_LABEL: Partial<Record<SupportedChainId, string>> = {
   [SupportedChainId.POLYGON]: 'Polygon',
   [SupportedChainId.POLYGON_MUMBAI]: 'Polygon Testnet',
   [SupportedChainId.MAINNET]: 'Ethereum',
-  [SupportedChainId.TLOS]: 'Telos',
+  //[SupportedChainId.TLOS]: 'Telos',
   [SupportedChainId.ARBITRUM_ONE]: 'Arbitrum',
 }
 
@@ -208,13 +208,8 @@ export enum OTHER_PRODUCTS {
 
 // These products are list view components that have a specific chain redirect component
 export const AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS: Record<LIST_VIEW_PRODUCTS, SupportedChainId[]> = {
-  [LIST_VIEW_PRODUCTS.BILLS]: [
-    SupportedChainId.BSC,
-    SupportedChainId.POLYGON,
-    SupportedChainId.TLOS,
-    SupportedChainId.ARBITRUM_ONE,
-  ],
-  [LIST_VIEW_PRODUCTS.FARMS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.TLOS],
+  [LIST_VIEW_PRODUCTS.BILLS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.ARBITRUM_ONE],
+  [LIST_VIEW_PRODUCTS.FARMS]: [SupportedChainId.BSC, SupportedChainId.POLYGON],
   [LIST_VIEW_PRODUCTS.MAXIMIZERS]: [SupportedChainId.BSC],
   [LIST_VIEW_PRODUCTS.JUNGLE_FARMS]: [SupportedChainId.BSC],
   [LIST_VIEW_PRODUCTS.POOLS]: [SupportedChainId.BSC],

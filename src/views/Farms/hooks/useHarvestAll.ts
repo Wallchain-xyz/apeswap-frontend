@@ -1,7 +1,7 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import JUNGLE_CHEF_ABI from 'config/abi/jungleChef.json'
-import { RPC_URLS } from 'config/constants/networks'
+import { PUBLIC_RPC_URLS } from 'config/constants/networks'
 import { ethers } from 'ethers'
 import { useDualFarmContract, useMasterChefContract, useMasterChefV2Contract } from 'hooks/useContract'
 import { useCallback } from 'react'
@@ -18,7 +18,7 @@ const useHarvestAll = (farmTypes: FarmTypes[], pids: number[], contractAddress: 
   const addTransaction = useTransactionAdder()
   const callReturn = useCallback(
     async (farmType: FarmTypes, pid: number, contractAddress: string) => {
-      const provider = new ethers.providers.JsonRpcProvider(RPC_URLS[chainId as SupportedChainId][0], chainId)
+      const provider = new ethers.providers.JsonRpcProvider(PUBLIC_RPC_URLS[chainId as SupportedChainId][0], chainId)
       const jungleFarmContract =
         farmType === FarmTypes.JUNLGE_FARM
           ? getContract(contractAddress ?? '', JUNGLE_CHEF_ABI, provider, account)
@@ -53,7 +53,7 @@ const useHarvestAll = (farmTypes: FarmTypes[], pids: number[], contractAddress: 
 
   const handleHarvestAll = useCallback(async () => {
     const harvestPromises = pids.map((pid, i) => {
-      return [callReturn(farmTypes[i], pid, contractAddress[i])]
+      return callReturn(farmTypes[i], pid, contractAddress[i])
     }, [])
     return Promise.all(harvestPromises)
   }, [callReturn, farmTypes, contractAddress, pids])

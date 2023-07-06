@@ -8,18 +8,27 @@ const ethConfig = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://dex.apeswap.finance/swap',
         isNew: false,
       },
       {
         label: 'Liquidity',
-        href: `/add-liquidity`,
+        href: `https://dex.apeswap.finance/zap`,
         isNew: false,
       },
       {
         label: 'Pro Trading',
         href: 'https://pro.apeswap.finance',
         isNew: false,
+      },
+    ],
+  },
+  {
+    label: 'Raise',
+    items: [
+      {
+        label: 'Liquidity Health',
+        href: `/liquidity-health`,
       },
     ],
   },
@@ -46,27 +55,12 @@ const ethConfig = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
-  //   {
-  //     label: 'Pools',
-  //     icon: 'PoolIcon',
-  //     href: '/pools',
-  //   },
-  //   {
-  //     label: 'IAO',
-  //     icon: 'IfoIcon',
-  //     href: '/iao',
-  //   },
-  //   {
-  //     label: 'GNANA',
-  //     icon: 'ApeZone',
-  //     href: '/gnana',
-  //   },
 ]
 
 export default ethConfig

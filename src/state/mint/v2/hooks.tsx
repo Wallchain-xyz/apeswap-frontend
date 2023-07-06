@@ -195,36 +195,36 @@ export function useDerivedMintInfo(
 
   let error: ReactNode | undefined
   if (!account) {
-    error = <Text>{t('Connect Wallet')}</Text>
+    error = <>{t('Connect Wallet')}</>
   }
 
   if (pairState === PairState.INVALID) {
-    error = error ?? <Text>{t('Invalid pair')}</Text>
+    error = error ?? <>{t('Invalid pair')}</>
   }
 
   if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? <Text>{t('Enter an amount')}</Text>
+    error = error ?? <>{t('Enter an amount')}</>
   }
 
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
 
   if (currencyAAmount && currencyBalances?.[Field.CURRENCY_A]?.lessThan(currencyAAmount)) {
     error = (
-      <Text>
+      <>
         {t('Insufficient %b% balance', {
           b: currencies[Field.CURRENCY_A]?.symbol || 0,
         })}
-      </Text>
+      </>
     )
   }
 
   if (currencyBAmount && currencyBalances?.[Field.CURRENCY_B]?.lessThan(currencyBAmount)) {
     error = (
-      <Text>
+      <>
         {t('Insufficient %b% balance', {
           b: currencies[Field.CURRENCY_B]?.symbol || 0,
         })}
-      </Text>
+      </>
     )
   }
 

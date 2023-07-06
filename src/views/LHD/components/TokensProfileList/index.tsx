@@ -8,7 +8,6 @@ import { Flex, Svg, Text } from 'components/uikit'
 import Pagination from './components/Pagination'
 import { sortProfiles } from './utils/sortProfiles'
 import { useTranslation } from 'contexts/Localization'
-import _ from 'lodash'
 
 // Hooks
 import useModal from 'hooks/useModal'
@@ -19,6 +18,7 @@ import FilterModal from '../SearchBar/FilterModal'
 
 // Types
 import { LHDProfiles, Filters } from 'utils/types/lhd'
+
 interface TokensProfileListProps {
   simpleProfiles: LHDProfiles
   isLoading: boolean
@@ -29,13 +29,13 @@ interface TokensProfileListProps {
 }
 
 const TokensProfileList = ({
-  simpleProfiles,
-  isLoading,
-  isSearchQuery,
-  appliedFilters,
-  setIsSearchQuery,
-  handleFiltersChange,
-}: TokensProfileListProps) => {
+                             simpleProfiles,
+                             isLoading,
+                             isSearchQuery,
+                             appliedFilters,
+                             setIsSearchQuery,
+                             handleFiltersChange,
+                           }: TokensProfileListProps) => {
   // TODO: Come back to double check the sorting and add types/enums
   const [sortCol, setSortCol] = useState(appliedFilters.sort ? 'Market Cap' : 'Score')
   const [sortType, setSortType] = useState<'asc' | 'desc'>('desc')
@@ -75,9 +75,7 @@ const TokensProfileList = ({
   const renderSortedProfiles = useMemo(() => {
     return sortProfiles(simpleProfiles.data, sortCol, sortType)?.map((simpleProfile, index) => {
       return (
-        <>
-          <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
-        </>
+        <TableRow key={`simpleProfile${index}`} index={index} simpleProfile={simpleProfile} />
       )
     })
   }, [simpleProfiles.data, sortCol, sortType])
@@ -117,7 +115,7 @@ const TokensProfileList = ({
               p: '20px',
             }}
           >
-            <Svg icon="placeholderMonkey" />
+            <Svg icon='placeholderMonkey' />
             <Text sx={{ fontSize: '12px', fontWeight: 500, color: 'textDisabled' }}>{t('No Results Found')}</Text>
           </Flex>
         )}

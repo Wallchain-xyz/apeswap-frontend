@@ -26,7 +26,8 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
-import useAddLiquidityModal from '../../../components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
+import { useToastError } from 'state/application/hooks'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
@@ -55,6 +56,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
   const { t } = useTranslation()
+  const toastError = useToastError()
 
   const billsCurrencies = {
     currencyA: useCurrency(token.address[chainId as SupportedChainId]),
@@ -130,8 +132,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   useEffect(() => {
     //reset zap state on mount
     onHandleValueChange('')
-    // @ts-ignore
-    onCurrencySelection(Field.OUTPUT, [billsCurrencies?.currencyA, billsCurrencies?.currencyB])
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
 
   const searchForBillId = useCallback(
@@ -157,6 +158,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           dispatch(fetchBillsUserDataAsync(chainId, account))
         })
         .catch((e) => {
+          console.error(e)
+          toastError(e)
           setPendingTrx(false)
           onTransactionSubmited(false)
         })
@@ -192,10 +195,11 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             },
           })
           track({
-            event: billType ?? '',
+            event: 'bond',
             chain: chainId,
             data: {
               cat: 'buy',
+              type: billType ?? '',
               address: contractAddress[chainId as SupportedChainId],
               typedValue,
               usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
@@ -205,6 +209,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
         .catch((e: any) => {
           setZapSlippage(originalSlippage)
           console.error(e)
+          toastError(e)
           setPendingTrx(false)
           onTransactionSubmited(false)
         })
@@ -228,6 +233,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     lpPrice,
     originalSlippage,
     setZapSlippage,
+    toastError,
   ])
 
   const handleMaxInput = useCallback(() => {

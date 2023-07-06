@@ -8,6 +8,8 @@ export interface ClaimProps {
   pendingRewards: string
   billIds: string[]
   mt?: string[]
+  earnToken: string
+  hasDarkBg?: boolean
 }
 
 export interface TransferProps {
@@ -39,5 +41,5 @@ export interface BillActionsProps {
 
 export interface DualCurrencySelector {
   currencyA: Currency
-  currencyB: Currency
+  currencyB: Currency | undefined
 }

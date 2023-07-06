@@ -16,12 +16,18 @@ import useIsWindowVisible from './useIsWindowVisible'
  * @param tradeType whether the swap is an exact in/out
  * @param amountSpecified the exact amount to swap in/out
  * @param otherCurrency the desired output/payment currency
+ * @param protocols v2/v3/mixed protocols
+ * @param useApeRPC we only want to use our nodes for swap
+ * @param avoidApiRouting zap should use client-side quotes
  */
+
 export function useBestTrade(
   tradeType: TradeType,
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
   protocols?: Protocol[],
+  useApeRPC?: boolean,
+  avoidApiRouting = false,
 ): {
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
@@ -35,12 +41,14 @@ export function useBestTrade(
   )
 
   const [clientSideRouter] = useClientSideRouter()
+  const router = avoidApiRouting ? true : clientSideRouter
   const routingAPITrade = useRoutingAPITrade(
     tradeType,
-    autoRouterSupported && isWindowVisible && !debouncedOtherCurrency?.isNative ? debouncedAmount : undefined,
+    autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,
     debouncedOtherCurrency,
-    clientSideRouter ? RouterPreference.CLIENT : RouterPreference.API,
+    router ? RouterPreference.CLIENT : RouterPreference.API,
     protocols,
+    useApeRPC,
   )
 
   const isLoading = routingAPITrade.state === TradeState.LOADING

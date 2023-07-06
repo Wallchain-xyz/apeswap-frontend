@@ -5,7 +5,7 @@ import { Field } from 'state/zap/actions'
 import { useDerivedZapInfo, useSetZapInputList, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { styles } from './styles'
 import { useZapCallback } from 'hooks/useZapCallback'
-import { useUserSlippageTolerance, useUserZapSlippageTolerance } from 'state/user/hooks'
+import { useUserZapSlippageTolerance } from 'state/user/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { Box, Switch } from 'theme-ui'
 import track from 'utils/track'
@@ -62,11 +62,12 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
 
-  const handleInputSelect = useCallback(
-    (field: Field, currency: Currency) => {
-      onInputSelect(field, currency)
+  const handleCurrencySelect = useCallback(
+    (field: Field, currency: Currency[]) => {
+      onUserInput(field, '')
+      onCurrencySelection(field, currency)
     },
-    [onInputSelect],
+    [onCurrencySelection, onUserInput],
   )
 
   const handleOutputSelect = useCallback(
@@ -166,7 +167,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             currency={inputCurrency}
             otherCurrency={null}
             fieldType={Field.INPUT}
-            onCurrencySelect={(cur: Currency) => handleInputSelect(Field.INPUT, cur)}
+            onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.INPUT, [cur])}
             onUserInput={(val: string) => onUserInput(Field.INPUT, val)}
             handleMaxInput={handleMaxInput}
             isZapInput
@@ -208,7 +209,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             textAlign="center"
             sx={{ textDecoration: 'none' }}
           >
-            <Text size="12px" style={{ lineHeight: '18px', fontWeight: 400, borderBottom: '1px solid' }}>
+            <Text style={{ fontSize: '12px', lineHeight: '18px', fontWeight: 400, borderBottom: '1px solid' }}>
               Learn more{'>'}
             </Text>
           </Link>

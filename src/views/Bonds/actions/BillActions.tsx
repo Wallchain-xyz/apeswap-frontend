@@ -7,11 +7,13 @@ import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import { BuyButton } from './styles'
 import { Button } from 'components/uikit'
-import { CurrencyAmount, SupportedChainId, Token } from '@ape.swap/sdk-core'
-import JSBI from 'jsbi'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useUserZapSlippageTolerance } from 'state/user/hooks'
-import { ethers } from 'ethers'
 import { TradeState } from 'state/routing/types'
+import { getBNWithDecimals } from '../../../utils/getBalanceNumber'
+import { useToastError } from '../../../state/application/hooks'
+import { fetchBillsUserDataAsync } from '../../../state/bills'
+import { useAppDispatch } from '../../../state/hooks'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -30,25 +32,33 @@ const BillActions: React.FC<BillActionsProps> = ({
   const [slippage] = useUserZapSlippageTolerance()
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
+  const toastError = useToastError()
+  const dispatch = useAppDispatch()
+  const { chainId, account } = useWeb3React()
 
-  const { chainId } = useWeb3React()
   const { onApprove } = useApproveBill(
     lpToken?.address?.[chainId as SupportedChainId] ?? '',
     contractAddress[chainId as SupportedChainId] ?? '',
   )
 
-  const showApproveBillFlow = !new BigNumber(bill?.userData?.allowance ?? '0').gt(0)
+  const showApproveLP = getBNWithDecimals(bill?.userData?.allowance)?.lt(value)
 
   const [pendingApprove, setPendingApprove] = useState(false)
   const { t } = useTranslation()
 
-  const handleApprove = async () => {
+  const handleLPApprove = async () => {
     setPendingApprove(true)
-    await onApprove().catch((e) => {
-      console.error(e)
-      setPendingApprove(false)
-    })
-    setPendingApprove(false)
+    await onApprove()
+      .then(() => {
+        dispatch(fetchBillsUserDataAsync(chainId as SupportedChainId, account as string))
+      })
+      .catch((e) => {
+        console.error(e)
+        toastError(e)
+      })
+      .finally(() => {
+        setPendingApprove(false)
+      })
   }
 
   return (
@@ -64,8 +74,8 @@ const BillActions: React.FC<BillActionsProps> = ({
             ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
             : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
         </Button>
-      ) : currencyB && showApproveBillFlow ? (
-        <Button onClick={handleApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
+      ) : currencyB && showApproveLP ? (
+        <Button onClick={handleLPApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
           {t('Enable')}
         </Button>
       ) : (

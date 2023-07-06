@@ -24,6 +24,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   otherCurrency: Currency | undefined,
   routerPreference: RouterPreference,
   protocols?: Protocol[],
+  useApeRPC?: boolean,
 ): {
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TTradeType> | undefined
@@ -43,6 +44,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     tradeType,
     routerPreference,
     protocols,
+    useApeRPC,
   })
 
   const { isLoading, isError, data, currentData } = useGetQuoteQuery(queryArgs ?? skipToken, {

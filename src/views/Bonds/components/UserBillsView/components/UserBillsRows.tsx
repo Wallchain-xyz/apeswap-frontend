@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { Box } from 'theme-ui'
 import { BillsToRender } from '../types'
 import { formatNumberSI } from 'utils/formatNumber'
 import useIsMobile from 'hooks/useIsMobile'
@@ -92,10 +91,11 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                   billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                   billIds={[billToRender.id]}
                   pendingRewards={billToRender?.pendingRewards}
+                  earnToken={bill.earnToken.symbol}
                 />
               </Flex>
               <Flex sx={{ maxWidth: '109px' }}>
-                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} buttonSize={'100px'} />
+                <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} />
               </Flex>
             </Flex>
           </Flex>
@@ -132,6 +132,8 @@ const UserBillsRows: React.FC<{ billsToRender: BillsToRender[] }> = ({ billsToRe
                 billAddress={bill.contractAddress[chainId as SupportedChainId] ?? ''}
                 billIds={[billToRender.id]}
                 pendingRewards={billToRender?.pendingRewards}
+                earnToken={bill.earnToken.symbol}
+                hasDarkBg
               />
               <BillModal buttonText={t('VIEW')} bill={bill} billId={billToRender.id} />
             </Flex>

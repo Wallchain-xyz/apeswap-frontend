@@ -67,13 +67,6 @@ export const StyledButton = styled(Button)`
   margin-top: 15px;
 `
 
-export const CheckBoxCon = styled.div`
-  display: flex;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-`
-
 export const FlexSection = styled(Flex)`
   ${({ theme }) => theme.mediaQueries.md} {
     height: 120px;

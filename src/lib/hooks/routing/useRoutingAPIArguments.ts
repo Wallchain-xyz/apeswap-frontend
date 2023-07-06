@@ -15,6 +15,7 @@ export function useRoutingAPIArguments({
   tradeType,
   routerPreference,
   protocols,
+  useApeRPC,
 }: {
   tokenIn: Currency | undefined
   tokenOut: Currency | undefined
@@ -22,6 +23,7 @@ export function useRoutingAPIArguments({
   tradeType: TradeType
   routerPreference: RouterPreference
   protocols?: Protocol[]
+  useApeRPC?: boolean
 }) {
   return useMemo(
     () =>
@@ -40,7 +42,8 @@ export function useRoutingAPIArguments({
             routerPreference,
             protocols,
             type: (tradeType === TradeType.EXACT_INPUT ? 'exactIn' : 'exactOut') as 'exactIn' | 'exactOut',
+            useApeRPC,
           },
-    [amount, routerPreference, tokenIn, tokenOut, protocols, tradeType],
+    [amount, routerPreference, tokenIn, tokenOut, protocols, tradeType, useApeRPC],
   )
 }

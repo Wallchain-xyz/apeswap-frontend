@@ -20,7 +20,6 @@ const ApproveZap: React.FC<ApprovalActionProps> = ({ action, zapApprovalState })
 
   return (
     <Button
-      className="noClick"
       disabled={pendingTrx || zapPendingApproval}
       onClick={async () => {
         setPendingTrx(true)

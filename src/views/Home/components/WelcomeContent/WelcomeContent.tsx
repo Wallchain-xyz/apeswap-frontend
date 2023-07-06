@@ -7,13 +7,13 @@ import useSwiper from 'hooks/useSwiper'
 import SwiperCore from 'swiper'
 import { getDotPos } from 'utils/getDotPos'
 import DefiRedefined from './slides/DefiRedefined'
-import ApeSwapV3 from './slides/ApeSwapV3'
+//import ApeSwapV3 from './slides/ApeSwapV3'
 import { Flex, SwiperDots } from 'components/uikit'
 
 const WelcomeContent = ({ randomImage }: { randomImage: number }) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
-  const slides = [<DefiRedefined randomImage={randomImage} key={0} />, <ApeSwapV3 key={1} />]
+  const slides = [<DefiRedefined randomImage={randomImage} key={0} /> /*, <ApeSwapV3 key={1} />*/]
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)

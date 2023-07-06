@@ -45,7 +45,7 @@ const TableHeader = ({
           sx={{
             padding: index === 0 ? '8px 0' : '8px',
             position: index === 0 || index === 1 || index === headers.length - 1 ? 'sticky' : undefined,
-            left: index === 0 ? 0 : index === 1 ? 30 : undefined,
+            left: index === 0 ? 0 : index === 1 ? 35 : undefined,
             right: index === headers.length - 1 ? 0 : undefined,
             zIndex: index === 0 || index === 1 || index === headers.length - 1 ? 2 : 1,
             background: 'white2',

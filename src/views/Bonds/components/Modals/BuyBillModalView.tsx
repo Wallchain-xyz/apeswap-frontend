@@ -68,8 +68,8 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
             alignItems: 'center',
             justifyContent: 'center',
             maxWidth: '606px',
-            '@media screen and(min-width: 1180px)': {
-              width: '606px',
+            '@media screen and (min-width: 1180px)': {
+              minWidth: '606px',
             },
           }}
         >
@@ -77,6 +77,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
             width={2300}
             height={1350}
             alt={'hidden-bill'}
+            placeholder="empty"
             src={loading && !billId ? '/images/bills/bill-nfts.gif' : '/images/bills/hidden-bill.jpg'}
             layout="responsive"
           />
@@ -96,9 +97,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
                   stakeLp={bill?.billType !== 'reserve'}
                 />
                 <Flex sx={{ flexDirection: 'column' }}>
-                  <StyledHeadingText ml="10px" bold>
-                    {bill?.lpToken.symbol}
-                  </StyledHeadingText>
+                  <StyledHeadingText ml="10px">{bill?.lpToken.symbol}</StyledHeadingText>
                   <TopDescriptionText ml="12px">
                     {t('Vesting Term')}: {`${vestingTime.days}d, ${vestingTime.minutes}h, ${vestingTime.seconds}m`}
                   </TopDescriptionText>
@@ -116,7 +115,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
               </Flex>
               <Flex sx={{ alignItems: 'center' }}>
                 <ServiceTokenDisplay token1={bill?.earnToken?.symbol} />
-                <StyledHeadingText ml="10px" bold>
+                <StyledHeadingText ml="10px">
                   ${getFirstNonZeroDigits(discountEarnTokenPrice ?? 0)} ({bill?.discount}% Discount)
                 </StyledHeadingText>
               </Flex>

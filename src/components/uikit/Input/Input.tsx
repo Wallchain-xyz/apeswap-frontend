@@ -16,7 +16,7 @@ const colorScheme: colorSchemeMap = {
 }
 
 const Input = ({
-  variant = 'search',
+  variant,
   width,
   status,
   isLoading,

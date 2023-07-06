@@ -7,15 +7,19 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Swap',
-        href: '/swap',
+        href: 'https://dex.apeswap.finance/swap',
       },
       {
         label: 'Liquidity',
-        href: '/add-liquidity',
+        href: 'https://dex.apeswap.finance/zap',
       },
       {
         label: 'Pro Trading',
         href: 'https://pro.apeswap.finance',
+      },
+      {
+        label: 'GNANA',
+        href: `/gnana`,
       },
     ],
   },
@@ -23,20 +27,17 @@ const bscConfig: NavConfig[] = [
     label: 'Stake',
     items: [
       {
+        label: 'Pools',
+        href: `/pools`,
+        isNew: true,
+      },
+      {
         label: 'Farms',
         href: `/farms`,
       },
       {
-        label: 'Pools',
-        href: `/pools`,
-      },
-      {
         label: 'Maximizers',
         href: `${TEMP_APESWAP_URL}/maximizers`,
-      },
-      {
-        label: 'GNANA',
-        href: `/gnana`,
       },
     ],
   },
@@ -50,10 +51,6 @@ const bscConfig: NavConfig[] = [
       {
         label: 'Liquidity Health',
         href: `/liquidity-health`,
-      },
-      {
-        label: 'Official IAO',
-        href: `${TEMP_APESWAP_URL}/iao`,
       },
     ],
   },
@@ -109,10 +106,10 @@ const bscConfig: NavConfig[] = [
         label: 'Governance',
         href: 'https://discuss.apeswap.finance',
       },
-      {
-        label: 'Newsletter',
-        href: '?modal=newsletter',
-      },
+      // {
+      //   label: 'Newsletter',
+      //   href: '?modal=newsletter',
+      // },
     ],
   },
 ]

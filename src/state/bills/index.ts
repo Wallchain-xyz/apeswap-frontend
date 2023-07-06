@@ -136,7 +136,7 @@ export const fetchUserOwnedBillsDataAsync =
   (chainId: SupportedChainId, account: string): AppThunk =>
   async (dispatch: Dispatch, getState: any) => {
     try {
-      const bills = getState().bills.data[chainId]
+      const bills: Bills[] = getState().bills.data[chainId]
       // Fetch and set user owned bill data without NFT Data
       const userOwnedBills = await fetchUserOwnedBills(chainId, account, bills)
       const mapUserOwnedBills = bills.map((bill: Bills) =>
@@ -149,12 +149,12 @@ export const fetchUserOwnedBillsDataAsync =
       dispatch(setUserOwnedBillsData({ value: userOwnedBillsData, chainId }))
 
       // Fetch owned bill NFT data
-      const ownedBillsData = mapUserOwnedBills.flatMap((bs: any) => {
-        return bs.map((b: any) => {
-          return { id: b.id, billNftAddress: b.billNftAddress }
+      const ownedBillsData = mapUserOwnedBills.flatMap((bs) => {
+        return bs.map((b) => {
+          return { id: b.id, billNftAddress: b.billNftAddress, contractAddress: b.address }
         })
       })
-      const userBillNftData = await fetchUserOwnedBillNftData(ownedBillsData, chainId)
+      const userBillNftData = await fetchUserOwnedBillNftData(ownedBillsData, chainId, bills)
       const ownedBillsWithNftData = mapUserOwnedBills.map((bs: any, index: number) => {
         return {
           index: bills[index].index,

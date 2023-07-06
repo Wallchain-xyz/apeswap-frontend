@@ -31,7 +31,7 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
     pairOut: null,
   })
 
-  const handleConfirmedTx = useCallback((hash: string, pair: Pair) => {
+  const handleConfirmedTx = useCallback((hash: string, pair?: Pair) => {
     setTxHash({ txHash: hash, pairOut: pair })
   }, [])
 
@@ -58,7 +58,7 @@ const DualLiquidityModal: React.FC<DualLiquidityModalProps> = ({
                 zapable={zapable ?? false}
               />
             ) : (
-              <RegularLiquidity />
+              <RegularLiquidity handleConfirmedTx={handleConfirmedTx} />
             )}
           </Box>
         </Modal>

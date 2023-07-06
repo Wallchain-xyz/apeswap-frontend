@@ -24,7 +24,6 @@ const ApproveJungle: React.FC<ApprovalActionProps> = ({ lpToApprove, contractAdd
 
   return (
     <Button
-      className="noClick"
       disabled={pendingTrx}
       onClick={async () => {
         setPendingTrx(true)

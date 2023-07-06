@@ -5,29 +5,32 @@ import BuyBillModalView from './BuyBillModalView'
 import useModal from '../../../../hooks/useModal'
 import { Button, Flex, IconButton, Modal, Svg, Text } from '../../../../components/uikit'
 import Checkbox from '../../../../components/uikit/Checkbox'
-import { Bills } from 'views/Bonds/types'
 
 interface ReflectModalProps {
-  bill: Bills
+  billIndex: number
+  billSymbol: string
+  onDismiss?: () => void
 }
 
-const ReflectModal: React.FC<ReflectModalProps> = ({ bill }) => {
+const ReflectModal: React.FC<ReflectModalProps> = ({ billIndex, billSymbol, onDismiss }) => {
   const [confirmBuy, setConfirmBuy] = useState(false)
   const { t } = useTranslation()
   const [onPresentBuyBillsModal] = useModal(
-    <BuyBillModalView billIndex={bill?.index} />,
+    <BuyBillModalView billIndex={billIndex} />,
     true,
+    false,
+    `billsModal${billIndex}`,
     true,
-    `billsModal${bill?.index}`,
   )
 
   return (
-    <Modal>
+    <Modal onDismiss={onDismiss}>
       <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '10px' }}>
         <IconButton
           icon="close"
           color="text"
           variant="transparent"
+          onClick={onDismiss}
           sx={{ position: 'absolute', right: '20px', top: '25px' }}
         />
         <Svg icon="error" width="25px" color="error" />
@@ -46,7 +49,7 @@ const ReflectModal: React.FC<ReflectModalProps> = ({ bill }) => {
         <Text sx={{ ml: '10px', fontSize: '12px' }}>
           {t(
             'I understand that my purchases of this %billToken% bond will be deducted by the reflect mechanics of the token.',
-            { billToken: bill.earnToken.symbol },
+            { billToken: billSymbol },
           )}
         </Text>
       </Flex>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Box } from 'theme-ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ModalProps } from './types'
@@ -44,9 +44,7 @@ const Modal = ({
           >
             {title && (
               <ModalHeader onDismiss={onClose}>
-                <Text variant="lg" size="24px">
-                  {title}
-                </Text>
+                <Text sx={{ fontSize: '22px', fontWeight: 700, lineHeight: '33px' }}>{title}</Text>
               </ModalHeader>
             )}
             {React.Children.map(children, (child) => {

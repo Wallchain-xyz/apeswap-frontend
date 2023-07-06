@@ -2,30 +2,37 @@ import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { Button, Modal } from 'components/uikit'
-import { getFullDisplayBalance } from 'utils/getBalanceNumber'
+import { getBNWithDecimals, getFullDisplayBalance } from 'utils/getBalanceNumber'
 import ModalInput from 'components/ModalInput/ModalInput'
+import { useTokenContract } from '../../../../hooks/useContract'
+import { useApprove } from '../../hooks/useApprove'
+import { FarmTypes } from '../../../../state/farms/types'
+import { useToastError } from '../../../../state/application/hooks'
 
-interface DepositModalProps {
+const DepositModal = ({
+  max,
+  stakeLpAddress,
+  farmTypes,
+  contractAddress,
+  rawAllowance,
+  onConfirm,
+}: {
   max: string
-  onConfirm: (amount: string) => void
-  onDismiss?: () => void
-  tokenName?: string
-  addLiquidityUrl?: string
-}
-
-const modalProps = {
-  sx: {
-    maxHeight: 'calc(100% - 30px)',
-    minWidth: ['90%', '400px'],
-    width: '200px',
-    maxWidth: '425px',
-  },
-}
-
-const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '', addLiquidityUrl }) => {
+  stakeLpAddress: string
+  farmTypes: FarmTypes
+  contractAddress?: string
+  rawAllowance: string
+  onConfirm: (amount: string) => Promise<void>
+}) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
   const { t } = useTranslation()
+  const allowance = getBNWithDecimals(rawAllowance, 18)
+
+  const lpToken = useTokenContract(stakeLpAddress)
+  const { onApprove } = useApprove(lpToken, farmTypes, contractAddress)
+  const toastError = useToastError()
+
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(new BigNumber(max))
   }, [max])
@@ -42,37 +49,54 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [fullBalance, setVal])
 
   return (
-    <Modal title={t('Stake LP tokens')} onDismiss={onDismiss} {...modalProps}>
+    <Modal
+      title={t('Stake LP tokens')}
+      sx={{
+        maxHeight: 'calc(100% - 30px)',
+        minWidth: ['90%', '400px'],
+        width: '200px',
+        maxWidth: '425px',
+      }}
+    >
       <ModalInput
         value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
         max={fullBalance}
-        addLiquidityUrl={addLiquidityUrl}
         inputTitle={t('Stake')}
       />
-      <Button
-        fullWidth
-        disabled={pendingTx || fullBalance === '0' || val === '0' || parseFloat(fullBalance) < parseFloat(val)}
-        onClick={async () => {
-          setPendingTx(true)
-          try {
-            await onConfirm(val)
-            onDismiss?.()
-          } catch (e) {
-            console.error('Transaction Failed')
-          } finally {
-            setPendingTx(false)
+      {allowance?.lt(val) ? (
+        <Button
+          onClick={async () => {
+            setPendingTx(true)
+            try {
+              onApprove()
+                .catch((e) => toastError(e))
+                .finally(() => setPendingTx(false))
+            } catch (e) {}
+          }}
+          disabled={pendingTx}
+          load={pendingTx}
+          sx={{ mt: '10px', width: '100%' }}
+        >
+          {t('Approve')}
+        </Button>
+      ) : (
+        <Button
+          fullWidth
+          disabled={
+            pendingTx || fullBalance === '0' || val === '0' || !val || parseFloat(fullBalance) < parseFloat(val)
           }
-        }}
-        load={pendingTx}
-        style={{
-          borderRadius: '10px',
-          marginTop: '10px',
-        }}
-      >
-        {pendingTx ? t('Pending Confirmation') : t('Confirm')}
-      </Button>
+          onClick={async () => {
+            setPendingTx(true)
+            onConfirm(val).finally(() => setPendingTx(false))
+          }}
+          load={pendingTx}
+          sx={{ mt: '10px', width: '100%' }}
+        >
+          {pendingTx ? t('Pending Confirmation') : t('Confirm')}
+        </Button>
+      )}
     </Modal>
   )
 }

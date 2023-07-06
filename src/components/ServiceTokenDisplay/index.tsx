@@ -10,7 +10,6 @@ interface ServiceTokenDisplayProps {
   stakeLp?: boolean
   earnLp?: boolean
   noEarnToken?: boolean
-  iconFill?: string
   size?: number
   billArrow?: boolean
   dualEarn?: boolean
@@ -25,19 +24,18 @@ const setUrls = (tokenSymbol: string) => {
 }
 
 const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
-                                                                   token1,
-                                                                   token2,
-                                                                   token3,
-                                                                   token4,
-                                                                   iconFill,
-                                                                   size,
-                                                                   billArrow,
-                                                                   stakeLp = false,
-                                                                   earnLp = false,
-                                                                   noEarnToken = false,
-                                                                   dualEarn = false,
-                                                                   tokensMargin,
-                                                                 }) => {
+  token1,
+  token2,
+  token3,
+  token4,
+  size,
+  billArrow,
+  stakeLp = false,
+  earnLp = false,
+  noEarnToken = false,
+  dualEarn = false,
+  tokensMargin,
+}) => {
   const token1Urls = setUrls(token1 || '')
   const token2Urls = token2 ? setUrls(token2) : []
   const token3Urls = token3 ? setUrls(token3) : []
@@ -60,7 +58,7 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
         <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <span sx={{ margin: '0px 6px' }}>
-        <Svg icon='caret' direction='right' width={6} />
+        <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper>
         <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
@@ -70,19 +68,19 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
 
   const StakeLpEarnToken = (
     <Flex sx={{ alignItems: 'center' }}>
-      <TokenWrapper size={size}>
+      <TokenWrapper size={size} style={{ zIndex: 2 }}>
         <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
-      <TokenWrapper size={size} ml={tokensMargin ? tokensMargin : -15}>
+      <TokenWrapper size={size} ml={tokensMargin ? tokensMargin : -15} style={{ zIndex: 1 }}>
         <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       {billArrow ? (
         <span sx={{ margin: '0px 10px' }}>
-          <Svg icon='arrow' direction='right' width={5} />
+          <Svg icon="arrow" direction="right" width={5} />
         </span>
       ) : (
         <span sx={{ margin: '0px 6px' }}>
-          <Svg icon='caret' direction='right' width={6} />
+          <Svg icon="caret" direction="right" width={6} />
         </span>
       )}
       <TokenWrapper size={size}>
@@ -95,7 +93,7 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
       <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       <TokenContainer ml={tokensMargin ? tokensMargin : -15} srcs={token2Urls} size={size} width={size} height={size} />
       <span sx={{ margin: '0px 6px' }}>
-        <Svg icon='caret' direction='right' width={6} />
+        <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenContainer srcs={token3Urls} size={size} />
       {token4 !== undefined && <TokenContainer ml={-15} srcs={token4Urls} size={size} width={size} height={size} />}
@@ -110,7 +108,7 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
         <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <span sx={{ margin: '0px 6px' }}>
-        <Svg icon='caret' direction='right' width={6} />
+        <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper mt={-20} size={25}>
         <TokenContainer srcs={token3Urls} size={25} width={25} height={25} />
@@ -126,7 +124,7 @@ const ServiceTokenDisplay: React.FC<ServiceTokenDisplayProps> = ({
         <TokenContainer srcs={token1Urls} size={size} width={size} height={size} />
       </TokenWrapper>
       <span sx={{ margin: '0px 6px' }}>
-        <Svg icon='caret' direction='right' width={6} />
+        <Svg icon="caret" direction="right" width={6} />
       </span>
       <TokenWrapper>
         <TokenContainer srcs={token2Urls} size={size} width={size} height={size} />

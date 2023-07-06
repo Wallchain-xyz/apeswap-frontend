@@ -1,10 +1,5 @@
 import { icons } from 'components/uikit/Svg/types'
-import {
-  coinbaseWalletConnection,
-  injectedConnection,
-  networkConnection,
-  walletConnectConnection,
-} from 'utils/connection'
+import { coinbaseWalletConnection, injectedConnection, walletConnectConnection } from 'utils/connection'
 import { Config } from './types'
 
 const connectors: Config[] = [
@@ -38,33 +33,15 @@ const connectors: Config[] = [
     icon: icons.SAFE_PAL_WALLET,
     connection: injectedConnection,
   },
-  // TODO: Add binance wallet
-  {
-    label: 'Binance Chain Wallet',
-    icon: icons.BINANCE_CHAIN,
-    connection: injectedConnection,
-  },
   {
     label: 'Brave Wallet',
     icon: icons.BRAVE,
     connection: injectedConnection,
   },
-  // TODO: Add torus login
-  {
-    label: 'Social Login',
-    icon: icons.SOCIAL_LOGIN,
-    connection: networkConnection,
-  },
   {
     label: 'Coinbase Wallet',
     icon: icons.COINBASE,
     connection: coinbaseWalletConnection,
-  },
-  // TODO: Add Unstoppable domains
-  {
-    label: 'Unstoppable Domains',
-    icon: icons.UNSTOPPABLE,
-    connection: injectedConnection,
   },
   {
     label: 'NABOX Wallet',

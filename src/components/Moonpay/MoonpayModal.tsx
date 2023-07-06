@@ -10,7 +10,7 @@ import { ModalProps } from 'components/uikit/Modal/types'
 // Supported chains for moonpay
 export const SUPPORTED_CHAINS = [SupportedChainId.BSC, SupportedChainId.MAINNET, SupportedChainId.POLYGON]
 
-export default function MoonPayModal({ onDismiss }: { onDismiss: () => void }) {
+export default function MoonPayModal({ onDismiss }: { onDismiss?: () => void }) {
   const [accept, setAccept] = useState(false)
   const { t } = useTranslation()
   const { chainId } = useWeb3React()

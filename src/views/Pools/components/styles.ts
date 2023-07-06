@@ -53,7 +53,7 @@ export const poolStyles: Record<
     maxWidth: ['', '', '', '80px'],
   },
   earnedColumn: {
-    width: '100%',
+    width: ['100%', '100%', '100%', 'unset'],
     justifyContent: JUSTIFY_CONTENT_BREAKPOINTS,
     flexDirection: FLEX_DIRECTION_BREAKPOINTS,
     maxWidth: ['', '', '', '150px'],
@@ -61,7 +61,7 @@ export const poolStyles: Record<
   cardContent: {
     flexDirection: ['column', 'column', 'column', 'row'],
     width: '100%',
-    justifyContent: 'space-between',
+    justifyContent: ['space-between', 'space-between', 'space-between', 'space-around'],
     maxWidth: 'unset',
   },
   actionContainer: {
@@ -85,9 +85,6 @@ export const poolStyles: Record<
     width: ['130px', '130px', '130px', '140px'],
     minWidth: ['130px', '130px', '130px', '100px'],
     height: '44px',
-    '&:disabled': {
-      background: 'white4',
-    },
   },
   smallBtn: {
     maxWidth: '60px',

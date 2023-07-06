@@ -2,7 +2,7 @@ import { Interface } from '@ethersproject/abi'
 import multicallV2Abi from 'config/abi/multicallv2.json'
 import { ethers } from 'ethers'
 import { chunk, flatten } from 'lodash'
-import { RPC_URLS } from 'config/constants/networks'
+import { PUBLIC_RPC_URLS } from 'config/constants/networks'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { MULTICALL_V2 } from 'config/constants/addresses'
 
@@ -16,7 +16,7 @@ export interface Call {
 // Try to use multicall hooks
 const multicall = async (chainId: number, abi: any[], calls: Call[], batch?: boolean, batchSize?: number) => {
   const multicallAddress = MULTICALL_V2[chainId]
-  const provider = new ethers.providers.JsonRpcProvider(RPC_URLS[chainId as SupportedChainId][0], chainId)
+  const provider = new ethers.providers.JsonRpcProvider(PUBLIC_RPC_URLS[chainId as SupportedChainId][0], chainId)
   const multi = new ethers.Contract(multicallAddress, multicallV2Abi, provider)
   const itf = new Interface(abi)
   const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])

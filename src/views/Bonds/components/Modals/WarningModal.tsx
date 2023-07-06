@@ -4,10 +4,11 @@ import { StyledButton } from '../styles'
 import BuyBillModalView from './BuyBillModalView'
 import useModal from 'hooks/useModal'
 import { CheckBox, Flex, IconButton, Modal, Svg, Text } from 'components/uikit'
+import { Bills } from 'views/Bonds/types'
 
 interface TransferBillModalProps {
-  onDismiss: () => void
-  bill?: any
+  onDismiss?: () => void
+  bill: Bills
 }
 
 const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => {
@@ -17,7 +18,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
   const [onPresentBuyBillsModal] = useModal(
     <BuyBillModalView billIndex={index} onDismiss={() => null} />,
     true,
-    true,
+    false,
     `billsModal${index}`,
     true,
   )
@@ -52,7 +53,7 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
         </Flex>
       </Flex>
       <Flex onClick={() => setConfirmBuy((prev) => !prev)} sx={{ cursor: 'pointer', alignItems: 'center', mt: '20px' }}>
-        <CheckBox checked={confirmBuy} />
+        <CheckBox checked={confirmBuy} onChange={() => setConfirmBuy(!confirmBuy)} />
         <Text sx={{ ml: '10px', fontSize: '12px', fontWeight: 500, lineHeight: '18px' }}>
           {t(
             'I understand that I am purchasing %billToken% at a price above the current market rate, and would like to continue.',

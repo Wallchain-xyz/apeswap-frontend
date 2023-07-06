@@ -117,6 +117,9 @@ export function useDerivedSwapInfo(): {
     isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
     parsedAmount,
     (isExactIn ? outputCurrency : inputCurrency) ?? undefined,
+    undefined,
+    //use Apeswap's nodes to only for swap
+    true,
   )
 
   const currencyBalances = useMemo(
@@ -257,7 +260,7 @@ export function useDefaultsFromURLSearch(): SwapState {
 
   useEffect(() => {
     if (!chainId) return
-    const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? undefined
+    const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? 'eth'
     const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? bananaAddress
 
     dispatch(

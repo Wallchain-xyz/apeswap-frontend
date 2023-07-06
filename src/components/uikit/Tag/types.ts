@@ -29,6 +29,7 @@ export const listTagVariants = {
   HOT: 'hot',
   AUTO: 'auto',
   MAX: 'max',
+  yield: 'yield',
   BETA: 'beta',
   LIQUIDITY: 'liquidity',
   RESERVE: 'reserve',

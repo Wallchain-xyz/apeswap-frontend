@@ -12,8 +12,6 @@ import { FarmTypes } from 'state/farms/types'
 import { Button, Flex } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import ConnectWalletButton from 'components/ConnectWallet'
-import { useApprove } from '../hooks/useApprove'
-import { useTokenContract } from 'hooks/useContract'
 import { fetchFarmUserDataAsync } from 'state/farms'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import track from 'utils/track'
@@ -50,13 +48,15 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   const { t } = useTranslation()
   const onStake = useStake(farmTypes, pid, contractAddress)
   const onUnstake = useUnstake(farmTypes, pid, contractAddress)
-  const lpToken = useTokenContract(stakeLpAddress)
-  const { onApprove } = useApprove(lpToken, farmTypes, contractAddress)
   const toastError = useToastError()
 
-  const [onPresentDeposit] = useModal(
+  const [onPresentDeposit, closeDepositModal] = useModal(
     <DepositModal
       max={stakingTokenBalance}
+      stakeLpAddress={stakeLpAddress}
+      farmTypes={farmTypes}
+      contractAddress={contractAddress}
+      rawAllowance={allowance}
       onConfirm={async (val: string) => {
         setDepositAmount(val)
         setPendingDepositTrx(true)
@@ -72,6 +72,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
                 usdAmount: parseFloat(depositAmount ?? '0') * lpValueUsd,
               },
             })
+            closeDepositModal()
           })
           .catch((e) => {
             console.error(e)
@@ -82,9 +83,12 @@ const StakeAction: React.FC<StakeActionsProps> = ({
         setPendingDepositTrx(false)
       }}
     />,
+    true,
+    true,
+    `depositFarmModal${stakeLpAddress}`,
   )
 
-  const [onPresentWithdraw] = useModal(
+  const [onPresentWithdraw, closeWithdrawModal] = useModal(
     <WithdrawModal
       max={stakedBalance}
       onConfirm={async (val: string) => {
@@ -101,6 +105,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
                 usdAmount: parseFloat(depositAmount ?? '0') * lpValueUsd,
               },
             })
+            closeWithdrawModal()
           })
           .catch((e) => {
             console.error(e)
@@ -112,14 +117,14 @@ const StakeAction: React.FC<StakeActionsProps> = ({
       }}
       title={'Unstake LP tokens'}
     />,
+    true,
+    true,
+    `withDrawFarmModal${stakeLpAddress}`,
   )
 
   const renderStakingButtons = () => {
     if (!account) {
       return <ConnectWalletButton />
-    }
-    if (parseFloat(allowance) < parseFloat(stakingTokenBalance ?? '0')) {
-      return <Button onClick={onApprove}> Approve </Button>
     }
     if (firstStake) {
       return (

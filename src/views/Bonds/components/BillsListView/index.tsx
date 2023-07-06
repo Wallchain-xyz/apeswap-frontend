@@ -21,16 +21,16 @@ const BillsListView: React.FC = () => {
   const [sortOption, setSortOption] = useState('sort')
   const [showOnlyDiscount, setShowOnlyDiscount] = useState(false)
   const [showAvailable, setShowAvailable] = useState(true)
-  const noResults = !!query || filterOption !== 'all' || showOnlyDiscount
+  const noResults = !!query || filterOption !== 'filter' || showOnlyDiscount
 
   const isSoldOut = useCallback(
     (bill: Bills) => {
       const { earnToken, maxTotalPayOut, totalPayoutGiven, earnTokenPrice, discount } = bill
+      if (!maxTotalPayOut || !maxTotalPayOut || !earnTokenPrice) return false
       const available = new BigNumber(maxTotalPayOut ?? '0')
         ?.minus(new BigNumber(totalPayoutGiven ?? '0'))
         ?.div(new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? '18'))
-
-      const thresholdToHide = new BigNumber(11).div(earnTokenPrice ?? '0')
+      const thresholdToHide = new BigNumber(100).div(earnTokenPrice ?? '0')
       return available.lte(thresholdToHide) || discount === '100.00'
     },
     [chainId],
@@ -58,8 +58,8 @@ const BillsListView: React.FC = () => {
   )
 
   const billsToRender = useMemo((): Bills[] => {
-    let billsToReturn: any[] = []
-    bills?.forEach((bill: any) => {
+    let billsToReturn: Bills[] = []
+    bills?.forEach((bill: Bills) => {
       if (bill.inactive) return
       const disabled = isSoldOut(bill)
       const discount = hasDiscount(bill)
@@ -74,7 +74,10 @@ const BillsListView: React.FC = () => {
     })
     if (query) {
       billsToReturn = billsToReturn?.filter((bill) => {
-        return bill.lpToken.symbol.toUpperCase().includes(query.toUpperCase())
+        return `${bill.lpToken.symbol.toUpperCase()},
+          ${bill.quoteToken.symbol.toUpperCase()},
+          ${bill.token.symbol.toUpperCase()}
+          ${bill.earnToken.symbol.toUpperCase()}`.includes(query.toUpperCase())
       })
     }
     if (filterOption === 'liquidity') {
@@ -117,7 +120,7 @@ const BillsListView: React.FC = () => {
         showAvailable={showAvailable}
         setShowAvailable={setShowAvailable}
       />
-      <Flex flexDirection="column" sx={{ padding: '20px 0 50px 0' }}>
+      <Flex sx={{ padding: '20px 0 50px 0' }}>
         <BillsRows billsToRender={billsToRender} noResults={noResults} />
       </Flex>
     </MainContainer>

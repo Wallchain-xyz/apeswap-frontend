@@ -18,10 +18,11 @@ const useClaimBill = (billMap: { billAddress: string; billIds: string[] }[]) => 
     const billTrxs = billMap.map(async (bm, i) => {
       const bondContract = provider && (getContract(bm.billAddress, bondAbi, provider, account) as Bond)
       track({
-        event: billTypes[i] ?? '',
+        event: 'bond',
         chain: chainId,
         data: {
           cat: 'claimAll',
+          type: billTypes[i] ?? '',
           address: bm.billAddress,
           billIds: bm.billIds,
           bills: billMap,

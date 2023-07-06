@@ -7,17 +7,17 @@ export const V3LiquiditySubNav = () => {
 
   return (
     <Flex sx={styles.liquiditySelectorContainer}>
-      <Flex sx={{ ...styles.liquiditySelector, mr: '20px' }} onClick={() => push('/liquidity')} id="zap-link">
+      <Flex sx={{ ...styles.liquiditySelector, mr: '20px' }} onClick={() => push('/v3-liquidity')} id="zap-link">
         <Flex sx={{ marginRight: '5px' }}>
-          <Svg color={pathname.includes('/liquidity') ? 'text' : 'textDisabled'} icon="Positions" width="20px" />
+          <Svg color={pathname.includes('/v3-liquidity') ? 'text' : 'textDisabled'} icon="Positions" width="20px" />
         </Flex>
-        <Text variant="link" color={pathname.includes('/liquidity') ? 'text' : 'textDisabled'}>
+        <Text variant="link" color={pathname.includes('/v3-liquidity') ? 'text' : 'textDisabled'}>
           Positions
         </Text>
       </Flex>
-      <Flex sx={styles.liquiditySelector} onClick={() => push('/add-liquidity')}>
+      <Flex sx={styles.liquiditySelector} onClick={() => push('/v3-add-liquidity')}>
         <Text
-          color={pathname.includes('add-liquidity') ? 'text' : 'textDisabled'}
+          color={pathname.includes('v3-add-liquidity') ? 'text' : 'textDisabled'}
           sx={{ whiteSpace: 'nowrap' }}
           id="add-liquidity-link"
           variant="link"

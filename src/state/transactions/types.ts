@@ -13,7 +13,7 @@ export interface SerializableTransactionReceipt {
 
 /**
  * Be careful adding to this enum, always assign a unique value (typescript will not prevent duplicate values).
- * These values is persisted in state and if you change the value it will cause errors
+ * These values are persisted in state and if you change the value it will cause errors
  */
 export enum TransactionType {
   APPROVAL = 0,
@@ -34,6 +34,8 @@ export enum TransactionType {
   TRANSFER,
   CLAIM_BILL,
   ZAP,
+  GNANA_BUY,
+  GNANA_SELL,
 }
 
 interface BaseTransactionInfo {
@@ -167,6 +169,16 @@ export interface ZapTransactionInfo {
   uniAmountRaw?: string
 }
 
+export interface GnanaBuyInfo {
+  type: TransactionType.GNANA_BUY
+  uniAmountRaw?: string
+}
+
+export interface GnanaSellInfo {
+  type: TransactionType.GNANA_SELL
+  uniAmountRow?: string
+}
+
 export type TransactionInfo =
   | ApproveTransactionInfo
   | ExactOutputSwapTransactionInfo
@@ -187,6 +199,8 @@ export type TransactionInfo =
   | ClaimBillTransactionInfo
   | TransferTransactionInfo
   | ZapTransactionInfo
+  | GnanaBuyInfo
+  | GnanaSellInfo
 
 export interface TransactionDetails {
   hash: string

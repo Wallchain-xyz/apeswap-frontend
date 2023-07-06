@@ -53,7 +53,6 @@ const Zone = () => {
                 {t('READ MORE')}
               </Text>
             )}
-
             <InnerContent readingMore={readingMore}>
               <InnerContentText>
                 {t(

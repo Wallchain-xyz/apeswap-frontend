@@ -29,7 +29,7 @@ export const useSousStake = (sousId: number, tokenValue: number) => {
           })
       } else if (sousId === 999) {
         trxHash = await masterChefContract
-          ?.deposit(0, new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
+          ?.enterStaking(new BigNumber(amount).times(new BigNumber(10).pow(18)).toString())
           .then((trx) => {
             addTransaction(trx, { type: TransactionType.STAKE })
             return trx.wait()

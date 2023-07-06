@@ -158,6 +158,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                   billIds={[billId ?? '0']}
                   pendingRewards={userOwnedBill?.payout ?? '0'}
                   mt={['0px']}
+                  earnToken={bill.earnToken.symbol}
                 />
               </Flex>
               <Flex
@@ -186,7 +187,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <Text sx={{ color: 'textDisabled' }}>{t('Fully Vested')}</Text>
+              <Text sx={{ color: 'textDisabled', fontSize: '12px' }}>{t('Fully Vested')}</Text>
               <StyledHeadingText ml="10px" bold>
                 <VestedTimer
                   lastBlockTimestamp={userOwnedBill?.lastBlockTimestamp ?? '0'}
@@ -206,7 +207,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <Text sx={{ color: 'textDisabled' }}>{t('Claimable')}</Text>
+              <Text sx={{ color: 'textDisabled', fontSize: '12px' }}>{t('Claimable')}</Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={25} />
                 <Text sx={{ fontWeight: 700, fontSize: '22px', ml: '10px' }}>
@@ -229,7 +230,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
                 justifyContent: 'center',
               }}
             >
-              <Text sx={{ color: 'textDisabled' }}>{t('Pending')}</Text>
+              <Text sx={{ color: 'textDisabled', fontSize: '12px' }}>{t('Pending')}</Text>
               <Flex>
                 <ServiceTokenDisplay token1={earnToken.symbol} size={25} />
                 <Text sx={{ fontSize: '22px', fontWeight: 700, ml: '10px' }}>

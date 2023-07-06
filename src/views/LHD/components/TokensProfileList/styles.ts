@@ -85,7 +85,7 @@ export const styles: Record<
   nameCol: {
     padding: '8px',
     position: 'sticky',
-    left: 30,
+    left: 35,
     zIndex: 2,
     height: columnHeight,
     minWidth: '130px',
