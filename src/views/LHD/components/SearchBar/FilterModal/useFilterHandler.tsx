@@ -10,6 +10,7 @@ interface useFilterHandlerProps {
   setSearchQueryParam: (searchQuery: string) => void
   setIsSearchQuery: (isSearchQuery: boolean) => void
   handleFiltersChange: ({ filters }: { filters: Filters }) => void
+  appliedFilters: Filters
 }
 
 const useFilterHandler = ({
@@ -18,6 +19,7 @@ const useFilterHandler = ({
   setSearchQueryParam,
   handleFiltersChange,
   setIsSearchQuery,
+  appliedFilters,
 }: useFilterHandlerProps) => {
   const debouncedQuery = useDebounce(searchQueryParam, 250)
 
@@ -29,6 +31,8 @@ const useFilterHandler = ({
     [setSearchQueryParam],
   )
 
+  const { sort } = appliedFilters
+
   useEffect(() => {
     // Do NOT call handleFiltersChange on component mount or if searchQuery is not the intended action
     if (!isSearchQuery) {
@@ -36,9 +40,9 @@ const useFilterHandler = ({
     }
 
     if (debouncedQuery) {
-      handleFiltersChange({ filters: { search: debouncedQuery } })
+      handleFiltersChange({ filters: { search: debouncedQuery, sort } })
     } else {
-      handleFiltersChange({ filters: {} })
+      handleFiltersChange({ filters: { sort } })
     }
   }, [debouncedQuery])
 
