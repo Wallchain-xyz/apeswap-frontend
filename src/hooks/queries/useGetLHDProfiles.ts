@@ -26,7 +26,7 @@ export const getLHDProfiles = async ({ filters = {} }: { filters?: FiltersWithSe
   if (search) {
     parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...rest })
     profilesUrl += `/search/${filters?.search}${parsedFilters ? `?${parsedFilters}` : ''}`
-  } else if (filters) {
+  } else if (Object.keys(filters).length > 0) {
     parsedFilters = generateSearchParams({ ...INITIAL_FILTER_VALUES, ...rest })
     profilesUrl += `?${parsedFilters}`
   }
