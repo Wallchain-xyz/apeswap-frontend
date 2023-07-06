@@ -24,6 +24,15 @@ const ethConfig = [
     ],
   },
   {
+    label: 'Raise',
+    items: [
+      {
+        label: 'Liquidity Health',
+        href: `/liquidity-health`,
+      },
+    ],
+  },
+  {
     label: 'Explore',
     items: [
       {

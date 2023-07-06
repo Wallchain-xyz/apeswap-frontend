@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from '../../contexts/Localization'
 import { Button, Flex, Input, Text } from 'components/uikit'
+import { Theme } from 'theme-ui'
 
 interface ModalInputProps {
   max: string

@@ -23,9 +23,17 @@ const arbitrumConfig = [
     ],
   },
   {
-    label: 'Bonds',
-    href: `/bonds`,
-    isNew: true,
+    label: 'Raise',
+    items: [
+      {
+        label: 'Bonds',
+        href: `/bonds`,
+      },
+      {
+        label: 'Liquidity Health',
+        href: `/liquidity-health`,
+      },
+    ],
   },
   {
     label: 'Explore',

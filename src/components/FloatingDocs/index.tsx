@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Svg } from 'components/uikit'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import ScrollTop from './ScrollTop'
 
 export const FloatingDocs = () => {
   const { asPath } = useRouter()
@@ -14,20 +15,22 @@ export const FloatingDocs = () => {
     DOC_LINKS['FARMS'] = `https://apeswap.gitbook.io/apeswap-finance/product-and-features/stake/farms/${farmTypes}`
     return DOC_LINKS[ROUTE_NAMES[asPath ?? '/'] || 'HOME']
   }
+  const showScroll = asPath.includes('/farms') || asPath.includes('/liquidity-health')
 
   return (
-    <Flex
-      sx={{
+    <Flex sx={{
         position: 'fixed',
         right: ['20px', '20px', '35px'],
         bottom: ['20px', '20px', '30px'],
         width: ['40px', '40px', '50px'],
-        zIndex: 5,
-        cursor: 'pointer',
-      }}
-      onClick={() => window.open(getDocsLink(), '_blank')}
-    >
-      <Svg icon="docs" color="primaryBright" />
+        flexDirection: 'column',
+        zIndex: 5555,
+      }}>
+      {showScroll && <ScrollTop />}
+      <Flex sx={{ cursor: 'pointer' }}
+            onClick={() => window.open(getDocsLink(), '_blank')}>
+        <Svg icon='docs' color='primaryBright' />
+      </Flex>
     </Flex>
   )
 }

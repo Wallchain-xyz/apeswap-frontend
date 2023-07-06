@@ -12,6 +12,7 @@ const Select = ({
   size = sizes.MEDIUM,
   position = positions.BOTTOM,
   className,
+  label,
   ...props
 }: SelectProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -42,15 +43,19 @@ const Select = ({
             overflow: 'hidden',
           }}
         >
-          {React.Children.map(children, (child) => {
-            if ((child as any)?.props?.value !== active) {
-              return null
-            }
-            return React.cloneElement(child as any, {
-              ...(child as any)?.props,
-              active: true,
+          {label ? (
+            <Box>{label}</Box>
+          ) : (
+            React.Children.map(children, (child) => {
+              if ((child as any)?.props?.value !== active) {
+                return null
+              }
+              return React.cloneElement(child as any, {
+                ...(child as any)?.props,
+                active: true,
+              })
             })
-          })}
+          )}
           <Svg icon="caret" direction={open ? 'up' : 'down'} />
         </Flex>
         <AnimatePresence>
