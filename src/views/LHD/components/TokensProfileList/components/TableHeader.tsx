@@ -78,9 +78,9 @@ const TableHeader = ({
                 width="180px"
                 body={HEADER_TIPS[header]}
               >
-                <span sx={{ ml: '2px' }}>
-                  <Svg color="textDisabled" icon="question" width="8px" />
-                </span>
+                <div sx={{ ml: '2px', mt: ['1px', '1px', '2px', '2px'], width: ['8px', '8px', '10px', '12px'] }}>
+                  <Svg color="textDisabled" icon="question" width="100%" />
+                </div>
               </TooltipBubble>
             )}
             {header === sortCol && (

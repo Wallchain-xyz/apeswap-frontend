@@ -82,17 +82,15 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
             <Flex sx={styles.chartCont}>
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>
-                  {t('Liquidity Strength Chart')}
+                  {t('Liquidity Strength Chart ')}
                   <TooltipBubble
                     style={{ zIndex: 1000 }}
                     placement="bottomRight"
-                    transformTip="translate(10%, -6%)"
+                    transformTip="translate(8%, -6%)"
                     width="300px"
                     body={`This chart plots a project's total and owned extractable liquidity by MCAP. Additionally it shows the project's liquidity debt, where the token sits in relationship to the sustainability range, and plots other tokens' total extractable liquidity.`}
                   >
-                    <span sx={{ ml: '5px' }}>
-                      <Svg icon="question" width="10px" />
-                    </span>
+                    <Svg icon="question" width="12px" />
                   </TooltipBubble>
                 </Text>
               </Flex>

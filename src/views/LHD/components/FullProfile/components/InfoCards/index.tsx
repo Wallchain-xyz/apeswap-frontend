@@ -105,7 +105,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
       >
         <Flex sx={styles.titleContainer}>
           <Text sx={styles.titleText}>
-            {t('Liquidity Ownership')}
+            {t('Liquidity Ownership ')}
             <TooltipBubble
               style={{ zIndex: 1000 }}
               placement="bottomRight"
@@ -113,7 +113,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
               width="250px"
               body={`Shows a breakdown of owned liquidity, compared to the total liquidity. Additionally conveys whitelisted addresses that have Protocol Owned Liquidity in them.`}
             >
-              <Svg icon="question" width="10px" />
+              <Svg icon="question" width="12px" />
             </TooltipBubble>
           </Text>
         </Flex>

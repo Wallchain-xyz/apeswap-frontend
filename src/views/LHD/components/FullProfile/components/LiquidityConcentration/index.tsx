@@ -12,16 +12,16 @@ const LiquidityConcentration = ({ fullProfile }: { fullProfile: TokenProfile }) 
   return (
     <Flex sx={styles.mainContainer}>
       <Text sx={styles.title}>
-        {t('Liquidity Concentration')}{' '}
+        {t('Liquidity Concentration')}
         <TooltipBubble
           style={{ zIndex: 1000 }}
           placement="bottomRight"
-          transformTip="translate(10%, -6%)"
+          transformTip="translate(10%, -14%)"
           width="300px"
           body={`A detailed view of every liquidity pool available for the project.`}
         >
           <span sx={{ ml: '5px' }}>
-            <Svg icon="question" width="10px" />
+            <Svg icon="question" width="12px" />
           </span>
         </TooltipBubble>
       </Text>
