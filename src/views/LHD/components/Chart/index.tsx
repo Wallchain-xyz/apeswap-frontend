@@ -96,7 +96,7 @@ const CustomTooltip = ({
               color: getColor(data?.totalScore * 100),
             }}
           >
-            {Math.round(data?.totalScore * 100)}
+            {Math.floor(data?.totalScore * 100)}
           </Text>
         </Flex>
       </Flex>

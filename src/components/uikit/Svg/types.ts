@@ -108,7 +108,8 @@ export enum icons {
   SCROLL_TOP = 'scrollTop',
   EXPLORER = 'explorer',
   LIQUIDITY_ICON = 'liquidity',
-  POLYGON_NEW = 'polygonNew'
+  POLYGON_NEW = 'polygonNew',
+  FIRE = 'fire',
 }
 
 export enum directions {

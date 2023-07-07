@@ -82,6 +82,7 @@ import {
   Explorer,
   LiquidityIcon,
   PolygonNew,
+  Fire,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -295,6 +296,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <LiquidityIcon {...props} getStyles={getStyles} />
     case icons.POLYGON_NEW:
       return <PolygonNew {...props} getStyles={getStyles} />
+    case icons.FIRE:
+      return <Fire {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:
