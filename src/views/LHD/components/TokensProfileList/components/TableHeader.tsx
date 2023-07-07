@@ -35,7 +35,7 @@ const TableHeader = ({
     Ownership:
       'The ratio of the amount of liquidity owned by a project to the amount of liquidity that the project should own.',
     Concentration:
-      'A metric that represents how well a project establishes deep liquidity inthe pools it makes available for the token.',
+      'A metric that represents how well a project establishes deep liquidity in the pools it makes available for the token.',
     Score:
       'The Total Liquidity Health Score is the weighted average of: Strength (50%), Ownership (35%), Concentration (15%).',
   }
