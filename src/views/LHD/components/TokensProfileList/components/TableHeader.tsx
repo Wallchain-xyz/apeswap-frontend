@@ -4,6 +4,7 @@ import React from 'react'
 import { styles } from '../styles'
 import { columnWidths, mobileColumnWidths } from '../columnsFormat'
 import { Svg } from 'components/uikit'
+import TooltipBubble from 'components/uikit/Tooltip'
 
 const TableHeader = ({
   sortCol,
@@ -27,6 +28,17 @@ const TableHeader = ({
     'Concentration',
     'Score',
   ]
+
+  const HEADER_TIPS: any = {
+    Extractable: 'The sum of the hard assets liquidity in all of the valid liquidity pairs for the token.',
+    Strength: 'The ratio of the available liquidity of a token to its current market capitalization.',
+    Ownership:
+      'The ratio of the amount of liquidity owned by a project to the amount of liquidity that the project should own.',
+    Concentration:
+      'A metric that represents how well a project establishes deep liquidity inthe pools it makes available for the token.',
+    Score:
+      'The Total Liquidity Health Score is the weighted average of: Strength (50%), Ownership (35%), Concentration (15%).',
+  }
 
   const handleClick = (header: string) => {
     if (header === sortCol) {
@@ -58,6 +70,19 @@ const TableHeader = ({
         >
           <Text sx={styles.headerText}>
             {header}
+            {HEADER_TIPS[header] && (
+              <TooltipBubble
+                style={{ zIndex: 1000 }}
+                placement="bottomRight"
+                transformTip="translate(14%, -8%)"
+                width="180px"
+                body={HEADER_TIPS[header]}
+              >
+                <span sx={{ ml: '2px' }}>
+                  <Svg color="textDisabled" icon="question" width="8px" />
+                </span>
+              </TooltipBubble>
+            )}
             {header === sortCol && (
               <Flex sx={{ ml: '3px' }}>
                 <Svg icon="caret" direction={sortType === 'asc' ? 'up' : 'down'} width={6} color="textDisabled" />
