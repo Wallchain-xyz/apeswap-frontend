@@ -43,7 +43,7 @@ const HealthSummaryRow = ({ ttTitle, ttBody, value, circleColor, lineHeight = '3
               width='180px'
               body={ttBody}>
                     <span sx={{ ml: '5px' }}>
-                      <Svg icon='question' width='12px' />
+                      <Svg icon='question' width='10px' />
                     </span>
             </TooltipBubble>
           )
