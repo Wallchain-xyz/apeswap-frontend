@@ -186,6 +186,22 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                                 <Svg icon="tickShield" color="success" width="12px" />
                               </Flex>
                             </TooltipBubble>
+                          ) : whiteListedOwner.reason === 'burned' ? (
+                            <TooltipBubble
+                              placement="bottomRight"
+                              transformTip="translate(4%, -4%)"
+                              width="200px"
+                              body={
+                                <>
+                                  {t('This is liquidity locked at the burn address, which counts towards ownership.')}
+                                </>
+                              }
+                              sx={{ '&::before': { right: '-5%' }, borderRadius: '7px' }}
+                            >
+                              <Flex sx={{ ml: '5px' }}>
+                                <Svg icon="fire" width="12px" />
+                              </Flex>
+                            </TooltipBubble>
                           ) : (
                             <TooltipBubble
                               placement="bottomRight"
@@ -194,9 +210,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                               body={
                                 <>
                                   {t(
-                                    whiteListedOwner.reason === 'burned'
-                                      ? 'This is suspected to be owned liquidity at the burn address.'
-                                      : 'This is suspected to be owned liquidity from a locking contract or multi-sig wallet.',
+                                    'This is suspected to be owned liquidity from a locking contract or multi-sig wallet.',
                                   )}
                                 </>
                               }
