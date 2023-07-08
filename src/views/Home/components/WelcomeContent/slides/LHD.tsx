@@ -129,6 +129,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
               objectFit: 'cover',
               maxWidth: '550px',
               height: 'fit-content',
+              maxHeight: '275px',
               alignSelf: 'end',
             }}
             width={150}
