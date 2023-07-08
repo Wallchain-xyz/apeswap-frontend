@@ -1,21 +1,37 @@
-import { styles } from './styles'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import CountUp from 'react-countup'
-import { useTranslation } from 'contexts/Localization'
 import { useThemeUI } from 'theme-ui'
+
+// Hooks
+import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
+import { useTranslation } from 'contexts/Localization'
 
 // Components
 import { Button, Flex, Link, Text } from 'components/uikit'
 
-// Hooks
-import { useHomepageStats } from 'state/homepage/hooks'
+// Styles
+import { styles } from './styles'
 
-const LHD = ({ randomLHDImage }: { randomLHDImage: number }) => {
-  const rawStats = useHomepageStats()
-  const { t } = useTranslation()
+// Constants
+const SLIDE_INDEX = 1 // Index of the LHD component in the SwiperSlide slides array
+
+const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSlide: number }) => {
+  const [hasBeenViewed, setHasBeenViewed] = useState(false)
   const { push } = useRouter()
   const { colorMode } = useThemeUI()
+  const { data: industryStats } = useGetIndustryStats()
+  const { t } = useTranslation()
+
+  const { tokensTracked = 0 } = industryStats || {}
+
+  // Helper to animate the countUp on the first slide view only
+  useEffect(() => {
+    if (activeSlide === SLIDE_INDEX) {
+      setHasBeenViewed(true)
+    }
+  }, [activeSlide])
 
   return (
     <Flex sx={styles.slideContainer}>
@@ -23,11 +39,9 @@ const LHD = ({ randomLHDImage }: { randomLHDImage: number }) => {
         <Text sx={styles.slideTitle}>{t('Gain The Upper Hand')}</Text>
         <Text sx={styles.slideSubtitle}>
           {t('Take your analysis to the next level with liquidity health data across')}{' '}
-          {rawStats?.bondingPartnerCount && (
-            <Text sx={styles.counterText}>
-              <CountUp end={rawStats?.bondingPartnerCount} decimals={0} duration={3} separator="," />{' '}
-            </Text>
-          )}
+          <Text sx={styles.counterText}>
+            <CountUp end={hasBeenViewed ? tokensTracked : 0} decimals={0} duration={3} separator="," />{' '}
+          </Text>
           {t('projects and counting.')}
         </Text>
         <Text sx={styles.availableOn}>{t('LIQUIDITY HEALTH DASHBOARD BETA NOW LIVE!')}</Text>

@@ -18,7 +18,7 @@ const WelcomeContent = ({ randomImage, randomLHDImage }: { randomImage: number; 
   const { swiper, setSwiper } = useSwiper()
   const slides = [
     <DefiRedefined randomImage={randomImage} key={0} /> /*, <ApeSwapV3 key={1} />*/,
-    <LHD randomLHDImage={randomLHDImage} key={1} />,
+    <LHD randomLHDImage={randomLHDImage} key={1} activeSlide={activeSlide} />,
   ]
 
   const handleSlide = (event: SwiperCore) => {
