@@ -108,7 +108,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
       </Flex>
       <Flex sx={{ width: ['0', '0', '0', '100%'], justifyContent: 'center' }}>
         <Flex
-          sx={{ ...styles.imageWrapper, position: 'relative', padding: '0px' }}
+          sx={{ ...styles.imageWrapper, position: 'relative', padding: '0px', height: '355px !important' }}
           onClick={() => push(`/liquidity-health`)}
         >
           <Flex sx={{ gap: '5px', mb: '18px' }}>
@@ -123,7 +123,14 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
           <Image
             src={`/images/homepage/lhd/lhd-chart-${colorMode}.svg`}
             alt="liquidity health dashboard"
-            sx={{ ...styles.image, border: '3px solid #FFB300', objectFit: 'cover', height: '90%', alignSelf: 'end' }}
+            sx={{
+              ...styles.image,
+              border: '3px solid #FFB300',
+              objectFit: 'cover',
+              maxWidth: '550px',
+              height: 'fit-content',
+              alignSelf: 'end',
+            }}
             width={150}
             height={150}
           />
@@ -135,7 +142,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
               position: 'absolute',
               top: ['auto', 'auto', 'auto', '80px', '65px'],
               left: ['auto', 'auto', 'auto', '100px', '180px'],
-              height: ['auto', 'auto', 'auto', '100px', '150px'],
+              maxHeight: ['auto', 'auto', 'auto', '100px', '150px'],
             }}
             width={400}
             height={400}
