@@ -133,7 +133,7 @@ const SharableCard = ({
   )}`
 
   const message = score >= 70 ? goodScore : badScore
-  const color = score <= 40 ? 'white' : 'black'
+  const color = score <= 60 ? 'white' : 'black'
 
   function share() {
     const isWindows = navigator.userAgent.includes('Windows') || navigator.appVersion.includes('Windows')
