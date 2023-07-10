@@ -26,7 +26,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
 
   const { tokensTracked = 0 } = industryStats || {}
 
-  // Helper to animate the countUp on the first slide view only
+  // Helper to animate the countUp when the slide is viewed for the fist time only
   useEffect(() => {
     if (activeSlide === SLIDE_INDEX) {
       setHasBeenViewed(true)
@@ -60,7 +60,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
           </Flex>
           <Flex sx={{ ...styles.billImage, position: 'relative', justifyContent: 'start', marginTop: '10px' }}>
             <Image
-              src={`/images/homepage/lhd/lhd-chart-mobile-${colorMode}.svg`}
+              src={`/images/homepage/lhd/lhd-chart-${colorMode}.svg`}
               alt="liquidity health dashboard"
               sx={{
                 ...styles.image,
@@ -68,6 +68,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
                 objectFit: 'cover',
                 width: '300px',
                 height: 'fit-content',
+                border: '2px solid #FFB300',
               }}
               width={150}
               height={150}
