@@ -9,3 +9,4 @@ export const mailChimpUrl = `https://finance.us10.list-manage.com/subscribe/post
 
 export const LHD_API_TEMP = 'https://lhd-temp-api.herokuapp.com'
 export const LHD_API = 'https://lhd-api.apeswap.finance'
+export const HOMEPAGE_API_TEMP = 'https://apeswap-api-v2-pr-79.herokuapp.com'

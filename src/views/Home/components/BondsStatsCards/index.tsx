@@ -5,6 +5,7 @@ import CountUp from 'react-countup'
 // Hooks
 import { useTranslation } from 'contexts/Localization'
 import useIsMobile from 'hooks/useIsMobile'
+import useGetHomepageStats from 'hooks/queries/useGetHomepageStats'
 
 // Utils
 import { formatDollar } from 'utils/formatNumbers'
@@ -33,6 +34,40 @@ const CARDS_DESCRIPTION: ICardsDescription[] = [
 const BondsStatsCards = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const { data: stats, isLoading } = useGetHomepageStats()
+
+  const token = stats?.tokens
+
+  console.log({ token })
+
+  const StatsCard = ({ name, title, subTitle }: { name: string; title: number; subTitle: string }) => {
+    const formattedAmount = formatDollar({ num: title })
+    const lastChar = formattedAmount.slice(formattedAmount.length - 1)
+    const withoutFirstAndLastSlice = Number(formattedAmount.slice(1, -1))
+
+    return (
+      <Flex
+        sx={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          mb: '20px',
+        }}
+      >
+        <Text sx={{ fontSize: ['22px', '22px', '30px'], fontWeight: 'bold', mb: ['5px', '5px', '12px'] }}>
+          {name !== CardName.TotalBondsSold && '$'}
+          {isMobile ? (
+            <>
+              <CountUp end={withoutFirstAndLastSlice} decimals={2} duration={1} separator="," />
+              {name !== CardName.TotalBondsSold && lastChar}
+            </>
+          ) : (
+            <CountUp end={title} decimals={0} duration={3} separator="," />
+          )}
+        </Text>
+        <Text sx={{ fontSize: ['12px', '12px', '14px'], fontWeight: 'light' }}>{t(subTitle)}</Text>
+      </Flex>
+    )
+  }
 
   return (
     <Flex sx={{ justifyContent: 'center' }}>
@@ -48,35 +83,9 @@ const BondsStatsCards = () => {
           my: ['20px', '20px', '50px'],
         }}
       >
-        {CARDS_DESCRIPTION.map(({ name, title, subTitle }) => {
-          const formattedAmount = formatDollar({ num: title })
-          const lastChar = formattedAmount.slice(formattedAmount.length - 1)
-          const withoutFirstAndLastSlice = Number(formattedAmount.slice(1, -1))
-
-          return (
-            <Flex
-              key={name}
-              sx={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                mb: '20px',
-              }}
-            >
-              <Text sx={{ fontSize: ['22px', '22px', '30px'], fontWeight: 'bold', mb: ['5px', '5px', '12px'] }}>
-                {name !== CardName.TotalBondsSold && '$'}
-                {isMobile ? (
-                  <>
-                    <CountUp end={withoutFirstAndLastSlice} decimals={2} duration={1} separator="," />
-                    {name !== CardName.TotalBondsSold && lastChar}
-                  </>
-                ) : (
-                  <CountUp end={title} decimals={0} duration={3} separator="," />
-                )}
-              </Text>
-              <Text sx={{ fontSize: ['12px', '12px', '14px'], fontWeight: 'light' }}>{t(subTitle)}</Text>
-            </Flex>
-          )
-        })}
+        {CARDS_DESCRIPTION.map(({ name, title, subTitle }) => (
+          <StatsCard name={name} title={title} subTitle={subTitle} key={name} />
+        ))}
       </Grid>
     </Flex>
   )
