@@ -1,11 +1,11 @@
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Link, Svg, Text } from 'components/uikit'
 import { styles } from './styles'
 import { SvgProps } from 'components/uikit/Svg/Icons/types'
 
 interface ExemptAssetNoticeProps {
   icon?: SvgProps['icon']
-  lineOne?: string
-  lineTwo?: string
+  lineOne?: any
+  lineTwo?: any
   phraseCondition?: 'mcap' | 'dex'
 }
 
@@ -13,7 +13,18 @@ const BANNER_PHRASES = {
   mcap: {
     lineOne:
       'CEX liquidity is not yet integrated into Apeswap’s LHD. For large MCAP tokens, cross reference with their CEX liquidity.',
-    lineTwo: 'We are working on a way to factor CEX depth in, please stay tuned!',
+    lineTwo: (
+      <>
+        We are working on a way to factor CEX depth in, please{' '}
+        <Link
+          target="_blank"
+          href="https://apeswap.gitbook.io/apeswap-finance/product-and-features/liquidity-health-dashboard/whats-next-for-the-lhd#centralized-exchange-liquidity"
+        >
+          read here
+        </Link>{' '}
+        on the status!
+      </>
+    ),
   },
   dex: {
     lineOne: "This asset does not yet have it's primary decentralized exchange integrated on the LHD.",
