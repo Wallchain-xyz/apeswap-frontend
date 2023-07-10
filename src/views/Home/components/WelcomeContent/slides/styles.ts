@@ -88,6 +88,8 @@ export const styles: Record<
   },
   imageWrapper: {
     display: ['none', 'none', 'none', 'flex'],
+    flexDirection: 'column',
+    alignItems: 'center',
     marginTop: ['50px', '50px', '50px', '35px'],
     zIndex: 10,
     padding: '10px',
