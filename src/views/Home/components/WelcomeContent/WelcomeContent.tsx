@@ -4,7 +4,7 @@ import BackgroundCircles from './BackgroundCircles'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 import useSwiper from 'hooks/useSwiper'
-import SwiperCore from 'swiper'
+import SwiperCore, { Autoplay } from 'swiper'
 import { getDotPos } from 'utils/getDotPos'
 import DefiRedefined from './slides/DefiRedefined'
 
@@ -12,6 +12,8 @@ import DefiRedefined from './slides/DefiRedefined'
 import LHD from './slides/LHD'
 //import ApeSwapV3 from './slides/ApeSwapV3'
 import { Flex, SwiperDots } from 'components/uikit'
+
+SwiperCore.use([Autoplay])
 
 const WelcomeContent = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDImage: number }) => {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -40,7 +42,7 @@ const WelcomeContent = ({ randomImage, randomLHDImage }: { randomImage: number; 
               <Swiper
                 id="homeSwiper"
                 autoplay={{
-                  delay: 15000,
+                  delay: 12000,
                   disableOnInteraction: false,
                 }}
                 onSwiper={setSwiper}
