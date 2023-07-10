@@ -21,14 +21,14 @@ const Values = dynamic(() => import('./components/Values/Values'), {
   ssr: false,
 })
 
-const Home = ({ randomImage }: { randomImage: number }) => {
+const Home = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDImage: number }) => {
   const { chainId } = useWeb3React()
   useAllTokenPrices()
 
   return (
     <Flex sx={{ flexDirection: 'column', width: '100%' }}>
       <SwiperProvider>
-        <WelcomeContent randomImage={randomImage} />
+        <WelcomeContent randomImage={randomImage} randomLHDImage={randomLHDImage} />
       </SwiperProvider>
       <StatCards />
       <TrendingTokens />
