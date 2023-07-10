@@ -11,34 +11,35 @@ const mergeFarmConfigs = () => {
     return {
       chainId,
       farms: [
-        ...farms.flatMap(
-          ({
-            pid,
-            lpAddresses,
-            lpSymbol,
-            tokenAddresses,
-            tokenSymbol,
-            quoteTokenAdresses,
-            quoteTokenSymbol,
-            projectLink,
-          }) => {
-            return chainId === SupportedChainId.BSC
-              ? {
-                  id: uniqueId(FarmTypes.MASTER_CHEF_V1),
-                  pid,
-                  farmType: FarmTypes.MASTER_CHEF_V1,
-                  lpStakeTokenAddress: lpAddresses[SupportedChainId.BSC] ?? '',
-                  lpStakeTokenSymbol: lpSymbol ?? '',
-                  tokenAddress: tokenAddresses[SupportedChainId.BSC] ?? '',
-                  tokenSymbol,
-                  quoteTokenAddress: quoteTokenAdresses[SupportedChainId.BSC] ?? '',
-                  quoteTokenSymbol,
-                  rewardToken: tokens.banana,
-                  projectLink,
-                }
-              : []
-          },
-        ),
+        // MAV1 farms have been deprecated and would not be displayed on the new repo
+        // ...farms.flatMap(
+        //   ({
+        //     pid,
+        //     lpAddresses,
+        //     lpSymbol,
+        //     tokenAddresses,
+        //     tokenSymbol,
+        //     quoteTokenAdresses,
+        //     quoteTokenSymbol,
+        //     projectLink,
+        //   }) => {
+        //     return chainId === SupportedChainId.BSC
+        //       ? {
+        //           id: uniqueId(FarmTypes.MASTER_CHEF_V1),
+        //           pid,
+        //           farmType: FarmTypes.MASTER_CHEF_V1,
+        //           lpStakeTokenAddress: lpAddresses[SupportedChainId.BSC] ?? '',
+        //           lpStakeTokenSymbol: lpSymbol ?? '',
+        //           tokenAddress: tokenAddresses[SupportedChainId.BSC] ?? '',
+        //           tokenSymbol,
+        //           quoteTokenAddress: quoteTokenAdresses[SupportedChainId.BSC] ?? '',
+        //           quoteTokenSymbol,
+        //           rewardToken: tokens.banana,
+        //           projectLink,
+        //         }
+        //       : []
+        //   },
+        // ),
         ...farmsV2.flatMap(
           ({
             pid,
