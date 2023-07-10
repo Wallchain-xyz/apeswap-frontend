@@ -40,7 +40,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
         <Text sx={styles.slideSubtitle}>
           {t('Take your analysis to the next level with liquidity health data across')}{' '}
           <Text sx={styles.counterText}>
-            <CountUp end={hasBeenViewed ? tokensTracked : 0} decimals={0} duration={5} separator="," />{' '}
+            <CountUp end={hasBeenViewed ? tokensTracked : 0} decimals={0} duration={4} separator="," />{' '}
           </Text>
           {t('projects and counting.')}
         </Text>
