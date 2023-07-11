@@ -143,7 +143,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             onClick={
               BRIDGE_SUPPORTED_CHAINS.includes(chainId as number)
                 ? onBridgeModal
-                : () => window.open('https://app.multichain.org/#/router', '_blank')
+                : () => window.open('https://jumper.exchange', '_blank')
             }
           >
             <Svg icon="bridge" />
