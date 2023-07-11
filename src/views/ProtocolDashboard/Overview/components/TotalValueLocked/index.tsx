@@ -7,7 +7,7 @@ import CountUp from 'react-countup'
 import { styles } from './styles'
 import { useFetchHomepageStats } from 'state/homepage/hooks'
 import { useThemeUI } from 'theme-ui'
-import { Tvl } from 'views/Home/components/StatCards/icons'
+import { Tvl } from './icons'
 
 const COLORS = [
   'rgba(244, 190, 55, 1)',
