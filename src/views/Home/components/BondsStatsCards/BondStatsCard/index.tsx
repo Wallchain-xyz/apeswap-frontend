@@ -29,7 +29,8 @@ const BondStatsCard = ({
   const isMobile = useIsMobile()
 
   const renderCountUp = (): JSX.Element => {
-    const amountCurrency: string = name !== BondsStats.TotalBondsSold ? '$' : ''
+    const isTotalBondsSold = name === BondsStats.TotalBondsSold
+    const amountCurrency: string = !isTotalBondsSold ? '$' : ''
     if (isLoading) {
       return (
         <Skeleton
@@ -44,7 +45,12 @@ const BondStatsCard = ({
       return (
         <>
           {amountCurrency}
-          <CountUp end={withoutFirstAndLastSlice} decimals={2} duration={1} separator="," />
+          <CountUp
+            end={isTotalBondsSold ? amount : withoutFirstAndLastSlice}
+            decimals={isTotalBondsSold ? 0 : 2}
+            duration={1}
+            separator=","
+          />
           {name !== BondsStats.TotalBondsSold && lastChar}
         </>
       )
