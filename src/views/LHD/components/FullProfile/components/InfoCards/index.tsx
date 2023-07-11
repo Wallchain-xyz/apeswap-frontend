@@ -104,7 +104,18 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
         }}
       >
         <Flex sx={styles.titleContainer}>
-          <Text sx={styles.titleText}>{t('Liquidity Ownership')}</Text>
+          <Text sx={styles.titleText}>
+            {t('Liquidity Ownership ')}
+            <TooltipBubble
+              style={{ zIndex: 1000 }}
+              placement="bottomRight"
+              transformTip="translate(10%, -6%)"
+              width="250px"
+              body={`Shows a breakdown of owned liquidity, compared to the total liquidity. Additionally conveys whitelisted addresses that have Protocol Owned Liquidity in them.`}
+            >
+              <Svg icon="question" width="12px" />
+            </TooltipBubble>
+          </Text>
         </Flex>
         {whitelistedOwners.length > 0 ? (
           <>
@@ -162,7 +173,35 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                         {formatDollar({ num: whiteListedOwner.amount })}
                         <Flex sx={{ ml: '3px' }}>
                           {whiteListedOwner.reason === 'known' ? (
-                            <Svg icon="tickShield" color="success" />
+                            <TooltipBubble
+                              placement="bottomRight"
+                              transformTip="translate(4%, -4%)"
+                              width="200px"
+                              body={
+                                <>{t('This owned liquidity source has been manually verified with the project.')}</>
+                              }
+                              sx={{ '&::before': { right: '-5%' }, borderRadius: '7px' }}
+                            >
+                              <Flex sx={{ ml: '5px' }}>
+                                <Svg icon="tickShield" color="success" width="12px" />
+                              </Flex>
+                            </TooltipBubble>
+                          ) : whiteListedOwner.reason === 'burned' ? (
+                            <TooltipBubble
+                              placement="bottomRight"
+                              transformTip="translate(4%, -4%)"
+                              width="200px"
+                              body={
+                                <>
+                                  {t('This is liquidity locked at the burn address, which counts towards ownership.')}
+                                </>
+                              }
+                              sx={{ '&::before': { right: '-5%' }, borderRadius: '7px' }}
+                            >
+                              <Flex sx={{ ml: '5px' }}>
+                                <Svg icon="fire" width="12px" />
+                              </Flex>
+                            </TooltipBubble>
                           ) : (
                             <TooltipBubble
                               placement="bottomRight"
@@ -171,9 +210,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
                               body={
                                 <>
                                   {t(
-                                    whiteListedOwner.reason === 'burned'
-                                      ? 'We suspect this is owned liquidity due to the LP being burned.'
-                                      : 'We suspect this is owned liquidity from a locking contract or multi-sig wallet.',
+                                    'This is suspected to be owned liquidity from a locking contract or multi-sig wallet.',
                                   )}
                                 </>
                               }

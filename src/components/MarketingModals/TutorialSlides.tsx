@@ -1180,7 +1180,7 @@ export const LiquidityHealthSlides = () => {
     <Slide
       key={2}
       step="HOW IT WORKS"
-      slideTitle="Liquidity Health Score"
+      slideTitle="What is Liquidity Health Score?"
       slideContent={
         <Text sx={styles.content}>
           {t(
@@ -1192,21 +1192,23 @@ export const LiquidityHealthSlides = () => {
     <Slide
       key={3}
       step="HOW IT WORKS"
-      slideTitle="Liquidity Strength"
+      slideTitle="What is Liquidity Strength?"
       slideContent={
         <>
           <Text sx={styles.content}>
             {t(`This reflects the strength of the project's liquidity by analyzing the total amount of `)}
-            <Link
-              href={
-                'https://apeswap.gitbook.io/apeswap-finance/product-and-features/liquidity-health-dashboard/lhd-glossary-and-tags'
+            <Tooltip
+              placement={'topRight'}
+              transformTip="translate(0%, 2%)"
+              body={
+                <Flex sx={styles.tipBody}>
+                  {t('The sum of the hard assets liquidity in all of the valid pairs (ie: blue chips & stable coins).')}
+                </Flex>
               }
-              target="_blank"
-              rel="noreferrer noopener"
-              sx={styles.yellow}
+              sx={{ width: ['250px', '250px', '250px', '350px'] }}
             >
-              {t(`extractable liquidity`)}
-            </Link>
+              <Text sx={styles.tipTitle}>{t('extractable liquidity')}</Text>
+            </Tooltip>
             {t(` across all pools and chains, regardless of if the project owns that liquidity or if it is rented.`)}
           </Text>
           <Text
@@ -1223,7 +1225,7 @@ export const LiquidityHealthSlides = () => {
     <Slide
       key={4}
       step="HOW IT WORKS"
-      slideTitle="Liquidity Ownership"
+      slideTitle="What is Liquidity Ownership?"
       slideContent={
         <>
           <Text sx={styles.content}>
@@ -1262,7 +1264,7 @@ export const LiquidityHealthSlides = () => {
     <Slide
       key={5}
       step="HOW IT WORKS"
-      slideTitle="Liquidity Concentration"
+      slideTitle="What is Liquidity Concentration?"
       slideContent={
         <>
           <Text sx={styles.content}>
@@ -1288,8 +1290,23 @@ export const LiquidityHealthSlides = () => {
       slideContent={
         <Text sx={styles.content}>
           {t(
-            `The project owns an adequate amount of liquidity to capitalize their token and no token emissions are wasted on renting liquidity. All liquidity pools have at least $250k of extractable liquidity and are valid pairs. POL is locked in a contract or gnosis safe.`,
+            `This project would own enough liquidity to capitalize their token without leveraging emissions to rent liquidity. Each of their liquidity pools would be valid pairs that have at least 250k of extractable liquidity, and all the `,
           )}
+          <Tooltip
+            placement={'topRight'}
+            transformTip="translate(10%, 2%)"
+            body={
+              <Flex sx={styles.tipBody}>
+                {t(
+                  `Short for ‘Protocol Owned Liquidity’: Liquidity that is owned by the projects themselves (as opposed to ‘rented’ liquidity).`,
+                )}
+              </Flex>
+            }
+            sx={{ width: ['250px', '250px', '250px', '350px'] }}
+          >
+            <Text sx={styles.tipTitle}>{t('POL')}</Text>
+          </Tooltip>{' '}
+          {t(' would be locked in a contract or gnosis safe.')}
         </Text>
       }
     />,

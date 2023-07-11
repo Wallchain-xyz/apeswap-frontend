@@ -26,7 +26,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
 
   const { tokensTracked = 0 } = industryStats || {}
 
-  // Helper to animate the countUp on the first slide view only
+  // Helper to animate the countUp when the slide is viewed for the fist time only
   useEffect(() => {
     if (activeSlide === SLIDE_INDEX) {
       setHasBeenViewed(true)
@@ -40,12 +40,12 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
         <Text sx={styles.slideSubtitle}>
           {t('Take your analysis to the next level with liquidity health data across')}{' '}
           <Text sx={styles.counterText}>
-            <CountUp end={hasBeenViewed ? tokensTracked : 0} decimals={0} duration={5} separator="," />{' '}
+            <CountUp end={hasBeenViewed ? tokensTracked : 0} decimals={0} duration={4} separator="," />{' '}
           </Text>
           {t('projects and counting.')}
         </Text>
         <Text sx={styles.availableOn}>{t('LIQUIDITY HEALTH DASHBOARD BETA NOW LIVE!')}</Text>
-        <Link href="/liquidity-health">
+        <Link href="/liquidity-health" sx={{ textDecoration: 'none' }}>
           <Flex
             sx={{
               gap: '5px',
@@ -55,12 +55,17 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
               display: ['flex', 'flex', 'none'],
             }}
           >
-            <Image src={`/images/lhd/liquidity-white.svg`} alt="liquidity health drop" width={20} height={25} />
+            <Image
+              src={`/images/homepage/lhd/lhd-drop-${colorMode}.svg`}
+              alt="liquidity health drop"
+              width={20}
+              height={25}
+            />
             <Text sx={{ fontSize: '16px' }}>{t('Liquidity Health Dashboard')}</Text>
           </Flex>
           <Flex sx={{ ...styles.billImage, position: 'relative', justifyContent: 'start', marginTop: '10px' }}>
             <Image
-              src={`/images/homepage/lhd/lhd-chart-mobile-${colorMode}.svg`}
+              src={`/images/homepage/lhd/lhd-chart-${colorMode}.svg`}
               alt="liquidity health dashboard"
               sx={{
                 ...styles.image,
@@ -68,6 +73,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
                 objectFit: 'cover',
                 width: '300px',
                 height: 'fit-content',
+                border: '2px solid #FFB300',
               }}
               width={150}
               height={150}
