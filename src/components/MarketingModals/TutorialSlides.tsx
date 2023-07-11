@@ -26,7 +26,7 @@ export const SwapSlides = () => {
           <Text sx={{ fontStyle: 'italic' }}>
             {t(`New to ${NETWORK_LABEL[chainId as SupportedChainId]} Chain? You might need to`)}
             <Link
-              href="https://app.multichain.org/#/router"
+              href="https://jumper.exchange"
               target="_blank"
               rel="noreferrer noopener"
               sx={{ ...styles.yellow, mx: '3px' }}
