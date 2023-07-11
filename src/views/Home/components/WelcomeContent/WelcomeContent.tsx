@@ -16,7 +16,7 @@ import { Flex, SwiperDots } from 'components/uikit'
 SwiperCore.use([Autoplay])
 
 const WelcomeContent = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDImage: number }) => {
-  const [activeSlide, setActiveSlide] = useState(1)
+  const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
   const slides = [
     <DefiRedefined randomImage={randomImage} key={0} /> /*, <ApeSwapV3 key={1} />*/,
@@ -42,7 +42,7 @@ const WelcomeContent = ({ randomImage, randomLHDImage }: { randomImage: number; 
               <Swiper
                 id="homeSwiper"
                 autoplay={{
-                  delay: 120000000,
+                  delay: 12000,
                   disableOnInteraction: false,
                 }}
                 onSwiper={setSwiper}
