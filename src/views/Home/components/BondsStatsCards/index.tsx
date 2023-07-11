@@ -40,7 +40,7 @@ const BondsStatsCards = () => {
         }}
       >
         {CARDS_DESCRIPTION.map(({ name, subTitle }) => (
-          <BondStatsCard name={name} amount={stats?.[name] ?? 0} subTitle={subTitle} key={name} isLoading={isLoading} />
+          <BondStatsCard name={name} amount={stats?.[name] ?? 1} subTitle={subTitle} key={name} isLoading={isLoading} />
         ))}
       </Grid>
     </Flex>
