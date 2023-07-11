@@ -1,10 +1,17 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
+export enum BondsStats {
+  TotalBondsSold = 'totalBondsSold',
+  TotalBondedValue = 'totalBondedValue',
+  TotalTradeVolume = 'totalTradeVolume',
+  TotalValueLocked = 'totalValueLocked',
+}
+
 export interface HomepageDTO {
-  totalBondsSold?: number
-  totalBondedValue?: number
-  totalTradeVolume?: number
-  totalValueLocked?: number
+  [BondsStats.TotalBondsSold]: number
+  [BondsStats.TotalBondedValue]: number
+  [BondsStats.TotalTradeVolume]: number
+  [BondsStats.TotalValueLocked]: number
   partnerCount?: number
   bonds?: BondDTO[]
   farms?: FarmDTO[]
@@ -55,10 +62,6 @@ interface Farm extends BasePool {
   }
   type: 'mav2' | 'jungle' | 'dual'
   version?: number
-}
-
-interface Pool extends BasePool {
-  type: 'pool' | 'native' | 'auto'
 }
 
 interface BasePool {
