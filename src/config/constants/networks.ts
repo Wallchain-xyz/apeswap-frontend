@@ -16,11 +16,7 @@ export const RPC_URLS: Record<SupportedChainId, string[]> = {
     'https://matic-mainnet.chainstacklabs.com',
   ],
   [SupportedChainId.POLYGON_MUMBAI]: ['https://matic-mumbai.chainstacklabs.com'],
-  [SupportedChainId.MAINNET]: [
-    'https://eth-mainnet.nodereal.io/v1/43f9100965104de49b580d1fa1ab28c0',
-    'https://rpc.ankr.com/eth',
-    'https://eth-mainnet.public.blastapi.io',
-  ],
+  [SupportedChainId.MAINNET]: ['https://rpc.ankr.com/eth', 'https://eth-mainnet.public.blastapi.io'],
   [SupportedChainId.TLOS]: ['https://mainnet.telos.net/evm'],
 }
 
@@ -38,10 +34,6 @@ export const PUBLIC_RPC_URLS: Record<SupportedChainId, string[]> = {
     'https://matic-mainnet.chainstacklabs.com',
   ],
   [SupportedChainId.POLYGON_MUMBAI]: ['https://matic-mumbai.chainstacklabs.com'],
-  [SupportedChainId.MAINNET]: [
-    'https://eth-mainnet.nodereal.io/v1/43f9100965104de49b580d1fa1ab28c0',
-    'https://rpc.ankr.com/eth',
-    'https://eth-mainnet.public.blastapi.io',
-  ],
+  [SupportedChainId.MAINNET]: ['https://rpc.ankr.com/eth', 'https://eth-mainnet.public.blastapi.io'],
   [SupportedChainId.TLOS]: ['https://mainnet.telos.net/evm'],
 }
