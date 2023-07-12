@@ -1,5 +1,4 @@
 import CountUp from 'react-countup'
-import { Box } from 'theme-ui'
 
 // Components
 import { Flex, Skeleton, Text } from 'components/uikit'
@@ -77,7 +76,7 @@ const BondStatsCard = ({
           {renderCountUp()}
         </Text>
       </Flex>
-      <Text sx={{ fontSize: ['12px', '12px', '14px'], fontWeight: 'light' }}>{t(subTitle)}</Text>
+      <Text sx={{ fontSize: ['12px', '12px', '14px'], fontWeight: 'light', opacity: '0.7' }}>{t(subTitle)}</Text>
     </Flex>
   )
 }
