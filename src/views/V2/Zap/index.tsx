@@ -13,7 +13,7 @@ import {
 } from 'state/zap/hooks'
 import ZapLiquidityActions from './components/ZapLiquidityActions'
 import { styles } from './styles'
-import { useZapCallback } from 'hooks/useZapCallback'
+import { useZapCallback } from 'lib/hooks/zap/useZapCallback'
 import DistributionPanel from './components/DistributionPanel/DistributionPanel'
 import DexPanel from 'components/DexPanel'
 import { useWeb3React } from '@web3-react/core'

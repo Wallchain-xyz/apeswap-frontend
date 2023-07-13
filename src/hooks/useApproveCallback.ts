@@ -5,7 +5,7 @@ import { ApprovalState, useApproval } from 'lib/hooks/useApproval'
 import { useCallback } from 'react'
 import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 import { TransactionType } from '../state/transactions/types'
-import useZapApproval from './useZapApproval'
+import { useZapApproval } from '../lib/hooks/zap/useZapApproval'
 import { useToastError } from 'state/application/hooks'
 export { ApprovalState } from 'lib/hooks/useApproval'
 

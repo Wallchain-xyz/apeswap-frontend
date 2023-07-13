@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { useZapCallback } from '../../hooks/useZapCallback'
+import { useZapCallback } from '../../lib/hooks/zap/useZapCallback'
 import { useDerivedZapInfo, useZapState } from '../../state/zap/hooks'
 import { useUserZapSlippageTolerance } from '../../state/user/hooks'
 import track from '../../utils/track'
