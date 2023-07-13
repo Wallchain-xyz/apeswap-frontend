@@ -1,3 +1,6 @@
+// Contexts
+import SwiperProvider from 'contexts/SwiperProvider'
+
 // Components
 import BondsList from './BondsList'
 
@@ -15,7 +18,7 @@ const Lists = ({ activeTab }: ListsProps) => {
     [TabNavOptions.TOKENS]: <div>Tokens</div>,
   }
 
-  return activeList[activeTab]
+  return <SwiperProvider>{activeList[activeTab]}</SwiperProvider>
 }
 
 export default Lists

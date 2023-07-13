@@ -18,7 +18,7 @@ export interface HomepageDTO {
   tokens?: TokenDTO[]
 }
 
-interface BondDTO extends Bond {
+export interface BondDTO extends Bond {
   isFeatured: boolean
   launchDate: string
 }

@@ -29,21 +29,23 @@ const BondStatsCard = ({
   const isMobile = useIsMobile()
 
   const renderCountUp = (): JSX.Element => {
-    const isTotalBondsSold = name === BondsStats.TotalBondsSold
-    const amountCurrency: string = !isTotalBondsSold ? '$' : ''
     if (isLoading) {
       return (
         <Skeleton
           sx={{ width: ['100%', '100%', '100%'], height: ['22px', '22px', '30px'], mb: ['5px', '5px', '12px'] }}
         />
       )
-    } else if (isMobile) {
-      const formattedAmount = formatDollar({ num: amount })
-      const lastChar = formattedAmount.slice(formattedAmount.length - 1)
-      const withoutFirstAndLastSlice = Number(formattedAmount.slice(1, -1))
+    }
+    const isTotalBondsSold = name === BondsStats.TotalBondsSold
+    const amountCurrency: string = !isTotalBondsSold ? '$' : ''
+    const formattedAmount = formatDollar({ num: amount })
+    const lastChar = formattedAmount.slice(formattedAmount.length - 1)
+    const withoutFirstAndLastSlice = Number(formattedAmount.slice(1, -1))
 
-      return (
-        <>
+    return (
+      <>
+        {/* Mobile view starts */}
+        <Box sx={{ display: ['block', 'block', 'block', 'none'] }}>
           {amountCurrency}
           <CountUp
             end={isTotalBondsSold ? amount : withoutFirstAndLastSlice}
@@ -52,16 +54,14 @@ const BondStatsCard = ({
             separator=","
           />
           {name !== BondsStats.TotalBondsSold && lastChar}
-        </>
-      )
-    } else {
-      return (
-        <>
+        </Box>
+        {/* Desktop view starts */}
+        <Box sx={{ display: ['none', 'none', 'none', 'block'] }}>
           {amountCurrency}
           <CountUp end={amount} decimals={0} duration={3} separator="," />
-        </>
-      )
-    }
+        </Box>
+      </>
+    )
   }
 
   return (
