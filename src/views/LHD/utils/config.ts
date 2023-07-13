@@ -57,6 +57,10 @@ export const TAGS: Tag[] = [
     label: 'Liquid Staking',
   },
   {
+    value: 'DAO',
+    label: 'DAO',
+  },
+  {
     value: 'Yield',
     label: 'Yield',
   },
