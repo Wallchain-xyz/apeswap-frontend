@@ -367,8 +367,7 @@ const SharableCard = ({
               m: '20px 0 0',
               width: '49%',
               '@media screen and (max-width: 780px)': {
-                width: '100%',
-                m: '0px',
+                display: 'none',
               },
             }}
             onClick={() => handleClick('download')}
