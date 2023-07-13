@@ -38,6 +38,13 @@ export type MergedZap = {
   chainId: SupportedChainId
 }
 
+export enum ZapCallbackState {
+  STANDBY,
+  INVALID,
+  LOADING,
+  VALID,
+}
+
 export const selectInputCurrency = createAction<{ currencyId: string }>('zap/selectInputCurrency')
 export const selectOutputCurrency = createAction<{ currency1: string; currency2: string }>('zap/selectOutputCurrency')
 export const setZapType = createAction<{ zapType: ZapType }>('zap/setZapType')
@@ -55,3 +62,5 @@ export const setInputList = createAction<{ zapInputList: { [symbol: string]: Tok
 export const setZapNewOutputList = createAction<{ zapNewOutputList: { currencyIdA: string; currencyIdB: string }[] }>(
   'zap/setZapNewOutputList',
 )
+export const setZapState = createAction<ZapCallbackState>('swap/setSwapState')
+export const setZapError = createAction<string | null>('swap/setSwapError')

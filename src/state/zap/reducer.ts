@@ -3,12 +3,15 @@ import { ZapType } from '@ape.swap/v2-zap-sdk'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   Field,
+  ZapCallbackState,
   replaceZapState,
   selectInputCurrency,
   selectOutputCurrency,
   setInputList,
   setRecipient,
+  setZapError,
   setZapNewOutputList,
+  setZapState,
   setZapType,
   typeInput,
 } from './actions'
@@ -30,6 +33,8 @@ export interface ZapState {
   // TODO: this type is incorrect since it needs to handle chainId as well.
   readonly zapInputList: { [symbol: string]: Token } | undefined
   readonly zapNewOutputList: { currencyIdA: string; currencyIdB: string }[]
+  readonly zapState: ZapCallbackState
+  readonly zapError: string | null
 }
 
 const initialState: ZapState = {
@@ -47,6 +52,8 @@ const initialState: ZapState = {
   recipient: null,
   zapInputList: undefined,
   zapNewOutputList: [],
+  zapState: ZapCallbackState.STANDBY,
+  zapError: null,
 }
 
 export default createReducer<ZapState>(initialState, (builder) =>
@@ -107,5 +114,11 @@ export default createReducer<ZapState>(initialState, (builder) =>
         ...state,
         zapNewOutputList,
       }
-    }),
+    })
+    .addCase(setZapState, (state, action) => {
+      state.zapState = action.payload
+    })
+    .addCase(setZapError, (state, action) => {
+      state.zapError = action.payload
+    })
 )

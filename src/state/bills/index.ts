@@ -1,4 +1,4 @@
-import { Dispatch, createSlice } from '@reduxjs/toolkit'
+import { Dispatch, PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
 import {
   fetchBillsAllowance,
   fetchUserBalances,
@@ -12,7 +12,7 @@ import { MAINNET_CHAINS } from 'config/constants/chains'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Bills } from 'views/Bonds/types'
 import { TokenPrices } from 'hooks/useAllTokenPrices'
-import { AppThunk } from 'state'
+import { AppState, AppThunk } from 'state'
 
 const filterByChainId = (chainId: SupportedChainId) => {
   return bills.filter(
@@ -23,11 +23,13 @@ const filterByChainId = (chainId: SupportedChainId) => {
   )
 }
 
+type BillsRecords = Partial<Record<SupportedChainId, Bills[]>>
+
 export interface BillsState {
-  data: Partial<Record<SupportedChainId, Bills[]>>
+  data: BillsRecords
 }
 
-const initialBillsState: any = {}
+const initialBillsState: BillsRecords = {}
 MAINNET_CHAINS.forEach((chainId: SupportedChainId) => {
   initialBillsState[chainId] = filterByChainId(chainId)
 })
@@ -40,48 +42,58 @@ export const billsSlice = createSlice({
   name: 'Bills',
   initialState,
   reducers: {
-    setBillsPublicData: (state: any, action) => {
+    setBillsPublicData: (state, action: PayloadAction<{ value: Bills[], chainId: SupportedChainId }>) => {
       const { value: liveBillsData, chainId } = action.payload
-      state.data[chainId] = state.data[chainId].map((bill: any) => {
+      state.data[chainId] = (state.data[chainId] || []).map((bill) => {
         const liveBillData = liveBillsData.find((entry: any) => entry.index === bill.index)
         return { ...bill, ...liveBillData }
       })
     },
-    setBillsUserData: (state: any, action) => {
+    setBillsUserData: (state, action: PayloadAction<{ value: any; chainId: SupportedChainId }> ) => {
       const { value: userData, chainId } = action.payload
-      state.data[chainId] = state.data[chainId].map((bill: any) => {
+      state.data[chainId] = (state.data[chainId] || []).map((bill: any) => {
         const userBillData = userData.find((entry: any) => entry.index === bill.index)
         return { ...bill, userData: userBillData }
       })
     },
-    setUserOwnedBillsData: (state: any, action) => {
+    setUserOwnedBillsData: (state, action: PayloadAction<{ value: any; chainId: SupportedChainId }> ) => {
       const { value: userData, chainId } = action.payload
-      state.data[chainId] = state.data[chainId].map((bill: any) => {
+      state.data[chainId] = (state.data[chainId] || []).map((bill: any) => {
         const userOwnedBillsData = userData.find((entry: any) => entry.index === bill.index)
         return { ...bill, userOwnedBillsData: userOwnedBillsData?.userOwnedBills }
       })
     },
-    setUserOwnedBillsNftData: (state: any, action) => {
+    setUserOwnedBillsNftData: (state, action: PayloadAction<{ value: any; chainId: SupportedChainId }>) => {
       const { value: userData, chainId } = action.payload
-      state.data[chainId] = state.data[chainId].map((bill: any) => {
+      state.data[chainId] = (state.data[chainId] || []).map((bill: any) => {
         const userOwnedBillsNftData = userData.find((entry: any) => entry.index === bill.index)
         return { ...bill, userOwnedBillsNftData: userOwnedBillsNftData?.userOwnedBillsNfts }
       })
     },
-    updateBillsUserData: (state: any, action) => {
-      const { field, value, index, chainId } = action.payload
-      const i = state.data[chainId].findIndex((bill: any) => bill.index === index)
-      state.data[chainId][i] = {
-        ...state.data[chainId][i],
-        userData: { ...state.data[chainId][i].userData, [field]: value },
+    updateBillsUserData: (
+      state,
+      action: PayloadAction<{ value: any; field: string; index: number; chainId: SupportedChainId }>,
+    ) => {
+      const { value, field, index, chainId } = action.payload
+      const billState = state.data[chainId] || []
+      const i = billState.findIndex((bill) => bill.index === index)
+      if(i === -1) return;
+      // state.data[chainId][i] = {
+      (state.data[chainId] as Bills[])[i] = {
+        ...billState[i],
+        // @ts-ignore // TODO: fix types 
+        userData: { ...billState[i].userData, [field]: value },
       }
     },
-    updateBillsUserNftData: (state: any, action) => {
+    updateBillsUserNftData: (state, action: PayloadAction<{ value: any; index: number; chainId: SupportedChainId }>) => {
       const { value, index, chainId } = action.payload
-      const i = state.data[chainId].findIndex((bill: any) => bill.index === index)
-      state.data[chainId][i] = {
-        ...state.data[chainId][i],
-        userOwnedBillsNftData: { ...state.data[chainId][i].userOwnedBillsNftData, ...value },
+      const billState = state.data[chainId] || []
+      const i = billState.findIndex((bill: any) => bill.index === index)
+      if(i === -1) return;
+      // @ts-ignore // TODO: fix types 
+      (state.data[chainId] as Bills[])[i] = {
+        ...billState,
+        userOwnedBillsNftData: { ...billState[i].userOwnedBillsNftData, ...value },
       }
     },
   },
@@ -96,16 +108,25 @@ export const {
   updateBillsUserData,
 } = billsSlice.actions
 
+// Selectors
+const selectBillsState = (state: AppState) => state.bills
+
+export const selectBillsByChainId = createSelector(
+  [selectBillsState, (_: AppState, chainId: SupportedChainId) => chainId],
+  (billsState, chainId) => billsState.data[chainId] || [],
+)
+
 // Thunks
 
 // TODO: When swapping between chain the state will reset sometimes when the multicall fetch is null
 export const fetchBillsPublicDataAsync =
   (chainId: SupportedChainId, tokenPrices: TokenPrices[]): AppThunk =>
-  async (dispatch: Dispatch, getState: any) => {
+  async (dispatch: Dispatch, getState) => {
     try {
-      const bills = getState().bills.data[chainId]
+      const bills = selectBillsByChainId(getState(), chainId)
       const returnedBills = await fetchBills(chainId, tokenPrices, bills)
-      dispatch(setBillsPublicData({ value: returnedBills, chainId }))
+      // NOTE: Setting returnedBills as Bills[], but types could be different
+      dispatch(setBillsPublicData({ value: returnedBills as Bills[], chainId }))
     } catch (error) {
       console.warn(error)
     }
@@ -113,9 +134,9 @@ export const fetchBillsPublicDataAsync =
 
 export const fetchBillsUserDataAsync =
   (chainId: SupportedChainId, account: string): AppThunk =>
-  async (dispatch: Dispatch, getState: any) => {
+  async (dispatch: Dispatch, getState) => {
     try {
-      const bills = getState().bills.data[chainId]
+      const bills = selectBillsByChainId(getState(), chainId)
       // fetch and set user bill interaction data
       const allowances = await fetchBillsAllowance(chainId, account, bills)
       const stakingTokenBalances = await fetchUserBalances(chainId, account, bills)
@@ -134,9 +155,9 @@ export const fetchBillsUserDataAsync =
 
 export const fetchUserOwnedBillsDataAsync =
   (chainId: SupportedChainId, account: string): AppThunk =>
-  async (dispatch: Dispatch, getState: any) => {
+  async (dispatch: Dispatch, getState) => {
     try {
-      const bills: Bills[] = getState().bills.data[chainId]
+      const bills = selectBillsByChainId(getState(), chainId)
       // Fetch and set user owned bill data without NFT Data
       const userOwnedBills = await fetchUserOwnedBills(chainId, account, bills)
       const mapUserOwnedBills = bills.map((bill: Bills) =>
@@ -173,8 +194,8 @@ export const fetchUserOwnedBillsDataAsync =
 
 export const updateUserAllowance =
   (chainId: SupportedChainId, index: number, account: string): AppThunk =>
-  async (dispatch: Dispatch, getState: any) => {
-    const bills = getState().bills.data[chainId]
+  async (dispatch: Dispatch, getState) => {
+    const bills = selectBillsByChainId(getState(), chainId)
     const allowances = await fetchBillsAllowance(chainId, account, bills)
     //@ts-ignore
     dispatch(updateBillsUserData({ index, field: 'allowance', value: allowances[index], chainId }))
@@ -182,8 +203,8 @@ export const updateUserAllowance =
 
 export const updateUserBalance =
   (chainId: SupportedChainId, index: string, account: string): AppThunk =>
-  async (dispatch: Dispatch, getState: any) => {
-    const bills = getState().bills.data[chainId]
+  async (dispatch: Dispatch, getState) => {
+    const bills = selectBillsByChainId(getState(), chainId)
     const tokenBalances = await fetchUserBalances(chainId, account, bills)
     //@ts-ignore
     dispatch(updateBillsUserData({ index, field: 'stakingTokenBalance', value: tokenBalances[index], chainId }))
@@ -193,10 +214,10 @@ export const updateUserBalance =
  * @deprecated since multiple NFT contracts
  */
 export const updateUserNftData =
-  (index: SupportedChainId, billNftId: string, transactionHash: string, chainId: number): AppThunk =>
+  (index: number, billNftId: string, transactionHash: string, chainId: SupportedChainId): AppThunk =>
   async (dispatch: Dispatch) => {
     const fetchedBillNftData = await getNewBillNftData(billNftId, transactionHash, chainId)
-    dispatch(updateBillsUserData({ index, value: fetchedBillNftData, chainId }))
+    dispatch(updateBillsUserData({ index, field: 'fetchedBillNftData', value: fetchedBillNftData, chainId }))
   }
 
 export default billsSlice.reducer

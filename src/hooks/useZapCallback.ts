@@ -1,8 +1,6 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTransactionAdder } from '../state/transactions/hooks'
-import { isAddress } from '../utils'
 import isZero from '../utils/isZero'
 import useTransactionDeadline from './useTransactionDeadline'
 import { ZapType, ZapV1 } from '@ape.swap/v2-zap-sdk'
@@ -12,29 +10,11 @@ import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
 import { useZapContract } from './useContract'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
-import { MergedZap } from 'state/zap/actions'
+import { MergedZap, ZapCallbackState, setZapError, setZapState } from 'state/zap/actions'
 import { TransactionType } from 'state/transactions/types'
-
-export enum SwapCallbackState {
-  INVALID,
-  LOADING,
-  VALID,
-}
-
-interface SwapCall {
-  contract: Contract
-  parameters: any
-}
-
-interface SuccessfulCall {
-  call: SwapCall
-  gasEstimate: BigNumber
-}
-
-interface FailedCall {
-  call: SwapCall
-  error: Error
-}
+import { Call, FailedCall, SuccessfulCall, estimateGasForCalls } from 'utils/transactions'
+import { isAddress } from 'utils'
+import { useAppDispatch, useAppSelector } from 'state/hooks'
 
 /**
  * Returns the swap calls that can be used to make the trade
@@ -52,7 +32,7 @@ function useZapCallArguments(
   stakingContractAddress?: string,
   maxPrice?: string,
   stakingPid?: string,
-): SwapCall[] {
+): Call[] {
   const { account, chainId, provider } = useWeb3React()
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
@@ -116,9 +96,12 @@ export function useZapCallback(
   stakingContractAddress?: string,
   maxPrice?: string,
   poolPid?: string,
-  // TODO: Fix the any
-): { state: SwapCallbackState; callback: any; error: string | null } {
+): { state: ZapCallbackState; callback: any; error: string | null } {
   const { account, chainId, provider } = useWeb3React()
+
+  const dispatch = useAppDispatch()
+  const zapState = useAppSelector(state => state.zap.zapState)
+  const zapError = useAppSelector(state => state.zap.zapError)
 
   const swapCalls = useZapCallArguments(
     zap,
@@ -135,56 +118,34 @@ export function useZapCallback(
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
 
-  return useMemo(() => {
+  useEffect(() => {
     if (!provider || !account || !chainId) {
-      return { state: SwapCallbackState.INVALID, callback: null, error: 'Missing dependencies' }
-    }
-    if (!recipient) {
+      dispatch(setZapState(ZapCallbackState.INVALID))
+      dispatch(setZapError('Missing dependencies'))
+    } else if (!recipient) {
       if (recipientAddressOrName !== null) {
-        return { state: SwapCallbackState.INVALID, callback: null, error: 'Invalid recipient' }
+        dispatch(setZapState(ZapCallbackState.INVALID))
+        dispatch(setZapError('Invalid recipient'))
+      } else {
+        dispatch(setZapState(ZapCallbackState.LOADING))
+        dispatch(setZapError(null))
       }
-      return { state: SwapCallbackState.LOADING, callback: null, error: null }
+    } else {
+      dispatch(setZapState(ZapCallbackState.VALID))
+      dispatch(setZapError(null))
+    }
+  }, [provider, account, chainId, recipient, recipientAddressOrName, dispatch])
+
+
+  return useMemo(() => {
+    if (zapState === ZapCallbackState.INVALID) {
+      return { state: zapState, callback: null, error: zapError }
     }
 
     return {
-      state: SwapCallbackState.VALID,
+      state: zapState,
       callback: async function onZap(): Promise<string> {
-        const estimatedCalls = await Promise.all(
-          swapCalls.map((call) => {
-            const {
-              parameters: { methodName, args, value },
-              contract,
-            } = call
-            const options = !value || isZero(value) ? {} : { value }
-
-            return contract.estimateGas[methodName](...args, options)
-              .then((gasEstimate) => {
-                return {
-                  call,
-                  gasEstimate,
-                }
-              })
-              .catch((gasError) => {
-                console.error('Gas estimate failed, trying eth_call to extract error', call)
-
-                return contract.callStatic[methodName](...args, options)
-                  .then((result) => {
-                    console.error('Unexpected successful call after failed estimate gas', call, gasError, result)
-                    return { call, error: new Error('Unexpected issue with estimating the gas. Please try again.') }
-                  })
-                  .catch((callError) => {
-                    console.error('Call threw error', call, callError)
-                    const reason: string = callError.reason || callError.data?.message || callError.message
-                    const errorMessage = `The transaction cannot succeed due to error: ${
-                      `${reason}. This is probably an issue with one of the tokens you are zapping` ??
-                      'Unknown error, check the logs'
-                    }.`
-
-                    return { call, error: new Error(errorMessage) }
-                  })
-              })
-          }),
-        )
+        const estimatedCalls = await estimateGasForCalls(swapCalls)
 
         // a successful estimation is a bignumber gas estimate and the next call is also a bignumber gas estimate
         const successfulEstimation = estimatedCalls.find(
@@ -215,6 +176,7 @@ export function useZapCallback(
             const outputSymbol = `${zap?.pairOut?.pair?.token0?.symbol} - ${zap?.pairOut?.pair?.token1?.symbol}`
 
             const base = `Zap ${inputSymbol} into ${outputSymbol}`
+            // TODO: This is not being used
             const withRecipient =
               recipient === account
                 ? base
@@ -239,5 +201,5 @@ export function useZapCallback(
       },
       error: null,
     }
-  }, [zap, provider, account, chainId, recipient, recipientAddressOrName, swapCalls, addTransaction])
+  }, [zap, account, recipient, recipientAddressOrName, swapCalls, addTransaction, zapState, zapError])
 }

@@ -6,6 +6,7 @@ import { useApproval } from 'lib/hooks/useApproval'
 // wraps useApproveCallback in the context of a swap
 export default function useZapApproval(
   zap: any,
+  // TODO: Unused param
   allowedSlippage: Percent,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean,
 ) {
