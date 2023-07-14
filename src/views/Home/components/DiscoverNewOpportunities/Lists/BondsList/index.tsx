@@ -1,3 +1,5 @@
+import { SupportedChainId } from '@ape.swap/sdk-core'
+
 import { useState } from 'react'
 import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -123,19 +125,42 @@ export interface mockedParsedBond extends Partial<BondDTO> {
 }
 
 export const bonds: mockedParsedBond[] = [
-  { isFeatured: true, launchDate: '1689129500300', chainId: 56, payoutTokenName: 'TLOS', discount: 0.1 },
-  { isFeatured: true, launchDate: '1689129500300', chainId: 56, payoutTokenName: 'MATIC', discount: -0.3 },
-  { isFeatured: false, isNew: true, launchDate: '1688524700300', chainId: 56, payoutTokenName: 'GGC', discount: 0.2 },
+  {
+    isFeatured: true,
+    launchDate: '1689129500300',
+    chainId: SupportedChainId.BSC,
+    payoutTokenName: 'TLOS',
+    discount: 0.1,
+  },
+  {
+    isFeatured: true,
+    launchDate: '1689129500300',
+    chainId: SupportedChainId.ARBITRUM_ONE,
+    payoutTokenName: 'MATIC',
+    discount: -0.3,
+  },
   {
     isFeatured: false,
-    isNew: true,
+    launchDate: '1688524700300',
+    chainId: SupportedChainId.MAINNET,
+    payoutTokenName: 'GGC',
+    discount: 0.2,
+  },
+  {
+    isFeatured: false,
     launchDate: '1687919900300',
-    chainId: 56,
+    chainId: SupportedChainId.POLYGON,
     payoutTokenName: 'BANANA',
     discount: -0.1,
   },
-  { isFeatured: false, launchDate: '1686710300300', chainId: 56, payoutTokenName: 'NFTY', discount: 0.3 },
-  { isFeatured: false, launchDate: '1685500700300', chainId: 56, payoutTokenName: 'FANTOM', discount: -0.2 },
+  {
+    isFeatured: false,
+    launchDate: '1686710300300',
+    chainId: SupportedChainId.TLOS,
+    payoutTokenName: 'NFTY',
+    discount: 0.3,
+  },
+  { isFeatured: false, launchDate: '1685500700300', chainId: 1, payoutTokenName: 'FANTOM', discount: -0.2 },
   { isFeatured: false, launchDate: '1684291100300', chainId: 56, payoutTokenName: 'BANANA', discount: 0.1 },
   { isFeatured: false, launchDate: '1683081500300', chainId: 56, payoutTokenName: 'DAI', discount: -0.3 },
   { isFeatured: false, launchDate: '1681871900300', chainId: 56, payoutTokenName: 'USDC', discount: 0.2 },
