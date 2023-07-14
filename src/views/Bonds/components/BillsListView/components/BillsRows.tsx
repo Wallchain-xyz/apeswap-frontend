@@ -10,7 +10,6 @@ import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListViewContent from 'components/ListView/ListViewContent'
-import ListViewContentComponent from 'components/ListView/ListViewContentComponent'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { Flex } from 'components/uikit'
 import ConnectWalletButton from 'components/ConnectWallet'
@@ -18,7 +17,8 @@ import ListView from 'components/ListView/ListView'
 import getTimePeriods from 'utils/getTimePeriods'
 import { formatNumberSI } from 'utils/formatNumber'
 import { ListTagVariants } from 'components/uikit/Tag/types'
-import ProgressBar from './ProgressBar'
+import ProgressBar from './ProgressBar/ProgressBar'
+import ProgressBarWrapper from './ProgressBar/ProgressBarWrapper'
 
 interface BillsRowsProps {
   billsToRender: Bills[]
@@ -135,14 +135,13 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                   toolTipPlacement="bottomLeft"
                   toolTipTransform="translate(39%, 0%)"
                 />
-                <ListViewContentComponent
+                <ProgressBarWrapper
                   title={t('Tokens Remaining')}
-                  value="12"
-                  valueIcon={<ProgressBar value={remainingPercentage} />}
-                  style={{ maxWidth: '130px', height: '40px', flexDirection: 'column' }}
+                  value={!isNaN(remainingPercentage) && <ProgressBar value={remainingPercentage} />}
+                  style={{ maxWidth: '130px', height: '25px', flexDirection: 'column' }}
                   toolTip={availableTokensTooltip}
                   toolTipPlacement="bottomLeft"
-                  toolTipTransform="translate(56%, 0%)"
+                  toolTipTransform="translate(45%, 0%)"
                 />
                 <Flex sx={{ width: '145px', minWidth: '145px' }}>
                   {account ? (
@@ -181,14 +180,13 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                         toolTipTransform={'translate(39%, 0%)'}
                         style={{ width: '100%', justifyContent: 'space-between' }}
                       />
-                      <ListViewContentComponent
+                      <ProgressBarWrapper
                         title={t('Tokens Remaining')}
-                        value="12"
-                        valueIcon={<ProgressBar value={remainingPercentage} />}
-                        style={{ maxWidth: '130px', height: '40px', flexDirection: 'column' }}
+                        value={!isNaN(remainingPercentage) && <ProgressBar value={remainingPercentage} />}
+                        style={{ width: '100%', height: '20px', flexDirection: 'row', justifyContent: 'space-between' }}
                         toolTip={availableTokensTooltip}
                         toolTipPlacement="bottomLeft"
-                        toolTipTransform="translate(56%, 0%)"
+                        toolTipTransform="translate(45%, 0%)"
                       />
                     </Flex>
                     <Flex sx={{ width: '240px', justifyContent: 'center' }}>

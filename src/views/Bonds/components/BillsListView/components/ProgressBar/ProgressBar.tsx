@@ -9,7 +9,7 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ value }) => {
   return (
-    <Flex sx={{ width: '100%', alignItems: 'center', flexDirection: 'row', mt: '5px' }}>
+    <Flex sx={{ width: ['100px','100px','100px','100%'], alignItems: 'center', flexDirection: 'row', mt: '5px' }}>
       <Box
         sx={{
           width: '100%',

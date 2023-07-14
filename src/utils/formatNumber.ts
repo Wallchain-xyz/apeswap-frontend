@@ -10,9 +10,9 @@ export const formatNumber = (number: number, minPrecision = 2, maxPrecision = 2)
 export const formatNumberSI = (number: number, digits = 2) => {
   const lookupSI = [
     { value: 1, symbol: '' },
-    { value: 1e6, symbol: ' M' },
-    { value: 1e9, symbol: ' B' },
-    { value: 1e12, symbol: ' T' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e9, symbol: 'B' },
+    { value: 1e12, symbol: 'T' },
   ]
   const regEx = /\.0+$|(\.[0-9]*[1-9])0+$/
 
