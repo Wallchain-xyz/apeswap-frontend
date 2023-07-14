@@ -17,7 +17,7 @@ const styles: Record<BadgeType, any> = {
   },
   new: {
     bg: 'rgba(243, 186, 47, 0.30)',
-    textColor: '#FFB300',
+    textColor: 'yellow',
     icon: '/images/discover-new-opportunities/star-yellow.svg',
   },
 }
