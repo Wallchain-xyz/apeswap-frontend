@@ -93,10 +93,10 @@
     node-cache "^5.1.2"
     stats-lite "^2.2.0"
 
-"@ape.swap/token-lists@1.0.50":
-  version "1.0.50"
-  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.50.tgz#13e2bb5d0ed23d416b521eec49f795b83f118515"
-  integrity sha512-z0BlTadce5/3DaeiKsSXF7277sciAIl5dH+wX5ggZyWAYYk2o5ezAzLOx/DYrf/WnfUeuv7L3r2LTeRCbreacQ==
+"@ape.swap/token-lists@1.0.51":
+  version "1.0.51"
+  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.51.tgz#bbc5717fad7b1db4a16c51979f244aa20c343fd6"
+  integrity sha512-FZRB4IKRh6TmJ3mx8RlYUNISPITjYS8/pAnOmFDsVgEqN3WRyfsZ3FYlPCQNz/m0jn6EIYtYE5Gq6OOMPaRY6w==
 
 "@ape.swap/token-lists@^1.0.6":
   version "1.0.21"
