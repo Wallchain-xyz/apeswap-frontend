@@ -3,6 +3,7 @@ import { Box } from 'theme-ui'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
+import useGetHomepageStats from 'hooks/queries/useGetHomepageStats'
 
 // Components
 import { Text } from 'components/uikit'
@@ -16,6 +17,7 @@ const TABS: TabNavOptions[] = Object.values(TabNavOptions)
 
 const DiscoverNewOpportunities = () => {
   const [activeTab, setActiveTab] = useState<TabNavOptions>(TabNavOptions.BONDS)
+  const { data: stats } = useGetHomepageStats()
   const { t } = useTranslation()
   return (
     <Box
@@ -29,7 +31,7 @@ const DiscoverNewOpportunities = () => {
         <Text sx={{ fontSize: ['25px', '25px', '35px'], fontWeight: '500' }}>{t('Discover New Opportunities')}</Text>
       </Box>
       <Tabs tabs={TABS} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <Lists activeTab={activeTab} />
+      <Lists activeTab={activeTab} stats={stats} />
     </Box>
   )
 }

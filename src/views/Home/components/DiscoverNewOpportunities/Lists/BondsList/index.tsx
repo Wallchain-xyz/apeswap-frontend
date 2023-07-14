@@ -20,7 +20,11 @@ import { getDotPos } from 'utils/getDotPos'
 // Types
 import { BondDTO } from 'utils/types/homepage'
 
-const BondsList = () => {
+interface BondsListProps {
+  bonds: BondDTO[]
+}
+
+const BondsList = ({ bonds }: BondsListProps) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
 
@@ -119,52 +123,3 @@ const BondsList = () => {
 }
 
 export default BondsList
-
-export interface mockedParsedBond extends Partial<BondDTO> {
-  isNew?: boolean
-}
-
-export const bonds: mockedParsedBond[] = [
-  {
-    isFeatured: true,
-    launchDate: '1689129500300',
-    chainId: SupportedChainId.BSC,
-    payoutTokenName: 'TLOS',
-    discount: 0.1,
-  },
-  {
-    isFeatured: true,
-    launchDate: '1689129500300',
-    chainId: SupportedChainId.ARBITRUM_ONE,
-    payoutTokenName: 'MATIC',
-    discount: -0.3,
-  },
-  {
-    isFeatured: false,
-    launchDate: '1688524700300',
-    chainId: SupportedChainId.MAINNET,
-    payoutTokenName: 'GGC',
-    discount: 0.2,
-  },
-  {
-    isFeatured: false,
-    launchDate: '1687919900300',
-    chainId: SupportedChainId.POLYGON,
-    payoutTokenName: 'BANANA',
-    discount: -0.1,
-  },
-  {
-    isFeatured: false,
-    launchDate: '1686710300300',
-    chainId: SupportedChainId.TLOS,
-    payoutTokenName: 'NFTY',
-    discount: 0.3,
-  },
-  { isFeatured: false, launchDate: '1685500700300', chainId: 1, payoutTokenName: 'FANTOM', discount: -0.2 },
-  { isFeatured: false, launchDate: '1684291100300', chainId: 56, payoutTokenName: 'BANANA', discount: 0.1 },
-  { isFeatured: false, launchDate: '1683081500300', chainId: 56, payoutTokenName: 'DAI', discount: -0.3 },
-  { isFeatured: false, launchDate: '1681871900300', chainId: 56, payoutTokenName: 'USDC', discount: 0.2 },
-  { isFeatured: false, launchDate: '1680662300300', chainId: 56, payoutTokenName: 'DAI', discount: -0.1 },
-  { isFeatured: false, launchDate: '1679452700300', chainId: 56, payoutTokenName: 'FANTOM', discount: 0.3 },
-  { isFeatured: false, launchDate: '1678243100300', chainId: 56, payoutTokenName: 'BANANA', discount: -0.2 },
-]
