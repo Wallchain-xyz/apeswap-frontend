@@ -6,7 +6,9 @@ import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import { isAddress } from 'utils'
 import { AppState } from '../index'
 import {
-  Field,
+  Field
+} from './actions'
+import {
   replaceZapState,
   selectInputCurrency,
   selectOutputCurrency,
@@ -15,7 +17,7 @@ import {
   setZapNewOutputList,
   setZapType,
   typeInput,
-} from './actions'
+} from './slice'
 import { useTrackedTokenPairs, useUserZapSlippageTolerance } from '../user/hooks'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
@@ -253,7 +255,7 @@ export function useDefaultCurrencies() {
         field: '',
         inputCurrencyId: inputCurrency,
         outputCurrencyId: outputCurrencies,
-        recipient: account,
+        recipient: account || null,
         zapType: ZapType.ZAP,
       }),
     )

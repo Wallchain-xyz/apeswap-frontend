@@ -10,7 +10,8 @@ import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
 import { useZapContract } from '../../../hooks/useContract'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
-import { MergedZap, ZapCallbackState, setZapError, setZapState } from 'state/zap/actions'
+import { MergedZap, ZapCallbackState } from 'state/zap/actions'
+import { setZapError, setZapState } from 'state/zap/slice'
 import { TransactionType } from 'state/transactions/types'
 import { Call, FailedCall, SuccessfulCall, estimateGasForCalls } from 'utils/transactions'
 import { isAddress } from 'utils'
@@ -128,11 +129,11 @@ export function useZapCallback(
         dispatch(setZapError('Invalid recipient'))
       } else {
         dispatch(setZapState(ZapCallbackState.LOADING))
-        dispatch(setZapError(null))
+        dispatch(setZapError(undefined))
       }
     } else {
       dispatch(setZapState(ZapCallbackState.VALID))
-      dispatch(setZapError(null))
+      dispatch(setZapError(undefined))
     }
   }, [provider, account, chainId, recipient, recipientAddressOrName, dispatch])
 
@@ -199,7 +200,7 @@ export function useZapCallback(
             }
           })
       },
-      error: null,
+      error: undefined,
     }
   }, [zap, account, recipient, recipientAddressOrName, swapCalls, addTransaction, zapState, zapError])
 }
