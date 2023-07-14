@@ -9,7 +9,7 @@ export const formatNumber = (number: number, minPrecision = 2, maxPrecision = 2)
 // Formats a number with SI (International System of Units) sufixes
 export const formatNumberSI = (number: number, digits = 2) => {
   const lookupSI = [
-    { value: 1, symbol: ' ' },
+    { value: 1, symbol: '' },
     { value: 1e6, symbol: ' M' },
     { value: 1e9, symbol: ' B' },
     { value: 1e12, symbol: ' T' },

@@ -43,7 +43,7 @@ export interface ListViewContentProps {
   value2Icon?: React.ReactNode
   value2Secondary?: boolean
   value2Direction?: 'column' | 'row'
-  toolTip?: string
+  toolTip?: any
   aprCalculator?: React.ReactNode
   toolTipPlacement?: 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft'
   toolTipTransform?: string

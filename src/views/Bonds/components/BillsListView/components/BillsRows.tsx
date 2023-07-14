@@ -10,6 +10,7 @@ import { BLOCK_EXPLORER } from 'config/constants/chains'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import ListViewContent from 'components/ListView/ListViewContent'
+import ListViewContentComponent from 'components/ListView/ListViewContentComponent'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { Flex } from 'components/uikit'
 import ConnectWalletButton from 'components/ConnectWallet'
@@ -17,6 +18,7 @@ import ListView from 'components/ListView/ListView'
 import getTimePeriods from 'utils/getTimePeriods'
 import { formatNumberSI } from 'utils/formatNumber'
 import { ListTagVariants } from 'components/uikit/Tag/types'
+import ProgressBar from './ProgressBar'
 
 interface BillsRowsProps {
   billsToRender: Bills[]
@@ -46,9 +48,19 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
 
         const displayAvailable =
           available.eq(0) || !thresholdToShow.isFinite() ? null : available.minus(thresholdToShow).toFixed(0)
+
+        const dollarAvailable = new BigNumber(earnTokenPrice ?? '0').times(displayAvailable ?? '0').toFixed(2)
         const explorerLink = BLOCK_EXPLORER[chainId as SupportedChainId]
         const billContractURL = `${explorerLink}/address/${bill?.contractAddress[chainId as SupportedChainId]}`
-
+        const totalMaxPayout = new BigNumber(maxTotalPayOut ?? '0')
+        const totalPayout = new BigNumber(totalPayoutGiven ?? '0')
+        const remainingTokens = totalMaxPayout.minus(totalPayout)
+        const remainingPercentage = remainingTokens.div(totalMaxPayout).times(100).toNumber()
+        const availableTokensTooltip = displayAvailable
+          ? `${disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 3)} ${earnToken.symbol} ($${
+              disabled ? '0' : formatNumberSI(parseInt(dollarAvailable), 3)
+            })`
+          : 'Loading...'
         return {
           tokenDisplayProps: {
             token1: token.symbol,
@@ -123,13 +135,14 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                   toolTipPlacement="bottomLeft"
                   toolTipTransform="translate(39%, 0%)"
                 />
-                <ListViewContent
-                  title={t('Available Tokens')}
-                  value={displayAvailable ? (disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 3)) : 'null'}
-                  style={{ maxWidth: '125px', height: '40px', flexDirection: 'column' }}
-                  toolTip={t('This is the amount of available tokens for purchase.')}
+                <ListViewContentComponent
+                  title={t('Tokens Remaining')}
+                  value="12"
+                  valueIcon={<ProgressBar value={remainingPercentage} />}
+                  style={{ maxWidth: '130px', height: '40px', flexDirection: 'column' }}
+                  toolTip={availableTokensTooltip}
                   toolTipPlacement="bottomLeft"
-                  toolTipTransform="translate(50%, 0%)"
+                  toolTipTransform="translate(56%, 0%)"
                 />
                 <Flex sx={{ width: '145px', minWidth: '145px' }}>
                   {account ? (
@@ -168,15 +181,14 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
                         toolTipTransform={'translate(39%, 0%)'}
                         style={{ width: '100%', justifyContent: 'space-between' }}
                       />
-                      <ListViewContent
-                        title={'Available Tokens'}
-                        value={
-                          displayAvailable ? (disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 2)) : 'null'
-                        }
-                        toolTip={`This is the amount of available tokens for purchase.`}
-                        toolTipPlacement={'bottomLeft'}
-                        toolTipTransform={'translate(50%, 0%)'}
-                        style={{ width: '100%', justifyContent: 'space-between' }}
+                      <ListViewContentComponent
+                        title={t('Tokens Remaining')}
+                        value="12"
+                        valueIcon={<ProgressBar value={remainingPercentage} />}
+                        style={{ maxWidth: '130px', height: '40px', flexDirection: 'column' }}
+                        toolTip={availableTokensTooltip}
+                        toolTipPlacement="bottomLeft"
+                        toolTipTransform="translate(56%, 0%)"
                       />
                     </Flex>
                     <Flex sx={{ width: '240px', justifyContent: 'center' }}>
