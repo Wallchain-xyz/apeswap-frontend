@@ -25,7 +25,7 @@ const BondsList = () => {
   const chunkedBonds = chunk(bonds, 4)
 
   const slides = chunkedBonds.map((chunk, index) => (
-    <Grid key={index} sx={{ bg: 'blue', width: '100%' }} columns="1fr">
+    <Grid key={index} sx={{ width: '100%' }} columns="1fr">
       {chunk.map((item, itemIndex) => {
         return <Card item={item} key={`${item.payoutTokenName}${itemIndex}`} />
       })}

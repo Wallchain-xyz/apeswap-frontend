@@ -14,8 +14,8 @@ interface CardProps {
 
 const Card = ({ item }: CardProps) => {
   return (
-    <Flex sx={{ alignItems: 'center', bg: 'magenta', px: '20px', borderRadius: '10px', height: '54px' }}>
-      <Flex sx={{ gap: '20px' }}>
+    <Flex sx={{ alignItems: 'center', bg: 'white2', px: '20px', borderRadius: '10px', height: '54px' }}>
+      <Flex sx={{ gap: ['10px', '10px', '20px'], alignItems: 'center' }}>
         <Text sx={{ fontSize: ['12px', '12px', '16px'] }}>{item.payoutTokenName}</Text>
         {item.isFeatured && <OpportunityBadge type="featured" />}
         {item.isNew && <OpportunityBadge type="new" />}

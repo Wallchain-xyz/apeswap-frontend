@@ -1,25 +1,53 @@
-import { Badge } from 'theme-ui'
+import Image from 'next/image'
 
 // Components
-import { Text } from 'components/uikit'
-import { type } from 'os'
+import { Flex, Text } from 'components/uikit'
+
+type BadgeType = 'featured' | 'new'
 
 interface OpportunityBadgeProps {
-  type: 'featured' | 'new'
+  type: BadgeType
+}
+
+const styles: Record<BadgeType, any> = {
+  featured: {
+    bg: '#424242',
+    textColor: '#FAFAFA',
+    icon: '/images/discover-new-opportunities/dollar-circle-gray.svg',
+  },
+  new: {
+    bg: 'rgba(243, 186, 47, 0.30)',
+    textColor: '#FFB300',
+    icon: '/images/discover-new-opportunities/star-yellow.svg',
+  },
 }
 
 const OpportunityBadge = ({ type }: OpportunityBadgeProps) => {
   return (
-    <Badge
+    <Flex
       sx={{
-        px: '3px',
-        h: '12px',
-        bg: '#FDFBF5',
+        px: '5px',
+        gap: '3px',
+        height: '13px',
+        bg: styles[type].bg,
         borderRadius: '3px',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Text sx={{ fontSize: '8px', fontWeight: '500', color: 'red' }}>{type}</Text>
-    </Badge>
+      <Image src={styles[type].icon} alt="dollar-sign" width={7} height={7} />
+      <Text
+        sx={{
+          fontSize: '8px',
+          fontWeight: '500',
+          textTransform: 'capitalize',
+          color: styles[type].textColor,
+          opacity: '0.6',
+        }}
+      >
+        {type}
+      </Text>
+    </Flex>
   )
 }
 
