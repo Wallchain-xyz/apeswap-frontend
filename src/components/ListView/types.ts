@@ -33,7 +33,7 @@ export interface ListCardProps extends ListProps {
   serviceTokenDisplay: React.ReactNode
 }
 
-export interface ListViewContentProps {
+export interface ProgressBarWrapperProps {
   tag?: ListTagVariants
   title?: string
   value: string
@@ -43,7 +43,7 @@ export interface ListViewContentProps {
   value2Icon?: React.ReactNode
   value2Secondary?: boolean
   value2Direction?: 'column' | 'row'
-  toolTip?: any
+  toolTip?: string
   aprCalculator?: React.ReactNode
   toolTipPlacement?: 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft'
   toolTipTransform?: string

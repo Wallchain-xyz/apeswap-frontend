@@ -1,21 +1,21 @@
 import React from 'react'
-import { useTranslation } from '../../../../../../contexts/Localization'
+import { useTranslation } from 'contexts/Localization'
 import { styles } from '../../../../../../components/ListView/styles'
 import { Flex, Skeleton, Svg, Text } from 'components/uikit'
 import TooltipBubble from 'components/uikit/Tooltip'
 import { ThemeUIStyleObject } from 'theme-ui'
 
-export interface ListViewContentProps {
+export interface ProgressBarWrapperProps {
   title?: string
   value?: React.ReactNode
   value2Direction?: 'column' | 'row'
-  toolTip?: any
+  toolTip?: string
   toolTipPlacement?: 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft'
   toolTipTransform?: string
   style?: ThemeUIStyleObject
 }
 
-const ProgressBarWrapper: React.FC<ListViewContentProps> = ({
+const ProgressBarWrapper: React.FC<ProgressBarWrapperProps> = ({
   title,
   value,
   toolTip,
