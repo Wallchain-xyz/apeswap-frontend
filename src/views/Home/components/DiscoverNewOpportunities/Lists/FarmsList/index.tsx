@@ -1,40 +1,34 @@
 import { useState } from 'react'
-import { Grid } from 'theme-ui'
+import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
 import 'swiper/swiper.min.css'
 import { chunk } from 'lodash'
 
 // Components
-import { Flex, SwiperDots } from 'components/uikit'
-import Card from '../../Card'
+import { Flex, SwiperDots, Text } from 'components/uikit'
+import ListCard from '../ListCard'
 
 // Hooks
 import useSwiper from 'hooks/useSwiper'
+import { useTranslation } from 'contexts/Localization'
 
 // Utils
 import { getDotPos } from 'utils/getDotPos'
 
 // Types
-import { BondDTO } from 'utils/types/homepage'
+import { FarmDTO } from 'utils/types/homepage'
 
-interface BondsListProps {
-  bonds: BondDTO[]
+interface FarmsListProps {
+  farms: FarmDTO[]
 }
 
-const BondsList = ({ bonds }: BondsListProps) => {
+const FarmsList = ({ farms }: FarmsListProps) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
+  const { t } = useTranslation()
 
-  const chunkedBonds = chunk(bonds, 4)
-
-  const slides = chunkedBonds.map((chunk, index) => (
-    <Grid key={index} sx={{ width: '100%' }} columns="1fr">
-      {chunk.map((item, itemIndex) => {
-        return <Card item={item} key={`${item.payoutTokenName}${itemIndex}`} />
-      })}
-    </Grid>
-  ))
+  const chunkedFarms = chunk(farms, 4)
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)
@@ -45,6 +39,39 @@ const BondsList = ({ bonds }: BondsListProps) => {
     setActiveSlide(index)
     swiper?.slideTo(index)
   }
+
+  const renderListCard = (item: FarmDTO, itemIndex: number): JSX.Element => {
+    const { name, chainId, apr } = item
+    const [firstToken, secondToken] = name.split('-')
+    return (
+      <ListCard
+        key={`${name}${itemIndex}`}
+        name={name}
+        chainId={chainId}
+        serviceTokenProps={{ token1: firstToken, token2: secondToken, token3: secondToken, stakeLp: true }}
+        rightContent={
+          <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
+            <Text sx={{ opacity: '0.6', fontSize: ['10px', '10px', '12px'], fontWeight: 'light' }}>{t('APY')}</Text>
+            <Box
+              sx={{
+                fontSize: ['12px', '12px', '16px'],
+                fontWeight: 'bold',
+                color: 'success',
+              }}
+            >
+              {apr}%
+            </Box>
+          </Flex>
+        }
+      />
+    )
+  }
+
+  const slides = chunkedFarms.map((chunk, index) => (
+    <Grid key={index} sx={{ width: '100%' }} columns="1fr">
+      {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+    </Grid>
+  ))
 
   return (
     <>
@@ -58,7 +85,7 @@ const BondsList = ({ bonds }: BondsListProps) => {
         }}
       >
         <Swiper
-          id="bondsListSwiper"
+          id="farmsListSwiper"
           onSwiper={setSwiper}
           slidesPerView="auto"
           centeredSlides
@@ -101,18 +128,16 @@ const BondsList = ({ bonds }: BondsListProps) => {
       </Flex>
       {/* Desktop view starts */}
       <Grid
-        columns="1fr 1fr 1fr"
+        columns="1fr 1fr"
         sx={{
           gridGap: '10px',
           mt: '70px',
           display: ['none', 'none', 'grid'],
         }}
       >
-        {chunkedBonds.map((chunk, index) => (
+        {chunkedFarms.map((chunk, index) => (
           <Flex key={index} sx={{ flexDirection: 'column', gap: '15px' }}>
-            {chunk.map((item, itemIndex) => {
-              return <Card item={item} key={`${item.payoutTokenName}${itemIndex}`} />
-            })}
+            {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
           </Flex>
         ))}
       </Grid>
@@ -120,4 +145,4 @@ const BondsList = ({ bonds }: BondsListProps) => {
   )
 }
 
-export default BondsList
+export default FarmsList

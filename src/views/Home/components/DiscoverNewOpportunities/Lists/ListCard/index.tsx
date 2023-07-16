@@ -1,34 +1,27 @@
 import Image from 'next/image'
 import { Box } from 'theme-ui'
 
-// Components
-import { Flex, Text } from 'components/uikit'
-import OpportunityBadge from '../OpportunityBadge'
-import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
-import SmallChainIcon from 'components/SmallChainIcon'
-
 // Hooks
 import { useTranslation } from 'contexts/Localization'
 
-// Types
-import { BondDTO } from 'utils/types/homepage'
+// Components
+import { Flex, Text } from 'components/uikit'
+import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
+import SmallChainIcon from 'components/SmallChainIcon'
+import OpportunityBadge from '../../OpportunityBadge'
+import { ReactNode } from 'react'
 
-interface CardProps {
-  item: BondDTO
+interface ListCardProps {
+  serviceTokenProps: any
+  name: string
+  isNew?: boolean
+  isFeatured?: boolean
+  rightContent: ReactNode
+  chainId: number
 }
 
-const isWithin48Hours = (timestamp: number): boolean => {
-  const currentTimestamp = Date.now()
-  const differenceInMilliseconds = currentTimestamp - timestamp
-  const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60)
-
-  return differenceInHours < 48
-}
-
-const Card = ({ item }: CardProps) => {
+const ListCard = ({ name, isNew, isFeatured, serviceTokenProps, rightContent, chainId }: ListCardProps) => {
   const { t } = useTranslation()
-  const { payoutTokenName, discount = 0, chainId = '56' } = item
-  const isNew = isWithin48Hours(Number(item.launchDate))
   return (
     <Flex
       sx={{
@@ -42,15 +35,16 @@ const Card = ({ item }: CardProps) => {
         position: 'relative',
       }}
     >
+      {/* TODO: Animate this to slide left to right */}
       <Flex
         sx={{
           position: 'absolute',
           justifyContent: 'center',
           alignItems: 'center',
           gap: '8px',
-          zIndex: '2',
+          zIndex: '10',
           opacity: '0',
-          bg: 'rgba(33, 33, 33, 0.90)',
+          bg: 'white2Opacity09',
           width: '100%',
           height: '100%',
           borderRadius: '10px',
@@ -71,29 +65,22 @@ const Card = ({ item }: CardProps) => {
       <Flex sx={{ gap: ['10px', '10px', '20px'], alignItems: 'center' }}>
         <Flex sx={{ position: 'relative' }}>
           <Box sx={{ display: ['flex', 'flex', 'none'] }}>
-            <ServiceTokenDisplay token1={payoutTokenName} size={24} />
+            <ServiceTokenDisplay {...serviceTokenProps} size={24} />
           </Box>
           <Box sx={{ display: ['none', 'none', 'flex'] }}>
-            <ServiceTokenDisplay token1={payoutTokenName} size={32} />
+            <ServiceTokenDisplay {...serviceTokenProps} size={32} />
           </Box>
           <Box sx={{ position: 'absolute', zIndex: 1, right: 0, top: ['-9px', '-9px', '-6px'] }}>
             <SmallChainIcon chain={chainId} height={10} width={10} />
           </Box>
         </Flex>
-        <Text sx={{ fontSize: ['12px', '12px', '16px'] }}>{payoutTokenName}</Text>
-        {item.isFeatured && <OpportunityBadge type="featured" />}
+        <Text sx={{ fontSize: ['12px', '12px', '16px'] }}>{name}</Text>
+        {isFeatured && <OpportunityBadge type="featured" />}
         {isNew && <OpportunityBadge type="new" />}
       </Flex>
-      <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
-        <Text sx={{ opacity: '0.6', fontSize: ['10px', '10px', '12px'], fontWeight: 'light' }}>{t('Discount')}</Text>
-        <Box
-          sx={{ fontSize: ['12px', '12px', '16px'], fontWeight: 'bold', color: discount >= 0 ? 'success' : 'error' }}
-        >
-          {discount}%
-        </Box>
-      </Flex>
+      {rightContent}
     </Flex>
   )
 }
 
-export default Card
+export default ListCard

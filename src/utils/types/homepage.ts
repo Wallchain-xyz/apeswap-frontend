@@ -23,7 +23,7 @@ export interface BondDTO extends Bond {
   launchDate: string
 }
 
-interface FarmDTO extends Farm {
+export interface FarmDTO extends Farm {
   isBlueChip: boolean
   launchDate: string
 }
