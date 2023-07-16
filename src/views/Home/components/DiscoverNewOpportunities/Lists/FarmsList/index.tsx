@@ -28,7 +28,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
 
-  const chunkedFarms = chunk(farms, 4)
+  const chunkedFarms = chunk(farms, 4).reverse()
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)
@@ -67,11 +67,19 @@ const FarmsList = ({ farms }: FarmsListProps) => {
     )
   }
 
-  const slides = chunkedFarms.map((chunk, index) => (
-    <Grid key={index} sx={{ width: '100%' }} columns="1fr">
-      {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
-    </Grid>
-  ))
+  const slides = chunkedFarms.map((chunk, index) => {
+    const [{ isBlueChip }] = chunk
+    return (
+      <Grid key={index} sx={{ width: '100%' }} columns="1fr">
+        <Flex sx={{ justifyContent: 'center' }}>
+          <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>
+            {t(isBlueChip ? 'Blue Chips' : 'Highest Yield')}
+          </Text>
+        </Flex>
+        {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+      </Grid>
+    )
+  })
 
   return (
     <>
@@ -131,15 +139,23 @@ const FarmsList = ({ farms }: FarmsListProps) => {
         columns="1fr 1fr"
         sx={{
           gridGap: '10px',
-          mt: '70px',
+          mt: '35px',
           display: ['none', 'none', 'grid'],
         }}
       >
-        {chunkedFarms.map((chunk, index) => (
-          <Flex key={index} sx={{ flexDirection: 'column', gap: '15px' }}>
-            {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
-          </Flex>
-        ))}
+        {chunkedFarms.map((chunk, index) => {
+          const [{ isBlueChip }] = chunk
+          return (
+            <Flex key={index} sx={{ flexDirection: 'column', gap: '15px' }}>
+              <Flex sx={{ justifyContent: 'center' }}>
+                <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>
+                  {t(isBlueChip ? 'Blue Chips' : 'Highest Yield')}
+                </Text>
+              </Flex>
+              {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+            </Flex>
+          )
+        })}
       </Grid>
     </>
   )

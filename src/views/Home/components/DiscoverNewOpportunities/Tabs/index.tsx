@@ -33,7 +33,13 @@ const Tabs = ({ tabs, activeTab, setActiveTab }: TabsProps) => {
             }}
             onClick={() => setActiveTab(tab)}
           >
-            <Text sx={{ ':hover': { opacity: 0.6 } }}>{t(tab)}</Text>
+            <Text
+              sx={{
+                color: (theme: Theme) => (isActive ? `${theme.colors?.text}` : 'buttonDisabledText'),
+              }}
+            >
+              {t(tab)}
+            </Text>
           </Flex>
         )
       })}
