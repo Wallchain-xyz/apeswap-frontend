@@ -23,6 +23,14 @@ interface BondsListProps {
   bonds: BondDTO[]
 }
 
+const isWithin48Hours = (timestamp: number): boolean => {
+  const currentTimestamp = Date.now()
+  const differenceInMilliseconds = currentTimestamp - timestamp
+  const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60)
+
+  return differenceInHours < 48
+}
+
 const BondsList = ({ bonds }: BondsListProps) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
@@ -41,13 +49,15 @@ const BondsList = ({ bonds }: BondsListProps) => {
   }
 
   const renderListCard = (item: BondDTO, itemIndex: number): JSX.Element => {
-    const { payoutTokenName = '', chainId, discount = 0 } = item
+    const { payoutTokenName = '', chainId, discount = 0, isFeatured, launchDate } = item
     return (
       <ListCard
         key={`${payoutTokenName}${itemIndex}`}
         name={payoutTokenName}
         chainId={chainId}
         serviceTokenProps={{ token1: payoutTokenName }}
+        isFeatured={isFeatured}
+        isNew={isWithin48Hours(launchDate)}
         rightContent={
           <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
             <Text sx={{ opacity: '0.6', fontSize: ['10px', '10px', '12px'], fontWeight: 'light' }}>

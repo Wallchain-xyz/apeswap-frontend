@@ -20,17 +20,17 @@ export interface HomepageDTO {
 
 export interface BondDTO extends Bond {
   isFeatured: boolean
-  launchDate: string
+  launchDate: number
 }
 
 export interface FarmDTO extends Farm {
   isBlueChip: boolean
-  launchDate: string
+  launchDate: number
 }
 
-interface TokenDTO {
+export interface TokenDTO {
   chainId: SupportedChainId
-  launchDate: string
+  launchDate: number
   priceChange24h: number
   priceHistory: number[]
   tokenTicker: string
