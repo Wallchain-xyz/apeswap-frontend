@@ -18,16 +18,25 @@ interface ListCardProps {
   isFeatured?: boolean
   rightContent: ReactNode
   chainId: number
+  bg?: string
 }
 
-const ListCard = ({ name, isNew, isFeatured, serviceTokenProps, rightContent, chainId }: ListCardProps) => {
+const ListCard = ({
+  name,
+  isNew,
+  isFeatured,
+  serviceTokenProps,
+  rightContent,
+  chainId,
+  bg = 'white2',
+}: ListCardProps) => {
   const { t } = useTranslation()
   return (
     <Flex
       sx={{
         alignItems: 'center',
         justifyContent: 'space-between',
-        bg: 'white2',
+        bg,
         px: '20px',
         py: '11px',
         borderRadius: '10px',

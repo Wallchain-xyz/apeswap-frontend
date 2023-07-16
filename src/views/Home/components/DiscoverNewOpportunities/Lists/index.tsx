@@ -4,6 +4,7 @@ import SwiperProvider from 'contexts/SwiperProvider'
 // Components
 import BondsList from './BondsList'
 import FarmsList from './FarmsList'
+import TokensList from './TokensList'
 
 // Types
 import { TabNavOptions } from '../types'
@@ -14,11 +15,11 @@ interface ListsProps {
 }
 
 const Lists = ({ activeTab, stats }: ListsProps) => {
-  const { bonds = [], farms = [] } = stats ?? {}
+  const { bonds = [], farms = [], tokens = [] } = stats ?? {}
   const activeList = {
     [TabNavOptions.BONDS]: <BondsList bonds={bonds} />,
     [TabNavOptions.FARMS]: <FarmsList farms={farms} />,
-    [TabNavOptions.TOKENS]: <div>Tokens</div>,
+    [TabNavOptions.TOKENS]: <TokensList tokens={tokens} />,
   }
 
   return <SwiperProvider>{activeList[activeTab]}</SwiperProvider>
