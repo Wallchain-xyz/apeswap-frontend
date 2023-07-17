@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
@@ -25,6 +26,7 @@ interface TokensListProps {
 }
 
 const TokensList = ({ tokens }: TokensListProps) => {
+  const router = useRouter()
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
@@ -64,6 +66,11 @@ const TokensList = ({ tokens }: TokensListProps) => {
     }
   }
 
+  const handleClick = (item: TokenDTO) => {
+    // TODO: Come back and uncomment this when the token data includes token id or address
+    router.push('https://dex.apeswap.finance/swap')
+  }
+
   const renderListCard = (item: TokenDTO, itemIndex: number): JSX.Element => {
     const { tokenTicker, chainId, priceChange24h, tokenPrice, priceHistory } = item
     return (
@@ -73,6 +80,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
         chainId={chainId}
         serviceTokenProps={{ token1: tokenTicker }}
         bg="transparent"
+        handleClick={() => handleClick(item)}
         rightContent={
           <Flex
             sx={{
