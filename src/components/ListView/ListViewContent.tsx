@@ -1,11 +1,11 @@
 import React from 'react'
 import { useTranslation } from '../../contexts/Localization'
 import { styles } from './styles'
-import { ListViewContentProps } from './types'
+import { ProgressBarWrapperProps } from './types'
 import { Flex, ListTag, Skeleton, Svg, Text } from 'components/uikit'
 import TooltipBubble from 'components/uikit/Tooltip'
 
-const ListViewContent: React.FC<ListViewContentProps> = ({
+const ListViewContent: React.FC<ProgressBarWrapperProps> = ({
   tag,
   title,
   value,
