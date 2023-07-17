@@ -8,6 +8,7 @@ import { chunk } from 'lodash'
 // Components
 import { Flex, SwiperDots, Text } from 'components/uikit'
 import ListCard from '../ListCard'
+import LineChart from './LineChart'
 
 // Hooks
 import useSwiper from 'hooks/useSwiper'
@@ -64,7 +65,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
   }
 
   const renderListCard = (item: TokenDTO, itemIndex: number): JSX.Element => {
-    const { tokenTicker, chainId, priceChange24h, tokenPrice } = item
+    const { tokenTicker, chainId, priceChange24h, tokenPrice, priceHistory } = item
     return (
       <ListCard
         key={`${tokenTicker}${itemIndex}`}
@@ -73,34 +74,42 @@ const TokensList = ({ tokens }: TokensListProps) => {
         serviceTokenProps={{ token1: tokenTicker }}
         bg="transparent"
         rightContent={
-          <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
-            <Box
-              sx={{
-                fontSize: ['10px', '10px', '12px'],
-                fontWeight: 'bold',
-                color: priceChange24h >= 0 ? 'success' : 'error',
-              }}
-            >
-              {priceChange24h}%
-            </Box>
-            <Box
-              sx={{
-                fontSize: ['12px', '12px', '14px'],
-                fontWeight: 'bold',
-                display: ['flex', 'flex', 'none'],
-              }}
-            >
-              ${String(tokenPrice).slice(0, 6)}
-            </Box>
-            <Box
-              sx={{
-                fontSize: ['12px', '12px', '14px'],
-                fontWeight: 'bold',
-                display: ['none', 'none', 'flex'],
-              }}
-            >
-              ${tokenPrice}
-            </Box>
+          <Flex
+            sx={{
+              alignItems: 'center',
+              gap: ['60px', '60px', '30px'],
+            }}
+          >
+            <LineChart priceHistory={priceHistory} isBullish={priceChange24h > 0} />
+            <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
+              <Box
+                sx={{
+                  fontSize: ['10px', '10px', '12px'],
+                  fontWeight: 'bold',
+                  color: priceChange24h >= 0 ? 'success' : 'error',
+                }}
+              >
+                {priceChange24h}%
+              </Box>
+              <Box
+                sx={{
+                  fontSize: ['12px', '12px', '14px'],
+                  fontWeight: 'bold',
+                  display: ['flex', 'flex', 'none'],
+                }}
+              >
+                ${String(tokenPrice).slice(0, 6)}
+              </Box>
+              <Box
+                sx={{
+                  fontSize: ['12px', '12px', '14px'],
+                  fontWeight: 'bold',
+                  display: ['none', 'none', 'flex'],
+                }}
+              >
+                ${tokenPrice}
+              </Box>
+            </Flex>
           </Flex>
         }
       />
