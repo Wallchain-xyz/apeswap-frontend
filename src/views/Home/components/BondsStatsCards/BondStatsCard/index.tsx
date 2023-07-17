@@ -1,3 +1,4 @@
+import { Box } from 'theme-ui'
 import CountUp from 'react-countup'
 
 // Components
