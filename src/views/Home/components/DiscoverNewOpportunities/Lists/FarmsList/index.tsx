@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
@@ -24,6 +25,7 @@ interface FarmsListProps {
 }
 
 const FarmsList = ({ farms }: FarmsListProps) => {
+  const router = useRouter()
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
@@ -40,6 +42,13 @@ const FarmsList = ({ farms }: FarmsListProps) => {
     swiper?.slideTo(index)
   }
 
+  const handleClick = (item: FarmDTO) => {
+    console.log({ item })
+    // TODO: Come back and uncomment this when the farm data includes PID
+    // router.push(`/farms/${item.pid}`)
+    router.push(`/farms`)
+  }
+
   const renderListCard = (item: FarmDTO, itemIndex: number): JSX.Element => {
     const { name, chainId, apr } = item
     const [firstToken, secondToken] = name.split('-')
@@ -49,6 +58,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
         name={name}
         chainId={chainId}
         serviceTokenProps={{ token1: firstToken, token2: secondToken, token3: secondToken, stakeLp: true }}
+        handleClick={() => handleClick(item)}
         rightContent={
           <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
             <Text sx={{ opacity: '0.6', fontSize: ['10px', '10px', '12px'], fontWeight: 'light' }}>{t('APY')}</Text>

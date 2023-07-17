@@ -34,8 +34,8 @@ const isWithin48Hours = (timestamp: number): boolean => {
 }
 
 const BondsList = ({ bonds }: BondsListProps) => {
-  const [activeSlide, setActiveSlide] = useState(0)
   const router = useRouter()
+  const [activeSlide, setActiveSlide] = useState(0)
   const { chainId: currentChain } = useWeb3React()
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
