@@ -4,4 +4,5 @@ export const QUERY_KEYS = {
   LHD_PROFILES: 'lhdProfiles',
   LHD_PROFILE: 'lhdProfile',
   LHD_PASSWORD_VERIFIED: 'lhdPasswordVerified',
+  HOMEPAGE_STATS: 'homepageStats',
 }

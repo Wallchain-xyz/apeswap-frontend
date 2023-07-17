@@ -9,11 +9,11 @@ import Services from './components/Services/Services'
 import LaunchCalendar from './components/LaunchCalendar/LaunchCalendar'
 import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
-// When updating the homepage these components should be built to SSR
+// Components
+import BondsStatsCards from './components/BondsStatsCards'
+
+// TODO: When updating the homepage these components should be built to SSR
 // To make the UX slightly better we could have a SSR component on loading to restrict page jumps
-const StatCards = dynamic(() => import('./components/StatCards/StatCards'), {
-  ssr: false,
-})
 const News = dynamic(() => import('./components/News/News'), {
   ssr: false,
 })
@@ -30,7 +30,9 @@ const Home = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDI
       <SwiperProvider>
         <WelcomeContent randomImage={randomImage} randomLHDImage={randomLHDImage} />
       </SwiperProvider>
-      <StatCards />
+      <BondsStatsCards />
+      {/* TODO: Remove this and all its code */}
+      {/* <StatCards /> */}
       <TrendingTokens />
       <SwiperProvider>
         <News />
