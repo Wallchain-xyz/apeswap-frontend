@@ -38,6 +38,8 @@ const NetworkModal = ({
                   selectChain(chainId)
                     .then(() => onSetRequestPending(false))
                     .catch(() => onSetRequestPending(false))
+                } else {
+                  selectChain(chainId)
                 }
                 dispatch(updateSelectedNetwork({ chainId: chainId }))
                 onDismiss()

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { useWeb3React } from '@web3-react/core'
 import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
@@ -26,6 +27,7 @@ interface FarmsListProps {
 
 const FarmsList = ({ farms }: FarmsListProps) => {
   const router = useRouter()
+  const { chainId: currentChain } = useWeb3React()
   const [activeSlide, setActiveSlide] = useState(0)
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
@@ -43,9 +45,12 @@ const FarmsList = ({ farms }: FarmsListProps) => {
   }
 
   const handleClick = (item: FarmDTO) => {
-    console.log({ item })
+    const { chainId } = item
     // TODO: Come back and uncomment this when the farm data includes PID
     // router.push(`/farms/${item.pid}`)
+    if (chainId !== currentChain) {
+      router.push('/bonds?switchChain=true')
+    }
     router.push(`/farms`)
   }
 
