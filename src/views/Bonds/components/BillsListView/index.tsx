@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { MainContainer } from './styles'
 import BillsListMenu from './components/BillsListMenu'
@@ -12,15 +12,40 @@ import { Bills } from 'views/Bonds/types'
 import { useBills } from 'state/bills/hooks'
 import { useSetZapOutputList } from 'state/zap/hooks'
 
+// Components
+import BuyBillModalView from '../Modals/BuyBillModalView'
+import NetworkModal from 'components/NetworkSelector/NetworkModal'
+
+// Hooks
+import useModal from 'hooks/useModal'
+
 const BillsListView: React.FC = () => {
   const bills = useBills()
   const { chainId } = useWeb3React()
-  const { asPath } = useRouter()
+  const { query: routerQuery, replace } = useRouter()
   const [query, setQuery] = useState('')
   const [filterOption, setFilterOption] = useState('filter')
   const [sortOption, setSortOption] = useState('sort')
   const [showOnlyDiscount, setShowOnlyDiscount] = useState(false)
   const [showAvailable, setShowAvailable] = useState(true)
+
+  const { payoutToken, switchChain = false } = routerQuery
+  const { index = 0 } = bills?.find((bill: Bills) => bill?.earnToken?.symbol === payoutToken) ?? {}
+
+  const [onPresentBuyBillsModal] = useModal(<BuyBillModalView billIndex={index} />, false, false, `billsModal${index}`)
+  const [onPresentWalletConnectModal] = useModal(<NetworkModal onDismiss={() => null} />, true, true, 'NetworkModal')
+
+  useEffect(() => {
+    if (index) {
+      onPresentBuyBillsModal()
+      replace('/bonds', undefined, { shallow: true })
+    }
+    if (switchChain) {
+      onPresentWalletConnectModal()
+      replace('/bonds', undefined, { shallow: true })
+    }
+  }, [])
+
   const noResults = !!query || filterOption !== 'filter' || showOnlyDiscount
 
   const isSoldOut = useCallback(

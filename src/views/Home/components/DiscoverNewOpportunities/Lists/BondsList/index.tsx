@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
@@ -18,6 +19,7 @@ import { getDotPos } from 'utils/getDotPos'
 
 // Types
 import { BondDTO } from 'utils/types/homepage'
+import { useWeb3React } from '@web3-react/core'
 
 interface BondsListProps {
   bonds: BondDTO[]
@@ -33,6 +35,8 @@ const isWithin48Hours = (timestamp: number): boolean => {
 
 const BondsList = ({ bonds }: BondsListProps) => {
   const [activeSlide, setActiveSlide] = useState(0)
+  const router = useRouter()
+  const { chainId: currentChain } = useWeb3React()
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
 
@@ -48,6 +52,15 @@ const BondsList = ({ bonds }: BondsListProps) => {
     swiper?.slideTo(index)
   }
 
+  const handleCardClick = (item: BondDTO): void => {
+    const { payoutTokenName, chainId } = item
+    if (chainId !== currentChain) {
+      router.push('/bonds?switchChain=true')
+    } else {
+      router.push(`/bonds?payoutToken=${payoutTokenName}`)
+    }
+  }
+
   const renderListCard = (item: BondDTO, itemIndex: number): JSX.Element => {
     const { payoutTokenName = '', chainId, discount = 0, isFeatured, launchDate } = item
     return (
@@ -58,6 +71,7 @@ const BondsList = ({ bonds }: BondsListProps) => {
         serviceTokenProps={{ token1: payoutTokenName }}
         isFeatured={isFeatured}
         isNew={isWithin48Hours(launchDate)}
+        handleClick={() => handleCardClick(item)}
         rightContent={
           <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
             <Text sx={{ opacity: '0.6', fontSize: ['10px', '10px', '12px'], fontWeight: 'light' }}>

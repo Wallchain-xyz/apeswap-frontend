@@ -19,6 +19,7 @@ interface ListCardProps {
   rightContent: ReactNode
   chainId: number
   bg?: string
+  handleClick?: (args: any) => void
 }
 
 const ListCard = ({
@@ -29,6 +30,7 @@ const ListCard = ({
   rightContent,
   chainId,
   bg = 'white2',
+  handleClick,
 }: ListCardProps) => {
   const { t } = useTranslation()
   return (
@@ -43,6 +45,7 @@ const ListCard = ({
         height: '54px',
         position: 'relative',
       }}
+      onClick={handleClick}
     >
       {/* TODO: Animate this to slide left to right */}
       <Flex
