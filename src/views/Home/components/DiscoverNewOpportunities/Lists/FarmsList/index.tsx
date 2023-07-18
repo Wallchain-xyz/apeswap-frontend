@@ -46,7 +46,6 @@ const FarmsList = ({ farms }: FarmsListProps) => {
 
   const handleClick = (item: FarmDTO) => {
     const { chainId, pid, type } = item
-    console.log({ item })
     if (chainId !== currentChain) {
       router.push(`/farms?switchChain=true`)
     } else {
