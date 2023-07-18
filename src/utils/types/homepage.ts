@@ -42,6 +42,9 @@ export interface FarmDTO extends Farm {
 
 export interface TokenDTO {
   chainId: SupportedChainId
+  isNew: boolean
+  isMostTraded: boolean
+  isMostPriceChanged: boolean
   launchDate: number
   priceChange24h: number
   priceHistory: number[]

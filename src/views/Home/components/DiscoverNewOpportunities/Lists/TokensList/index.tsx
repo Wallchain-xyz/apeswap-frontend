@@ -4,7 +4,6 @@ import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
 import 'swiper/swiper.min.css'
-import { chunk } from 'lodash'
 
 // Components
 import { Flex, SwiperDots, Text } from 'components/uikit'
@@ -31,19 +30,24 @@ const TokensList = ({ tokens }: TokensListProps) => {
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
 
-  const checkArrayLength = (arr: TokenDTO[]): TokenDTO[] => {
-    if (arr.length === 12) {
-      return arr
-    } else {
-      const lastItem = arr[arr.length - 1]
-      while (arr.length < 12) {
-        arr.push(lastItem)
-      }
-      return arr
-    }
+  type SortedTokens = {
+    isNew: TokenDTO[]
+    isMostTraded: TokenDTO[]
+    isMostPriceChanged: TokenDTO[]
   }
-
-  const chunkedTokens = chunk(checkArrayLength(tokens), 4)
+  const sortedTokens: SortedTokens = tokens.reduce(
+    (acc: SortedTokens, item: TokenDTO): SortedTokens => {
+      if (item.isNew) {
+        acc.isNew.push(item)
+      } else if (item.isMostTraded) {
+        acc.isMostTraded.push(item)
+      } else if (item.isMostPriceChanged) {
+        acc.isMostPriceChanged.push(item)
+      }
+      return acc
+    },
+    { isNew: [], isMostTraded: [], isMostPriceChanged: [] },
+  )
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)
@@ -124,7 +128,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
     )
   }
 
-  const slides = chunkedTokens.map((chunk, index) => {
+  const slides = Object.values(sortedTokens).map((chunk, index) => {
     return (
       <Grid key={index} sx={{ width: '100%' }} columns="1fr">
         <Flex sx={{ justifyContent: 'center' }}>
@@ -199,7 +203,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
           display: ['none', 'none', 'grid'],
         }}
       >
-        {chunkedTokens.map((chunk, index) => {
+        {Object.values(sortedTokens).map((chunk, index) => {
           return (
             <Flex key={index} sx={{ flexDirection: 'column', gap: '15px' }}>
               <Flex sx={{ justifyContent: 'center' }}>
