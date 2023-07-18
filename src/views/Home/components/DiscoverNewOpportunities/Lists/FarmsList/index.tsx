@@ -45,22 +45,23 @@ const FarmsList = ({ farms }: FarmsListProps) => {
   }
 
   const handleClick = (item: FarmDTO) => {
-    const { chainId } = item
-    // TODO: Come back and uncomment this when the farm data includes PID
-    // router.push(`/farms/${item.pid}`)
+    const { chainId, pid, type } = item
+    console.log({ item })
     if (chainId !== currentChain) {
-      router.push('/bonds?switchChain=true')
+      router.push(`/farms?switchChain=true`)
+    } else {
+      router.push(`/farms?${type === 'jungle' ? 'jid' : 'pid'}=${pid}`)
     }
-    router.push(`/farms`)
   }
 
   const renderListCard = (item: FarmDTO, itemIndex: number): JSX.Element => {
-    const { name, chainId, apr } = item
-    const [firstToken, secondToken] = name.split('-')
+    const { chainId, apr, stake } = item
+    const { symbol } = stake
+    const [firstToken, secondToken] = symbol.split('-')
     return (
       <ListCard
-        key={`${name}${itemIndex}`}
-        name={name}
+        key={`${symbol}${itemIndex}`}
+        name={symbol}
         chainId={chainId}
         serviceTokenProps={{ token1: firstToken, token2: secondToken, token3: secondToken, stakeLp: true }}
         handleClick={() => handleClick(item)}
@@ -74,7 +75,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
                 color: 'success',
               }}
             >
-              {apr}%
+              {(Math.floor(apr * 100) / 100).toFixed(2)}%
             </Box>
           </Flex>
         }

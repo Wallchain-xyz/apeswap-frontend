@@ -23,9 +23,20 @@ export interface BondDTO extends Bond {
   launchDate: number
 }
 
+interface Decimals {
+  [key: number]: string
+}
+
+interface Stake {
+  address: string
+  decimals: Decimals
+  symbol: string
+}
 export interface FarmDTO extends Farm {
   isBlueChip: boolean
   launchDate: number
+  pid: number
+  stake: Stake
 }
 
 export interface TokenDTO {

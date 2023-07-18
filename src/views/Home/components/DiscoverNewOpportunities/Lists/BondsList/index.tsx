@@ -84,7 +84,7 @@ const BondsList = ({ bonds }: BondsListProps) => {
                 color: discount >= 0 ? 'success' : 'error',
               }}
             >
-              {String(discount).slice(0, 5)}%
+              {(Math.floor(discount * 100) / 100).toFixed(2)}%
             </Box>
           </Flex>
         }

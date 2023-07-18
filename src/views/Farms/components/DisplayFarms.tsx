@@ -47,7 +47,7 @@ const DisplayFarms = ({
   useEffect(() => {
     if (switchChain) {
       onPresentWalletConnectModal()
-      // replace('/bonds', undefined, { shallow: true })
+      replace('/farms', undefined, { shallow: true })
     }
   }, [])
 
