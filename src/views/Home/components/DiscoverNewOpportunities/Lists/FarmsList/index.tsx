@@ -54,15 +54,16 @@ const FarmsList = ({ farms }: FarmsListProps) => {
   }
 
   const renderListCard = (item: FarmDTO, itemIndex: number): JSX.Element => {
-    const { chainId, apr, stake } = item
+    const { chainId, apr, stake, reward } = item
     const { symbol } = stake
+    const { symbol: rewardSymbol } = reward
     const [firstToken, secondToken] = symbol.split('-')
     return (
       <ListCard
         key={`${symbol}${itemIndex}`}
         name={symbol}
         chainId={chainId}
-        serviceTokenProps={{ token1: firstToken, token2: secondToken, token3: secondToken, stakeLp: true }}
+        serviceTokenProps={{ token1: firstToken, token2: secondToken, token3: rewardSymbol, stakeLp: true }}
         handleClick={() => handleClick(item)}
         rightContent={
           <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
