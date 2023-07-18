@@ -52,7 +52,7 @@ export const QUOTER_ADDRESSES: AddressMap = {
 }
 
 export const SWAP_ROUTER_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC]: '0xD2F4e803757ceE9257a0111953c92976E353Dcb1',
+  [SupportedChainId.BSC]: '0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae',
   [SupportedChainId.POLYGON]: '0xD2F4e803757ceE9257a0111953c92976E353Dcb1',
   [SupportedChainId.MAINNET]: '0xf47071594f6425305A1aC1FB02Ef6c1965AdBAe1',
   [SupportedChainId.TLOS]: '0x429010DAb5065eE428DfaF2ad35DdcAee8c45Ec6',

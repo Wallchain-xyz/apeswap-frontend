@@ -7,6 +7,7 @@ import { useHasPendingApproval, useTransactionAdder } from '../state/transaction
 import { TransactionType } from '../state/transactions/types'
 import useZapApproval from './useZapApproval'
 import { useToastError } from 'state/application/hooks'
+import { Route } from '@lifi/sdk'
 export { ApprovalState } from 'lib/hooks/useApproval'
 
 function useGetAndTrackApproval(getApproval: ReturnType<typeof useApproval>[1]) {
@@ -36,10 +37,9 @@ export function useApproveCallback(
 }
 
 export function useApproveCallbackFromTrade(
-  trade: Trade<Currency, Currency, TradeType> | undefined,
-  allowedSlippage: Percent,
+  inputCurrencyAmount: CurrencyAmount<Currency> | undefined,
 ): [ApprovalState, () => Promise<void>] {
-  const [approval, getApproval] = useSwapApproval(trade, allowedSlippage, useHasPendingApproval)
+  const [approval, getApproval] = useSwapApproval(inputCurrencyAmount, useHasPendingApproval)
   return [approval, useGetAndTrackApproval(getApproval)]
 }
 

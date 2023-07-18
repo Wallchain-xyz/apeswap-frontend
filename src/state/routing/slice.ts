@@ -1,141 +1,88 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { Protocol } from '@ape.swap/router-sdk'
 import { AlphaRouter, ChainId } from '@ape.swap/smart-order-router'
 import { getProvider } from 'config/constants/providers'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
-import qs from 'qs'
-import { GetQuoteResult } from './types'
+import { GetQuoteParams, GetQuoteResult, GetRoutesParams, GetRoutesResult, RoutesRequest } from './types'
+import { LiFi } from '@lifi/sdk'
 
 export enum RouterPreference {
-  API = 'api',
   CLIENT = 'client',
   PRICE = 'price',
 }
 
-const routers = new Map<ChainId, AlphaRouter>()
 function getRouter(chainId: ChainId, useApeRPC?: boolean): AlphaRouter {
-  // const router = routers.get(chainId)
-  // if (router) return router
-
   const supportedChainId = toSupportedChainId(chainId)
   if (supportedChainId) {
     const provider = getProvider(supportedChainId, useApeRPC)
-    const router = new AlphaRouter({ chainId, provider })
-    //routers.set(chainId, router)
-    return router
+    return new AlphaRouter({ chainId, provider })
   }
-
   throw new Error(`Router does not support this chain (chainId: ${chainId}).`)
 }
 
-// routing API quote params: https://github.com/Uniswap/routing-api/blob/main/lib/handlers/quote/schema/quote-schema.ts
-const API_QUERY_PARAMS = {
-  protocols: 'v2,v3,mixed',
-}
 const CLIENT_PARAMS = {
   protocols: [Protocol.V2, Protocol.V3, Protocol.MIXED],
-}
-// Price queries are tuned down to minimize the required RPCs to respond to them.
-// TODO(zzmp): This will be used after testing router caching.
-const PRICE_PARAMS = {
-  protocols: [Protocol.V2, Protocol.V3],
-  v2PoolSelection: {
-    topN: 2,
-    topNDirectSwaps: 1,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 2,
-    topNWithBaseToken: 2,
-  },
-  v3PoolSelection: {
-    topN: 2,
-    topNDirectSwaps: 1,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 2,
-    topNWithBaseToken: 2,
-  },
-  maxSwapsPerPath: 2,
-  minSplits: 1,
-  maxSplits: 1,
-  distributionPercent: 100,
 }
 
 export const routingApi = createApi({
   reducerPath: 'routingApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://nrxga6j96f.execute-api.us-east-1.amazonaws.com/prod/',
-  }),
-  endpoints: (build) => ({
-    getQuote: build.query<
-      GetQuoteResult,
-      {
-        tokenInAddress: string
-        tokenInChainId: ChainId
-        tokenInDecimals: number
-        tokenInSymbol?: string
-        tokenOutAddress: string
-        tokenOutChainId: ChainId
-        tokenOutDecimals: number
-        tokenOutSymbol?: string
-        protocols?: Protocol[]
-        amount: string
-        routerPreference: RouterPreference
-        type: 'exactIn' | 'exactOut'
-        useApeRPC?: boolean
-      }
-    >({
-      async queryFn(args, _api, _extraOptions, fetch) {
-        const {
-          tokenInAddress,
-          tokenInChainId,
-          tokenOutAddress,
-          tokenOutChainId,
-          amount,
-          routerPreference,
-          protocols,
-          type,
-          useApeRPC,
-        } = args
-
-        let result
+  baseQuery: async () => ({ data: {} }),
+  keepUnusedDataFor: 100000,
+  tagTypes: ['quotes', 'routes'],
+  endpoints: (builder) => ({
+    getQuote: builder.query<GetQuoteResult, GetQuoteParams>({
+      queryFn: async (args: GetQuoteParams) => {
+        const { protocols, useApeRPC } = args
         try {
-          if (routerPreference === RouterPreference.API) {
-            const query = qs.stringify({
-              ...API_QUERY_PARAMS,
-              tokenInAddress,
-              tokenInChainId,
-              tokenOutAddress,
-              tokenOutChainId,
-              amount,
-              type,
-            })
-            result = await fetch(`quote?${query}`)
-          } else {
-            const router = getRouter(args.tokenInChainId, useApeRPC)
-            result = await getClientSideQuote(
-              args,
-              router,
-              // TODO(zzmp): Use PRICE_PARAMS for RouterPreference.PRICE.
-              // This change is intentionally being deferred to first see what effect router caching has.
-              // To get routes specifically for zap we need to pass protocol arg
-              { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
-            )
-          }
-          return { data: result.data as GetQuoteResult }
+          const router = getRouter(args.tokenInChainId, useApeRPC)
+          const result = await getClientSideQuote(
+            args,
+            router,
+            { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
+          )
+          return { data: result.data }
         } catch (e: any) {
           console.error(e)
-          // TODO: fall back to client-side quoter when auto router fails.
-          // deprecate 'legacy' v2/v3 routers first.
-          return { error: e.message, meta: e.stack }
+          return { error: { status: 'Client-side error', message: e.message } }
         }
       },
-      keepUnusedDataFor: 100000,
-      extraOptions: {
-        maxRetries: 2,
+      providesTags: ['quotes'] //this is useful to reset state
+    }),
+    getRoutes: builder.query<GetRoutesResult, GetRoutesParams>({
+      queryFn: async (args: GetRoutesParams) => {
+        const { chainId, fromAmount, fromTokenAddress, toTokenAddress, slippage } = args
+        const routesRequest: RoutesRequest = {
+          fromChainId: chainId,
+          fromAmount: fromAmount,
+          fromTokenAddress: fromTokenAddress,
+          //fromAddress? : string; I think this is not necessary
+          toChainId: chainId, // we might want to modify this to go omnichain in the future
+          toTokenAddress: toTokenAddress,
+          //toAddress? : string; I think this is not necessary
+          options: {
+            slippage: slippage,
+            integrator: 'apeswap', //make this a CONST
+            exchanges: {
+              //allow: ['apeswap'],
+              prefer: ['apeswap'],
+            },
+          },
+        }
+        try {
+          console.log('Fetching LiFi Routes')
+          const lifi = new LiFi({ integrator: 'apeswap' })
+          const result = await lifi.getRoutes(routesRequest)
+          const routes = result.routes
+          //console.log(routes)
+          return { data: { routes } }
+        } catch (e: any) {
+          console.log(e)
+          return { error: { status: 'LiFi Route error', message: e?.message } }
+        }
       },
+      providesTags: ['routes']
     }),
   }),
 })
 
-export const { useGetQuoteQuery } = routingApi
+export const { useGetQuoteQuery, useGetRoutesQuery } = routingApi

@@ -34,15 +34,15 @@ export function ConfirmationPendingContent({ pendingText }: { pendingText: strin
           borderRadius: '10px',
         }}
       >
-        <Text size="20px" weight={500} margin="5px 0px" sx={{ textAlign: 'center' }}>
+        <Text size='20px' weight={500} margin='5px 0px' sx={{ textAlign: 'center' }}>
           {t('Waiting For Confirmation')}
         </Text>
-        <Flex margin="10px 0px">
+        <Flex margin='10px 0px'>
           <Text weight={700} sx={{ textAlign: 'center' }}>
             {pendingText}
           </Text>
         </Flex>
-        <Text size="14px" weight={400}>
+        <Text size='14px' weight={400}>
           {t('Confirm this transaction in your wallet')}
         </Text>
       </Flex>
@@ -51,10 +51,10 @@ export function ConfirmationPendingContent({ pendingText }: { pendingText: strin
 }
 
 export function TransactionSubmittedContent({
-  onDismiss,
-  hash,
-  currencyToAdd,
-}: {
+                                              onDismiss,
+                                              hash,
+                                              currencyToAdd,
+                                            }: {
   onDismiss: () => void
   hash: string | undefined
   currencyToAdd?: Currency | undefined
@@ -85,23 +85,23 @@ export function TransactionSubmittedContent({
   return (
     <Flex sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
       <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <ArrowUpCircle strokeWidth={1} size={97} color="rgba(255, 179, 0, 1)" />
+        <ArrowUpCircle strokeWidth={1} size={97} color='rgba(255, 179, 0, 1)' />
         <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '20px' }}>
-          <Text size="20px">{t('Transaction Submitted')}</Text>
+          <Text size='20px'>{t('Transaction Submitted')}</Text>
           {chainId && hash && (
-            <Link mt="10px" color="text" href={getEtherscanLink(hash, 'transaction', chainId)} target="_blank">
+            <Link mt='10px' color='text' href={getEtherscanLink(hash, 'transaction', chainId)} target='_blank'>
               {t('View on explorer')}
             </Link>
           )}
           {currencyToAdd && connector.watchAsset && (
-            <Button variant="tertiary" mt="20px" onClick={addToken}>
+            <Button variant='tertiary' mt='20px' onClick={addToken}>
               <Flex>
                 <Text>{t(`Add %symbol% to Metamask`, { symbol: currencyToAdd.symbol || '' })}</Text>
-                <Svg icon="metamask" width="16px" />
+                <Svg icon='metamask' width='16px' />
               </Flex>{' '}
             </Button>
           )}
-          <Button fullWidth onClick={onDismiss} style={{ height: '50px', fontSize: '20px' }} mt="20px">
+          <Button fullWidth onClick={onDismiss} style={{ height: '50px', fontSize: '20px' }} mt='20px'>
             {t('Close')}
           </Button>
         </Flex>
@@ -111,14 +111,14 @@ export function TransactionSubmittedContent({
 }
 
 export function ConfirmationModalContent({
-  bottomContent,
-  topContent,
-}: {
+                                           bottomContent,
+                                           topContent,
+                                         }: {
   topContent: () => React.ReactNode
   bottomContent: () => React.ReactNode
 }) {
   return (
-    <Flex variant="flex.dexContainer" sx={{ padding: '0px' }}>
+    <Flex variant='flex.dexContainer' sx={{ padding: '0px' }}>
       <div>{topContent()}</div>
       <div>{bottomContent()}</div>
     </Flex>
@@ -130,9 +130,9 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
   return (
     <Flex sx={{ alignItems: 'center', justifyContent: 'center' }}>
       <Flex sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pt: '20px' }}>
-        <Svg icon="error" color="error" />
+        <Svg icon='error' color='error' />
         <Text
-          color="error"
+          color='error'
           sx={{
             textAlign: 'center',
             width: '100%',
@@ -144,8 +144,9 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
         >
           {message}
         </Text>
-        <Flex justifyContent="center" mt="20px">
-          <Button onClick={onDismiss}>{t('Dismiss')}</Button>
+        <Flex mt='20px'>
+          <Button
+            onClick={onDismiss}>{message?.includes('Exchange rate has changed!') ? t('Update') : t('Dismiss')}</Button>
         </Flex>
       </Flex>
     </Flex>
@@ -164,15 +165,15 @@ interface ConfirmationModalProps {
 }
 
 const TransactionConfirmationModal: React.FC<ConfirmationModalProps> = ({
-  title,
-  onDismiss,
-  customOnDismiss,
-  attemptingTxn,
-  hash,
-  pendingText,
-  content,
-  currencyToAdd,
-}) => {
+                                                                          title,
+                                                                          onDismiss,
+                                                                          customOnDismiss,
+                                                                          attemptingTxn,
+                                                                          hash,
+                                                                          pendingText,
+                                                                          content,
+                                                                          currencyToAdd,
+                                                                        }) => {
   const { chainId } = useWeb3React()
 
   const handleDismiss = useCallback(() => {

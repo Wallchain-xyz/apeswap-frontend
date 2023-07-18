@@ -1,43 +1,31 @@
-import { Currency, Percent, TradeType } from '@ape.swap/sdk-core'
+import { Currency, TradeType } from '@ape.swap/sdk-core'
 import { Trade } from '@ape.swap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
-import useENSAddress from 'hooks/useENSAddress'
 import { SignatureData } from 'hooks/useERC20Permit'
 import useModal from 'hooks/useModal'
-import { useSwapCallback } from 'hooks/useSwapCallback'
-import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
-import { InterfaceTrade, TradeState } from 'state/routing/types'
-import { useIsExpertMode } from 'state/user/hooks'
-import track from 'utils/track'
+import { TradeState } from 'state/routing/types'
 import ConfirmSwap from '../components/ConfirmSwap'
-import { confirmPriceImpactWithoutFee } from '../utils'
-import { useDerivedSwapInfo } from '../../../state/swap/hooks'
+import { useDerivedSwapInfo } from 'state/swap/hooks'
 import { useRouter } from 'next/router'
-import { useHideCircular } from '../../../hooks/useHideCircular'
-
-const TRADE_STRING = 'SwapRouter'
+import { useHideCircular } from 'hooks/useHideCircular'
+import { Route } from '@lifi/sdk'
+import { useSwapCallback } from '../../../hooks/useSwapCallback'
+import track from '../../../utils/track'
+import { humanOutputAmount } from '../utils'
 
 const Swap = ({
-  tradeState,
-  trade,
-  allowedSlippage,
-  signatureData,
-  recipient,
-  stablecoinPriceImpact,
-  wrapType,
-  showWrap,
-  wrapInputError,
-  onWrap,
-}: {
-  tradeState: TradeState
-  trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
-  allowedSlippage: Percent
-  signatureData: SignatureData | null
-  recipient: string | null
-  stablecoinPriceImpact: Percent | null
+                routingState,
+                selectedRoute,
+                wrapType,
+                showWrap,
+                wrapInputError,
+                onWrap,
+              }: {
+  routingState?: TradeState
+  selectedRoute: Route | undefined
   showWrap: boolean | undefined
   wrapInputError: WrapInputError | undefined
   wrapType: WrapType | undefined
@@ -45,60 +33,49 @@ const Swap = ({
 }) => {
   const { chainId } = useWeb3React()
   // modal and loading
-  const [{ showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+  const [{ showConfirm, swapErrorMessage, attemptingTxn, txHash}, setSwapState] = useState<{
     showConfirm: boolean
-    tradeToConfirm: Trade<Currency, Currency, TradeType> | undefined
     attemptingTxn: boolean
     swapErrorMessage: string | undefined
     txHash: string | undefined
   }>({
     showConfirm: false,
-    tradeToConfirm: undefined,
     attemptingTxn: false,
     swapErrorMessage: undefined,
     txHash: undefined,
   })
 
-  // the callback to execute the swap
-  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(
-    trade,
-    allowedSlippage,
-    recipient,
-    signatureData,
-  )
-
-  const [inputTokenUsdVal] = useTokenPriceUsd(trade?.inputAmount?.currency ?? undefined)
-  const [outputTokenUsdVal] = useTokenPriceUsd(trade?.outputAmount?.currency ?? undefined)
-
-  const isExpertMode = useIsExpertMode()
-
   const { currencies } = useDerivedSwapInfo()
   const router = useRouter()
   const hideCircular = useHideCircular()
 
+  const handleConfirmDismiss = useCallback(() => {
+    setSwapState((prevState) => ({ ...prevState, showConfirm: false, swapErrorMessage: undefined })) // if there was a tx hash, we want to clear the input
+  }, [])
+
+  const { callback } = useSwapCallback(selectedRoute)
+
   const handleSwap = useCallback(() => {
-    if (!swapCallback) {
-      return
-    }
-    if (stablecoinPriceImpact && !confirmPriceImpactWithoutFee(stablecoinPriceImpact)) {
-      return
-    }
-    setSwapState({ attemptingTxn: true, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: undefined })
-    swapCallback()
-      .then((hash) => {
-        setSwapState({ attemptingTxn: false, tradeToConfirm, showConfirm, swapErrorMessage: undefined, txHash: hash })
-        const routes = trade?.routes?.map((route) => route.protocol)
+    if (!callback) return
+    setSwapState({ attemptingTxn: true, showConfirm, swapErrorMessage: undefined, txHash: undefined })
+    callback()
+      .then((res) => {
+        setSwapState({
+          attemptingTxn: false,
+          showConfirm,
+          swapErrorMessage: undefined,
+          txHash: undefined,
+        })
         track({
           event: 'Swap',
           chain: chainId,
           data: {
-            routes: routes?.join(','),
-            inputToken: trade?.inputAmount?.currency?.symbol,
-            outputToken: trade?.outputAmount?.currency?.symbol,
-            inputValue: parseFloat(trade?.inputAmount?.toSignificant(6) || '0'),
-            outputValue: parseFloat(trade?.outputAmount?.toSignificant(6) || '0'),
-            inputUsdValue: inputTokenUsdVal * parseFloat(trade?.inputAmount?.toSignificant(6) || '0'),
-            outputUsdValue: outputTokenUsdVal * parseFloat(trade?.outputAmount?.toSignificant(6) || '0'),
+            inputToken: res?.fromToken.symbol,
+            outputToken: res.toToken.symbol,
+            inputValue: humanOutputAmount(res.fromAmount, res.fromToken.decimals),
+            outputValue: humanOutputAmount(res.toAmount, res.toToken.decimals),
+            inputUsdValue: res.fromAmountUSD,
+            outputUsdValue: res.toAmountUSD,
           },
         })
         if (currencies?.OUTPUT?.symbol?.toLowerCase() === 'banana' && !hideCircular) router.push('?modal=circular-buy')
@@ -106,36 +83,18 @@ const Swap = ({
       .catch((error) => {
         setSwapState({
           attemptingTxn: false,
-          tradeToConfirm,
           showConfirm,
           swapErrorMessage: error.message ? error.message : error,
           txHash: undefined,
         })
       })
-  }, [
-    swapCallback,
-    chainId,
-    stablecoinPriceImpact,
-    tradeToConfirm,
-    showConfirm,
-    outputTokenUsdVal,
-    inputTokenUsdVal,
-    trade,
-    router,
-    currencies?.OUTPUT?.symbol,
-    hideCircular,
-  ])
-
-  const handleConfirmDismiss = useCallback(() => {
-    setSwapState((prevState) => ({ ...prevState, showConfirm: false, swapErrorMessage: undefined })) // if there was a tx hash, we want to clear the input
-  }, [])
+  }, [callback, chainId, currencies?.OUTPUT?.symbol, hideCircular, router, showConfirm])
 
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwap
-      trade={trade}
+      selectedRoute={selectedRoute!}
       attemptingTxn={attemptingTxn}
       txHash={txHash}
-      allowedSlippage={allowedSlippage}
       onConfirm={handleSwap}
       swapErrorMessage={swapErrorMessage}
       onDismiss={handleConfirmDismiss}
@@ -163,12 +122,12 @@ const Swap = ({
   ) : (
     <Button
       fullWidth
-      onClick={isExpertMode ? handleSwap : handleConfirmSwap}
+      onClick={handleConfirmSwap}
       disabled={
-        tradeState === TradeState.LOADING ||
-        tradeState === TradeState.SYNCING ||
-        tradeState === TradeState.INVALID ||
-        tradeState === TradeState.NO_ROUTE_FOUND
+        routingState === TradeState.LOADING ||
+        routingState === TradeState.SYNCING ||
+        routingState === TradeState.INVALID ||
+        routingState === TradeState.NO_ROUTE_FOUND
       }
     >
       Swap

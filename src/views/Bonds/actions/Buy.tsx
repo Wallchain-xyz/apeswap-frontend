@@ -243,7 +243,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const handleCurrencySelect = useCallback(
     (currency: DualCurrencySelector) => {
       setCurrencyA(currency?.currencyA)
-      setCurrencyB(currency?.currencyB)
+      setCurrencyB(currency?.currencyB ?? null)
       onHandleValueChange('')
       if (!currency?.currencyB) {
         // if there's no currencyB use zap logic

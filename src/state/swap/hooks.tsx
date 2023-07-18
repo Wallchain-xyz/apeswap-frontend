@@ -1,14 +1,10 @@
-import { Currency, CurrencyAmount, Percent, TradeType } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import { Text } from 'components/uikit'
-import useAutoSlippageTolerance from 'hooks/useAutoSlippageTolerance'
-import { useBestTrade } from 'hooks/useBestTrade'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ParsedQs } from 'qs'
-import { ReactNode, useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { InterfaceTrade, TradeState } from 'state/routing/types'
-import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { TradeState } from 'state/routing/types'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useCurrency } from '../../hooks/Tokens'
 import useENS from 'hooks/useENS'
@@ -19,9 +15,13 @@ import { SwapState } from './reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import { useRouter } from 'next/router'
+import { routingApi, useGetRoutesQuery } from '../routing/slice'
+import { skipToken } from '@reduxjs/toolkit/query/react'
+import { Route } from '@lifi/sdk'
+import BigNumber from 'bignumber.js'
 
 export function useSwapState(): AppState['swap'] {
-  return useAppSelector((state) => state.swap)
+  return useAppSelector((state: AppState) => state.swap)
 }
 
 export function useSwapActionHandlers(): {
@@ -76,29 +76,28 @@ const BAD_RECIPIENT_ADDRESSES: { [address: string]: true } = {
 }
 
 // from the current swap inputs, compute the best trade and return it.
-export function useDerivedSwapInfo(): {
-  currencies: { [field in Field]?: Currency | null }
-  currencyBalances: { [field in Field]?: CurrencyAmount<Currency> }
-  parsedAmount: CurrencyAmount<Currency> | undefined
-  inputError?: ReactNode
-  trade: {
-    trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
-    state: TradeState
+export const useDerivedSwapInfo = (): {
+  currencies: { [field in Field]: Currency | null }
+  currencyBalances: { [field in Field]?: string }
+  inputError?: string
+  routing: {
+    routes: Route[]
+    routingState: TradeState
   }
-  allowedSlippage: Percent
-} {
-  const { account } = useWeb3React()
+  allowedSlippage: number
+} => {
+  const { chainId, account } = useWeb3React()
 
   const {
     independentField,
     typedValue,
-    [Field.INPUT]: { currencyId: inputCurrencyId },
-    [Field.OUTPUT]: { currencyId: outputCurrencyId },
+    [Field.INPUT]: { currencyId: inputCurrencyString },
+    [Field.OUTPUT]: { currencyId: outputCurrencyString },
     recipient,
   } = useSwapState()
 
-  const inputCurrency = useCurrency(inputCurrencyId)
-  const outputCurrency = useCurrency(outputCurrencyId)
+  const inputCurrency = useCurrency(inputCurrencyString)
+  const outputCurrency = useCurrency(outputCurrencyString)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
 
@@ -107,85 +106,72 @@ export function useDerivedSwapInfo(): {
     useMemo(() => [inputCurrency ?? undefined, outputCurrency ?? undefined], [inputCurrency, outputCurrency]),
   )
 
+  //this should not be necessary if the only possible input is the from Token
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = useMemo(
     () => tryParseCurrencyAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined),
     [inputCurrency, isExactIn, outputCurrency, typedValue],
   )
 
-  const trade = useBestTrade(
-    isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
-    parsedAmount,
-    (isExactIn ? outputCurrency : inputCurrency) ?? undefined,
-    undefined,
-    //use Apeswap's nodes to only for swap
-    true,
+  const slippage = useAppSelector((state) => {
+    return state.user.userSlippageTolerance
+  })
+  const slippageParsed = slippage / 10000
+
+  const queryParams = getQueryParams(chainId, typedValue, inputCurrencyString, outputCurrencyString, slippageParsed, inputCurrency)
+
+  const {
+    isLoading,
+    isFetching,
+    isError,
+    data,
+  } = useGetRoutesQuery(
+    queryParams ?? skipToken,
+    //{ pollingInterval: AVERAGE_L1_BLOCK_TIME },
   )
 
-  const currencyBalances = useMemo(
-    () => ({
-      [Field.INPUT]: relevantTokenBalances[0],
-      [Field.OUTPUT]: relevantTokenBalances[1],
-    }),
-    [relevantTokenBalances],
-  )
+  const error = relevantTokenBalances[0]?.toExact() && (new BigNumber(typedValue).gt(new BigNumber(relevantTokenBalances[0]?.toExact()))) ? 'Insufficient Balance' : ''
 
-  const currencies: { [field in Field]?: Currency | null } = useMemo(
-    () => ({
-      [Field.INPUT]: inputCurrency,
-      [Field.OUTPUT]: outputCurrency,
-    }),
-    [inputCurrency, outputCurrency],
-  )
-
-  // allowed slippage is either auto slippage, or custom user defined slippage if auto slippage disabled
-  const autoSlippageTolerance = useAutoSlippageTolerance(trade.trade)
-  const allowedSlippage = useUserSlippageToleranceWithDefault(autoSlippageTolerance)
-
-  const inputError = useMemo(() => {
-    let inputError: ReactNode | undefined
-
-    if (!account) {
-      inputError = <Text color="textDisabled">Connect Wallet</Text>
-    }
-
-    if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) {
-      inputError = inputError ?? <Text color="textDisabled">Select a token</Text>
-    }
-
-    if (!parsedAmount) {
-      inputError = inputError ?? <Text color="textDisabled">Enter an amount</Text>
-    }
-
-    const formattedTo = isAddress(to)
-    if (!to || !formattedTo) {
-      inputError = inputError ?? <Text color="textDisabled">Enter a recipient</Text>
-    } else {
-      if (BAD_RECIPIENT_ADDRESSES[formattedTo]) {
-        inputError = inputError ?? <Text color="textDisabled">Invalid recipient</Text>
+  const routingState = useMemo(() => {
+    //return empty routes if something is missing
+    if (!typedValue) {
+      return {
+        routingState: TradeState.INVALID,
+        routes: [],
       }
     }
-
-    // compare input balance to max input based on version
-    const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], trade.trade?.maximumAmountIn(allowedSlippage)]
-
-    if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
-      inputError = <Text color="textDisabled">Insufficient {amountIn.currency.symbol} balance</Text>
+    //return loading state if loading
+    if ((isLoading || isFetching) && !isError) {
+      return {
+        routingState: TradeState.LOADING,
+        routes: data?.routes ?? [],
+      }
     }
-
-    return inputError
-  }, [account, allowedSlippage, currencies, currencyBalances, parsedAmount, to, trade.trade])
+    if (isError || !data?.routes || data?.routes?.length === 0) {
+      return {
+        routingState: TradeState.NO_ROUTE_FOUND,
+        routes: [],
+      }
+    }
+    return {
+      routingState: TradeState.VALID,
+      routes: data?.routes,
+    }
+  }, [data?.routes, isError, isFetching, isLoading, typedValue])
 
   return useMemo(
     () => ({
-      currencies,
-      currencyBalances,
-      parsedAmount,
-      inputError,
-      trade,
-      allowedSlippage,
+      currencies: {
+        [Field.INPUT]: inputCurrency,
+        [Field.OUTPUT]: outputCurrency,
+      },
+      currencyBalances: { [Field.INPUT]: relevantTokenBalances[0]?.toExact() },
+      typedValue,
+      inputError: error,
+      routing: routingState,
+      allowedSlippage: slippageParsed,
     }),
-    [allowedSlippage, currencies, currencyBalances, inputError, parsedAmount, trade],
+    [error, inputCurrency, outputCurrency, relevantTokenBalances, routingState, slippageParsed, typedValue],
   )
 }
 
@@ -210,6 +196,7 @@ function parseIndependentFieldURLParameter(urlParam: any): Field {
 
 const ENS_NAME_REGEX = /^[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)?$/
 const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
+
 function validatedRecipient(recipient: any): string | null {
   if (typeof recipient !== 'string') return null
   const address = isAddress(recipient)
@@ -277,4 +264,25 @@ export function useDefaultsFromURLSearch(): SwapState {
   }, [dispatch, chainId, parsedSwapState])
 
   return parsedSwapState
+}
+
+export const getQueryParams = (
+  chainId: number | undefined,
+  typedValue: string | undefined,
+  inputCurrencyString: string | null,
+  outputCurrencyString: string | null,
+  slippageParsed: number | null,
+  inputCurrency: Currency | null) => {
+  if (!chainId || !typedValue || !inputCurrencyString || !outputCurrencyString || !slippageParsed || !inputCurrency) {
+    return null
+  } else {
+    return {
+      chainId,
+      //improve this
+      fromAmount: new BigNumber(typedValue).times(new BigNumber(10).pow(inputCurrency.decimals)).toFixed(0, BigNumber.ROUND_DOWN),
+      fromTokenAddress: inputCurrencyString === 'ETH' ? '0x0000000000000000000000000000000000000000' : inputCurrencyString,
+      toTokenAddress: outputCurrencyString === 'ETH' ? '0x0000000000000000000000000000000000000000' : outputCurrencyString,
+      slippage: slippageParsed,
+    }
+  }
 }

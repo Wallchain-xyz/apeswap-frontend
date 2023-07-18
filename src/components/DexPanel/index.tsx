@@ -25,6 +25,7 @@ const DexPanel = ({
   userBalance,
   locked,
   isZapInput,
+  apiPricing
 }: DexPanelProps) => {
   const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -73,7 +74,8 @@ const DexPanel = ({
             <Spinner width="15px" height="15px" />
           ) : (
             <Text size="12px" sx={styles.panelBottomText}>
-              {value !== '.' && value && `$${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
+              {value !== '.' && value && `Ours: $${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
+              {apiPricing && ` - LiFi: $${apiPricing}`}
             </Text>
           )}
         </Flex>

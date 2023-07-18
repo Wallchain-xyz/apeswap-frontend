@@ -8,7 +8,7 @@ import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import React, { useCallback, useState } from 'react'
 import { Field } from 'state/mint/v2/actions'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { styles } from './styles'
 import { AddLiquidityActionsProps } from './types'
 import { useV2RouterContract } from 'hooks/useContract'
@@ -52,9 +52,6 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
 
   // Custom from users settings
   const deadline = useTransactionDeadline()
-
-  // Check if user has expert mode set
-  const expertMode = useIsExpertMode()
 
   // Add transaction
   const addTransaction = useTransactionAdder()
@@ -232,13 +229,7 @@ const AddLiquidityActions: React.FC<AddLiquidityActionsProps> = ({
     return (
       <Button
         fullWidth
-        onClick={() => {
-          if (expertMode) {
-            onAdd()
-          } else {
-            onPresentAddLiquidityModal()
-          }
-        }}
+        onClick={() => onPresentAddLiquidityModal()}
       >
         {t('Add Liquidity')}
       </Button>

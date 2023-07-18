@@ -1,10 +1,8 @@
 import { Protocol } from '@ape.swap/router-sdk'
 import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
 import { useMemo } from 'react'
-import { RouterPreference } from 'state/routing/slice'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
-import { useClientSideRouter } from 'state/user/hooks'
 
 import useAutoRouterSupported from './useAutoRouterSupported'
 import { useClientSideV3Trade } from './useClientSideV3Trade'
@@ -18,7 +16,6 @@ import useIsWindowVisible from './useIsWindowVisible'
  * @param otherCurrency the desired output/payment currency
  * @param protocols v2/v3/mixed protocols
  * @param useApeRPC we only want to use our nodes for swap
- * @param avoidApiRouting zap should use client-side quotes
  */
 
 export function useBestTrade(
@@ -27,7 +24,6 @@ export function useBestTrade(
   otherCurrency?: Currency,
   protocols?: Protocol[],
   useApeRPC?: boolean,
-  avoidApiRouting = false,
 ): {
   state: TradeState
   trade: InterfaceTrade<Currency, Currency, TradeType> | undefined
@@ -40,13 +36,10 @@ export function useBestTrade(
     200,
   )
 
-  const [clientSideRouter] = useClientSideRouter()
-  const router = avoidApiRouting ? true : clientSideRouter
   const routingAPITrade = useRoutingAPITrade(
     tradeType,
     autoRouterSupported && isWindowVisible ? debouncedAmount : undefined,
     debouncedOtherCurrency,
-    router ? RouterPreference.CLIENT : RouterPreference.API,
     protocols,
     useApeRPC,
   )

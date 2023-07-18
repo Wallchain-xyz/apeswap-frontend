@@ -124,7 +124,7 @@ export function useToken(tokenAddress?: string | null): Token | null | undefined
   return useTokenFromMapOrNetwork(tokens, tokenAddress)
 }
 
-export function useCurrency(currencyId?: string | null): Currency | null | undefined {
+export function useCurrency(currencyId?: string | null): Currency | null {
   const tokens = useAllTokens()
   return useCurrencyFromMap(tokens, currencyId)
 }

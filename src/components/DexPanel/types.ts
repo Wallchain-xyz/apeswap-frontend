@@ -18,4 +18,5 @@ export interface DexPanelProps {
   isZapInput?: boolean
   userBalance?: number
   locked?: boolean
+  apiPricing?: string
 }

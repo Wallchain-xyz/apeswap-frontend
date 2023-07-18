@@ -8,17 +8,20 @@ import { useMemo } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
-import { currencyAmountToPreciseFloat, formatTransactionAmount } from 'utils/formatNumbers'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import Risk from './components/Risk/Risk'
 import SwapSwitchButton from './components/SwapSwitchButton'
-import TradeDetails from './components/TradeDetails'
+import useCurrencyBalance from '../../lib/hooks/useCurrencyBalance'
+import { getBNWithDecimals } from '../../utils/getBalanceNumber'
+import { Route } from '@lifi/sdk'
+import RouteDetails from './components/RouteDetails'
+import { parseOutputAmount } from './utils'
 
 const Swap = () => {
-  const { chainId } = useWeb3React()
-  // const loadedUrlParams = useDefaultsFromURLSearch()
+  useDefaultsFromURLSearch()
+  const { account, chainId } = useWeb3React()
 
   // TODO: Add token warning stuff
 
@@ -60,15 +63,21 @@ const Swap = () => {
   // )
 
   // swap state
-  const { independentField, typedValue, recipient } = useSwapState()
+  const { typedValue, recipient } = useSwapState()
   const {
-    trade: { state: tradeState, trade },
+    routing,
     allowedSlippage,
     currencyBalances,
-    parsedAmount,
     currencies,
-    inputError: swapInputError,
+    inputError,
   } = useDerivedSwapInfo()
+  const { routes, routingState } = routing
+  const selectedRoute = routes[0]  // hardcoded for the time being
+  //console.log(selectedRoute)
+  const routeNotFound = routingState === TradeState.NO_ROUTE_FOUND
+  const routeIsLoading = routingState === TradeState.LOADING
+
+  //console.log(routes, routingState)
 
   const {
     wrapType,
@@ -78,98 +87,60 @@ const Swap = () => {
 
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
 
-  const parsedAmounts = useMemo(
-    () =>
-      showWrap
-        ? {
-            [Field.INPUT]: parsedAmount,
-            [Field.OUTPUT]: parsedAmount,
-          }
-        : {
-            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-          },
-    [independentField, parsedAmount, showWrap, trade],
-  )
-
-  const [routeNotFound, routeIsLoading, routeIsSyncing] = useMemo(
-    () => [!trade?.swaps, TradeState.LOADING === tradeState, TradeState.SYNCING === tradeState],
-    [trade, tradeState],
-  )
-
   const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
-  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
-  const formattedAmounts = useMemo(
-    () => ({
-      [independentField]: typedValue,
-      [dependentField]: showWrap
-        ? parsedAmounts[independentField]?.toExact() ?? ''
-        : formatTransactionAmount(currencyAmountToPreciseFloat(parsedAmounts[dependentField])),
-    }),
-    [dependentField, independentField, parsedAmounts, showWrap, typedValue],
-  )
-
+  const inputCurrencyAmount = useCurrencyBalance(account, currencies?.INPUT ?? undefined)
   const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
-    () => maxAmountSpend(currencyBalances[Field.INPUT]),
-    [currencyBalances],
+    () => maxAmountSpend(inputCurrencyAmount),
+    [inputCurrencyAmount],
   )
 
-  // const stablecoinPriceImpact = useMemo(
-  //   () => (routeIsSyncing || !trade ? undefined : computeFia(fiatValueTradeInput, fiatValueTradeOutput)),
-  //   [fiatValueTradeInput, fiatValueTradeOutput, routeIsSyncing, trade],
-  // )
-  useDefaultsFromURLSearch()
+  const parsedOutput = parseOutputAmount(selectedRoute?.toAmount, selectedRoute?.toToken?.decimals)
 
   return (
-    <Flex variant="flex.dexContainer">
+    <Flex variant='flex.dexContainer'>
       <DexNav />
       <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
       <DexPanel
-        panelText="From"
+        panelText='From'
         onCurrencySelect={(currency) => onCurrencySelection(Field.INPUT, currency)}
         onUserInput={(val) => onUserInput(Field.INPUT, val)}
         handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
-        value={formattedAmounts[Field.INPUT]}
+        value={typedValue}
         currency={currencies[Field.INPUT]}
         otherCurrency={currencies[Field.OUTPUT]}
+        apiPricing={selectedRoute?.fromAmountUSD}
       />
-      <Flex sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center' }}>
+      <Flex
+        sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}>
         <SwapSwitchButton onClick={onSwitchTokens} />
         <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]} />
       </Flex>
       <DexPanel
-        panelText="To"
+        panelText='To'
         onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}
         onUserInput={(val) => onUserInput(Field.OUTPUT, val)}
-        value={formattedAmounts[Field.OUTPUT]}
+        value={parsedOutput ?? ''}
         currency={currencies[Field.OUTPUT]}
         otherCurrency={currencies[Field.INPUT]}
+        disabled
+        apiPricing={selectedRoute?.toAmountUSD}
       />
+      {!showWrap && routeIsLoading ? (
+        <LoadingBestRoute />
+      ) : !routeNotFound && !showWrap && selectedRoute && (
+        <RouteDetails route={selectedRoute} />
+      )}
       <Actions
-        tradeState={tradeState}
-        swapInputError={swapInputError}
-        trade={trade}
-        allowedSlippage={allowedSlippage}
-        recipient={recipient}
+        routingState={routingState}
+        inputError={inputError}
+        selectedRoute={selectedRoute}
+        inputCurrencyAmount={inputCurrencyAmount}
         showWrap={showWrap}
         wrapInputError={wrapInputError}
         wrapType={wrapType}
         onWrap={onWrap}
-        stablecoinPriceImpact={null}
       />
-      {!showWrap &&
-        (routeIsLoading || routeIsSyncing ? (
-          <Flex mt="10px">
-            <LoadingBestRoute />
-          </Flex>
-        ) : !routeNotFound ? (
-          <Flex mt="10px">
-            <TradeDetails trade={trade} allowedSlippage={allowedSlippage} />
-          </Flex>
-        ) : (
-          <></>
-        ))}
     </Flex>
   )
 }
