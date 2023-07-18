@@ -20,6 +20,7 @@ export interface HomepageDTO {
 
 export interface BondDTO extends Bond {
   isFeatured: boolean
+  isNew: boolean
   launchDate: number
 }
 
