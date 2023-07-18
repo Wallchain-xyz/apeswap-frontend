@@ -53,11 +53,11 @@ const BondsList = ({ bonds }: BondsListProps) => {
   }
 
   const handleCardClick = (item: BondDTO): void => {
-    const { payoutTokenName, chainId } = item
+    const { chainId, billAddress } = item
     if (chainId !== currentChain) {
       router.push('/bonds?switchChain=true')
     } else {
-      router.push(`/bonds?payoutToken=${payoutTokenName}`)
+      router.push(`/bonds?bondAddress=${billAddress}`)
     }
   }
 
@@ -84,7 +84,7 @@ const BondsList = ({ bonds }: BondsListProps) => {
                 color: discount >= 0 ? 'success' : 'error',
               }}
             >
-              {discount}%
+              {String(discount).slice(0, 5)}%
             </Box>
           </Flex>
         }

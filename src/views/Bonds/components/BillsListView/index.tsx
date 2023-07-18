@@ -29,10 +29,16 @@ const BillsListView: React.FC = () => {
   const [showOnlyDiscount, setShowOnlyDiscount] = useState(false)
   const [showAvailable, setShowAvailable] = useState(true)
 
-  const { payoutToken, switchChain = false } = routerQuery
-  const { index = 0 } = bills?.find((bill: Bills) => bill?.earnToken?.symbol === payoutToken) ?? {}
+  const { bondAddress = '', switchChain = false } = routerQuery
+  const { index = 0 } =
+    bills?.find((bill: Bills) => bill?.contractAddress[chainId as SupportedChainId] === bondAddress) ?? {}
 
-  const [onPresentBuyBillsModal] = useModal(<BuyBillModalView billIndex={index} />, false, false, `billsModal${index}`)
+  const [onPresentBuyBillsModal] = useModal(
+    <BuyBillModalView billIndex={index} />,
+    false,
+    false,
+    `billsModal${bondAddress}`,
+  )
   const [onPresentWalletConnectModal] = useModal(<NetworkModal onDismiss={() => null} />, true, true, 'NetworkModal')
 
   useEffect(() => {
