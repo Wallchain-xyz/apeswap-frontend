@@ -67,8 +67,8 @@ const TokensList = ({ tokens }: TokensListProps) => {
   }
 
   const handleClick = (item: TokenDTO) => {
-    // TODO: Come back and uncomment this when the token data includes token id or address
-    router.push('https://dex.apeswap.finance/swap')
+    const { tokenAddress } = item
+    router.push(`https://dex.apeswap.finance/swap?outputCurrency=${tokenAddress}`)
   }
 
   const renderListCard = (item: TokenDTO, itemIndex: number): JSX.Element => {
@@ -97,7 +97,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
                   color: priceChange24h >= 0 ? 'success' : 'error',
                 }}
               >
-                {priceChange24h}%
+                {`${priceChange24h > 0 ? '+' : ''}${(Math.floor(priceChange24h * 100) / 100).toFixed(2)}%`}
               </Box>
               <Box
                 sx={{
@@ -106,7 +106,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
                   display: ['flex', 'flex', 'none'],
                 }}
               >
-                ${String(tokenPrice).slice(0, 6)}
+                ${(Math.floor(tokenPrice * 100) / 100).toFixed(4)}
               </Box>
               <Box
                 sx={{
@@ -115,7 +115,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
                   display: ['none', 'none', 'flex'],
                 }}
               >
-                ${tokenPrice}
+                ${(Math.floor(tokenPrice * 100) / 100).toFixed(6)}
               </Box>
             </Flex>
           </Flex>

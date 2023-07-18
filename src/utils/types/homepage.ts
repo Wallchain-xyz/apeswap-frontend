@@ -44,6 +44,7 @@ export interface TokenDTO {
   launchDate: number
   priceChange24h: number
   priceHistory: number[]
+  tokenAddress: string
   tokenTicker: string
   tokenPrice: number
   volume24h: number
