@@ -19,6 +19,7 @@ interface ListCardProps {
   rightContent: ReactNode
   chainId: number
   bg?: string
+  hoverTitle?: string
   handleClick?: (args: any) => void
 }
 
@@ -30,6 +31,7 @@ const ListCard = ({
   rightContent,
   chainId,
   bg = 'white2',
+  hoverTitle = 'Buy Now',
   handleClick,
 }: ListCardProps) => {
   const { t } = useTranslation()
@@ -66,7 +68,7 @@ const ListCard = ({
           '&:hover': { opacity: '1', backdropFilter: 'blur(1.5px)' },
         }}
       >
-        <Text sx={{ color: 'yellow', fontSize: ['10px', '10px', '12px'] }}>{t('Buy now')}</Text>
+        <Text sx={{ color: 'yellow', fontSize: ['10px', '10px', '12px'] }}>{t(hoverTitle)}</Text>
         <Image
           src="/images/discover-new-opportunities/caret-right-yellow.svg"
           width={10}
