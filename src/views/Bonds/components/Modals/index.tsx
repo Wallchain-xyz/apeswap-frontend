@@ -1,4 +1,6 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+import { useWeb3React } from '@web3-react/core'
 import UserBillModalView from './UserBillModalView'
 import WarningModal from './WarningModal'
 import useModal from 'hooks/useModal'
@@ -7,6 +9,7 @@ import BuyBillModalView from './BuyBillModalView'
 import { Button, Flex } from 'components/uikit'
 import Image from 'next/image'
 import ReflectModal from './ReflectModal'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 const REFLECT_BONDS = ['NOOT']
 
@@ -21,6 +24,8 @@ interface BillModalProps {
 }
 
 const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, billId, billCardImage, disabled }) => {
+  const { push } = useRouter()
+  const { chainId } = useWeb3React()
   const [onPresentBuyBillsModal] = useModal(
     <BuyBillModalView billIndex={bill.index} />,
     false,
@@ -44,17 +49,22 @@ const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, bi
     `billsReflectWarningModal${id}`,
   )
 
+  const handleBuyClick = () => {
+    const { contractAddress } = bill
+    buyFlag
+      ? REFLECT_BONDS.includes(bill?.earnToken.symbol)
+        ? onPresentReflectModal()
+        : parseFloat(bill?.discount as string) < 0
+        ? onPresentBuyWarning()
+        : onPresentBuyBillsModal()
+      : onPresentUserBillModal()
+
+    push(`/bonds?bondAddress=${contractAddress[chainId as SupportedChainId]}`, undefined, { shallow: true })
+  }
+
   return !billCardImage ? (
     <Button
-      onClick={
-        buyFlag
-          ? REFLECT_BONDS.includes(bill?.earnToken.symbol)
-            ? onPresentReflectModal
-            : parseFloat(bill?.discount as string) < 0
-            ? onPresentBuyWarning
-            : onPresentBuyBillsModal
-          : onPresentUserBillModal
-      }
+      onClick={handleBuyClick}
       disabled={disabled}
       sx={{
         lineHeight: '20px',

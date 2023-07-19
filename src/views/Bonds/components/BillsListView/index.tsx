@@ -44,7 +44,6 @@ const BillsListView: React.FC = () => {
   useEffect(() => {
     if (index) {
       onPresentBuyBillsModal()
-      replace('/bonds', undefined, { shallow: true })
     }
     if (switchChain) {
       onPresentWalletConnectModal()

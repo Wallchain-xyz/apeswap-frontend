@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'contexts/Localization'
 import { StyledButton } from '../styles'
 import BuyBillModalView from './BuyBillModalView'
@@ -13,6 +14,7 @@ interface TransferBillModalProps {
 
 const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => {
   const [confirmBuy, setConfirmBuy] = useState(false)
+  const { replace } = useRouter()
   const { t } = useTranslation()
   const { index } = bill
   const [onPresentBuyBillsModal] = useModal(
@@ -23,14 +25,19 @@ const WarningModal: React.FC<TransferBillModalProps> = ({ onDismiss, bill }) => 
     true,
   )
 
+  const handleDismiss = (): void => {
+    onDismiss && onDismiss()
+    replace('/bonds', undefined, { shallow: true })
+  }
+
   return (
-    <Modal onDismiss={onDismiss}>
+    <Modal onDismiss={handleDismiss}>
       <Flex sx={{ alignItems: 'center', justifyContent: 'center' }} mt="10px">
         <IconButton
           icon="close"
           color="text"
           variant="transparent"
-          onClick={onDismiss}
+          onClick={handleDismiss}
           sx={{ position: 'absolute', right: '20px', top: '25px' }}
         />
         <Text sx={{ fontSize: '35px', fontWeight: 700 }}>
