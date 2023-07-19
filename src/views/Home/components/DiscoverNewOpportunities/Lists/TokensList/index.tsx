@@ -84,7 +84,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
                   display: ['flex', 'flex', 'none'],
                 }}
               >
-                ${(Math.floor(tokenPrice * 100) / 100).toFixed(4)}
+                ${String(tokenPrice).slice(0, 6)}
               </Box>
               <Box
                 sx={{
@@ -93,7 +93,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
                   display: ['none', 'none', 'flex'],
                 }}
               >
-                ${(Math.floor(tokenPrice * 100) / 100).toFixed(6)}
+                ${String(tokenPrice).slice(0, 8)}
               </Box>
             </Flex>
           </Flex>
