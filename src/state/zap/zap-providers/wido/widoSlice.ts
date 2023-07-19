@@ -6,10 +6,10 @@ type TxData = { to: string; data: string }
 type TxDataWithTimestamp = TxData & { timestamp: number }
 
 interface ZapWidoState {
-  approveData: TxDataWithTimestamp | undefined
-  approveRequest: ApproveRequest | undefined
-  quoteRequest: QuoteRequest | undefined
-  quoteResult: QuoteResult | undefined
+  approveData: TxDataWithTimestamp | null
+  approveRequest: ApproveRequest | null
+  quoteRequest: QuoteRequest | null
+  quoteResult: QuoteResult | null
   // TODO: Bubble up to Zap state
   loading: boolean
   error: string | null
@@ -20,10 +20,10 @@ const initialState: ZapWidoState = {
   loading: false,
   error: null,
   txHash: null,
-  approveData: undefined,
-  approveRequest: undefined,
-  quoteRequest: undefined,
-  quoteResult: undefined,
+  approveData: null,
+  approveRequest: null,
+  quoteRequest: null,
+  quoteResult: null,
 }
 
 const zapWidoSlice = createSlice({

@@ -25,7 +25,7 @@ import { zapWidoActions } from './widoSlice'
 */
 
 // https://docs.joinwido.com/integrate-wido/router#step-2-receive-a-quote
-export const requestWidoQuote = createAsyncThunk('zapWido/requestWidoQuote', async (request: QuoteRequest) => {
+export const requestWidoQuote = createAsyncThunk('zapWido/requestWidoQuote', async (request: QuoteRequest, { dispatch, getState }) => {
   const { fromChainId, toChainId, fromToken, toToken, amount, slippagePercentage, user } = request
 
   const quoteResult = await quote({

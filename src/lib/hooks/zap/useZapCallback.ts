@@ -10,8 +10,8 @@ import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
 import { useZapContract } from '../../../hooks/useContract'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
-import { MergedZap, ZapCallbackState } from 'state/zap/actions'
-import { setZapError, setZapState } from 'state/zap/slice'
+import { MergedZap, ZapStatus } from 'state/zap/actions'
+import { setZapError, setZapStatus } from 'state/zap/slice'
 import { TransactionType } from 'state/transactions/types'
 import { Call, FailedCall, SuccessfulCall, estimateGasForCalls } from 'utils/transactions'
 import { isAddress } from 'utils'
@@ -97,11 +97,11 @@ export function useZapCallback(
   stakingContractAddress?: string,
   maxPrice?: string,
   poolPid?: string,
-): { state: ZapCallbackState; callback: any; error: string | null } {
+): { status: ZapStatus; callback: any; error: string | undefined } {
   const { account, chainId, provider } = useWeb3React()
 
   const dispatch = useAppDispatch()
-  const zapState = useAppSelector(state => state.zap.zapState)
+  const zapStatus = useAppSelector(state => state.zap.zapStatus)
   const zapError = useAppSelector(state => state.zap.zapError)
 
   const swapCalls = useZapCallArguments(
@@ -121,30 +121,30 @@ export function useZapCallback(
 
   useEffect(() => {
     if (!provider || !account || !chainId) {
-      dispatch(setZapState(ZapCallbackState.INVALID))
+      dispatch(setZapStatus(ZapStatus.INVALID))
       dispatch(setZapError('Missing dependencies'))
     } else if (!recipient) {
       if (recipientAddressOrName !== null) {
-        dispatch(setZapState(ZapCallbackState.INVALID))
+        dispatch(setZapStatus(ZapStatus.INVALID))
         dispatch(setZapError('Invalid recipient'))
       } else {
-        dispatch(setZapState(ZapCallbackState.LOADING))
+        dispatch(setZapStatus(ZapStatus.LOADING))
         dispatch(setZapError(undefined))
       }
     } else {
-      dispatch(setZapState(ZapCallbackState.VALID))
+      dispatch(setZapStatus(ZapStatus.VALID))
       dispatch(setZapError(undefined))
     }
   }, [provider, account, chainId, recipient, recipientAddressOrName, dispatch])
 
 
   return useMemo(() => {
-    if (zapState === ZapCallbackState.INVALID) {
-      return { state: zapState, callback: null, error: zapError }
+    if (zapStatus === ZapStatus.INVALID) {
+      return { status: zapStatus, callback: null, error: zapError }
     }
 
     return {
-      state: zapState,
+      status: zapStatus,
       callback: async function onZap(): Promise<string> {
         const estimatedCalls = await estimateGasForCalls(swapCalls)
 
@@ -202,5 +202,5 @@ export function useZapCallback(
       },
       error: undefined,
     }
-  }, [zap, account, recipient, recipientAddressOrName, swapCalls, addTransaction, zapState, zapError])
+  }, [zap, account, recipient, recipientAddressOrName, swapCalls, addTransaction, zapStatus, zapError])
 }

@@ -1,11 +1,10 @@
 import { Token } from '@ape.swap/sdk-core'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
-import { createSlice, createReducer, PayloadAction } from '@reduxjs/toolkit'
-import {
-  Field,
-  ZapCallbackState,
-} from './actions'
+import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit'
+import { Field, ZapStatus } from './actions'
 import { TradeState } from 'state/routing/types'
+import { requestZapQuote } from './thunks'
+import { zapWidoReducer } from './zap-providers/wido'
 
 export type ZapContractProtocols = 'ZapV2' | 'ZapV3Multicall'
 export type ZapApiProtocols = 'ZapWido'
@@ -24,11 +23,11 @@ export interface ZapState {
     readonly currency1: string | undefined
     readonly currency2: string | undefined
   }
-  readonly recipient: string |  null
+  readonly recipient: string | null
   // TODO: this type is incorrect since it needs to handle chainId as well.
   readonly zapInputList: { [symbol: string]: Token } | undefined
   readonly zapNewOutputList: { currencyIdA: string; currencyIdB: string }[]
-  readonly zapState: ZapCallbackState
+  readonly zapStatus: ZapStatus
   readonly zapError: string | undefined
 }
 
@@ -49,15 +48,15 @@ const initialState: ZapState = {
   recipient: null,
   zapInputList: undefined,
   zapNewOutputList: [],
-  zapState: ZapCallbackState.STANDBY,
+  zapStatus: ZapStatus.STANDBY,
   zapError: undefined,
 }
 
 /**
- * 
+ *
  * Slices are a collection of reducer logic and actions for a single feature of your app.
  * They help drastically reduce the amount of boilerplate code needed to write Redux logic.
- * 
+ *
  * createSlice:
  * 1. Uses Immer internally so we can mutate the state directly.
  * 2. Will generate action creators and action types that correspond to the reducers and state.
@@ -69,7 +68,9 @@ const zapSlice = createSlice({
   initialState,
   reducers: {
     setZapProtocol: (state, action: PayloadAction<{ zapProtocol: ZapAllProtocols }>) => {
+      if (state.zapProtocol === action.payload.zapProtocol) return
       state.zapProtocol = action.payload.zapProtocol
+      state.zapStatus = ZapStatus.STANDBY
     },
     replaceZapState: (
       state,
@@ -100,7 +101,7 @@ const zapSlice = createSlice({
     selectOutputCurrency: (state, action: PayloadAction<{ currency1: string; currency2: string }>) => {
       state[Field.OUTPUT] = { currency1: action.payload.currency1, currency2: action.payload.currency2 }
     },
-    typeInput: (state, action: PayloadAction<{ field: Field, typedValue: string }>) => {
+    typeInput: (state, action: PayloadAction<{ field: Field; typedValue: string }>) => {
       state.independentField = Field.INPUT
       state.typedValue = action.payload.typedValue
     },
@@ -110,20 +111,37 @@ const zapSlice = createSlice({
     setZapType: (state, action: PayloadAction<{ zapType: ZapType }>) => {
       state.zapType = action.payload.zapType
     },
-    setInputList: (state, action: PayloadAction<{ zapInputList:  { [symbol: string]: Token } }>) => {
+    setInputList: (state, action: PayloadAction<{ zapInputList: { [symbol: string]: Token } }>) => {
       state.zapInputList = action.payload.zapInputList
     },
-    setZapNewOutputList: (state, action: PayloadAction<{ zapNewOutputList: { currencyIdA: string; currencyIdB: string }[] }>) => {
+    setZapNewOutputList: (
+      state,
+      action: PayloadAction<{ zapNewOutputList: { currencyIdA: string; currencyIdB: string }[] }>,
+    ) => {
       state.zapNewOutputList = action.payload.zapNewOutputList
     },
-    setZapState: (state, action: PayloadAction<ZapCallbackState>) => {
-      state.zapState = action.payload
+    setZapStatus: (state, action: PayloadAction<ZapStatus>) => {
+      state.zapStatus = action.payload
     },
     setZapError: (state, action: PayloadAction<string | undefined>) => {
       state.zapError = action.payload
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(requestZapQuote.pending, (state, action) => {
+        // TODO: Handle state
+      })
+      .addCase(requestZapQuote.fulfilled, (state, action) => {
+        // TODO: Handle state
+      })
+      .addCase(requestZapQuote.rejected, (state, action) => {
+        // TODO: Handle state
+      })
+  },
 })
+
+export const zapActions = zapSlice.actions
 
 export const {
   setZapProtocol,
@@ -135,8 +153,12 @@ export const {
   setZapType,
   setInputList,
   setZapNewOutputList,
-  setZapState,
+  setZapStatus,
   setZapError,
-} = zapSlice.actions
+} = zapActions
+
+export const zapProtocolReducers = combineReducers({
+  zapWido: zapWidoReducer,
+})
 
 export default zapSlice.reducer

@@ -36,9 +36,10 @@ export type MergedZap = {
   chainId: SupportedChainId
 }
 
-export enum ZapCallbackState {
+export enum ZapStatus {
   STANDBY,
   INVALID,
   LOADING,
+  APPROVAL,
   VALID,
 }
