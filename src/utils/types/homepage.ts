@@ -13,6 +13,11 @@ export interface SortedTokens {
   new: TokenDTO[]
 }
 
+export interface SortedFarms {
+  blueChips: FarmDTO[]
+  highestYield: FarmDTO[]
+}
+
 export interface HomepageDTO {
   [BondsStats.TotalBondsSold]: number
   [BondsStats.TotalBondedValue]: number
@@ -20,7 +25,7 @@ export interface HomepageDTO {
   [BondsStats.TotalValueLocked]: number
   partnerCount?: number
   bonds?: BondDTO[]
-  farms?: FarmDTO[]
+  farms?: SortedFarms
   tokens?: SortedTokens
 }
 

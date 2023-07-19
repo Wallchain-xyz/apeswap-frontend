@@ -16,10 +16,10 @@ import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
 // Types
-import { FarmDTO } from 'utils/types/homepage'
+import { FarmDTO, SortedFarms } from 'utils/types/homepage'
 
 interface FarmsListProps {
-  farms: FarmDTO[]
+  farms: SortedFarms
 }
 
 const FarmsList = ({ farms }: FarmsListProps) => {
@@ -29,7 +29,12 @@ const FarmsList = ({ farms }: FarmsListProps) => {
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
 
-  const chunkedFarms = chunk(farms, 4).reverse()
+  const { blueChips, highestYield } = farms
+
+  const sortedFarms = [
+    { title: 'Highest Yield', farms: highestYield },
+    { title: 'Blue Chips', farms: blueChips },
+  ]
 
   const handleSlide = (event: SwiperCore) => {
     setActiveSlide(event.activeIndex)
@@ -79,16 +84,13 @@ const FarmsList = ({ farms }: FarmsListProps) => {
     )
   }
 
-  const slides = chunkedFarms.map((chunk, index) => {
-    const [{ isBlueChip }] = chunk
+  const slides = sortedFarms.map(({ title, farms }, index) => {
     return (
       <Grid key={index} sx={{ width: '100%' }} columns="1fr">
         <Flex sx={{ justifyContent: 'center' }}>
-          <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>
-            {t(isBlueChip ? 'Blue Chips' : 'Highest Yield')}
-          </Text>
+          <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
         </Flex>
-        {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+        {farms.map((item, itemIndex) => renderListCard(item, itemIndex))}
       </Grid>
     )
   })
@@ -155,16 +157,13 @@ const FarmsList = ({ farms }: FarmsListProps) => {
           display: ['none', 'none', 'grid'],
         }}
       >
-        {chunkedFarms.map((chunk, index) => {
-          const [{ isBlueChip }] = chunk
+        {sortedFarms.map(({ title, farms }, index) => {
           return (
             <Flex key={index} sx={{ flexDirection: 'column', gap: '15px' }}>
               <Flex sx={{ justifyContent: 'center' }}>
-                <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>
-                  {t(isBlueChip ? 'Blue Chips' : 'Highest Yield')}
-                </Text>
+                <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
               </Flex>
-              {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+              {farms.map((item, itemIndex) => renderListCard(item, itemIndex))}
             </Flex>
           )
         })}
