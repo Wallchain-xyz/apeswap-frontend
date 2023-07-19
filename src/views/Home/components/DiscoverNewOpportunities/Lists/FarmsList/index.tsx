@@ -5,7 +5,6 @@ import { Grid, Box } from 'theme-ui'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper'
 import 'swiper/swiper.min.css'
-import { chunk } from 'lodash'
 
 // Components
 import { Flex, SwiperDots, Text } from 'components/uikit'
@@ -90,7 +89,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
         <Flex sx={{ justifyContent: 'center' }}>
           <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
         </Flex>
-        {farms.map((item, itemIndex) => renderListCard(item, itemIndex))}
+        {farms?.map((item, itemIndex) => renderListCard(item, itemIndex))}
       </Grid>
     )
   })
@@ -163,7 +162,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
               <Flex sx={{ justifyContent: 'center' }}>
                 <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
               </Flex>
-              {farms.map((item, itemIndex) => renderListCard(item, itemIndex))}
+              {farms?.map((item, itemIndex) => renderListCard(item, itemIndex))}
             </Flex>
           )
         })}

@@ -8,14 +8,14 @@ export enum BondsStats {
 }
 
 export interface SortedTokens {
-  trending: TokenDTO[]
-  mostTraded: TokenDTO[]
-  new: TokenDTO[]
+  trending?: TokenDTO[]
+  mostTraded?: TokenDTO[]
+  new?: TokenDTO[]
 }
 
 export interface SortedFarms {
-  blueChips: FarmDTO[]
-  highestYield: FarmDTO[]
+  blueChips?: FarmDTO[]
+  highestYield?: FarmDTO[]
 }
 
 export interface HomepageDTO {

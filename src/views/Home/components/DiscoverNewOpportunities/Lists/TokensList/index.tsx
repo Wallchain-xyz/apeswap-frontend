@@ -109,7 +109,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
           <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
         </Flex>
         <Flex sx={{ flexDirection: 'column', gap: '10px', bg: 'white2', borderRadius: '10px' }}>
-          {tokens.map((item, itemIndex) => renderListCard(item, itemIndex))}
+          {tokens?.map((item, itemIndex) => renderListCard(item, itemIndex))}
         </Flex>
       </Grid>
     )
@@ -184,7 +184,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
                 <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
               </Flex>
               <Flex sx={{ flexDirection: 'column', gap: '10px', bg: 'white2', borderRadius: '10px' }}>
-                {tokens.map((item, itemIndex) => renderListCard(item, itemIndex))}
+                {tokens?.map((item, itemIndex) => renderListCard(item, itemIndex))}
               </Flex>
             </Flex>
           )

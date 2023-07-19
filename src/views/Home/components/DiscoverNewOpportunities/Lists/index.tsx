@@ -15,7 +15,7 @@ interface ListsProps {
 }
 
 const Lists = ({ activeTab, stats }: ListsProps) => {
-  const { bonds = [], farms = [], tokens = [] } = stats ?? {}
+  const { bonds = [], farms = {}, tokens = {} } = stats ?? {}
   const activeList = {
     [TabNavOptions.BONDS]: <BondsList bonds={bonds} />,
     [TabNavOptions.FARMS]: <FarmsList farms={farms} />,
