@@ -15,9 +15,6 @@ import ListCard from '../ListCard'
 import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
-// Utils
-import { getDotPos } from 'utils/getDotPos'
-
 // Types
 import { FarmDTO } from 'utils/types/homepage'
 
@@ -35,8 +32,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
   const chunkedFarms = chunk(farms, 4).reverse()
 
   const handleSlide = (event: SwiperCore) => {
-    const slideNumber = getDotPos(event.activeIndex, 2)
-    setActiveSlide(slideNumber)
+    setActiveSlide(event.activeIndex)
   }
 
   const slideTo = (index: number) => {

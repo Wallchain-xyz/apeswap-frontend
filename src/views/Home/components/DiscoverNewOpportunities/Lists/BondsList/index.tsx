@@ -14,9 +14,6 @@ import ListCard from '../ListCard'
 import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
-// Utils
-import { getDotPos } from 'utils/getDotPos'
-
 // Types
 import { BondDTO } from 'utils/types/homepage'
 import { useWeb3React } from '@web3-react/core'
@@ -35,8 +32,7 @@ const BondsList = ({ bonds }: BondsListProps) => {
   const chunkedBonds = chunk(bonds, 4)
 
   const handleSlide = (event: SwiperCore) => {
-    const slideNumber = getDotPos(event.activeIndex, 2)
-    setActiveSlide(slideNumber)
+    setActiveSlide(event.activeIndex)
   }
 
   const slideTo = (index: number) => {

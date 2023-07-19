@@ -14,9 +14,6 @@ import LineChart from './LineChart'
 import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
-// Utils
-import { getDotPos } from 'utils/getDotPos'
-
 // Types
 import { TokenDTO, SortedTokens } from 'utils/types/homepage'
 
@@ -39,8 +36,7 @@ const TokensList = ({ tokens }: TokensListProps) => {
   ]
 
   const handleSlide = (event: SwiperCore) => {
-    const slideNumber = getDotPos(event.activeIndex, 2)
-    setActiveSlide(slideNumber)
+    setActiveSlide(event.activeIndex)
   }
 
   const slideTo = (index: number) => {
