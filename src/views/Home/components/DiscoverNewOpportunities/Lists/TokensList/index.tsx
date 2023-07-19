@@ -18,10 +18,10 @@ import { useTranslation } from 'contexts/Localization'
 import { getDotPos } from 'utils/getDotPos'
 
 // Types
-import { TokenDTO } from 'utils/types/homepage'
+import { TokenDTO, SortedTokens } from 'utils/types/homepage'
 
 interface TokensListProps {
-  tokens: TokenDTO[]
+  tokens: SortedTokens
 }
 
 const TokensList = ({ tokens }: TokensListProps) => {
@@ -30,24 +30,13 @@ const TokensList = ({ tokens }: TokensListProps) => {
   const { swiper, setSwiper } = useSwiper()
   const { t } = useTranslation()
 
-  type SortedTokens = {
-    isNew: TokenDTO[]
-    isMostTraded: TokenDTO[]
-    isMostPriceChanged: TokenDTO[]
-  }
-  const sortedTokens: SortedTokens = tokens.reduce(
-    (acc: SortedTokens, item: TokenDTO): SortedTokens => {
-      if (item.isNew) {
-        acc.isNew.push(item)
-      } else if (item.isMostTraded) {
-        acc.isMostTraded.push(item)
-      } else if (item.isMostPriceChanged) {
-        acc.isMostPriceChanged.push(item)
-      }
-      return acc
-    },
-    { isNew: [], isMostTraded: [], isMostPriceChanged: [] },
-  )
+  const { trending, mostTraded, new: newTokens } = tokens
+
+  const sortedTokens = [
+    { title: 'Trending', tokens: trending },
+    { title: 'Most Traded', tokens: mostTraded },
+    { title: 'New', tokens: newTokens },
+  ]
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, 2)
@@ -57,17 +46,6 @@ const TokensList = ({ tokens }: TokensListProps) => {
   const slideTo = (index: number) => {
     setActiveSlide(index)
     swiper?.slideTo(index)
-  }
-
-  const getTitle = (index: number) => {
-    switch (index) {
-      case 0:
-        return t('Trending')
-      case 1:
-        return t('Most Traded')
-      default:
-        return t('New')
-    }
   }
 
   const handleClick = (item: TokenDTO) => {
@@ -128,14 +106,14 @@ const TokensList = ({ tokens }: TokensListProps) => {
     )
   }
 
-  const slides = Object.values(sortedTokens).map((chunk, index) => {
+  const slides = sortedTokens.map(({ title, tokens }, index) => {
     return (
       <Grid key={index} sx={{ width: '100%' }} columns="1fr">
         <Flex sx={{ justifyContent: 'center' }}>
-          <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>{getTitle(index)}</Text>
+          <Text sx={{ fontSize: '12px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
         </Flex>
         <Flex sx={{ flexDirection: 'column', gap: '10px', bg: 'white2', borderRadius: '10px' }}>
-          {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+          {tokens.map((item, itemIndex) => renderListCard(item, itemIndex))}
         </Flex>
       </Grid>
     )
@@ -203,14 +181,14 @@ const TokensList = ({ tokens }: TokensListProps) => {
           display: ['none', 'none', 'grid'],
         }}
       >
-        {Object.values(sortedTokens).map((chunk, index) => {
+        {sortedTokens.map(({ title, tokens }, index) => {
           return (
             <Flex key={index} sx={{ flexDirection: 'column', gap: '15px' }}>
               <Flex sx={{ justifyContent: 'center' }}>
-                <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>{getTitle(index)}</Text>
+                <Text sx={{ fontSize: '16px', fontWeight: '300', color: '#A09F9C' }}>{t(title)}</Text>
               </Flex>
               <Flex sx={{ flexDirection: 'column', gap: '10px', bg: 'white2', borderRadius: '10px' }}>
-                {chunk.map((item, itemIndex) => renderListCard(item, itemIndex))}
+                {tokens.map((item, itemIndex) => renderListCard(item, itemIndex))}
               </Flex>
             </Flex>
           )

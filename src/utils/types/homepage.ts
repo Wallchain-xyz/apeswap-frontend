@@ -7,6 +7,12 @@ export enum BondsStats {
   TotalValueLocked = 'totalValueLocked',
 }
 
+export interface SortedTokens {
+  trending: TokenDTO[]
+  mostTraded: TokenDTO[]
+  new: TokenDTO[]
+}
+
 export interface HomepageDTO {
   [BondsStats.TotalBondsSold]: number
   [BondsStats.TotalBondedValue]: number
@@ -15,7 +21,7 @@ export interface HomepageDTO {
   partnerCount?: number
   bonds?: BondDTO[]
   farms?: FarmDTO[]
-  tokens?: TokenDTO[]
+  tokens?: SortedTokens
 }
 
 export interface BondDTO extends Bond {
