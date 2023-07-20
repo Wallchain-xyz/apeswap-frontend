@@ -40,8 +40,9 @@ const OpportunityBadge = ({ type }: OpportunityBadgeProps) => {
         sx={{
           fontSize: '8px',
           fontWeight: '500',
-          textTransform: 'capitalize',
+          textTransform: 'uppercase',
           color: styles[type].textColor,
+          lineHeight: '13px',
           opacity: '0.6',
         }}
       >

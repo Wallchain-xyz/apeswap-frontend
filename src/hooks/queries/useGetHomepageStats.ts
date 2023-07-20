@@ -5,11 +5,11 @@ import axios from 'axios'
 import { HomepageDTO } from 'utils/types/homepage'
 
 // Constants
-import { HOMEPAGE_API_TEMP } from 'config/constants/api'
+import { apiV2BaseUrl } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 
 export const getHomepageStats = async (): Promise<HomepageDTO> => {
-  const { data } = await axios.get(`${HOMEPAGE_API_TEMP}/stats/homepage`)
+  const { data } = await axios.get(`${apiV2BaseUrl}/stats/homepage`)
   return data
 }
 

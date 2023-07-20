@@ -31,7 +31,8 @@ const BillsListView: React.FC = () => {
 
   const { bondAddress = '', switchChain = false } = routerQuery
   const { index = 0 } =
-    bills?.find((bill: Bills) => bill?.contractAddress[chainId as SupportedChainId] === bondAddress) ?? {}
+    bills?.find((bill: Bills) => bill?.contractAddress[chainId as SupportedChainId]?.toLowerCase() === bondAddress) ??
+    {}
 
   const [onPresentBuyBillsModal] = useModal(
     <BuyBillModalView billIndex={index} />,
@@ -44,7 +45,6 @@ const BillsListView: React.FC = () => {
   useEffect(() => {
     if (index) {
       onPresentBuyBillsModal()
-      replace('/bonds', undefined, { shallow: true })
     }
     if (switchChain) {
       onPresentWalletConnectModal()

@@ -65,6 +65,7 @@ const FarmsList = ({ farms }: FarmsListProps) => {
         chainId={chainId}
         serviceTokenProps={{ token1: firstToken, token2: secondToken, token3: rewardSymbol, stakeLp: true }}
         handleClick={() => handleClick(item)}
+        hoverTitle="Stake"
         rightContent={
           <Flex sx={{ flexDirection: 'column', alignItems: 'end' }}>
             <Text sx={{ opacity: '0.6', fontSize: ['10px', '10px', '12px'], fontWeight: 'light' }}>{t('APY')}</Text>
