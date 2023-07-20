@@ -14,6 +14,7 @@ const useBuyBill = (
   amount: string,
   lpPrice: number,
   price: string,
+  principalTokenDecimals: number | null | undefined = 18,
   slippage = DEFAULT_SLIPPAGE,
 ) => {
   const { chainId, account } = useWeb3React()
@@ -24,7 +25,7 @@ const useBuyBill = (
   const addTransaction = useTransactionAdder()
   const handleBuyBill = useCallback(async () => {
     const tx = await bondContract.deposit(
-      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+      new BigNumber(amount).times(new BigNumber(10).pow(principalTokenDecimals ?? 18)).toString(),
       maxPrice.toFixed(0),
       account ?? '',
     )
