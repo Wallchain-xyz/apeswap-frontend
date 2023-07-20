@@ -57,15 +57,10 @@ const LiveAndUpcoming = () => {
     setActiveSlide(event.activeIndex)
   }
 
-  const slideTo = (index: number) => {
-    setActiveSlide(index)
-    swiper?.slideTo(index)
-  }
-
   const twiceAsLong = [...data, ...data]
 
   return (
-    <Flex sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'end' }}>
+    <Flex sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'end', mb: ['60px', '60px', '75px'] }}>
       <Flex
         sx={{
           mr: '20px',

@@ -46,12 +46,12 @@ const Home = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDI
           <Services />
         </SwiperProvider>
       )}
-      <SwiperProvider>
+      {/* <SwiperProvider>
         <Values />
       </SwiperProvider>
       <SwiperProvider>
         <LaunchCalendar />
-      </SwiperProvider>
+      </SwiperProvider> */}
     </Flex>
   )
 }
