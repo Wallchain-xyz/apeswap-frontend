@@ -12,44 +12,23 @@ const FriendsOfApeSwap = () => {
   const { t } = useTranslation()
 
   const friends = [
-    'nfty',
-    'mogul',
-    'ceek',
-    'animoca',
-    'brave',
-    'apollox',
-    'mogul',
-    'moonpay',
+    'polygonVillage',
     'chainlink',
-    'telos',
-    'gauntlet',
-    'mogul',
+    'dappRadar',
+    'animoca',
+    'ceek',
+    'floki',
+    'chainGuardians',
+    'apollox',
+    'moonpay',
+    'brave',
   ]
-
-  // const friendsSorted = [
-  //   'polygonVillage', //missing
-  //   'chainlink',
-  //   'dappRadar', // missing
-  //   'animoca',
-  //   'ceek',
-  //   'floki', //missing
-  //   'chainGuardians', //missing
-  //   'apollox',
-  //   'moonpay',
-  //   'brave'
-  //   // 'mogul',
-  //   // 'brave',
-  //   // 'mogul',
-  //   // 'telos',
-  //   // 'gauntlet',
-  //   // 'mogul',
-  // ]
 
   return (
     <Flex
       sx={{
         maxWidth: '1412px',
-        width: '95vw',
+        width: '90vw',
         flexDirection: 'column',
         alignSelf: 'center',
         mt: ['62px', '62px', '90px'],
@@ -62,11 +41,11 @@ const FriendsOfApeSwap = () => {
 
       <Grid
         sx={{
-          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '1fr 1fr 1fr', '1fr 1fr 1fr 1fr 1fr', '1fr 1fr 1fr 1fr 1fr 1fr'],
+          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '1fr 1fr 1fr', '1fr 1fr 1fr 1fr 1fr', '1fr 1fr 1fr 1fr 1fr'],
         }}
       >
         {friends.map((friend, index) => (
-          <Box key={index} sx={{ height: '71px', maxWidth: '179px', position: 'relative' }}>
+          <Box key={index} sx={{ height: '110px', maxWidth: '240px', position: 'relative' }}>
             <Image src={`/images/apeswap-friends/${friend}-${colorMode}.svg`} fill alt="friend logo" key={index} />
           </Box>
         ))}

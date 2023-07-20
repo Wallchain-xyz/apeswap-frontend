@@ -23,7 +23,7 @@ const DiscoverNewOpportunities = () => {
     <Box
       sx={{
         maxWidth: '1412px',
-        width: '95vw',
+        width: '90vw',
         alignSelf: 'center',
         mt: ['50px', '50px', '92px'],
       }}

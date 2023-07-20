@@ -28,7 +28,7 @@ export const styles: Record<
     justifyContent: 'center',
   },
   slideContainer: {
-    width: '100%',
+    width: '90%',
     zIndex: 1,
   },
   circlesContainer: {
@@ -42,5 +42,6 @@ export const styles: Record<
     zIndex: 1,
     position: 'absolute',
     top: [0, 0, 0, '-40px'],
+    left: ['45%', '45%', '45%', '5%'],
   },
 }

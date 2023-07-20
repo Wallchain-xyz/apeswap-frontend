@@ -30,7 +30,7 @@ const BondsStatsCards = () => {
       <Grid
         sx={{
           display: ['grid', 'grid', 'flex', 'flex'],
-          maxWidth: '1412px',
+          maxWidth: '1200px',
           mx: '30px',
           alignItems: 'center',
           width: '100%',

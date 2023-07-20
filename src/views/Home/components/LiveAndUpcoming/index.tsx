@@ -60,7 +60,15 @@ const LiveAndUpcoming = () => {
   const twiceAsLong = [...data, ...data]
 
   return (
-    <Flex sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'end', mb: ['60px', '60px', '75px'] }}>
+    <Flex
+      sx={{
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'end',
+        mb: ['60px', '60px', '75px'],
+        mt: ['30px', '30px', '50px'],
+      }}
+    >
       <Flex
         sx={{
           mr: '20px',
@@ -74,7 +82,7 @@ const LiveAndUpcoming = () => {
       <Flex
         sx={{
           maxWidth: '1412px',
-          width: '95vw',
+          width: '90vw',
           flexDirection: 'column',
           alignSelf: 'center',
           mt: ['62px', '62px', '90px'],
