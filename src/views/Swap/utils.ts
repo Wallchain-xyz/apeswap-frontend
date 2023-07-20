@@ -86,3 +86,7 @@ export const toPrecisionAvoidExponential = (number: BigNumber, precision: number
 export const humanOutputAmount = (amount: string, decimals: number) => {
   return toPrecisionAvoidExponential(getBNWithDecimals(amount, decimals) ?? new BigNumber(0))
 }
+
+export const getTxHashFromRoute = (route: Route | undefined) => {
+  return route?.steps?.[0]?.execution?.process?.find((tx) => tx?.type === 'SWAP')?.txHash
+}

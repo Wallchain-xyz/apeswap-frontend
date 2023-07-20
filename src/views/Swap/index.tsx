@@ -17,7 +17,8 @@ import useCurrencyBalance from '../../lib/hooks/useCurrencyBalance'
 import { getBNWithDecimals } from '../../utils/getBalanceNumber'
 import { Route } from '@lifi/sdk'
 import RouteDetails from './components/RouteDetails'
-import { parseOutputAmount } from './utils'
+import { parseOutputAmount, toPrecisionAvoidExponential } from './utils'
+import BigNumber from 'bignumber.js'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -93,7 +94,8 @@ const Swap = () => {
     [inputCurrencyAmount],
   )
 
-  const parsedOutput = parseOutputAmount(selectedRoute?.toAmount, selectedRoute?.toToken?.decimals)
+  const outputAmount = getBNWithDecimals(selectedRoute?.toAmount, selectedRoute?.toToken?.decimals)
+  const parsedOutput = outputAmount ? toPrecisionAvoidExponential(outputAmount, 6) : ''
 
   return (
     <Flex variant='flex.dexContainer'>
@@ -118,7 +120,7 @@ const Swap = () => {
         panelText='To'
         onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}
         onUserInput={(val) => onUserInput(Field.OUTPUT, val)}
-        value={parsedOutput ?? ''}
+        value={parsedOutput}
         currency={currencies[Field.OUTPUT]}
         otherCurrency={currencies[Field.INPUT]}
         disabled

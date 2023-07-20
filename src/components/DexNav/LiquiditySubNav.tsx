@@ -34,30 +34,30 @@ export const V2LiquiditySubNav = () => {
 
   return (
     <Flex sx={styles.liquiditySelectorContainer}>
-      <Flex sx={{ ...styles.liquiditySelector, mr: '20px' }} onClick={() => push('/liquidity/v2')} id="zap-link">
+      <Flex sx={{ ...styles.liquiditySelector, mr: '20px' }} onClick={() => push('/liquidity')} id="zap-link">
         <Flex sx={{ marginRight: '5px' }}>
           <Svg
-            color={pathname.includes('/liquidity/v2') || pathname.includes('/remove/v2') ? 'text' : 'textDisabled'}
+            color={pathname.includes('/liquidity') || pathname.includes('/remove') ? 'text' : 'textDisabled'}
             icon="Positions"
             width="20px"
           />
         </Flex>
         <Text
-          color={pathname.includes('/liquidity/v2') || pathname.includes('/remove/v2') ? 'text' : 'textDisabled'}
+          color={pathname.includes('/liquidity') || pathname.includes('/remove') ? 'text' : 'textDisabled'}
           variant="link"
         >
           Positions
         </Text>
       </Flex>
-      <Flex onClick={() => push('/zap/v2')} to="/zap" id="zap-link" sx={{ ...styles.liquiditySelector, mr: '20px' }}>
+      <Flex onClick={() => push('/zap')} to="/zap" id="zap-link" sx={{ ...styles.liquiditySelector, mr: '20px' }}>
         <Flex sx={{ marginRight: '5px' }}>
           <Svg color={pathname.includes('zap') ? 'text' : 'textDisabled'} icon="ZapIcon" />
         </Flex>
         <Text color={pathname.includes('zap') ? 'text' : 'textDisabled'}>Zap</Text>
       </Flex>
-      <Flex sx={styles.liquiditySelector} onClick={() => push('/add-liquidity/v2')}>
+      <Flex sx={styles.liquiditySelector} onClick={() => push('/add-liquidity')}>
         <Text
-          color={pathname.includes('add-liquidity/v2') ? 'text' : 'textDisabled'}
+          color={pathname.includes('add-liquidity') ? 'text' : 'textDisabled'}
           sx={{ whiteSpace: 'nowrap' }}
           id="add-liquidity-link"
           variant="link"

@@ -1,4 +1,4 @@
-// pages/lhd/[chainID]/[address]/index.tsx
+// pages/lhd/[chainID]/[address]/[[...currency]].tsx
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import PageContainer from '../../../components/PageContainer'

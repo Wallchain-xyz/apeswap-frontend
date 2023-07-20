@@ -9,26 +9,30 @@ import { useDerivedSwapInfo } from 'state/swap/hooks'
 import { useRouter } from 'next/router'
 import { useHideCircular } from 'hooks/useHideCircular'
 import { Route } from '@lifi/sdk'
-import { useSwapCallback } from '../../../hooks/useSwapCallback'
-import track from '../../../utils/track'
-import { humanOutputAmount } from '../utils'
-import useTransactionDeadline from '../../../hooks/useTransactionDeadline'
-import { ApprovalState, useApproveCallbackFromTrade } from '../../../hooks/useApproveCallback'
-import { useERC20PermitFromTrade } from '../../../hooks/useERC20Permit'
-import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
+import { useSwapCallback } from 'hooks/useSwapCallback'
+import track from 'utils/track'
+import { getTxHashFromRoute, humanOutputAmount } from '../utils'
+import useTransactionDeadline from 'hooks/useTransactionDeadline'
+import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback'
+import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
+import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
 import Approval from './Approval'
+import { TransactionType } from '../../../state/transactions/types'
+import { currencyId } from '../../../utils/currencyId'
+import { useAddTxFromHash } from '../../../state/transactions/hooks'
+import { parseCurrency } from '../../../config/constants/lifiRouting'
 
 const Swap = ({
-  routingState,
-  selectedRoute,
-  wrapType,
-  showWrap,
-  wrapInputError,
-  onWrap,
-  inputError,
-  inputCurrencyAmount,
-  feeStructure
-}: {
+                routingState,
+                selectedRoute,
+                wrapType,
+                showWrap,
+                wrapInputError,
+                onWrap,
+                inputError,
+                inputCurrencyAmount,
+                feeStructure,
+              }: {
   routingState?: TradeState
   selectedRoute: Route | undefined
   showWrap: boolean | undefined
@@ -43,7 +47,6 @@ const Swap = ({
   }
 }) => {
   const { chainId } = useWeb3React()
-  // modal and loading
   const [{ swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     attemptingTxn: boolean
     swapErrorMessage: string | undefined
@@ -59,7 +62,6 @@ const Swap = ({
 
   const {
     state: signatureState,
-    signatureData,
     gatherPermitSignature,
   } = useERC20PermitFromTrade(inputCurrencyAmount, transactionDeadline)
 
@@ -69,6 +71,7 @@ const Swap = ({
   const { currencies } = useDerivedSwapInfo()
   const router = useRouter()
   const hideCircular = useHideCircular()
+  const addTransaction = useAddTxFromHash()
 
   const handleConfirmDismiss = useCallback(() => {
     setSwapState({
@@ -78,31 +81,43 @@ const Swap = ({
     })
   }, [])
 
-  const { callback } = useSwapCallback(selectedRoute)
+  const callback = useSwapCallback(selectedRoute)
 
   const handleSwap = useCallback(() => {
-    if (!callback) return
+    if (!callback || !selectedRoute) return
     setSwapState({ attemptingTxn: true, swapErrorMessage: undefined, txHash: undefined })
     callback()
       .then((res) => {
-        const swapTx = res?.steps?.[0]?.execution?.process?.find((tx) => tx?.type === 'SWAP')
+        const txHash = getTxHashFromRoute(res)
         setSwapState({
           attemptingTxn: false,
           swapErrorMessage: undefined,
-          txHash: swapTx?.txHash,
+          txHash,
         })
+        if (!res) return
+        addTransaction(
+          getTxHashFromRoute(res),
+          {
+            type: TransactionType.SWAP,
+            tradeType: TradeType.EXACT_INPUT,
+            inputCurrencyId: parseCurrency(selectedRoute.fromToken.address),
+            inputCurrencyAmountRaw: selectedRoute.fromAmount,
+            expectedOutputCurrencyAmountRaw: selectedRoute.toAmount,
+            outputCurrencyId: parseCurrency(selectedRoute.toToken.address),
+            minimumOutputCurrencyAmountRaw: selectedRoute.toAmountMin,
+          })
         track({
           event: 'Swap',
           chain: chainId,
           data: {
             inputToken: res?.fromToken.symbol,
-            outputToken: res.toToken.symbol,
-            inputValue: humanOutputAmount(res.fromAmount, res.fromToken.decimals),
-            outputValue: humanOutputAmount(res.toAmount, res.toToken.decimals),
-            inputUsdValue: res.fromAmountUSD,
-            outputUsdValue: res.toAmountUSD,
+            outputToken: res?.toToken.symbol,
+            inputValue: humanOutputAmount(res?.fromAmount, res?.fromToken?.decimals),
+            outputValue: humanOutputAmount(res?.toAmount, res?.toToken?.decimals),
+            inputUsdValue: res?.fromAmountUSD,
+            outputUsdValue: res?.toAmountUSD,
             fee: feeStructure.fee,
-            feeTier: feeStructure.tier
+            feeTier: feeStructure.tier,
           },
         })
         if (currencies?.OUTPUT?.symbol?.toLowerCase() === 'banana' && !hideCircular) router.push('?modal=circular-buy')
@@ -114,7 +129,7 @@ const Swap = ({
           txHash: undefined,
         })
       })
-  }, [callback, chainId, currencies?.OUTPUT?.symbol, hideCircular, router])
+  }, [callback, chainId, currencies?.OUTPUT?.symbol, feeStructure.fee, feeStructure.tier, hideCircular, router])
 
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwap

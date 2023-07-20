@@ -37,7 +37,6 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
   const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
-  // const [onPresentModal] = useModal(<MoonPayModal />)
 
   const handleSwitch = () => {
     push(
@@ -60,7 +59,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             color: !pathname?.includes('swap') && 'textDisabled',
             mr: '20px',
           }}
-          onClick={() => push('/v3-swap')}
+          onClick={() => push('/swap')}
           id="swap-link"
         >
           {t('Swap')}
@@ -72,7 +71,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             ...styles.navLink,
             color: !onLiquidity && 'textDisabled',
           }}
-          onClick={() => push('/v3-add-liquidity')}
+          onClick={() => push('/zap')}
           id="liquidity-link"
           className="liquidity"
         >
