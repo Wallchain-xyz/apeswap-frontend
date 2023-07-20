@@ -26,7 +26,24 @@ const FriendsOfApeSwap = () => {
     'mogul',
   ]
 
-  const isDark = true ? 'light' : 'dark'
+  // const friendsSorted = [
+  //   'polygonVillage', //missing
+  //   'chainlink',
+  //   'dappRadar', // missing
+  //   'animoca',
+  //   'ceek',
+  //   'floki', //missing
+  //   'chainGuardians', //missing
+  //   'apollox',
+  //   'moonpay',
+  //   'brave'
+  //   // 'mogul',
+  //   // 'brave',
+  //   // 'mogul',
+  //   // 'telos',
+  //   // 'gauntlet',
+  //   // 'mogul',
+  // ]
 
   return (
     <Flex
