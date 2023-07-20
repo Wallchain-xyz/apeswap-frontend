@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import BigNumber from 'bignumber.js'
 import { MainContainer } from './styles'
 import BillsListMenu from './components/BillsListMenu'
 import orderBy from 'lodash/orderBy'
 import BillsRows from './components/BillsRows'
-import { useRouter } from 'next/router'
 import { Flex } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -57,6 +57,7 @@ const BillsListView: React.FC = () => {
   const isSoldOut = useCallback(
     (bill: Bills) => {
       const { earnToken, maxTotalPayOut, totalPayoutGiven, earnTokenPrice, discount } = bill
+      if (bill.soldOut) return true
       if (!maxTotalPayOut || !maxTotalPayOut || !earnTokenPrice) return false
       const available = new BigNumber(maxTotalPayOut ?? '0')
         ?.minus(new BigNumber(totalPayoutGiven ?? '0'))

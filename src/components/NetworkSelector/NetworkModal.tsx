@@ -62,7 +62,7 @@ const NetworkModal = ({
         })}
         <Flex sx={{ alignItems: 'center', justifyContent: 'center', mt: '10px' }}>
           <Link
-            href="https://app.multichain.org/#/router"
+            href="https://jumper.exchange"
             sx={{ fontWeight: 500, textDecoration: 'none' }}
             target="_blank"
           >
