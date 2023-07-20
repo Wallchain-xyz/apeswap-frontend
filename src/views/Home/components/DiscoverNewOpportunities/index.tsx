@@ -25,6 +25,7 @@ const DiscoverNewOpportunities = () => {
         maxWidth: '1412px',
         width: '95vw',
         alignSelf: 'center',
+        mt: ['50px', '50px', '92px'],
       }}
     >
       <Box sx={{ mb: ['10px', '10px', '35px'] }}>
