@@ -1,10 +1,8 @@
 import styled from '@emotion/styled'
-import { Flex } from 'components/uikit'
 
 export const NewsCard = styled.div<{ image: string; index: number; listLength: number }>`
-  height: 332.5px;
-  min-width: 266px;
-  max-width: 266px;
+  height: 224px;
+  width: 266px;
   opacity: 1;
   flex-shrink: 1;
   background: url(${({ image }) => image});
@@ -16,27 +14,14 @@ export const NewsCard = styled.div<{ image: string; index: number; listLength: n
   cursor: pointer;
 `
 
-export const NewsWrapper = styled.div`
-  display: flex;
-  height: 500px;
-  align-items: center;
-  overflow: hidden;
-  max-width: 1412px;
-  width: 95vw;
-  justify-content: center;
-  padding-bottom: 50px;
-`
-
 export const SkeletonWrapper = styled.div`
   position: absolute;
   display: flex;
   height: 500px;
   align-items: center;
   max-width: 1412px;
-  width: 95vw;
   top: 0;
   justify-content: center;
-  padding-bottom: 50px;
   & :nth-of-type(2),
   & :nth-of-type(3),
   & :nth-of-type(4),
