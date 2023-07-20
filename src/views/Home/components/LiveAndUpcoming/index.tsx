@@ -96,7 +96,7 @@ const LiveAndUpcoming = () => {
           {t('Subscribe to our newsletter >')}
         </Button>
         <Flex>
-          <Box sx={{ ml: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
+          <Box sx={{ mr: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
             <ArrowNav handleNav={() => swiper?.slidePrev()} direction="left" />
           </Box>
           <Swiper
@@ -136,7 +136,7 @@ const LiveAndUpcoming = () => {
               )
             })}
           </Swiper>
-          <Box sx={{ mr: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
+          <Box sx={{ ml: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
             <ArrowNav handleNav={() => swiper?.slideNext()} direction="right" />
           </Box>
         </Flex>
