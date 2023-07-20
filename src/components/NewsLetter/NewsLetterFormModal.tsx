@@ -32,14 +32,17 @@ const NewsletterForm: React.FC<FormType> = ({ status, message, onValidated }) =>
       sx={{
         flexDirection: 'column',
         with: '100%',
-        gap: '20px',
+        gap: '5px',
         mt: ['20px', '20px', '0px'],
+        maxWidth: '390px',
       }}
     >
       <Flex sx={styles.left}>
-        <Text sx={styles.latestText}>Get the latest news from ApeSwap directly to your inbox.</Text>
+        <Text sx={{ ...styles.latestText, fontSize: '25px' }}>
+          {t('Get the latest news from ApeSwap directly to your inbox.')}
+        </Text>
       </Flex>
-      <Flex sx={{ ...styles.formCon }}>
+      <Flex sx={{ ...styles.formCon, mt: '15px' }}>
         <Flex as="form" onSubmit={(e: MouseEvent) => handleSubmit(e)} sx={styles.form}>
           <Flex sx={{ alignItems: 'center' }}>
             <Svg icon="message" />
