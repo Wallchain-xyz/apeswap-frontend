@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import useSwiper from 'hooks/useSwiper'
@@ -7,14 +8,19 @@ import SwiperCore, { Autoplay } from 'swiper'
 import 'swiper/swiper.min.css'
 import track from 'utils/track'
 import { getDotPos } from 'utils/getDotPos'
-import { NewsCard, NewsWrapper, SkeletonWrapper } from './styles'
+import {
+  NewsCard,
+  // NewsWrapper,
+  SkeletonWrapper,
+} from './styles'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton, SwiperDots } from 'components/uikit'
 import { useFetchHomepageNews, useHomepageNews } from 'state/homepage/hooks'
 import { NewsCardType } from 'state/homepage/types'
+import { Box } from 'theme-ui'
 
-const SLIDE_DELAY = 5000
+const SLIDE_DELAY = 500000000
 
 SwiperCore.use([Autoplay])
 
@@ -22,7 +28,7 @@ const News: React.FC = () => {
   const { push } = useRouter()
   const { chainId } = useWeb3React()
   const [loadImages, setLoadImages] = useState(false)
-  useFetchHomepageNews(loadImages)
+  useFetchHomepageNews(true)
   const today = new Date()
   const fetchedNews = useHomepageNews()
   // @ts-ignore
@@ -38,11 +44,6 @@ const News: React.FC = () => {
   const { swiper, setSwiper } = useSwiper()
   const [activeSlide, setActiveSlide] = useState(0)
   const { observerRef, isIntersecting } = useIntersectionObserver()
-
-  const slideNewsNav = (index: number) => {
-    setActiveSlide(index)
-    swiper?.slideTo(newsLength + index)
-  }
 
   const handleSlide = (event: SwiperCore) => {
     const slideNumber = getDotPos(event.activeIndex, newsLength)
@@ -69,84 +70,122 @@ const News: React.FC = () => {
   const clickNews = (newsUrl: string, isModal: boolean) =>
     isModal ? push({ search: newsUrl }) : window.open(newsUrl, '_blank')
 
-  return (
-    <>
-      <div ref={observerRef} />
+  const SwipeNav = ({ handleNav }: { handleNav: () => void }) => {
+    return (
       <Flex
         sx={{
-          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          display: ['none', 'none', 'flex'],
+          height: '100%',
+          cursor: 'pointer',
+          width: '60px',
           position: 'relative',
-          width: '100%',
         }}
+        // onClick={() => swiper?.slidePrev()}
+        onClick={handleNav}
       >
-        <NewsWrapper>
-          <Flex sx={{ width: '100%', overflow: 'hidden', justifyContent: 'space-between' }}>
-            {filterNews?.length > 0 ? (
-              <Swiper
-                id="newsSwiper"
-                autoplay={{
-                  delay: filterNews?.length === 5 ? 10000000 : SLIDE_DELAY,
-                  disableOnInteraction: false,
-                }}
-                loop
-                onSwiper={setSwiper}
-                spaceBetween={20}
-                slidesPerView="auto"
-                loopedSlides={newsLength}
-                centeredSlides
-                resizeObserver
-                lazy
-                preloadImages={false}
-                onSlideChange={handleSlide}
-              >
-                {filterNews?.map((news, index) => {
-                  return (
-                    <SwiperSlide
-                      style={{ maxWidth: '266px', minWidth: '266px' }}
+        <Image
+          src="/images/discover-new-opportunities/caret-right-yellow.svg"
+          width={10}
+          height={10}
+          alt="caret right"
+        />
+        <Flex
+          sx={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: '10',
+            opacity: '0',
+            bg: 'white2Opacity09',
+            width: '100%',
+            height: '100%',
+            borderRadius: '10px',
+            left: 0,
+            cursor: 'pointer',
+            transition: 'opacity 0.3s',
+            '&:hover': { opacity: '1', backdropFilter: 'blur(1.5px)' },
+          }}
+        >
+          <Image
+            src="/images/discover-new-opportunities/caret-right-yellow.svg"
+            width={10}
+            height={10}
+            alt="caret right"
+          />
+        </Flex>
+      </Flex>
+    )
+  }
+
+  return (
+    <Flex
+      sx={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        maxWidth: '1552px',
+        alignSelf: 'center',
+      }}
+    >
+      <SwipeNav handleNav={() => swiper?.slidePrev()} />
+      <Flex sx={{ width: '100%', mx: '20px' }}>
+        {filterNews?.length > 0 ? (
+          <Swiper
+            id="newsSwiper"
+            autoplay={{
+              delay: filterNews?.length === 5 ? 10000000 : SLIDE_DELAY,
+              disableOnInteraction: false,
+            }}
+            loop
+            onSwiper={setSwiper}
+            spaceBetween={20}
+            slidesPerView="auto"
+            loopedSlides={newsLength}
+            centeredSlides
+            resizeObserver
+            lazy
+            preloadImages={false}
+            onSlideChange={handleSlide}
+          >
+            {filterNews?.map((news, index) => {
+              return (
+                <SwiperSlide
+                  // style={{ maxWidth: '224px', minWidth: '224px' }}
+                  style={{ maxWidth: '264px', minWidth: '264px' }}
+                  key={`${index}-${news.id}`}
+                  id={`${index}-${news.id}`}
+                >
+                  <Flex
+                    // sx={{ maxWidth: '266px', minWidth: '266px' }}
+                    key={`${index}-${news.id}`}
+                    id={`${index}-${news.id}`}
+                    onClick={() => clickNews(news?.CardLink, news?.isModal)}
+                  >
+                    <NewsCard
+                      index={activeSlide}
+                      image={news?.cardImageUrl?.url}
                       key={`${index}-${news.id}`}
                       id={`${index}-${news.id}`}
-                    >
-                      <Flex
-                        sx={{ maxWidth: '266px', minWidth: '266px' }}
-                        key={`${index}-${news.id}`}
-                        id={`${index}-${news.id}`}
-                        onClick={() => clickNews(news?.CardLink, news?.isModal)}
-                      >
-                        <NewsCard
-                          index={activeSlide}
-                          image={news?.cardImageUrl?.url}
-                          key={`${index}-${news.id}`}
-                          id={`${index}-${news.id}`}
-                          listLength={newsLength}
-                          onClick={() => trackBannersClick(index + 1, news?.CardLink, chainId)}
-                        />
-                      </Flex>
-                    </SwiperSlide>
-                  )
-                })}
-              </Swiper>
-            ) : (
-              <SkeletonWrapper>
-                {[...Array(5)].map((i, index) => {
-                  return <Skeleton width="266px" height="332.5px" key={`skeleton-${index}`} />
-                })}
-              </SkeletonWrapper>
-            )}
-          </Flex>
-        </NewsWrapper>
-        {loadImages && (
-          <Flex sx={{ position: 'absolute', bottom: '50px', justifyContent: 'center', alignContent: 'center' }}>
-            {[...Array(newsLength)].map((_, i) => {
-              return (
-                <SwiperDots isActive={i === activeSlide} onClick={() => slideNewsNav(i)} key={`loadingDots-${i}`} />
+                      listLength={newsLength}
+                      onClick={() => trackBannersClick(index + 1, news?.CardLink, chainId)}
+                    />
+                  </Flex>
+                </SwiperSlide>
               )
             })}
-          </Flex>
+          </Swiper>
+        ) : (
+          <SkeletonWrapper>
+            {[...Array(5)].map((i, index) => {
+              return <Skeleton width="266px" height="332.5px" key={`skeleton-${index}`} />
+            })}
+          </SkeletonWrapper>
         )}
       </Flex>
-    </>
+      <SwipeNav handleNav={() => swiper?.slideNext()} />
+    </Flex>
   )
 }
 

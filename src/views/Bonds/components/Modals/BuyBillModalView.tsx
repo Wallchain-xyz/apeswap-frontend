@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import getTimePeriods from 'utils/getTimePeriods'
 import { useTranslation } from 'contexts/Localization'
@@ -26,6 +27,7 @@ interface BillModalProps {
 }
 
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) => {
+  const { replace } = useRouter()
   const { t } = useTranslation()
   const bills: Bills[] | undefined = useBills()
   const bill = bills?.find((billToSearch) => billToSearch.index === billIndex)
@@ -42,11 +44,16 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
     setBillId(id)
   }
 
+  const handleDismiss = (): void => {
+    onDismiss && onDismiss()
+    replace('/bonds', undefined, { shallow: true })
+  }
+
   return billId && bill ? (
-    <UserBillModalView bill={bill} billId={billId} onDismiss={onDismiss} />
+    <UserBillModalView bill={bill} billId={billId} onDismiss={handleDismiss} />
   ) : (
     <Modal
-      onDismiss={onDismiss}
+      onDismiss={handleDismiss}
       sx={{
         zIndex: 200,
         overflowY: 'auto',
