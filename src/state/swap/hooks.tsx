@@ -83,6 +83,10 @@ export const useDerivedSwapInfo = (): {
   routing: {
     routes: Route[]
     routingState: TradeState
+    feeStructure: {
+      fee: number
+      tier: string
+    }
   }
   allowedSlippage: number
 } => {
@@ -118,7 +122,7 @@ export const useDerivedSwapInfo = (): {
   })
   const slippageParsed = slippage / 10000
 
-  const queryParams = getQueryParams(chainId, typedValue, inputCurrencyString, outputCurrencyString, slippageParsed, inputCurrency)
+  const queryParams = getQueryParams(chainId, typedValue, inputCurrencyString, inputCurrency?.symbol, inputCurrency?.decimals, outputCurrencyString, outputCurrency?.symbol, slippageParsed, inputCurrency)
 
   const {
     isLoading,
@@ -138,6 +142,10 @@ export const useDerivedSwapInfo = (): {
       return {
         routingState: TradeState.INVALID,
         routes: [],
+        feeStructure: {
+          fee: 0,
+          tier: '',
+        },
       }
     }
     //return loading state if loading
@@ -145,19 +153,28 @@ export const useDerivedSwapInfo = (): {
       return {
         routingState: TradeState.LOADING,
         routes: data?.routes ?? [],
+        feeStructure: {
+          fee: 0,
+          tier: '',
+        },
       }
     }
     if (isError || !data?.routes || data?.routes?.length === 0) {
       return {
         routingState: TradeState.NO_ROUTE_FOUND,
         routes: [],
+        feeStructure: {
+          fee: 0,
+          tier: '',
+        },
       }
     }
     return {
       routingState: TradeState.VALID,
       routes: data?.routes,
+      feeStructure: data?.feeStructure,
     }
-  }, [data?.routes, isError, isFetching, isLoading, typedValue])
+  }, [data?.feeStructure, data?.routes, isError, isFetching, isLoading, typedValue])
 
   return useMemo(
     () => ({
@@ -270,10 +287,23 @@ export const getQueryParams = (
   chainId: number | undefined,
   typedValue: string | undefined,
   inputCurrencyString: string | null,
+  inputCurrencySymbol: string | undefined,
+  inputCurrencyDecimals: number | undefined,
   outputCurrencyString: string | null,
+  outputCurrencySymbol: string | undefined,
   slippageParsed: number | null,
   inputCurrency: Currency | null) => {
-  if (!chainId || !typedValue || !inputCurrencyString || !outputCurrencyString || !slippageParsed || !inputCurrency) {
+  //return null if any of the required params is missing
+  if (!chainId
+    || !typedValue
+    || !inputCurrencyString
+    || !inputCurrencySymbol
+    || !inputCurrencyDecimals
+    || !outputCurrencyString
+    || !outputCurrencySymbol
+    || !slippageParsed
+    || !inputCurrency
+  ) {
     return null
   } else {
     return {
@@ -281,7 +311,10 @@ export const getQueryParams = (
       //improve this
       fromAmount: new BigNumber(typedValue).times(new BigNumber(10).pow(inputCurrency.decimals)).toFixed(0, BigNumber.ROUND_DOWN),
       fromTokenAddress: inputCurrencyString === 'ETH' ? '0x0000000000000000000000000000000000000000' : inputCurrencyString,
+      fromTokenSymbol: inputCurrencySymbol,
+      fromTokenDecimals: inputCurrencyDecimals,
       toTokenAddress: outputCurrencyString === 'ETH' ? '0x0000000000000000000000000000000000000000' : outputCurrencyString,
+      toTokenSymbol: outputCurrencySymbol,
       slippage: slippageParsed,
     }
   }

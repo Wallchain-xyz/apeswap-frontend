@@ -22,8 +22,8 @@ const TradePrice = ({ fromAmount, fromToken, toAmount, toToken }: { fromAmount: 
   const pricePrecision: string = toPrecisionAvoidExponential(price)
   const invertedPricePrecision: string = toPrecisionAvoidExponential(invertedPrice)
 
-  const label = `1 ${toSymbol} = ${pricePrecision} ${fromSymbol}`
-  const invertedLabel = `1 ${fromSymbol} = ${invertedPricePrecision} ${toSymbol}`
+  const label = `1 ${toSymbol.toUpperCase()} = ${pricePrecision} ${fromSymbol.toUpperCase()}`
+  const invertedLabel = `1 ${fromSymbol.toUpperCase()} = ${invertedPricePrecision} ${toSymbol.toUpperCase()}`
 
   return (
     <Flex onClick={() => setShowInverted((prev) => !prev)} sx={{ minWidth: 'fit-content', zIndex: 1 }}>

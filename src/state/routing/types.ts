@@ -117,13 +117,20 @@ interface AllowDenyPrefer {
 
 export interface GetRoutesResult {
   routes: Route[]
+  feeStructure: {
+    fee: number
+    tier: string
+  }
 }
 
 export interface GetRoutesParams {
   chainId: number,
   fromAmount: string,
   fromTokenAddress: string,
+  fromTokenSymbol: string,
+  fromTokenDecimals: number,
   toTokenAddress: string,
+  toTokenSymbol: string,
   slippage: number
 }
 

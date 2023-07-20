@@ -71,13 +71,11 @@ const Swap = () => {
     currencies,
     inputError,
   } = useDerivedSwapInfo()
-  const { routes, routingState } = routing
+  const { routes, routingState, feeStructure } = routing
   const selectedRoute = routes[0]  // hardcoded for the time being
-  //console.log(selectedRoute)
+
   const routeNotFound = routingState === TradeState.NO_ROUTE_FOUND
   const routeIsLoading = routingState === TradeState.LOADING
-
-  //console.log(routes, routingState)
 
   const {
     wrapType,
@@ -140,6 +138,7 @@ const Swap = () => {
         wrapInputError={wrapInputError}
         wrapType={wrapType}
         onWrap={onWrap}
+        feeStructure={feeStructure}
       />
     </Flex>
   )

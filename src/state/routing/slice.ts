@@ -5,6 +5,9 @@ import { getProvider } from 'config/constants/providers'
 import { getClientSideQuote, toSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import { GetQuoteParams, GetQuoteResult, GetRoutesParams, GetRoutesResult, RoutesRequest } from './types'
 import { LiFi } from '@lifi/sdk'
+import { getFees } from './getFees'
+import track from '../../utils/track'
+import { humanOutputAmount } from '../../views/Swap/utils'
 
 export enum RouterPreference {
   CLIENT = 'client',
@@ -46,24 +49,32 @@ export const routingApi = createApi({
           return { error: { status: 'Client-side error', message: e.message } }
         }
       },
-      providesTags: ['quotes'] //this is useful to reset state
+      providesTags: ['quotes'], //this is useful to reset state
     }),
     getRoutes: builder.query<GetRoutesResult, GetRoutesParams>({
       queryFn: async (args: GetRoutesParams) => {
-        const { chainId, fromAmount, fromTokenAddress, toTokenAddress, slippage } = args
+        const {
+          chainId,
+          fromAmount,
+          fromTokenAddress,
+          fromTokenSymbol,
+          fromTokenDecimals,
+          toTokenAddress,
+          toTokenSymbol,
+          slippage,
+        } = args
+        const feeStructure = getFees(fromTokenSymbol, toTokenSymbol)
         const routesRequest: RoutesRequest = {
           fromChainId: chainId,
           fromAmount: fromAmount,
           fromTokenAddress: fromTokenAddress,
-          //fromAddress? : string; I think this is not necessary
-          toChainId: chainId, // we might want to modify this to go omnichain in the future
+          toChainId: chainId, // we will have to modify this to go omnichain in the future
           toTokenAddress: toTokenAddress,
-          //toAddress? : string; I think this is not necessary
           options: {
             slippage: slippage,
             integrator: 'apeswap', //make this a CONST
+            fee: feeStructure.fee,
             exchanges: {
-              //allow: ['apeswap'],
               prefer: ['apeswap'],
             },
           },
@@ -73,14 +84,24 @@ export const routingApi = createApi({
           const lifi = new LiFi({ integrator: 'apeswap' })
           const result = await lifi.getRoutes(routesRequest)
           const routes = result.routes
-          //console.log(routes)
-          return { data: { routes } }
+          track({
+            event: 'Quote',
+            chain: chainId,
+            data: {
+              inputToken: fromTokenSymbol,
+              outputToken: toTokenSymbol,
+              inputValue: humanOutputAmount(fromAmount, fromTokenDecimals),
+              fee: feeStructure.fee,
+              feeTier: feeStructure.tier,
+            },
+          })
+          return { data: { routes, feeStructure } }
         } catch (e: any) {
           console.log(e)
           return { error: { status: 'LiFi Route error', message: e?.message } }
         }
       },
-      providesTags: ['routes']
+      providesTags: ['routes'],
     }),
   }),
 })

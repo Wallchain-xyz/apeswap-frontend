@@ -52,11 +52,11 @@ export const QUOTER_ADDRESSES: AddressMap = {
 }
 
 export const SWAP_ROUTER_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC]: '0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae',
-  [SupportedChainId.POLYGON]: '0xD2F4e803757ceE9257a0111953c92976E353Dcb1',
-  [SupportedChainId.MAINNET]: '0xf47071594f6425305A1aC1FB02Ef6c1965AdBAe1',
-  [SupportedChainId.TLOS]: '0x429010DAb5065eE428DfaF2ad35DdcAee8c45Ec6',
-  [SupportedChainId.ARBITRUM_ONE]: '0xBAe5dc9B19004883d0377419FeF3c2C8832d7d7B',
+  [SupportedChainId.BSC]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
+  [SupportedChainId.POLYGON]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
+  [SupportedChainId.MAINNET]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
+  [SupportedChainId.TLOS]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
+  [SupportedChainId.ARBITRUM_ONE]: '0x9b11bc9FAc17c058CAB6286b0c785bE6a65492EF',
 }
 
 export const PRICE_GETTER_ADDRESSES: AddressMap = {
