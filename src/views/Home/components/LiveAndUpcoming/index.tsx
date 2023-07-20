@@ -65,74 +65,96 @@ const LiveAndUpcoming = () => {
   const twiceAsLong = [...data, ...data]
 
   return (
-    <Flex
-      sx={{
-        maxWidth: '1412px',
-        width: '95vw',
-        flexDirection: 'column',
-        alignSelf: 'center',
-        mt: ['62px', '62px', '90px'],
-      }}
-    >
-      <Text sx={{ fontSize: ['25px', '25px', '35px'], fontWeight: '500' }}>{t('Live & Upcoming')}</Text>
-      <Button
-        onClick={onPresentModal}
-        variant="text"
+    <Flex sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'end' }}>
+      <Flex
         sx={{
-          fontSize: ['12px', '12px', '15px'],
-          fontWeight: '500',
-          color: '#FFB300',
-          opacity: '0.5',
-          textTransform: 'initial',
-          pl: '0px',
+          mr: '20px',
+          display: ['none', 'none', 'none', 'none', 'none', 'none', 'none', 'block'],
+          height: widthOfSpindles,
+          alignSelf: 'end',
         }}
       >
-        {t('Subscribe to our newsletter >')}
-      </Button>
-      <Flex>
-        <Box sx={{ mr: '20px', display: ['none', 'none', 'block'] }}>
-          <ArrowNav handleNav={() => swiper?.slidePrev()} direction="left" />
-        </Box>
-        <Swiper
-          ref={swiperRef}
-          id="bondsListSwiper"
-          onSwiper={setSwiper}
-          slidesPerView={isMobile ? 'auto' : slidersCount}
-          loop
-          loopedSlides={twiceAsLong?.length}
-          lazy
-          onSlideChange={handleSlide}
-          style={{ width: '100%' }}
-          spaceBetween={SPACE_BETWEEN_SLIDERS}
+        <ArrowNav handleNav={() => swiper?.slidePrev()} direction="left" />
+      </Flex>
+      <Flex
+        sx={{
+          maxWidth: '1412px',
+          width: '95vw',
+          flexDirection: 'column',
+          alignSelf: 'center',
+          mt: ['62px', '62px', '90px'],
+        }}
+      >
+        <Text sx={{ fontSize: ['25px', '25px', '35px'], fontWeight: '500' }}>{t('Live & Upcoming')}</Text>
+        <Button
+          onClick={onPresentModal}
+          variant="text"
+          sx={{
+            fontSize: ['12px', '12px', '15px'],
+            fontWeight: '500',
+            color: '#FFB300',
+            opacity: '0.5',
+            textTransform: 'initial',
+            pl: '0px',
+          }}
         >
-          {twiceAsLong?.map((slide: any, index: number) => {
-            const [slideImage] = slide?.photo
-            return (
-              <SwiperSlide
-                key={`${index}${slide.id}`}
-                id={`${index}${slide.id}`}
-                style={{
-                  maxWidth: `${swiperSlideWidth}px`,
-                  minWidth: `${swiperSlideWidth}px`,
-                }}
-              >
-                <Link href={slide.link}>
-                  <Flex
-                    sx={{
-                      height: `${swiperSlideWidth}px`,
-                      width: `${swiperSlideWidth}px`,
-                    }}
-                  >
-                    <Image src={slideImage.url} fill alt="Slide image" style={{ borderRadius: '10px' }} />
-                  </Flex>
-                </Link>
-              </SwiperSlide>
-            )
-          })}
-        </Swiper>
-        <Box sx={{ ml: '20px', display: ['none', 'none', 'block'] }}>
-          <ArrowNav handleNav={() => swiper?.slideNext()} direction="right" />
-        </Box>
+          {t('Subscribe to our newsletter >')}
+        </Button>
+        <Flex>
+          <Box sx={{ ml: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
+            <ArrowNav handleNav={() => swiper?.slidePrev()} direction="left" />
+          </Box>
+          <Swiper
+            ref={swiperRef}
+            id="bondsListSwiper"
+            onSwiper={setSwiper}
+            slidesPerView={isMobile ? 'auto' : slidersCount}
+            loop
+            loopedSlides={twiceAsLong?.length}
+            lazy
+            onSlideChange={handleSlide}
+            style={{ width: '100%' }}
+            spaceBetween={SPACE_BETWEEN_SLIDERS}
+          >
+            {twiceAsLong?.map((slide: any, index: number) => {
+              const [slideImage] = slide?.photo
+              return (
+                <SwiperSlide
+                  key={`${index}${slide.id}`}
+                  id={`${index}${slide.id}`}
+                  style={{
+                    maxWidth: `${swiperSlideWidth}px`,
+                    minWidth: `${swiperSlideWidth}px`,
+                  }}
+                >
+                  <Link href={slide.link}>
+                    <Flex
+                      sx={{
+                        height: `${swiperSlideWidth}px`,
+                        width: `${swiperSlideWidth}px`,
+                      }}
+                    >
+                      <Image src={slideImage.url} fill alt="Slide image" style={{ borderRadius: '10px' }} />
+                    </Flex>
+                  </Link>
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
+          <Box sx={{ mr: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
+            <ArrowNav handleNav={() => swiper?.slideNext()} direction="right" />
+          </Box>
+        </Flex>
+      </Flex>
+      <Flex
+        sx={{
+          ml: '20px',
+          display: ['none', 'none', 'none', 'none', 'none', 'none', 'none', 'block'],
+          height: widthOfSpindles,
+          alignSelf: 'end',
+        }}
+      >
+        <ArrowNav handleNav={() => swiper?.slideNext()} direction="right" />
       </Flex>
     </Flex>
   )
