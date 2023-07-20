@@ -45,12 +45,12 @@ const BondsList = ({ bonds }: BondsListProps) => {
     if (chainId !== currentChain) {
       router.push('/bonds?switchChain=true')
     } else {
-      router.push(`/bonds?bondAddress=${billAddress}`)
+      router.push(`/bonds?bondAddress=${billAddress.toLowerCase()}`)
     }
   }
 
   const renderListCard = (item: BondDTO, itemIndex: number): JSX.Element => {
-    const { payoutTokenName = '', chainId, discount = 0, isFeatured, launchDate, isNew } = item
+    const { payoutTokenName = '', chainId, discount = 0, isFeatured, isNew } = item
     return (
       <ListCard
         key={`${payoutTokenName}${itemIndex}`}
