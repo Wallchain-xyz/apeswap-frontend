@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Autoplay } from 'swiper'
 
@@ -95,11 +97,19 @@ const LiveAndUpcoming = () => {
           spaceBetween={SPACE_BETWEEN_SLIDERS}
         >
           {twiceAsLong?.map((slide: any, index: number) => {
+            const [slideImage] = slide?.photo
             return (
               <SwiperSlide key={index}>
-                <Flex sx={{ height: `${swiperSlideWidth}px`, width: `${swiperSlideWidth}px`, bg: 'brown' }}>
-                  Slide {index}
-                </Flex>
+                <Link href={slide.link}>
+                  <Flex
+                    sx={{
+                      height: `${swiperSlideWidth}px`,
+                      width: `${swiperSlideWidth}px`,
+                    }}
+                  >
+                    <Image src={slideImage.url} fill alt="Slide image" style={{ borderRadius: '10px' }} />
+                  </Flex>
+                </Link>
               </SwiperSlide>
             )
           })}
