@@ -2,14 +2,17 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Autoplay } from 'swiper'
+import SwiperCore from 'swiper'
+import { Box } from 'theme-ui'
 
 // Components
 import { Text, Flex, Button } from 'components/uikit'
 import NewsModal from 'components/NewsLetter/NewsModal'
+import ArrowNav from './components/ArrowNav'
 
 // Constants
 import { mailChimpUrl } from 'config/constants/api'
+import { breakpointMap } from 'theme/base'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
@@ -38,9 +41,15 @@ const LiveAndUpcoming = () => {
   const slidersCount = Math.floor(swiperWidth / SLIDER_DESIRED_WIDTH)
   const widthOfSpindles = (swiperWidth - (slidersCount - 1) * SPACE_BETWEEN_SLIDERS) / slidersCount
 
+  const isMobile = swiperWidth < breakpointMap.md
+
   useEffect(() => {
-    setSwiperSliderWidth(widthOfSpindles)
-  }, [widthOfSpindles, swiperWidth])
+    if (isMobile) {
+      setSwiperSliderWidth(widthOfSpindles - 50)
+    } else {
+      setSwiperSliderWidth(widthOfSpindles)
+    }
+  }, [widthOfSpindles, swiperWidth, isMobile])
 
   const [onPresentModal] = useModal(<NewsModal mailChimpUrl={mailChimpUrl} />, false, false, 'newsModal')
 
@@ -81,14 +90,14 @@ const LiveAndUpcoming = () => {
         {t('Subscribe to our newsletter >')}
       </Button>
       <Flex>
+        <Box sx={{ mr: '20px', display: ['none', 'none', 'block'] }}>
+          <ArrowNav handleNav={() => swiper?.slidePrev()} direction="left" />
+        </Box>
         <Swiper
           ref={swiperRef}
           id="bondsListSwiper"
           onSwiper={setSwiper}
-          slidesPerView={slidersCount}
-          // slidesPerView="auto"
-          // centeredSlides
-          // preloadImages={false}
+          slidesPerView={isMobile ? 'auto' : slidersCount}
           loop
           loopedSlides={twiceAsLong?.length}
           lazy
@@ -99,7 +108,14 @@ const LiveAndUpcoming = () => {
           {twiceAsLong?.map((slide: any, index: number) => {
             const [slideImage] = slide?.photo
             return (
-              <SwiperSlide key={index}>
+              <SwiperSlide
+                key={`${index}${slide.id}`}
+                id={`${index}${slide.id}`}
+                style={{
+                  maxWidth: `${swiperSlideWidth}px`,
+                  minWidth: `${swiperSlideWidth}px`,
+                }}
+              >
                 <Link href={slide.link}>
                   <Flex
                     sx={{
@@ -114,6 +130,9 @@ const LiveAndUpcoming = () => {
             )
           })}
         </Swiper>
+        <Box sx={{ ml: '20px', display: ['none', 'none', 'block'] }}>
+          <ArrowNav handleNav={() => swiper?.slideNext()} direction="right" />
+        </Box>
       </Flex>
     </Flex>
   )
