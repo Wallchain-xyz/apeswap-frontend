@@ -7,6 +7,17 @@ export enum BondsStats {
   TotalValueLocked = 'totalValueLocked',
 }
 
+export interface SortedTokens {
+  trending?: TokenDTO[]
+  mostTraded?: TokenDTO[]
+  new?: TokenDTO[]
+}
+
+export interface SortedFarms {
+  blueChips?: FarmDTO[]
+  highestYield?: FarmDTO[]
+}
+
 export interface HomepageDTO {
   [BondsStats.TotalBondsSold]: number
   [BondsStats.TotalBondedValue]: number
@@ -14,25 +25,41 @@ export interface HomepageDTO {
   [BondsStats.TotalValueLocked]: number
   partnerCount?: number
   bonds?: BondDTO[]
-  farms?: FarmDTO[]
-  tokens?: TokenDTO[]
+  farms?: SortedFarms
+  tokens?: SortedTokens
 }
 
-interface BondDTO extends Bond {
+export interface BondDTO extends Bond {
   isFeatured: boolean
-  launchDate: string
+  isNew: boolean
+  launchDate: number
 }
 
-interface FarmDTO extends Farm {
+interface Decimals {
+  [key: number]: string
+}
+
+interface Stake {
+  address: string
+  decimals: Decimals
+  symbol: string
+}
+export interface FarmDTO extends Farm {
   isBlueChip: boolean
-  launchDate: string
+  launchDate: number
+  pid: number
+  stake: Stake
 }
 
-interface TokenDTO {
+export interface TokenDTO {
   chainId: SupportedChainId
-  launchDate: string
+  isNew: boolean
+  isMostTraded: boolean
+  isMostPriceChanged: boolean
+  launchDate: number
   priceChange24h: number
   priceHistory: number[]
+  tokenAddress: string
   tokenTicker: string
   tokenPrice: number
   volume24h: number

@@ -11,7 +11,7 @@ const NetworkModal = ({
   onSetRequestPending,
 }: {
   onDismiss: () => void
-  onSetRequestPending: (reqFlag: boolean) => void
+  onSetRequestPending?: (reqFlag: boolean) => void
 }) => {
   const selectChain = useSelectChain()
   const dispatch = useAppDispatch()
@@ -33,10 +33,14 @@ const NetworkModal = ({
                 background: selectedChainId === chainId ? 'white2' : 'white4',
               }}
               onClick={async () => {
-                onSetRequestPending(true)
-                selectChain(chainId)
-                  .then(() => onSetRequestPending(false))
-                  .catch(() => onSetRequestPending(false))
+                if (onSetRequestPending) {
+                  onSetRequestPending(true)
+                  selectChain(chainId)
+                    .then(() => onSetRequestPending(false))
+                    .catch(() => onSetRequestPending(false))
+                } else {
+                  selectChain(chainId)
+                }
                 dispatch(updateSelectedNetwork({ chainId: chainId }))
                 onDismiss()
               }}

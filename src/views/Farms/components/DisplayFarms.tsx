@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { Farm, FarmTypes } from 'state/farms/types'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
@@ -18,6 +20,9 @@ import { useAppDispatch } from 'state/hooks'
 import { selectOutputCurrency } from 'state/zap/actions'
 import { Field, selectCurrency } from 'state/swap/actions'
 
+// Components
+import NetworkModal from 'components/NetworkSelector/NetworkModal'
+
 const DisplayFarms = ({
   farms,
   openPid,
@@ -29,11 +34,22 @@ const DisplayFarms = ({
   farmTags?: any[]
   isActive: boolean
 }) => {
+  const { query, replace } = useRouter()
   //const { chainId } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
   const [onPresentAddLiquidityModal] = useModal(<DualLiquidityModal />, true, true, 'liquidityWidgetModal')
+  const [onPresentWalletConnectModal] = useModal(<NetworkModal onDismiss={() => null} />, true, true, 'NetworkModal')
+
+  const { switchChain = false } = query
+
+  useEffect(() => {
+    if (switchChain) {
+      onPresentWalletConnectModal()
+      replace('/farms', undefined, { shallow: true })
+    }
+  }, [])
 
   const showLiquidity = (token: any, quoteToken: any, farm: Farm) => {
     dispatch(

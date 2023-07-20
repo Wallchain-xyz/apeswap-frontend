@@ -11,6 +11,7 @@ import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
 // Components
 import BondsStatsCards from './components/BondsStatsCards'
+import DiscoverNewOpportunities from './components/DiscoverNewOpportunities'
 
 // TODO: When updating the homepage these components should be built to SSR
 // To make the UX slightly better we could have a SSR component on loading to restrict page jumps
@@ -33,7 +34,8 @@ const Home = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDI
       <BondsStatsCards />
       {/* TODO: Remove this and all its code */}
       {/* <StatCards /> */}
-      <TrendingTokens />
+      {/* <TrendingTokens /> */}
+      <DiscoverNewOpportunities />
       <SwiperProvider>
         <News />
       </SwiperProvider>

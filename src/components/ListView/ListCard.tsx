@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { styles } from './styles'
 import { ListCardProps } from './types'
@@ -16,6 +16,11 @@ const ListCard: React.FC<ListCardProps> = ({
   open,
 }) => {
   const [expanded, setExpanded] = useState(open)
+
+  useEffect(() => {
+    setExpanded(open)
+  }, [open])
+
   return (
     <>
       <Flex sx={styles.listCardContainer} onClick={() => setExpanded((prev) => !prev)}>
