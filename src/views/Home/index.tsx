@@ -37,10 +37,10 @@ const Home = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDI
       {/* <StatCards /> */}
       {/* <TrendingTokens /> */}
       <DiscoverNewOpportunities />
-      <SwiperProvider>
-        {/* <News /> */}
-        <LiveAndUpcoming />
-      </SwiperProvider>
+      {/* <SwiperProvider> */}
+      {/* <News /> */}
+      <LiveAndUpcoming />
+      {/* </SwiperProvider> */}
       {chainId === SupportedChainId.BSC && (
         <SwiperProvider>
           <Services />
