@@ -33,7 +33,7 @@ export interface ListCardProps extends ListProps {
   serviceTokenDisplay: React.ReactNode
 }
 
-export interface ListViewContentProps {
+export interface ProgressBarWrapperProps {
   tag?: ListTagVariants
   title?: string
   value: string

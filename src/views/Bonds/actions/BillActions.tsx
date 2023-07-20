@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import useApproveBill from '../hooks/useApproveBill'
-import { ApprovalState, useApproveCallback, useApproveCallbackFromZap } from 'hooks/useApproveCallback'
+import { ApprovalState, useApproveCallbackFromZap } from 'hooks/useApproveCallback'
 import { BillActionsProps } from './types'
 import { useWeb3React } from '@web3-react/core'
-import BigNumber from 'bignumber.js'
 import { BuyButton } from './styles'
 import { Button } from 'components/uikit'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -41,7 +40,10 @@ const BillActions: React.FC<BillActionsProps> = ({
     contractAddress[chainId as SupportedChainId] ?? '',
   )
 
-  const showApproveLP = getBNWithDecimals(bill?.userData?.allowance)?.lt(value)
+  const showApproveLP = getBNWithDecimals(
+    bill?.userData?.allowance,
+    (bill?.lpToken?.decimals?.[chainId as SupportedChainId] as number) ?? 18,
+  )?.lt(value)
 
   const [pendingApprove, setPendingApprove] = useState(false)
   const { t } = useTranslation()
