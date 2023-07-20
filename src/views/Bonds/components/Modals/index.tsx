@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import UserBillModalView from './UserBillModalView'
@@ -24,9 +24,9 @@ interface BillModalProps {
 }
 
 const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, billId, billCardImage, disabled }) => {
-  const { push } = useRouter()
+  const router = useRouter()
   const { chainId } = useWeb3React()
-  const [onPresentBuyBillsModal] = useModal(
+  const [onPresentBuyBillsModal, handleBuyBillsModalClose] = useModal(
     <BuyBillModalView billIndex={bill.index} />,
     false,
     false,
@@ -40,7 +40,12 @@ const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, bi
     `billsModal${bill.billNftAddress}-${billId}`,
   )
 
-  const [onPresentBuyWarning] = useModal(<WarningModal bill={bill} />, true, true, `billsWarningModal${id}`)
+  const [onPresentBuyWarning, handleBuyWarningClose] = useModal(
+    <WarningModal bill={bill} />,
+    true,
+    true,
+    `billsWarningModal${id}`,
+  )
 
   const [onPresentReflectModal] = useModal(
     <ReflectModal billIndex={bill.index} billSymbol={bill.earnToken.symbol} />,
@@ -48,6 +53,23 @@ const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, bi
     true,
     `billsReflectWarningModal${id}`,
   )
+
+  const closeBuyModals = (): void => {
+    handleBuyBillsModalClose()
+    handleBuyWarningClose()
+  }
+
+  useEffect(() => {
+    return () => {
+      closeBuyModals()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!router.query.bondAddress) {
+      closeBuyModals()
+    }
+  }, [router.query.bondAddress])
 
   const handleBuyClick = () => {
     const { contractAddress } = bill
@@ -59,7 +81,7 @@ const BillModal: React.FC<BillModalProps> = ({ buttonText, bill, id, buyFlag, bi
         : onPresentBuyBillsModal()
       : onPresentUserBillModal()
 
-    push(`/bonds?bondAddress=${contractAddress[chainId as SupportedChainId]}`, undefined, { shallow: true })
+    router.push(`/bonds?bondAddress=${contractAddress[chainId as SupportedChainId]}`, undefined, { shallow: true })
   }
 
   return !billCardImage ? (
