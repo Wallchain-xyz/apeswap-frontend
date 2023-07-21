@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Percent, Token, TradeType } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { SWAP_ROUTER_ADDRESSES } from 'config/constants/addresses'
 import { useMemo } from 'react'
@@ -13,7 +13,6 @@ export default function useSwapApproval(
   const { chainId } = useWeb3React()
 
   const amountToApprove = useMemo(
-    //check if allowed slippage is necessary
     () => (inputCurrencyAmount?.currency.isToken ? inputCurrencyAmount : undefined),
     [inputCurrencyAmount],
   )

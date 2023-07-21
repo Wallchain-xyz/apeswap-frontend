@@ -17,7 +17,7 @@ import useCurrencyBalance from '../../lib/hooks/useCurrencyBalance'
 import { getBNWithDecimals } from '../../utils/getBalanceNumber'
 import RouteDetails from './components/RouteDetails'
 import { toPrecisionAvoidExponential } from './utils'
-import useDebounce from '../../hooks/useDebounce'
+import JSBI from 'jsbi'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -81,10 +81,12 @@ const Swap = () => {
 
   const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
 
-  const inputCurrencyAmount = useCurrencyBalance(account, currencies?.INPUT ?? undefined)
+  const inputCurrencyAmount = currencies?.INPUT && selectedRoute?.fromAmount? CurrencyAmount.fromRawAmount(currencies?.INPUT, JSBI.BigInt(selectedRoute?.fromAmount)) : undefined
+  const inputCurrencyBalance = useCurrencyBalance(account, currencies?.INPUT ?? undefined)
+
   const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
-    () => maxAmountSpend(inputCurrencyAmount),
-    [inputCurrencyAmount],
+    () => maxAmountSpend(inputCurrencyBalance),
+    [inputCurrencyBalance],
   )
 
   const outputAmount = getBNWithDecimals(selectedRoute?.toAmount, selectedRoute?.toToken?.decimals)

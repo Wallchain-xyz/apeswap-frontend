@@ -2,10 +2,11 @@ import { Currency, CurrencyAmount, Percent, SupportedChainId, Token } from '@ape
 import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useApproval } from 'lib/hooks/useApproval'
+import { MergedZap } from '../state/zap/actions'
 
 // wraps useApproveCallback in the context of a swap
 export default function useZapApproval(
-  zap: any,
+  zap: MergedZap,
   allowedSlippage: Percent,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean,
 ) {

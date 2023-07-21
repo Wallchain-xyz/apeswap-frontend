@@ -28,7 +28,7 @@ const RouteDetails = ({ route, fee }: { route: Route, fee: number }) => {
     return 'error'
   }, [priceImpact])
 
-  const priceImpactString = isFinite(priceImpact) ? priceImpact || priceImpact > 0 ? `${priceImpact.toFixed(2)} %` : '< 0.001%' : '-'
+  const priceImpactString = isFinite(priceImpact) ? priceImpact && priceImpact > 0 ? `${priceImpact.toFixed(2)} %` : '< 0.001%' : '-'
 
   return (
     <Flex sx={styles.dexTradeInfoContainer}>
