@@ -25,10 +25,13 @@ const RouteDetails = ({ route, fee }: { route: Route, fee: number }) => {
     if (!priceImpact) return 'success'
     if (priceImpact < 2) return 'success'
     if (priceImpact < 5) return 'yellow'
+    if (priceImpact === 100) return 'text'
     return 'error'
   }, [priceImpact])
 
-  const priceImpactString = isFinite(priceImpact) ? priceImpact && priceImpact > 0 ? `${priceImpact.toFixed(2)} %` : '< 0.001%' : '-'
+  console.log(priceImpact)
+
+  const priceImpactString = isFinite(priceImpact) && priceImpact !== 100 ? priceImpact && priceImpact > 0 ? `${priceImpact.toFixed(2)} %` : '< 0.001%' : '-'
 
   return (
     <Flex sx={styles.dexTradeInfoContainer}>
