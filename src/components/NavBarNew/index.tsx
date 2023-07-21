@@ -5,11 +5,99 @@ import { Box } from 'theme-ui'
 import { Flex, Svg } from 'components/uikit'
 import NavOption from './components/NavOption'
 
-const NAV_OPTIONS = [
-  { label: 'Exchange', items: [{ itemLabel: 'item 1', href: '/item1' }] },
-  { label: 'Bills', items: [{ itemLabel: 'item 1', href: '/item1' }] },
-  { label: 'Stake', items: [{ itemLabel: 'item 1', href: '/item1' }] },
-  { label: 'Explore', items: [{ itemLabel: 'item 1', href: '/item1' }] },
+const NAV_ITEM = [
+  {
+    label: 'Exchange',
+    items: [
+      {
+        itemLabel: 'Swap',
+        itemDesc: 'Easy and friendly way to trade tokens.',
+        href: 'https://dex.apeswap.finance/swap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Liquidity',
+        itemDesc: 'Provide liquidity to earn fees and stake.',
+        href: 'https://dex.apeswap.finance/zap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Pro Trading',
+        itemDesc: 'Tool for advance users and traders.',
+        href: 'https://pro.apeswap.finance',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+    ],
+  },
+  {
+    label: 'Bills',
+    items: [
+      {
+        itemLabel: 'Swap',
+        itemDesc: 'Easy and friendly way to trade tokens.',
+        href: 'https://dex.apeswap.finance/swap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Liquidity',
+        itemDesc: 'Provide liquidity to earn fees and stake.',
+        href: 'https://dex.apeswap.finance/zap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Pro Trading',
+        itemDesc: 'Tool for advance users and traders.',
+        href: 'https://pro.apeswap.finance',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+    ],
+  },
+  {
+    label: 'Stake',
+    items: [
+      {
+        itemLabel: 'Swap',
+        itemDesc: 'Easy and friendly way to trade tokens.',
+        href: 'https://dex.apeswap.finance/swap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Liquidity',
+        itemDesc: 'Provide liquidity to earn fees and stake.',
+        href: 'https://dex.apeswap.finance/zap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Pro Trading',
+        itemDesc: 'Tool for advance users and traders.',
+        href: 'https://pro.apeswap.finance',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+    ],
+  },
+  {
+    label: 'Explore',
+    items: [
+      {
+        itemLabel: 'Swap',
+        itemDesc: 'Easy and friendly way to trade tokens.',
+        href: 'https://dex.apeswap.finance/swap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Liquidity',
+        itemDesc: 'Provide liquidity to earn fees and stake.',
+        href: 'https://dex.apeswap.finance/zap',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+      {
+        itemLabel: 'Pro Trading',
+        itemDesc: 'Tool for advance users and traders.',
+        href: 'https://pro.apeswap.finance',
+        icon: '/images/navbar/swap-dark.svg',
+      },
+    ],
+  },
 ]
 
 const NavBarNew = () => {
@@ -18,11 +106,9 @@ const NavBarNew = () => {
       as="nav"
       sx={{
         justifyContent: 'space-between',
-        bg: 'tan',
         position: 'fixed',
         width: '100%',
         zIndex: 100,
-        height: '36px',
         px: '40px',
         py: '8px',
       }}
@@ -31,9 +117,9 @@ const NavBarNew = () => {
         <Link href="/" style={{ width: '35px', height: '35px', display: 'flex', marginRight: '30px' }}>
           <Svg icon="logo" width="35px" />
         </Link>
-        <Flex sx={{ bg: 'magenta', gap: '40px' }}>
-          {NAV_OPTIONS.map((navOption) => {
-            return <NavOption key={navOption.label} option={navOption} />
+        <Flex sx={{ gap: '40px' }}>
+          {NAV_ITEM.map((navItem) => {
+            return <NavOption key={navItem.label} navItem={navItem} />
           })}
         </Flex>
       </Flex>
