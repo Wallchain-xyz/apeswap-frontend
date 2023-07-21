@@ -86,7 +86,7 @@ const PageContainer = ({
           padding: variant === 'dex' && '0px 10px',
           alignItems: 'center',
           width: '100%',
-          paddingTop: `${NAV_HEIGHT}px`,
+          // paddingTop: `${NAV_HEIGHT}px`,
           flexDirection: 'column',
         }}
       >

@@ -27,6 +27,9 @@ import Head from 'next/head'
 import './styles.css'
 import BigNumber from 'bignumber.js'
 
+// Components
+import NavBarNew from 'components/NavBarNew'
+
 // This config is required for number formatting
 BigNumber.config({
   EXPONENTIAL_AT: 1000,
@@ -79,7 +82,8 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
                       <LanguageProvider>
                         <ModalProvider>
                           <Blocklist>
-                            <NavBar />
+                            {/* <NavBar /> */}
+                            <NavBarNew />
                             <MarketingModalCheck />
                             <Popups />
                             <Component {...pageProps} />
