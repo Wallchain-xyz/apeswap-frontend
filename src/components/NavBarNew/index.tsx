@@ -5,7 +5,10 @@ import { Box } from 'theme-ui'
 import { Flex, Svg } from 'components/uikit'
 import NavOption from './components/NavOption'
 
-const NAV_ITEM = [
+// Types
+import { NavItem } from './types'
+
+const NAV_ITEMS: NavItem[] = [
   {
     label: 'Exchange',
     items: [
@@ -118,7 +121,7 @@ const NavBarNew = () => {
           <Svg icon="logo" width="35px" />
         </Link>
         <Flex sx={{ gap: '40px' }}>
-          {NAV_ITEM.map((navItem) => {
+          {NAV_ITEMS.map((navItem) => {
             return <NavOption key={navItem.label} navItem={navItem} />
           })}
         </Flex>

@@ -6,10 +6,12 @@ import DropdownMenu from './DropdownMenu'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
-import { use } from 'react'
+
+// Types
+import { NavItem } from '../types'
 
 interface NavOptionProps {
-  navItem: any
+  navItem: NavItem
 }
 
 const NavOption = ({ navItem }: NavOptionProps) => {

@@ -8,9 +8,12 @@ import { Flex, Text } from 'components/uikit'
 // Hooks
 import { useTranslation } from 'contexts/Localization'
 
+// Components
+import { NavItemOptions } from '../types'
+
 interface DropdownMenuProps {
   isVisible: boolean
-  items: any[]
+  items: NavItemOptions[]
 }
 
 const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
