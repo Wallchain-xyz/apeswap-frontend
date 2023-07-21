@@ -15,10 +15,9 @@ import Risk from './components/Risk/Risk'
 import SwapSwitchButton from './components/SwapSwitchButton'
 import useCurrencyBalance from '../../lib/hooks/useCurrencyBalance'
 import { getBNWithDecimals } from '../../utils/getBalanceNumber'
-import { Route } from '@lifi/sdk'
 import RouteDetails from './components/RouteDetails'
-import { parseOutputAmount, toPrecisionAvoidExponential } from './utils'
-import BigNumber from 'bignumber.js'
+import { toPrecisionAvoidExponential } from './utils'
+import useDebounce from '../../hooks/useDebounce'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -64,14 +63,8 @@ const Swap = () => {
   // )
 
   // swap state
-  const { typedValue, recipient } = useSwapState()
-  const {
-    routing,
-    allowedSlippage,
-    currencyBalances,
-    currencies,
-    inputError,
-  } = useDerivedSwapInfo()
+  const { typedValue } = useSwapState()
+  const { routing, currencies, inputError } = useDerivedSwapInfo()
   const { routes, routingState, feeStructure } = routing
   const selectedRoute = routes[0]  // hardcoded for the time being
 
@@ -129,7 +122,7 @@ const Swap = () => {
       {!showWrap && routeIsLoading ? (
         <LoadingBestRoute />
       ) : !routeNotFound && !showWrap && selectedRoute && (
-        <RouteDetails route={selectedRoute} />
+        <RouteDetails route={selectedRoute} fee={feeStructure.fee}/>
       )}
       <Actions
         routingState={routingState}

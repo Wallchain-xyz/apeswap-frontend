@@ -60,9 +60,8 @@ export function TransactionSubmittedContent({
   currencyToAdd?: Currency | undefined
   LpToAdd?: Pair
 }) {
-  const { provider, connector, chainId } = useWeb3React()
+  const { connector, chainId } = useWeb3React()
 
-  const [success, setSuccess] = useState<boolean | undefined>()
 
   const token: Token | undefined = currencyToAdd?.wrapped
   const { t } = useTranslation()
@@ -78,8 +77,6 @@ export function TransactionSubmittedContent({
         decimals: token.decimals,
         image: logoURL,
       })
-      .then(() => setSuccess(true))
-      .catch(() => setSuccess(false))
   }, [connector, logoURL, token])
 
   return (
@@ -89,8 +86,11 @@ export function TransactionSubmittedContent({
         <Flex sx={{ flexDirection: 'column', alignItems: 'center', mt: '20px' }}>
           <Text size='20px'>{t('Transaction Submitted')}</Text>
           {chainId && hash && (
-            <Link mt='10px' color='text' href={getEtherscanLink(hash, 'transaction', chainId)} target='_blank'>
+            <Link color='text' href={getEtherscanLink(hash, 'transaction', chainId)} target='_blank' sx={{display: 'flex', fontWeight: 500, mt: '15px'}}>
               {t('View on explorer')}
+              <Flex sx={{ ml: '7px' }}>
+                <Svg icon="external" color="text" width={13} />
+              </Flex>
             </Link>
           )}
           {currencyToAdd && connector.watchAsset && (
@@ -106,21 +106,6 @@ export function TransactionSubmittedContent({
           </Button>
         </Flex>
       </Flex>
-    </Flex>
-  )
-}
-
-export function ConfirmationModalContent({
-                                           bottomContent,
-                                           topContent,
-                                         }: {
-  topContent: () => React.ReactNode
-  bottomContent: () => React.ReactNode
-}) {
-  return (
-    <Flex variant='flex.dexContainer' sx={{ padding: '0px' }}>
-      <div>{topContent()}</div>
-      <div>{bottomContent()}</div>
     </Flex>
   )
 }

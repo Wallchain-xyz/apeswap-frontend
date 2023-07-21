@@ -11,27 +11,26 @@ import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import Dots from 'components/Dots'
 
 const DexPanel = ({
-  value,
-  currency,
-  onCurrencySelect,
-  onUserInput,
-  handleMaxInput,
-  otherCurrency,
-  fieldType,
-  panelText,
-  disabled,
-  independentField,
-  disableTokenSelect,
-  userBalance,
-  locked,
-  isZapInput,
-  apiPricing
-}: DexPanelProps) => {
+                    value,
+                    currency,
+                    onCurrencySelect,
+                    onUserInput,
+                    handleMaxInput,
+                    otherCurrency,
+                    fieldType,
+                    panelText,
+                    disabled,
+                    independentField,
+                    disableTokenSelect,
+                    userBalance,
+                    locked,
+                    isZapInput,
+                    apiPricing,
+                  }: DexPanelProps) => {
   const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const currencyBalance = userBalance ? userBalance?.toFixed(6) : selectedCurrencyBalance?.toSignificant(6) || '0'
   const { t } = useTranslation()
-  const [usdVal, loadingUsdValue] = useTokenPriceUsd(currency ?? undefined)
 
   return (
     <Flex sx={styles.dexPanelContainer}>
@@ -70,24 +69,29 @@ const DexPanel = ({
             opacity: independentField && independentField !== fieldType && disabled && 0.4,
           }}
         >
-          {loadingUsdValue ? (
-            <Spinner width="15px" height="15px" />
-          ) : (
-            <Text size="12px" sx={styles.panelBottomText}>
-              {value !== '.' && value && `Ours: $${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
-              {apiPricing && ` - LiFi: $${apiPricing}`}
-            </Text>
-          )}
+          {
+            value && (
+              <>
+                {!apiPricing ? (
+                  <Spinner width='15px' height='15px' />
+                ) : (
+                  <Text size='12px' sx={styles.panelBottomText}>
+                    {value !== '.' && value && `$${apiPricing}`}
+                  </Text>
+                )}
+              </>
+            )
+          }
         </Flex>
         {account && (
           <Flex sx={{ alignItems: 'center' }}>
-            <Text size="12px" sx={styles.panelBottomText}>
+            <Text size='12px' sx={styles.panelBottomText}>
               {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
             </Text>
             {!currencyBalance && <Dots />}
             {parseFloat(currencyBalance) > 0 && handleMaxInput && (
-              <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
-                <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
+              <Flex sx={styles.maxButton} size='sm' onClick={() => handleMaxInput(fieldType)}>
+                <Text color='primaryBright' sx={{ lineHeight: '0px' }}>
                   {t('MAX')}
                 </Text>
               </Flex>

@@ -22,6 +22,7 @@ const ConfirmSwap = ({
                        swapErrorMessage,
                        onConfirm,
                        onDismiss,
+  fee
                      }: {
   selectedRoute: Route
   attemptingTxn: boolean
@@ -29,12 +30,13 @@ const ConfirmSwap = ({
   swapErrorMessage: string | undefined
   onConfirm?: () => void
   onDismiss: () => void
+  fee: number
 }) => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const currencyIn = useCurrency(selectedRoute?.fromToken?.address)
   const currencyOut = useCurrency(selectedRoute?.toToken?.address)
-  const fullInputAmount = parseOutputAmount(selectedRoute?.fromAmount, selectedRoute?.fromToken?.decimals)
+  const fullInputAmount = parseOutputAmount(selectedRoute?.fromAmount ?? '', selectedRoute?.fromToken?.decimals)
   const fullExpectedOutputAmount = parseOutputAmount(selectedRoute?.toAmount, selectedRoute?.toToken?.decimals)
 
   const shortInputAmount = humanOutputAmount(selectedRoute?.fromAmount, selectedRoute?.fromToken?.decimals)
@@ -56,23 +58,32 @@ const ConfirmSwap = ({
   }, [dispatch, onDismiss, swapErrorMessage])
 
   return (
-    <Modal title='Confirm Swap'>
+    <Modal
+      title={swapErrorMessage?.includes('user rejected transaction') ?
+        'Transaction Rejected'
+        : swapErrorMessage?.includes('Exchange rate has changed!') ?
+          'Rate Changed'
+          : swapErrorMessage?.includes('transaction failed') ?
+            'Transaction failed'
+            :'Confirm Swap'}>
       <Flex sx={{ width: '420px', maxWidth: '100%', flexDirection: 'column' }}>
         {swapErrorMessage ? (
           <TransactionErrorContent
             onDismiss={handleDismiss}
             message={
-              swapErrorMessage.includes('INSUFFICIENT_OUTPUT_AMOUNT')
+              swapErrorMessage?.includes('INSUFFICIENT_OUTPUT_AMOUNT')
                 ? t('Slippage Error: Please check your slippage using the ⚙️ icon & try again!')
-                : swapErrorMessage.includes('user rejected transaction') ?
-                t('User rejected transaction')
-                : swapErrorMessage
+                : swapErrorMessage?.includes('user rejected transaction') ?
+                  t('Did you reject the transaction? I thought you were an Ape!')
+                  : swapErrorMessage?.includes('transaction failed') ?
+                    t('It seems your transaction failed. Please check your tokens, amounts and slippage, then try again')
+                    : swapErrorMessage
             }
           />
         ) : attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />
         ) : txHash ? (
-          <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} />
+          <TransactionSubmittedContent hash={txHash} onDismiss={handleDismiss} />
         ) : (
           <>
             <Flex sx={styles.inputContainer}>
@@ -96,7 +107,7 @@ const ConfirmSwap = ({
                 <Text ml='10px'>{currencyOut?.symbol}</Text>
               </Flex>
             </Flex>
-            <RouteDetails route={selectedRoute} />
+            <RouteDetails route={selectedRoute} fee={fee}/>
             <Text size='14px' weight={300} sx={{ textAlign: 'center' }} margin='15px 0px'>
               Output is estimated. You will receive at least{' '}
               <span sx={{ fontWeight: 700 }}>

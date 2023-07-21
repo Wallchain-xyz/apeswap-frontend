@@ -15,16 +15,6 @@ export const V3LiquiditySubNav = () => {
           Positions
         </Text>
       </Flex>
-      <Flex sx={styles.liquiditySelector} onClick={() => push('/v3-add-liquidity')}>
-        <Text
-          color={pathname.includes('v3-add-liquidity') ? 'text' : 'textDisabled'}
-          sx={{ whiteSpace: 'nowrap' }}
-          id="add-liquidity-link"
-          variant="link"
-        >
-          + Add
-        </Text>
-      </Flex>
     </Flex>
   )
 }

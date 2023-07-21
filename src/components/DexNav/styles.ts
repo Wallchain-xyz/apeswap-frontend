@@ -47,7 +47,6 @@ const styles: Record<
     position: 'relative',
     cursor: 'pointer',
     textDecoration: 'none',
-    // ...textUnderlineHover,
   },
   liquiditySelector: {
     position: 'relative',

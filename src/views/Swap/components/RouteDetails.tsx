@@ -9,25 +9,26 @@ import { Route } from '@lifi/sdk'
 import { getBNWithDecimals } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
 
-const RouteDetails = ({ route }: { route: Route }) => {
+const RouteDetails = ({ route, fee }: { route: Route, fee: number }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const formattedGasPriceString = route?.gasCostUSD
-
-  const { expectedOutputAmount, expectedOutputMin, priceImpact } = useMemo(() => {
+  const { expectedOutputAmount, expectedOutputMin, priceImpact, routingFee } = useMemo(() => {
     return {
       expectedOutputAmount: toPrecisionAvoidExponential(getBNWithDecimals(route?.toAmount, route?.toToken?.decimals) ?? new BigNumber(0)),
       expectedOutputMin: toPrecisionAvoidExponential(getBNWithDecimals(route?.toAmountMin, route?.toToken?.decimals) ?? new BigNumber(0)),
-      priceImpact: ((parseFloat(route?.fromAmountUSD) - parseFloat(route?.toAmountUSD)) * 100) / parseFloat(route?.fromAmountUSD),
+      priceImpact: ((parseFloat(route?.fromAmountUSD) - (parseFloat(route?.toAmountUSD) * (fee + 1))) * 100) / parseFloat(route?.fromAmountUSD),
+      routingFee: getBNWithDecimals(route?.fromAmount, route.fromToken.decimals)?.times(fee),
     }
-  }, [route?.fromAmountUSD, route?.toAmount, route?.toAmountMin, route?.toAmountUSD, route?.toToken?.decimals])
+  }, [fee, route?.fromAmount, route?.fromAmountUSD, route.fromToken.decimals, route?.toAmount, route?.toAmountMin, route?.toAmountUSD, route?.toToken?.decimals])
 
   const priceImpactColor = useMemo(() => {
-    if (!priceImpact) return undefined
+    if (!priceImpact) return 'success'
     if (priceImpact < 2) return 'success'
     if (priceImpact < 5) return 'yellow'
     return 'error'
   }, [priceImpact])
+
+  const priceImpactString = isFinite(priceImpact) ? priceImpact || priceImpact > 0 ? `${priceImpact.toFixed(2)} %` : '< 0.001%' : '-'
 
   return (
     <Flex sx={styles.dexTradeInfoContainer}>
@@ -54,12 +55,12 @@ const RouteDetails = ({ route }: { route: Route }) => {
             <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text size='12px'>Price impact</Text>
               <Text size='12px' color={priceImpactColor}>
-                {priceImpact ? `${priceImpact.toFixed(2)} %` : '-'}
+                {priceImpactString}
               </Text>
             </Flex>
             <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text size='12px'> Estimated gas </Text>
-              <Text size='12px'> ${formattedGasPriceString} </Text>
+              <Text size='12px'> Routing fee </Text>
+              <Text size='12px'> {routingFee ? toPrecisionAvoidExponential(routingFee, 3) : '-'} {route?.fromToken?.symbol?.toUpperCase()} </Text>
             </Flex>
             <Flex sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
               <Text size='12px'>Expected output</Text>

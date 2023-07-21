@@ -5,7 +5,6 @@ import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
 import { useCallback, useState } from 'react'
 import { TradeState } from 'state/routing/types'
 import ConfirmSwap from '../components/ConfirmSwap'
-import { useDerivedSwapInfo } from 'state/swap/hooks'
 import { useRouter } from 'next/router'
 import { useHideCircular } from 'hooks/useHideCircular'
 import { Route } from '@lifi/sdk'
@@ -17,10 +16,9 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCall
 import { useERC20PermitFromTrade } from 'hooks/useERC20Permit'
 import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
 import Approval from './Approval'
-import { TransactionType } from '../../../state/transactions/types'
-import { currencyId } from '../../../utils/currencyId'
-import { useAddTxFromHash } from '../../../state/transactions/hooks'
-import { parseCurrency } from '../../../config/constants/lifiRouting'
+import { TransactionType } from 'state/transactions/types'
+import { useAddTxFromHash } from 'state/transactions/hooks'
+import { parseCurrency } from 'config/constants/lifiRouting'
 
 const Swap = ({
                 routingState,
@@ -68,7 +66,6 @@ const Swap = ({
   const showApproveFlow =
     (!inputError && approvalState === ApprovalState.NOT_APPROVED) || approvalState === ApprovalState.PENDING
 
-  const { currencies } = useDerivedSwapInfo()
   const router = useRouter()
   const hideCircular = useHideCircular()
   const addTransaction = useAddTxFromHash()
@@ -120,7 +117,7 @@ const Swap = ({
             feeTier: feeStructure.tier,
           },
         })
-        if (currencies?.OUTPUT?.symbol?.toLowerCase() === 'banana' && !hideCircular) router.push('?modal=circular-buy')
+        if (res.toToken.symbol?.toUpperCase() === 'BANANA' && !hideCircular) router.push('?modal=circular-buy')
       })
       .catch((error) => {
         setSwapState({
@@ -129,7 +126,7 @@ const Swap = ({
           txHash: undefined,
         })
       })
-  }, [callback, chainId, currencies?.OUTPUT?.symbol, feeStructure.fee, feeStructure.tier, hideCircular, router])
+  }, [addTransaction, callback, chainId, feeStructure.fee, feeStructure.tier, hideCircular, router, selectedRoute])
 
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwap
@@ -139,6 +136,7 @@ const Swap = ({
       onConfirm={handleSwap}
       swapErrorMessage={swapErrorMessage}
       onDismiss={handleConfirmDismiss}
+      fee={feeStructure.fee}
     />,
     true,
     true,
@@ -146,7 +144,7 @@ const Swap = ({
   )
 
   const handleConfirmSwap = () => {
-    if (currencies?.INPUT?.symbol?.toLowerCase() === 'banana' && !hideCircular) router.push('?modal=circular-sell')
+    //if (chainId === SupportedChainId.BSC && selectedRoute?.fromToken?.symbol?.toLowerCase() === 'banana' && !hideCircular) router.push('?modal=circular-sell')
     onPresentConfirmModal()
   }
 

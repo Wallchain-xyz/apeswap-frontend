@@ -19,6 +19,8 @@ import { routingApi, useGetRoutesQuery } from '../routing/slice'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Route } from '@lifi/sdk'
 import BigNumber from 'bignumber.js'
+import { AVERAGE_L1_BLOCK_TIME } from '../../config/constants/chains'
+import useDebounce from '../../hooks/useDebounce'
 
 export function useSwapState(): AppState['swap'] {
   return useAppSelector((state: AppState) => state.swap)
@@ -78,7 +80,6 @@ const BAD_RECIPIENT_ADDRESSES: { [address: string]: true } = {
 // from the current swap inputs, compute the best trade and return it.
 export const useDerivedSwapInfo = (): {
   currencies: { [field in Field]: Currency | null }
-  currencyBalances: { [field in Field]?: string }
   inputError?: string
   routing: {
     routes: Route[]
@@ -88,33 +89,22 @@ export const useDerivedSwapInfo = (): {
       tier: string
     }
   }
-  allowedSlippage: number
 } => {
   const { chainId, account } = useWeb3React()
 
   const {
-    independentField,
     typedValue,
     [Field.INPUT]: { currencyId: inputCurrencyString },
     [Field.OUTPUT]: { currencyId: outputCurrencyString },
-    recipient,
   } = useSwapState()
+  const debouncedInput = useDebounce(typedValue, 400)
 
   const inputCurrency = useCurrency(inputCurrencyString)
   const outputCurrency = useCurrency(outputCurrencyString)
-  const recipientLookup = useENS(recipient ?? undefined)
-  const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
 
   const relevantTokenBalances = useCurrencyBalances(
     account ?? undefined,
     useMemo(() => [inputCurrency ?? undefined, outputCurrency ?? undefined], [inputCurrency, outputCurrency]),
-  )
-
-  //this should not be necessary if the only possible input is the from Token
-  const isExactIn: boolean = independentField === Field.INPUT
-  const parsedAmount = useMemo(
-    () => tryParseCurrencyAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined),
-    [inputCurrency, isExactIn, outputCurrency, typedValue],
   )
 
   const slippage = useAppSelector((state) => {
@@ -122,7 +112,7 @@ export const useDerivedSwapInfo = (): {
   })
   const slippageParsed = slippage / 10000
 
-  const queryParams = getQueryParams(chainId, typedValue, inputCurrencyString, inputCurrency?.symbol, inputCurrency?.decimals, outputCurrencyString, outputCurrency?.symbol, slippageParsed, inputCurrency)
+  const queryParams = getQueryParams(chainId, debouncedInput, inputCurrencyString, inputCurrency?.symbol, inputCurrency?.decimals, outputCurrencyString, outputCurrency?.symbol, slippageParsed, inputCurrency)
 
   const {
     isLoading,
@@ -131,7 +121,7 @@ export const useDerivedSwapInfo = (): {
     data,
   } = useGetRoutesQuery(
     queryParams ?? skipToken,
-    //{ pollingInterval: AVERAGE_L1_BLOCK_TIME },
+    { pollingInterval: 120000 },
   )
 
   const error = relevantTokenBalances[0]?.toExact() && (new BigNumber(typedValue).gt(new BigNumber(relevantTokenBalances[0]?.toExact()))) ? 'Insufficient Balance' : ''
@@ -152,7 +142,7 @@ export const useDerivedSwapInfo = (): {
     if ((isLoading || isFetching) && !isError) {
       return {
         routingState: TradeState.LOADING,
-        routes: data?.routes ?? [],
+        routes: [],
         feeStructure: {
           fee: 0,
           tier: '',
@@ -182,13 +172,11 @@ export const useDerivedSwapInfo = (): {
         [Field.INPUT]: inputCurrency,
         [Field.OUTPUT]: outputCurrency,
       },
-      currencyBalances: { [Field.INPUT]: relevantTokenBalances[0]?.toExact() },
       typedValue,
       inputError: error,
       routing: routingState,
-      allowedSlippage: slippageParsed,
     }),
-    [error, inputCurrency, outputCurrency, relevantTokenBalances, routingState, slippageParsed, typedValue],
+    [error, inputCurrency, outputCurrency, routingState, typedValue],
   )
 }
 
