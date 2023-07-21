@@ -57,8 +57,6 @@ const LiveAndUpcoming = () => {
     setActiveSlide(event.activeIndex)
   }
 
-  const twiceAsLong = [...data, ...data]
-
   return (
     <Flex
       sx={{
@@ -113,36 +111,74 @@ const LiveAndUpcoming = () => {
             onSwiper={setSwiper}
             slidesPerView={isMobile ? 'auto' : slidersCount}
             loop
-            loopedSlides={twiceAsLong?.length}
+            loopedSlides={data?.length}
             lazy
             onSlideChange={handleSlide}
             style={{ width: '100%' }}
             spaceBetween={SPACE_BETWEEN_SLIDERS}
           >
-            {twiceAsLong?.map((slide: any, index: number) => {
-              const [slideImage] = slide?.photo
-              return (
-                <SwiperSlide
-                  key={`${index}${slide.id}`}
-                  id={`${index}${slide.id}`}
-                  style={{
-                    maxWidth: `${swiperSlideWidth}px`,
-                    minWidth: `${swiperSlideWidth}px`,
-                  }}
-                >
-                  <Link href={slide.link}>
-                    <Flex
-                      sx={{
-                        height: `${swiperSlideWidth}px`,
-                        width: `${swiperSlideWidth}px`,
-                      }}
-                    >
-                      <Image src={slideImage.url} fill alt="Slide image" style={{ borderRadius: '10px' }} />
-                    </Flex>
-                  </Link>
-                </SwiperSlide>
-              )
-            })}
+            {data
+              ?.sort((a: any, b: any) => new Date(a.time).getTime() - new Date(b.time).getTime()) // Sort by date
+              .map((slide: any, index: number) => {
+                const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short' }
+
+                const [slideImage] = slide?.photo
+                const slideTime = slide?.time
+                const timestamp = new Date(slideTime)
+
+                let line1 = slide?.tag ? slide?.tag : 'NOW'
+                let line2 = ''
+
+                if (timestamp.getTime() > Date.now() && !slide?.tag) {
+                  line1 = timestamp.toLocaleDateString('en-GB', options)
+                  line2 = `${timestamp.getUTCHours().toString().padStart(2, '0')}:${timestamp
+                    .getUTCMinutes()
+                    .toString()
+                    .padStart(2, '0')} UTC`
+                }
+
+                return (
+                  <SwiperSlide
+                    key={`${index}${slide.id}`}
+                    id={`${index}${slide.id}`}
+                    style={{
+                      maxWidth: `${swiperSlideWidth}px`,
+                      minWidth: `${swiperSlideWidth}px`,
+                    }}
+                  >
+                    <Link href={slide.link}>
+                      <Flex
+                        sx={{
+                          height: `${swiperSlideWidth}px`,
+                          width: `${swiperSlideWidth}px`,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: '50px',
+                            height: '33px',
+                            right: '10px',
+                            top: '6px',
+                            borderRadius: '5px',
+                            color: 'white',
+                            backgroundColor: 'rgba(33, 33, 33, 0.7)',
+                            position: 'absolute',
+                            zIndex: 2,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Text sx={{ lineHeight: '12.5px', fontSize: '11px', fontWeight: '700' }}>{line1}</Text>
+                          <Text sx={{ lineHeight: '12.5px', fontSize: '8px', fontWeight: '500' }}>{line2}</Text>
+                        </Box>
+                        <Image src={slideImage.url} fill alt="Slide image" style={{ borderRadius: '10px' }} />
+                      </Flex>
+                    </Link>
+                  </SwiperSlide>
+                )
+              })}
           </Swiper>
           <Box sx={{ ml: '20px', display: ['none', 'none', 'block', 'block', 'block', 'block', 'block', 'none'] }}>
             <ArrowNav handleNav={() => swiper?.slideNext()} direction="right" />

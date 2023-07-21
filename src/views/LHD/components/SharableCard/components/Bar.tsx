@@ -7,7 +7,7 @@ import { getColor } from 'views/LHD/utils/getColor';
 
 function Bar(data : any) {
     const { property, color, value: originalValue = 0 } = data;
-    const value = Math.round((originalValue || 0) * 100);
+    const value = Math.floor((originalValue || 0) * 100);
 
     const Styles = {
         container: {
