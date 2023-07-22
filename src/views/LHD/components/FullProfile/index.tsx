@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Flex, Spinner, Svg, Text } from 'components/uikit'
+import { Button, Flex, Spinner, Svg, Text } from 'components/uikit'
 import Chart from '../Chart'
 import { useTranslation } from 'contexts/Localization'
 import InfoCards from './components/InfoCards'
@@ -16,9 +16,13 @@ import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
 
 // Types
 import { chartExtras } from 'utils/types/lhd'
+import useModal from '../../../../hooks/useModal'
+import HistoricalModal from './components/HistoricalModal'
 
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
-  const { data: fullProfile } = useGetLHDProfile({ chainID, address })
+  const [historicValue, setHistoricValue] = useState<{ text: string; value: string } | null>(null)
+
+  const { data: fullProfile } = useGetLHDProfile({ chainID, address, historic: historicValue?.value })
   const { t } = useTranslation()
   const router = useRouter()
   const DEX_MISSING_ASSETS = ['CRV']
@@ -30,6 +34,14 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
     sustainabilityUpper: 0,
     liquidityDebt: 0,
   })
+
+  // update the state to store an object instead of a string
+
+  const handleHistoricChange = (value: { text: string; value: string }) => {
+    setHistoricValue(value)
+  }
+
+  const [onLoadHistorical] = useModal(<HistoricalModal onHistoricChange={handleHistoricChange} />)
 
   useEffect(() => {
     const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
@@ -64,10 +76,16 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
             </Flex>
             {t('Back')}
           </Text>
-          <Text sx={styles.lastUpdated}>
-            {t('Last updated')} {Math.round((Date.now() - parseInt(fullProfile?.createdAt)) / 36000) / 100}
-            {t(' hours ago')}
-          </Text>
+          {historicValue && <Text>Showing historic data for: {historicValue.text}</Text>}
+          <Flex>
+            <Text sx={styles.lastUpdated}>
+              {t('Last updated')} {Math.round((Date.now() - parseInt(fullProfile?.createdAt)) / 36000) / 100}
+              {t(' hours ago')}
+            </Text>
+            <Button variant="text" onClick={onLoadHistorical}>
+              <Svg icon="chart" width={17} color="text" />
+            </Button>
+          </Flex>
         </Flex>
         {DEX_MISSING_ASSETS.includes(fullProfile?.addressMapping?.tokenSymbol) ? (
           <ExemptAssetNotice phraseCondition="dex" />

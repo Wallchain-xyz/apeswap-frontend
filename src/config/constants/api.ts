@@ -7,5 +7,6 @@ export const moonPayBaseUrl =
 
 export const mailChimpUrl = `https://finance.us10.list-manage.com/subscribe/post?u=${process.env.NEXT_PUBLIC_MAILCHIMP_U}&id=${process.env.NEXT_PUBLIC_MAILCHIMP_ID}`
 
-export const LHD_API_TEMP = 'https://lhd-temp-api.herokuapp.com'
+// export const LHD_API_TEMP = 'https://lhd-temp-api.herokuapp.com'
+export const LHD_API_TEMP = 'http://localhost:4200'
 export const LHD_API = 'https://lhd-api.apeswap.finance'
