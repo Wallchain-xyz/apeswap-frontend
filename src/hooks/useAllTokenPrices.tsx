@@ -2,7 +2,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useSingleContractMultipleData } from 'lib/hooks/multicall'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { usePriceGetter } from './useContract'
-import { tokens, LiquidityDex, dexFactories, defaultDexFactories } from '@ape.swap/apeswap-lists'
+import { tokens, LiquidityDex, dexFactories, defaultDexFactories, Protocols } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
 import { useMemo } from 'react'
 import { ZERO_ADDRESS } from 'config/constants/misc'
@@ -36,27 +36,13 @@ const useAllTokenPrices = () => {
   let tokenResults: any
   let lpTokenResults: any
   const supportedChainId: SupportedChainId = chainId as SupportedChainId
-  if (supportedChainId == SupportedChainId.MAINNET) {
-    const tokenCalls = useMemo(
-      () =>
-        Object.values(filterTokensToCall).map((token) => {
+
+  const tokenCalls = useMemo(
+    () =>
+      Object.values(filterTokensToCall).map((token) => {
+        if (supportedChainId == SupportedChainId.MAINNET) {
           return [token.address[chainId as SupportedChainId], 0]
-        }),
-      [filterTokensToCall, chainId],
-    )
-    const lpTokenCalls = useMemo(
-      () =>
-        Object.values(filterLpTokensToCall).map((token) => {
-          return [token.address[chainId as SupportedChainId], 18]
-        }),
-      [filterLpTokensToCall, chainId],
-    )
-    tokenResults = useSingleContractMultipleData(priceGetterContract, 'getPrice', tokenCalls)
-    lpTokenResults = useSingleContractMultipleData(priceGetterContract, 'getLPPrice', lpTokenCalls)
-  } else {
-    const tokenCalls = useMemo(
-      () =>
-        Object.values(filterTokensToCall).map((token) => {
+        } else {
           const liquidityDex = token.liquidityDex?.[chainId as SupportedChainId]
           let dexFactory
           let protocol = 1
@@ -65,7 +51,7 @@ const useAllTokenPrices = () => {
           let factoryAlgebra = defaultDexFactories?.[chainId as SupportedChainId]?.[4] ?? ZERO_ADDRESS
           if (liquidityDex) {
             dexFactory = dexFactories[chainId as SupportedChainId]?.[liquidityDex as LiquidityDex]
-            protocol = dexFactory?.protocol ?? 1
+            protocol = dexFactory?.protocol ?? Protocols.Both
             switch (protocol) {
               case 2:
                 factoryV2 = dexFactory?.factory ?? factoryV2
@@ -103,13 +89,16 @@ const useAllTokenPrices = () => {
           }
 
           return [token.address[chainId as SupportedChainId], protocol, factoryV2, factoryV3, factoryAlgebra]
-        }),
-      [filterTokensToCall, chainId],
-    )
-
-    const lpTokenCalls = useMemo(
-      () =>
-        Object.values(filterLpTokensToCall).map((token) => {
+        }
+      }),
+    [filterTokensToCall, chainId],
+  )
+  const lpTokenCalls = useMemo(
+    () =>
+      Object.values(filterLpTokensToCall).map((token) => {
+        if (supportedChainId == SupportedChainId.MAINNET) {
+          return [token.address[chainId as SupportedChainId], 18]
+        } else {
           const liquidityDex = token.liquidityDex?.[chainId as SupportedChainId]
           let dexFactory
           let protocol = 2
@@ -118,7 +107,7 @@ const useAllTokenPrices = () => {
           let factoryAlgebra = defaultDexFactories?.[chainId as SupportedChainId]?.[4] ?? ZERO_ADDRESS
           if (liquidityDex) {
             dexFactory = dexFactories[chainId as SupportedChainId]?.[liquidityDex as LiquidityDex]
-            protocol = dexFactory?.protocol ?? 2
+            protocol = dexFactory?.protocol ?? Protocols.V2
             switch (protocol) {
               case 2:
                 factoryV2 = dexFactory?.factory ?? factoryV2
@@ -155,16 +144,23 @@ const useAllTokenPrices = () => {
               break
           }
 
-          if (protocol == 4) {
-            protocol = 5
+          if (protocol == Protocols.Algebra) {
+            protocol = Protocols.Gamma
           }
           return [token.address[chainId as SupportedChainId], protocol, factoryV2, factoryV3, factoryAlgebra]
-        }),
-      [filterLpTokensToCall, chainId],
-    )
-    tokenResults = useSingleContractMultipleData(priceGetterContract, 'getPriceFromFactory', tokenCalls)
-    lpTokenResults = useSingleContractMultipleData(priceGetterContract, 'getLPPriceFromFactory', lpTokenCalls)
+        }
+      }),
+    [filterLpTokensToCall, chainId],
+  )
+
+  let getPriceFunction = 'getPriceFromFactory'
+  let getLPPriceFunction = 'getLPPriceFromFactory'
+  if (supportedChainId == SupportedChainId.MAINNET) {
+    getPriceFunction = 'getPrice'
+    getLPPriceFunction = 'getLPPrice'
   }
+  tokenResults = useSingleContractMultipleData(priceGetterContract, getPriceFunction, tokenCalls)
+  lpTokenResults = useSingleContractMultipleData(priceGetterContract, getLPPriceFunction, lpTokenCalls)
 
   const parsedTokenResults = Object.values(filterTokensToCall).map((token, i) => {
     return {
