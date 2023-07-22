@@ -4,7 +4,7 @@ import { TokenAddress } from 'utils/types/lhd'
 import ChainsIcons from '../FullProfile/components/ChainsIcons'
 import Token from './components/Token'
 import Bar from './components/Bar'
-import { Bronze, Silver, Gold, Diamond } from './components/assets/Background'
+import { Wooden, Bronze, Silver, Gold, Diamond } from './components/assets/Background'
 import { getColor } from 'views/LHD/utils/getColor'
 import domtoimage from 'dom-to-image'
 import { useRouter } from 'next/router'
@@ -133,7 +133,7 @@ const SharableCard = ({
   )}`
 
   const message = score >= 70 ? goodScore : badScore
-  const color = score <= 60 ? 'white' : 'black'
+  const color = score > 30 && score <= 60 ? 'white' : 'black'
 
   function share() {
     const isWindows = navigator.userAgent.includes('Windows') || navigator.appVersion.includes('Windows')
@@ -227,7 +227,9 @@ const SharableCard = ({
             </Flex>
 
             <Flex>
-              {score <= 60 ? (
+              {score <= 30 ? (
+                <Wooden sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
+              ) : score <= 60 ? (
                 <Bronze sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
               ) : score <= 80 ? (
                 <Silver sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />

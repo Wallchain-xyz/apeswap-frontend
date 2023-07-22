@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Flex, Text } from 'components/uikit'
-import { Bronze, Silver, Gold, Diamond } from './assets/TokenBorder'
+import { Wooden, Bronze, Silver, Gold, Diamond } from './assets/TokenBorder'
 import { ReactSVG } from 'react-svg' // Importa ReactSVG desde react-svg
 
 // import ReactSVG from 'react-svg';
@@ -26,7 +26,8 @@ function Token(data: any) {
     getImageDataUrl(imageUrl).then(setImageDataUrl).catch(console.error)
   }, [imageUrl])
 
-  const titleBackground = score <= 60 ? '#451717' : score <= 80 ? '#808080' : score <= 95 ? '#C6853E' : '#959EBF'
+  const titleBackground =
+    score <= 30 ? '#7f6640' : score <= 60 ? '#451717' : score <= 80 ? '#808080' : score <= 95 ? '#C6853E' : '#959EBF'
 
   const Styles = {
     container: {
@@ -107,7 +108,9 @@ function Token(data: any) {
     >
       <Flex sx={Styles.container}>
         <ImageWithFallback src={imageDataUrl ?? ''} alt={tokenSymbol + ' token.'} />
-        {score <= 60 ? (
+        {score <= 30 ? (
+          <Wooden sx={Styles.bgToken} />
+        ) : score <= 60 ? (
           <Bronze sx={Styles.bgToken} />
         ) : score <= 80 ? (
           <Silver sx={Styles.bgToken} />
