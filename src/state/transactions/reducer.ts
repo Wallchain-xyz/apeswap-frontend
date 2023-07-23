@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { updateVersion } from '../global/actions'
-import { TransactionDetails } from './types'
+import { TransactionDetails, TransactionInfo } from './types'
 
 const now = () => new Date().getTime()
 
@@ -17,7 +17,11 @@ const transactionSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    addTransaction(transactions, { payload: { chainId, from, hash, info } }) {
+    addTransaction(
+      transactions,
+      action: PayloadAction<{ chainId: number; from: string; hash: string; info: TransactionInfo }>,
+    ) {
+      const { chainId, from, hash, info } = action.payload
       if (transactions[chainId]?.[hash]) {
         throw Error('Attempted to add existing transaction.')
       }

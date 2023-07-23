@@ -15,7 +15,7 @@ import {
 } from './styles'
 import VestedTimer from '../VestedTimer'
 import TransferBillModal from './TransferBillModal'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 import { useWeb3React } from '@web3-react/core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
@@ -29,7 +29,7 @@ import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
 
 interface BillModalProps {
   onDismiss?: () => void
-  bill: Bills
+  bill: BillsInfoAndConfig
   billId: string | undefined
 }
 

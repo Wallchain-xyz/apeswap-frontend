@@ -5,7 +5,7 @@ import getBillNftData from './getBillNftData'
 import { BillsConfig, BillVersion } from '@ape.swap/apeswap-lists'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import multicall from 'utils/multicall'
-import { Bills, UserBill } from 'views/Bonds/types'
+import {  BillsInfoAndConfig, UserBill } from 'views/Bonds/types'
 
 export const fetchBillsAllowance = async (chainId: SupportedChainId, account: string, bills: BillsConfig[]) => {
   const calls = bills.map((b) => ({
@@ -35,7 +35,7 @@ export const fetchUserBalances = async (chainId: SupportedChainId, account: stri
 export const fetchUserOwnedBillNftData = async (
   ownedBillsData: { id: string; billNftAddress: string; contractAddress: string }[],
   chainId: SupportedChainId,
-  bills: Bills[],
+  bills: BillsInfoAndConfig[],
 ) => {
   const billNftData = ownedBillsData?.map(async ({ id, billNftAddress, contractAddress }) => {
     const bill = bills

@@ -10,8 +10,8 @@ import {
 } from './actions'
 import {
   replaceZapState,
-  selectInputCurrency,
-  selectOutputCurrency,
+  setInputCurrency,
+  setOutputCurrency,
   setInputList,
   setRecipient,
   setZapNewOutputList,
@@ -35,34 +35,38 @@ import { mergeBestZaps } from './mergeBestZaps'
 import BigNumber from 'bignumber.js'
 import { zapInputTokens } from '@ape.swap/apeswap-lists'
 import { TradeState } from 'state/routing/types'
+import { checkZapApproval, executeZapApproval } from './thunks'
+import { useToastError } from 'state/application/hooks'
 
 export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
 }
 
 export function useZapActionHandlers(): {
-  onCurrencySelection: (field: Field, currency: Currency[]) => void
-  onUserInput: (field: Field, typedValue: string) => void
-  onChangeRecipient: (recipient: string | null) => void
+  onZapCurrencySelection: (field: Field, currency: Currency[]) => void
+  onZapUserInput: (field: Field, typedValue: string) => void
+  onZapChangeRecipient: (recipient: string | null) => void
   onSetZapType: (zapType: ZapType) => void
-  onInputSelect: (field: Field, currency: Currency) => void
-  onOutputSelect: (currencies: { currency1: string; currency2: string }) => void
+  onZapApproval: () => Promise<void>
 } {
   const dispatch = useAppDispatch()
+  // TODO: Send toast error
+  const toastError = useToastError()
+  const { provider } = useWeb3React()
 
-  const onCurrencySelection = useCallback(
+  const onZapCurrencySelection = useCallback(
     (field: Field, currencies: Currency[]) => {
       const currency = currencies[0]
       if (field === Field.INPUT) {
         dispatch(
-          selectInputCurrency({
-            currencyId: currency.isNative ? 'ETH' : currency.address,
+          setInputCurrency({
+            currencyId: currency instanceof Token ? currency.address : currency.isNative ? 'ETH' : '',
           }),
         )
       } else {
         const currency2 = currencies[1]
         dispatch(
-          selectOutputCurrency({
+          setOutputCurrency({
             currency1: currency?.isNative ? 'ETH' : currency?.address,
             currency2: currency2?.isNative ? 'ETH' : currency2?.address,
           }),
@@ -72,14 +76,16 @@ export function useZapActionHandlers(): {
     [dispatch],
   )
 
-  const onUserInput = useCallback(
+  const onZapUserInput = useCallback(
     (field: Field, typedValue: string) => {
       dispatch(typeInput({ field, typedValue }))
+      // CHeck for approval
+      // dispatch(checkZapApproval())
     },
     [dispatch],
   )
 
-  const onChangeRecipient = useCallback(
+  const onZapChangeRecipient = useCallback(
     (recipient: string | null) => {
       dispatch(setRecipient({ recipient }))
     },
@@ -93,32 +99,20 @@ export function useZapActionHandlers(): {
     [dispatch],
   )
 
-  const onInputSelect = useCallback(
-    (field: Field, currency: Currency) => {
-      dispatch(
-        selectInputCurrency({
-          currencyId: currency instanceof Token ? currency.address : currency.isNative ? 'ETH' : '',
-        }),
-      )
-      dispatch(typeInput({ field, typedValue: '0' }))
+  const onZapApproval = useCallback(
+    async () => {
+      if(!provider) { return }
+      await dispatch(executeZapApproval({ provider }))
     },
-    [dispatch],
-  )
-
-  const onOutputSelect = useCallback(
-    (currencies: { currency1: string; currency2: string }) => {
-      dispatch(selectOutputCurrency(currencies))
-    },
-    [dispatch],
+    [dispatch, provider],
   )
 
   return {
-    onCurrencySelection,
-    onUserInput,
-    onChangeRecipient,
+    onZapCurrencySelection,
+    onZapUserInput,
+    onZapChangeRecipient,
     onSetZapType,
-    onInputSelect,
-    onOutputSelect,
+    onZapApproval,
   }
 }
 
@@ -128,6 +122,7 @@ const BAD_RECIPIENT_ADDRESSES: string[] = [
   '0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F', // v2 router 02
 ]
 
+// TODO: Should be moved to ZapV2 feature
 // from the current swap inputs, compute the best trade and return it.
 export function useDerivedZapInfo() {
   const {
@@ -167,7 +162,7 @@ export function useDerivedZapInfo() {
   const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2], false, true)
   const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2], false, true)
 
-  const zap = useMemo(
+  const bestMergedZaps = useMemo(
     () =>
       mergeBestZaps(
         bestZapOne?.trade,
@@ -215,11 +210,11 @@ export function useDerivedZapInfo() {
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [
     currencyBalances[Field.INPUT],
-    zap?.currencyIn?.inputAmount ? zap?.currencyIn.inputAmount : null,
+    bestMergedZaps?.currencyIn?.inputAmount ? bestMergedZaps?.currencyIn.inputAmount : null,
   ]
 
   if (balanceIn && amountIn && JSBI.lessThan(balanceIn.quotient, JSBI.BigInt(amountIn))) {
-    inputError = `Insufficient ${zap?.currencyIn.currency?.symbol} balance`
+    inputError = `Insufficient ${bestMergedZaps?.currencyIn.currency?.symbol} balance`
   }
 
   const zapRouteState =
@@ -237,7 +232,7 @@ export function useDerivedZapInfo() {
     zapRouteState,
     currencyBalances,
     parsedAmount,
-    zap,
+    bestMergedZaps,
     inputError,
   }
 }

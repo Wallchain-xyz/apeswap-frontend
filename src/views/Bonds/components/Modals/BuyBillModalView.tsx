@@ -14,7 +14,7 @@ import UserBillModalView from './UserBillModalView'
 import { getFirstNonZeroDigits } from 'utils/roundNumber'
 import { Flex, ListTag, Modal } from 'components/uikit'
 import Buy from 'views/Bonds/actions/Buy'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import { useBills } from 'state/bills/hooks'
 import Image from 'next/image'
@@ -27,7 +27,7 @@ interface BillModalProps {
 
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) => {
   const { t } = useTranslation()
-  const bills: Bills[] | undefined = useBills()
+  const bills: BillsInfoAndConfig[] | undefined = useBills()
   const bill = bills?.find((billToSearch) => billToSearch.index === billIndex)
   const discountEarnTokenPrice =
     bill?.earnTokenPrice &&
@@ -127,7 +127,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
                 <Buy
                   bill={bill}
                   onBillId={onHandleReturnedBillId}
-                  onTransactionSubmited={(trxSent: any) => setLoading(trxSent)}
+                  onTransactionSubmitted={(trxSent: any) => setLoading(trxSent)}
                 />
               )}
             </ActionButtonsContainer>

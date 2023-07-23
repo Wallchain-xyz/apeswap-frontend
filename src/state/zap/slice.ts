@@ -1,10 +1,13 @@
 import { Token } from '@ape.swap/sdk-core'
 import { ZapType } from '@ape.swap/v2-zap-sdk'
-import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, combineReducers, createSelector } from '@reduxjs/toolkit'
 import { Field, ZapStatus } from './actions'
 import { TradeState } from 'state/routing/types'
-import { requestZapQuote } from './thunks'
+import { requestZapQuote, checkZapApproval, executeZapApproval } from './thunks'
 import { zapWidoReducer } from './zap-providers/wido'
+import { ApprovalState } from 'hooks/useApproveCallback'
+import { ethers } from 'ethers'
+import { AppState } from 'state'
 
 export type ZapContractProtocols = 'ZapV2' | 'ZapV3Multicall'
 export type ZapApiProtocols = 'ZapWido'
@@ -12,28 +15,33 @@ export type ZapAllProtocols = ZapContractProtocols | ZapApiProtocols
 
 export interface ZapState {
   readonly zapProtocol: ZapAllProtocols
+  readonly zapStatus: ZapStatus
+  readonly zapError: string | null
+  readonly recipient: string | null
+  readonly approvalState: ApprovalState
   readonly independentField: Field
   readonly typedValue: string
   readonly zapRouteState: TradeState
   readonly zapType: ZapType
   readonly [Field.INPUT]: {
-    readonly currencyId: string | undefined
+    readonly currencyId: 'ETH' | string | null
   }
   readonly [Field.OUTPUT]: {
-    readonly currency1: string | undefined
-    readonly currency2: string | undefined
+    readonly currency1: 'ETH' | string | null
+    readonly currency2: 'ETH' | string | null
   }
-  readonly recipient: string | null
   // TODO: this type is incorrect since it needs to handle chainId as well.
-  readonly zapInputList: { [symbol: string]: Token } | undefined
+  readonly zapInputList: { [symbol: string]: Token } | null
   readonly zapNewOutputList: { currencyIdA: string; currencyIdB: string }[]
-  readonly zapStatus: ZapStatus
-  readonly zapError: string | undefined
 }
 
 const initialState: ZapState = {
-  // NOTE: Starting as ZapV2 for POC
-  zapProtocol: 'ZapV2',
+  // NOTE: Setting to ZapV2 as default
+  zapProtocol: 'ZapV2', // ZapWido
+  zapStatus: ZapStatus.STANDBY,
+  zapError: null,
+  approvalState: ApprovalState.UNKNOWN,
+
   independentField: Field.INPUT,
   zapRouteState: TradeState.INVALID,
   zapType: ZapType.ZAP,
@@ -46,10 +54,8 @@ const initialState: ZapState = {
     currency2: '',
   },
   recipient: null,
-  zapInputList: undefined,
+  zapInputList: null,
   zapNewOutputList: [],
-  zapStatus: ZapStatus.STANDBY,
-  zapError: undefined,
 }
 
 /**
@@ -67,10 +73,14 @@ const zapSlice = createSlice({
   name: 'zap',
   initialState,
   reducers: {
+    setZapApprovalState: (state, action: PayloadAction<ApprovalState>) => {
+      state.approvalState = action.payload
+    },
     setZapProtocol: (state, action: PayloadAction<{ zapProtocol: ZapAllProtocols }>) => {
       if (state.zapProtocol === action.payload.zapProtocol) return
       state.zapProtocol = action.payload.zapProtocol
       state.zapStatus = ZapStatus.STANDBY
+      state.approvalState = ApprovalState.UNKNOWN
     },
     replaceZapState: (
       state,
@@ -84,26 +94,27 @@ const zapSlice = createSlice({
       }>,
     ) => {
       state[Field.INPUT] = {
-        currencyId: action.payload.inputCurrencyId,
+        currencyId: action.payload.inputCurrencyId || null,
       }
       state[Field.OUTPUT] = {
-        currency1: action.payload.outputCurrencyId?.currency1,
-        currency2: action.payload.outputCurrencyId?.currency2,
+        currency1: action.payload.outputCurrencyId?.currency1 || null,
+        currency2: action.payload.outputCurrencyId?.currency2 || null,
       }
       state.independentField = Field.INPUT
       state.zapType = action.payload.zapType
       state.typedValue = action.payload.typedValue
       state.recipient = action.payload.recipient
     },
-    selectInputCurrency: (state, action: PayloadAction<{ currencyId: string }>) => {
+    setInputCurrency: (state, action: PayloadAction<{ currencyId: string }>) => {
       state[Field.INPUT] = { currencyId: action.payload.currencyId }
     },
-    selectOutputCurrency: (state, action: PayloadAction<{ currency1: string; currency2: string }>) => {
+    setOutputCurrency: (state, action: PayloadAction<{ currency1: string; currency2: string }>) => {
       state[Field.OUTPUT] = { currency1: action.payload.currency1, currency2: action.payload.currency2 }
     },
     typeInput: (state, action: PayloadAction<{ field: Field; typedValue: string }>) => {
       state.independentField = Field.INPUT
-      state.typedValue = action.payload.typedValue
+      const typedValue = action.payload.typedValue
+      state.typedValue = typedValue
     },
     setRecipient: (state, action: PayloadAction<{ recipient: string | null }>) => {
       state.recipient = action.payload.recipient
@@ -123,31 +134,108 @@ const zapSlice = createSlice({
     setZapStatus: (state, action: PayloadAction<ZapStatus>) => {
       state.zapStatus = action.payload
     },
-    setZapError: (state, action: PayloadAction<string | undefined>) => {
+    setZapError: (state, action: PayloadAction<string | null>) => {
       state.zapError = action.payload
     },
   },
   extraReducers: (builder) => {
     builder
+      /**
+       * requestZapQuote
+       */
       .addCase(requestZapQuote.pending, (state, action) => {
         // TODO: Handle state
+        state.zapStatus = ZapStatus.LOADING
       })
       .addCase(requestZapQuote.fulfilled, (state, action) => {
-        // TODO: Handle state
+        if (state.approvalState === ApprovalState.APPROVED) {
+          state.zapStatus = ZapStatus.VALID
+        } else {
+          state.zapStatus = ZapStatus.STANDBY
+        }
       })
       .addCase(requestZapQuote.rejected, (state, action) => {
-        // TODO: Handle state
+        state.zapStatus = ZapStatus.INVALID
+        // TODO: Error handling?
+      })
+      /**
+       * executeZapApproval
+       */
+      .addCase(executeZapApproval.pending, (state, action) => {
+        state.zapStatus = ZapStatus.LOADING
+      })
+      .addCase(executeZapApproval.fulfilled, (state, action) => {
+        if(!action.payload) {
+          state.approvalState = ApprovalState.UNKNOWN
+        } else {
+          state.approvalState = ApprovalState.APPROVED
+        }
+        state.zapStatus = ZapStatus.STANDBY
+      })
+      .addCase(executeZapApproval.rejected, (state, action) => {
+        state.approvalState = ApprovalState.UNKNOWN
+        state.zapStatus = ZapStatus.INVALID
+        // TODO: Error handling?
+      })
+      /**
+       * checkZapApproval
+       */
+      .addCase(checkZapApproval.pending, (state, action) => {
+        state.approvalState = ApprovalState.UNKNOWN
+        state.zapStatus = ZapStatus.LOADING
+      })
+      .addCase(checkZapApproval.fulfilled, (state, action) => {
+        state.approvalState = action.payload
+        state.zapStatus = ZapStatus.STANDBY
+      })
+      .addCase(checkZapApproval.rejected, (state, action) => {
+        state.approvalState = ApprovalState.UNKNOWN
+        state.zapStatus = ZapStatus.INVALID
+        // TODO: Error handling?
       })
   },
 })
 
+
+const selectRawInputCurrency = (state: AppState) => state.zap[Field.INPUT]
+export const selectInputCurrencyAddress = createSelector([selectRawInputCurrency], (inputCurrency) => {
+  if (isNativeCurrencyId(inputCurrency.currencyId)) {
+    return '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+  }
+  return inputCurrency.currencyId
+})
+
+const selectRawTypedInput = (state: AppState) => state.zap.typedValue;
+export const selectTokenInputAmount = createSelector(
+  [selectRawTypedInput],
+  (typedInput) => {
+    if (!typedInput) return null;
+    // Remove commas and spaces from the input
+    const cleanedInput = typedInput.replace(/,/g, '').trim();
+    // TODO: Need to dynamically pull in the token decimals
+    const tokenDecimals = 18;
+    // Convert the input to a BigNumber with the appropriate number of decimals
+    const value = ethers.utils.parseUnits(cleanedInput, tokenDecimals);
+
+    return value;
+  }
+);
+
+export const selectInputTokenDetails = createSelector(
+  [selectInputCurrencyAddress, selectTokenInputAmount],
+  (inputCurrencyAddress, tokenInputAmount) => {
+    return { inputCurrencyAddress, tokenInputAmount };
+  }
+);
+
 export const zapActions = zapSlice.actions
 
 export const {
+  setZapApprovalState,
   setZapProtocol,
   replaceZapState,
-  selectInputCurrency,
-  selectOutputCurrency,
+  setInputCurrency,
+  setOutputCurrency,
   typeInput,
   setRecipient,
   setZapType,
@@ -162,3 +250,14 @@ export const zapProtocolReducers = combineReducers({
 })
 
 export default zapSlice.reducer
+
+
+// NOTE: Wido Zap helper
+export function isNativeCurrencyId(currencyId: string | null): boolean {
+  if(!currencyId) return false
+  currencyId = currencyId.toUpperCase()
+  if (currencyId == '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'.toUpperCase() || currencyId === "ETH") {
+    return true
+  }
+  return false
+}

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import BillModal from '../../Modals'
 import { useTranslation } from 'contexts/Localization'
 import EmptyListComponent, { EmptyComponentType } from '../../EmptyListComponent/EmptyList'
-import { Bills } from '../../../types'
+import { BillsInfoAndConfig } from '../../../types'
 import DiscountContent from './DiscountContent'
 import useIsMobile from 'hooks/useIsMobile'
 import { BLOCK_EXPLORER } from 'config/constants/chains'
@@ -19,7 +19,7 @@ import { formatNumberSI } from 'utils/formatNumber'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 
 interface BillsRowsProps {
-  billsToRender: Bills[]
+  billsToRender: BillsInfoAndConfig[]
   noResults: boolean
 }
 

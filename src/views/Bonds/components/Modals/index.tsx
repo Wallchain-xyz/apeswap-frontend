@@ -2,7 +2,7 @@ import React from 'react'
 import UserBillModalView from './UserBillModalView'
 import WarningModal from './WarningModal'
 import useModal from 'hooks/useModal'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 import BuyBillModalView from './BuyBillModalView'
 import { Button, Flex } from 'components/uikit'
 import Image from 'next/image'
@@ -11,7 +11,7 @@ import ReflectModal from './ReflectModal'
 const REFLECT_BONDS = ['NOOT']
 
 interface BillModalProps {
-  bill: Bills
+  bill: BillsInfoAndConfig
   buttonText?: string
   id?: number
   billId?: string

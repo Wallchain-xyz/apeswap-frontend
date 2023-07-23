@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { Flex } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 import { useBills } from 'state/bills/hooks'
 import { useSetZapOutputList } from 'state/zap/hooks'
 
@@ -24,7 +24,7 @@ const BillsListView: React.FC = () => {
   const noResults = !!query || filterOption !== 'filter' || showOnlyDiscount
 
   const isSoldOut = useCallback(
-    (bill: Bills) => {
+    (bill: BillsInfoAndConfig) => {
       const { earnToken, maxTotalPayOut, totalPayoutGiven, earnTokenPrice, discount } = bill
       if (!maxTotalPayOut || !maxTotalPayOut || !earnTokenPrice) return false
       const available = new BigNumber(maxTotalPayOut ?? '0')
@@ -36,20 +36,20 @@ const BillsListView: React.FC = () => {
     [chainId],
   )
 
-  const hasDiscount = useCallback((bill: Bills) => {
+  const hasDiscount = useCallback((bill: BillsInfoAndConfig) => {
     const { discount } = bill
     return new BigNumber(discount ?? '0').gt(0)
   }, [])
 
   const sortBills = useCallback(
-    (billsToSort: Bills[]) => {
+    (billsToSort: BillsInfoAndConfig[]) => {
       switch (sortOption) {
         case 'discount':
-          return orderBy(billsToSort, (bill: Bills) => parseFloat(bill?.discount ?? '0'), 'desc')
+          return orderBy(billsToSort, (bill: BillsInfoAndConfig) => parseFloat(bill?.discount ?? '0'), 'desc')
         case 'vesting':
-          return orderBy(billsToSort, (bill: Bills) => parseFloat(bill?.vestingTime ?? '0'), 'asc')
+          return orderBy(billsToSort, (bill: BillsInfoAndConfig) => parseFloat(bill?.vestingTime ?? '0'), 'asc')
         case 'new':
-          return orderBy(billsToSort, (bill: Bills) => bill.index, 'desc')
+          return orderBy(billsToSort, (bill: BillsInfoAndConfig) => bill.index, 'desc')
         default:
           return billsToSort
       }
@@ -57,9 +57,9 @@ const BillsListView: React.FC = () => {
     [sortOption],
   )
 
-  const billsToRender = useMemo((): Bills[] => {
-    let billsToReturn: Bills[] = []
-    bills?.forEach((bill: Bills) => {
+  const billsToRender = useMemo((): BillsInfoAndConfig[] => {
+    let billsToReturn: BillsInfoAndConfig[] = []
+    bills?.forEach((bill: BillsInfoAndConfig) => {
       if (bill.inactive) return
       const disabled = isSoldOut(bill)
       const discount = hasDiscount(bill)

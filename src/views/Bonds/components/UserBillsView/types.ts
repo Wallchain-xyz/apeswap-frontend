@@ -1,5 +1,5 @@
 import { TranslateFunction } from 'contexts/Localization'
-import { Bills, UserBill, UserBillNft } from 'views/Bonds/types'
+import { BillsInfoAndConfig, UserBill, UserBillNft } from 'views/Bonds/types'
 
 export interface PLProps {
   website: string
@@ -10,7 +10,7 @@ export interface PLProps {
 
 export interface BillsToRender extends UserBill {
   filteredOwnedBillNftData: UserBillNft
-  bill: Bills
+  bill: BillsInfoAndConfig
 }
 
 export type Option = {

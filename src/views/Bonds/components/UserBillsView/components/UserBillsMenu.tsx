@@ -9,7 +9,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 import { CheckBox, Flex, Input, Svg, Text, Toggle } from 'components/uikit'
 import MenuSelect from 'components/ListView/ListViewMenu/MenuSelect'
 import ClaimAll from 'views/Bonds/actions/ClaimAll'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 
 export interface UserBillsMenuProps {
   onHandleQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -19,7 +19,7 @@ export interface UserBillsMenuProps {
   sortOption?: string
   query: string
   harvestAll?: React.ReactNode
-  bills?: Bills[]
+  bills?: BillsInfoAndConfig[]
   showClaimed: boolean
   setShowClaimed: (value: boolean) => void
   listView: boolean
@@ -44,7 +44,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
   const { isLg, isXl, isXxl } = useMatchBreakpoints()
   const isMobile = !isLg && !isXl && !isXxl
   const [expanded, setExpended] = useState(false)
-  const userOwnedBills: Bills[] = bills ? bills?.filter((bill) => (bill?.userOwnedBillsData?.length ?? 0) > 0) : []
+  const userOwnedBills: BillsInfoAndConfig[] = bills ? bills?.filter((bill) => (bill?.userOwnedBillsData?.length ?? 0) > 0) : []
   const ownedBillsAmount = bills
     ?.flatMap((bill) => (bill?.userOwnedBillsData ? bill.userOwnedBillsData : []))
     .filter((b) => parseFloat(b.pendingRewards) > 0).length

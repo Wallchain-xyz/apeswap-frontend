@@ -2,7 +2,7 @@ import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import VestedTimer from '../VestedTimer'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 import { CheckBox, Flex, Input, Modal, Text } from 'components/uikit'
 import Transfer from 'views/Bonds/actions/Transfer'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
@@ -11,7 +11,7 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 
 interface TransferBillModalProps {
   onDismiss?: () => void
-  bill: Bills
+  bill: BillsInfoAndConfig
   billId: string
   chainId?: SupportedChainId
 }

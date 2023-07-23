@@ -10,7 +10,7 @@ import { getNewBillNftData } from './getBillNftData'
 import { BillsConfig, bills } from '@ape.swap/apeswap-lists'
 import { MAINNET_CHAINS } from 'config/constants/chains'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { Bills } from 'views/Bonds/types'
+import { BillsInfoAndConfig } from 'views/Bonds/types'
 import { TokenPrices } from 'hooks/useAllTokenPrices'
 import { AppState, AppThunk } from 'state'
 
@@ -23,7 +23,7 @@ const filterByChainId = (chainId: SupportedChainId) => {
   )
 }
 
-type BillsRecords = Partial<Record<SupportedChainId, Bills[]>>
+type BillsRecords = Partial<Record<SupportedChainId, BillsInfoAndConfig[]>>
 
 export interface BillsState {
   data: BillsRecords
@@ -42,7 +42,7 @@ export const billsSlice = createSlice({
   name: 'Bills',
   initialState,
   reducers: {
-    setBillsPublicData: (state, action: PayloadAction<{ value: Bills[], chainId: SupportedChainId }>) => {
+    setBillsPublicData: (state, action: PayloadAction<{ value: BillsInfoAndConfig[], chainId: SupportedChainId }>) => {
       const { value: liveBillsData, chainId } = action.payload
       state.data[chainId] = (state.data[chainId] || []).map((bill) => {
         const liveBillData = liveBillsData.find((entry: any) => entry.index === bill.index)
@@ -79,7 +79,7 @@ export const billsSlice = createSlice({
       const i = billState.findIndex((bill) => bill.index === index)
       if(i === -1) return;
       // state.data[chainId][i] = {
-      (state.data[chainId] as Bills[])[i] = {
+      (state.data[chainId] as BillsInfoAndConfig[])[i] = {
         ...billState[i],
         // @ts-ignore // TODO: fix types 
         userData: { ...billState[i].userData, [field]: value },
@@ -91,7 +91,7 @@ export const billsSlice = createSlice({
       const i = billState.findIndex((bill: any) => bill.index === index)
       if(i === -1) return;
       // @ts-ignore // TODO: fix types 
-      (state.data[chainId] as Bills[])[i] = {
+      (state.data[chainId] as BillsInfoAndConfig[])[i] = {
         ...billState,
         userOwnedBillsNftData: { ...billState[i].userOwnedBillsNftData, ...value },
       }
@@ -126,7 +126,7 @@ export const fetchBillsPublicDataAsync =
       const bills = selectBillsByChainId(getState(), chainId)
       const returnedBills = await fetchBills(chainId, tokenPrices, bills)
       // NOTE: Setting returnedBills as Bills[], but types could be different
-      dispatch(setBillsPublicData({ value: returnedBills as Bills[], chainId }))
+      dispatch(setBillsPublicData({ value: returnedBills as BillsInfoAndConfig[], chainId }))
     } catch (error) {
       console.warn(error)
     }
@@ -160,10 +160,10 @@ export const fetchUserOwnedBillsDataAsync =
       const bills = selectBillsByChainId(getState(), chainId)
       // Fetch and set user owned bill data without NFT Data
       const userOwnedBills = await fetchUserOwnedBills(chainId, account, bills)
-      const mapUserOwnedBills = bills.map((bill: Bills) =>
+      const mapUserOwnedBills = bills.map((bill: BillsInfoAndConfig) =>
         userOwnedBills.filter((b) => b.address === bill.contractAddress[chainId]),
       )
-      const userOwnedBillsData = bills.map((bill: Bills, i: number) => ({
+      const userOwnedBillsData = bills.map((bill: BillsInfoAndConfig, i: number) => ({
         index: bill.index,
         userOwnedBills: mapUserOwnedBills[i],
       }))

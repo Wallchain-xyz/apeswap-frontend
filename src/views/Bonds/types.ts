@@ -21,7 +21,7 @@ export interface UserBill {
   nftData?: UserBillNft
 }
 
-export interface Bills extends BillsConfig {
+export interface BillsInfoAndConfig extends BillsConfig {
   price?: string
   priceUsd?: string
   vestingTime?: string
@@ -38,7 +38,7 @@ export interface Bills extends BillsConfig {
   maxPayout?: string
   maxDebt?: string
   lpPriceUsd?: number
-  earnTokenPrice?: number
+  earnTokenPrice?: number // payoutToken in contract
   billNftAddress?: string
   userData?: {
     allowance: string
