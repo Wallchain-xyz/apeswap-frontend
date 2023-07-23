@@ -15,9 +15,9 @@ export const useHandleCurrencyASelect = ({
     (currencyA: Currency) => {
       const newCurrencyIdA = currencyId(currencyA)
       if (newCurrencyIdA === currencyIdB) {
-        push(`/add-liquidity/v2/${currencyIdB}/${currencyIdA}`)
+        push(`/add-liquidity/${currencyIdB}/${currencyIdA}`)
       } else {
-        push(`/add-liquidity/v2/${newCurrencyIdA}/${currencyIdB}`)
+        push(`/add-liquidity/${newCurrencyIdA}/${currencyIdB}`)
       }
     },
     [currencyIdB, currencyIdA, push],
