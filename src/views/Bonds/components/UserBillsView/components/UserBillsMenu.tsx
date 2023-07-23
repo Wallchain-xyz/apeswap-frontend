@@ -41,8 +41,7 @@ const UserBillsMenu: React.FC<UserBillsMenuProps> = ({
 }) => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
-  const { isLg, isXl, isXxl } = useMatchBreakpoints()
-  const isMobile = !isLg && !isXl && !isXxl
+  const { isMobile } = useMatchBreakpoints()
   const [expanded, setExpended] = useState(false)
   const userOwnedBills: Bills[] = bills ? bills?.filter((bill) => (bill?.userOwnedBillsData?.length ?? 0) > 0) : []
   const ownedBillsAmount = bills
