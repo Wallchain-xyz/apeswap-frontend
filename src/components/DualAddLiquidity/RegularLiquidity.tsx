@@ -15,6 +15,7 @@ import { Flex, Text } from 'components/uikit'
 import DexPanel from 'components/DexPanel'
 import ModalProvider from '../../contexts/ModalContext'
 import { Pair } from '@ape.swap/v2-sdk'
+import { Pricing } from '../DexPanel/types'
 
 interface RegularLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut?: Pair) => void
@@ -105,6 +106,7 @@ const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ handleConfirmedTx }
               onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
             }}
             showCommonBases
+            pricing={Pricing.PRICEGETTER}
           />
         </Flex>
         <AddLiquiditySign />
@@ -120,6 +122,7 @@ const RegularLiquidity: React.FC<RegularLiquidityProps> = ({ handleConfirmedTx }
             onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
           }}
           showCommonBases
+          pricing={Pricing.PRICEGETTER}
         />
         <PoolInfo
           currencies={currencies}

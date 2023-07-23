@@ -6,7 +6,7 @@ export interface DexPanelProps {
   otherCurrency?: Currency | null
   panelText?: string
   onCurrencySelect: (currency: Currency) => void
-  onUserInput: (input: string) => void
+  onUserInput?: (input: string) => void
   handleMaxInput?: (field: any) => void
   setTradeValueUsd?: (val: number) => void
   fieldType?: any
@@ -18,5 +18,11 @@ export interface DexPanelProps {
   isZapInput?: boolean
   userBalance?: number
   locked?: boolean
-  apiPricing?: string
+  pricing: Pricing
+  apiPrice?: string
+}
+
+export enum Pricing {
+  LIFI = 0,
+  PRICEGETTER = 1,
 }

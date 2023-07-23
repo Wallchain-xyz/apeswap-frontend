@@ -37,12 +37,12 @@ export const useHandleCurrencyBSelect = ({
       const newCurrencyIdB = currencyId(currencyB)
       if (currencyIdA === newCurrencyIdB) {
         if (currencyIdB) {
-          push(`/add-liquidity/v2/?currencyIdB=${currencyIdB}/${newCurrencyIdB}`)
+          push(`/add-liquidity/?currencyIdB=${currencyIdB}/${newCurrencyIdB}`)
         } else {
-          push(`/add-liquidity/v2/${newCurrencyIdB}`)
+          push(`/add-liquidity/${newCurrencyIdB}`)
         }
       } else {
-        push(`/add-liquidity/v2/${currencyIdA ? currencyIdA : 'ETH'}/${newCurrencyIdB}`)
+        push(`/add-liquidity/${currencyIdA ? currencyIdA : 'ETH'}/${newCurrencyIdB}`)
       }
     },
     [currencyIdB, currencyIdA, push],

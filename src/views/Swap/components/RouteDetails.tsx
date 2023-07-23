@@ -17,9 +17,9 @@ const RouteDetails = ({ route, fee }: { route: Route, fee: number }) => {
       expectedOutputAmount: toPrecisionAvoidExponential(getBNWithDecimals(route?.toAmount, route?.toToken?.decimals) ?? new BigNumber(0)),
       expectedOutputMin: toPrecisionAvoidExponential(getBNWithDecimals(route?.toAmountMin, route?.toToken?.decimals) ?? new BigNumber(0)),
       priceImpact: ((parseFloat(route?.fromAmountUSD) - (parseFloat(route?.toAmountUSD) * (fee + 1))) * 100) / parseFloat(route?.fromAmountUSD),
-      routingFee: getBNWithDecimals(route?.fromAmount, route.fromToken.decimals)?.times(fee),
+      routingFee: getBNWithDecimals(route?.fromAmount, route?.fromToken?.decimals)?.times(fee),
     }
-  }, [fee, route?.fromAmount, route?.fromAmountUSD, route.fromToken.decimals, route?.toAmount, route?.toAmountMin, route?.toAmountUSD, route?.toToken?.decimals])
+  }, [fee, route?.fromAmount, route?.fromAmountUSD, route?.fromToken?.decimals, route?.toAmount, route?.toAmountMin, route?.toAmountUSD, route?.toToken?.decimals])
 
   const priceImpactColor = useMemo(() => {
     if (!priceImpact) return 'success'
@@ -28,8 +28,6 @@ const RouteDetails = ({ route, fee }: { route: Route, fee: number }) => {
     if (priceImpact === 100) return 'text'
     return 'error'
   }, [priceImpact])
-
-  console.log(priceImpact)
 
   const priceImpactString = isFinite(priceImpact) && priceImpact !== 100 ? priceImpact && priceImpact > 0 ? `${priceImpact.toFixed(2)} %` : '< 0.001%' : '-'
 

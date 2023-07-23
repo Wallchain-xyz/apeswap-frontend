@@ -18,6 +18,7 @@ import { getBNWithDecimals } from '../../utils/getBalanceNumber'
 import RouteDetails from './components/RouteDetails'
 import { toPrecisionAvoidExponential } from './utils'
 import JSBI from 'jsbi'
+import { Pricing } from '../../components/DexPanel/types'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -104,7 +105,8 @@ const Swap = () => {
         value={typedValue}
         currency={currencies[Field.INPUT]}
         otherCurrency={currencies[Field.OUTPUT]}
-        apiPricing={selectedRoute?.fromAmountUSD}
+        pricing={Pricing.LIFI}
+        apiPrice={selectedRoute?.fromAmountUSD}
       />
       <Flex
         sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}>
@@ -114,12 +116,12 @@ const Swap = () => {
       <DexPanel
         panelText='To'
         onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}
-        onUserInput={(val) => onUserInput(Field.OUTPUT, val)}
         value={parsedOutput}
         currency={currencies[Field.OUTPUT]}
         otherCurrency={currencies[Field.INPUT]}
         disabled
-        apiPricing={selectedRoute?.toAmountUSD}
+        pricing={Pricing.LIFI}
+        apiPrice={selectedRoute?.toAmountUSD}
       />
       {!showWrap && routeIsLoading ? (
         <LoadingBestRoute />

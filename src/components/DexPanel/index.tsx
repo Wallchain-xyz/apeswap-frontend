@@ -2,7 +2,7 @@ import { useTranslation } from 'contexts/Localization'
 import { Spinner } from 'theme-ui'
 import React from 'react'
 import styles from './styles'
-import { DexPanelProps } from './types'
+import { DexPanelProps, Pricing } from './types'
 import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
@@ -25,7 +25,8 @@ const DexPanel = ({
                     userBalance,
                     locked,
                     isZapInput,
-                    apiPricing,
+                    pricing,
+                    apiPrice,
                   }: DexPanelProps) => {
   const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -74,7 +75,7 @@ const DexPanel = ({
             value && (
               <>
                 {
-                  isZapInput ? (
+                  pricing === Pricing.PRICEGETTER ? (
                     <>
                       {loadingUsdValue ? (
                         <Spinner width="15px" height="15px" />
@@ -86,12 +87,11 @@ const DexPanel = ({
                     </>
                   ) :
                     <>
-
-                      {!apiPricing ? (
+                      {!apiPrice ? (
                         <Spinner width='15px' height='15px' />
                       ) : (
                         <Text size='12px' sx={styles.panelBottomText}>
-                          {value !== '.' && value && `$${apiPricing}`}
+                          {value !== '.' && value && `$${apiPrice}`}
                         </Text>
                       )}
                     </>
