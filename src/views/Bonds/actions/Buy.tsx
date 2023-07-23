@@ -33,6 +33,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
     token,
     quoteToken,
+    lpToken,
     contractAddress,
     price,
     lpPrice,
@@ -52,7 +53,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     typedValue,
     lpPrice ?? 0,
     price ?? '',
-    quoteToken?.decimals?.[chainId as SupportedChainId],
+    lpToken?.decimals?.[chainId as SupportedChainId],
   )
   const dispatch = useAppDispatch()
   const [pendingTrx, setPendingTrx] = useState(false)
