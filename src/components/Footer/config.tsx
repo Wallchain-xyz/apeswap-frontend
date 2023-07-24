@@ -33,15 +33,15 @@ export const ENGAGE_LINKS: { label: string; href: string }[] = [
     href: 'https://apeswap.gitbook.io/apeswap-finance/where-dev/security/bug-bounty-program',
   },
   {
-    label: 'Developer Grants',
-    href: 'https://github.com/ApeSwapFinance/apeswap-frontend/issues',
+    label: 'Merch',
+    href: 'https://apeswap-unofficial.creator-spring.com/',
   },
 ]
 
 export const ACCESS_LINKS: { label: string; href: string }[] = [
   {
-    label: 'Telos',
-    href: 'https://legacy.apeswap.finance/?chain=40',
+    label: 'Docs',
+    href: 'https://apeswap.gitbook.io/apeswap-finance/welcome/master',
   },
   {
     label: 'Maximizers',

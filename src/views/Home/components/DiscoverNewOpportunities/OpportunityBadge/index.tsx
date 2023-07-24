@@ -16,8 +16,8 @@ const styles: Record<BadgeType, any> = {
     icon: '/images/discover-new-opportunities/dollar-circle-gray.svg',
   },
   new: {
-    bg: 'rgba(243, 186, 47, 0.30)',
-    textColor: 'yellow',
+    bg: 'rgba(243, 186, 47, 0.20)',
+    textColor: '#cc7722',
     icon: '/images/discover-new-opportunities/star-yellow.svg',
   },
 }

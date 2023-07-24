@@ -240,15 +240,14 @@ export function useERC20Permit(
 }
 
 export function useERC20PermitFromTrade(
-  trade: Trade<Currency, Currency, TradeType> | undefined,
-  allowedSlippage: Percent,
+  inputCurrencyAmount: CurrencyAmount<Currency> | undefined,
   transactionDeadline: BigNumber | undefined,
 ) {
   const { chainId } = useWeb3React()
   const swapRouterAddress = chainId ? SWAP_ROUTER_ADDRESSES[chainId] : undefined
   const amountToApprove = useMemo(
-    () => (trade ? trade.maximumAmountIn(allowedSlippage) : undefined),
-    [trade, allowedSlippage],
+    () => (inputCurrencyAmount?.currency.isToken ? inputCurrencyAmount : undefined),
+    [inputCurrencyAmount],
   )
 
   return useERC20Permit(amountToApprove, swapRouterAddress, transactionDeadline, null)

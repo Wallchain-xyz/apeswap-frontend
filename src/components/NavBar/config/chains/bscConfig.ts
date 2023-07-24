@@ -7,11 +7,11 @@ const bscConfig: NavConfig[] = [
     items: [
       {
         label: 'Swap',
-        href: 'https://dex.apeswap.finance/swap',
+        href: '/swap',
       },
       {
         label: 'Liquidity',
-        href: 'https://dex.apeswap.finance/zap',
+        href: '/zap',
       },
       {
         label: 'Pro Trading',
@@ -41,10 +41,6 @@ const bscConfig: NavConfig[] = [
       {
         label: 'Farms',
         href: `/farms`,
-      },
-      {
-        label: 'Maximizers',
-        href: `${TEMP_APESWAP_URL}/maximizers`,
       },
     ],
   },

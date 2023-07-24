@@ -12,65 +12,28 @@ enum SlippageError {
 enum DeadlineError {
   InvalidInput = 'InvalidInput',
 }
+
 const TransactionDetails = ({ isZap }: { isZap?: boolean }) => {
   const [userSlippageTolerance, setUserSlippageTolerance] = useUserSlippageTolerance()
-
-  const [deadline, setDeadline] = useUserTransactionTTL()
-
-  const [slippageInput, setSlippageInput] = useState('')
-  const [slippageError, setSlippageError] = useState<SlippageError | false>(false)
-
-  const [deadlineInput, setDeadlineInput] = useState('')
-  const [deadlineError, setDeadlineError] = useState<DeadlineError | false>(false)
+  const percentToString = typeof userSlippageTolerance !== 'string' ? userSlippageTolerance.toFixed(2) : ''
+  const [slippageInput, setSlippageInput] = useState(percentToString)
 
   function parseSlippageInput(value: string) {
-    // populate what the user typed and clear the error
     setSlippageInput(value)
-    setSlippageError(false)
-
-    if (value.length === 0) {
-      setUserSlippageTolerance('auto')
+    if (value === '') return
+    const replacedComma = value.replace(/,/g, ".")
+    const parsed = Math.floor(Number.parseFloat(replacedComma) * 100)
+    if (parsed === 0) {
+      setUserSlippageTolerance(new Percent(50, 10_000))
     } else {
-      const parsed = Math.floor(Number.parseFloat(value) * 100)
-
-      if (!Number.isInteger(parsed) || parsed < 0 || parsed > 5000) {
-        setUserSlippageTolerance('auto')
-        if (value !== '.') {
-          setSlippageError(SlippageError.InvalidInput)
-        }
-      } else {
-        setUserSlippageTolerance(new Percent(parsed, 10_000))
-      }
-    }
-  }
-
-  function parseCustomDeadline(value: string) {
-    // populate what the user typed and clear the error
-    setDeadlineInput(value)
-    setDeadlineError(false)
-
-    if (value.length === 0) {
-      setDeadline(DEFAULT_DEADLINE_FROM_NOW)
-    } else {
-      try {
-        const parsed: number = Math.floor(Number.parseFloat(value) * 60)
-        // Three days in seconds
-        if (!Number.isInteger(parsed) || parsed < 60 || parsed > 259200) {
-          setDeadlineError(DeadlineError.InvalidInput)
-        } else {
-          setDeadline(parsed)
-        }
-      } catch (error) {
-        console.error(error)
-        setDeadlineError(DeadlineError.InvalidInput)
-      }
+      setUserSlippageTolerance(new Percent(parsed, 10_000))
     }
   }
 
   return (
     <Flex sx={{ width: '100%', flexDirection: 'column' }}>
       <Flex sx={{ flexDirection: 'column', mb: '10px' }}>
-        <Text size="18px" margin="10px 0px">
+        <Text size='18px' margin='10px 0px'>
           Slippage Tolerance
         </Text>
         <Flex sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -138,19 +101,8 @@ const TransactionDetails = ({ isZap }: { isZap?: boolean }) => {
                 border: '0px',
                 ':focus': { outline: 'none' },
               }}
-              value={
-                slippageInput.length > 0
-                  ? slippageInput
-                  : userSlippageTolerance === 'auto'
-                  ? ''
-                  : userSlippageTolerance.toFixed(2)
-              }
+              value={slippageInput}
               onChange={(e: any) => parseSlippageInput(e.target.value)}
-              onBlur={() => {
-                setSlippageInput('')
-                setSlippageError(false)
-              }}
-              color={slippageError ? 'error' : ''}
             />
             <Flex
               sx={{ position: 'absolute', right: 5, justifyContent: 'center', alignItems: 'center', height: '100%' }}
@@ -158,35 +110,6 @@ const TransactionDetails = ({ isZap }: { isZap?: boolean }) => {
               <Text weight={700}>%</Text>
             </Flex>
           </Flex>
-        </Flex>
-      </Flex>
-      <Flex>
-        <Flex sx={{ justifyContent: 'space-between', alignItems: 'center', width: '100%', margin: '5px 0px' }}>
-          <Text> tx deadline (mins) </Text>
-          <Input
-            sx={{
-              fontWeight: 700,
-              width: '45%',
-              height: '30px',
-              background: 'white3',
-              border: '0px',
-              ':focus': { outline: 'none' },
-            }}
-            placeholder={(DEFAULT_DEADLINE_FROM_NOW / 60).toString()}
-            value={
-              deadlineInput.length > 0
-                ? deadlineInput
-                : deadline === DEFAULT_DEADLINE_FROM_NOW
-                ? ''
-                : (deadline / 60).toString()
-            }
-            onChange={(e: any) => parseCustomDeadline(e.target.value)}
-            onBlur={() => {
-              setDeadlineInput('')
-              setDeadlineError(false)
-            }}
-            color={deadlineError ? 'error' : ''}
-          />
         </Flex>
       </Flex>
     </Flex>

@@ -27,6 +27,23 @@ export function useTransactionAdder(): (response: TransactionResponse, info: Tra
   )
 }
 
+export function useAddTxFromHash(): (hash?: string, info?: TransactionInfo) => void {
+  const { chainId, account } = useWeb3React()
+  const dispatch = useAppDispatch()
+
+  return useCallback(
+    (hash?: string, info?: TransactionInfo) => {
+      if (!account) return
+      if (!chainId) return
+      if (!hash) {
+        throw Error('No transaction hash found.')
+      }
+      dispatch(addTransaction({ hash, from: account, info, chainId }))
+    },
+    [account, chainId, dispatch]
+  )
+}
+
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
   const { chainId } = useWeb3React()

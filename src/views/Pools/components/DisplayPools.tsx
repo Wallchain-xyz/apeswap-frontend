@@ -36,7 +36,7 @@ const DisplayPools: React.FC<{ pools: Pool[]; openId?: number; poolTags: Tag[] |
     const liquidityUrl = !pool?.lpStaking
       ? pool?.stakingToken?.symbol === 'GNANA'
         ? 'https://apeswap.finance/gnana'
-        : `https://dex.apeswap.finance/swap?outputCurrency=${
+        : `/swap?outputCurrency=${
             pool?.stakingToken?.address?.[chainId as SupportedChainId]
           }`
       : `${BASE_ADD_LIQUIDITY_URL}/${pool?.lpTokens?.token?.address?.[chainId as SupportedChainId]}/${

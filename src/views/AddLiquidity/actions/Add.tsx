@@ -4,9 +4,9 @@ import type { TransactionResponse } from '@ethersproject/providers'
 import { useCallback, useState } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
 import { Percent } from '@ape.swap/sdk-core'
-import { NonfungiblePositionManager, Position } from '@ape.swap/v3-sdk'
+import { NonfungiblePositionManager } from '@ape.swap/v3-sdk'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
-import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import { ZERO_PERCENT } from 'config/constants/misc'
 import { AddInterface } from './types'
 import { Button } from 'components/uikit'
@@ -35,7 +35,6 @@ const Add = ({
   const [txHash, setTxHash] = useState<string>('')
   const deadline = useTransactionDeadline()
   const addTransaction = useTransactionAdder()
-  const isExpertMode = useIsExpertMode()
 
   const { chainId, provider, account } = useWeb3React()
   const allowedSlippage = useUserSlippageToleranceWithDefault(
@@ -177,8 +176,8 @@ const Add = ({
   )
 
   return (
-    <Button fullWidth onClick={isExpertMode ? onAdd : onConfirm}>
-      {isExpertMode ? 'Add' : 'Preview'}
+    <Button fullWidth onClick={onConfirm}>
+      {'Preview'}
     </Button>
   )
 }

@@ -23,6 +23,7 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import SwapSwitchButton from 'views/Swap/components/SwapSwitchButton'
 import { useFlipV3LayoutManager } from 'state/user/hooks'
+import { Pricing } from '../../components/DexPanel/types'
 
 const AddLiquidity = ({
   currencyIdA,
@@ -188,6 +189,7 @@ const AddLiquidity = ({
             onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
           }}
           locked={depositADisabled}
+          pricing={Pricing.PRICEGETTER}
         />
         <SwapSwitchButton
           onClick={() => {
@@ -213,6 +215,7 @@ const AddLiquidity = ({
             onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')
           }}
           locked={depositBDisabled}
+          pricing={Pricing.PRICEGETTER}
         />
         <Actions
           parsedAmounts={parsedAmounts}

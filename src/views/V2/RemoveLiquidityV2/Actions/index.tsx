@@ -7,7 +7,7 @@ import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Field } from 'state/burn/v2/actions'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import { useIsExpertMode, useUserSlippageToleranceWithDefault } from 'state/user/hooks'
+import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 import RemoveLiquidityModal from '../components/RemoveLiquidityModal'
 import { styles } from './styles'
 import { RemoveLiquidityActionProps } from './types'
@@ -60,9 +60,6 @@ const RemoveLiquidityActions: React.FC<RemoveLiquidityActionProps> = ({ pair, er
 
   // Custom from users settings
   const deadline = useTransactionDeadline()
-
-  // Check if user has expert mode set
-  const expertMode = useIsExpertMode()
 
   // tx sending
   const addTransaction = useTransactionAdder()
@@ -259,13 +256,7 @@ const RemoveLiquidityActions: React.FC<RemoveLiquidityActionProps> = ({ pair, er
     return (
       <Button
         fullWidth
-        onClick={() => {
-          if (expertMode) {
-            onRemove()
-          } else {
-            onPresentAddLiquidityModal()
-          }
-        }}
+        onClick={() => onPresentAddLiquidityModal()}
       >
         {t('Remove Liquidity')}
       </Button>
