@@ -6,7 +6,6 @@ import { Flex, Skeleton, Text } from 'components/uikit'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
-import useIsMobile from 'hooks/useIsMobile'
 
 // Utils
 import { formatDollar } from 'utils/formatNumbers'
@@ -26,7 +25,6 @@ const BondStatsCard = ({
   isLoading: boolean
 }) => {
   const { t } = useTranslation()
-  const isMobile = useIsMobile()
 
   const renderCountUp = (): JSX.Element => {
     if (isLoading) {

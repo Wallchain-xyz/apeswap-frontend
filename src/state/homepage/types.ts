@@ -124,3 +124,58 @@ interface TokenData {
   price?: number
   tvl?: number
 }
+
+interface PhotoFormat {
+  ext: string
+  url: string
+  hash: string
+  mime: string
+  name: string
+  path: null | string
+  size: number
+  width: number
+  height: number
+  provider_metadata: {
+    public_id: string
+    resource_type: string
+  }
+}
+
+interface Photo {
+  id: number
+  name: string
+  alternativeText: string
+  caption: string
+  width: number
+  height: number
+  formats: {
+    large: PhotoFormat
+    small: PhotoFormat
+    medium: PhotoFormat
+    thumbnail: PhotoFormat
+  }
+  hash: string
+  ext: string
+  mime: string
+  size: number
+  url: string
+  previewUrl: null | string
+  provider: string
+  provider_metadata: {
+    public_id: string
+    resource_type: string
+  }
+  created_at: string
+  updated_at: string
+}
+
+export interface LiveAndUpcoming {
+  id: number
+  time: string
+  tag: string
+  link: string
+  published_at: string
+  created_at: string
+  updated_at: string
+  photo: Photo[]
+}
