@@ -42,10 +42,6 @@ const bscConfig: NavConfig[] = [
         label: 'Farms',
         href: `/farms`,
       },
-      {
-        label: 'Maximizers',
-        href: `${TEMP_APESWAP_URL}/maximizers`,
-      },
     ],
   },
   {
