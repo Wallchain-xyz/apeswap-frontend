@@ -9,7 +9,7 @@ import { icons } from 'components/uikit/Svg/types'
 
 // hooks and actions
 import useDebounce from 'hooks/useDebounce'
-import { useSetLhdAuth } from 'state/lhd/hooks'
+import { useSetLhdAuth } from 'state/lhd/hooks/useGetIsLhdAuth'
 import useGetIsPasswordVerified from 'hooks/queries/useGetIsPasswordVerified'
 
 const SOCIAL_LINKS: { icon: icons; href: string }[] = [

@@ -15,7 +15,7 @@ import { useGetProfilePic } from './hooks'
 import { updateSelectedNetwork } from '../user/reducer'
 import { NETWORK_LABEL } from '../../config/constants/chains'
 import useSelectChain from '../../hooks/useSelectChain'
-import { useGetIsLhdAuth } from 'state/lhd/hooks'
+import { useGetIsLhdAuth } from 'state/lhd/hooks/useGetIsLhdAuth'
 
 export default function Updater(): null {
   const { account, chainId, provider } = useWeb3React()

@@ -1,5 +1,5 @@
-import { useAppDispatch } from '../hooks'
-import { setIsLhdAuth } from './reducer'
+import { useAppDispatch } from '../../hooks'
+import { setIsLhdAuth } from '../reducer'
 import { useRouter } from 'next/router'
 
 export const useSetLhdAuth = () => {
