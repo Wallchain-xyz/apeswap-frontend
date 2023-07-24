@@ -8,7 +8,7 @@ import { GetServerSideProps } from 'next'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 
 // SSR getters
-import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
+import { getIndustryStats } from 'state/lhd/hooks/useGetIndustryStats'
 import { getHomepageStats } from 'hooks/queries/useGetHomepageStats'
 import { getTvlStats } from 'state/homepage/hooks/useGetTvlStats'
 import { getLiveAndUpcoming } from 'hooks/queries/useGetLiveAndUpcoming'
