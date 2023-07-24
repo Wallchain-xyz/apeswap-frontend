@@ -5,10 +5,10 @@ import { Flex } from 'components/uikit'
 import BondStatsCard from './BondStatsCard'
 
 // Hooks
-import useGetHomepageStats from 'hooks/queries/useGetHomepageStats'
+import useGetHomepageStats from 'state/homepage/hooks/useGetHomepageStats'
 
 // Types
-import { BondsStats } from 'utils/types/homepage'
+import { BondsStats } from 'state/homepage/types'
 interface ICardsDescription {
   name: BondsStats
   subTitle: string

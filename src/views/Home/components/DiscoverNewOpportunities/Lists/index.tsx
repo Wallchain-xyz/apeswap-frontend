@@ -8,7 +8,7 @@ import TokensList from './TokensList'
 
 // Types
 import { TabNavOptions } from '../types'
-import { HomepageDTO } from 'utils/types/homepage'
+import { HomepageDTO } from 'state/homepage/types'
 interface ListsProps {
   activeTab: TabNavOptions
   stats: HomepageDTO | undefined

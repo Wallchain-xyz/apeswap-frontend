@@ -12,7 +12,7 @@ import useIsMobile from 'hooks/useIsMobile'
 import { formatDollar } from 'utils/formatNumbers'
 
 // Types
-import { BondsStats } from 'utils/types/homepage'
+import { BondsStats } from 'state/homepage/types'
 
 const BondStatsCard = ({
   name,

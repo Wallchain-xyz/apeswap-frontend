@@ -15,7 +15,7 @@ import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
 // Types
-import { BondDTO } from 'utils/types/homepage'
+import { BondDTO } from 'state/homepage/types'
 import { useWeb3React } from '@web3-react/core'
 
 interface BondsListProps {

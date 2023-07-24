@@ -15,7 +15,7 @@ import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
 // Types
-import { FarmDTO, SortedFarms } from 'utils/types/homepage'
+import { FarmDTO, SortedFarms } from 'state/homepage/types'
 
 interface FarmsListProps {
   farms: SortedFarms

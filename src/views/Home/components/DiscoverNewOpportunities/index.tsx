@@ -3,7 +3,7 @@ import { Box } from 'theme-ui'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
-import useGetHomepageStats from 'hooks/queries/useGetHomepageStats'
+import useGetHomepageStats from 'state/homepage/hooks/useGetHomepageStats'
 
 // Components
 import { Text } from 'components/uikit'

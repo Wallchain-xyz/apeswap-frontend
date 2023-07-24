@@ -16,7 +16,7 @@ import { breakpointMap } from 'theme/base'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
-import useGetLiveAndUpcoming from 'hooks/queries/useGetLiveAndUpcoming'
+import useGetLiveAndUpcoming from 'state/homepage/hooks/useGetLiveAndUpcoming'
 import useModal from 'hooks/useModal'
 import useSwiper from 'hooks/useSwiper'
 
