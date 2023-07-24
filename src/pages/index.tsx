@@ -10,6 +10,7 @@ import { dehydrate, QueryClient } from '@tanstack/react-query'
 // SSR getters
 import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
 import { getHomepageStats } from 'hooks/queries/useGetHomepageStats'
+import { getTvlStats } from 'state/homepage/hooks/useGetTvlStats'
 import { getLiveAndUpcoming } from 'hooks/queries/useGetLiveAndUpcoming'
 
 // Constants
@@ -19,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery([QUERY_KEYS.INDUSTRY_STATS], getIndustryStats)
   await queryClient.prefetchQuery([QUERY_KEYS.HOMEPAGE_STATS], getHomepageStats)
+  await queryClient.prefetchQuery([QUERY_KEYS.TVL_STATS], getTvlStats)
   await queryClient.prefetchQuery([QUERY_KEYS.LIVE_AND_UPCOMING], getLiveAndUpcoming)
 
   // Generates a random number on the server which is then passed to the client for consistency between them.

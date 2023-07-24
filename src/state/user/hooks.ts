@@ -12,9 +12,7 @@ import {
   addSerializedPair,
   addSerializedToken,
   updateHideClosedPositions,
-  updateUserClientSideRouter,
   updateUserDeadline,
-  updateUserExpertMode,
   updateUserFlipV3Layout,
   updateUserSlippageTolerance,
   updateUserZapSlippageTolerance,
@@ -76,8 +74,7 @@ export function useUserSlippageTolerance(): [Percent | 'auto', (slippageToleranc
     return state.user.userSlippageTolerance
   })
   const userSlippageTolerance = useMemo(
-    () =>
-      userSlippageToleranceRaw === 'auto' ? new Percent(50, 10_000) : new Percent(userSlippageToleranceRaw, 10_000),
+    () => new Percent(userSlippageToleranceRaw, 10_000),
     [userSlippageToleranceRaw],
   )
 
@@ -166,18 +163,6 @@ export function useUserHideClosedPositions(): [boolean, () => void] {
   return [hideClosedPositions, setHideClosedPositions]
 }
 
-export function useClientSideRouter(): [boolean, () => void] {
-  const dispatch = useAppDispatch()
-
-  const clientSideRouter = useAppSelector((state) => Boolean(state.user.userClientSideRouter))
-
-  const setClientSideRouter = useCallback(() => {
-    dispatch(updateUserClientSideRouter({ userClientSideRouter: !clientSideRouter }))
-  }, [dispatch, clientSideRouter])
-
-  return [clientSideRouter, setClientSideRouter]
-}
-
 /**
  * Given two tokens return the liquidity token that represents its liquidity shares
  * @param tokenA one of the two tokens
@@ -261,21 +246,6 @@ export function useTrackedTokenPairs(): [Token, Token][] {
 
     return Object.keys(keyed).map((key) => keyed[key])
   }, [combinedList])
-}
-
-export function useIsExpertMode(): boolean {
-  return useAppSelector((state) => state.user.userExpertMode)
-}
-
-export function useExpertModeManager(): [boolean, () => void] {
-  const dispatch = useAppDispatch()
-  const expertMode = useIsExpertMode()
-
-  const toggleSetExpertMode = useCallback(() => {
-    dispatch(updateUserExpertMode({ userExpertMode: !expertMode }))
-  }, [expertMode, dispatch])
-
-  return [expertMode, toggleSetExpertMode]
 }
 
 export function useFlipV3LayoutManager(): [boolean, () => void] {

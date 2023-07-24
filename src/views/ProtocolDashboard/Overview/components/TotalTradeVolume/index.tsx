@@ -7,8 +7,10 @@ import { useFetchOverviewVolume } from 'state/protocolDashboard/hooks'
 import { styles } from './styles'
 import { OverviewVolumeInterface } from 'state/protocolDashboard/types'
 import { orderBy } from 'lodash'
-import { useHomepageStats } from 'state/homepage/hooks'
 import { useThemeUI } from 'theme-ui'
+
+// Hooks
+import useGetTlvStats from 'state/homepage/hooks/useGetTvlStats'
 
 const BACKGROUND_COLORS: any = {
   Ethereum: 'rgba(98, 126, 234, .8)',
@@ -43,7 +45,8 @@ const setData = (tradeVolume: OverviewVolumeInterface[]) => {
 
 const TotalTradeVolume: React.FC = () => {
   const tradeVolume = useFetchOverviewVolume()
-  const totalVolume = useHomepageStats()?.totalVolume
+  const { data: tvlData } = useGetTlvStats()
+  const { totalVolume = 0 } = tvlData ?? {}
   const sortTradeVol = orderBy(tradeVolume, (vol) => vol.history?.[vol.history.length - 1].amount, 'asc')
   const { theme } = useThemeUI()
   const data = useMemo(() => setData(sortTradeVol), [sortTradeVol])

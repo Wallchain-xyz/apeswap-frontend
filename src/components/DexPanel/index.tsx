@@ -2,7 +2,7 @@ import { useTranslation } from 'contexts/Localization'
 import { Spinner } from 'theme-ui'
 import React from 'react'
 import styles from './styles'
-import { DexPanelProps } from './types'
+import { DexPanelProps, Pricing } from './types'
 import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
@@ -11,21 +11,23 @@ import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
 import Dots from 'components/Dots'
 
 const DexPanel = ({
-  value,
-  currency,
-  onCurrencySelect,
-  onUserInput,
-  handleMaxInput,
-  otherCurrency,
-  fieldType,
-  panelText,
-  disabled,
-  independentField,
-  disableTokenSelect,
-  userBalance,
-  locked,
-  isZapInput,
-}: DexPanelProps) => {
+                    value,
+                    currency,
+                    onCurrencySelect,
+                    onUserInput,
+                    handleMaxInput,
+                    otherCurrency,
+                    fieldType,
+                    panelText,
+                    disabled,
+                    independentField,
+                    disableTokenSelect,
+                    userBalance,
+                    locked,
+                    isZapInput,
+                    pricing,
+                    apiPrice,
+                  }: DexPanelProps) => {
   const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const currencyBalance = userBalance ? userBalance?.toFixed(6) : selectedCurrencyBalance?.toSignificant(6) || '0'
@@ -69,23 +71,44 @@ const DexPanel = ({
             opacity: independentField && independentField !== fieldType && disabled && 0.4,
           }}
         >
-          {loadingUsdValue ? (
-            <Spinner width="15px" height="15px" />
-          ) : (
-            <Text size="12px" sx={styles.panelBottomText}>
-              {value !== '.' && value && `$${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
-            </Text>
-          )}
+          {
+            value && (
+              <>
+                {
+                  pricing === Pricing.PRICEGETTER ? (
+                    <>
+                      {loadingUsdValue ? (
+                        <Spinner width="15px" height="15px" />
+                      ) : (
+                        <Text size="12px" sx={styles.panelBottomText}>
+                          {value !== '.' && value && `$${(usdVal * parseFloat(value.replace(/,/g, ''))).toFixed(2)}`}
+                        </Text>
+                      )}
+                    </>
+                  ) :
+                    <>
+                      {!apiPrice ? (
+                        <Spinner width='15px' height='15px' />
+                      ) : (
+                        <Text size='12px' sx={styles.panelBottomText}>
+                          {value !== '.' && value && `$${apiPrice}`}
+                        </Text>
+                      )}
+                    </>
+                }
+              </>
+            )
+          }
         </Flex>
         {account && (
           <Flex sx={{ alignItems: 'center' }}>
-            <Text size="12px" sx={styles.panelBottomText}>
+            <Text size='12px' sx={styles.panelBottomText}>
               {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
             </Text>
             {!currencyBalance && <Dots />}
             {parseFloat(currencyBalance) > 0 && handleMaxInput && (
-              <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
-                <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
+              <Flex sx={styles.maxButton} size='sm' onClick={() => handleMaxInput(fieldType)}>
+                <Text color='primaryBright' sx={{ lineHeight: '0px' }}>
                   {t('MAX')}
                 </Text>
               </Flex>

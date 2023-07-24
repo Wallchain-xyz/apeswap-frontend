@@ -6,11 +6,11 @@ const arbitrumConfig = [
     items: [
       {
         label: 'Swap',
-        href: 'https://dex.apeswap.finance/swap',
+        href: '/swap',
       },
       {
         label: 'Liquidity',
-        href: 'https://dex.apeswap.finance/zap',
+        href: '/zap',
       },
       {
         label: 'Pro Trading',

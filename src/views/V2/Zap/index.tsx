@@ -27,6 +27,7 @@ import { TradeState } from 'state/routing/types'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
 import track from 'utils/track'
+import { Pricing } from '../../../components/DexPanel/types'
 
 const ZapLiquidity = ({
   currencyIdA,
@@ -146,6 +147,7 @@ const ZapLiquidity = ({
           handleMaxInput={handleMaxInput}
           isZapInput
           setTradeValueUsd={setTradeValueUsdCallback}
+          pricing={Pricing.PRICEGETTER}
         />
         <Flex sx={{ margin: '10px', justifyContent: 'center' }}>
           <Svg icon="ZapArrow" />

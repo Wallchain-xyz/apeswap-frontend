@@ -6,4 +6,5 @@ export const QUERY_KEYS = {
   LHD_PASSWORD_VERIFIED: 'lhdPasswordVerified',
   HOMEPAGE_STATS: 'homepageStats',
   LIVE_AND_UPCOMING: 'liveAndUpcoming',
+  TVL_STATS: 'tvlStats',
 }

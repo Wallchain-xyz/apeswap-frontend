@@ -71,7 +71,7 @@ const Positions = () => {
         </Flex>
       </Flex>
       {selectedTokenId ? (
-        isDesktop && <PositionDetailsPage selectedTokenId={selectedTokenId} />
+        <PositionDetailsPage selectedTokenId={selectedTokenId} />
       ) : (
         <Flex
           variant="flex.v3SubDexContainer"

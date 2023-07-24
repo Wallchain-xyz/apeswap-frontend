@@ -81,7 +81,7 @@ const RemoveLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; 
           display: 'flex',
           textDecoration: 'none',
         }}
-        href="/v3-liquidity"
+        href="/liquidity"
       >
         <Svg icon="caret" direction="left" width="7px" />
         <Text sx={{ fontSize: '12px', ml: '5px' }}>{t('My LPs')}</Text>

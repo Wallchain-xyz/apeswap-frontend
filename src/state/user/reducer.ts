@@ -16,13 +16,11 @@ export interface UserState {
   lastUpdateVersionTimestamp?: number
   // deadline set by user in minutes, used in all txns
   userDeadline: number
-  userClientSideRouter: boolean // whether routes should be calculated with the client side router only
   tokens: {
     [chainId: number]: {
       [address: string]: SerializedToken
     }
   }
-  userExpertMode: boolean
   flipV3Layout: boolean
   pairs: {
     [chainId: number]: {
@@ -31,9 +29,8 @@ export interface UserState {
     }
   }
   // user defined slippage tolerance in bips, used in all txns
-  userSlippageTolerance: number | 'auto'
+  userSlippageTolerance: number
   userZapSlippage: number
-  userSlippageToleranceHasBeenMigratedToAuto: boolean // temporary flag for migration status
   // hides closed (inactive) positions across the app
   userHideClosedPositions: boolean
 }
@@ -49,10 +46,7 @@ export const initialState: UserState = {
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   userSlippageTolerance: 50,
   userZapSlippage: INITIAL_ZAP_SLIPPAGE,
-  userSlippageToleranceHasBeenMigratedToAuto: false,
-  userClientSideRouter: true,
   userHideClosedPositions: false,
-  userExpertMode: false,
   flipV3Layout: false,
   tokens: {},
   pairs: {},
@@ -82,16 +76,8 @@ const userSlice = createSlice({
       state.userZapSlippage = action.payload.userZapSlippage
       state.timestamp = currentTimestamp()
     },
-    updateUserClientSideRouter(state, action) {
-      state.userClientSideRouter = action.payload.userClientSideRouter
-      state.timestamp = currentTimestamp()
-    },
     updateHideClosedPositions(state, action) {
       state.userHideClosedPositions = action.payload.userHideClosedPositions
-      state.timestamp = currentTimestamp()
-    },
-    updateUserExpertMode(state, action) {
-      state.userExpertMode = action.payload.userExpertMode
       state.timestamp = currentTimestamp()
     },
     updateUserFlipV3Layout(state, action) {
@@ -120,23 +106,9 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(updateVersion, (state) => {
-      // slippage isnt being tracked in local storage, reset to default
-      // noinspection SuspiciousTypeOfGuard
-      if (
-        typeof state.userSlippageTolerance !== 'number' ||
-        !Number.isInteger(state.userSlippageTolerance) ||
-        state.userSlippageTolerance < 0 ||
-        state.userSlippageTolerance > 5000
-      ) {
-        state.userSlippageTolerance = 'auto'
-      } else {
-        if (
-          !state.userSlippageToleranceHasBeenMigratedToAuto &&
-          [10, 50, 100].indexOf(state.userSlippageTolerance) !== -1
-        ) {
-          state.userSlippageTolerance = 'auto'
-          state.userSlippageToleranceHasBeenMigratedToAuto = true
-        }
+      //@ts-ignore
+      if (state.userSlippageTolerance === 'auto') {
+        state.userSlippageTolerance = 50
       }
 
       // deadline isnt being tracked in local storage, reset to default
@@ -162,8 +134,6 @@ export const {
   updateHideClosedPositions,
   updateSelectedNetwork,
   updateUserFlipV3Layout,
-  updateUserClientSideRouter,
-  updateUserExpertMode,
   addSerializedPair,
   addSerializedToken,
   updateUserZapSlippageTolerance,

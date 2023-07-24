@@ -77,9 +77,9 @@ type TokenMap = { [address: string]: Token }
  * Returns null if token is loading or null was passed.
  * Returns undefined if tokenAddress is invalid or token does not exist.
  */
-export function useTokenFromMapOrNetwork(tokens: TokenMap, tokenAddress?: string | null): Token | null | undefined {
+export function useTokenFromMapOrNetwork(tokens: TokenMap, tokenAddress?: string | null): Token | null {
   const address = isAddress(tokenAddress)
-  const token: Token | undefined = address ? tokens[address] : undefined
+  const token: Token | null = address ? tokens[address] : null
   const tokenFromNetwork = useTokenFromActiveNetwork(token ? undefined : address ? address : undefined)
 
   return tokenFromNetwork ?? token
@@ -90,10 +90,10 @@ export function useTokenFromMapOrNetwork(tokens: TokenMap, tokenAddress?: string
  * Returns null if currency is loading or null was passed.
  * Returns undefined if currencyId is invalid or token does not exist.
  */
-export function useCurrencyFromMap(tokens: TokenMap, currencyId?: string | null): Currency | null | undefined {
+export function useCurrencyFromMap(tokens: TokenMap, currencyId?: string | null): Currency | null {
   const nativeCurrency = useNativeCurrency()
   const { chainId } = useWeb3React()
-  const isNative = Boolean(nativeCurrency && currencyId?.toUpperCase() === 'ETH')
+  const isNative = Boolean(nativeCurrency && (currencyId?.toUpperCase() === 'ETH' || currencyId === '0x0000000000000000000000000000000000000000'))
   const shorthandMatchAddress = useMemo(() => {
     const chain = supportedChainId(chainId)
     return chain && currencyId ? TOKEN_SHORTHANDS[currencyId.toUpperCase()]?.[chain] : undefined
