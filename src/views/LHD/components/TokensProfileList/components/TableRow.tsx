@@ -1,5 +1,5 @@
 import React from 'react'
-import { SimpleTokenProfile } from 'utils/types/lhd'
+import { SimpleTokenProfile } from 'state/lhd/types'
 import { Box } from 'theme-ui'
 import { Flex, Text } from 'components/uikit'
 import { formatDollar } from 'utils/formatNumbers'

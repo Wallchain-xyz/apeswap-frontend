@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TokenAddress } from 'utils/types/lhd'
+import { TokenAddress } from 'state/lhd/types'
 import { Flex, Text } from '../../../../../components/uikit'
 import { icons } from '../../SmallChainIcons'
 

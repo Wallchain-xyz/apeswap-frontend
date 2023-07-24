@@ -11,7 +11,7 @@ import useGetIndustryStats from 'state/lhd/hooks/useGetIndustryStats'
 import useGetHistoricalIndustryStats from 'state/lhd/hooks/useGetHistoricalIndustryStats'
 
 // Types
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 const TitleCards = ({
   appliedFilters,

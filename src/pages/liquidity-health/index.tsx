@@ -4,7 +4,7 @@ import LHD from 'views/LHD'
 // Hooks
 import { getIndustryStats } from 'state/lhd/hooks/useGetIndustryStats'
 import { getHistoricalIndustryStats } from 'state/lhd/hooks/useGetHistoricalIndustryStats'
-import { getLHDProfiles } from 'hooks/queries/useGetLHDProfiles'
+import { getLHDProfiles } from 'state/lhd/hooks/useGetLHDProfiles'
 import { getFilterDiff } from 'views/LHD/components/SearchBar/helpers'
 
 // Constants

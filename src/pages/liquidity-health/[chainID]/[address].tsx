@@ -32,7 +32,7 @@ const MultiParamPage = () => {
 
 export default MultiParamPage
 
-import { getLHDProfile } from 'hooks/queries/useGetLHDProfile'
+import { getLHDProfile } from 'state/lhd/hooks/useGetLHDProfile'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 

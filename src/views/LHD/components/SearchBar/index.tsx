@@ -9,7 +9,7 @@ import { useAnimation, motion } from 'framer-motion'
 import useFilterHandler from './FilterModal/useFilterHandler'
 
 // Types
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 // Constants
 const SCORE = 'score'
