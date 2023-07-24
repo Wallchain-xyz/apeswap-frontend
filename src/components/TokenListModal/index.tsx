@@ -32,7 +32,7 @@ const TokenListModal = ({
   }, [])
   return (
     <Modal title="Tokens" onDismiss={onDismiss} zIndex={110} sx={{ height: '485px' }}>
-      <Flex sx={{ position: 'relative', margin: '10px 5px' }}>
+      <Flex sx={{ position: 'relative', my: '10px' }}>
         <Input
           onChange={handleInput}
           sx={{

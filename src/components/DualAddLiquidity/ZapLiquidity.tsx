@@ -24,6 +24,7 @@ import { ZapType } from '@ape.swap/v2-zap-sdk'
 import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
 import { TradeState } from 'state/routing/types'
 import ModalProvider from '../../contexts/ModalContext'
+import { Pricing } from '../DexPanel/types'
 
 interface ZapLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut: Pair) => void
@@ -171,6 +172,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             onUserInput={(val: string) => onUserInput(Field.INPUT, val)}
             handleMaxInput={handleMaxInput}
             isZapInput
+            pricing={Pricing.PRICEGETTER}
           />
         </Flex>
         <Flex sx={{ margin: '10px', justifyContent: 'center' }}>

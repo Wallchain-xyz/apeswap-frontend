@@ -162,8 +162,8 @@ export function useDerivedZapInfo() {
     [inputCurrency, halfTypedValue],
   )
 
-  const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2], false, true)
-  const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2], false, true)
+  const bestZapOne = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out0 ?? undefined, [Protocol.V2], false )
+  const bestZapTwo = useBestTrade(TradeType.EXACT_INPUT, parsedAmount, out1 ?? undefined, [Protocol.V2], false)
 
   const zap = useMemo(
     () =>

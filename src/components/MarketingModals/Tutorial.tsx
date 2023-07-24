@@ -140,16 +140,6 @@ const Tutorial: React.FC<{
           isConnected: !!account,
         }
       }
-      case 'liquidity':
-      case 'zap':
-      case 'add-liquidity':
-        return {
-          type: 'liquidity-v3',
-          title: 'Welcome to ApeSwap V3 Liquidity',
-          description: 'Provide Concentrated Liquidity to earn better trading fees!',
-          slides: account ? LiquidityV3Slides() : [<ConnectWalletSlide key={0} />, ...LiquidityV3Slides()],
-          isConnected: !!account,
-        }
       case 'liquidity-health': {
         return {
           type: `liquidity-health`,

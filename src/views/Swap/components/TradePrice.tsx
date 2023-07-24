@@ -1,31 +1,27 @@
-import { Currency, Price } from '@ape.swap/sdk-core'
 import { Flex, Text } from 'components/uikit'
-import useStablecoinPrice from 'hooks/useStablecoinPrice'
 import { useState } from 'react'
-import { formatTransactionAmount, priceToPreciseFloat } from 'utils/formatNumbers'
+import { toPrecisionAvoidExponential } from '../utils'
+import BigNumber from 'bignumber.js'
+import { getBNWithDecimals } from '../../../utils/getBalanceNumber'
+import { Token } from '@lifi/sdk'
 
-const TradePrice = ({ price }: { price: Price<Currency, Currency> | undefined }) => {
+const TradePrice = ({ fromAmount, fromToken, toAmount, toToken }: { fromAmount: string, fromToken: Token, toAmount: string, toToken: Token }) => {
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
-  const usdcPrice = useStablecoinPrice(showInverted ? price?.baseCurrency : price?.quoteCurrency)
+  const fromNumber: BigNumber = getBNWithDecimals(fromAmount, fromToken?.decimals) ?? new BigNumber(0);
+  const toNumber: BigNumber = getBNWithDecimals(toAmount, toToken?.decimals) ?? new BigNumber(0);
+  const price: BigNumber = fromNumber.div(toNumber);
+  const invertedPrice: BigNumber = toNumber.div(fromNumber);
 
-  let formattedPrice: string
-  try {
-    formattedPrice = showInverted
-      ? formatTransactionAmount(priceToPreciseFloat(price))
-      : formatTransactionAmount(priceToPreciseFloat(price?.invert()))
-  } catch (error) {
-    formattedPrice = '0'
-  }
+  const pricePrecision: string = toPrecisionAvoidExponential(price)
+  const invertedPricePrecision: string = toPrecisionAvoidExponential(invertedPrice)
 
-  const label = showInverted ? `${price?.quoteCurrency?.symbol}` : `${price?.baseCurrency?.symbol} `
-  const labelInverted = showInverted ? `${price?.baseCurrency?.symbol} ` : `${price?.quoteCurrency?.symbol}`
-
-  const text = `${'1 ' + labelInverted + ' = ' + formattedPrice ?? '-'} ${label}`
+  const label = `1 ${toToken?.symbol.toUpperCase()} = ${pricePrecision} ${fromToken?.symbol.toUpperCase()}`
+  const invertedLabel = `1 ${fromToken?.symbol.toUpperCase()} = ${invertedPricePrecision} ${toToken?.symbol.toUpperCase()}`
 
   return (
-    <Flex onClick={() => setShowInverted((prev) => !prev)} sx={{ width: 'fit-content', zIndex: 1 }}>
-      <Text size="14px">{text}</Text>
+    <Flex onClick={() => setShowInverted((prev) => !prev)} sx={{ minWidth: 'fit-content', zIndex: 1 }}>
+      <Text size="12px">{showInverted ? label : invertedLabel}</Text>
     </Flex>
   )
 }

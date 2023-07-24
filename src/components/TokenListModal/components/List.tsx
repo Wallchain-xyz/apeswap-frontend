@@ -147,7 +147,8 @@ const List = ({
           style={style}
           key={currency.isToken ? currency.address : 'ETHER'}
           onSelect={() => {
-            onCurrencySelect(row), onDismiss()
+            onCurrencySelect(row)
+            onDismiss()
           }}
           onDismiss={onDismiss}
         />

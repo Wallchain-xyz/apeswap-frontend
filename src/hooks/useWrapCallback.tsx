@@ -13,6 +13,7 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { TransactionType } from '../state/transactions/types'
 import { useWETHContract } from './useContract'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
+import { useCurrency } from './Tokens'
 
 export enum WrapType {
   NOT_APPLICABLE,
