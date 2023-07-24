@@ -10,7 +10,6 @@ export const RPC_URLS: Record<SupportedChainId, string[]> = {
   [SupportedChainId.ARBITRUM_ONE]: ['https://arb1.arbitrum.io/rpc'],
   [SupportedChainId.BSC_TESTNET]: ['https://data-seed-prebsc-2-s3.binance.org:8545/'],
   [SupportedChainId.POLYGON]: [
-    'https://polygon.apeswap.dev/',
     'https://polygon-rpc.com/',
     'https://rpc-mainnet.matic.network',
     'https://matic-mainnet.chainstacklabs.com',
