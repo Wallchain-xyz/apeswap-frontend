@@ -6,14 +6,15 @@ import { useTranslation } from 'contexts/Localization'
 import { grayIcons } from './grayChains'
 import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/chains'
 import { Button, Flex, Link, Text } from 'components/uikit'
-import { useHomepageStats } from 'state/homepage/hooks'
+// import { useHomepageStats } from 'state/homepage/hooks'
 import useSelectChain from 'hooks/useSelectChain'
 import { useRouter } from 'next/router'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import Image from 'next/image'
 
 const DefiRedefined = ({ randomImage }: { randomImage: number }) => {
-  const rawStats = useHomepageStats()
+  // const rawStats = useHomepageStats()
+  const rawStats: any = {}
   const { t } = useTranslation()
   const switchNetwork = useSelectChain()
   const { push } = useRouter()

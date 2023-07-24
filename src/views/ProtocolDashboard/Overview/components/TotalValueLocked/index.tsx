@@ -5,7 +5,7 @@ import { useFetchOverviewTvl } from 'state/protocolDashboard/hooks'
 import { useTranslation } from 'contexts/Localization'
 import CountUp from 'react-countup'
 import { styles } from './styles'
-import { useFetchHomepageStats } from 'state/homepage/hooks'
+// import { useFetchHomepageStats } from 'state/homepage/hooks'
 import { useThemeUI } from 'theme-ui'
 import { Tvl } from './icons'
 
@@ -33,7 +33,7 @@ const setData = (tvl: any) => {
 }
 
 const TotalValueLocked: React.FC = () => {
-  useFetchHomepageStats(true)
+  // useFetchHomepageStats(true)
   const tvl = useFetchOverviewTvl()
   const sortTvl = tvl && Object.fromEntries(Object.entries(tvl).sort(([, a], [, b]) => b - a))
   const orderedTvl = useMemo(() => {

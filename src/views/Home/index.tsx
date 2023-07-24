@@ -4,9 +4,9 @@ import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import SwiperProvider from 'contexts/SwiperProvider'
 import { Flex } from 'components/uikit'
-import TrendingTokens from './components/TrendingTokens/TrendingTokens'
-import Services from './components/Services/Services'
-import LaunchCalendar from './components/LaunchCalendar/LaunchCalendar'
+// import TrendingTokens from './components/TrendingTokens/TrendingTokens'
+// import Services from './components/Services/Services'
+// import LaunchCalendar from './components/LaunchCalendar/LaunchCalendar'
 import useAllTokenPrices from 'hooks/useAllTokenPrices'
 
 // Components
@@ -35,7 +35,6 @@ const Home = ({ randomImage, randomLHDImage }: { randomImage: number; randomLHDI
       </SwiperProvider>
       <BondsStatsCards />
       {/* TODO: Remove this and all its code */}
-      {/* <StatCards /> */}
       {/* <TrendingTokens /> */}
       <DiscoverNewOpportunities />
       <SwiperProvider>

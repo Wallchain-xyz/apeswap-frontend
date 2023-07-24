@@ -7,7 +7,7 @@ import { useFetchOverviewVolume } from 'state/protocolDashboard/hooks'
 import { styles } from './styles'
 import { OverviewVolumeInterface } from 'state/protocolDashboard/types'
 import { orderBy } from 'lodash'
-import { useHomepageStats } from 'state/homepage/hooks'
+// import { useHomepageStats } from 'state/homepage/hooks'
 import { useThemeUI } from 'theme-ui'
 
 const BACKGROUND_COLORS: any = {
@@ -43,7 +43,8 @@ const setData = (tradeVolume: OverviewVolumeInterface[]) => {
 
 const TotalTradeVolume: React.FC = () => {
   const tradeVolume = useFetchOverviewVolume()
-  const totalVolume = useHomepageStats()?.totalVolume
+  // const totalVolume = useHomepageStats()?.totalVolume
+  const totalVolume = 5
   const sortTradeVol = orderBy(tradeVolume, (vol) => vol.history?.[vol.history.length - 1].amount, 'asc')
   const { theme } = useThemeUI()
   const data = useMemo(() => setData(sortTradeVol), [sortTradeVol])
