@@ -46,29 +46,28 @@ const ZapLiquidity = ({
     txHash: undefined,
   })
   const { chainId } = useWeb3React()
+  // Zap State
   const { INPUT, typedValue, recipient, zapType } = useZapState()
   const [zapSlippage] = useUserZapSlippageTolerance()
+  const { bestMergedZaps, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
+  const { onZapUserInput, onZapCurrencySelection } = useZapActionHandlers()
 
   const currencyA = currencyIdA || INPUT.currencyId
-
   const inputCurrency = useCurrency(currencyA)
 
-  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
-
-  const { onUserInput, onCurrencySelection } = useZapActionHandlers()
 
   const [tradeValueUsd, setTradeValueUsd] = useState(0)
   const setTradeValueUsdCallback = useCallback((value: number) => setTradeValueUsd(value), [setTradeValueUsd])
 
   const handleCurrencySelect = useCallback(
     (field: Field, currency: Currency[]) => {
-      onUserInput(field, '')
-      onCurrencySelection(field, currency)
+      onZapUserInput(field, '')
+      onZapCurrencySelection(field, currency)
     },
-    [onCurrencySelection, onUserInput],
+    [onZapCurrencySelection, onZapUserInput],
   )
 
-  const { callback: zapCallback } = useZapCallback(zap as any, zapType, zapSlippage, recipient, '', undefined)
+  const { callback: zapCallback } = useZapCallback(bestMergedZaps as any, zapType, zapSlippage, recipient, '', undefined)
 
   const handleZap = useCallback(() => {
     setZapState({
@@ -86,9 +85,9 @@ const ZapLiquidity = ({
           chain: chainId,
           data: {
             cat: 'liquidity',
-            token1: zap.currencyIn.currency.symbol,
-            token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
-            amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+            token1: bestMergedZaps.currencyIn.currency.symbol,
+            token2: `${bestMergedZaps.currencyOut1.outputCurrency.symbol}-${bestMergedZaps.currencyOut2.outputCurrency.symbol}`,
+            amount: getBalanceNumber(new BigNumber(bestMergedZaps.currencyIn.inputAmount.toString())),
             usdAmount: tradeValueUsd,
           },
         })
@@ -99,7 +98,7 @@ const ZapLiquidity = ({
           txHash: undefined,
         })
       })
-  }, [zapCallback, zap, chainId, tradeValueUsd])
+  }, [zapCallback, bestMergedZaps, chainId, tradeValueUsd])
 
   const handleDismissConfirmation = useCallback(() => {
     // clear zapState if user close the error modal
@@ -116,15 +115,15 @@ const ZapLiquidity = ({
         [Field.OUTPUT]: maxAmountSpend(currencyBalances[Field.OUTPUT]),
       }
       if (maxAmounts) {
-        onUserInput(field, maxAmounts[field]?.toExact() ?? '')
+        onZapUserInput(field, maxAmounts[field]?.toExact() ?? '')
       }
     },
-    [currencyBalances, onUserInput],
+    [currencyBalances, onZapUserInput],
   )
 
   // reset input value to zero on first render
   useEffect(() => {
-    onUserInput(Field.INPUT, '')
+    onZapUserInput(Field.INPUT, '')
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
   useSetZapDexOutputList()
@@ -142,7 +141,7 @@ const ZapLiquidity = ({
           otherCurrency={null}
           fieldType={Field.INPUT}
           onCurrencySelect={(currency) => handleCurrencySelect(Field.INPUT, [currency])}
-          onUserInput={(val: string) => onUserInput(Field.INPUT, val)}
+          onUserInput={(val: string) => onZapUserInput(Field.INPUT, val)}
           handleMaxInput={handleMaxInput}
           isZapInput
           setTradeValueUsd={setTradeValueUsdCallback}
@@ -151,9 +150,9 @@ const ZapLiquidity = ({
           <Svg icon="ZapArrow" />
         </Flex>
         <ZapPanel
-          value={zap?.pairOut?.liquidityMinted?.toSignificant(10) || '0.0'}
+          value={bestMergedZaps?.pairOut?.liquidityMinted?.toSignificant(10) || '0.0'}
           onSelect={(currency0, currency1) => handleCurrencySelect(Field.OUTPUT, [currency0, currency1])}
-          lpPair={zap?.pairOut.pair ?? undefined}
+          lpPair={bestMergedZaps?.pairOut.pair ?? undefined}
         />
 
         {zapRouteState === TradeState.LOADING && (
@@ -162,14 +161,14 @@ const ZapLiquidity = ({
           </Flex>
         )}
 
-        {typedValue && parseFloat(typedValue) > 0 && zap?.pairOut?.liquidityMinted && (
+        {typedValue && parseFloat(typedValue) > 0 && bestMergedZaps?.pairOut?.liquidityMinted && (
           <Flex sx={{ marginTop: '40px' }}>
-            <DistributionPanel zap={zap} />
+            <DistributionPanel zap={bestMergedZaps} />
           </Flex>
         )}
         <ZapLiquidityActions
           zapInputError={zapInputError}
-          zap={zap}
+          zap={bestMergedZaps}
           handleZap={handleZap}
           zapErrorMessage={zapErrorMessage}
           zapRouteState={zapRouteState}

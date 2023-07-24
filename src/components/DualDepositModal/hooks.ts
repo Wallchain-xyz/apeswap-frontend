@@ -18,17 +18,17 @@ const useDualDeposit = (
 ) => {
   const {  chainId, provider } = useWeb3React()
   const { recipient, typedValue, zapType } = useZapState()
-  const { zap } = useDerivedZapInfo()
+  const { bestMergedZaps } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
   const originalSlippage = useMemo(() => {
     return zapSlippage
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
+  const [tokenPrice] = useTokenPriceUsd(bestMergedZaps.currencyIn.currency)
 
   const { callback: zapCallback } = useZapCallback(
-    zap,
+    bestMergedZaps,
     zapType,
     zapSlippage,
     recipient,
@@ -49,14 +49,14 @@ const useDualDeposit = (
             setZapSlippage(originalSlippage)
             onDismiss()
           })
-          const amount = getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString()))
+          const amount = getBalanceNumber(new BigNumber(bestMergedZaps.currencyIn.inputAmount.toString()))
           track({
             event: 'zap',
             chain: chainId,
             data: {
               cat: 'farm',
-              token1: zap.currencyIn.currency.symbol,
-              token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
+              token1: bestMergedZaps.currencyIn.currency.symbol,
+              token2: `${bestMergedZaps.currencyOut1.outputCurrency.symbol}-${bestMergedZaps.currencyOut2.outputCurrency.symbol}`,
               amount,
               usdAmount: amount * tokenPrice,
             },
@@ -75,7 +75,7 @@ const useDualDeposit = (
     typedValue,
     zapCallback,
     provider,
-    zap,
+    bestMergedZaps,
     chainId,
     tokenPrice,
     setZapSlippage,

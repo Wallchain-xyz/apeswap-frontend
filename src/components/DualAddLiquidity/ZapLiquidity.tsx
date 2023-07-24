@@ -57,27 +57,27 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const inputCurrency = useCurrency(currencyA)
 
-  const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
-  const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()
+  const { bestMergedZaps, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
+  const { onZapUserInput, onZapCurrencySelection, onSetZapType } = useZapActionHandlers()
 
-  const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
+  const [tokenPrice] = useTokenPriceUsd(bestMergedZaps.currencyIn.currency)
 
   const handleCurrencySelect = useCallback(
     (field: Field, currency: Currency[]) => {
-      onUserInput(field, '')
-      onCurrencySelection(field, currency)
+      onZapUserInput(field, '')
+      onZapCurrencySelection(field, currency)
     },
-    [onCurrencySelection, onUserInput],
+    [onZapCurrencySelection, onZapUserInput],
   )
 
   const handleOutputSelect = useCallback(
     (currencyIdA: Currency, currencyIdB: Currency) => {
-      onCurrencySelection(Field.OUTPUT, [currencyIdA, currencyIdB])
+      onZapCurrencySelection(Field.OUTPUT, [currencyIdA, currencyIdB])
       setDisableZap(true)
       onSetZapType(ZapType.ZAP)
       setStakeIntoProduct(false)
     },
-    [onCurrencySelection, onSetZapType],
+    [onZapCurrencySelection, onSetZapType],
   )
 
   const handleStakeIntoProduct = (value: boolean) => {
@@ -89,21 +89,21 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     }
   }
 
-  const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, '', pid)
+  const { callback: zapCallback } = useZapCallback(bestMergedZaps, zapType, zapSlippage, recipient, poolAddress, '', pid)
 
   const handleZap = useCallback(() => {
     setZapErrorMessage('')
     zapCallback()
       .then((hash: any) => {
-        handleConfirmedTx(hash, zap?.pairOut.pair)
-        const amount = getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString()))
+        handleConfirmedTx(hash, bestMergedZaps?.pairOut.pair)
+        const amount = getBalanceNumber(new BigNumber(bestMergedZaps.currencyIn.inputAmount.toString()))
         track({
           event: 'zap',
           chain: chainId,
           data: {
             cat: 'liquidity',
-            token1: zap.currencyIn.currency.symbol,
-            token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
+            token1: bestMergedZaps.currencyIn.currency.symbol,
+            token2: `${bestMergedZaps.currencyOut1.outputCurrency.symbol}-${bestMergedZaps.currencyOut2.outputCurrency.symbol}`,
             amount,
             usdAmount: amount * tokenPrice,
           },
@@ -112,7 +112,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
       .catch((error: any) => {
         setZapErrorMessage(error.message)
       })
-  }, [chainId, handleConfirmedTx, tokenPrice, zap, zapCallback])
+  }, [chainId, handleConfirmedTx, tokenPrice, bestMergedZaps, zapCallback])
 
   const handleDismissConfirmation = useCallback(() => {
     // clear zapErrorMessage if user closes the error modal
@@ -126,15 +126,15 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
         [Field.OUTPUT]: maxAmountSpend(currencyBalances[Field.OUTPUT]),
       }
       if (maxAmounts) {
-        onUserInput(field, maxAmounts[field]?.toExact() ?? '')
+        onZapUserInput(field, maxAmounts[field]?.toExact() ?? '')
       }
     },
-    [currencyBalances, onUserInput],
+    [currencyBalances, onZapUserInput],
   )
 
   // reset input value to zero on first render
   useEffect(() => {
-    onUserInput(Field.INPUT, '')
+    onZapUserInput(Field.INPUT, '')
     onSetZapType(zapable ? zapIntoProductType : ZapType.ZAP)
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [zapable])
@@ -142,11 +142,11 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   return (
     <div>
       <Flex sx={styles.liquidityContainer}>
-        {zapable && zap?.pairOut?.pair?.token0?.symbol && (
+        {zapable && bestMergedZaps?.pairOut?.pair?.token0?.symbol && (
           <Flex sx={{ marginBottom: '10px', fontSize: '12px', alignItems: 'center' }}>
             <Text>
               {t('Stake in')}{' '}
-              {`${zap?.pairOut?.pair?.token0?.wrapped?.symbol} - ${zap?.pairOut?.pair?.token1?.wrapped.symbol} ${t(
+              {`${bestMergedZaps?.pairOut?.pair?.token0?.wrapped?.symbol} - ${bestMergedZaps?.pairOut?.pair?.token1?.wrapped.symbol} ${t(
                 'Farm',
               )}`}
             </Text>
@@ -168,7 +168,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             otherCurrency={null}
             fieldType={Field.INPUT}
             onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.INPUT, [cur])}
-            onUserInput={(val: string) => onUserInput(Field.INPUT, val)}
+            onUserInput={(val: string) => onZapUserInput(Field.INPUT, val)}
             handleMaxInput={handleMaxInput}
             isZapInput
           />
@@ -177,9 +177,9 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
           <Svg icon="ZapArrow" />
         </Flex>
         <ZapPanel
-          value={zap?.pairOut?.liquidityMinted?.toSignificant(10) || '0.0'}
+          value={bestMergedZaps?.pairOut?.liquidityMinted?.toSignificant(10) || '0.0'}
           onSelect={handleOutputSelect}
-          lpPair={zap.pairOut.pair}
+          lpPair={bestMergedZaps.pairOut.pair}
         />
 
         {zapRouteState === TradeState.LOADING && (
@@ -187,15 +187,15 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             <LoadingBestRoute />
           </Flex>
         )}
-        {typedValue && parseFloat(typedValue) > 0 && zap?.pairOut?.liquidityMinted && (
+        {typedValue && parseFloat(typedValue) > 0 && bestMergedZaps?.pairOut?.liquidityMinted && (
           <Flex sx={{ marginTop: '40px' }}>
-            <DistributionPanel zap={zap} />
+            <DistributionPanel zap={bestMergedZaps} />
           </Flex>
         )}
         <ModalProvider>
           <ZapLiquidityActions
             zapInputError={zapInputError}
-            zap={zap}
+            zap={bestMergedZaps}
             handleZap={handleZap}
             zapErrorMessage={zapErrorMessage}
             zapRouteState={zapRouteState}

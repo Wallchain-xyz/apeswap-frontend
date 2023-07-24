@@ -1,4 +1,5 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit'
+import type { Web3Provider } from '@ethersproject/providers'
+import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit'
 import { DEFAULT_TXN_DISMISS_MS } from 'config/constants/misc'
 
 export type PopupContent = {
@@ -13,33 +14,41 @@ export type PopupContent = {
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
 
 export interface ApplicationState {
-  readonly chainId: number | null
+  web3: {
+    readonly chainId: number | null
+    readonly account: string | null
+  }
   readonly fiatOnramp: { available: boolean; availabilityChecked: boolean }
   readonly popupList: PopupList
   readonly bananaPrice: string | null
-  readonly profileImage?: string
+  readonly profileImage: string | null
 }
 
 const initialState: ApplicationState = {
+  web3: {
+    chainId: null,
+    account: null,
+  },
   fiatOnramp: { available: false, availabilityChecked: false },
-  chainId: null,
   popupList: [],
   bananaPrice: null,
-  profileImage: undefined,
+  profileImage: null,
 }
 
 const applicationSlice = createSlice({
   name: 'application',
   initialState,
   reducers: {
+    setChainId(state, action: PayloadAction<{ chainId: number | null | undefined }>) {
+      state.web3.chainId = action.payload.chainId || null
+    },
+    setAccount(state, action: PayloadAction<{ account: string | null | undefined }>) {
+      state.web3.account = action.payload.account || null
+    },
     setFiatOnrampAvailability(state, { payload: available }) {
       state.fiatOnramp = { available, availabilityChecked: true }
     },
-    updateChainId(state, action) {
-      const { chainId } = action.payload
-      state.chainId = chainId
-    },
-    updateProfileImage(state, { payload: { profileImage } }) {
+    setProfileImage(state, { payload: { profileImage } }) {
       state.profileImage = profileImage
     },
     setBananaPrice(state, action) {
@@ -65,6 +74,14 @@ const applicationSlice = createSlice({
   },
 })
 
-export const { updateChainId, setFiatOnrampAvailability, setBananaPrice, addPopup, updateProfileImage, removePopup } =
-  applicationSlice.actions
+export const applicationActions = applicationSlice.actions
+export const {
+  setChainId,
+  setAccount,
+  setFiatOnrampAvailability,
+  setBananaPrice,
+  addPopup,
+  setProfileImage,
+  removePopup,
+} = applicationActions
 export default applicationSlice.reducer

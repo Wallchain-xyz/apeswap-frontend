@@ -65,7 +65,9 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
   const { t } = useTranslation()
   const { typedValue } = useZapState()
   const showApproveContract = !new BigNumber(allowance ?? 0).gt(0)
-  const { onCurrencySelection, onUserInput, onSetZapType } = useZapActionHandlers()
+  const { onZapCurrencySelection, onZapUserInput, onSetZapType } = useZapActionHandlers()
+  const { bestMergedZaps } = useDerivedZapInfo()
+  // TODO: any type
   const lpCurrencies: any = {
     currencyA: useCurrency(token1),
     currencyB: useCurrency(token0),
@@ -78,16 +80,15 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
     account ?? undefined,
     pair?.liquidityToken ?? currencyA ?? undefined,
   )
-  const { zap } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
-  const priceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2)).times(100).toNumber()
+  const priceImpact = new BigNumber(bestMergedZaps?.totalPriceImpact?.toFixed(2)).times(100).toNumber()
   const handleDeposit = useDualDeposit(!!currencyB, onStakeLp, pid ?? 0, setPendingDepositTrx, poolAddress, onDismiss)
 
   const onHandleValueChange = useCallback(
     (val: string) => {
-      onUserInput(Field.INPUT, val)
+      onZapUserInput(Field.INPUT, val)
     },
-    [onUserInput],
+    [onZapUserInput],
   )
 
   const handleCurrencySelect = useCallback(
@@ -97,11 +98,11 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
       onHandleValueChange('')
       if (!currency?.currencyB) {
         // if there's no currencyB use zap logic
-        onCurrencySelection(Field.INPUT, [currency.currencyA])
-        onCurrencySelection(Field.OUTPUT, [lpCurrencies.currencyA, lpCurrencies.currencyB])
+        onZapCurrencySelection(Field.INPUT, [currency.currencyA])
+        onZapCurrencySelection(Field.OUTPUT, [lpCurrencies.currencyA, lpCurrencies.currencyB])
       }
     },
-    [lpCurrencies.currencyA, lpCurrencies.currencyB, onCurrencySelection, onHandleValueChange],
+    [lpCurrencies.currencyA, lpCurrencies.currencyB, onZapCurrencySelection, onHandleValueChange],
   )
 
   const handleMaxInput = useCallback(() => {
@@ -122,7 +123,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
 
   // reset input value to zero on first render
   useEffect(() => {
-    onUserInput(Field.INPUT, '')
+    onZapUserInput(Field.INPUT, '')
     onSetZapType(product === PRODUCT.DUAL_FARM ? ZapType.ZAP_MINI_APE : ZapType.ZAP_LP_POOL)
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
@@ -141,9 +142,9 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
             enableZap={enableZap}
           />
         </Box>
-        {!currencyB && typedValue && parseFloat(typedValue) > 0 && zap?.pairOut?.liquidityMinted && (
+        {!currencyB && typedValue && parseFloat(typedValue) > 0 && bestMergedZaps?.pairOut?.liquidityMinted && (
           <Flex sx={{ margin: '15px 0', fontWeight: 600 }}>
-            <DistributionPanel zap={zap} hideTitle />
+            <DistributionPanel zap={bestMergedZaps} hideTitle />
           </Flex>
         )}
         {showUpdateSlippage && <UpdateSlippage priceImpact={priceImpact} updateSlippage={updateSlippage} />}

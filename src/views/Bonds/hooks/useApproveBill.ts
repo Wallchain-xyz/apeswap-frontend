@@ -20,7 +20,7 @@ const useApproveBill = (tokenAddress: string, billAddress: string) => {
     })
     return tx
   }, [billAddress, addTransaction, tokenAddress, tokenContract])
-  return { onApprove: handleApprove }
+  return { onApproveBill: handleApprove }
 }
 
 export default useApproveBill

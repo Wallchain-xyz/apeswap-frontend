@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import DualLiquidityModal from '../DualLiquidityModal'
 import { Field, selectCurrency } from 'state/swap/actions'
-import { selectOutputCurrency } from 'state/zap/actions'
+import { setOutputCurrency } from 'state/zap/slice'
 import { useDispatch } from 'react-redux'
 import { ZapType } from '@ape.swap/sdk'
 import { CHAIN_PARAMS } from 'config/constants/chains'
@@ -52,7 +52,7 @@ const useAddLiquidityModal = (zapIntoProductType?: ZapType, clearStack = false) 
         }),
       )
       dispatch(
-        selectOutputCurrency({
+        setOutputCurrency({
           currency1: nativeToETH(token),
           currency2: nativeToETH(quoteToken),
         }),

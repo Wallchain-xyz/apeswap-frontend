@@ -87,6 +87,8 @@ function useZapCallArguments(
   ])
 }
 
+// FIXME: Planning on deprecating this for state thunks
+// FIXME: Move logic to zap/zapv2/zapthunks
 // returns a function that will execute a swap, if the parameters are all valid
 // and the user has approved the slippage adjusted input amount for the trade
 export function useZapCallback(
@@ -97,7 +99,7 @@ export function useZapCallback(
   stakingContractAddress?: string,
   maxPrice?: string,
   poolPid?: string,
-): { status: ZapStatus; callback: any; error: string | undefined } {
+): { status: ZapStatus; callback: any; error: string | null } {
   const { account, chainId, provider } = useWeb3React()
 
   const dispatch = useAppDispatch()
@@ -129,11 +131,11 @@ export function useZapCallback(
         dispatch(setZapError('Invalid recipient'))
       } else {
         dispatch(setZapStatus(ZapStatus.LOADING))
-        dispatch(setZapError(undefined))
+        dispatch(setZapError(null))
       }
     } else {
       dispatch(setZapStatus(ZapStatus.VALID))
-      dispatch(setZapError(undefined))
+      dispatch(setZapError(null))
     }
   }, [provider, account, chainId, recipient, recipientAddressOrName, dispatch])
 
@@ -200,7 +202,7 @@ export function useZapCallback(
             }
           })
       },
-      error: undefined,
+      error: null,
     }
   }, [zap, account, recipient, recipientAddressOrName, swapCalls, addTransaction, zapStatus, zapError])
 }

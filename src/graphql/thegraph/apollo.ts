@@ -14,7 +14,7 @@ const httpLink = new HttpLink({ uri: CHAIN_SUBGRAPH_URL[SupportedChainId.BSC] })
 // For more information: https://www.apollographql.com/docs/react/networking/advanced-http-networking/
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
-  const chainId = (store.getState() as AppState).application.chainId
+  const chainId = (store.getState() as AppState).application.web3.chainId
 
   operation.setContext(() => ({
     uri:

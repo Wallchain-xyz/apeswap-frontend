@@ -10,12 +10,13 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { supportedChainId } from 'utils/supportedChainId'
-import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
+import { setBananaPrice, setChainId, setAccount, setProfileImage } from './reducer'
 import { useGetProfilePic } from './hooks'
 import { updateSelectedNetwork } from '../user/reducer'
 import { NETWORK_LABEL } from '../../config/constants/chains'
 import useSelectChain from '../../hooks/useSelectChain'
 import { useGetIsLhdAuth } from 'state/lhd/hooks'
+import { setWeb3Provider } from './web3ProviderSingleton'
 
 export default function Updater(): null {
   const { account, chainId, provider } = useWeb3React()
@@ -30,6 +31,14 @@ export default function Updater(): null {
       setActiveChainId(chainId)
     }
   }, [dispatch, chainId, provider, windowVisible])
+
+  useEffect(() => {
+    dispatch(setAccount({ account }))
+  }, [account, dispatch])
+
+  useEffect(() => {
+    setWeb3Provider(provider || null)
+  }, [provider])
 
   const debouncedChainId = useDebounce(activeChainId, 100)
   const selectChain = useSelectChain()
@@ -65,7 +74,7 @@ export default function Updater(): null {
 
   useEffect(() => {
     const chainId2 = debouncedChainId ? supportedChainId(debouncedChainId) ?? null : null
-    dispatch(updateChainId({ chainId: chainId2 }))
+    dispatch(setChainId({ chainId: chainId2 }))
     dispatch(updateSelectedNetwork({ chainId: chainId2 }))
   }, [dispatch, debouncedChainId])
 
@@ -73,9 +82,9 @@ export default function Updater(): null {
 
   useEffect(() => {
     if (profileImage) {
-      dispatch(updateProfileImage({ profileImage: profileImage }))
+      dispatch(setProfileImage({ profileImage: profileImage }))
     } else {
-      dispatch(updateProfileImage({ profileImage: undefined }))
+      dispatch(setProfileImage({ profileImage: undefined }))
     }
   }, [profileImage, account, dispatch])
 

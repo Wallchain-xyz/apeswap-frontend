@@ -29,7 +29,7 @@ import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
 
-const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
+const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmitted }) => {
   const {
     token,
     quoteToken,
@@ -44,28 +44,31 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     maxPayoutTokens,
   } = bill
   const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
-  const { chainId, account, provider } = useWeb3React()
-  const { recipient, typedValue } = useZapState()
-  const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
-  const { onBuyBill } = useBuyBill(
-    contractAddress[chainId as SupportedChainId] ?? '',
-    typedValue,
-    lpPrice ?? 0,
-    price ?? '',
-  )
+
   const dispatch = useAppDispatch()
-  const [pendingTrx, setPendingTrx] = useState(false)
+  const { chainId, account, provider } = useWeb3React()
   const { t } = useTranslation()
   const toastError = useToastError()
+  const [pendingTrx, setPendingTrx] = useState(false)
+
+  const { recipient, typedValue } = useZapState()
+  const { bestMergedZaps, zapRouteState } = useDerivedZapInfo()
+  const { onZapCurrencySelection, onZapUserInput } = useZapActionHandlers()
+  const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
 
   const billsCurrencies = {
+    // NOTE: Quote token is currencyB
     currencyA: useCurrency(token.address[chainId as SupportedChainId]),
     currencyB: useCurrency(quoteToken.address[chainId as SupportedChainId]),
   }
+
   const [currencyA, setCurrencyA] = useState(billsCurrencies.currencyA)
   const [currencyB, setCurrencyB] = useState(billsCurrencies.currencyB)
   const inputCurrencies = [currencyA, currencyB]
 
+  const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
+
+  // TODO: This assumes that the bill principal token is UniswapV2
   // We want to find the pair (if any) to get its balance, if there's no pair use currencyA
   const [, pair] = useV2Pair(inputCurrencies[0] ?? undefined, inputCurrencies[1] ?? undefined)
   const selectedCurrencyBalance = useCurrencyBalance(
@@ -73,21 +76,56 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     pair?.liquidityToken ?? currencyA ?? undefined,
   )
 
-  const { zap, zapRouteState } = useDerivedZapInfo()
-  const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
+  // FIXME: Hook
+  // TODO: 2% slippage?
+  const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toNumber().toFixed(0)
+  const rawPriceImpact = new BigNumber(bestMergedZaps?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
+  const priceImpact = useMemo(() => new Percent(rawPriceImpact, 10_000), [rawPriceImpact])
 
-  const { onCurrencySelection, onUserInput } = useZapActionHandlers()
-  const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
+  /**
+   * Buy bill directly with principal tokens.
+   * -> NOT for purchasing with Zap
+   */
+  const { onBuyBill } = useBuyBill(
+    contractAddress[chainId as SupportedChainId] ?? '',
+    typedValue,
+    lpPrice ?? 0,
+    price ?? '',
+  )
+
+  /**
+   * Buy bill using Zap.
+   */
+  // TODO: Only handling for Zap?
+  const onHandleInput = useCallback(
+    (val: string) => {
+      onZapUserInput(Field.INPUT, val)
+    },
+    [onZapUserInput],
+  )
+
+  useEffect(() => {
+    //reset zap state on mount
+    onHandleInput('')
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [])
+
+  // TODO: Possibly something to update regarding Wido
   const { callback: zapCallback } = useZapCallback(
-    zap,
+    bestMergedZaps,
     ZapType.ZAP_T_BILL,
     zapSlippage,
     recipient,
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
   )
-  const rawPriceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
-  const priceImpact = useMemo(() => new Percent(rawPriceImpact, 10_000), [rawPriceImpact])
+
+
+  
+  
+  /**
+   * Slippage
+   */
 
   const showUpdateSlippage =
     zapSlippage.lessThan(priceImpact) &&
@@ -107,13 +145,19 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /**
+   * Input Value
+   */
   // this logic prevents user to initiate a tx for a higher bill value than the available amount
-  const consideredValue = currencyB ? typedValue : zap?.pairOut?.liquidityMinted?.toExact()
-  const bigValue = new BigNumber(consideredValue).times(new BigNumber(10).pow(18))
+  const consideredValue = currencyB ? typedValue : bestMergedZaps?.pairOut?.liquidityMinted?.toExact()
+  // FIXME: Assumes LP is in 18 decimals?
+  const bigValue = new BigNumber(Number(consideredValue)).times(new BigNumber(10).pow(18))
   const billValue = bigValue.div(new BigNumber(price ?? 0))?.toString()
+
   const available = new BigNumber(maxTotalPayOut ?? 0)
     ?.minus(new BigNumber(totalPayoutGiven ?? 0))
     ?.div(new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18))
+
   // threshold equals to 10 usd in earned tokens (banana or jungle token)
   const thresholdToShow = new BigNumber(5).div(earnTokenPrice ?? 0)
   const safeAvailable = available.minus(thresholdToShow)
@@ -121,19 +165,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18),
   )
   const displayAvailable = singlePurchaseLimit.lt(safeAvailable) ? singlePurchaseLimit : safeAvailable
-
-  const onHandleValueChange = useCallback(
-    (val: string) => {
-      onUserInput(Field.INPUT, val)
-    },
-    [onUserInput],
-  )
-
-  useEffect(() => {
-    //reset zap state on mount
-    onHandleValueChange('')
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, [])
 
   const searchForBillId = useCallback(
     (resp: any, billNftAddress: string) => {
@@ -146,10 +177,12 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     [onBillId],
   )
 
+  // TODO: HandleBuy
   const handleBuy = useCallback(async () => {
     if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
-    onTransactionSubmited(true)
+    onTransactionSubmitted(true)
+
     if (currencyB) {
       await onBuyBill()
         .then((resp: any) => {
@@ -161,9 +194,13 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           console.error(e)
           toastError(e)
           setPendingTrx(false)
-          onTransactionSubmited(false)
+          onTransactionSubmitted(false)
         })
     } else {
+      // FIXME: Add something like this
+      // dispatch(onZapBill({ provider }))
+
+      // TODO: Will replace this with updated store
       await zapCallback()
         .then((hash: any) => {
           setPendingTrx(true)
@@ -182,19 +219,20 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             .catch((e) => {
               console.error(e)
               setPendingTrx(false)
-              onTransactionSubmited(false)
+              onTransactionSubmitted(false)
             })
           track({
             event: 'zap',
             chain: chainId,
             data: {
               cat: 'bill',
-              token1: zap.currencyIn.currency.symbol,
-              token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
-              amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+              token1: bestMergedZaps.currencyIn.currency.symbol,
+              token2: `${bestMergedZaps.currencyOut1.outputCurrency.symbol}-${bestMergedZaps.currencyOut2.outputCurrency.symbol}`,
+              amount: getBalanceNumber(new BigNumber(bestMergedZaps.currencyIn.inputAmount.toString())),
             },
           })
           track({
+            // TODO: There isn't an event called bond
             event: 'bond',
             chain: chainId,
             data: {
@@ -202,7 +240,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               type: billType ?? '',
               address: contractAddress[chainId as SupportedChainId],
               typedValue,
-              usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
+              usdAmount: parseFloat(bestMergedZaps?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
             },
           })
         })
@@ -211,7 +249,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           console.error(e)
           toastError(e)
           setPendingTrx(false)
-          onTransactionSubmited(false)
+          onTransactionSubmitted(false)
         })
     }
   }, [
@@ -223,10 +261,10 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     onBillId,
     dispatch,
     onBuyBill,
-    onTransactionSubmited,
+    onTransactionSubmitted,
     searchForBillId,
     zapCallback,
-    zap,
+    bestMergedZaps,
     typedValue,
     billType,
     contractAddress,
@@ -237,22 +275,26 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   ])
 
   const handleMaxInput = useCallback(() => {
-    onHandleValueChange(maxAmountSpend(selectedCurrencyBalance)?.toExact() ?? '')
-  }, [onHandleValueChange, selectedCurrencyBalance])
+    onHandleInput(maxAmountSpend(selectedCurrencyBalance)?.toExact() ?? '')
+  }, [onHandleInput, selectedCurrencyBalance])
 
   const handleCurrencySelect = useCallback(
     (currency: DualCurrencySelector) => {
       setCurrencyA(currency?.currencyA)
       setCurrencyB(currency?.currencyB)
-      onHandleValueChange('')
+      onHandleInput('')
       if (!currency?.currencyB) {
         // if there's no currencyB use zap logic
-        onCurrencySelection(Field.INPUT, [currency.currencyA])
-        // @ts-ignore
-        onCurrencySelection(Field.OUTPUT, [billsCurrencies?.currencyA, billsCurrencies?.currencyB])
+        onZapCurrencySelection(Field.INPUT, [currency.currencyA])
+        // FIXME: This logic may not work with Wido Zap, but maybe :thinking:
+        onZapCurrencySelection(
+          Field.OUTPUT,
+          // @ts-ignore
+          [billsCurrencies?.currencyA, billsCurrencies?.currencyB],
+        )
       }
     },
-    [billsCurrencies.currencyA, billsCurrencies.currencyB, onCurrencySelection, onHandleValueChange],
+    [billsCurrencies.currencyA, billsCurrencies.currencyB, onZapCurrencySelection, onHandleInput],
   )
 
   return (
@@ -260,7 +302,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
       <Flex sx={{ flexWrap: 'wrap' }}>
         <DualCurrencyPanel
           handleMaxInput={handleMaxInput}
-          onUserInput={onHandleValueChange}
+          onUserInput={onHandleInput}
           value={typedValue}
           onCurrencySelect={handleCurrencySelect}
           // @ts-ignore
@@ -305,10 +347,12 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               </Button>
             </Box>
           )}
+          {/* NOTE: Buy Button */}
           <Box sx={billType !== 'reserve' ? styles.buyButtonContainer : styles.buyButtonContainerFull}>
+            {/* NOTE Enable button happens here */}
             <BillActions
               bill={bill}
-              zap={zap}
+              zap={bestMergedZaps}
               zapRouteState={zapRouteState}
               currencyB={currencyB as Currency}
               handleBuy={handleBuy}

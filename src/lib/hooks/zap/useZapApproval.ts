@@ -3,7 +3,10 @@ import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useApproval } from 'lib/hooks/useApproval'
 
-// wraps useApproveCallback in the context of a swap
+/**
+ * Wraps useApproveCallback in the context of a swap.
+ * @deprecated This function has been deprecated. [Add any additional information here]
+ */
 export function useZapApproval(
   zap: any,
   // TODO: Unused param

@@ -1,7 +1,6 @@
 import React from 'react'
-import { ApprovalState, useApproveCallbackFromZap } from 'hooks/useApproveCallback'
 import { useTranslation } from 'contexts/Localization'
-import { useDerivedZapInfo } from 'state/zap/hooks'
+import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import ApproveJungle from './components/ApproveJungle'
 import ApproveDual from './components/ApproveDual'
 import ApproveZap from './components/ApproveZap'
@@ -10,6 +9,7 @@ import { useWeb3React } from '@web3-react/core'
 import ConnectWalletButton from 'components/ConnectWallet'
 import { useUserZapSlippageTolerance } from 'state/user/hooks'
 import { Button } from 'components/uikit'
+import { ApprovalState } from 'lib/hooks/useApproval'
 
 /**
  * Component's goal is to handle actions for DualDepositModal component which, in turn, aims to handle deposit/zap flow
@@ -54,9 +54,11 @@ const DualActions: React.FC<DualActionsProps> = ({
   const { account } = useWeb3React()
   const [allowedSlippage] = useUserZapSlippageTolerance()
   const { t } = useTranslation()
-  const { zap } = useDerivedZapInfo()
-  const [approval, approveZap] = useApproveCallbackFromZap(zap, allowedSlippage)
-  const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
+  // Zap State
+  const { approvalState: zapApprovalState } = useZapState()
+  const { onZapApproval } = useZapActionHandlers()
+  
+  const showApproveZapFlow = zapApprovalState === ApprovalState.NOT_APPROVED || zapApprovalState === ApprovalState.PENDING
 
   const renderAction = () => {
     if (!account) {
@@ -76,7 +78,7 @@ const DualActions: React.FC<DualActionsProps> = ({
       return <ApproveDual lpToApprove={lpToApprove} pid={pid} />
     }
     if (isZapSelected && showApproveZapFlow) {
-      return <ApproveZap action={approveZap} zapApprovalState={approval} />
+      return <ApproveZap action={onZapApproval} zapApprovalState={zapApprovalState} />
     }
     if (!showApproveZapFlow || !showApproveLpFlow) {
       return (

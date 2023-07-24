@@ -176,7 +176,7 @@ export const useBondNftContract = (address: string) => {
 
 export const useSousChef = (id: number) => {
   // Using selector to avoid circular dependecies
-  const chainId = useSelector((state: AppState) => state.application.chainId)
+  const chainId = useSelector((state: AppState) => state.application.web3.chainId)
   const config = pools.find((pool) => pool.sousId === id)
 
   return useContract(config ? config.contractAddress[chainId as SupportedChainId] : '', SOUS_CHEF_ABI) as SousChef

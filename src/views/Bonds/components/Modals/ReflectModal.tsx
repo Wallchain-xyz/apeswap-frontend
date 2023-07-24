@@ -16,7 +16,7 @@ const ReflectModal: React.FC<ReflectModalProps> = ({ billIndex, billSymbol, onDi
   const [confirmBuy, setConfirmBuy] = useState(false)
   const { t } = useTranslation()
   const [onPresentBuyBillsModal] = useModal(
-    <BuyBillModalView billIndex={billIndex} />,
+    <BuyBillModalView billIndex={billIndex} onDismiss={onDismiss} />,
     true,
     false,
     `billsModal${billIndex}`,

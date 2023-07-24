@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Flex } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { ApprovalState, useApproveCallbackFromZap } from 'hooks/useApproveCallback'
 import { styles } from '../styles'
 import ZapConfirmationModal from './ZapConfirmationModal'
 import { useWeb3React } from '@web3-react/core'
@@ -11,6 +10,8 @@ import { useUserSlippageToleranceWithDefault, useUserZapSlippageTolerance } from
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
+import { useZapActionHandlers, useZapState } from 'state/zap/hooks'
+import { ApprovalState } from 'lib/hooks/useApproval'
 
 interface ZapLiquidityActionsProps {
   handleZap: () => void
@@ -33,6 +34,10 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
+  // Zap State
+  const [ slippage ] = useUserZapSlippageTolerance()
+  const { approvalState: zapApprovalState } = useZapState()
+  const { onZapApproval } = useZapActionHandlers()
 
   const [onPresentAddLiquidityModal] = useModal(
     <ZapConfirmationModal
@@ -52,11 +57,8 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     handleZap()
   }
 
-  const [allowedSlippage] = useUserZapSlippageTolerance()
-
-  const [approval, approveCallback] = useApproveCallbackFromZap(zap, allowedSlippage)
   const showApproveFlow =
-    !zapInputError && (approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING)
+    !zapInputError && (zapApprovalState === ApprovalState.NOT_APPROVED || zapApprovalState === ApprovalState.PENDING)
 
   const renderAction = () => {
     if (!account) {
@@ -74,13 +76,13 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
         <Flex sx={{ width: '100%' }}>
           <>
             <Button
-              onClick={approveCallback}
-              disabled={approval !== ApprovalState.NOT_APPROVED}
-              load={approval === ApprovalState.PENDING}
+              onClick={onZapApproval}
+              disabled={zapApprovalState !== ApprovalState.NOT_APPROVED}
+              load={zapApprovalState === ApprovalState.PENDING}
               fullWidth
               sx={{ padding: '10px 2px' }}
             >
-              {approval === ApprovalState.PENDING
+              {zapApprovalState === ApprovalState.PENDING
                 ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
                 : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
             </Button>
