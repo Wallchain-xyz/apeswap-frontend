@@ -165,7 +165,6 @@ const LiveAndUpcoming = () => {
                             right: '10px',
                             top: '6px',
                             borderRadius: '5px',
-                            color: 'white',
                             backgroundColor: 'rgba(33, 33, 33, 0.7)',
                             position: 'absolute',
                             zIndex: 2,
@@ -175,8 +174,12 @@ const LiveAndUpcoming = () => {
                             alignItems: 'center',
                           }}
                         >
-                          <Text sx={{ lineHeight: '12.5px', fontSize: '11px', fontWeight: '700' }}>{line1}</Text>
-                          <Text sx={{ lineHeight: '12.5px', fontSize: '8px', fontWeight: '500' }}>{line2}</Text>
+                          <Text sx={{ lineHeight: '12.5px', fontSize: '11px', fontWeight: '700', color: 'white' }}>
+                            {line1}
+                          </Text>
+                          <Text sx={{ lineHeight: '12.5px', fontSize: '8px', fontWeight: '500', color: 'white' }}>
+                            {line2}
+                          </Text>
                         </Box>
                         <Image src={slideImage.url} fill alt="Slide image" style={{ borderRadius: '10px' }} />
                       </Flex>
