@@ -269,6 +269,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           // @ts-ignore
           lpList={[billsCurrencies]}
           enableZap={billType !== 'reserve'}
+          lpUsdVal={lpPrice}
         />
       </Flex>
       <Flex sx={styles.detailsContainer}>

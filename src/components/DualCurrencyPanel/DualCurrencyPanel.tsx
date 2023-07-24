@@ -34,6 +34,8 @@ interface DualCurrencyPanelProps {
   inputCurrencies: Currency[]
   lpList: DualCurrencySelector[]
   enableZap?: boolean
+  //Currently used to pass lp price for bonds. Especially for non Ape LPs bonds as this checks ApeV2 LP pair address
+  lpUsdVal?: number
 }
 
 const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
@@ -44,6 +46,7 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   inputCurrencies,
   lpList,
   enableZap,
+  lpUsdVal = 0,
 }) => {
   const { account, chainId } = useWeb3React()
   const [pairState, pair] = useV2Pair(inputCurrencies[0], inputCurrencies[1])
@@ -54,10 +57,11 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 
-  const [usdVal] = useTokenPriceUsd(
+  const [usdValue] = useTokenPriceUsd(
     pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0],
     pairState === PairState.EXISTS && true,
   )
+  const usdVal = lpUsdVal ?? usdValue
 
   useEffect(() => {
     if (pairBalance?.toExact() === '0') {
