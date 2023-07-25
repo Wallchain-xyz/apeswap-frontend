@@ -14,16 +14,21 @@ import TooltipBubble from 'components/uikit/Tooltip'
 // Hooks
 import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
 
+// Components
+import HistoricalChart from '../HistoricalChart'
+
 // Types
 import { chartExtras } from 'utils/types/lhd'
 
+type activeTab = 'strength' | 'historical'
+
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
+  const [queryString, setQueryString] = useState('')
+  const [activeTab, setActiveTab] = useState<activeTab>('strength')
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })
   const { t } = useTranslation()
   const router = useRouter()
   const DEX_MISSING_ASSETS = ['CRV']
-
-  const [queryString, setQueryString] = useState('')
 
   const [chartPassBackData, setChartPassBackData] = useState<chartExtras>({
     sustainabilityLower: 0,
@@ -80,9 +85,17 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
+              <Flex sx={{ gap: 20, alignSelf: 'start', p: '10px' }}>
+                <Text onClick={() => setActiveTab('strength')} sx={{ cursor: 'pointer' }}>
+                  Strength
+                </Text>
+                <Text onClick={() => setActiveTab('historical')} sx={{ cursor: 'pointer' }}>
+                  Historical
+                </Text>
+              </Flex>
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>
-                  {t('Liquidity Strength Chart ')}
+                  {t(activeTab === 'strength' ? 'Liquidity Strength Chart ' : 'Historical Chart ')}
                   <TooltipBubble
                     style={{ zIndex: 1000 }}
                     placement="bottomRight"
@@ -94,7 +107,11 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
                   </TooltipBubble>
                 </Text>
               </Flex>
-              <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
+              {activeTab === 'strength' ? (
+                <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
+              ) : (
+                <HistoricalChart />
+              )}
             </Flex>
             <Flex sx={styles.infoCardMobile}>
               <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />

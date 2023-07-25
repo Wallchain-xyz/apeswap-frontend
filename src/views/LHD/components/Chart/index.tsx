@@ -192,7 +192,7 @@ const logoPlugin = {
     dataset?.data?.forEach(function (point: any) {
       const { x, y, r, data } = point
       const imageData = new Image()
-      imageData.src = `${data.image}`
+      imageData.src = `${data?.image}`
 
       const size = r * 3
       const xScale = chart.scales['x']
