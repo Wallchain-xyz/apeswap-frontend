@@ -39,9 +39,17 @@ const NavOption = ({ navItem }: NavOptionProps) => {
       <Text sx={{ fontSize: '16px', fontWeight: '500', color: isHovered ? 'text' : 'buttonDisabledText' }}>
         {t(label)}
       </Text>
-      {/* TODO: Add correct caret */}
-      <Svg icon="caret" width="8px" direction={isHovered ? 'up' : 'down'} />
-      <DropdownMenu isVisible={isHovered} items={items} />
+      {items && (
+        <>
+          <Svg
+            icon="navCaret"
+            width="8px"
+            color={isHovered ? 'text' : 'backgroundDisabled'}
+            direction={isHovered ? 'up' : 'down'}
+          />
+          <DropdownMenu isVisible={isHovered} items={items} />
+        </>
+      )}
     </Flex>
   )
 }

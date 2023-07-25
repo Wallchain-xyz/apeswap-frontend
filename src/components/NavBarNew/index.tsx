@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Box } from 'theme-ui'
 
@@ -9,6 +10,18 @@ import NavOption from './components/NavOption'
 import { NAV_ITEMS } from './constants'
 
 const NavBarNew = () => {
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const scrollHandler = () => {
+      window.scrollY > 0 ? setIsScrolled(true) : setIsScrolled(false)
+    }
+    window.addEventListener('scroll', scrollHandler)
+    return () => {
+      window.removeEventListener('scroll', scrollHandler)
+    }
+  }, [])
+
   return (
     <Flex
       as="nav"
@@ -19,6 +32,7 @@ const NavBarNew = () => {
         zIndex: 100,
         px: '40px',
         py: '8px',
+        bg: isScrolled ? 'white1' : '',
       }}
     >
       <Flex sx={{ alignItems: 'center' }}>

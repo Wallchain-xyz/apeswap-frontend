@@ -6,5 +6,6 @@ export interface NavItemOptions {
 }
 export interface NavItem {
   label: string
-  items: NavItemOptions[]
+  items?: NavItemOptions[]
+  href?: string
 }
