@@ -27,7 +27,7 @@ function Token(data: any) {
   }, [imageUrl])
 
   const titleBackground =
-    score <= 30 ? '#7f6640' : score <= 60 ? '#451717' : score <= 80 ? '#808080' : score <= 95 ? '#C6853E' : '#959EBF'
+    score <= 30 ? '#C4B195' : score <= 60 ? '#996230' : score <= 80 ? '#808080' : score <= 95 ? '#C6853E' : '#5996EF'
 
   const Styles = {
     container: {
