@@ -12,10 +12,10 @@ import ExemptAssetNotice from './components/ExemptAssetNotice'
 import TooltipBubble from 'components/uikit/Tooltip'
 
 // Hooks
-import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
+import useGetLHDProfile from 'state/lhd/hooks/useGetLHDProfile'
 
 // Types
-import { chartExtras } from 'utils/types/lhd'
+import { chartExtras } from 'state/lhd/types'
 
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })

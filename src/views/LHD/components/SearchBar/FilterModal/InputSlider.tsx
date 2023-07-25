@@ -3,7 +3,7 @@ import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
 import NumericInput from 'components/uikit/Input/NumericInput'
 import { Flex, Text } from 'components/uikit'
-import { MinMax } from 'utils/types/lhd'
+import { MinMax } from 'state/lhd/types'
 import { formatDollar } from 'utils/formatNumbers'
 import { debounce } from 'lodash'
 

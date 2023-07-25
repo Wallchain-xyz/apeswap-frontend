@@ -18,10 +18,10 @@ const SCORE = 'score'
 
 // Hooks
 import { useSelector } from 'react-redux'
-import useGetLHDProfiles from 'hooks/queries/useGetLHDProfiles'
+import useGetLHDProfiles from 'state/lhd/hooks/useGetLHDProfiles'
 
 // Types
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 import { AppState } from 'state'
 
 const LHD = () => {

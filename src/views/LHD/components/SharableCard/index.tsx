@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Flex, Modal, Button, Text, Svg } from 'components/uikit'
-import { TokenAddress } from 'utils/types/lhd'
+import { TokenAddress } from 'state/lhd/types'
 import ChainsIcons from '../FullProfile/components/ChainsIcons'
 import Token from './components/Token'
 import Bar from './components/Bar'

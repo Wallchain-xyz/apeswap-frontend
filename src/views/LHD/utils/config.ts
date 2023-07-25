@@ -1,5 +1,4 @@
-import { ChainDetail, Tag } from 'utils/types/lhd'
-import { Filters } from 'utils/types/lhd'
+import { Filters, ChainDetail, Tag } from 'state/lhd/types'
 
 export const INITIAL_FILTER_VALUES: Required<Filters> = {
   totalScore: { min: 0, max: 100 },

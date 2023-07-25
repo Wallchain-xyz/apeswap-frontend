@@ -1,5 +1,5 @@
 import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 import { cloneDeep } from 'lodash'
 
