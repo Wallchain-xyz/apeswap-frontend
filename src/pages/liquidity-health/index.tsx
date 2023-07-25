@@ -2,9 +2,9 @@ import PageContainer from 'components/PageContainer'
 import LHD from 'views/LHD'
 
 // Hooks
-import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
-import { getHistoricalIndustryStats } from 'hooks/queries/useGetHistoricalIndustryStats'
-import { getLHDProfiles } from 'hooks/queries/useGetLHDProfiles'
+import { getIndustryStats } from 'state/lhd/hooks/useGetIndustryStats'
+import { getHistoricalIndustryStats } from 'state/lhd/hooks/useGetHistoricalIndustryStats'
+import { getLHDProfiles } from 'state/lhd/hooks/useGetLHDProfiles'
 import { getFilterDiff } from 'views/LHD/components/SearchBar/helpers'
 
 // Constants

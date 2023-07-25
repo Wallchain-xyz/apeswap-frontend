@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 // Types
-import { LHDProfiles, Filters } from 'utils/types/lhd'
+import { LHDProfiles, Filters } from '../types'
 
 // Helpers
 import { generateSearchParams } from 'views/LHD/components/SearchBar/helpers'

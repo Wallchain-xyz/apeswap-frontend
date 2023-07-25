@@ -8,10 +8,10 @@ import { GetServerSideProps } from 'next'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 
 // SSR getters
-import { getIndustryStats } from 'hooks/queries/useGetIndustryStats'
-import { getHomepageStats } from 'hooks/queries/useGetHomepageStats'
+import { getIndustryStats } from 'state/lhd/hooks/useGetIndustryStats'
+import { getHomepageStats } from 'state/homepage/hooks/useGetHomepageStats'
 import { getTvlStats } from 'state/homepage/hooks/useGetTvlStats'
-import { getLiveAndUpcoming } from 'hooks/queries/useGetLiveAndUpcoming'
+import { getLiveAndUpcoming } from 'state/homepage/hooks/useGetLiveAndUpcoming'
 
 // Constants
 import { QUERY_KEYS } from 'config/constants/queryKeys'

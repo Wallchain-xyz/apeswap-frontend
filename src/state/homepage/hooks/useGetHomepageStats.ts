@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 // Types
-import { HomepageDTO } from 'utils/types/homepage'
+import { HomepageDTO } from '../types'
 
 // Constants
 import { apiV2BaseUrl } from 'config/constants/api'
