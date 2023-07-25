@@ -6,6 +6,7 @@ import DropdownMenu from './DropdownMenu'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
+import { useThemeUI } from 'theme-ui'
 
 // Types
 import { NavItem } from '../types'
@@ -17,7 +18,9 @@ interface NavOptionProps {
 const NavOption = ({ navItem }: NavOptionProps) => {
   const [isHovered, setIsHovered] = useState<boolean>(false)
 
+  const { colorMode } = useThemeUI()
   const { t } = useTranslation()
+
   const { label, items } = navItem
   return (
     <Flex
@@ -31,12 +34,14 @@ const NavOption = ({ navItem }: NavOptionProps) => {
         padding: '10px',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: '10px',
+        gap: '7px',
         borderRadius: '6px',
         position: 'relative',
       }}
     >
-      <Text sx={{ fontSize: '16px', fontWeight: '500', color: isHovered ? 'text' : 'buttonDisabledText' }}>
+      <Text
+        sx={{ fontSize: '16px', fontWeight: '400', color: colorMode === 'dark' && !isHovered && 'buttonDisabledText' }}
+      >
         {t(label)}
       </Text>
       {items && (
@@ -44,7 +49,7 @@ const NavOption = ({ navItem }: NavOptionProps) => {
           <Svg
             icon="navCaret"
             width="8px"
-            color={isHovered ? 'text' : 'backgroundDisabled'}
+            color={colorMode === 'dark' && !isHovered ? 'buttonDisabledText' : 'text'}
             direction={isHovered ? 'up' : 'down'}
           />
           <DropdownMenu isVisible={isHovered} items={items} />

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Box } from 'theme-ui'
+
+// Hooks
+import { useWeb3React } from '@web3-react/core'
 
 // Components
 import { Flex, Svg } from 'components/uikit'
@@ -8,13 +10,17 @@ import NavOption from './components/NavOption'
 
 // Constants
 import { NAV_ITEMS } from './constants'
+import NetworkSelector from 'components/NetworkSelector'
+import AccountLoggedInDisplay from 'components/NavBar/components/AccountLoggedInDisplay'
+import ConnectWalletButton from 'components/ConnectWallet'
 
 const NavBarNew = () => {
+  const { account } = useWeb3React()
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const scrollHandler = () => {
-      window.scrollY > 0 ? setIsScrolled(true) : setIsScrolled(false)
+      window.scrollY > 30 ? setIsScrolled(true) : setIsScrolled(false)
     }
     window.addEventListener('scroll', scrollHandler)
     return () => {
@@ -31,7 +37,7 @@ const NavBarNew = () => {
         width: '100%',
         zIndex: 100,
         px: '40px',
-        py: '8px',
+        py: '12px',
         bg: isScrolled ? 'white1' : '',
       }}
     >
@@ -45,9 +51,9 @@ const NavBarNew = () => {
           })}
         </Flex>
       </Flex>
-      <Flex sx={{ bg: 'magenta', gap: '30px' }}>
-        <Box sx={{ bg: 'brown' }}>Chain Selector</Box>
-        <Box sx={{ bg: 'brown' }}>Profile</Box>
+      <Flex sx={{ gap: '30px' }}>
+        <NetworkSelector />
+        {account ? <AccountLoggedInDisplay /> : <ConnectWalletButton navBarFlag />}
       </Flex>
     </Flex>
   )

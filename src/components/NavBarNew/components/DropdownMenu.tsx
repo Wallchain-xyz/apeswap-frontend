@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Box } from 'theme-ui'
+import { Box, useThemeUI } from 'theme-ui'
 
 // Components
 import { Flex, Text } from 'components/uikit'
@@ -19,6 +19,7 @@ interface DropdownMenuProps {
 
 const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
   const [isHovered, setIsHovered] = useState<number | null>(null)
+  const { colorMode } = useThemeUI()
 
   const { t } = useTranslation()
   return (
@@ -28,7 +29,7 @@ const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
         position: 'absolute',
         top: '35px',
         left: '0',
-        bg: 'rgba(33, 33, 33, 0.90)',
+        bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.85)',
         width: 'max-content',
         px: '30px',
         py: '20px',
@@ -48,21 +49,23 @@ const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
                 sx={{
                   p: '10px',
                   gap: '15px',
-                  opacity: '0.5',
+                  opacity: colorMode === 'dark' ? '0.7' : '0.85',
                   borderRadius: 'normal',
                   alignItems: 'center',
                   width: 'auto',
                   minWidth: '250px',
                   height: '59px',
-                  '&:hover': { bg: 'white3', opacity: '0.9' },
+                  '&:hover': { bg: 'white3', opacity: '1' },
                 }}
               >
                 <Box sx={{ height: '25px', width: '25px', position: 'relative' }}>
-                  <Image src={icon} alt={`${itemLabel} logo`} fill />
+                  <Image src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} fill />
                 </Box>
                 <Flex sx={{ flexDirection: 'column' }}>
-                  <Text sx={{ fontSize: '16px', fontWeight: '500' }}>{t(itemLabel)}</Text>
-                  <Text sx={{ fontSize: '12px', fontWeight: '500', color: 'buttonDisabledText' }}>{t(itemDesc)}</Text>
+                  <Text sx={{ fontSize: '15px', fontWeight: '400', lineHeight: '18px' }}>{t(itemLabel)}</Text>
+                  <Text sx={{ fontSize: '12px', fontWeight: '300', lineHeight: '18px', color: 'buttonDisabledText' }}>
+                    {t(itemDesc)}
+                  </Text>
                 </Flex>
                 <Flex
                   sx={{
