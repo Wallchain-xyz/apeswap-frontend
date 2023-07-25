@@ -1,80 +1,33 @@
-import { Trade } from '@ape.swap/router-sdk'
-import { Currency, Percent, TradeType } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import { SwapCallbackState, useSwapCallback as useLibSwapCallBack } from 'lib/hooks/swap/useSwapCallback'
-import { ReactNode, useMemo } from 'react'
-
-import { useTransactionAdder } from '../state/transactions/hooks'
+import { useCallback } from 'react'
+import { useAddTxFromHash, useTransactionAdder } from '../state/transactions/hooks'
+import { LiFi, Route } from '@lifi/sdk'
+import { getTxHashFromRoute } from '../views/Swap/utils'
 import { TransactionType } from '../state/transactions/types'
+import { TradeType } from '@ape.swap/sdk-core'
 import { currencyId } from '../utils/currencyId'
-import useENS from './useENS'
-import { SignatureData } from './useERC20Permit'
-import useTransactionDeadline from './useTransactionDeadline'
 
 // returns a function that will execute a swap, if the parameters are all valid
 // and the user has approved the slippage adjusted input amount for the trade
-export function useSwapCallback(
-  trade: Trade<Currency, Currency, TradeType> | undefined, // trade to execute, required
-  allowedSlippage: Percent, // in bips
-  recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
-  signatureData: SignatureData | undefined | null,
-): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: ReactNode | null } {
-  const { account } = useWeb3React()
+export const useSwapCallback = (selectedRoute: Route | undefined): () => Promise<Route | undefined> => {
+  const { provider } = useWeb3React()
+  const signer = provider?.getSigner()
 
-  const deadline = useTransactionDeadline()
+  return useCallback(async () => {
+    console.log('callback function is called')  // Debugging log
+    const lifi = new LiFi({
+      //make this a const
+      integrator: 'apeswap',
+    })
+    if (!signer || !selectedRoute) return
+    return await lifi.executeRoute(signer, selectedRoute)
+      .then((response) => {
+        console.log('response from executeRoute:', response)
 
-  const addTransaction = useTransactionAdder()
-
-  const { address: recipientAddress } = useENS(recipientAddressOrName)
-  const recipient = recipientAddressOrName === null ? account : recipientAddress
-
-  const {
-    state,
-    callback: libCallback,
-    error,
-  } = useLibSwapCallBack({
-    trade,
-    allowedSlippage,
-    recipientAddressOrName: recipient,
-    signatureData,
-    deadline,
-  })
-
-  const callback = useMemo(() => {
-    if (!libCallback || !trade) {
-      return null
-    }
-    return () =>
-      libCallback().then((response) => {
-        addTransaction(
-          response,
-          trade.tradeType === TradeType.EXACT_INPUT
-            ? {
-                type: TransactionType.SWAP,
-                tradeType: TradeType.EXACT_INPUT,
-                inputCurrencyId: currencyId(trade.inputAmount.currency),
-                inputCurrencyAmountRaw: trade.inputAmount.quotient.toString(),
-                expectedOutputCurrencyAmountRaw: trade.outputAmount.quotient.toString(),
-                outputCurrencyId: currencyId(trade.outputAmount.currency),
-                minimumOutputCurrencyAmountRaw: trade.minimumAmountOut(allowedSlippage).quotient.toString(),
-              }
-            : {
-                type: TransactionType.SWAP,
-                tradeType: TradeType.EXACT_OUTPUT,
-                inputCurrencyId: currencyId(trade.inputAmount.currency),
-                maximumInputCurrencyAmountRaw: trade.maximumAmountIn(allowedSlippage).quotient.toString(),
-                outputCurrencyId: currencyId(trade.outputAmount.currency),
-                outputCurrencyAmountRaw: trade.outputAmount.quotient.toString(),
-                expectedInputCurrencyAmountRaw: trade.inputAmount.quotient.toString(),
-              },
-        )
-        return response.hash
+        return response
+      }).catch((error) => {
+        console.error('An error occurred while executing the route:', error)
+        throw error
       })
-  }, [allowedSlippage, addTransaction, libCallback, trade])
-
-  return {
-    state,
-    callback,
-    error,
-  }
+  }, [selectedRoute, signer])
 }

@@ -16,7 +16,7 @@ import { getFilterDiff } from '../helpers'
 import { INITIAL_FILTER_VALUES } from 'views/LHD/utils/config'
 
 // Types
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 const modalProps = {
   sx: {

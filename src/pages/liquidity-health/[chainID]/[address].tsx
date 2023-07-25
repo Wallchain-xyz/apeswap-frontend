@@ -1,4 +1,4 @@
-// pages/lhd/[chainID]/[address]/index.tsx
+// pages/lhd/[chainID]/[address]/[[...currency]].tsx
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import PageContainer from '../../../components/PageContainer'
@@ -32,7 +32,7 @@ const MultiParamPage = () => {
 
 export default MultiParamPage
 
-import { getLHDProfile } from 'hooks/queries/useGetLHDProfile'
+import { getLHDProfile } from 'state/lhd/hooks/useGetLHDProfile'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 

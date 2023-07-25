@@ -9,8 +9,8 @@ import { icons } from 'components/uikit/Svg/types'
 
 // hooks and actions
 import useDebounce from 'hooks/useDebounce'
-import { useSetLhdAuth } from 'state/lhd/hooks'
-import useGetIsPasswordVerified from 'hooks/queries/useGetIsPasswordVerified'
+import { useSetLhdAuth } from 'state/lhd/hooks/useGetIsLhdAuth'
+import useGetIsPasswordVerified from 'state/lhd/hooks/useGetIsPasswordVerified'
 
 const SOCIAL_LINKS: { icon: icons; href: string }[] = [
   { icon: icons.TWITTER, href: 'https://twitter.com/ape_swap' },

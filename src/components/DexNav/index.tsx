@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import useModal from 'hooks/useModal'
 import { Flex, Link, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
-import { Switch } from 'theme-ui'
 import DexSettings from 'components/DexSettings'
 import SquidBridge from '../SquidBridge/SquidBridge'
 import ZapSlippage from '../ZapSlippage'
@@ -23,11 +22,9 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
     SupportedChainId.MAINNET,
   ]
   const { t } = useTranslation()
-  const { pathname, push, asPath } = useRouter()
+  const { pathname, push } = useRouter()
   const { chainId } = useWeb3React()
   const [onBridgeModal] = useModal(<SquidBridge />)
-
-  const v2Flag = pathname.includes('/v2')
 
   const onLiquidity =
     pathname?.includes('add-liquidity') ||
@@ -40,7 +37,6 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
   const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
-  // const [onPresentModal] = useModal(<MoonPayModal />)
 
   const handleSwitch = () => {
     push(
@@ -62,9 +58,8 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             ...styles.navLink,
             color: !pathname?.includes('swap') && 'textDisabled',
             mr: '20px',
-            ml: '5px',
           }}
-          onClick={() => push('/v3-swap')}
+          onClick={() => push('/swap')}
           id="swap-link"
         >
           {t('Swap')}
@@ -76,7 +71,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
             ...styles.navLink,
             color: !onLiquidity && 'textDisabled',
           }}
-          onClick={() => push('/v3-add-liquidity')}
+          onClick={() => push('/zap')}
           id="liquidity-link"
           className="liquidity"
         >
@@ -84,56 +79,6 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         </Text>
       </Flex>
       <Flex sx={styles.navIconContainer}>
-        {/* <RunFiatButton
-          sx={{ marginRight: '2px', width: '20px' }}
-          mini
-          t={t}
-          runFiat={onPresentModal}
-          track={track}
-          position="DEX"
-          chainId={chainId}
-        />
-        <CogIcon sx={{ cursor: 'pointer' }} onClick={onPresentSettingsModal} /> */}
-        <Flex
-          onClick={handleSwitch}
-          sx={{
-            position: 'relative',
-            mr: '10px',
-            height: 'fit-content',
-            minWidth: 'fit-content',
-            alignItems: 'center',
-            cursor: 'pointer',
-            zIndex: 2,
-          }}
-        >
-          <Text
-            size="13px"
-            weight={700}
-            color="primaryBright"
-            sx={{ position: 'absolute', zIndex: 1, right: v2Flag ? 3 : 11, mt: '2px' }}
-          >
-            {v2Flag ? 'V2' : 'V3'}
-          </Text>
-          <Switch
-            onChange={handleSwitch}
-            checked={!v2Flag}
-            sx={{
-              mr: '0px',
-              width: '50px',
-              borderRadius: '10px',
-              backgroundColor: 'yellow',
-              '& > div': {
-                transform: 'translateX(0%)',
-              },
-              'input:checked ~ &': {
-                background: 'linear-gradient(90deg, rgba(161, 101, 82, 1) 0%, rgba(255, 179, 0, 1)) 100%',
-                '> div': {
-                  transform: 'translateX(28px)',
-                },
-              },
-            }}
-          />
-        </Flex>
         <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
@@ -160,4 +105,4 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
   )
 }
 
-export default React.memo(DexNav)
+export default DexNav

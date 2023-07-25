@@ -287,7 +287,12 @@ const Farms = () => {
           <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>
       ) : (
-        <DisplayFarms farms={renderFarms() ?? []} farmTags={[]} isActive={isActive} openPid={urlSearchedFarm} />
+        <DisplayFarms
+          farms={renderFarms() ?? []}
+          farmTags={[]}
+          isActive={isActive}
+          openPid={urlSearchedFarm || urlSearchedJFarm}
+        />
       )}
       <div ref={loadMoreRef} />
     </Flex>

@@ -1,6 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Currency, CurrencyAmount, TradeType } from '@ape.swap/sdk-core'
-import { IMetric, MetricLoggerUnit, setGlobalMetric } from '@ape.swap/smart-order-router'
 import { AVERAGE_L1_BLOCK_TIME } from 'config/constants/chains'
 import { useStablecoinAmountFromFiatValue } from 'hooks/useStablecoinPrice'
 import { useRoutingAPIArguments } from 'lib/hooks/routing/useRoutingAPIArguments'
@@ -22,7 +21,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   tradeType: TTradeType,
   amountSpecified: CurrencyAmount<Currency> | undefined,
   otherCurrency: Currency | undefined,
-  routerPreference: RouterPreference,
   protocols?: Protocol[],
   useApeRPC?: boolean,
 ): {
@@ -42,15 +40,16 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     tokenOut: currencyOut,
     amount: amountSpecified,
     tradeType,
-    routerPreference,
     protocols,
     useApeRPC,
   })
 
-  const { isLoading, isError, data, currentData } = useGetQuoteQuery(queryArgs ?? skipToken, {
-    // Price-fetching is informational and costly, so it's done less frequently.
-    pollingInterval: routerPreference === RouterPreference.PRICE ? 120000 : AVERAGE_L1_BLOCK_TIME,
-  })
+  const {
+    isLoading,
+    isError,
+    data,
+    currentData,
+  } = useGetQuoteQuery(queryArgs ?? skipToken, { pollingInterval: AVERAGE_L1_BLOCK_TIME })
 
   const quoteResult: GetQuoteResult | undefined = useIsValidBlock(Number(data?.blockNumber) || 0) ? data : undefined
 

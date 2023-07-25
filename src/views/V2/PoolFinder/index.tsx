@@ -156,7 +156,7 @@ export default function PoolFinder() {
               }}
             >
               <Text textAlign="center">{t('Pool Found!')}</Text>
-              <Link href="/v3-liquidity/v2">
+              <Link href="/liquidity">
                 <Text textAlign="center" style={{ textDecoration: 'underline' }}>
                   {t('Manage this pool.')}
                 </Text>
@@ -171,7 +171,7 @@ export default function PoolFinder() {
               ) : (
                 <Flex style={{ margin: '20px 0px', alignItems: 'center', flexDirection: 'column' }}>
                   <Text textAlign="center">{t('You don’t have liquidity in this pool yet.')}</Text>
-                  <Link href={`/add-liquidity/v2/${currencyId(currency0)}/${currencyId(currency1)}`}>
+                  <Link href={`/add-liquidity/${currencyId(currency0)}/${currencyId(currency1)}`}>
                     <Text style={{ textDecoration: 'underline' }} textAlign="center">
                       {t('Add Liquidity')}
                     </Text>
@@ -182,7 +182,7 @@ export default function PoolFinder() {
               <Flex style={{ margin: '20px 0px', alignItems: 'center', justifyContent: 'center' }}>
                 <Text textAlign="center">No pool found.</Text>
                 <Link
-                  href={`/add-liquidity/v2/${currencyId(currency0)}/${currencyId(currency1)}`}
+                  href={`/add-liquidity/${currencyId(currency0)}/${currencyId(currency1)}`}
                   sx={{ textDecoration: 'underline' }}
                 >
                   {t('Create pool.')}

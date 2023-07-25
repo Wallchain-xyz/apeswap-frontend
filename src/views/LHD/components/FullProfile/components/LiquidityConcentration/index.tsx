@@ -1,4 +1,4 @@
-import { TokenProfile } from 'utils/types/lhd'
+import { TokenProfile } from 'state/lhd/types'
 import { Flex, Svg, Text } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { styles } from './styles'

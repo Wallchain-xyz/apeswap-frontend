@@ -17,6 +17,7 @@ import DexPanel from 'components/DexPanel'
 import { useTokenAllowance } from 'hooks/useTokenAllowance'
 import ApproveBtn from '../ApproveBtn'
 import { useApproveCallback } from '../../hooks/useApproveCallback'
+import { Pricing } from '../DexPanel/types'
 
 const Gnana = () => {
   const { account, chainId } = useWeb3React()
@@ -152,6 +153,7 @@ const Gnana = () => {
             handleMaxInput={handleSelectMax}
             onCurrencySelect={() => null}
             disableTokenSelect
+            pricing={Pricing.PRICEGETTER}
           />
           <Text sx={{ color: triedMore ? '#ff0000' : null, fontSize: '12px', fontWeight: 600 }}>
             {t('*Current max conversion is %displayMax%', { displayMax })}
@@ -172,6 +174,7 @@ const Gnana = () => {
             disabled
             ordersDisabled
             disableTokenSelect
+            pricing={Pricing.PRICEGETTER}
           />
           <Flex sx={{ marginTop: '20px', alignItems: 'center' }}>
             <Flex sx={gnanaStyles.checkboxContainer}>

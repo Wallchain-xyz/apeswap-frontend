@@ -8,7 +8,7 @@ const NumericInput = ({
   value,
   style,
 }: {
-  onUserInput: (input: string) => void
+  onUserInput?: (input: string) => void
   value: string
   style?: ThemeUIStyleObject
 }) => {
@@ -26,7 +26,7 @@ const NumericInput = ({
       }}
       value={value}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
-        onUserInput(e.target.value)
+        onUserInput && onUserInput(e.target.value)
       }}
       placeholder="0.0"
       pattern="^[0-9]*[.,]?[0-9]*$"

@@ -2,8 +2,9 @@ import { ThemeUIStyleObject } from 'theme-ui'
 
 export const styles: Record<'riskContainer' | 'tag' | 'text' | 'title' | 'yellow', ThemeUIStyleObject> = {
   riskContainer: {
-    position: 'relative',
+    position: 'absolute',
     width: '0',
+    right: '0',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     height: '100%',

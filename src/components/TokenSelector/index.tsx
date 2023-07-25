@@ -28,12 +28,6 @@ const TokenSelector = ({
   isRemoveLiquidity?: boolean
   isZapInput?: boolean
 }) => {
-  // const handleDynamicCurrencySelect = useCallback(
-  //   (selectedCurrency: Currency) => {
-  //     onCurrencySelect(field, selectedCurrency, typedValue)
-  //   },
-  //   [field, typedValue, onCurrencySelect],
-  // )
 
   const [onPresentCurrencyModal] = useModal(
     <TokenListModal

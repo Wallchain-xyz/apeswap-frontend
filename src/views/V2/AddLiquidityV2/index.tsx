@@ -13,6 +13,7 @@ import AddLiquiditySign from './components/AddLiquiditySign'
 import PoolInfo from './components/PoolInfo'
 import { useHandleCurrencyASelect, useHandleCurrencyBSelect } from './hooks'
 import styles from './styles'
+import { Pricing } from '../../../components/DexPanel/types'
 
 const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; currencyIdB: string }) => {
   const { t } = useTranslation()
@@ -85,6 +86,7 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
         value={formattedAmounts[Field.CURRENCY_A]}
         currency={currencyA}
         otherCurrency={currencyB}
+        pricing={Pricing.PRICEGETTER}
       />
       <AddLiquiditySign />
       <DexPanel
@@ -97,6 +99,7 @@ const AddLiquidityV2 = ({ currencyIdA, currencyIdB }: { currencyIdA: string; cur
         value={formattedAmounts[Field.CURRENCY_B]}
         currency={currencyB}
         otherCurrency={currencyA}
+        pricing={Pricing.PRICEGETTER}
       />
       <PoolInfo
         currencies={currencies}

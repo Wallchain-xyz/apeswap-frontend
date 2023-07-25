@@ -1,4 +1,4 @@
-import { SimpleTokenProfile } from 'utils/types/lhd'
+import { SimpleTokenProfile } from 'state/lhd/types'
 import { orderBy } from 'lodash'
 
 export const sortProfiles = (profiles: SimpleTokenProfile[], sortCol: any, sortType: 'asc' | 'desc') => {

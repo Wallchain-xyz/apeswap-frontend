@@ -25,6 +25,7 @@ import PriceRangeSection from 'views/Positions/components/PriceRangeSection'
 import RangeTag from 'views/Positions/components/RangeTag'
 import styles from 'views/Positions/components/styles'
 import Add from './actions/Add'
+import { Pricing } from '../../components/DexPanel/types'
 
 const IncreaseLiquidity = ({
   quoteCurrency,
@@ -214,6 +215,7 @@ const IncreaseLiquidity = ({
               onCurrencySelect={() => null}
               locked={depositBDisabled}
               disableTokenSelect
+              pricing={Pricing.PRICEGETTER}
             />
             <Flex sx={{ mt: '10px' }} />
             <DexPanel
@@ -226,6 +228,7 @@ const IncreaseLiquidity = ({
               onCurrencySelect={() => null}
               locked={depositADisabled}
               disableTokenSelect
+              pricing={Pricing.PRICEGETTER}
             />
             <Add
               parsedAmounts={parsedAmounts}

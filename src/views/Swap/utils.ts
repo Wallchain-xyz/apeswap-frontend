@@ -3,6 +3,9 @@ import { Pair } from '@ape.swap/v2-sdk'
 import { InterfaceTrade } from 'state/routing/types'
 import { RoutingDiagramEntry } from './types'
 import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from 'config/constants/misc'
+import { getBNWithDecimals } from '../../utils/getBalanceNumber'
+import BigNumber from 'bignumber.js'
+import { Route } from '@lifi/sdk'
 
 const V2_DEFAULT_FEE_TIER = 2000
 
@@ -60,4 +63,30 @@ export function confirmPriceImpactWithoutFee(priceImpactWithoutFee: Percent): bo
     )
   }
   return true
+}
+
+export const parseOutputAmount = (amount: string, decimals: number) => {
+  return getBNWithDecimals(amount, decimals)?.toFixed() ?? ''
+}
+
+export const toPrecisionAvoidExponential = (number: BigNumber, precision: number = 5): string => {
+  let output: string;
+  if (number.isLessThan(9999)) {
+    output = number.toPrecision(precision);
+    // Check if the output is in exponential format
+    if (output.indexOf('e') !== -1) {
+      output = number.toFixed(precision);
+    }
+  } else {
+    output = number.integerValue(BigNumber.ROUND_DOWN).toString()
+  }
+  return output;
+}
+
+export const humanOutputAmount = (amount: string, decimals: number) => {
+  return toPrecisionAvoidExponential(getBNWithDecimals(amount, decimals) ?? new BigNumber(0))
+}
+
+export const getTxHashFromRoute = (route: Route | undefined) => {
+  return route?.steps?.[0]?.execution?.process?.find((tx) => tx?.type === 'SWAP')?.txHash
 }

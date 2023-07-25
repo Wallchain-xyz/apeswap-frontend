@@ -13,7 +13,6 @@ export function useRoutingAPIArguments({
   tokenOut,
   amount,
   tradeType,
-  routerPreference,
   protocols,
   useApeRPC,
 }: {
@@ -21,7 +20,6 @@ export function useRoutingAPIArguments({
   tokenOut: Currency | undefined
   amount: CurrencyAmount<Currency> | undefined
   tradeType: TradeType
-  routerPreference: RouterPreference
   protocols?: Protocol[]
   useApeRPC?: boolean
 }) {
@@ -39,11 +37,10 @@ export function useRoutingAPIArguments({
             tokenOutChainId: tokenOut.wrapped.chainId,
             tokenOutDecimals: tokenOut.wrapped.decimals,
             tokenOutSymbol: tokenOut.wrapped.symbol,
-            routerPreference,
             protocols,
             type: (tradeType === TradeType.EXACT_INPUT ? 'exactIn' : 'exactOut') as 'exactIn' | 'exactOut',
             useApeRPC,
           },
-    [amount, routerPreference, tokenIn, tokenOut, protocols, tradeType, useApeRPC],
+    [amount, tokenIn, tokenOut, protocols, tradeType, useApeRPC],
   )
 }
