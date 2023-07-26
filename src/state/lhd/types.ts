@@ -41,7 +41,7 @@ interface LiquidityPool {
   nValue: number
 }
 
-export interface TokenData {
+export interface HistoricTokenData {
   addressMapping: {
     tokenSymbol: string
     tokenName: string

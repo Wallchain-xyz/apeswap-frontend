@@ -13,6 +13,7 @@ import TooltipBubble from 'components/uikit/Tooltip'
 
 // Hooks
 import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
+import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
 
 // Components
 import HistoricalChart from '../HistoricalChart'
@@ -26,6 +27,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
   const [queryString, setQueryString] = useState('')
   const [activeTab, setActiveTab] = useState<activeTab>('strength')
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })
+  const { data: tokenHistoric = [], isLoading: isHistoricLoading } = useGetTokenHistoric({ chainID, address })
   const { t } = useTranslation()
   const router = useRouter()
   const DEX_MISSING_ASSETS = ['CRV']
@@ -110,7 +112,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
               {activeTab === 'strength' ? (
                 <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
               ) : (
-                <HistoricalChart />
+                <HistoricalChart tokenHistoric={tokenHistoric} isLoading={isHistoricLoading} />
               )}
             </Flex>
             <Flex sx={styles.infoCardMobile}>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Box } from 'theme-ui'
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from 'chart.js'
@@ -10,18 +10,8 @@ import { Flex } from 'components/uikit'
 // Helpers
 import { parseHistoricalData } from './parseHistoricalData'
 
-// Constants
-import { mockedHistoricalData } from './mockedData'
-
-const {
-  labels,
-  mcap,
-  ownershipScore,
-  concentrationScore,
-  totalScore,
-  totalExtractableLiquidity,
-  ownedExtractableLiquidity,
-} = parseHistoricalData(mockedHistoricalData)
+// Types
+import { HistoricTokenData } from 'state/lhd/types'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 
@@ -34,61 +24,83 @@ enum dataSetNames {
   dataSetSix = 'dataSetSix',
 }
 
-const dataSetOne = {
-  label: dataSetNames.dataSetOne,
-  data: mcap,
-  borderColor: 'rgb(255, 99, 132)',
-  backgroundColor: 'rgba(255, 99, 132, 1)',
-  yAxisID: 'y',
-}
+const HistoricalChart = ({
+  tokenHistoric,
+  isLoading,
+}: {
+  tokenHistoric: HistoricTokenData[] | never[]
+  isLoading: boolean
+}) => {
+  const {
+    labels,
+    mcap,
+    ownershipScore,
+    concentrationScore,
+    totalScore,
+    totalExtractableLiquidity,
+    ownedExtractableLiquidity,
+  } = useMemo(() => parseHistoricalData(tokenHistoric), [tokenHistoric])
 
-const dataSetTwo = {
-  label: dataSetNames.dataSetTwo,
-  data: ownershipScore,
-  borderColor: 'rgb(53, 162, 235)',
-  backgroundColor: 'rgba(53, 162, 235, 0.5)',
-  yAxisID: 'y1',
-}
+  const dataSetOne = {
+    label: dataSetNames.dataSetOne,
+    data: mcap,
+    borderColor: 'rgb(255, 99, 132)',
+    backgroundColor: 'rgba(255, 99, 132, 1)',
+    yAxisID: 'y',
+  }
 
-const dataSetThree = {
-  label: dataSetNames.dataSetThree,
-  data: concentrationScore,
-  borderColor: 'rgb(124, 252, 0)',
-  backgroundColor: 'rgba(124, 252, 0, 1)',
-  yAxisID: 'y2',
-}
+  const dataSetTwo = {
+    label: dataSetNames.dataSetTwo,
+    data: ownershipScore,
+    borderColor: 'rgb(53, 162, 235)',
+    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    yAxisID: 'y1',
+  }
 
-const dataSetFour = {
-  label: dataSetNames.dataSetFour,
-  data: ownedExtractableLiquidity,
-  borderColor: 'rgb(255, 192, 203)',
-  backgroundColor: 'rgba(255, 192, 203, 1)',
-  yAxisID: 'y3',
-}
+  const dataSetThree = {
+    label: dataSetNames.dataSetThree,
+    data: concentrationScore,
+    borderColor: 'rgb(124, 252, 0)',
+    backgroundColor: 'rgba(124, 252, 0, 1)',
+    yAxisID: 'y2',
+  }
 
-const dataSetFive = {
-  label: dataSetNames.dataSetFive,
-  data: totalScore,
-  borderColor: 'rgb(238, 75, 43)',
-  backgroundColor: 'rgba(238, 75, 43, 1)',
-  yAxisID: 'y4',
-}
+  const dataSetFour = {
+    label: dataSetNames.dataSetFour,
+    data: ownedExtractableLiquidity,
+    borderColor: 'rgb(255, 192, 203)',
+    backgroundColor: 'rgba(255, 192, 203, 1)',
+    yAxisID: 'y3',
+  }
 
-const dataSetSix = {
-  label: dataSetNames.dataSetSix,
-  // data: labels.map(() => 100),
-  data: totalExtractableLiquidity,
-  borderColor: 'rgb(255, 172, 28)',
-  backgroundColor: 'rgba(255, 172, 28, 1)',
-  yAxisID: 'y5',
-}
+  const dataSetFive = {
+    label: dataSetNames.dataSetFive,
+    data: totalScore,
+    borderColor: 'rgb(238, 75, 43)',
+    backgroundColor: 'rgba(238, 75, 43, 1)',
+    yAxisID: 'y4',
+  }
 
-export const data = {
-  labels,
-  datasets: [dataSetOne, dataSetTwo, dataSetThree, dataSetFour, dataSetFive, dataSetSix],
-}
+  const dataSetSix = {
+    label: dataSetNames.dataSetSix,
+    // data: labels.map(() => 100),
+    data: totalExtractableLiquidity,
+    borderColor: 'rgb(255, 172, 28)',
+    backgroundColor: 'rgba(255, 172, 28, 1)',
+    yAxisID: 'y5',
+  }
 
-const HistoricalChart = () => {
+  const datasets = useMemo(
+    () => [dataSetOne, dataSetTwo, dataSetThree, dataSetFour, dataSetFive, dataSetSix],
+    [dataSetFive, dataSetFour, dataSetOne, dataSetSix, dataSetThree, dataSetTwo],
+  )
+
+  const data = useMemo(() => {
+    return {
+      labels,
+      datasets: datasets,
+    }
+  }, [tokenHistoric])
   const [chartData, setChartData] = useState(data)
   const [toggledData, setToggledData] = useState({
     [dataSetNames.dataSetOne]: true,
@@ -98,6 +110,10 @@ const HistoricalChart = () => {
     [dataSetNames.dataSetFive]: true,
     [dataSetNames.dataSetSix]: true,
   })
+
+  useEffect(() => {
+    setChartData(data)
+  }, [data])
 
   const options = {
     responsive: true,
@@ -202,6 +218,10 @@ const HistoricalChart = () => {
     })
 
     setChartData({ ...chartData, datasets: newChartData })
+  }
+
+  if (isLoading && !tokenHistoric.length) {
+    return <div>Loading...</div>
   }
 
   return (
