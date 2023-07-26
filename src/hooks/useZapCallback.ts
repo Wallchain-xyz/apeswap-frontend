@@ -15,6 +15,7 @@ import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/compo
 import { MergedZap } from 'state/zap/actions'
 import { TransactionType } from 'state/transactions/types'
 import { MergedZapType } from 'state/zap/slice'
+import { LiquidityDex } from '@ape.swap/apeswap-lists'
 
 export enum SwapCallbackState {
   INVALID,
@@ -53,12 +54,13 @@ function useZapCallArguments(
   stakingContractAddress?: string,
   maxPrice?: string,
   stakingPid?: string,
+  liquidityDex: LiquidityDex = LiquidityDex.ApeSwapV2,
 ): SwapCall[] {
   const { account, chainId, provider } = useWeb3React()
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
   const deadline = useTransactionDeadline()
-  const contract: Contract | null = useZapContract()
+  const contract: Contract | null = useZapContract({ liquidityDex })
 
   return useMemo(() => {
     if (
@@ -117,6 +119,7 @@ export function useZapCallback(
   stakingContractAddress?: string,
   maxPrice?: string,
   poolPid?: string,
+  liquidityDex: LiquidityDex = LiquidityDex.ApeSwapV2,
   // TODO: Fix the any
 ): { state: SwapCallbackState; callback: any; error: string | null } {
   const { account, chainId, provider } = useWeb3React()
@@ -129,6 +132,7 @@ export function useZapCallback(
     stakingContractAddress,
     maxPrice,
     poolPid,
+    liquidityDex,
   )
 
   const addTransaction = useTransactionAdder()

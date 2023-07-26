@@ -28,6 +28,7 @@ import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
+import { LiquidityDex } from '@ape.swap/apeswap-lists'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   // TODO: Pull bill info and check if it needs to use Wido
@@ -88,6 +89,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     recipient,
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
+    '',
+    lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2,
   )
   const rawPriceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
   const priceImpact = useMemo(() => new Percent(rawPriceImpact, 10_000), [rawPriceImpact])
@@ -271,7 +274,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           // @ts-ignore
           lpList={[billsCurrencies]}
           enableZap={billType !== 'reserve'}
-          lpUsdVal={lpPrice}
+          lpUsdVal={pair?.liquidityToken ? lpPrice : 0}
         />
       </Flex>
       <Flex sx={styles.detailsContainer}>
