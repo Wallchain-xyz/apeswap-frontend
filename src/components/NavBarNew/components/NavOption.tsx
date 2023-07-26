@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // Components
-import { Flex, Svg, Text } from 'components/uikit'
+import { Flex, Link, Svg, Text } from 'components/uikit'
 import DropdownMenu from './DropdownMenu'
 
 // Hooks
@@ -39,13 +39,18 @@ const NavOption = ({ navItem }: NavOptionProps) => {
         position: 'relative',
       }}
     >
-      <Text
-        sx={{ fontSize: '16px', fontWeight: '400', color: colorMode === 'dark' && !isHovered && 'buttonDisabledText' }}
-      >
-        {t(label)}
-      </Text>
-      {items && (
+      {items ? (
         <>
+          <Text
+            sx={{
+              fontSize: '16px',
+              fontWeight: '400',
+              color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
+            }}
+            href={'https://google.com'}
+          >
+            {t(label)}
+          </Text>
           <Svg
             icon="navCaret"
             width="8px"
@@ -53,6 +58,21 @@ const NavOption = ({ navItem }: NavOptionProps) => {
             direction={isHovered ? 'up' : 'down'}
           />
           <DropdownMenu isVisible={isHovered} items={items} />
+        </>
+      ) : (
+        <>
+          <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={navItem.href || '/'}>
+            <Text
+              sx={{
+                fontSize: '16px',
+                fontWeight: '400',
+                color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
+              }}
+              href={'https://google.com'}
+            >
+              {t(label)}
+            </Text>
+          </Link>
         </>
       )}
     </Flex>

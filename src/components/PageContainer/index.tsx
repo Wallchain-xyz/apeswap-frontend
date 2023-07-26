@@ -83,10 +83,10 @@ const PageContainer = ({
       <Flex
         sx={{
           minHeight: '100vh',
-          padding: variant === 'dex' ? '45px 10px' : '45px 0px',
+          padding: variant === 'dex' ? '0px 10px' : '0px 0px',
           alignItems: 'center',
           width: '100%',
-          // paddingTop: `${NAV_HEIGHT}px`,
+          paddingTop: variant !== 'homepage' ? `${NAV_HEIGHT}px` : '0px',
           flexDirection: 'column',
         }}
       >

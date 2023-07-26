@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
 
 // Components
-import { Flex, Svg } from 'components/uikit'
+import { Flex, Svg, Link } from 'components/uikit'
 import NavOption from './components/NavOption'
 
 // Constants
