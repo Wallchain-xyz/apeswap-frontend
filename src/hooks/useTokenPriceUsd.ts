@@ -13,7 +13,7 @@ const useTokenPriceUsd = (token: Currency | undefined | null, lpFlag?: boolean):
   const { result, loading } = useSingleCallResult(
     priceGetterContract,
     lpFlag ? 'getLPPrice' : isNative ? 'getETHPrice' : 'getPrice',
-    lpFlag ? [address, 18] : isNative ? [0] : [address, 0],
+    lpFlag ? [address, 18] : isNative ? [] : [address, 0],
   )
   if (token?.symbol === 'GNANA') {
     return [parseFloat(store?.getState()?.application?.bananaPrice ?? '0') * 1.3889, false]
