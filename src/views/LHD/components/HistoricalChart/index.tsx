@@ -7,27 +7,44 @@ import { Line } from 'react-chartjs-2'
 // Components
 import { Flex } from 'components/uikit'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
+// Helpers
+import { parseHistoricalData } from './parseHistoricalData'
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
+// Constants
+import { mockedHistoricalData } from './mockedData'
+
+const {
+  labels,
+  mcap,
+  ownershipScore,
+  concentrationScore,
+  totalScore,
+  totalExtractableLiquidity,
+  ownedExtractableLiquidity,
+} = parseHistoricalData(mockedHistoricalData)
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 
 enum dataSetNames {
   dataSetOne = 'dataSetOne',
   dataSetTwo = 'dataSetTwo',
   dataSetThree = 'dataSetThree',
+  dataSetFour = 'dataSetFour',
+  dataSetFive = 'dataSetFive',
+  dataSetSix = 'dataSetSix',
 }
 
 const dataSetOne = {
   label: dataSetNames.dataSetOne,
-  data: [442104, 33151, 96988, 748196, 55170, 661052, 534410],
+  data: mcap,
   borderColor: 'rgb(255, 99, 132)',
-  backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  backgroundColor: 'rgba(255, 99, 132, 1)',
   yAxisID: 'y',
 }
 
 const dataSetTwo = {
   label: dataSetNames.dataSetTwo,
-  data: [365, 368, 256, 878, 447, 168, 423],
+  data: ownershipScore,
   borderColor: 'rgb(53, 162, 235)',
   backgroundColor: 'rgba(53, 162, 235, 0.5)',
   yAxisID: 'y1',
@@ -35,15 +52,40 @@ const dataSetTwo = {
 
 const dataSetThree = {
   label: dataSetNames.dataSetThree,
-  data: [10, 30, 5, 2, 20, 30, 45],
+  data: concentrationScore,
   borderColor: 'rgb(124, 252, 0)',
-  backgroundColor: 'rgba(124, 252, 0 0.5)',
+  backgroundColor: 'rgba(124, 252, 0, 1)',
   yAxisID: 'y2',
+}
+
+const dataSetFour = {
+  label: dataSetNames.dataSetFour,
+  data: ownedExtractableLiquidity,
+  borderColor: 'rgb(255, 192, 203)',
+  backgroundColor: 'rgba(255, 192, 203, 1)',
+  yAxisID: 'y3',
+}
+
+const dataSetFive = {
+  label: dataSetNames.dataSetFive,
+  data: totalScore,
+  borderColor: 'rgb(238, 75, 43)',
+  backgroundColor: 'rgba(238, 75, 43, 1)',
+  yAxisID: 'y4',
+}
+
+const dataSetSix = {
+  label: dataSetNames.dataSetSix,
+  // data: labels.map(() => 100),
+  data: totalExtractableLiquidity,
+  borderColor: 'rgb(255, 172, 28)',
+  backgroundColor: 'rgba(255, 172, 28, 1)',
+  yAxisID: 'y5',
 }
 
 export const data = {
   labels,
-  datasets: [dataSetOne, dataSetTwo, dataSetThree],
+  datasets: [dataSetOne, dataSetTwo, dataSetThree, dataSetFour, dataSetFive, dataSetSix],
 }
 
 const HistoricalChart = () => {
@@ -52,6 +94,9 @@ const HistoricalChart = () => {
     [dataSetNames.dataSetOne]: true,
     [dataSetNames.dataSetTwo]: true,
     [dataSetNames.dataSetThree]: true,
+    [dataSetNames.dataSetFour]: true,
+    [dataSetNames.dataSetFive]: true,
+    [dataSetNames.dataSetSix]: true,
   })
 
   const options = {
@@ -59,6 +104,11 @@ const HistoricalChart = () => {
     interaction: {
       mode: 'index' as const,
       intersect: false,
+    },
+    elements: {
+      point: {
+        radius: 0,
+      },
     },
     stacked: false,
     plugins: {
@@ -70,35 +120,72 @@ const HistoricalChart = () => {
     scales: {
       y: {
         type: 'linear' as const,
-        display: toggledData[dataSetNames.dataSetOne],
+        // display: toggledData[dataSetNames.dataSetOne],
+        display: false,
         position: 'left' as const,
         title: {
           display: true,
-          text: 'Price',
+          text: 'One',
         },
       },
       y1: {
         type: 'linear' as const,
-        display: toggledData[dataSetNames.dataSetTwo],
-        position: 'right' as const,
+        display: false,
+        position: 'left' as const,
         grid: {
           drawOnChartArea: false,
         },
         title: {
-          display: true,
-          text: 'Extractable liquidity',
+          display: false,
+          text: 'two',
         },
       },
       y2: {
         type: 'linear' as const,
-        display: toggledData[dataSetNames.dataSetThree],
-        position: 'right' as const,
+        display: false,
+        position: 'left' as const,
         grid: {
           drawOnChartArea: false,
         },
         title: {
-          display: true,
-          text: 'Score',
+          display: false,
+          text: 'Three',
+        },
+      },
+      y3: {
+        type: 'linear' as const,
+        display: false,
+        position: 'left' as const,
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: false,
+          text: 'Four',
+        },
+      },
+      y4: {
+        type: 'linear' as const,
+        display: false,
+        position: 'left' as const,
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: false,
+          text: 'Five',
+        },
+      },
+      y5: {
+        type: 'linear' as const,
+        display: false,
+        position: 'left' as const,
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: false,
+          text: 'Six',
         },
       },
     },
@@ -117,20 +204,54 @@ const HistoricalChart = () => {
     setChartData({ ...chartData, datasets: newChartData })
   }
 
-  console.log({ toggledData })
-
   return (
     <Box sx={{ width: '100%', height: '100%', flexDirection: 'column' }}>
       <Line options={options} data={chartData} />
       <Flex sx={{ gap: '10px', p: '10px' }}>
-        <button type="button" onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetOne })}>
-          Price
+        <button
+          style={{ backgroundColor: 'rgb(255, 99, 132)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetOne })}
+        >
+          One Mcap
         </button>
-        <button type="button" onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetTwo })}>
-          Extractable liquidity
+        <button
+          style={{ backgroundColor: 'rgb(53, 162, 235)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetTwo })}
+        >
+          Two Ownership
         </button>
-        <button type="button" onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetThree })}>
-          Score
+
+        <button
+          style={{ backgroundColor: 'rgb(124, 252, 0)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetThree })}
+        >
+          Three Concentration Score
+        </button>
+        <button
+          style={{ backgroundColor: 'rgb(255, 192, 203)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetFour })}
+        >
+          Four Owned Extractable
+        </button>
+
+        <button
+          style={{ backgroundColor: 'rgb(238, 75, 43)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetFive })}
+        >
+          Five Total Score
+        </button>
+
+        <button
+          style={{ backgroundColor: 'rgb(255, 172, 28)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetSix })}
+        >
+          Six Total Extractable
         </button>
       </Flex>
     </Box>
