@@ -65,11 +65,10 @@ import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 import { Weth } from 'config/abi/types/Weth'
 import { Zap } from 'config/abi/types/Zap'
 import { NonFungibleApes } from 'config/abi/types/NonFungibleApes'
-import { ZAP_ADDRESS } from '@ape.swap/v2-zap-sdk'
 import { NonFungibleBananas } from 'config/abi/types/NonFungibleBananas'
 import { useSelector } from 'react-redux'
 import { AppState } from 'state'
-import { pools } from '@ape.swap/apeswap-lists'
+import { LiquidityDex, pools, zapContracts } from '@ape.swap/apeswap-lists'
 
 const { abi: IUniswapV2PairABI } = IUniswapV2PairJson
 const { abi: NFTPositionManagerABI } = NonfungiblePositionManagerJson
@@ -224,9 +223,14 @@ export function useWETHContract(withSignerIfPossible?: boolean) {
   )
 }
 
-export function useZapContract(withSignerIfPossible?: boolean) {
+interface UseZapContractOptions {
+  withSignerIfPossible?: boolean;
+  liquidityDex?: LiquidityDex;
+}
+
+export function useZapContract({ withSignerIfPossible, liquidityDex = LiquidityDex.ApeSwapV2 }: UseZapContractOptions = {}) {
   const { chainId } = useWeb3React()
-  return useContract<Zap>(chainId ? ZAP_ADDRESS[chainId as SupportedChainId] : undefined, ZAP_ABI, withSignerIfPossible)
+  return useContract<Zap>(chainId ? zapContracts[chainId as SupportedChainId]?.[liquidityDex] : undefined, ZAP_ABI, withSignerIfPossible)
 }
 
 export const useGnanaToken = () => {
