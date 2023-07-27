@@ -27,7 +27,7 @@ function Token(data: any) {
   }, [imageUrl])
 
   const titleBackground =
-    score <= 30 ? '#C4B195' : score <= 60 ? '#996230' : score <= 80 ? '#808080' : score <= 95 ? '#C6853E' : '#5996EF'
+    score < 30 ? '#C4B195' : score < 60 ? '#996230' : score < 80 ? '#808080' : score < 95 ? '#C6853E' : '#5996EF'
 
   const Styles = {
     container: {
@@ -108,13 +108,13 @@ function Token(data: any) {
     >
       <Flex sx={Styles.container}>
         <ImageWithFallback src={imageDataUrl ?? ''} alt={tokenSymbol + ' token.'} />
-        {score <= 30 ? (
+        {score < 30 ? (
           <Wooden sx={Styles.bgToken} />
-        ) : score <= 60 ? (
+        ) : score < 60 ? (
           <Bronze sx={Styles.bgToken} />
-        ) : score <= 80 ? (
+        ) : score < 80 ? (
           <Silver sx={Styles.bgToken} />
-        ) : score <= 95 ? (
+        ) : score < 95 ? (
           <Gold sx={Styles.bgToken} />
         ) : (
           <Diamond sx={Styles.bgToken} />
