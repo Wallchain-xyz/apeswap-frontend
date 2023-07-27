@@ -42,6 +42,10 @@ const bscConfig: NavConfig[] = [
         label: 'Farms',
         href: `/farms`,
       },
+      {
+        label: 'Maximizers',
+        href: `https://legacy.apeswap.finance/maximizers`,
+      },
     ],
   },
   {
