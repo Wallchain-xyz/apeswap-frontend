@@ -29,7 +29,7 @@ const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
         position: 'absolute',
         top: '35px',
         left: '0',
-        bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.85)',
+        bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
         width: 'max-content',
         px: '30px',
         py: '20px',

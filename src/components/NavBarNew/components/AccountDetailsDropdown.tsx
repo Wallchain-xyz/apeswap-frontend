@@ -52,7 +52,7 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
         position: 'absolute',
         top: '35px',
         right: '0px',
-        bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.85)',
+        bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
         width: '300px',
         px: '20px',
         py: '20px',
