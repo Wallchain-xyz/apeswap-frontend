@@ -1,5 +1,5 @@
 // Types
-import { DataSetNames } from '../types'
+import { DatasetNames } from '../types'
 
 export const getChartOptions = () => {
   const options = {
@@ -21,17 +21,17 @@ export const getChartOptions = () => {
       },
     },
     scales: {
-      [DataSetNames.MarketCap]: {
+      [DatasetNames.MarketCap]: {
         type: 'linear' as const,
-        // display: toggledData[dataSetNames.dataSetOne],
+        // display: toggledData[DatasetNames.dataSetOne],
         display: false,
         position: 'left' as const,
         title: {
           display: true,
-          text: [DataSetNames.MarketCap],
+          text: [DatasetNames.MarketCap],
         },
       },
-      [DataSetNames.OwnershipScore]: {
+      [DatasetNames.OwnershipScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -40,10 +40,10 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.OwnershipScore],
+          text: [DatasetNames.OwnershipScore],
         },
       },
-      [DataSetNames.ConcentrationScore]: {
+      [DatasetNames.ConcentrationScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -52,10 +52,10 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.ConcentrationScore],
+          text: [DatasetNames.ConcentrationScore],
         },
       },
-      [DataSetNames.TotalExtractableLiquidity]: {
+      [DatasetNames.TotalExtractableLiquidity]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -64,10 +64,10 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.TotalExtractableLiquidity],
+          text: [DatasetNames.TotalExtractableLiquidity],
         },
       },
-      [DataSetNames.TotalScore]: {
+      [DatasetNames.TotalScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -76,10 +76,10 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.TotalScore],
+          text: [DatasetNames.TotalScore],
         },
       },
-      [DataSetNames.HealthScore]: {
+      [DatasetNames.HealthScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -88,10 +88,10 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.HealthScore],
+          text: [DatasetNames.HealthScore],
         },
       },
-      [DataSetNames.OwnedLiquidity]: {
+      [DatasetNames.OwnedLiquidity]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -100,10 +100,10 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.OwnedLiquidity],
+          text: [DatasetNames.OwnedLiquidity],
         },
       },
-      [DataSetNames.LiquidityDebt]: {
+      [DatasetNames.LiquidityDebt]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -112,7 +112,7 @@ export const getChartOptions = () => {
         },
         title: {
           display: true,
-          text: [DataSetNames.LiquidityDebt],
+          text: [DatasetNames.LiquidityDebt],
         },
       },
     },

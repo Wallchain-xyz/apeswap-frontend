@@ -1,6 +1,6 @@
 // Types
 import { HistoricTokenData } from 'state/lhd/types'
-import { DataSetNames } from '../types'
+import { DatasetNames } from '../types'
 
 // Helpers
 import { parseHistoricalData } from './parseHistoricalData'
@@ -18,67 +18,67 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
   } = parseHistoricalData(tokenHistoricalData)
 
   const marketCapSet = {
-    label: DataSetNames.MarketCap,
+    label: DatasetNames.MarketCap,
     data: mcap,
     borderColor: 'rgb(255, 99, 132)',
     backgroundColor: 'rgba(255, 99, 132, 1)',
-    yAxisID: DataSetNames.MarketCap,
+    yAxisID: DatasetNames.MarketCap,
   }
 
   const ownershipScoreSet = {
-    label: DataSetNames.OwnershipScore,
+    label: DatasetNames.OwnershipScore,
     data: ownershipScore,
     borderColor: 'rgb(53, 162, 235)',
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    yAxisID: DataSetNames.OwnershipScore,
+    yAxisID: DatasetNames.OwnershipScore,
   }
 
   const concentrationScoreSet = {
-    label: DataSetNames.ConcentrationScore,
+    label: DatasetNames.ConcentrationScore,
     data: concentrationScore,
     borderColor: 'rgb(124, 252, 0)',
     backgroundColor: 'rgba(124, 252, 0, 1)',
-    yAxisID: DataSetNames.ConcentrationScore,
+    yAxisID: DatasetNames.ConcentrationScore,
   }
 
   const extractableLiquiditySet = {
-    label: DataSetNames.TotalExtractableLiquidity,
+    label: DatasetNames.TotalExtractableLiquidity,
     data: totalExtractableLiquidity,
     borderColor: 'rgb(255, 192, 203)',
     backgroundColor: 'rgba(255, 192, 203, 1)',
-    yAxisID: DataSetNames.TotalExtractableLiquidity,
+    yAxisID: DatasetNames.TotalExtractableLiquidity,
   }
 
   const totalScoreSet = {
-    label: DataSetNames.TotalScore,
+    label: DatasetNames.TotalScore,
     data: totalScore,
     borderColor: 'rgb(238, 75, 43)',
     backgroundColor: 'rgba(238, 75, 43, 1)',
-    yAxisID: DataSetNames.TotalScore,
+    yAxisID: DatasetNames.TotalScore,
   }
 
   const healthScoreSet = {
-    label: DataSetNames.HealthScore,
+    label: DatasetNames.HealthScore,
     data: healthScore,
     borderColor: 'rgb(255, 172, 28)',
     backgroundColor: 'rgba(255, 172, 28, 1)',
-    yAxisID: DataSetNames.HealthScore,
+    yAxisID: DatasetNames.HealthScore,
   }
 
   const ownedLiquiditySet = {
-    label: DataSetNames.OwnedLiquidity,
+    label: DatasetNames.OwnedLiquidity,
     data: ownedLiquidity,
     borderColor: 'rgb(230, 230, 250)',
     backgroundColor: 'rgba(230, 230, 250, 1)',
-    yAxisID: DataSetNames.OwnedLiquidity,
+    yAxisID: DatasetNames.OwnedLiquidity,
   }
 
   const liquidityDebtSet = {
-    label: DataSetNames.LiquidityDebt,
+    label: DatasetNames.LiquidityDebt,
     data: liquidityDebt,
     borderColor: 'rgb(139,69,19)',
     backgroundColor: 'rgba(139, 69, 19, 1)',
-    yAxisID: DataSetNames.LiquidityDebt,
+    yAxisID: DatasetNames.LiquidityDebt,
   }
 
   const datasets = [

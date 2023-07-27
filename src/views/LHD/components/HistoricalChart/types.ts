@@ -1,4 +1,4 @@
-export enum DataSetNames {
+export enum DatasetNames {
   // $ Values
   LiquidityDebt = 'Liquidity Debt',
   MarketCap = 'Market Cap',
@@ -7,6 +7,6 @@ export enum DataSetNames {
   // Scores
   ConcentrationScore = 'Concentration Score',
   HealthScore = 'Health Score',
-  TotalScore = 'Total Score',
   OwnershipScore = 'Ownership Score',
+  TotalScore = 'Total Score',
 }
