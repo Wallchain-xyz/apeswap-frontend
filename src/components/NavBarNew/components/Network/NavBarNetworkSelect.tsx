@@ -12,7 +12,7 @@ import NetworkDropdown from './NetworkDropdown'
 
 // Constants
 import { NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
-import { styles } from '../styles'
+import { styles } from '../../styles'
 
 const NavBarNetworkSelect = () => {
   const { chainId } = useWeb3React()

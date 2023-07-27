@@ -1,5 +1,5 @@
 // Constants
-import { getChainNavList } from './constants'
+import { BNB_NAV, getChainNavList } from './constants'
 import { styles } from './styles'
 
 // Hooks
@@ -9,19 +9,24 @@ import { useThemeUI } from 'theme-ui'
 
 // Components
 import { Flex, Svg, Link } from 'components/uikit'
-import NavOption from './components/NavOption'
-import NavBarNetworkSelect from './components/NavBarNetworkSelect'
+import NavOption from './components/Navigation/NavOption'
+import NavBarNetworkSelect from './components/Network/NavBarNetworkSelect'
 import ConnectWalletButton from 'components/ConnectWallet'
-import AccountLoggedIn from './components/AccountLoggedIn'
-import NavOptionMobile from './components/NavOptionMobile'
+import AccountLoggedIn from './components/Account/AccountLoggedIn'
+import NavOptionMobile from './components/Navigation/NavOptionMobile'
 import { NavItem } from './types'
 
 const NavBarNew = () => {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [navList, setNavList] = useState<NavItem[]>(BNB_NAV)
   const { account, chainId } = useWeb3React()
   const { colorMode } = useThemeUI()
 
-  const NAV_LIST = getChainNavList(chainId as number)
+  useEffect(() => {
+    if (chainId) {
+      setNavList(getChainNavList(chainId))
+    }
+  }, [chainId])
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -42,7 +47,7 @@ const NavBarNew = () => {
             <Svg icon="logo" />
           </Link>
           <Flex sx={{ gap: '40px', ...styles.hideOnMobile }}>
-            {NAV_LIST.map((navItem: NavItem) => {
+            {navList.map((navItem: NavItem) => {
               return <NavOption key={navItem.label} navItem={navItem} />
             })}
           </Flex>
@@ -61,7 +66,7 @@ const NavBarNew = () => {
           ...styles.bottomMobileNavContainer,
         }}
       >
-        {NAV_LIST.map((navItem: NavItem) => {
+        {navList.map((navItem: NavItem) => {
           return <NavOptionMobile key={navItem.label} navItem={navItem} />
         })}
       </Flex>

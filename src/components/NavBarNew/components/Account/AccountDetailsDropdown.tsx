@@ -10,7 +10,6 @@ import NavBarThemeSwitcher from './NavBarThemeSwitcher'
 // Hooks
 import { useWeb3React } from '@web3-react/core'
 import { useThemeUI } from 'theme-ui'
-import useIsMobile from 'hooks/useIsMobile'
 import { useCurrencyBalanceString } from 'lib/hooks/useCurrencyBalance'
 
 // State
@@ -27,7 +26,6 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
   const dispatch = useAppDispatch()
   const { account, chainId, connector } = useWeb3React()
   const balance = useCurrencyBalanceString(account ?? '')
-  const isMobile = useIsMobile()
 
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {

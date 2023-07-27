@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { Box, useThemeUI } from 'theme-ui'
 
 // Components
 import { Flex, Text } from 'components/uikit'
+import Image from 'next/image'
+import Link from 'next/link'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
+import { useState } from 'react'
 
 // Components
-import { NavItemOptions } from '../types'
+import { NavItemOptions } from '../../types'
 
 interface DropdownMenuProps {
   isVisible: boolean
   items: NavItemOptions[]
 }
 
-const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
+const PopUpMobileMenu = ({ isVisible, items }: DropdownMenuProps) => {
   const [isHovered, setIsHovered] = useState<number | null>(null)
   const { colorMode } = useThemeUI()
 
@@ -26,14 +26,13 @@ const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
     <Flex
       sx={{
         display: isVisible ? 'flex' : 'none',
-        position: 'absolute',
-        top: '35px',
+        position: 'fixed',
         left: '0',
+        bottom: '73px',
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
-        width: 'max-content',
-        px: '30px',
-        py: '20px',
-        borderRadius: 'normal',
+        width: '100vw',
+        px: '15px',
+        py: '10px',
         backdropFilter: 'blur(15px)',
       }}
     >
@@ -46,24 +45,25 @@ const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
                 onMouseEnter={() => setIsHovered(index)}
                 onFocus={() => setIsHovered(index)}
                 onMouseLeave={() => setIsHovered(null)}
+                onClick={() => setIsHovered(null)}
                 sx={{
                   p: '10px',
                   gap: '15px',
                   opacity: colorMode === 'dark' ? '0.7' : '0.85',
                   borderRadius: 'normal',
                   alignItems: 'center',
-                  width: 'auto',
-                  minWidth: '250px',
+                  width: '100%',
+                  minWidth: '1000px',
                   height: '59px',
                   '&:hover': { bg: 'white3', opacity: '1' },
                 }}
               >
-                <Box sx={{ height: '25px', width: '25px', position: 'relative' }}>
+                <Box sx={{ height: '20px', width: '20px', position: 'relative' }}>
                   <Image src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} fill />
                 </Box>
                 <Flex sx={{ flexDirection: 'column' }}>
-                  <Text sx={{ fontSize: '15px', fontWeight: '400', lineHeight: '18px' }}>{t(itemLabel)}</Text>
-                  <Text sx={{ fontSize: '12px', fontWeight: '300', lineHeight: '18px', color: 'buttonDisabledText' }}>
+                  <Text sx={{ fontSize: '12px', fontWeight: '400', lineHeight: '14px' }}>{t(itemLabel)}</Text>
+                  <Text sx={{ fontSize: '9px', fontWeight: '300', lineHeight: '14px', color: 'buttonDisabledText' }}>
                     {t(itemDesc)}
                   </Text>
                 </Flex>
@@ -92,4 +92,4 @@ const DropdownMenu = ({ isVisible, items }: DropdownMenuProps) => {
   )
 }
 
-export default DropdownMenu
+export default PopUpMobileMenu

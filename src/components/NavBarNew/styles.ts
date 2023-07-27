@@ -12,7 +12,8 @@ export const styles: Record<
   | 'accountLoggedInMainContainer'
   | 'hideOnMobile'
   | 'desktopNavOptionContainer'
-  | 'mobileNavOptionContainer',
+  | 'mobileNavOptionContainer'
+  | 'mobileNavOptionText',
   ThemeUIStyleObject
 > = {
   mainNavContainer: {
@@ -65,6 +66,7 @@ export const styles: Record<
     alignItems: 'center',
     borderRadius: '6px',
     position: 'relative',
+    maxWidth: ['50px', '50px', '250px'],
   },
   networkSelectorText: {
     display: NAV_DESKTOP_DISPLAY,
@@ -86,5 +88,11 @@ export const styles: Record<
   },
   hideOnMobile: {
     display: NAV_DESKTOP_DISPLAY,
+  },
+  mobileNavOptionText: {
+    fontSize: '11px',
+    fontWeight: '500',
+    lineHeight: '12px',
+    textAlign: 'center',
   },
 }

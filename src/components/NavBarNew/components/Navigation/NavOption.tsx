@@ -8,8 +8,8 @@ import { useThemeUI } from 'theme-ui'
 import { useState } from 'react'
 
 // Types
-import { NavItem } from '../types'
-import { styles } from '../styles'
+import { NavItem } from '../../types'
+import { styles } from '../../styles'
 
 interface NavOptionProps {
   navItem: NavItem

@@ -96,7 +96,7 @@ const DEFAULT_NAV: NavItem[] = [
 
 // Start of custom navs for each chain
 
-const BNB_NAV: NavItem[] = [
+export const BNB_NAV: NavItem[] = [
   ...DEFAULT_NAV,
   {
     label: 'Staking',
