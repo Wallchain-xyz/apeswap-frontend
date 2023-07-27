@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { fetchBillsUserDataAsync, fetchUserOwnedBillsDataAsync } from 'state/bills'
-import { Field } from 'state/swap/actions'
+import { Field as ZapField } from 'state/zap/actions'
 import { useTranslation } from 'contexts/Localization'
 import { BuyProps, DualCurrencySelector } from './types'
 import { styles } from './styles'
@@ -30,6 +30,7 @@ import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquid
 import { useToastError } from 'state/application/hooks'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
+  // TODO: Pull bill info and check if it needs to use Wido
   const {
     token,
     quoteToken,
@@ -126,7 +127,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const onHandleValueChange = useCallback(
     (val: string) => {
-      onUserInput(Field.INPUT, val)
+      onUserInput(ZapField.INPUT, val)
     },
     [onUserInput],
   )
@@ -243,15 +244,15 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   }, [onHandleValueChange, selectedCurrencyBalance])
 
   const handleCurrencySelect = useCallback(
-    (currency: DualCurrencySelector) => {
+    (currency: DualCurrencySelector, outputProvider = null) => {
       setCurrencyA(currency?.currencyA)
       setCurrencyB(currency?.currencyB ?? null)
       onHandleValueChange('')
       if (!currency?.currencyB) {
         // if there's no currencyB use zap logic
-        onCurrencySelection(Field.INPUT, [currency.currencyA])
+        onCurrencySelection(ZapField.INPUT, [currency.currencyA], null)
         // @ts-ignore
-        onCurrencySelection(Field.OUTPUT, [billsCurrencies?.currencyA, billsCurrencies?.currencyB])
+        onCurrencySelection(ZapField.OUTPUT_APE_ZAP_UNIV2, [billsCurrencies?.currencyA, billsCurrencies?.currencyB], outputProvider)
       }
     },
     [billsCurrencies.currencyA, billsCurrencies.currencyB, onCurrencySelection, onHandleValueChange],

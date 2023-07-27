@@ -17,7 +17,7 @@ import CalcButton from 'components/RoiCalculator/CalcButton'
 import DualLiquidityModal from 'components/DualAddLiquidity/DualLiquidityModal'
 import useModal from 'hooks/useModal'
 import { useAppDispatch } from 'state/hooks'
-import { selectOutputCurrency } from 'state/zap/actions'
+import { setOutputCurrency } from 'state/zap/slice'
 import { Field, selectCurrency } from 'state/swap/actions'
 
 // Components
@@ -65,9 +65,10 @@ const DisplayFarms = ({
       }),
     )
     dispatch(
-      selectOutputCurrency({
+      setOutputCurrency({
         currency1: farm.tokenAddress,
         currency2: farm.quoteTokenAddress,
+        outputProvider: null,
       }),
     )
     onPresentAddLiquidityModal()

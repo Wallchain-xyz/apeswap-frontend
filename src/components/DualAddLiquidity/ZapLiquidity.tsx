@@ -64,16 +64,16 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const [tokenPrice] = useTokenPriceUsd(zap.currencyIn.currency)
 
   const handleCurrencySelect = useCallback(
-    (field: Field, currency: Currency[]) => {
+    (field: Field, currency: Currency[], outputProvider: string | null) => {
       onUserInput(field, '')
-      onCurrencySelection(field, currency)
+      onCurrencySelection(field, currency, outputProvider)
     },
     [onCurrencySelection, onUserInput],
   )
 
   const handleOutputSelect = useCallback(
-    (currencyIdA: Currency, currencyIdB: Currency) => {
-      onCurrencySelection(Field.OUTPUT, [currencyIdA, currencyIdB])
+    (currencyIdA: Currency, currencyIdB: Currency, outputProvider = null) => {
+      onCurrencySelection(Field.OUTPUT_APE_ZAP_UNIV2, [currencyIdA, currencyIdB], outputProvider)
       setDisableZap(true)
       onSetZapType(ZapType.ZAP)
       setStakeIntoProduct(false)
@@ -124,7 +124,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     (field: Field) => {
       const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> } = {
         [Field.INPUT]: maxAmountSpend(currencyBalances[Field.INPUT]),
-        [Field.OUTPUT]: maxAmountSpend(currencyBalances[Field.OUTPUT]),
+        [Field.OUTPUT_APE_ZAP_UNIV2]: maxAmountSpend(currencyBalances[Field.OUTPUT_APE_ZAP_UNIV2]),
       }
       if (maxAmounts) {
         onUserInput(field, maxAmounts[field]?.toExact() ?? '')
@@ -168,7 +168,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             currency={inputCurrency}
             otherCurrency={null}
             fieldType={Field.INPUT}
-            onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.INPUT, [cur])}
+            onCurrencySelect={(cur: Currency) => handleCurrencySelect(Field.INPUT, [cur], null)}
             onUserInput={(val: string) => onUserInput(Field.INPUT, val)}
             handleMaxInput={handleMaxInput}
             isZapInput

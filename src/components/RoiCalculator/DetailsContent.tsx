@@ -5,7 +5,7 @@ import { Field, selectCurrency } from 'state/swap/actions'
 import { tokenListInfo } from './tokenInfo'
 import styles, { FarmButton } from './styles'
 import DualLiquidityModal from '../DualAddLiquidity/DualLiquidityModal'
-import { selectOutputCurrency } from 'state/zap/actions'
+import { setOutputCurrency } from 'state/zap/slice'
 import { useAppDispatch } from 'state/hooks'
 import { BANANA_ADDRESSES, GNANA_ADDRESSES } from 'config/constants/addresses'
 import { SupportedChainId } from '@ape.swap/sdk-core'
@@ -78,7 +78,7 @@ const DetailsContent: React.FC<DetailsContentProps> = ({
       }),
     )
     dispatch(
-      selectOutputCurrency({
+      setOutputCurrency({
         //@ts-ignore
         currency1: lpCurr1,
         //@ts-ignore

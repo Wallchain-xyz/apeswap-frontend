@@ -14,6 +14,7 @@ import { useZapContract } from './useContract'
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 import { MergedZap } from 'state/zap/actions'
 import { TransactionType } from 'state/transactions/types'
+import { MergedZapType } from 'state/zap/slice'
 
 export enum SwapCallbackState {
   INVALID,
@@ -46,7 +47,7 @@ interface FailedCall {
 
 function useZapCallArguments(
   zap: MergedZap,
-  zapType: ZapType,
+  zapType: MergedZapType,
   allowedSlippage: Percent = DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE, // in bips
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
   stakingContractAddress?: string,
@@ -80,7 +81,7 @@ function useZapCallArguments(
     swapMethods.push(
       ZapV1.zapCallParameters(zap, {
         allowedSlippage: allowedSlippage,
-        zapType: zapType,
+        zapType: zapType as ZapType,
         stakingContractAddress,
         recipient,
         deadline: deadline.toNumber(),
@@ -110,7 +111,7 @@ function useZapCallArguments(
 // and the user has approved the slippage adjusted input amount for the trade
 export function useZapCallback(
   zap: MergedZap,
-  zapType: ZapType,
+  zapType: MergedZapType,
   allowedSlippage: Percent = DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE, // in bips
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
   stakingContractAddress?: string,

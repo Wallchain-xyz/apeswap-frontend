@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import DualCurrencyPanel from 'components/DualCurrencyPanel/DualCurrencyPanel'
-import { Field } from 'state/swap/actions'
+import { Field as ZapField } from 'state/zap/actions'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { Box } from 'theme-ui'
@@ -85,7 +85,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
 
   const onHandleValueChange = useCallback(
     (val: string) => {
-      onUserInput(Field.INPUT, val)
+      onUserInput(ZapField.INPUT, val)
     },
     [onUserInput],
   )
@@ -97,8 +97,8 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
       onHandleValueChange('')
       if (!currency?.currencyB) {
         // if there's no currencyB use zap logic
-        onCurrencySelection(Field.INPUT, [currency.currencyA])
-        onCurrencySelection(Field.OUTPUT, [lpCurrencies.currencyA, lpCurrencies.currencyB])
+        onCurrencySelection(ZapField.INPUT, [currency.currencyA], null)
+        onCurrencySelection(ZapField.OUTPUT_APE_ZAP_UNIV2, [lpCurrencies.currencyA, lpCurrencies.currencyB], null)
       }
     },
     [lpCurrencies.currencyA, lpCurrencies.currencyB, onCurrencySelection, onHandleValueChange],
@@ -122,7 +122,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
 
   // reset input value to zero on first render
   useEffect(() => {
-    onUserInput(Field.INPUT, '')
+    onUserInput(ZapField.INPUT, '')
     onSetZapType(product === PRODUCT.DUAL_FARM ? ZapType.ZAP_MINI_APE : ZapType.ZAP_LP_POOL)
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [])

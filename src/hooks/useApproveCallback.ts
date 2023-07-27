@@ -8,6 +8,7 @@ import { TransactionType } from '../state/transactions/types'
 import useZapApproval from './useZapApproval'
 import { useToastError } from 'state/application/hooks'
 import { Route } from '@lifi/sdk'
+import { MergedZap } from 'state/zap/actions'
 export { ApprovalState } from 'lib/hooks/useApproval'
 
 function useGetAndTrackApproval(getApproval: ReturnType<typeof useApproval>[1]) {
@@ -43,7 +44,8 @@ export function useApproveCallbackFromTrade(
   return [approval, useGetAndTrackApproval(getApproval)]
 }
 
-export function useApproveCallbackFromZap(zap: any, allowedSlippage: Percent): [ApprovalState, () => Promise<void>] {
+export function useApproveCallbackFromZap(zap: MergedZap, allowedSlippage: Percent): [ApprovalState, () => Promise<void>] {
+  // TODO: Integrate Wido here
   const [approval, getApproval] = useZapApproval(zap, allowedSlippage, useHasPendingApproval)
   return [approval, useGetAndTrackApproval(getApproval)]
 }
