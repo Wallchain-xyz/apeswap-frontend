@@ -67,7 +67,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         itemLabel: 'Protocol Data',
-        itemDesc: 'Uncover protcol insights.',
+        itemDesc: 'Uncover protocol insights.',
         href: '/protocol-dashboard',
         icon: '/images/navbar/protocol',
       },

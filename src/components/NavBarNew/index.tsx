@@ -6,12 +6,13 @@ import { useWeb3React } from '@web3-react/core'
 // Components
 import { Flex, Svg, Link } from 'components/uikit'
 import NavOption from './components/NavOption'
+import NavBarNetworkSelect from './components/NavBarNetworkSelect'
+import NetworkSelector from 'components/NetworkSelector'
+import ConnectWalletButton from 'components/ConnectWallet'
+import AccountLoggedIn from './components/AccountLoggedIn'
 
 // Constants
 import { NAV_ITEMS } from './constants'
-import NetworkSelector from 'components/NetworkSelector'
-import AccountLoggedInDisplay from 'components/NavBar/components/AccountLoggedInDisplay'
-import ConnectWalletButton from 'components/ConnectWallet'
 
 const NavBarNew = () => {
   const { account } = useWeb3React()
@@ -51,8 +52,8 @@ const NavBarNew = () => {
         </Flex>
       </Flex>
       <Flex sx={{ gap: '30px' }}>
-        <NetworkSelector />
-        {account ? <AccountLoggedInDisplay /> : <ConnectWalletButton navBarFlag />}
+        <NavBarNetworkSelect />
+        {account ? <AccountLoggedIn /> : <ConnectWalletButton navBarFlag />}
       </Flex>
     </Flex>
   )
