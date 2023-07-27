@@ -44,6 +44,7 @@ export const styles: Record<
     gap: '7px',
     borderRadius: '6px',
     position: 'relative',
+    bg: ['navbar', 'navbar', 'navbar', 'navbar', 'transparent'],
   },
   desktopNavOptionContainer: {
     cursor: 'pointer',
@@ -74,6 +75,7 @@ export const styles: Record<
   accountLoggedInMainContainer: {
     cursor: 'pointer',
     '&:hover': { bg: 'navbar' },
+    bg: ['navbar', 'navbar', 'navbar', 'navbar', 'transparent'],
     height: '34px',
     padding: '10px',
     justifyContent: 'center',

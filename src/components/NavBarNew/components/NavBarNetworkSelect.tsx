@@ -23,8 +23,8 @@ const NavBarNetworkSelect = () => {
 
   return (
     <Flex
+      onClick={() => setIsHovered(!isHovered)}
       onMouseEnter={() => setIsHovered(true)}
-      onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       sx={styles.networkSelectContainer}
     >
