@@ -19,6 +19,8 @@ import RouteDetails from './components/RouteDetails'
 import { toPrecisionAvoidExponential } from './utils'
 import JSBI from 'jsbi'
 import { Pricing } from '../../components/DexPanel/types'
+import SwapAssetNotice from './components/SwapAssetNotice'
+import { KNOWN_REFLECT_ADDRESSES } from './constants'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -67,7 +69,7 @@ const Swap = () => {
   const { typedValue } = useSwapState()
   const { routing, currencies, inputError } = useDerivedSwapInfo()
   const { routes, routingState, feeStructure } = routing
-  const selectedRoute = routes[0]  // hardcoded for the time being
+  const selectedRoute = routes[0] // hardcoded for the time being
 
   const routeNotFound = routingState === TradeState.NO_ROUTE_FOUND
   const routeIsLoading = routingState === TradeState.LOADING
@@ -82,7 +84,10 @@ const Swap = () => {
 
   const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
 
-  const inputCurrencyAmount = currencies?.INPUT && selectedRoute?.fromAmount? CurrencyAmount.fromRawAmount(currencies?.INPUT, JSBI.BigInt(selectedRoute?.fromAmount)) : undefined
+  const inputCurrencyAmount =
+    currencies?.INPUT && selectedRoute?.fromAmount
+      ? CurrencyAmount.fromRawAmount(currencies?.INPUT, JSBI.BigInt(selectedRoute?.fromAmount))
+      : undefined
   const inputCurrencyBalance = useCurrencyBalance(account, currencies?.INPUT ?? undefined)
 
   const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
@@ -94,51 +99,57 @@ const Swap = () => {
   const parsedOutput = outputAmount ? toPrecisionAvoidExponential(outputAmount, 6) : ''
 
   return (
-    <Flex variant='flex.dexContainer'>
-      <DexNav />
-      <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
-      <DexPanel
-        panelText='From'
-        onCurrencySelect={(currency) => onCurrencySelection(Field.INPUT, currency)}
-        onUserInput={(val) => onUserInput(Field.INPUT, val)}
-        handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
-        value={typedValue}
-        currency={currencies[Field.INPUT]}
-        otherCurrency={currencies[Field.OUTPUT]}
-        pricing={Pricing.LIFI}
-        apiPrice={selectedRoute?.fromAmountUSD}
-      />
-      <Flex
-        sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}>
-        <SwapSwitchButton onClick={onSwitchTokens} />
-        <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]} />
-      </Flex>
-      <DexPanel
-        panelText='To'
-        onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}
-        value={parsedOutput}
-        currency={currencies[Field.OUTPUT]}
-        otherCurrency={currencies[Field.INPUT]}
-        disabled
-        pricing={Pricing.LIFI}
-        apiPrice={selectedRoute?.toAmountUSD}
-      />
-      {!showWrap && routeIsLoading ? (
-        <LoadingBestRoute />
-      ) : !routeNotFound && !showWrap && selectedRoute && (
-        <RouteDetails route={selectedRoute} fee={feeStructure.fee}/>
+    <Flex sx={{ flexDirection: 'column', gap: '10px' }}>
+      {KNOWN_REFLECT_ADDRESSES.includes(selectedRoute?.fromToken?.address?.toLowerCase() as string) && (
+        <SwapAssetNotice />
       )}
-      <Actions
-        routingState={routingState}
-        inputError={inputError}
-        selectedRoute={selectedRoute}
-        inputCurrencyAmount={inputCurrencyAmount}
-        showWrap={showWrap}
-        wrapInputError={wrapInputError}
-        wrapType={wrapType}
-        onWrap={onWrap}
-        feeStructure={feeStructure}
-      />
+      <Flex variant="flex.dexContainer">
+        <DexNav />
+        <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
+        <DexPanel
+          panelText="From"
+          onCurrencySelect={(currency) => onCurrencySelection(Field.INPUT, currency)}
+          onUserInput={(val) => onUserInput(Field.INPUT, val)}
+          handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
+          value={typedValue}
+          currency={currencies[Field.INPUT]}
+          otherCurrency={currencies[Field.OUTPUT]}
+          pricing={Pricing.LIFI}
+          apiPrice={selectedRoute?.fromAmountUSD}
+        />
+        <Flex
+          sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}
+        >
+          <SwapSwitchButton onClick={onSwitchTokens} />
+          <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]} />
+        </Flex>
+        <DexPanel
+          panelText="To"
+          onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}
+          value={parsedOutput}
+          currency={currencies[Field.OUTPUT]}
+          otherCurrency={currencies[Field.INPUT]}
+          disabled
+          pricing={Pricing.LIFI}
+          apiPrice={selectedRoute?.toAmountUSD}
+        />
+        {!showWrap && routeIsLoading ? (
+          <LoadingBestRoute />
+        ) : (
+          !routeNotFound && !showWrap && selectedRoute && <RouteDetails route={selectedRoute} fee={feeStructure.fee} />
+        )}
+        <Actions
+          routingState={routingState}
+          inputError={inputError}
+          selectedRoute={selectedRoute}
+          inputCurrencyAmount={inputCurrencyAmount}
+          showWrap={showWrap}
+          wrapInputError={wrapInputError}
+          wrapType={wrapType}
+          onWrap={onWrap}
+          feeStructure={feeStructure}
+        />
+      </Flex>
     </Flex>
   )
 }
