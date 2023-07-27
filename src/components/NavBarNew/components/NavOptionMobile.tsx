@@ -1,6 +1,6 @@
 // Components
-import { Flex, Link, Svg, Text } from 'components/uikit'
-import DropdownMenu from './DropdownMenu'
+import { Flex, Link, Text } from 'components/uikit'
+import PopUpMobileMenu from './PopUpMobileMenu'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
@@ -15,7 +15,7 @@ interface NavOptionProps {
   navItem: NavItem
 }
 
-const NavOption = ({ navItem }: NavOptionProps) => {
+const NavOptionMobile = ({ navItem }: NavOptionProps) => {
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const { colorMode } = useThemeUI()
   const { t } = useTranslation()
@@ -30,40 +30,34 @@ const NavOption = ({ navItem }: NavOptionProps) => {
     >
       {items ? (
         <>
+          <PopUpMobileMenu isVisible={isHovered} items={items} />
           <Text
             sx={{
-              fontSize: '16px',
-              fontWeight: '400',
+              fontSize: '11px',
+              fontWeight: '500',
               color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
             }}
           >
             {t(label)}
           </Text>
-          <Svg
-            icon="navCaret"
-            width="8px"
-            color={colorMode === 'dark' && !isHovered ? 'buttonDisabledText' : 'text'}
-            direction={isHovered ? 'up' : 'down'}
-          />
-          <DropdownMenu isVisible={isHovered} items={items} />
         </>
       ) : (
         <>
-          <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>
-            <Text
-              sx={{
-                fontSize: '16px',
-                fontWeight: '400',
-                color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
-              }}
-            >
+          <Text
+            sx={{
+              fontSize: '11px',
+              fontWeight: '500',
+              color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
+            }}
+          >
+            <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>
               {t(label)}
-            </Text>
-          </Link>
+            </Link>
+          </Text>
         </>
       )}
     </Flex>
   )
 }
 
-export default NavOption
+export default NavOptionMobile

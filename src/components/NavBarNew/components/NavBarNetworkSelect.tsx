@@ -1,17 +1,22 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { useWeb3React } from '@web3-react/core'
-import { Flex, Svg, Text } from 'components/uikit'
-import { NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
-import { useTranslation } from 'contexts/Localization'
-import { useState } from 'react'
-import { Spinner } from 'theme-ui'
 import { isSupportedChain } from 'utils'
+
+// Hooks
+import { useWeb3React } from '@web3-react/core'
+import { useState } from 'react'
+import { useTranslation } from 'contexts/Localization'
+
+// Components
+import { Flex, Svg, Text } from 'components/uikit'
 import NetworkDropdown from './NetworkDropdown'
+
+// Constants
+import { NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
+import { styles } from '../styles'
 
 const NavBarNetworkSelect = () => {
   const { chainId } = useWeb3React()
   const [isHovered, setIsHovered] = useState<boolean>(false)
-  const [requestPending, setRequestPending] = useState<boolean>(false)
   const { t } = useTranslation()
 
   const isSupported = isSupportedChain(chainId)
@@ -21,31 +26,15 @@ const NavBarNetworkSelect = () => {
       onMouseEnter={() => setIsHovered(true)}
       onFocus={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      sx={{
-        cursor: 'pointer',
-        '&:hover': { bg: 'navbar' },
-        height: '34px',
-        padding: '10px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '7px',
-        borderRadius: '6px',
-        position: 'relative',
-      }}
+      sx={styles.networkSelectContainer}
     >
       <Flex sx={{ width: '100%', alignItems: 'center' }}>
-        {requestPending ? (
-          <Spinner size={22} />
-        ) : (
-          <Svg
-            icon={!chainId ? NETWORK_ICONS[SupportedChainId.BSC] : isSupported ? NETWORK_ICONS[chainId] : 'error'}
-            width="25px"
-          />
-        )}
-        <Text margin="0px 7.5px" sx={{ lineHeight: '0px', fontSize: '14px' }}>
-          {requestPending
-            ? t('Requesting')
-            : !chainId
+        <Svg
+          icon={!chainId ? NETWORK_ICONS[SupportedChainId.BSC] : isSupported ? NETWORK_ICONS[chainId] : 'error'}
+          width="25px"
+        />
+        <Text sx={styles.networkSelectorText}>
+          {!chainId
             ? NETWORK_LABEL[SupportedChainId.BSC]
             : isSupported
             ? NETWORK_LABEL[chainId]?.toUpperCase()

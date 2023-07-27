@@ -98,7 +98,7 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
               </Web3Provider>
             </ThemeProvider>
           </Provider>
-          <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </Hydrate>
       </QueryClientProvider>
     </>

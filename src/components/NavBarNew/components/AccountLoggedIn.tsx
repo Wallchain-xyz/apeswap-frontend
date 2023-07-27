@@ -13,6 +13,7 @@ import AccountDetailsDropdown from './AccountDetailsDropdown'
 import { AppState } from 'state'
 import { useAppSelector } from 'state/hooks'
 import { useAllTransactions } from 'state/transactions/hooks'
+import { styles } from '../styles'
 
 const AccountLoggedIn = () => {
   const { account } = useWeb3React()
@@ -24,24 +25,14 @@ const AccountLoggedIn = () => {
   return account ? (
     <Flex>
       <Flex
-        sx={{
-          cursor: 'pointer',
-          '&:hover': { bg: 'navbar' },
-          height: '34px',
-          padding: '10px',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '7px',
-          borderRadius: '6px',
-          position: 'relative',
-        }}
+        sx={styles.accountLoggedInMainContainer}
         onMouseEnter={() => setIsHovered(true)}
         onFocus={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {pendingTransactions?.length > 0 ? (
           <>
-            <Flex sx={{ alignItems: 'center', mr: '10px' }}>
+            <Flex sx={{ ...styles.hideOnMobile, alignItems: 'center', mr: '10px' }}>
               <Text sx={{ fontWeight: '400' }} mr="5px">
                 {' '}
                 {pendingTransactions.length}{' '}
@@ -57,7 +48,7 @@ const AccountLoggedIn = () => {
             ) : (
               <Svg icon="settings" width="18px" />
             )}
-            <Text sx={{ fontWeight: '400' }} size="14px">
+            <Text sx={{ fontWeight: '400', ...styles.hideOnMobile }} size="14px">
               {account.slice(0, 4)}...
               {account.slice(account.length - 4, account.length)}
             </Text>
