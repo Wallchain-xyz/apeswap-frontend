@@ -1,3 +1,4 @@
+// types
 import { HistoricTokenData } from 'state/lhd/types'
 
 interface IParsedHistoricalData {
