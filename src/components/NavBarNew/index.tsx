@@ -1,10 +1,11 @@
 // Constants
-import { NAV_ITEMS } from './constants'
+import { getChainNavList } from './constants'
 import { styles } from './styles'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
 import { useEffect, useState } from 'react'
+import { useThemeUI } from 'theme-ui'
 
 // Components
 import { Flex, Svg, Link } from 'components/uikit'
@@ -13,10 +14,14 @@ import NavBarNetworkSelect from './components/NavBarNetworkSelect'
 import ConnectWalletButton from 'components/ConnectWallet'
 import AccountLoggedIn from './components/AccountLoggedIn'
 import NavOptionMobile from './components/NavOptionMobile'
+import { NavItem } from './types'
 
 const NavBarNew = () => {
-  const { account } = useWeb3React()
   const [isScrolled, setIsScrolled] = useState(false)
+  const { account, chainId } = useWeb3React()
+  const { colorMode } = useThemeUI()
+
+  const NAV_LIST = getChainNavList(chainId as number)
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -37,7 +42,7 @@ const NavBarNew = () => {
             <Svg icon="logo" />
           </Link>
           <Flex sx={{ gap: '40px', ...styles.hideOnMobile }}>
-            {NAV_ITEMS.map((navItem) => {
+            {NAV_LIST.map((navItem: NavItem) => {
               return <NavOption key={navItem.label} navItem={navItem} />
             })}
           </Flex>
@@ -49,8 +54,14 @@ const NavBarNew = () => {
       </Flex>
 
       {/* Mobile Bottom Nav */}
-      <Flex as="nav" sx={{ ...styles.bottomMobileNavContainer }}>
-        {NAV_ITEMS.map((navItem) => {
+      <Flex
+        as="nav"
+        sx={{
+          bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.95)' : 'rgba(249, 244, 231, 0.95)',
+          ...styles.bottomMobileNavContainer,
+        }}
+      >
+        {NAV_LIST.map((navItem: NavItem) => {
           return <NavOptionMobile key={navItem.label} navItem={navItem} />
         })}
       </Flex>

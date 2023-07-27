@@ -1,9 +1,20 @@
 // Types
 import { NavItem } from './types'
 
-export const NAV_ITEMS: NavItem[] = [
+// This function returns the nav list for a given chainId
+export const getChainNavList = (chainId: number): NavItem[] => {
+  if (NAV_LISTS[chainId]) {
+    return NAV_LISTS[chainId]
+  } else {
+    return DEFAULT_NAV
+  }
+}
+
+// This is the default minimum nav we assume each chain will have
+const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Exchange',
+    order: 1,
     items: [
       {
         itemLabel: 'Swap',
@@ -27,37 +38,17 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     label: 'Bonds',
+    order: 2,
     href: '/bonds',
   },
   {
     label: 'Liquidity Health',
+    order: 3,
     href: '/liquidity-health',
   },
   {
-    label: 'Staking',
-    items: [
-      {
-        itemLabel: 'Pools',
-        itemDesc: 'Stake GNANA or BANANA to earn tokens.',
-        href: '/pools',
-        icon: '/images/navbar/pools',
-      },
-      {
-        itemLabel: 'Farms',
-        itemDesc: 'Stake LP Tokens to earn other tokens.',
-        href: '/farms',
-        icon: '/images/navbar/farms',
-      },
-      {
-        itemLabel: 'GNANA',
-        itemDesc: 'Unlock exclusive ecosystem capabilities.',
-        href: '/gnana',
-        icon: '/images/navbar/gnana',
-      },
-    ],
-  },
-  {
     label: 'More',
+    order: 100,
     items: [
       {
         itemLabel: 'ApeStats',
@@ -98,3 +89,47 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 ]
+
+// Start of custom navs for each chain
+
+const BNB_NAV: NavItem[] = [
+  ...DEFAULT_NAV,
+  {
+    label: 'Staking',
+    order: 4,
+    items: [
+      {
+        itemLabel: 'Pools',
+        itemDesc: 'Stake GNANA or BANANA to earn tokens.',
+        href: '/pools',
+        icon: '/images/navbar/pools',
+      },
+      {
+        itemLabel: 'Farms',
+        itemDesc: 'Stake LP Tokens to earn other tokens.',
+        href: '/farms',
+        icon: '/images/navbar/farms',
+      },
+      {
+        itemLabel: 'GNANA',
+        itemDesc: 'Unlock exclusive ecosystem capabilities.',
+        href: '/gnana',
+        icon: '/images/navbar/gnana',
+      },
+    ],
+  },
+].sort((a, b) => a.order - b.order)
+
+const MATIC_NAV: NavItem[] = [
+  ...DEFAULT_NAV,
+  {
+    label: 'Farms',
+    order: 4,
+    href: '/farms',
+  },
+].sort((a, b) => a.order - b.order)
+
+const NAV_LISTS: { [key: number]: NavItem[] } = {
+  56: BNB_NAV,
+  137: MATIC_NAV,
+}

@@ -16,26 +16,27 @@ interface NavOptionProps {
 }
 
 const NavOptionMobile = ({ navItem }: NavOptionProps) => {
-  const [isHovered, setIsHovered] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const { colorMode } = useThemeUI()
   const { t } = useTranslation()
   const { label, items, href } = navItem
 
   return (
     <Flex
-      onMouseEnter={() => setIsHovered(true)}
-      onFocus={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      sx={styles.desktopNavOptionContainer}
+      onClick={() => setIsOpen(!isOpen)}
+      onMouseLeave={() => setIsOpen(false)}
+      sx={{
+        ...styles.mobileNavOptionContainer,
+      }}
     >
       {items ? (
         <>
-          <PopUpMobileMenu isVisible={isHovered} items={items} />
+          <PopUpMobileMenu isVisible={isOpen} items={items} />
           <Text
             sx={{
               fontSize: '11px',
               fontWeight: '500',
-              color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
+              color: colorMode === 'dark' && !isOpen && 'buttonDisabledText',
             }}
           >
             {t(label)}
@@ -47,7 +48,7 @@ const NavOptionMobile = ({ navItem }: NavOptionProps) => {
             sx={{
               fontSize: '11px',
               fontWeight: '500',
-              color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
+              color: colorMode === 'dark' && !isOpen && 'buttonDisabledText',
             }}
           >
             <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>

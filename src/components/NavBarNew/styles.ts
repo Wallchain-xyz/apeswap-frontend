@@ -11,7 +11,8 @@ export const styles: Record<
   | 'networkSelectorText'
   | 'accountLoggedInMainContainer'
   | 'hideOnMobile'
-  | 'desktopNavOptionContainer',
+  | 'desktopNavOptionContainer'
+  | 'mobileNavOptionContainer',
   ThemeUIStyleObject
 > = {
   mainNavContainer: {
@@ -31,7 +32,6 @@ export const styles: Record<
     zIndex: 100,
     px: '10px',
     py: '8px',
-    bg: 'white1',
     height: '54px',
   },
   networkSelectContainer: {
@@ -48,6 +48,15 @@ export const styles: Record<
   desktopNavOptionContainer: {
     cursor: 'pointer',
     '&:hover': { bg: 'navbar' },
+    height: '34px',
+    padding: '10px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '7px',
+    borderRadius: '6px',
+    position: 'relative',
+  },
+  mobileNavOptionContainer: {
     height: '34px',
     padding: '10px',
     justifyContent: 'center',
