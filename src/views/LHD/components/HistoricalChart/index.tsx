@@ -21,7 +21,7 @@ enum dataSetNames {
   dataSetThree = 'dataSetThree',
   dataSetFour = 'dataSetFour',
   dataSetFive = 'dataSetFive',
-  dataSetSix = 'dataSetSix',
+  // dataSetSix = 'dataSetSix',
 }
 
 const HistoricalChart = ({
@@ -32,13 +32,12 @@ const HistoricalChart = ({
   isLoading: boolean
 }) => {
   const {
-    labels,
+    // labels,
     mcap,
     ownershipScore,
     concentrationScore,
     totalScore,
     totalExtractableLiquidity,
-    ownedExtractableLiquidity,
   } = useMemo(() => parseHistoricalData(tokenHistoric), [tokenHistoric])
 
   const dataSetOne = {
@@ -67,7 +66,7 @@ const HistoricalChart = ({
 
   const dataSetFour = {
     label: dataSetNames.dataSetFour,
-    data: ownedExtractableLiquidity,
+    data: totalExtractableLiquidity,
     borderColor: 'rgb(255, 192, 203)',
     backgroundColor: 'rgba(255, 192, 203, 1)',
     yAxisID: 'y3',
@@ -81,23 +80,37 @@ const HistoricalChart = ({
     yAxisID: 'y4',
   }
 
-  const dataSetSix = {
-    label: dataSetNames.dataSetSix,
-    // data: labels.map(() => 100),
-    data: totalExtractableLiquidity,
-    borderColor: 'rgb(255, 172, 28)',
-    backgroundColor: 'rgba(255, 172, 28, 1)',
-    yAxisID: 'y5',
-  }
+  // const dataSetSix = {
+  //   label: dataSetNames.dataSetSix,
+  //   // data: labels.map(() => 100),
+  //   data: totalExtractableLiquidity,
+  //   borderColor: 'rgb(255, 172, 28)',
+  //   backgroundColor: 'rgba(255, 172, 28, 1)',
+  //   yAxisID: 'y5',
+  // }
 
   const datasets = useMemo(
-    () => [dataSetOne, dataSetTwo, dataSetThree, dataSetFour, dataSetFive, dataSetSix],
-    [dataSetFive, dataSetFour, dataSetOne, dataSetSix, dataSetThree, dataSetTwo],
+    () => [
+      dataSetOne,
+      dataSetTwo,
+      dataSetThree,
+      dataSetFour,
+      dataSetFive,
+      // dataSetSix,
+    ],
+    [
+      dataSetOne,
+      dataSetTwo,
+      dataSetThree,
+      dataSetFour,
+      dataSetFive,
+      // dataSetSix,
+    ],
   )
 
   const data = useMemo(() => {
     return {
-      labels,
+      labels: Array(mcap.length).fill(''),
       datasets: datasets,
     }
   }, [tokenHistoric])
@@ -108,7 +121,7 @@ const HistoricalChart = ({
     [dataSetNames.dataSetThree]: true,
     [dataSetNames.dataSetFour]: true,
     [dataSetNames.dataSetFive]: true,
-    [dataSetNames.dataSetSix]: true,
+    // [dataSetNames.dataSetSix]: true,
   })
 
   useEffect(() => {
@@ -255,7 +268,7 @@ const HistoricalChart = ({
           type="button"
           onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetFour })}
         >
-          Four Owned Extractable
+          Four Total Extractable
         </button>
 
         <button
@@ -266,13 +279,13 @@ const HistoricalChart = ({
           Five Total Score
         </button>
 
-        <button
+        {/* <button
           style={{ backgroundColor: 'rgb(255, 172, 28)' }}
           type="button"
           onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetSix })}
         >
           Six Total Extractable
-        </button>
+        </button> */}
       </Flex>
     </Box>
   )
