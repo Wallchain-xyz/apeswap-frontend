@@ -133,7 +133,7 @@ const SharableCard = ({
   )}`
 
   const message = score >= 70 ? goodScore : badScore
-  const color = score > 30 && score <= 60 ? 'white' : 'black'
+  const color = score > 29 && score < 60 ? 'white' : 'black'
 
   function share() {
     const isWindows = navigator.userAgent.includes('Windows') || navigator.appVersion.includes('Windows')
@@ -227,13 +227,13 @@ const SharableCard = ({
             </Flex>
 
             <Flex>
-              {score <= 30 ? (
+              {score < 30 ? (
                 <Wooden sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
-              ) : score <= 60 ? (
+              ) : score < 60 ? (
                 <Bronze sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
-              ) : score <= 80 ? (
+              ) : score < 80 ? (
                 <Silver sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
-              ) : score <= 95 ? (
+              ) : score < 95 ? (
                 <Gold sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
               ) : (
                 <Diamond sx={{ width: '760px', height: '400px', overflow: 'hidden', borderRadius: '5px' }} />
