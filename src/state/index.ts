@@ -14,7 +14,7 @@ import swap from './swap/reducer'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
-import zap from './zap/reducer'
+import zap, { zapProtocolReducers } from './zap/slice'
 import lhd from './lhd/reducer'
 import bills from './bills'
 import protocolDashboard from './protocolDashboard'
@@ -45,6 +45,7 @@ const store = configureStore({
     multicall: multicall.reducer,
     lists,
     zap,
+    zapProtocols: zapProtocolReducers,
     bills,
     protocolDashboard,
     farms,

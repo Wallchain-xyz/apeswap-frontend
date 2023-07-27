@@ -62,9 +62,9 @@ const ZapLiquidity = ({
   const setTradeValueUsdCallback = useCallback((value: number) => setTradeValueUsd(value), [setTradeValueUsd])
 
   const handleCurrencySelect = useCallback(
-    (field: Field, currency: Currency[]) => {
+    (field: Field, currency: Currency[], outputProvider: string | null = null) => {
       onUserInput(field, '')
-      onCurrencySelection(field, currency)
+      onCurrencySelection(field, currency, outputProvider)
     },
     [onCurrencySelection, onUserInput],
   )
@@ -114,7 +114,7 @@ const ZapLiquidity = ({
     (field: Field) => {
       const maxAmounts: { [field in Field]?: CurrencyAmount<Currency> | undefined } = {
         [Field.INPUT]: maxAmountSpend(currencyBalances[Field.INPUT]),
-        [Field.OUTPUT]: maxAmountSpend(currencyBalances[Field.OUTPUT]),
+        [Field.OUTPUT_APE_ZAP_UNIV2]: maxAmountSpend(currencyBalances[Field.OUTPUT_APE_ZAP_UNIV2]),
       }
       if (maxAmounts) {
         onUserInput(field, maxAmounts[field]?.toExact() ?? '')
@@ -154,7 +154,7 @@ const ZapLiquidity = ({
         </Flex>
         <ZapPanel
           value={zap?.pairOut?.liquidityMinted?.toSignificant(10) || '0.0'}
-          onSelect={(currency0, currency1) => handleCurrencySelect(Field.OUTPUT, [currency0, currency1])}
+          onSelect={(currency0, currency1) => handleCurrencySelect(Field.OUTPUT_APE_ZAP_UNIV2, [currency0, currency1])}
           lpPair={zap?.pairOut.pair ?? undefined}
         />
 

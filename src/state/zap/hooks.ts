@@ -5,17 +5,17 @@ import { useSelector } from 'react-redux'
 import { useAllTokens, useCurrency } from 'hooks/Tokens'
 import { isAddress } from 'utils'
 import { AppState } from '../index'
+import { Field } from './actions'
 import {
-  Field,
   replaceZapState,
-  selectInputCurrency,
-  selectOutputCurrency,
+  setInputCurrency,
+  setOutputCurrency,
   setInputList,
   setRecipient,
   setZapNewOutputList,
   setZapType,
   typeInput,
-} from './actions'
+} from './slice'
 import { useTrackedTokenPairs, useUserZapSlippageTolerance } from '../user/hooks'
 import { useAppDispatch } from 'state/hooks'
 import { Currency, SupportedChainId, Token, TradeType } from '@ape.swap/sdk-core'
@@ -38,31 +38,34 @@ export function useZapState(): AppState['zap'] {
   return useSelector<AppState, AppState['zap']>((state) => state.zap)
 }
 
-export function useZapActionHandlers(): {
-  onCurrencySelection: (field: Field, currency: Currency[]) => void
-  onUserInput: (field: Field, typedValue: string) => void
-  onChangeRecipient: (recipient: string | null) => void
-  onSetZapType: (zapType: ZapType) => void
-  onInputSelect: (field: Field, currency: Currency) => void
-  onOutputSelect: (currencies: { currency1: string; currency2: string }) => void
-} {
+// export function useZapActionHandlers(): {
+//   onCurrencySelection: (field: Field, currency: Currency[]) => void
+//   onUserInput: (field: Field, typedValue: string) => void
+//   onChangeRecipient: (recipient: string | null) => void
+//   onSetZapType: (zapType: ZapType) => void
+//   onInputSelect: (field: Field, currency: Currency) => void
+//   onOutputSelect: (currencies: { currency1: string; currency2: string }) => void
+// } {
+
+export function useZapActionHandlers() {
   const dispatch = useAppDispatch()
 
   const onCurrencySelection = useCallback(
-    (field: Field, currencies: Currency[]) => {
+    (field: Field, currencies: Currency[], outputProvider: string | null) => {
       const currency = currencies[0]
       if (field === Field.INPUT) {
         dispatch(
-          selectInputCurrency({
+          setInputCurrency({
             currencyId: currency.isNative ? 'ETH' : currency.address,
           }),
         )
       } else {
         const currency2 = currencies[1]
         dispatch(
-          selectOutputCurrency({
+          setOutputCurrency({
             currency1: currency?.isNative ? 'ETH' : currency?.address,
             currency2: currency2?.isNative ? 'ETH' : currency2?.address,
+            outputProvider: outputProvider,
           }),
         )
       }
@@ -94,7 +97,7 @@ export function useZapActionHandlers(): {
   const onInputSelect = useCallback(
     (field: Field, currency: Currency) => {
       dispatch(
-        selectInputCurrency({
+        setInputCurrency({
           currencyId: currency instanceof Token ? currency.address : currency.isNative ? 'ETH' : '',
         }),
       )
@@ -104,8 +107,8 @@ export function useZapActionHandlers(): {
   )
 
   const onOutputSelect = useCallback(
-    (currencies: { currency1: string; currency2: string }) => {
-      dispatch(selectOutputCurrency(currencies))
+    (outputs: { currency1: string; currency2: string, outputProvider: string | null }) => {
+      dispatch(setOutputCurrency(outputs))
     },
     [dispatch],
   )
@@ -127,11 +130,13 @@ const BAD_RECIPIENT_ADDRESSES: string[] = [
 ]
 
 // from the current swap inputs, compute the best trade and return it.
+// TODO: This is an important function that can be refactored to use Wido
 export function useDerivedZapInfo() {
   const {
     typedValue,
     [Field.INPUT]: { currencyId: inputCurrencyId },
-    [Field.OUTPUT]: { currency1: outputCurrencyId1, currency2: outputCurrencyId2 },
+    [Field.OUTPUT_APE_ZAP_UNIV2]: { currency1: outputCurrencyId1, currency2: outputCurrencyId2 },
+    [Field.OUTPUT_WIDO]: outputProvider,
     recipient,
   } = useZapState()
 
@@ -182,12 +187,12 @@ export function useDerivedZapInfo() {
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
-    [Field.OUTPUT]: relevantTokenBalances[1],
+    [Field.OUTPUT_APE_ZAP_UNIV2]: relevantTokenBalances[1],
   }
 
   const currencies: { [field in Field]?: Currency } = {
     [Field.INPUT]: inputCurrency ?? undefined,
-    [Field.OUTPUT]: inputCurrency ?? undefined,
+    [Field.OUTPUT_APE_ZAP_UNIV2]: inputCurrency ?? undefined,
   }
 
   let inputError: string | undefined
@@ -199,7 +204,7 @@ export function useDerivedZapInfo() {
     inputError = inputError ?? 'Enter an amount'
   }
 
-  if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT] || !outputPair[1]) {
+  if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT_APE_ZAP_UNIV2] || !outputPair[1]) {
     inputError = inputError ?? 'Select a token'
   }
 
@@ -247,13 +252,15 @@ export function useDefaultCurrencies() {
   useEffect(() => {
     const outputCurrencies = { currency1: 'ETH', currency2: BANANA_ADDRESSES[chainId || SupportedChainId.BSC] }
     const inputCurrency = 'ETH'
+    const outputProvider = null
     dispatch(
       replaceZapState({
         typedValue: '',
         field: '',
         inputCurrencyId: inputCurrency,
         outputCurrencyId: outputCurrencies,
-        recipient: account,
+        outputProvider,
+        recipient: account || null,
         zapType: ZapType.ZAP,
       }),
     )
