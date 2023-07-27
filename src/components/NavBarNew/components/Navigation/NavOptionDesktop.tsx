@@ -1,6 +1,7 @@
 // Components
-import { Flex, Link, Svg, Text } from 'components/uikit'
-import DropdownMenu from './DropdownMenu'
+import { styles } from './styles'
+import { Flex, Svg, Text, Link } from 'components/uikit'
+import DropdownDesktopMenu from './DropdownDesktopMenu'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
@@ -9,7 +10,6 @@ import { useState } from 'react'
 
 // Types
 import { NavItem } from '../../types'
-import { styles } from '../../styles'
 
 interface NavOptionProps {
   navItem: NavItem
@@ -30,10 +30,10 @@ const NavOption = ({ navItem }: NavOptionProps) => {
     >
       {items ? (
         <>
+          {/* If there are subitems in the menu, handle accordingly */}
           <Text
             sx={{
-              fontSize: '16px',
-              fontWeight: '400',
+              ...styles.desktopMainNavOptionFont,
               color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
             }}
           >
@@ -45,15 +45,15 @@ const NavOption = ({ navItem }: NavOptionProps) => {
             color={colorMode === 'dark' && !isHovered ? 'buttonDisabledText' : 'text'}
             direction={isHovered ? 'up' : 'down'}
           />
-          <DropdownMenu isVisible={isHovered} items={items} />
+          <DropdownDesktopMenu isVisible={isHovered} items={items} />
         </>
       ) : (
         <>
+          {/* If no subitems, display a clickable label */}
           <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>
             <Text
               sx={{
-                fontSize: '16px',
-                fontWeight: '400',
+                ...styles.desktopMainNavOptionFont,
                 color: colorMode === 'dark' && !isHovered && 'buttonDisabledText',
               }}
             >

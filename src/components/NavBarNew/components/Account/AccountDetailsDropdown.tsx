@@ -1,14 +1,11 @@
-import { useCallback, useState } from 'react'
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import { useTranslation } from 'contexts/Localization'
-import { getEtherscanLink } from 'utils'
-
 // Components
+import { styles } from './styles'
 import { Flex, Svg, Text, Link } from 'components/uikit'
 import NavBarThemeSwitcher from './NavBarThemeSwitcher'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
+import { useCallback, useState } from 'react'
 import { useThemeUI } from 'theme-ui'
 import { useCurrencyBalanceString } from 'lib/hooks/useCurrencyBalance'
 
@@ -16,8 +13,10 @@ import { useCurrencyBalanceString } from 'lib/hooks/useCurrencyBalance'
 import { useAppDispatch } from 'state/hooks'
 import { updateSelectedWallet } from 'state/user/reducer'
 
-// Constants
+// Constants & Utils
+import { SupportedChainId } from '@ape.swap/sdk-core'
 import { CHAIN_PARAMS, NETWORK_ICONS } from 'config/constants/chains'
+import { getEtherscanLink } from 'utils'
 
 const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
   const [isSuccessfulCopy, setIsSuccessfulCopy] = useState<boolean>(false)
@@ -45,39 +44,14 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <Flex
       sx={{
+        ...styles.mainAccountDetailsContainer,
         display: isVisible ? 'flex' : 'none',
-        flexDirection: 'column',
-        position: 'absolute',
-        top: '35px',
-        right: '0px',
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
-        width: '300px',
-        px: '20px',
-        py: '20px',
-        borderRadius: 'normal',
-        backdropFilter: 'blur(15px)',
-        gap: '20px',
       }}
     >
-      <Flex
-        sx={{
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          py: '5px',
-          verticalAlign: 'middle',
-        }}
-      >
-        <Flex
-          onClick={handleCopy}
-          sx={{
-            p: '5px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            '&:hover': { bg: 'white3' },
-            verticalAlign: 'middle',
-          }}
-        >
+      {/* First Line of Account Info with copy, explorer, and logout buttons */}
+      <Flex sx={styles.firstLineAccountDetailsContainer}>
+        <Flex onClick={handleCopy} sx={styles.copyAddressContainer}>
           <Svg icon="wallet" />
           <Text sx={{ fontWeight: '400', px: '2' }} size="14px">
             {account?.slice(0, 4)}...
@@ -86,27 +60,13 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
           <Svg icon={isSuccessfulCopy ? 'success' : 'copy'} width={14} />
         </Flex>
         <Flex sx={{ gap: '10px', alignItems: 'center', justifyContent: 'flex-start' }}>
-          <Flex
-            sx={{
-              width: '25px',
-              height: '25px',
-              '&:hover': { bg: 'white3' },
-              borderRadius: '100px',
-              p: '4px',
-            }}
-          >
+          <Flex sx={styles.accountButton}>
             <Link href={getEtherscanLink(account || '', 'address', chainId ?? SupportedChainId.BSC)} target="_blank">
               <Svg icon="explorer" color="text" width={'100%'} />
             </Link>
           </Flex>
           <Flex
-            sx={{
-              width: '25px',
-              height: '25px',
-              '&:hover': { bg: 'white3' },
-              borderRadius: '100px',
-              p: '3px 3px 3px 5px',
-            }}
+            sx={styles.accountButton}
             onClick={() => {
               disconnect(), dispatch(updateSelectedWallet({ wallet: undefined }))
             }}
@@ -116,17 +76,10 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
         </Flex>
       </Flex>
 
-      {/*  */}
+      {/* Second line of account info with asset holdings */}
       <Flex sx={{ flexDirection: 'column' }}>
         <Text sx={{ fontSize: '12px', lineHeight: '18px' }}>Native Asset Holdings:</Text>
-        <Flex
-          sx={{
-            mt: '6px',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
+        <Flex sx={styles.holdingsContainer}>
           <Flex sx={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <Svg icon={chainId ? NETWORK_ICONS[chainId as SupportedChainId] : 'error'} width="25px" />
             <Text sx={{ ml: '8px' }}>
@@ -139,7 +92,7 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
         </Flex>
       </Flex>
 
-      {/* TODO: Add key account links here */}
+      {/* TODO: Add key account links & txs here */}
 
       <NavBarThemeSwitcher />
     </Flex>

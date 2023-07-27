@@ -1,20 +1,20 @@
-// Constants
-import { BNB_NAV, getChainNavList } from './constants'
+// Components
 import { styles } from './styles'
+import { Flex, Svg, Link } from 'components/uikit'
+import NavOptionDesktop from './components/Navigation/NavOptionDesktop'
+import NavBarNetworkSelect from './components/Network/NavBarNetworkSelect'
+import ConnectWalletButton from 'components/ConnectWallet'
+import AccountLoggedIn from './components/Account/AccountLoggedIn'
+import NavOptionMobile from './components/Navigation/NavOptionMobile'
+
+// Constants & Types
+import { BNB_NAV, getChainNavList } from './constants'
+import { NavItem } from './types'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
 import { useEffect, useState } from 'react'
 import { useThemeUI } from 'theme-ui'
-
-// Components
-import { Flex, Svg, Link } from 'components/uikit'
-import NavOption from './components/Navigation/NavOption'
-import NavBarNetworkSelect from './components/Network/NavBarNetworkSelect'
-import ConnectWalletButton from 'components/ConnectWallet'
-import AccountLoggedIn from './components/Account/AccountLoggedIn'
-import NavOptionMobile from './components/Navigation/NavOptionMobile'
-import { NavItem } from './types'
 
 const NavBarNew = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -41,14 +41,14 @@ const NavBarNew = () => {
   return (
     <>
       {/* Desktop Nav, which reduces on mobile */}
-      <Flex as="nav" sx={{ ...styles.mainNavContainer, bg: isScrolled ? 'white1' : '' }}>
+      <Flex as="nav" sx={{ ...styles.mainNavContainer, bg: isScrolled && 'white1' }}>
         <Flex sx={{ alignItems: 'center' }}>
           <Link href="/" style={{ width: '35px', height: '35px', display: 'flex', marginRight: '30px' }}>
             <Svg icon="logo" />
           </Link>
           <Flex sx={{ gap: '40px', ...styles.hideOnMobile }}>
             {navList.map((navItem: NavItem) => {
-              return <NavOption key={navItem.label} navItem={navItem} />
+              return <NavOptionDesktop key={navItem.label} navItem={navItem} />
             })}
           </Flex>
         </Flex>

@@ -1,5 +1,6 @@
 // Components
-import { Flex, Link, Text } from 'components/uikit'
+import { Flex, Text, Link } from 'components/uikit'
+import { styles } from './styles'
 import PopUpMobileMenu from './PopUpMobileMenu'
 import Image from 'next/image'
 
@@ -10,7 +11,6 @@ import { useState } from 'react'
 
 // Types
 import { NavItem } from '../../types'
-import { styles } from '../../styles'
 
 interface NavOptionProps {
   navItem: NavItem
@@ -43,7 +43,7 @@ const NavOptionMobile = ({ navItem }: NavOptionProps) => {
     >
       <Image width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
       <Text sx={styles.mobileNavOptionText}>
-        <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href}>
+        <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>
           {t(label)}
         </Link>
       </Text>

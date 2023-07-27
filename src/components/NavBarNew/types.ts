@@ -12,3 +12,7 @@ export interface NavItem {
   items?: NavItemOptions[]
   href?: string
 }
+export interface NavMenuProps {
+  isVisible: boolean
+  items: NavItemOptions[]
+}

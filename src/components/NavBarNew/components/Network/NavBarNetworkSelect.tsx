@@ -1,18 +1,17 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import { isSupportedChain } from 'utils'
+// Components
+import { styles } from './styles'
+import { Flex, Svg, Text } from 'components/uikit'
+import NetworkDropdown from './NetworkDropdown'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 
-// Components
-import { Flex, Svg, Text } from 'components/uikit'
-import NetworkDropdown from './NetworkDropdown'
-
-// Constants
+// Constants & Utils
 import { NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
-import { styles } from '../../styles'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { isSupportedChain } from 'utils'
 
 const NavBarNetworkSelect = () => {
   const { chainId } = useWeb3React()

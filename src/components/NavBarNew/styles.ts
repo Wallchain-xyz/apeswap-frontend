@@ -1,21 +1,10 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
-export const NAV_HEIGHT = 60
+export const BOTTOM_NAV_HEIGHT = 70
 export const NAV_MOBILE_DISPLAY = ['flex', 'flex', 'flex', 'flex', 'none']
 export const NAV_DESKTOP_DISPLAY = ['none', 'none', 'none', 'none', 'flex']
 
-export const styles: Record<
-  | 'mainNavContainer'
-  | 'bottomMobileNavContainer'
-  | 'networkSelectContainer'
-  | 'networkSelectorText'
-  | 'accountLoggedInMainContainer'
-  | 'hideOnMobile'
-  | 'desktopNavOptionContainer'
-  | 'mobileNavOptionContainer'
-  | 'mobileNavOptionText',
-  ThemeUIStyleObject
-> = {
+export const styles: Record<'mainNavContainer' | 'hideOnMobile' | 'bottomMobileNavContainer', ThemeUIStyleObject> = {
   mainNavContainer: {
     justifyContent: 'space-between',
     position: 'fixed',
@@ -33,66 +22,9 @@ export const styles: Record<
     zIndex: 100,
     px: '10px',
     py: '8px',
-    height: '70px',
-  },
-  networkSelectContainer: {
-    cursor: 'pointer',
-    '&:hover': { bg: 'navbar' },
-    height: '34px',
-    padding: '10px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '7px',
-    borderRadius: '6px',
-    position: 'relative',
-    bg: ['navbar', 'navbar', 'navbar', 'navbar', 'transparent'],
-  },
-  desktopNavOptionContainer: {
-    cursor: 'pointer',
-    '&:hover': { bg: 'navbar' },
-    height: '34px',
-    padding: '10px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '7px',
-    borderRadius: '6px',
-    position: 'relative',
-  },
-  mobileNavOptionContainer: {
-    height: '55px',
-    padding: '8px',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '6px',
-    position: 'relative',
-    maxWidth: ['50px', '50px', '250px'],
-  },
-  networkSelectorText: {
-    display: NAV_DESKTOP_DISPLAY,
-    m: '0px 7.5px',
-    lineHeight: '0px',
-    fontSize: '14px',
-  },
-  accountLoggedInMainContainer: {
-    cursor: 'pointer',
-    '&:hover': { bg: 'navbar' },
-    bg: ['navbar', 'navbar', 'navbar', 'navbar', 'transparent'],
-    height: '34px',
-    padding: '10px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '7px',
-    borderRadius: '6px',
-    position: 'relative',
+    height: `${BOTTOM_NAV_HEIGHT}px`,
   },
   hideOnMobile: {
     display: NAV_DESKTOP_DISPLAY,
-  },
-  mobileNavOptionText: {
-    fontSize: '11px',
-    fontWeight: '500',
-    lineHeight: '12px',
-    textAlign: 'center',
   },
 }

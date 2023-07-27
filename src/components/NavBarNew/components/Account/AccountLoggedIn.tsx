@@ -1,10 +1,9 @@
-import { styles } from '../../styles'
-
 // Hooks
 import { useWeb3React } from '@web3-react/core'
 import { useMemo, useState } from 'react'
 
 // Components
+import { styles } from './styles'
 import Image from 'next/image'
 import { Spinner } from 'theme-ui'
 import { Flex, Svg, Text } from 'components/uikit'
@@ -30,6 +29,7 @@ const AccountLoggedIn = () => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
+        {/* If any txs pending, show a loader */}
         {pendingTransactions?.length > 0 ? (
           <>
             <Flex
@@ -37,8 +37,7 @@ const AccountLoggedIn = () => {
               sx={{ ...styles.hideOnMobile, alignItems: 'center', mr: '10px' }}
             >
               <Text sx={{ fontWeight: '400' }} mr="5px">
-                {' '}
-                {pendingTransactions.length}{' '}
+                {pendingTransactions.length}
               </Text>
               <Text sx={{ fontWeight: '400' }}> tx pending </Text>
             </Flex>
@@ -46,6 +45,7 @@ const AccountLoggedIn = () => {
           </>
         ) : (
           <>
+            {/* If no txs show either profile or icon, adapted to mobile/desktop */}
             {profileImage ? (
               <Image
                 onClick={() => setIsHovered(!isHovered)}
