@@ -1,10 +1,12 @@
 export enum DataSetNames {
-  MarketCap = 'Market Cap',
-  OwnershipScore = 'Ownership Score',
-  ConcentrationScore = 'Concentration Score',
-  ExtractableLiquidity = 'Total Extractable Liquidity',
-  TotalScore = 'Total Score',
-  HealthScore = 'Health Score',
-  OwnedLiquidity = 'Owned Liquidity',
+  // $ Values
   LiquidityDebt = 'Liquidity Debt',
+  MarketCap = 'Market Cap',
+  OwnedLiquidity = 'Owned Liquidity',
+  TotalExtractableLiquidity = 'Total Extractable Liquidity',
+  // Scores
+  ConcentrationScore = 'Concentration Score',
+  HealthScore = 'Health Score',
+  TotalScore = 'Total Score',
+  OwnershipScore = 'Ownership Score',
 }

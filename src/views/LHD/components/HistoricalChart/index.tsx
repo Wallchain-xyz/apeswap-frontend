@@ -31,7 +31,7 @@ const HistoricalChart = ({
     [DataSetNames.MarketCap]: true,
     [DataSetNames.OwnershipScore]: true,
     [DataSetNames.ConcentrationScore]: true,
-    [DataSetNames.ExtractableLiquidity]: true,
+    [DataSetNames.TotalExtractableLiquidity]: true,
     [DataSetNames.TotalScore]: true,
     [DataSetNames.HealthScore]: true,
     [DataSetNames.OwnedLiquidity]: true,
@@ -89,7 +89,7 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(255, 192, 203)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.ExtractableLiquidity })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.TotalExtractableLiquidity })}
         >
           Four Total Extractable
         </button>

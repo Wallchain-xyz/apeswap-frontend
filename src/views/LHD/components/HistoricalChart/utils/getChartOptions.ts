@@ -1,3 +1,6 @@
+// Types
+import { DataSetNames } from '../types'
+
 export const getChartOptions = () => {
   const options = {
     responsive: true,
@@ -18,17 +21,17 @@ export const getChartOptions = () => {
       },
     },
     scales: {
-      y: {
+      [DataSetNames.MarketCap]: {
         type: 'linear' as const,
         // display: toggledData[dataSetNames.dataSetOne],
         display: false,
         position: 'left' as const,
         title: {
           display: true,
-          text: 'One',
+          text: [DataSetNames.MarketCap],
         },
       },
-      y1: {
+      [DataSetNames.OwnershipScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -36,11 +39,11 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'two',
+          display: true,
+          text: [DataSetNames.OwnershipScore],
         },
       },
-      y2: {
+      [DataSetNames.ConcentrationScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -48,11 +51,11 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'Three',
+          display: true,
+          text: [DataSetNames.ConcentrationScore],
         },
       },
-      y3: {
+      [DataSetNames.TotalExtractableLiquidity]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -60,11 +63,11 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'Four',
+          display: true,
+          text: [DataSetNames.TotalExtractableLiquidity],
         },
       },
-      y4: {
+      [DataSetNames.TotalScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -72,11 +75,11 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'Five',
+          display: true,
+          text: [DataSetNames.TotalScore],
         },
       },
-      y5: {
+      [DataSetNames.HealthScore]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -84,11 +87,11 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'Six',
+          display: true,
+          text: [DataSetNames.HealthScore],
         },
       },
-      y6: {
+      [DataSetNames.OwnedLiquidity]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -96,11 +99,11 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'Seven',
+          display: true,
+          text: [DataSetNames.OwnedLiquidity],
         },
       },
-      y7: {
+      [DataSetNames.LiquidityDebt]: {
         type: 'linear' as const,
         display: false,
         position: 'left' as const,
@@ -108,8 +111,8 @@ export const getChartOptions = () => {
           drawOnChartArea: false,
         },
         title: {
-          display: false,
-          text: 'Eight',
+          display: true,
+          text: [DataSetNames.LiquidityDebt],
         },
       },
     },

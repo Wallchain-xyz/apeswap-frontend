@@ -1,4 +1,4 @@
-// types
+// Types
 import { HistoricTokenData } from 'state/lhd/types'
 import { DataSetNames } from '../types'
 
@@ -22,7 +22,7 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: mcap,
     borderColor: 'rgb(255, 99, 132)',
     backgroundColor: 'rgba(255, 99, 132, 1)',
-    yAxisID: 'y',
+    yAxisID: DataSetNames.MarketCap,
   }
 
   const ownershipScoreSet = {
@@ -30,7 +30,7 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: ownershipScore,
     borderColor: 'rgb(53, 162, 235)',
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    yAxisID: 'y1',
+    yAxisID: DataSetNames.OwnershipScore,
   }
 
   const concentrationScoreSet = {
@@ -38,15 +38,15 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: concentrationScore,
     borderColor: 'rgb(124, 252, 0)',
     backgroundColor: 'rgba(124, 252, 0, 1)',
-    yAxisID: 'y2',
+    yAxisID: DataSetNames.ConcentrationScore,
   }
 
   const extractableLiquiditySet = {
-    label: DataSetNames.ExtractableLiquidity,
+    label: DataSetNames.TotalExtractableLiquidity,
     data: totalExtractableLiquidity,
     borderColor: 'rgb(255, 192, 203)',
     backgroundColor: 'rgba(255, 192, 203, 1)',
-    yAxisID: 'y3',
+    yAxisID: DataSetNames.TotalExtractableLiquidity,
   }
 
   const totalScoreSet = {
@@ -54,7 +54,7 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: totalScore,
     borderColor: 'rgb(238, 75, 43)',
     backgroundColor: 'rgba(238, 75, 43, 1)',
-    yAxisID: 'y4',
+    yAxisID: DataSetNames.TotalScore,
   }
 
   const healthScoreSet = {
@@ -62,7 +62,7 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: healthScore,
     borderColor: 'rgb(255, 172, 28)',
     backgroundColor: 'rgba(255, 172, 28, 1)',
-    yAxisID: 'y5',
+    yAxisID: DataSetNames.HealthScore,
   }
 
   const ownedLiquiditySet = {
@@ -70,7 +70,7 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: ownedLiquidity,
     borderColor: 'rgb(230, 230, 250)',
     backgroundColor: 'rgba(230, 230, 250, 1)',
-    yAxisID: 'y6',
+    yAxisID: DataSetNames.OwnedLiquidity,
   }
 
   const liquidityDebtSet = {
@@ -78,7 +78,7 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     data: liquidityDebt,
     borderColor: 'rgb(139,69,19)',
     backgroundColor: 'rgba(139, 69, 19, 1)',
-    yAxisID: 'y6',
+    yAxisID: DataSetNames.LiquidityDebt,
   }
 
   const datasets = [
