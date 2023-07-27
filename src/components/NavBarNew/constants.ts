@@ -15,6 +15,7 @@ const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Exchange',
     order: 1,
+    icon: '/images/navbar/trading',
     items: [
       {
         itemLabel: 'Swap',
@@ -32,7 +33,7 @@ const DEFAULT_NAV: NavItem[] = [
         itemLabel: 'Pro Trading',
         itemDesc: 'Utilize Enhanced trading options & charting.',
         href: 'https://pro.apeswap.finance',
-        icon: '/images/navbar/trading',
+        icon: '/images/navbar/pro',
       },
     ],
   },
@@ -40,15 +41,18 @@ const DEFAULT_NAV: NavItem[] = [
     label: 'Bonds',
     order: 2,
     href: '/bonds',
+    icon: '/images/navbar/bonds',
   },
   {
     label: 'Liquidity Health',
     order: 3,
     href: '/liquidity-health',
+    icon: '/images/navbar/lhd',
   },
   {
     label: 'More',
     order: 100,
+    icon: '/images/navbar/more',
     items: [
       {
         itemLabel: 'ApeStats',
@@ -97,6 +101,7 @@ const BNB_NAV: NavItem[] = [
   {
     label: 'Staking',
     order: 4,
+    icon: '/images/navbar/pools',
     items: [
       {
         itemLabel: 'Pools',
@@ -125,6 +130,7 @@ const MATIC_NAV: NavItem[] = [
   {
     label: 'Farms',
     order: 4,
+    icon: '/images/navbar/farms',
     href: '/farms',
   },
 ].sort((a, b) => a.order - b.order)

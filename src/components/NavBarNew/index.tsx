@@ -47,7 +47,7 @@ const NavBarNew = () => {
             })}
           </Flex>
         </Flex>
-        <Flex sx={{ gap: ['2px', '2x', '2px', '2px', '30px'] }}>
+        <Flex sx={{ gap: ['8px', '8x', '8px', '8px', '30px'] }}>
           <NavBarNetworkSelect />
           {account ? <AccountLoggedIn /> : <ConnectWalletButton navBarFlag />}
         </Flex>

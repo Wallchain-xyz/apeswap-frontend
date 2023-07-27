@@ -22,7 +22,7 @@ const styles: Record<
     minHeight: '560px',
     borderTop: '2px solid',
     borderColor: 'white3',
-    mb: ['54px', '54px', '54px', '54px', '0px'],
+    mb: ['75px', '75px', '75px', '75px', '0px'],
   },
   columnContainer: {
     width: ['100%', '100%', '100%', '1200px'],

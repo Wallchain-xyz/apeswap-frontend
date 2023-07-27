@@ -32,7 +32,7 @@ export const styles: Record<
     zIndex: 100,
     px: '10px',
     py: '8px',
-    height: '54px',
+    height: '70px',
   },
   networkSelectContainer: {
     cursor: 'pointer',
@@ -58,11 +58,11 @@ export const styles: Record<
     position: 'relative',
   },
   mobileNavOptionContainer: {
-    height: '34px',
-    padding: '10px',
+    height: '55px',
+    padding: '8px',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '7px',
     borderRadius: '6px',
     position: 'relative',
   },

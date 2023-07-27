@@ -1,10 +1,11 @@
 // Components
 import { Flex, Link, Text } from 'components/uikit'
 import PopUpMobileMenu from './PopUpMobileMenu'
+import Image from 'next/image'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
-import { useThemeUI } from 'theme-ui'
+import { Box, useThemeUI } from 'theme-ui'
 import { useState } from 'react'
 
 // Types
@@ -29,6 +30,7 @@ const NavOptionMobile = ({ navItem }: NavOptionProps) => {
         ...styles.mobileNavOptionContainer,
       }}
     >
+      <Image width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
       {items ? (
         <>
           <PopUpMobileMenu isVisible={isOpen} items={items} />

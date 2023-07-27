@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { Box, useThemeUI } from 'theme-ui'
 
 // Components
 import { Flex, Text } from 'components/uikit'
+import Image from 'next/image'
+import Link from 'next/link'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
+import { useState } from 'react'
 
 // Components
 import { NavItemOptions } from '../types'
@@ -28,7 +28,7 @@ const PopUpMobileMenu = ({ isVisible, items }: DropdownMenuProps) => {
         display: isVisible ? 'flex' : 'none',
         position: 'fixed',
         left: '0',
-        bottom: '50px',
+        bottom: '73px',
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
         width: '100vw',
         px: '15px',
@@ -52,8 +52,8 @@ const PopUpMobileMenu = ({ isVisible, items }: DropdownMenuProps) => {
                   opacity: colorMode === 'dark' ? '0.7' : '0.85',
                   borderRadius: 'normal',
                   alignItems: 'center',
-                  width: 'auto',
-                  minWidth: '250px',
+                  width: '100%',
+                  minWidth: '1000px',
                   height: '59px',
                   '&:hover': { bg: 'white3', opacity: '1' },
                 }}
