@@ -52,14 +52,15 @@ export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[]): I
     const totalMcap = validMcap.total / validMcap.validCount || 0
 
     acc.mcap.push(totalMcap)
-    acc.ownershipScore.push(ownershipScore * 100)
-    acc.concentrationScore.push(concentrationScore * 100)
-    acc.totalScore.push(totalScore * 100)
     acc.totalExtractableLiquidity.push(totalExtractableLiquidity)
-    acc.healthScore.push(healthScore)
     acc.ownedLiquidity.push(ownedLiquidity)
     // TODO: add liquidityDebt when api is ready
     acc.liquidityDebt.push(0)
+
+    acc.concentrationScore.push(concentrationScore * 100)
+    acc.ownershipScore.push(ownershipScore * 100)
+    acc.totalScore.push(totalScore * 100)
+    acc.healthScore.push(healthScore * 100)
 
     return acc
   }, initialHistoricalData)

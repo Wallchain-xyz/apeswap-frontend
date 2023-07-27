@@ -28,14 +28,14 @@ const HistoricalChart = ({
 
   const [chartData, setChartData] = useState(data)
   const [toggledData, setToggledData] = useState({
-    [DataSetNames.dataSetOne]: true,
-    [DataSetNames.dataSetTwo]: true,
-    [DataSetNames.dataSetThree]: true,
-    [DataSetNames.dataSetFour]: true,
-    [DataSetNames.dataSetFive]: true,
-    [DataSetNames.dataSetSix]: true,
-    [DataSetNames.dataSetSeven]: true,
-    [DataSetNames.dataSetEight]: true,
+    [DataSetNames.MarketCap]: true,
+    [DataSetNames.OwnershipScore]: true,
+    [DataSetNames.ConcentrationScore]: true,
+    [DataSetNames.ExtractableLiquidity]: true,
+    [DataSetNames.TotalScore]: true,
+    [DataSetNames.HealthScore]: true,
+    [DataSetNames.OwnedLiquidity]: true,
+    [DataSetNames.LiquidityDebt]: true,
   })
 
   useEffect(() => {
@@ -67,14 +67,14 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(255, 99, 132)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetOne })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.MarketCap })}
         >
           One Mcap
         </button>
         <button
           style={{ backgroundColor: 'rgb(53, 162, 235)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetTwo })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.OwnershipScore })}
         >
           Two Ownership
         </button>
@@ -82,14 +82,14 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(124, 252, 0)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetThree })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.ConcentrationScore })}
         >
           Three Concentration Score
         </button>
         <button
           style={{ backgroundColor: 'rgb(255, 192, 203)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetFour })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.ExtractableLiquidity })}
         >
           Four Total Extractable
         </button>
@@ -97,7 +97,7 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(238, 75, 43)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetFive })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.TotalScore })}
         >
           Five Total Score
         </button>
@@ -105,7 +105,7 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(255, 172, 28)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetSix })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.HealthScore })}
         >
           Six Health Score
         </button>
@@ -113,7 +113,7 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(230, 230, 250)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetSeven })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.OwnedLiquidity })}
         >
           Seven Owned Liquidity
         </button>
@@ -121,7 +121,7 @@ const HistoricalChart = ({
         <button
           style={{ backgroundColor: 'rgb(139,69,19)' }}
           type="button"
-          onClick={() => handleDataToggle({ dataSetName: DataSetNames.dataSetEight })}
+          onClick={() => handleDataToggle({ dataSetName: DataSetNames.LiquidityDebt })}
         >
           Eight Liquidity Debt
         </button>

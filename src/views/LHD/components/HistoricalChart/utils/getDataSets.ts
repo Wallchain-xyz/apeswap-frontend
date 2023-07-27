@@ -17,64 +17,64 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
     liquidityDebt,
   } = parseHistoricalData(tokenHistoricalData)
 
-  const dataSetOne = {
-    label: DataSetNames.dataSetOne,
+  const marketCapSet = {
+    label: DataSetNames.MarketCap,
     data: mcap,
     borderColor: 'rgb(255, 99, 132)',
     backgroundColor: 'rgba(255, 99, 132, 1)',
     yAxisID: 'y',
   }
 
-  const dataSetTwo = {
-    label: DataSetNames.dataSetTwo,
+  const ownershipScoreSet = {
+    label: DataSetNames.OwnershipScore,
     data: ownershipScore,
     borderColor: 'rgb(53, 162, 235)',
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
     yAxisID: 'y1',
   }
 
-  const dataSetThree = {
-    label: DataSetNames.dataSetThree,
+  const concentrationScoreSet = {
+    label: DataSetNames.ConcentrationScore,
     data: concentrationScore,
     borderColor: 'rgb(124, 252, 0)',
     backgroundColor: 'rgba(124, 252, 0, 1)',
     yAxisID: 'y2',
   }
 
-  const dataSetFour = {
-    label: DataSetNames.dataSetFour,
+  const extractableLiquiditySet = {
+    label: DataSetNames.ExtractableLiquidity,
     data: totalExtractableLiquidity,
     borderColor: 'rgb(255, 192, 203)',
     backgroundColor: 'rgba(255, 192, 203, 1)',
     yAxisID: 'y3',
   }
 
-  const dataSetFive = {
-    label: DataSetNames.dataSetFive,
+  const totalScoreSet = {
+    label: DataSetNames.TotalScore,
     data: totalScore,
     borderColor: 'rgb(238, 75, 43)',
     backgroundColor: 'rgba(238, 75, 43, 1)',
     yAxisID: 'y4',
   }
 
-  const dataSetSix = {
-    label: DataSetNames.dataSetSix,
+  const healthScoreSet = {
+    label: DataSetNames.HealthScore,
     data: healthScore,
     borderColor: 'rgb(255, 172, 28)',
     backgroundColor: 'rgba(255, 172, 28, 1)',
     yAxisID: 'y5',
   }
 
-  const dataSetSeven = {
-    label: DataSetNames.dataSetSeven,
+  const ownedLiquiditySet = {
+    label: DataSetNames.OwnedLiquidity,
     data: ownedLiquidity,
     borderColor: 'rgb(230, 230, 250)',
     backgroundColor: 'rgba(230, 230, 250, 1)',
     yAxisID: 'y6',
   }
 
-  const dataSetEight = {
-    label: DataSetNames.dataSetEight,
+  const liquidityDebtSet = {
+    label: DataSetNames.LiquidityDebt,
     data: liquidityDebt,
     borderColor: 'rgb(139,69,19)',
     backgroundColor: 'rgba(139, 69, 19, 1)',
@@ -82,17 +82,15 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]) => {
   }
 
   const datasets = [
-    dataSetOne,
-    dataSetTwo,
-    dataSetThree,
-    dataSetFour,
-    dataSetFive,
-    dataSetSix,
-    dataSetSeven,
-    dataSetEight,
+    marketCapSet,
+    ownershipScoreSet,
+    concentrationScoreSet,
+    extractableLiquiditySet,
+    totalScoreSet,
+    healthScoreSet,
+    ownedLiquiditySet,
+    liquidityDebtSet,
   ]
-
-  // return datasets
 
   return {
     labels: Array(tokenHistoricalData.length).fill(''),
