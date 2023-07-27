@@ -100,9 +100,16 @@ const Swap = () => {
 
   return (
     <Flex sx={{ flexDirection: 'column', gap: '10px' }}>
-      {KNOWN_REFLECT_ADDRESSES.includes(selectedRoute?.fromToken?.address?.toLowerCase() as string) && (
-        <SwapAssetNotice />
-      )}
+      {
+        // Logic to check if addresses & chain are a known reflect, then show notice
+        KNOWN_REFLECT_ADDRESSES.some((reflect) => {
+          return (
+            reflect.chain === chainId &&
+            reflect.address.toLowerCase() === selectedRoute?.fromToken?.address?.toLowerCase()
+          )
+        }) && <SwapAssetNotice />
+      }
+
       <Flex variant="flex.dexContainer">
         <DexNav />
         <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
