@@ -21,7 +21,9 @@ enum dataSetNames {
   dataSetThree = 'dataSetThree',
   dataSetFour = 'dataSetFour',
   dataSetFive = 'dataSetFive',
-  // dataSetSix = 'dataSetSix',
+  dataSetSix = 'dataSetSix',
+  dataSetSeven = 'dataSetSeven',
+  dataSetEight = 'dataSetEight',
 }
 
 const HistoricalChart = ({
@@ -32,12 +34,14 @@ const HistoricalChart = ({
   isLoading: boolean
 }) => {
   const {
-    // labels,
     mcap,
     ownershipScore,
     concentrationScore,
     totalScore,
     totalExtractableLiquidity,
+    healthScore,
+    ownedLiquidity,
+    liquidityDebt,
   } = useMemo(() => parseHistoricalData(tokenHistoric), [tokenHistoric])
 
   const dataSetOne = {
@@ -80,32 +84,33 @@ const HistoricalChart = ({
     yAxisID: 'y4',
   }
 
-  // const dataSetSix = {
-  //   label: dataSetNames.dataSetSix,
-  //   // data: labels.map(() => 100),
-  //   data: totalExtractableLiquidity,
-  //   borderColor: 'rgb(255, 172, 28)',
-  //   backgroundColor: 'rgba(255, 172, 28, 1)',
-  //   yAxisID: 'y5',
-  // }
+  const dataSetSix = {
+    label: dataSetNames.dataSetSix,
+    data: healthScore,
+    borderColor: 'rgb(255, 172, 28)',
+    backgroundColor: 'rgba(255, 172, 28, 1)',
+    yAxisID: 'y5',
+  }
+
+  const dataSetSeven = {
+    label: dataSetNames.dataSetSeven,
+    data: ownedLiquidity,
+    borderColor: 'rgb(230, 230, 250)',
+    backgroundColor: 'rgba(230, 230, 250, 1)',
+    yAxisID: 'y6',
+  }
+
+  const dataSetEight = {
+    label: dataSetNames.dataSetEight,
+    data: liquidityDebt,
+    borderColor: 'rgb(139,69,19)',
+    backgroundColor: 'rgba(139, 69, 19, 1)',
+    yAxisID: 'y6',
+  }
 
   const datasets = useMemo(
-    () => [
-      dataSetOne,
-      dataSetTwo,
-      dataSetThree,
-      dataSetFour,
-      dataSetFive,
-      // dataSetSix,
-    ],
-    [
-      dataSetOne,
-      dataSetTwo,
-      dataSetThree,
-      dataSetFour,
-      dataSetFive,
-      // dataSetSix,
-    ],
+    () => [dataSetOne, dataSetTwo, dataSetThree, dataSetFour, dataSetFive, dataSetSix, dataSetSeven, dataSetEight],
+    [dataSetOne, dataSetTwo, dataSetThree, dataSetFour, dataSetFive, dataSetSix, dataSetSeven, dataSetEight],
   )
 
   const data = useMemo(() => {
@@ -121,7 +126,9 @@ const HistoricalChart = ({
     [dataSetNames.dataSetThree]: true,
     [dataSetNames.dataSetFour]: true,
     [dataSetNames.dataSetFive]: true,
-    // [dataSetNames.dataSetSix]: true,
+    [dataSetNames.dataSetSix]: true,
+    [dataSetNames.dataSetSeven]: true,
+    [dataSetNames.dataSetEight]: true,
   })
 
   useEffect(() => {
@@ -217,6 +224,30 @@ const HistoricalChart = ({
           text: 'Six',
         },
       },
+      y6: {
+        type: 'linear' as const,
+        display: false,
+        position: 'left' as const,
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: false,
+          text: 'Seven',
+        },
+      },
+      y7: {
+        type: 'linear' as const,
+        display: false,
+        position: 'left' as const,
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: false,
+          text: 'Eight',
+        },
+      },
     },
   }
 
@@ -279,13 +310,29 @@ const HistoricalChart = ({
           Five Total Score
         </button>
 
-        {/* <button
+        <button
           style={{ backgroundColor: 'rgb(255, 172, 28)' }}
           type="button"
           onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetSix })}
         >
-          Six Total Extractable
-        </button> */}
+          Six Health Score
+        </button>
+
+        <button
+          style={{ backgroundColor: 'rgb(230, 230, 250)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetSeven })}
+        >
+          Seven Owned Liquidity
+        </button>
+
+        <button
+          style={{ backgroundColor: 'rgb(139,69,19)' }}
+          type="button"
+          onClick={() => handleDataToggle({ dataSetName: dataSetNames.dataSetEight })}
+        >
+          Eight Liquidity Debt
+        </button>
       </Flex>
     </Box>
   )

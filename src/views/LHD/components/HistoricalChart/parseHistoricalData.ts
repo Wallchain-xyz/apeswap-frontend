@@ -1,37 +1,41 @@
 import { HistoricTokenData } from 'state/lhd/types'
 
 interface IParsedHistoricalData {
-  // labels: string[]
   mcap: number[]
   ownershipScore: number[]
   concentrationScore: number[]
   totalScore: number[]
   totalExtractableLiquidity: number[]
+  healthScore: number[]
+  ownedLiquidity: number[]
+  liquidityDebt: number[]
 }
 
-export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[] | never[]): IParsedHistoricalData => {
+export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[]): IParsedHistoricalData => {
   const initialHistoricalData: IParsedHistoricalData = {
-    // labels: [],
     mcap: [],
     ownershipScore: [],
     concentrationScore: [],
     totalScore: [],
     totalExtractableLiquidity: [],
+    healthScore: [],
+    ownedLiquidity: [],
+    liquidityDebt: [],
   }
 
   if (!tokenHistoricalData.length) {
     return initialHistoricalData
   }
 
-  // @ts-ignore
   const historicalData = tokenHistoricalData.reduce((acc: IParsedHistoricalData, curr: HistoricTokenData) => {
     const {
       mcap,
-      // createdAt,
       ownershipScore,
       concentrationScore,
       totalScore,
       totalExtractableLiquidity,
+      healthScore,
+      ownedLiquidity,
     } = curr
     const validMcap = mcap.reduce(
       (mcapAcc: any, mcapCurr: any) => {
@@ -46,12 +50,15 @@ export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[] | n
     )
     const totalMcap = validMcap.total / validMcap.validCount || 0
 
-    // acc.labels.push(new Date(parseInt(createdAt)).toLocaleDateString())
     acc.mcap.push(totalMcap)
     acc.ownershipScore.push(ownershipScore * 100)
     acc.concentrationScore.push(concentrationScore * 100)
     acc.totalScore.push(totalScore * 100)
     acc.totalExtractableLiquidity.push(totalExtractableLiquidity)
+    acc.healthScore.push(healthScore)
+    acc.ownedLiquidity.push(ownedLiquidity)
+    // TODO: add liquidityDebt when api is ready
+    acc.liquidityDebt.push(0)
 
     return acc
   }, initialHistoricalData)
