@@ -61,7 +61,7 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
     pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0],
     pairState === PairState.EXISTS && true,
   )
-  const usdVal = lpUsdVal ?? usdValue
+  const usdVal = lpUsdVal == 0 ? usdValue : lpUsdVal
 
   useEffect(() => {
     if (pairBalance?.toExact() === '0') {

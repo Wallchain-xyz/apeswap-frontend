@@ -12,7 +12,9 @@ const useTokenPriceUsd = (token: Currency | undefined | null, lpFlag?: boolean):
 
   const { result, loading } = useSingleCallResult(
     priceGetterContract,
-    lpFlag ? 'getLPPrice' : isNative ? 'getETHPrice' : 'getPrice',
+    // TODO: Typecheck these calls to ensure they are correct
+    // NOTE: Having to use 'getETHPrice()' due to function overloading
+    lpFlag ? 'getLPPrice' : isNative ? 'getETHPrice()' : 'getPrice',
     lpFlag ? [address, 18] : isNative ? [] : [address, 0],
   )
   if (token?.symbol === 'GNANA') {
