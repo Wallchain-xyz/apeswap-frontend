@@ -37,24 +37,24 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]): ChartData
   const concentrationScoreSet = {
     label: DatasetNames.ConcentrationScore,
     data: concentrationScore,
-    borderColor: 'rgb(124, 252, 0)',
-    backgroundColor: 'rgba(124, 252, 0, 1)',
+    borderColor: '#FA8072',
+    backgroundColor: '#FA8072',
     yAxisID: DatasetNames.ConcentrationScore,
   }
 
   const extractableLiquiditySet = {
     label: DatasetNames.TotalExtractableLiquidity,
     data: totalExtractableLiquidity,
-    borderColor: 'rgb(255, 192, 203)',
-    backgroundColor: 'rgba(255, 192, 203, 1)',
+    borderColor: '#1179A6',
+    backgroundColor: '#1179A6',
     yAxisID: DatasetNames.TotalExtractableLiquidity,
   }
 
   const totalScoreSet = {
     label: DatasetNames.TotalScore,
     data: totalScore,
-    borderColor: 'rgb(238, 75, 43)',
-    backgroundColor: 'rgba(238, 75, 43, 1)',
+    borderColor: '#964B00',
+    backgroundColor: '#964B00',
     yAxisID: DatasetNames.TotalScore,
   }
 
@@ -69,16 +69,16 @@ export const getDataSets = (tokenHistoricalData: HistoricTokenData[]): ChartData
   const ownedLiquiditySet = {
     label: DatasetNames.OwnedLiquidity,
     data: ownedLiquidity,
-    borderColor: 'rgb(230, 230, 250)',
-    backgroundColor: 'rgba(230, 230, 250, 1)',
+    borderColor: '#904DC4',
+    backgroundColor: '#904DC4',
     yAxisID: DatasetNames.OwnedLiquidity,
   }
 
   const liquidityDebtSet = {
     label: DatasetNames.LiquidityDebt,
     data: liquidityDebt,
-    borderColor: 'rgb(139,69,19)',
-    backgroundColor: 'rgba(139, 69, 19, 1)',
+    borderColor: '#DF4141',
+    backgroundColor: '#DF4141',
     yAxisID: DatasetNames.LiquidityDebt,
   }
 
