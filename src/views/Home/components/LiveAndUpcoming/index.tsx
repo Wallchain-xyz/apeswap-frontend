@@ -16,9 +16,12 @@ import { breakpointMap } from 'theme/base'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
-import useGetLiveAndUpcoming from 'hooks/queries/useGetLiveAndUpcoming'
+import useGetLiveAndUpcoming from 'state/homepage/hooks/useGetLiveAndUpcoming'
 import useModal from 'hooks/useModal'
 import useSwiper from 'hooks/useSwiper'
+
+// Types
+import { LiveAndUpcoming } from 'state/homepage/types'
 
 // Constants
 const SPACE_BETWEEN_SLIDERS = 20
@@ -118,8 +121,10 @@ const LiveAndUpcoming = () => {
             spaceBetween={SPACE_BETWEEN_SLIDERS}
           >
             {data
-              ?.sort((a: any, b: any) => new Date(a.time).getTime() - new Date(b.time).getTime()) // Sort by date
-              .map((slide: any, index: number) => {
+              ?.sort(
+                (a: LiveAndUpcoming, b: LiveAndUpcoming) => new Date(a.time).getTime() - new Date(b.time).getTime(),
+              ) // Sort by date
+              .map((slide: LiveAndUpcoming, index: number) => {
                 const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short' }
 
                 const [slideImage] = slide?.photo
@@ -146,7 +151,7 @@ const LiveAndUpcoming = () => {
                       minWidth: `${swiperSlideWidth}px`,
                     }}
                   >
-                    <Link href={slide.link}>
+                    <Link target='_blank' href={slide.link}>
                       <Flex
                         sx={{
                           height: `${swiperSlideWidth}px`,

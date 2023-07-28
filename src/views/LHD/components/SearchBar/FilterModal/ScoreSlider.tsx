@@ -5,7 +5,7 @@ import NumericInput from 'components/uikit/Input/NumericInput'
 import { Flex, Text } from 'components/uikit'
 import { debounce } from 'lodash'
 import { useTranslation } from 'contexts/Localization'
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 const ScoreSlider = ({
   values,

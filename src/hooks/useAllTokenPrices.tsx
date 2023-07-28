@@ -1,11 +1,8 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { useSingleContractMultipleData } from 'lib/hooks/multicall'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import { usePriceGetter } from './useContract'
-import { tokens } from '@ape.swap/apeswap-lists'
+import { tokens, } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
-import { useMemo } from 'react'
-
+import { useLpTokenPricesFromPriceGetter, useTokenPricesFromPriceGetter } from './PriceGetter/usePricesFromPriceGetter'
 export interface TokenPrices {
   symbol: string | undefined
   address: Record<SupportedChainId, string | undefined>
@@ -13,7 +10,6 @@ export interface TokenPrices {
   decimals: Record<SupportedChainId, number | undefined>
 }
 const useAllTokenPrices = () => {
-  const priceGetterContract = usePriceGetter()
   const { chainId } = useWeb3React()
   const filterTokensToCall = Object.fromEntries(
     Object.entries(tokens).filter(
@@ -32,24 +28,9 @@ const useAllTokenPrices = () => {
         values.decimals?.[chainId as SupportedChainId],
     ),
   )
-  const tokenCalls = useMemo(
-    () =>
-      Object.values(filterTokensToCall).map((token) => {
-        return [token.address[chainId as SupportedChainId], 0]
-      }),
-    [filterTokensToCall, chainId],
-  )
 
-  const lpTokenCalls = useMemo(
-    () =>
-      Object.values(filterLpTokensToCall).map((token) => {
-        return [token.address[chainId as SupportedChainId], 18]
-      }),
-    [filterLpTokensToCall, chainId],
-  )
-
-  const tokenResults = useSingleContractMultipleData(priceGetterContract, 'getPrice', tokenCalls)
-  const lpTokenResults = useSingleContractMultipleData(priceGetterContract, 'getLPPrice', lpTokenCalls)
+  const tokenResults = useTokenPricesFromPriceGetter(filterTokensToCall)
+  const lpTokenResults = useLpTokenPricesFromPriceGetter(filterLpTokensToCall)
 
   const parsedTokenResults = Object.values(filterTokensToCall).map((token, i) => {
     return {

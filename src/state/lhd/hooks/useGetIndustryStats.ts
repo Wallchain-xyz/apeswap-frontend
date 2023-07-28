@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 // Types
-import { IndustryStats } from 'utils/types/lhd'
+import { IndustryStats } from '../types'
 
 // Constants
 import { LHD_API_TEMP } from 'config/constants/api'

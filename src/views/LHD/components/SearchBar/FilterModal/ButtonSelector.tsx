@@ -1,7 +1,7 @@
 import { Box } from 'theme-ui'
 import 'react-input-range/lib/css/index.css'
 import { Button, Flex, Svg } from 'components/uikit'
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 import { TAGS } from '../../../utils/config'
 import { CHAIN_DETAILS } from '../../../utils/config'
 import { styles } from '../styles'

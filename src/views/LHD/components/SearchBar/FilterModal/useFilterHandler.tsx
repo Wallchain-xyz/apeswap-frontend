@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react'
 import useDebounce from 'hooks/useDebounce'
 
 // Types
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 interface useFilterHandlerProps {
   searchQueryParam: string
