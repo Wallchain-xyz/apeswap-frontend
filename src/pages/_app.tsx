@@ -5,7 +5,6 @@ import store from 'state'
 import { theme } from 'theme'
 import { Provider } from 'react-redux'
 import Footer from 'components/Footer'
-import NavBar from 'components/NavBar'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { LanguageProvider } from 'contexts/Localization'
@@ -26,6 +25,9 @@ import GlobalStyles from '../contexts/GlobalStyles'
 import Head from 'next/head'
 import './styles.css'
 import BigNumber from 'bignumber.js'
+
+// Components
+import NavBarNew from 'components/NavBarNew'
 
 // This config is required for number formatting
 BigNumber.config({
@@ -79,7 +81,7 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
                       <LanguageProvider>
                         <ModalProvider>
                           <Blocklist>
-                            <NavBar />
+                            <NavBarNew />
                             <MarketingModalCheck />
                             <Popups />
                             <Component {...pageProps} />

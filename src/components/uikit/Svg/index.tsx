@@ -83,6 +83,9 @@ import {
   LiquidityIcon,
   PolygonNew,
   Fire,
+  NavCaret,
+  Logout,
+  Wallet,
 } from './Icons'
 import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
 import {
@@ -298,6 +301,12 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <PolygonNew {...props} getStyles={getStyles} />
     case icons.FIRE:
       return <Fire {...props} getStyles={getStyles} />
+    case icons.NAV_CARET:
+      return <NavCaret {...props} getStyles={getStyles} />
+    case icons.LOGOUT:
+      return <Logout {...props} getStyles={getStyles} />
+    case icons.WALLET:
+      return <Wallet {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:

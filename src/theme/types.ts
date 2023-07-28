@@ -33,6 +33,7 @@ enum colorValues {
   gray = 'gray',
   smartGradient = 'smartGradient',
   modalOverlay = 'modalOverlay',
+  buttonDisabledText = 'buttonDisabledText',
 }
 
 export type MediaQueries = {
