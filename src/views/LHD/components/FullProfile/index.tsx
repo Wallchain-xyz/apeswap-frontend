@@ -17,15 +17,19 @@ import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
 
 // Components
 import HistoricalChart from '../HistoricalChart'
+import TabNavigation from 'components/TabNavigation'
 
 // Types
 import { chartExtras } from 'utils/types/lhd'
 
-type activeTab = 'strength' | 'historical'
+enum TabNames {
+  Strength = 'Strength',
+  Liquidity = 'Liquidity',
+}
 
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
   const [queryString, setQueryString] = useState('')
-  const [activeTab, setActiveTab] = useState<activeTab>('strength')
+  const [activeTab, setActiveTab] = useState<TabNames>(TabNames.Strength)
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })
   const { data: tokenHistoric = [], isLoading: isHistoricLoading } = useGetTokenHistoric({ chainID, address })
   const { t } = useTranslation()
@@ -87,17 +91,12 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
-              <Flex sx={{ gap: 20, alignSelf: 'start', p: '10px' }}>
-                <Text onClick={() => setActiveTab('strength')} sx={{ cursor: 'pointer' }}>
-                  Strength
-                </Text>
-                <Text onClick={() => setActiveTab('historical')} sx={{ cursor: 'pointer' }}>
-                  Historical
-                </Text>
+              <Flex sx={{ alignSelf: 'start', pl: '20px', pt: '20px' }}>
+                <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} tabs={Object.values(TabNames)} />
               </Flex>
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>
-                  {t(activeTab === 'strength' ? 'Liquidity Strength Chart ' : 'Historical Chart ')}
+                  {t(activeTab === 'Strength' ? 'Liquidity Strength Chart ' : 'Historical Chart ')}
                   <TooltipBubble
                     style={{ zIndex: 1000 }}
                     placement="bottomRight"
@@ -109,7 +108,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
                   </TooltipBubble>
                 </Text>
               </Flex>
-              {activeTab === 'strength' ? (
+              {activeTab === 'Strength' ? (
                 <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
               ) : (
                 <HistoricalChart tokenHistoric={tokenHistoric} isLoading={isHistoricLoading} />
