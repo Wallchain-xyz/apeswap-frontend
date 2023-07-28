@@ -39,21 +39,23 @@ const HistoricalChart = ({
 
   const [chartData, setChartData] = useState(data)
   const [toggledData, setToggledData] = useState({
+    [DatasetNames.LiquidityDebt]: false,
     [DatasetNames.MarketCap]: true,
-    [DatasetNames.OwnershipScore]: true,
-    [DatasetNames.ConcentrationScore]: true,
-    [DatasetNames.TotalExtractableLiquidity]: true,
-    [DatasetNames.TotalScore]: true,
-    [DatasetNames.HealthScore]: true,
-    [DatasetNames.OwnedLiquidity]: true,
-    [DatasetNames.LiquidityDebt]: true,
+    [DatasetNames.OwnedLiquidity]: false,
+    [DatasetNames.TotalExtractableLiquidity]: false,
+    [DatasetNames.ConcentrationScore]: false,
+    [DatasetNames.HealthScore]: false,
+    [DatasetNames.OwnershipScore]: false,
+    [DatasetNames.TotalScore]: false,
   })
 
   useEffect(() => {
-    setChartData(data)
+    const filteredData = data.datasets.filter((set) => toggledData[set.label])
+    console.log({ data, filteredData })
+    setChartData({ ...data, datasets: filteredData })
   }, [data])
 
-  const options = getChartOptions()
+  const options = getChartOptions(toggledData)
 
   const handleDataToggle = ({ datasetName }: { datasetName: DatasetNames }) => {
     setToggledData({ ...toggledData, [datasetName]: !toggledData[datasetName] })
