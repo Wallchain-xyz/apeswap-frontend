@@ -5,7 +5,6 @@ import store from 'state'
 import { theme } from 'theme'
 import { Provider } from 'react-redux'
 import Footer from 'components/Footer'
-import NavBar from 'components/NavBar'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { LanguageProvider } from 'contexts/Localization'
@@ -82,7 +81,6 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
                       <LanguageProvider>
                         <ModalProvider>
                           <Blocklist>
-                            {/* <NavBar /> */}
                             <NavBarNew />
                             <MarketingModalCheck />
                             <Popups />
@@ -98,7 +96,7 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
               </Web3Provider>
             </ThemeProvider>
           </Provider>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          <ReactQueryDevtools initialIsOpen={false} />
         </Hydrate>
       </QueryClientProvider>
     </>

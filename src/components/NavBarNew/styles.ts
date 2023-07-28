@@ -1,5 +1,6 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
+export const TOP_NAV_HEIGHT = 60
 export const BOTTOM_NAV_HEIGHT = 70
 export const NAV_MOBILE_DISPLAY = ['flex', 'flex', 'flex', 'flex', 'none']
 export const NAV_DESKTOP_DISPLAY = ['none', 'none', 'none', 'none', 'flex']

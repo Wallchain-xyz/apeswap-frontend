@@ -75,13 +75,13 @@ export const styles: Record<
   // Mobile Formatting
   mobileNavOptionContainer: {
     height: '55px',
-    padding: '8px',
+    padding: '3px',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '6px',
     position: 'relative',
-    maxWidth: ['50px', '50px', '250px'],
+    width: '100%',
   },
   mobileNavOptionText: {
     fontSize: '11px',

@@ -1,5 +1,5 @@
 import FloatingDocs from 'components/FloatingDocs'
-import { NAV_HEIGHT } from 'components/NavBar/components/styles'
+import { TOP_NAV_HEIGHT } from 'components/NavBarNew/styles'
 import NetworkMonitor from 'components/NetworkMonitor'
 import { Flex } from 'components/uikit'
 import { customMeta, DEFAULT_META } from 'config/constants/meta'
@@ -86,7 +86,7 @@ const PageContainer = ({
           padding: variant === 'dex' ? '0px 10px' : '0px 0px',
           alignItems: 'center',
           width: '100%',
-          paddingTop: variant !== 'homepage' ? `${NAV_HEIGHT}px` : '0px',
+          paddingTop: variant !== 'homepage' ? `${TOP_NAV_HEIGHT}px` : '0px',
           flexDirection: 'column',
         }}
       >
