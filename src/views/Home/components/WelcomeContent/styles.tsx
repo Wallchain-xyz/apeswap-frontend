@@ -30,6 +30,7 @@ export const styles: Record<
   slideContainer: {
     width: '90%',
     zIndex: 1,
+    marginTop: 60
   },
   circlesContainer: {
     width: '100%',
