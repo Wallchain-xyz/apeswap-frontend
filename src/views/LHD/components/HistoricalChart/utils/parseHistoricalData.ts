@@ -57,10 +57,10 @@ export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[]): I
     acc.ownedLiquidity.push(ownedLiquidity)
     acc.totalExtractableLiquidity.push(totalExtractableLiquidity)
 
-    acc.concentrationScore.push(concentrationScore * 100)
-    acc.healthScore.push(healthScore * 100)
-    acc.ownershipScore.push(ownershipScore * 100)
-    acc.totalScore.push(totalScore * 100)
+    acc.concentrationScore.push(Number((healthScore * 100).toFixed(2)))
+    acc.healthScore.push(Number((healthScore * 100).toFixed(2)))
+    acc.ownershipScore.push(Number((ownershipScore * 100).toFixed(2)))
+    acc.totalScore.push(Number((totalScore * 100).toFixed(2)))
 
     return acc
   }, initialHistoricalData)

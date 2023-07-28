@@ -66,6 +66,24 @@ export const getChartOptions = (
       },
     },
     stacked: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context: any) => {
+            const {
+              dataset: { label },
+              formattedValue,
+              raw,
+            } = context
+            const isScore = SCORES.includes(label)
+            if (isScore) {
+              return `${label}: ${raw}%`
+            }
+            return `${label}: $${formattedValue}`
+          },
+        },
+      },
+    },
     scales,
   }
 
