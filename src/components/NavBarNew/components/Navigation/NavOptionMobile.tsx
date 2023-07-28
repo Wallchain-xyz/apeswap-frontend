@@ -41,12 +41,16 @@ const NavOptionMobile = ({ navItem }: NavOptionProps) => {
         ...styles.mobileNavOptionContainer,
       }}
     >
-      <Image width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
-      <Text sx={styles.mobileNavOptionText}>
-        <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>
-          {t(label)}
-        </Link>
-      </Text>
+      <Link style={{ color: 'inherit', textDecoration: 'inherit' }} href={href || '/'}>
+        <Flex
+          sx={{
+            ...styles.mobileNavOptionContainer,
+          }}
+        >
+          <Image width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
+          <Text sx={styles.mobileNavOptionText}>{t(label)}</Text>
+        </Flex>
+      </Link>
     </Flex>
   )
 }
