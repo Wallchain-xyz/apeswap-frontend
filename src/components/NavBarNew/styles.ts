@@ -20,7 +20,7 @@ export const styles: Record<'mainNavContainer' | 'hideOnMobile' | 'bottomMobileN
     position: 'fixed',
     bottom: 0,
     width: '100%',
-    zIndex: 100,
+    zIndex: 10,
     px: '10px',
     py: '8px',
     height: `${BOTTOM_NAV_HEIGHT}px`,
