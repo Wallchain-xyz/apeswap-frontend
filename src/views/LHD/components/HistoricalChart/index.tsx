@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Box } from 'theme-ui'
+import { Box, Grid } from 'theme-ui'
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
 // Components
-import { Flex } from 'components/uikit'
+import { Flex, Text, CheckBox } from 'components/uikit'
 
 // Hooks
 import useIsMobile from 'hooks/useIsMobile'
+import { useTranslation } from 'contexts/Localization'
 
 // Helpers
 import { getChartOptions } from './utils/getChartOptions'
@@ -39,6 +40,7 @@ const HistoricalChart = ({
   isLoading: boolean
 }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const data = useMemo(() => getDataSets(tokenHistoric), [tokenHistoric])
 
   const [chartData, setChartData] = useState(data)
@@ -77,20 +79,29 @@ const HistoricalChart = ({
   }
 
   return (
-    <Box sx={{ width: '100%', height: '100%', flexDirection: 'column' }}>
+    <Box sx={{ width: '100%', height: '100%', flexDirection: 'column', p: '20px' }}>
       <Line options={options} data={chartData} />
-      <Flex sx={{ gap: '10px', p: '10px' }}>
+      <Grid
+        sx={{
+          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '1fr 1fr 1fr 1fr'],
+        }}
+      >
         {Object.values(DatasetNames).map((datasetName) => (
-          <button
+          <Flex
             key={datasetName}
-            style={{ backgroundColor: COLORS[datasetName] }}
-            type="button"
+            sx={{
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
             onClick={() => handleDataToggle({ datasetName })}
           >
-            {datasetName}
-          </button>
+            <CheckBox checked={toggledData[datasetName]} onChange={() => handleDataToggle({ datasetName })} />
+            <Text ml="5px" sx={{ fontSize: ['10px', '10px', '12px'] }}>
+              {t(datasetName)}
+            </Text>
+          </Flex>
         ))}
-      </Flex>
+      </Grid>
     </Box>
   )
 }

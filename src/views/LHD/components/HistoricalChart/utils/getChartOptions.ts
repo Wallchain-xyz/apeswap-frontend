@@ -27,6 +27,7 @@ export const getChartOptions = (
       title: {
         display: isMobile !== true,
         text: [value],
+        color: '#A09F9C',
       },
       ticks: {
         suggestedMin: 0,
@@ -60,6 +61,7 @@ export const getChartOptions = (
       mode: 'index' as const,
       intersect: false,
     },
+    tension: 0.3,
     elements: {
       point: {
         radius: 0,
