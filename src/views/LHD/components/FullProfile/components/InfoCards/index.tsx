@@ -100,7 +100,7 @@ const InfoCards = ({ fullProfile, chartExtras }: { fullProfile: TokenProfile; ch
         sx={{
           ...styles.cardContainer,
           mt: ['15px', '15px', '15px', '20px'],
-          height: ['', '', '', '458px'],
+          height: ['', '', '', '100%'],
         }}
       >
         <Flex sx={styles.titleContainer}>
