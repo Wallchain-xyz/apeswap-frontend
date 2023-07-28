@@ -7,6 +7,9 @@ import { Line } from 'react-chartjs-2'
 // Components
 import { Flex } from 'components/uikit'
 
+// Hooks
+import useIsMobile from 'hooks/useIsMobile'
+
 // Helpers
 import { getChartOptions } from './utils/getChartOptions'
 import { getDataSets } from './utils/getDataSets'
@@ -35,6 +38,7 @@ const HistoricalChart = ({
   tokenHistoric: HistoricTokenData[] | never[]
   isLoading: boolean
 }) => {
+  const isMobile = useIsMobile()
   const data = useMemo(() => getDataSets(tokenHistoric), [tokenHistoric])
 
   const [chartData, setChartData] = useState(data)
@@ -50,12 +54,11 @@ const HistoricalChart = ({
   })
 
   useEffect(() => {
-    const filteredData = data.datasets.filter((set) => toggledData[set.label])
-    console.log({ data, filteredData })
+    const filteredData = data.datasets.filter((set) => toggledData[set.label as DatasetNames])
     setChartData({ ...data, datasets: filteredData })
   }, [data])
 
-  const options = getChartOptions(toggledData)
+  const options = getChartOptions(toggledData, isMobile)
 
   const handleDataToggle = ({ datasetName }: { datasetName: DatasetNames }) => {
     setToggledData({ ...toggledData, [datasetName]: !toggledData[datasetName] })
@@ -63,7 +66,7 @@ const HistoricalChart = ({
       if (set.label === datasetName) {
         return !toggledData[datasetName]
       }
-      return toggledData[set.label]
+      return toggledData[set.label as DatasetNames]
     })
 
     setChartData({ ...chartData, datasets: newChartData })
