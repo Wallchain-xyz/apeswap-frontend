@@ -21,17 +21,6 @@ import { DatasetNames } from './types'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 
-const COLORS = {
-  [DatasetNames.LiquidityDebt]: 'rgb(139,69,19)',
-  [DatasetNames.MarketCap]: 'rgb(255, 99, 132)',
-  [DatasetNames.OwnedLiquidity]: 'rgb(230, 230, 250)',
-  [DatasetNames.TotalExtractableLiquidity]: 'rgb(255, 192, 203)',
-  [DatasetNames.ConcentrationScore]: 'rgb(124, 252, 0)',
-  [DatasetNames.HealthScore]: 'rgb(255, 172, 28)',
-  [DatasetNames.TotalScore]: 'rgb(238, 75, 43)',
-  [DatasetNames.OwnershipScore]: 'rgb(53, 162, 235)',
-}
-
 const HistoricalChart = ({
   tokenHistoric,
   isLoading,
@@ -62,7 +51,10 @@ const HistoricalChart = ({
 
   const options = getChartOptions(toggledData, isMobile)
 
-  const handleDataToggle = ({ datasetName }: { datasetName: DatasetNames }) => {
+  const handleDataToggle = ({ datasetName }: { datasetName: DatasetNames }): void => {
+    if (chartData.datasets.length === 1 && toggledData[datasetName]) {
+      return console.error('Error: chart must display at least one dataset')
+    }
     setToggledData({ ...toggledData, [datasetName]: !toggledData[datasetName] })
     const newChartData = data.datasets.filter((set) => {
       if (set.label === datasetName) {

@@ -86,7 +86,14 @@ export const getChartOptions = (
         },
       },
     },
-    scales,
+    scales: {
+      ...scales,
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+    },
   }
 
   return options
