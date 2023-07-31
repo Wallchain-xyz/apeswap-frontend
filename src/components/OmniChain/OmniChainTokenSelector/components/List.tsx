@@ -102,7 +102,7 @@ const List = ({
         return (
           <Flex sx={{ ...style, flexDirection: 'column', height: '500px' }}>
             {[...Array(8)].map((i) => {
-              return <Skeleton key={i} width="100%" height="100px" animation="waves" sx={{ margin: '2.5px 0px' }} />
+              return <Skeleton key={i} width="100%" height="50px" animation="waves" sx={{ margin: '2.5px 0px' }} />
             })}
           </Flex>
         )
@@ -143,7 +143,7 @@ const List = ({
   }, [])
 
   return (
-    <Flex sx={{ height: '340px', width: '100%', flexDirection: 'column', background: 'white3', borderRadius: '10px' }}>
+    <Flex sx={{ height: '300px', width: '100%', flexDirection: 'column', background: 'white3', borderRadius: '10px' }}>
       <FixedSizeList
         height={500}
         itemSize={55}

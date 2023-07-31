@@ -1,9 +1,16 @@
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
-import { Flex, Modal, Svg } from 'components/uikit'
-import React, { ChangeEvent, useCallback, useState } from 'react'
-import { Input } from 'theme-ui'
-import { isAddress } from 'utils'
+// Components
+import { styles } from './styles'
+import { Flex, Modal, Svg, Input, Text } from 'components/uikit'
+import ChainOptionsButtons from './components/ChainOptionsButtons'
+import ChainOptionsList from './components/ChainOptionsList'
 import List from './components/List'
+
+// Hooks
+import { ChangeEvent, useCallback, useState } from 'react'
+
+// Types, Constants, Utils
+import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { isAddress } from 'utils'
 
 const ChainTokenSelector = ({
   onDismiss,
@@ -14,47 +21,52 @@ const ChainTokenSelector = ({
   onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
   selectedCurrency?: Currency | null
 }) => {
-  //this should be able to handle chain switching locally, though if we want the state to persist
-  //we will have to move this to redux. By persist I mean that if a user selects a chain, closes the modal
-  //and then open it again polygon should still be selected. If we want that we will have to create a new variable
-  //in the swap state, one for input and one for output
   const [selectedChain, setSelectedChain] = useState<SupportedChainId>(SupportedChainId.BSC)
-
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const [viewAllChains, setViewAllChains] = useState<boolean>(false)
+
   const handleInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value
     const checksummedInput = isAddress(input)
     setSearchQuery(checksummedInput || input)
   }, [])
-  return (
-    <Modal title="Tokens" zIndex={110} sx={{ height: '485px' }}>
-      <Flex sx={{ position: 'relative', my: '10px' }}>
-        <>Add new component here to select chains, pass selectedChain and SetSelectedChain</>
-        <Input
-          onChange={handleInput}
-          sx={{
-            background: 'white3',
-            height: '45px',
-            border: 'none',
-            pl: '10px',
-            borderRadius: '10px',
-            ':focus': { outline: 'none' },
-          }}
-          placeholder="Name or Address"
-        />
-        <Flex sx={{ position: 'absolute', right: 5, justifyContent: 'center', height: '100%' }}>
-          <Svg icon="search" />
+
+  return !viewAllChains ? (
+    <Modal title="Select Token" zIndex={110} sx={{ height: '560px', width: '420px' }}>
+      <Text sx={styles.sectionDividerFont}>Select Chain</Text>
+      <ChainOptionsButtons
+        setSelectedChain={setSelectedChain}
+        selectedChain={selectedChain}
+        setViewAllChains={setViewAllChains}
+      />
+      <Text sx={styles.sectionDividerFont}>Select Token</Text>
+      <Flex sx={styles.searchAndListContainer}>
+        <Flex sx={{ position: 'relative', flexDirection: 'column' }}>
+          <Flex>
+            <Input onChange={handleInput} sx={styles.searchInput} placeholder="Search by name or address" />
+            <Flex sx={{ position: 'absolute', right: '10px', top: '12px' }}>
+              <Svg icon="search" />
+            </Flex>
+          </Flex>
+          <List
+            searchQuery={searchQuery}
+            onCurrencySelect={onCurrencySelect}
+            selectedCurrency={selectedCurrency}
+            onDismiss={onDismiss}
+            selectedChain={selectedChain}
+          />
         </Flex>
       </Flex>
-      <Flex sx={{ maxWidth: '100%', width: '450px' }}>
-        <List
-          searchQuery={searchQuery}
-          onCurrencySelect={onCurrencySelect}
-          selectedCurrency={selectedCurrency}
-          onDismiss={onDismiss}
-          selectedChain={selectedChain}
-        />
+    </Modal>
+  ) : (
+    <Modal zIndex={110} sx={{ height: '560px', width: '420px' }}>
+      <Flex sx={{ justifyContent: 'space-between', mb: '20px' }}>
+        <Flex onClick={() => setViewAllChains(false)} sx={styles.cursorHover}>
+          <Svg width="10px" icon="arrow" direction="left" />
+        </Flex>
+        <Text sx={{ fontSize: '16px', fontWeight: '300' }}>All Chain Options</Text>
       </Flex>
+      <ChainOptionsList setSelectedChain={setSelectedChain} setViewAllChains={setViewAllChains} />
     </Modal>
   )
 }
