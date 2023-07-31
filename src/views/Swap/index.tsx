@@ -24,6 +24,8 @@ import RouteDetails from './components/RouteDetails'
 import { toPrecisionAvoidExponential } from './utils'
 import JSBI from 'jsbi'
 import { Pricing } from '../../components/DexPanel/types'
+import SwapAssetNotice from './components/SwapAssetNotice'
+import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
 import useFetchChains from '../../state/lists/hooks/useFetchChains'
 
@@ -105,50 +107,61 @@ const Swap = () => {
   const parsedOutput = outputAmount ? toPrecisionAvoidExponential(outputAmount, 6) : ''
 
   return (
-    <Flex variant="flex.dexContainer">
-      <DexNav />
-      <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
-      <OmniChainPanel //finish this
-        panelText="From"
-        value={typedValue}
-        currency={currencies[Field.INPUT].currency}
-        currencyChain={currencies[Field.INPUT].chain}
-        onCurrencySelect={(currency, chain) => onCurrencySelection(Field.INPUT, currency, chain)}
-        onUserInput={(val) => onUserInput(Field.INPUT, val)}
-        handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
-        apiPrice={selectedRoute?.fromAmountUSD}
-      />
-      <Flex
-        sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}
-      >
-        <SwapSwitchButton onClick={onSwitchTokens} />
-        <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]?.currency} />
+    <Flex sx={{ flexDirection: 'column', gap: '10px' }}>
+      {
+        // Logic to check if addresses & chain are a known reflect, then show notice
+        KNOWN_REFLECT_ADDRESSES.some((reflect) => {
+          return (
+            reflect.chain === chainId &&
+            reflect.address.toLowerCase() === selectedRoute?.fromToken?.address?.toLowerCase()
+          )
+        }) && <SwapAssetNotice />
+      }
+      <Flex variant="flex.dexContainer">
+        <DexNav />
+        <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
+        <OmniChainPanel //finish this
+          panelText="From"
+          value={typedValue}
+          currency={currencies[Field.INPUT].currency}
+          currencyChain={currencies[Field.INPUT].chain}
+          onCurrencySelect={(currency, chain) => onCurrencySelection(Field.INPUT, currency, chain)}
+          onUserInput={(val) => onUserInput(Field.INPUT, val)}
+          handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
+          apiPrice={selectedRoute?.fromAmountUSD}
+        />
+        <Flex
+          sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}
+        >
+          <SwapSwitchButton onClick={onSwitchTokens} />
+          <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]?.currency} />
+        </Flex>
+        <OmniChainPanel
+          panelText="To"
+          onCurrencySelect={(currency, chain) => onCurrencySelection(Field.OUTPUT, currency, chain)}
+          value={parsedOutput}
+          currency={currencies[Field.OUTPUT]?.currency}
+          currencyChain={currencies[Field.OUTPUT]?.chain}
+          disabled
+          apiPrice={selectedRoute?.toAmountUSD}
+        />
+        {!showWrap && routeIsLoading ? (
+          <LoadingBestRoute />
+        ) : (
+          !routeNotFound && !showWrap && selectedRoute && <RouteDetails route={selectedRoute} fee={feeStructure.fee} />
+        )}
+        <Actions
+          routingState={routingState}
+          inputError={inputError}
+          selectedRoute={selectedRoute}
+          inputCurrencyAmount={inputCurrencyAmount}
+          showWrap={showWrap}
+          wrapInputError={wrapInputError}
+          wrapType={wrapType}
+          onWrap={onWrap}
+          feeStructure={feeStructure}
+        />
       </Flex>
-      <OmniChainPanel
-        panelText="To"
-        onCurrencySelect={(currency, chain) => onCurrencySelection(Field.OUTPUT, currency, chain)}
-        value={parsedOutput}
-        currency={currencies[Field.OUTPUT]?.currency}
-        currencyChain={currencies[Field.OUTPUT]?.chain}
-        disabled
-        apiPrice={selectedRoute?.toAmountUSD}
-      />
-      {!showWrap && routeIsLoading ? (
-        <LoadingBestRoute />
-      ) : (
-        !routeNotFound && !showWrap && selectedRoute && <RouteDetails route={selectedRoute} fee={feeStructure.fee} />
-      )}
-      <Actions
-        routingState={routingState}
-        inputError={inputError}
-        selectedRoute={selectedRoute}
-        inputCurrencyAmount={inputCurrencyAmount}
-        showWrap={showWrap}
-        wrapInputError={wrapInputError}
-        wrapType={wrapType}
-        onWrap={onWrap}
-        feeStructure={feeStructure}
-      />
     </Flex>
   )
 }
