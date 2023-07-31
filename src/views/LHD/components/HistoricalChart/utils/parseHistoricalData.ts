@@ -29,31 +29,13 @@ export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[]): I
   }
 
   const historicalData = tokenHistoricalData.reduce((acc: IParsedHistoricalData, curr: HistoricTokenData) => {
-    const {
-      mcap,
-      ownershipScore,
-      concentrationScore,
-      totalScore,
-      totalExtractableLiquidity,
-      healthScore,
-      ownedLiquidity,
-    } = curr
-    const validMcap = mcap.reduce(
-      (mcapAcc: any, mcapCurr: any) => {
-        const { amount } = mcapCurr
-        if (amount > 0) {
-          mcapAcc.total += amount
-          mcapAcc.validCount += 1
-        }
-        return mcapAcc
-      },
-      { total: 0, validCount: 0 },
-    )
-    const totalMcap = validMcap.total / validMcap.validCount || 0
+    const { mcap, ownershipScore, totalScore, totalExtractableLiquidity, healthScore, ownedLiquidity } = curr
+
+    const [firstReport] = mcap
 
     // TODO: add liquidityDebt when api is ready
     acc.liquidityDebt.push(0)
-    acc.mcap.push(totalMcap)
+    acc.mcap.push(firstReport.amount || 0)
     acc.ownedLiquidity.push(ownedLiquidity)
     acc.totalExtractableLiquidity.push(totalExtractableLiquidity)
 
