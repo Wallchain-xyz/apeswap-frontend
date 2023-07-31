@@ -49,11 +49,11 @@
     "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
-    "@ape.swap/apeswap-lists": "1.4.5",
+    "@ape.swap/apeswap-lists": "1.4.6",
     "@ape.swap/router-sdk": "^1.2.0",
     "@ape.swap/sdk-core": "^1.0.2",
     "@ape.swap/smart-order-router": "1.2.3-alpha.3",
-    "@ape.swap/token-lists": "1.0.51",
+    "@ape.swap/token-lists": "1.0.56",
     "@ape.swap/v2-sdk": "^1.1.0",
     "@ape.swap/v2-zap-sdk": "^1.0.0-alpha.12",
     "@ape.swap/v3-sdk": "^1.2.0",
