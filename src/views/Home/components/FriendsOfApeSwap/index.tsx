@@ -13,6 +13,7 @@ const FriendsOfApeSwap = () => {
 
   const friends = [
     'polygonVillage',
+    'quickSwap',
     'chainlink',
     'dappRadar',
     'animoca',
@@ -21,7 +22,6 @@ const FriendsOfApeSwap = () => {
     'chainGuardians',
     'apollox',
     'moonpay',
-    'brave',
   ]
 
   return (
