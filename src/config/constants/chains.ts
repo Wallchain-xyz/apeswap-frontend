@@ -1,7 +1,6 @@
 // Network chain ids
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { icons } from 'components/uikit/Svg/types'
-import { BigNumber } from 'ethers'
 
 export const AVERAGE_L1_BLOCK_TIME = 12000
 
@@ -25,14 +24,6 @@ export const CHAIN_NAMES: Record<SupportedChainId, string> = {
   [SupportedChainId.ARBITRUM_ONE]: 'arbitrum_one',
 }
 
-export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
-  SupportedChainId.BSC,
-  SupportedChainId.POLYGON,
-  SupportedChainId.MAINNET,
-  //SupportedChainId.TLOS,
-  SupportedChainId.ARBITRUM_ONE,
-]
-
 // Network Icons
 export const NETWORK_ICONS: Partial<Record<SupportedChainId, icons>> = {
   [SupportedChainId.BSC]: icons.BNB_TOKEN,
@@ -51,16 +42,6 @@ export const NETWORK_LABEL: Partial<Record<SupportedChainId, string>> = {
   [SupportedChainId.MAINNET]: 'Ethereum',
   //[SupportedChainId.TLOS]: 'Telos',
   [SupportedChainId.ARBITRUM_ONE]: 'Arbitrum',
-}
-
-export const NETWORK_INFO_LINK: Partial<Record<SupportedChainId, string>> = {
-  [SupportedChainId.BSC]: 'https://info.apeswap.finance',
-  [SupportedChainId.BSC_TESTNET]: 'https://info.apeswap.finance',
-  [SupportedChainId.POLYGON]: 'https://polygon.info.apeswap.finance/',
-  [SupportedChainId.POLYGON_MUMBAI]: 'https://polygon.info.apeswap.finance/',
-  [SupportedChainId.MAINNET]: 'https://ethereum.info.apeswap.finance',
-  [SupportedChainId.TLOS]: 'https://telos.info.apeswap.finance',
-  [SupportedChainId.ARBITRUM_ONE]: 'https://arb1.arbitrum.io/rpc',
 }
 
 // Network block explorers
@@ -164,26 +145,6 @@ export const getChainInfo = (chainId: SupportedChainId): any => {
   return undefined
 }
 
-// Ape price impact cutoff
-export const APE_PRICE_IMPACT = 15
-
-// Dont use bonus router if the bonus is lower than the cutoff
-export const BONUS_CUTOFF_AMOUNT: Partial<Record<SupportedChainId, number>> = {
-  [SupportedChainId.BSC]: 0.5,
-  [SupportedChainId.BSC_TESTNET]: 0,
-  [SupportedChainId.POLYGON]: 0,
-  [SupportedChainId.MAINNET]: 0,
-  [SupportedChainId.TLOS]: 0,
-}
-
-// Block times
-export const CHAIN_BLOCKS_PER_YEAR: Partial<Record<SupportedChainId, BigNumber>> = {
-  [SupportedChainId.BSC]: BigNumber.from(10512000),
-  [SupportedChainId.POLYGON]: BigNumber.from(13711304),
-  [SupportedChainId.MAINNET]: BigNumber.from(2628000),
-  [SupportedChainId.TLOS]: BigNumber.from(63072000),
-}
-
 // enum to corresponding url
 export enum LIST_VIEW_PRODUCTS {
   BILLS = 'treasury-bills',
@@ -215,19 +176,6 @@ export const AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS: Record<LIST_VIEW_PRODUCTS, 
   [LIST_VIEW_PRODUCTS.POOLS]: [SupportedChainId.BSC],
 }
 
-// These products are specific products to certain chains like GNANA and Migrate
-// These products will be redirected a different way
-export const AVAILABLE_CHAINS_ON_PRODUCTS: Record<OTHER_PRODUCTS, SupportedChainId[]> = {
-  [OTHER_PRODUCTS.GNANA]: [SupportedChainId.BSC],
-  [OTHER_PRODUCTS.MIGRATE]: [SupportedChainId.BSC],
-  [OTHER_PRODUCTS.ZAP]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.TLOS],
-  [OTHER_PRODUCTS.IAO]: [SupportedChainId.BSC],
-  [OTHER_PRODUCTS.NFA_COLLECTION]: [SupportedChainId.BSC],
-  [OTHER_PRODUCTS.NFA_AUCTION]: [SupportedChainId.BSC],
-  [OTHER_PRODUCTS.NFA_STAKING]: [SupportedChainId.BSC],
-  [OTHER_PRODUCTS.V3]: [SupportedChainId.BSC, SupportedChainId.POLYGON], // chains where we have ape lps v3
-}
-
 // Full product names for readability
 export const FULL_PRODUCT_NAMES: Record<LIST_VIEW_PRODUCTS | OTHER_PRODUCTS, string> = {
   [LIST_VIEW_PRODUCTS.BILLS]: 'Treasury Bills',
@@ -243,52 +191,4 @@ export const FULL_PRODUCT_NAMES: Record<LIST_VIEW_PRODUCTS | OTHER_PRODUCTS, str
   [OTHER_PRODUCTS.NFA_AUCTION]: 'Nfa Auction',
   [OTHER_PRODUCTS.NFA_STAKING]: 'Nfa Staking',
   [OTHER_PRODUCTS.V3]: 'V3 Concentrated Liquidity',
-}
-
-// This is needed for the info page queries
-export const INFO_PAGE_CHAIN_PARAMS: Partial<
-  Record<
-    SupportedChainId,
-    {
-      graphAddress: string
-      explorer: string
-      blockGraph: string
-      id: string
-      fee: number
-      color: string
-    }
-  >
-> = {
-  [SupportedChainId.BSC]: {
-    graphAddress: 'https://bnb.apeswapgraphs.com/subgraphs/name/ape-swap/apeswap-subgraph',
-    explorer: BLOCK_EXPLORER[SupportedChainId.BSC],
-    blockGraph: 'https://api.thegraph.com/subgraphs/name/matthewlilley/bsc-blocks',
-    id: '0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6',
-    fee: 0.002,
-    color: '#FAB701',
-  },
-  [SupportedChainId.POLYGON]: {
-    graphAddress: 'https://api.thegraph.com/subgraphs/name/prof-sd/as-matic-graft',
-    explorer: BLOCK_EXPLORER[SupportedChainId.POLYGON],
-    blockGraph: 'https://api.thegraph.com/subgraphs/name/matthewlilley/polygon-blocks',
-    id: '0xcf083be4164828f00cae704ec15a36d711491284',
-    fee: 0.002,
-    color: '#8C3EED',
-  },
-  [SupportedChainId.MAINNET]: {
-    graphAddress: 'https://api.thegraph.com/subgraphs/name/apeswapfinance/ethereum-dex',
-    explorer: BLOCK_EXPLORER[SupportedChainId.MAINNET],
-    blockGraph: 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks',
-    id: '0xBAe5dc9B19004883d0377419FeF3c2C8832d7d7B',
-    fee: 0.002,
-    color: '#637DEA',
-  },
-  [SupportedChainId.TLOS]: {
-    graphAddress: 'https://telos.apeswapgraphs.com/subgraphs/name/ape-swap/apeswap-graph',
-    explorer: BLOCK_EXPLORER[SupportedChainId.TLOS],
-    blockGraph: 'https://telos.apeswapgraphs.com/subgraphs/name/ape-swap/telos-blocks',
-    id: '0x411172Dfcd5f68307656A1ff35520841C2F7fAec',
-    fee: 0.002,
-    color: '#9D68E8',
-  },
 }

@@ -2,7 +2,8 @@ import { createReducer } from '@reduxjs/toolkit'
 import { parsedQueryString } from 'hooks/useParsedQueryString'
 
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
-import { queryParametersToSwapState } from './hooks'
+import { queryParametersToSwapState } from './hooks/hooks'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 export interface SwapState {
   // independentField is used to set which Field has been modified by the user, though LiFi does not support output quotes right now
@@ -10,9 +11,11 @@ export interface SwapState {
   readonly typedValue: string
   readonly [Field.INPUT]: {
     readonly currencyId: string | null
+    readonly chain: SupportedChainId | null // change type
   }
   readonly [Field.OUTPUT]: {
     readonly currencyId: string | null
+    readonly chain: SupportedChainId | null // change type
   }
   // the typed recipient address or ENS name, or null if swap should go to sender
   readonly recipient: string | null
@@ -24,35 +27,40 @@ export default createReducer<SwapState>(initialState, (builder) =>
   builder
     .addCase(
       replaceSwapState,
-      (state, { payload: { typedValue, recipient, field, inputCurrencyId, outputCurrencyId } }) => {
+      (
+        state,
+        { payload: { typedValue, recipient, field, inputCurrencyId, outputCurrencyId, inputChain, outputCain } },
+      ) => {
         return {
           [Field.INPUT]: {
             currencyId: inputCurrencyId ?? null,
+            chain: inputChain ?? null,
           },
           [Field.OUTPUT]: {
             currencyId: outputCurrencyId ?? null,
+            chain: outputCain ?? null,
           },
           independentField: field,
           typedValue,
           recipient,
         }
-      }
+      },
     )
-    .addCase(selectCurrency, (state, { payload: { currencyId, field } }) => {
+    .addCase(selectCurrency, (state, { payload: { currencyId, field, chain } }) => {
       const otherField = field === Field.INPUT ? Field.OUTPUT : Field.INPUT
       if (currencyId === state[otherField].currencyId) {
         // the case where we have to swap the order
         return {
           ...state,
           independentField: state.independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT,
-          [field]: { currencyId },
+          [field]: { currencyId, chain },
           [otherField]: { currencyId: state[field].currencyId },
         }
       } else {
         // the normal case
         return {
           ...state,
-          [field]: { currencyId },
+          [field]: { currencyId, chain },
         }
       }
     })
@@ -60,8 +68,8 @@ export default createReducer<SwapState>(initialState, (builder) =>
       return {
         ...state,
         independentField: state.independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT,
-        [Field.INPUT]: { currencyId: state[Field.OUTPUT].currencyId },
-        [Field.OUTPUT]: { currencyId: state[Field.INPUT].currencyId },
+        [Field.INPUT]: { currencyId: state[Field.OUTPUT].currencyId, chain: state[Field.OUTPUT].chain },
+        [Field.OUTPUT]: { currencyId: state[Field.INPUT].currencyId, chain: state[Field.INPUT].chain },
       }
     })
     .addCase(typeInput, (state, { payload: { field, typedValue } }) => {
@@ -73,5 +81,5 @@ export default createReducer<SwapState>(initialState, (builder) =>
     })
     .addCase(setRecipient, (state, { payload: { recipient } }) => {
       state.recipient = recipient
-    })
+    }),
 )

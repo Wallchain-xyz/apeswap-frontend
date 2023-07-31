@@ -1,10 +1,14 @@
+import { Flex } from 'components/uikit'
 import React, { useState } from 'react'
-import { Flex } from '../uikit'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import useFetchChains from '../../../state/lists/hooks/useFetchChains'
 
 // The purpose of this component is to load token images of unknown sources and to use a custom image if load fails
 
-const TokenImage = ({ url, size }: { url?: string; size: number }) => {
+const OmniTokenImage = ({ url, chain, size }: { url?: string; chain: SupportedChainId; size: number }) => {
   const [error, setError] = useState(false)
+  const { data: chainsData } = useFetchChains()
+
   return (
     <>
       {!error && url ? (
@@ -16,6 +20,7 @@ const TokenImage = ({ url, size }: { url?: string; size: number }) => {
             borderRadius: '25px',
             alignItems: 'center',
             justifyContent: 'center',
+            position: 'relative',
           }}
         >
           <img
@@ -24,6 +29,14 @@ const TokenImage = ({ url, size }: { url?: string; size: number }) => {
             width={size}
             height={size}
             style={{ borderRadius: `${size}px` }}
+            onError={() => setError(true)}
+          />
+          <img
+            src={`${chainsData[chain].logoURI}`}
+            alt={'chain img'}
+            width={size / 2}
+            height={size / 2}
+            style={{ borderRadius: `${size}px`, position: 'absolute', top: 0, right: 0 }}
             onError={() => setError(true)}
           />
         </Flex>
@@ -67,4 +80,4 @@ const TokenImage = ({ url, size }: { url?: string; size: number }) => {
   )
 }
 
-export default TokenImage
+export default OmniTokenImage

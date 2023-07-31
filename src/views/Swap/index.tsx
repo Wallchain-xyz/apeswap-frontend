@@ -7,7 +7,12 @@ import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useMemo } from 'react'
 import { TradeState } from 'state/routing/types'
 import { Field } from 'state/swap/actions'
-import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
+import {
+  useDefaultsFromURLSearch,
+  useDerivedSwapInfo,
+  useSwapActionHandlers,
+  useSwapState,
+} from 'state/swap/hooks/hooks'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
@@ -19,9 +24,12 @@ import RouteDetails from './components/RouteDetails'
 import { toPrecisionAvoidExponential } from './utils'
 import JSBI from 'jsbi'
 import { Pricing } from '../../components/DexPanel/types'
+import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
+import useFetchChains from '../../state/lists/hooks/useFetchChains'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
+  useFetchChains()
   const { account, chainId } = useWeb3React()
 
   // TODO: Add token warning stuff
@@ -67,7 +75,7 @@ const Swap = () => {
   const { typedValue } = useSwapState()
   const { routing, currencies, inputError } = useDerivedSwapInfo()
   const { routes, routingState, feeStructure } = routing
-  const selectedRoute = routes[0]  // hardcoded for the time being
+  const selectedRoute = routes[0] // hardcoded for the time being
 
   const routeNotFound = routingState === TradeState.NO_ROUTE_FOUND
   const routeIsLoading = routingState === TradeState.LOADING
@@ -76,14 +84,17 @@ const Swap = () => {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
-  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
+  } = useWrapCallback(currencies[Field.INPUT]?.currency, currencies[Field.OUTPUT]?.currency, typedValue)
 
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
 
   const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
 
-  const inputCurrencyAmount = currencies?.INPUT && selectedRoute?.fromAmount? CurrencyAmount.fromRawAmount(currencies?.INPUT, JSBI.BigInt(selectedRoute?.fromAmount)) : undefined
-  const inputCurrencyBalance = useCurrencyBalance(account, currencies?.INPUT ?? undefined)
+  const inputCurrencyAmount =
+    currencies?.INPUT?.currency && selectedRoute?.fromAmount
+      ? CurrencyAmount.fromRawAmount(currencies?.INPUT?.currency, JSBI.BigInt(selectedRoute?.fromAmount))
+      : undefined
+  const inputCurrencyBalance = useCurrencyBalance(account, currencies?.INPUT?.currency ?? undefined)
 
   const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
     () => maxAmountSpend(inputCurrencyBalance),
@@ -94,39 +105,38 @@ const Swap = () => {
   const parsedOutput = outputAmount ? toPrecisionAvoidExponential(outputAmount, 6) : ''
 
   return (
-    <Flex variant='flex.dexContainer'>
+    <Flex variant="flex.dexContainer">
       <DexNav />
       <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
-      <DexPanel
-        panelText='From'
-        onCurrencySelect={(currency) => onCurrencySelection(Field.INPUT, currency)}
+      <OmniChainPanel //finish this
+        panelText="From"
+        value={typedValue}
+        currency={currencies[Field.INPUT].currency}
+        currencyChain={currencies[Field.INPUT].chain}
+        onCurrencySelect={(currency, chain) => onCurrencySelection(Field.INPUT, currency, chain)}
         onUserInput={(val) => onUserInput(Field.INPUT, val)}
         handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
-        value={typedValue}
-        currency={currencies[Field.INPUT]}
-        otherCurrency={currencies[Field.OUTPUT]}
-        pricing={Pricing.LIFI}
         apiPrice={selectedRoute?.fromAmountUSD}
       />
       <Flex
-        sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}>
+        sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}
+      >
         <SwapSwitchButton onClick={onSwitchTokens} />
-        <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]} />
+        <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]?.currency} />
       </Flex>
-      <DexPanel
-        panelText='To'
-        onCurrencySelect={(currency) => onCurrencySelection(Field.OUTPUT, currency)}
+      <OmniChainPanel
+        panelText="To"
+        onCurrencySelect={(currency, chain) => onCurrencySelection(Field.OUTPUT, currency, chain)}
         value={parsedOutput}
-        currency={currencies[Field.OUTPUT]}
-        otherCurrency={currencies[Field.INPUT]}
+        currency={currencies[Field.OUTPUT]?.currency}
+        currencyChain={currencies[Field.OUTPUT]?.chain}
         disabled
-        pricing={Pricing.LIFI}
         apiPrice={selectedRoute?.toAmountUSD}
       />
       {!showWrap && routeIsLoading ? (
         <LoadingBestRoute />
-      ) : !routeNotFound && !showWrap && selectedRoute && (
-        <RouteDetails route={selectedRoute} fee={feeStructure.fee}/>
+      ) : (
+        !routeNotFound && !showWrap && selectedRoute && <RouteDetails route={selectedRoute} fee={feeStructure.fee} />
       )}
       <Actions
         routingState={routingState}

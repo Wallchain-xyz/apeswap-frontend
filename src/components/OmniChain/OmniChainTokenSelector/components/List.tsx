@@ -14,59 +14,34 @@ import { CSSProperties } from 'theme-ui'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
-import { useZapInputList } from '../../../state/zap/hooks'
 
 const List = ({
   searchQuery,
   selectedCurrency,
-  otherSelectedCurrency,
-  showCommonBases,
-  disableNonToken,
   onCurrencySelect,
   onDismiss,
-  isZapInput,
+  selectedChain,
 }: {
   searchQuery: string
   selectedCurrency?: Currency | null
-  otherSelectedCurrency?: Currency | null
-  showCommonBases?: boolean
-  showCurrencyAmount?: boolean
-  disableNonToken?: boolean
   onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
-  onDismiss: () => void
-  isZapInput?: boolean
+  onDismiss?: () => void
+  selectedChain?: SupportedChainId
 }) => {
   const { chainId, account } = useWeb3React()
   const [tokenLoaderTimerElapsed, setTokenLoaderTimerElapsed] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 200)
-  const defaultTokens = useAllTokens()
-  const zapInputTokens = useZapInputList()
-  const [balances, balancesAreLoading] = useAllTokenBalances()
+
+  const defaultTokens = useAllTokens(selectedChain)
+  const [balances, balancesAreLoading] = useAllTokenBalances(selectedChain)
+
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
   const isAddressSearch = isAddress(debouncedQuery)
 
-  //this function takes the tokens of defaultToken object and filters the tokens we want users zap from.
-  const inputList: Record<string, any> = useMemo(() => {
-    if (!zapInputTokens) return {}
-    let filteredObject: Record<string, any> = {}
-    Object.keys(defaultTokens).forEach((key) => {
-      Object.values(zapInputTokens[chainId as SupportedChainId]).forEach((subObject) => {
-        if (subObject.address && subObject.address[chainId as SupportedChainId]?.toLowerCase() === key.toLowerCase()) {
-          filteredObject[key] = defaultTokens[key]
-        }
-      })
-    })
-    return filteredObject
-  }, [chainId, defaultTokens, zapInputTokens])
-
   const filteredTokens: Token[] = useMemo(() => {
-    if (isZapInput) {
-      if (!zapInputTokens) return []
-      return Object.values(inputList).filter(getTokenFilter(debouncedQuery))
-    }
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
-  }, [isZapInput, defaultTokens, debouncedQuery, zapInputTokens, inputList])
+  }, [defaultTokens, debouncedQuery])
 
   const sortedTokens: Token[] = useMemo(
     () =>
@@ -75,14 +50,14 @@ const List = ({
             .filter((token) => {
               // If there is no query, filter out unselected user-added tokens with no balance.
               if (!debouncedQuery && token instanceof UserAddedToken) {
-                if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
+                if (selectedCurrency?.equals(token)) return true
                 return balances[token.address]?.greaterThan(0)
               }
               return true
             })
             .sort(tokenComparator.bind(null, balances))
         : [],
-    [balances, balancesAreLoading, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency],
+    [balances, balancesAreLoading, debouncedQuery, filteredTokens, selectedCurrency],
   )
 
   const isLoading = Boolean(balancesAreLoading && !tokenLoaderTimerElapsed)
@@ -100,15 +75,12 @@ const List = ({
 
   const searchCurrencies: Currency[] = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
-
-    const zapTokens = filteredSortedTokens
-    const natives = (disableNonToken || native.equals(wrapped) ? [wrapped] : [native, wrapped]).filter(
+    const natives = (native.equals(wrapped) ? [wrapped] : [native, wrapped]).filter(
       (n) => n.symbol?.toLowerCase()?.indexOf(s) !== -1 || n.name?.toLowerCase()?.indexOf(s) !== -1,
     )
-    if (isZapInput) return searchToken ? [searchToken, ...natives, ...zapTokens] : [...natives, ...zapTokens]
-    const tokens = filteredSortedTokens?.filter((t) => !(t?.equals(wrapped) || (disableNonToken && t?.isNative)))
+    const tokens = filteredSortedTokens?.filter((t) => !(t?.equals(wrapped) || t?.isNative))
     return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
-  }, [debouncedQuery, filteredSortedTokens, disableNonToken, native, wrapped, isZapInput, searchToken])
+  }, [debouncedQuery, filteredSortedTokens, native, wrapped, searchToken])
 
   // Timeout token loader after 3 seconds to avoid hanging in a loading state.
   useEffect(() => {
@@ -123,7 +95,6 @@ const List = ({
       const row: Currency = data[index]
       const currency = row
       const isSelected = Boolean(currency && selectedCurrency && selectedCurrency.equals(currency))
-      const otherSelected = Boolean(currency && otherSelectedCurrency && otherSelectedCurrency.equals(currency))
       const currencyIsImported = !!filteredInactiveTokens.find(
         (token) => token.address.toLowerCase() === currency.wrapped.address.toLowerCase(),
       )
@@ -139,7 +110,6 @@ const List = ({
         <ListRow
           currency={row}
           isSelected={isSelected}
-          otherSelected={otherSelected}
           searchTokenIsAdded={(searchToken ? searchTokenIsAdded : true) && !currencyIsImported}
           userBalance={
             currency.isToken ? balances[currency.address]?.toSignificant(6) : nativeBalance?.toSignificant(6)
@@ -147,26 +117,23 @@ const List = ({
           style={style}
           key={currency.isToken ? currency.address : 'ETHER'}
           onSelect={() => {
-            //TODO: fix this, we should take redux chain of no chainId
-            onCurrencySelect(row, chainId ?? 56)
-            onDismiss()
+            onCurrencySelect(row, row.chainId)
+            onDismiss && onDismiss()
           }}
           onDismiss={onDismiss}
         />
       )
     },
     [
-      selectedCurrency,
-      otherSelectedCurrency,
-      filteredInactiveTokens,
-      balancesAreLoading,
-      searchToken,
-      searchTokenIsAdded,
       balances,
+      balancesAreLoading,
+      filteredInactiveTokens,
       nativeBalance,
-      onDismiss,
+      searchTokenIsAdded,
+      searchToken,
+      selectedCurrency,
       onCurrencySelect,
-      chainId,
+      onDismiss,
     ],
   )
 
@@ -181,8 +148,8 @@ const List = ({
         height={500}
         itemSize={55}
         width="100%"
-        itemCount={isZapInput ? searchCurrencies.length : searchCurrencies.length + filteredInactiveTokens.length}
-        itemData={isZapInput ? searchCurrencies : [...searchCurrencies, ...filteredInactiveTokens]}
+        itemCount={searchCurrencies.length + filteredInactiveTokens.length}
+        itemData={[...searchCurrencies, ...filteredInactiveTokens]}
         itemKey={itemKey}
         sx={{
           '::-webkit-scrollbar': {

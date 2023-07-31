@@ -3,7 +3,8 @@ import { getVersionUpgrade, TokenList, VersionUpgrade } from '@uniswap/token-lis
 
 import { DEFAULT_LIST_OF_LISTS } from 'config/constants/lists'
 import { updateVersion } from '../global/actions'
-import { acceptListUpdate, addList, fetchTokenList, removeList } from './actions'
+import { acceptListUpdate, addList, fetchChains, fetchTokenList, removeList } from './actions'
+import { Chain } from '@lifi/sdk'
 
 export interface ListsState {
   readonly byUrl: {
@@ -16,6 +17,7 @@ export interface ListsState {
   }
   // this contains the default list of lists from the last time the updateVersion was called, i.e. the app was reloaded
   readonly lastInitializedDefaultListOfLists?: string[]
+  readonly supportedChains: Chain[]
 }
 
 type ListState = ListsState['byUrl'][string]
@@ -37,6 +39,7 @@ const initialState: ListsState = {
       return memo
     }, {}),
   },
+  supportedChains: [],
 }
 
 export default createReducer(initialState, (builder) =>
@@ -136,5 +139,8 @@ export default createReducer(initialState, (builder) =>
       }
 
       state.lastInitializedDefaultListOfLists = DEFAULT_LIST_OF_LISTS
+    })
+    .addCase(fetchChains, (state, { payload: chain }) => {
+      state.supportedChains = chain
     }),
 )

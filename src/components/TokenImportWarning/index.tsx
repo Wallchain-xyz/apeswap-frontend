@@ -11,7 +11,7 @@ const TokenImportWarning = ({
   onSelect,
 }: {
   currency: Currency
-  onDismiss: () => void
+  onDismiss?: () => void
   onSelect: () => void
 }) => {
   const { chainId } = useWeb3React()
@@ -61,7 +61,9 @@ const TokenImportWarning = ({
           fullWidth
           mt="20px"
           onClick={() => {
-            currency.isToken && addToken(currency), onSelect(), onDismiss()
+            currency.isToken && addToken(currency)
+            onSelect()
+            onDismiss && onDismiss()
           }}
         >
           I Understand

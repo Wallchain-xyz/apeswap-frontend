@@ -93,7 +93,10 @@ export function useTokenFromMapOrNetwork(tokens: TokenMap, tokenAddress?: string
 export function useCurrencyFromMap(tokens: TokenMap, currencyId?: string | null): Currency | null {
   const nativeCurrency = useNativeCurrency()
   const { chainId } = useWeb3React()
-  const isNative = Boolean(nativeCurrency && (currencyId?.toUpperCase() === 'ETH' || currencyId === '0x0000000000000000000000000000000000000000'))
+  const isNative = Boolean(
+    nativeCurrency &&
+      (currencyId?.toUpperCase() === 'ETH' || currencyId === '0x0000000000000000000000000000000000000000'),
+  )
   const shorthandMatchAddress = useMemo(() => {
     const chain = supportedChainId(chainId)
     return chain && currencyId ? TOKEN_SHORTHANDS[currencyId.toUpperCase()]?.[chain] : undefined
@@ -101,7 +104,10 @@ export function useCurrencyFromMap(tokens: TokenMap, currencyId?: string | null)
 
   const token = useTokenFromMapOrNetwork(tokens, isNative ? undefined : shorthandMatchAddress ?? currencyId)
 
-  if (currencyId === null || currencyId === undefined || !isSupportedChain(chainId)) return null
+  //TODO: revisit this and check why was this used like this
+  //const isSupportedChainId = isSupportedChain(chainId)
+  const isSupportedChainId = true
+  if (currencyId === null || currencyId === undefined || !isSupportedChainId) return null
 
   // this case so we use our builtin wrapped token instead of wrapped tokens on token lists
   const wrappedNative = nativeCurrency?.wrapped

@@ -5,25 +5,21 @@ import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
 import List from './components/List'
 
-const TokenListModal = ({
+const ChainTokenSelector = ({
   onDismiss,
   onCurrencySelect,
   selectedCurrency,
-  otherSelectedCurrency,
-  showCommonBases,
-  showCurrencyAmount,
-  disableNonToken,
-  isZapInput,
 }: {
-  onDismiss: () => void
+  onDismiss?: () => void
   onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
   selectedCurrency?: Currency | null
-  otherSelectedCurrency?: Currency | null
-  showCommonBases?: boolean
-  showCurrencyAmount?: boolean
-  disableNonToken?: boolean
-  isZapInput?: boolean
 }) => {
+  //this should be able to handle chain switching locally, though if we want the state to persist
+  //we will have to move this to redux. By persist I mean that if a user selects a chain, closes the modal
+  //and then open it again polygon should still be selected. If we want that we will have to create a new variable
+  //in the swap state, one for input and one for output
+  const [selectedChain, setSelectedChain] = useState<SupportedChainId>(SupportedChainId.BSC)
+
   const [searchQuery, setSearchQuery] = useState<string>('')
   const handleInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value
@@ -31,8 +27,9 @@ const TokenListModal = ({
     setSearchQuery(checksummedInput || input)
   }, [])
   return (
-    <Modal title="Tokens" onDismiss={onDismiss} zIndex={110} sx={{ height: '485px' }}>
+    <Modal title="Tokens" zIndex={110} sx={{ height: '485px' }}>
       <Flex sx={{ position: 'relative', my: '10px' }}>
+        <>Add new component here to select chains, pass selectedChain and SetSelectedChain</>
         <Input
           onChange={handleInput}
           sx={{
@@ -53,17 +50,13 @@ const TokenListModal = ({
         <List
           searchQuery={searchQuery}
           onCurrencySelect={onCurrencySelect}
-          onDismiss={onDismiss}
           selectedCurrency={selectedCurrency}
-          otherSelectedCurrency={otherSelectedCurrency}
-          showCommonBases={showCommonBases}
-          showCurrencyAmount={showCurrencyAmount}
-          disableNonToken={disableNonToken}
-          isZapInput={isZapInput}
+          onDismiss={onDismiss}
+          selectedChain={selectedChain}
         />
       </Flex>
     </Modal>
   )
 }
 
-export default React.memo(TokenListModal)
+export default ChainTokenSelector
