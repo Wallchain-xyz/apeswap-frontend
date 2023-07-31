@@ -3,7 +3,7 @@ import { useTranslation } from 'contexts/Localization'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { useWeb3React } from '@web3-react/core'
-import { apiBaseUrl } from 'config/constants/api'
+import { apiV2BaseUrl } from 'config/constants/api'
 
 const BLOCKED_ADDRESSES: string[] = [
   '0x7Db418b5D567A4e0E8c59Ad71BE1FcE48f3E6107',
@@ -93,7 +93,7 @@ export default function Blocklist({ children }: { children: ReactNode }) {
   // Fetch country code to check if the region is allowed
   useEffect(() => {
     const fetchLocation = async () => {
-      const resp = await axios.get(`${apiBaseUrl}/check`)
+      const resp = await axios.get(`${apiV2BaseUrl}/check`)
       const { isRestrictedRegion, countryCode } = resp?.data
       setGeoLocation({ isRestrictedRegion, countryCode })
     }
