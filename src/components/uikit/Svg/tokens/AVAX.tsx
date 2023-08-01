@@ -3,7 +3,7 @@ import { SvgProps } from '../types'
 
 const ARBITRUM: React.FC<SvgProps> = (props) => {
   return (
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_2065_2765)">
         <g clip-path="url(#clip1_2065_2765)">
           <circle cx="15.0003" cy="15.0003" r="10.8333" fill="white" />
