@@ -7,7 +7,7 @@ export enum Field {
 }
 
 //change chain type
-export const selectCurrency = createAction<{ field: Field; currencyId: string; chain: SupportedChainId }>(
+export const selectCurrency = createAction<{ field: Field; currencyId: string; chain?: SupportedChainId }>(
   'swap/selectCurrency',
 )
 export const switchCurrencies = createAction<void>('swap/switchCurrencies')
