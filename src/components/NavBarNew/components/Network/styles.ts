@@ -6,6 +6,8 @@ export const styles: Record<
   | 'networkSelectorText'
   | 'networkDropdownMainContainer'
   | 'networkOptionContainer'
+  | 'networkColumnContainer'
+  | 'columnTitleText'
   | 'networkOptionContent',
   ThemeUIStyleObject
 > = {
@@ -28,11 +30,13 @@ export const styles: Record<
     fontSize: '14px',
   },
   networkDropdownMainContainer: {
-    flexDirection: 'column',
+    flexDirection: ['column', 'column', 'column', 'row'],
     position: 'absolute',
     top: '35px',
     right: '0px',
-    width: ['190px', '190px', '190px', '190px', '220px'],
+    width: ['190px', '190px', '190px', '420px', '420px'],
+    height: ['300px', '400px', '400px', 'auto'],
+    overflowY: ['scroll', 'scroll', 'scroll', 'hidden'],
     px: '15px',
     py: '10px',
     borderRadius: 'normal',
@@ -41,7 +45,7 @@ export const styles: Record<
   networkOptionContainer: {
     borderRadius: '10px',
     margin: '5px 0px',
-    padding: '0px 10px',
+    padding: '0px 4px',
     height: '45px',
     '&:hover': { bg: 'white3' },
   },
@@ -49,5 +53,12 @@ export const styles: Record<
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  networkColumnContainer: { flexDirection: 'column', width: '100%', mx: ['0px', '0px', '0px', '10px'] },
+  columnTitleText: {
+    ml: ['0px', '0px', '0px', '3px'],
+    mt: '5px',
+    fontSize: ['14px', '14px', '14px', '16px'],
+    fontWeight: '700',
   },
 }

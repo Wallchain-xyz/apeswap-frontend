@@ -12,6 +12,7 @@ import { ChangeEvent, useCallback, useState } from 'react'
 // Types, Constants, Utils
 import { Currency } from '@ape.swap/sdk-core'
 import { isAddress } from 'utils'
+import { useWeb3React } from '@web3-react/core'
 
 const ChainTokenSelector = ({
   onDismiss,
@@ -22,7 +23,9 @@ const ChainTokenSelector = ({
   onCurrencySelect: (currency: Currency, chain: ChainId) => void
   selectedCurrency?: Currency | null
 }) => {
-  const [selectedChain, setSelectedChain] = useState<ChainId>(ChainId.BSC)
+  const { chainId } = useWeb3React()
+
+  const [selectedChain, setSelectedChain] = useState<ChainId>(chainId as ChainId)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [viewAllChains, setViewAllChains] = useState<boolean>(false)
 

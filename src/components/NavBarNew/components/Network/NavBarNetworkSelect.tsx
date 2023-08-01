@@ -9,8 +9,7 @@ import { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 
 // Constants & Utils
-import { NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { ChainId, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
 import { isSupportedChain } from 'utils'
 
 const NavBarNetworkSelect = () => {
@@ -29,12 +28,12 @@ const NavBarNetworkSelect = () => {
     >
       <Flex sx={{ width: '100%', alignItems: 'center' }}>
         <Svg
-          icon={!chainId ? NETWORK_ICONS[SupportedChainId.BSC] : isSupported ? NETWORK_ICONS[chainId] : 'error'}
+          icon={!chainId ? NETWORK_ICONS[ChainId.BSC] : isSupported ? NETWORK_ICONS[chainId] : 'error'}
           width="25px"
         />
         <Text sx={styles.networkSelectorText}>
           {!chainId
-            ? NETWORK_LABEL[SupportedChainId.BSC]
+            ? NETWORK_LABEL[ChainId.BSC]
             : isSupported
             ? NETWORK_LABEL[chainId]?.toUpperCase()
             : t('Unsupported')}{' '}

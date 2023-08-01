@@ -6,4 +6,6 @@ export { default as GNANA } from './GNANA'
 export { default as POLYGON } from './POLYGON'
 export { default as TLOS } from './TLOS'
 export { default as ARBITRUM } from './ARBITRUM'
-
+export { default as AVAX } from './AVAX'
+export { default as FANTOM } from './FANTOM'
+export { default as OPTIMISM } from './OPTIMISM'
