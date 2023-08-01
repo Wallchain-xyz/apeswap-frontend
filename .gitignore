@@ -42,3 +42,10 @@ debug.log*
 # turbo
 .turbo
 .vercel
+
+# yarn
+yarn-error.log
+
+# yalc
+.yalc
+yalc.lock

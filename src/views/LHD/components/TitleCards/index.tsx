@@ -7,11 +7,11 @@ import useModal from '../../../../hooks/useModal'
 import FilterModal from '../SearchBar/FilterModal'
 
 // Hooks
-import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
-import useGetHistoricalIndustryStats from 'hooks/queries/useGetHistoricalIndustryStats'
+import useGetIndustryStats from 'state/lhd/hooks/useGetIndustryStats'
+import useGetHistoricalIndustryStats from 'state/lhd/hooks/useGetHistoricalIndustryStats'
 
 // Types
-import { Filters } from 'utils/types/lhd'
+import { Filters } from 'state/lhd/types'
 
 const TitleCards = ({
   appliedFilters,

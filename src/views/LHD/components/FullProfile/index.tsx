@@ -11,16 +11,16 @@ import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
 import TooltipBubble from 'components/uikit/Tooltip'
 
-// Hooks
-import useGetLHDProfile from 'hooks/queries/useGetLHDProfile'
-import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
-
 // Components
 import HistoricalChart from '../HistoricalChart'
 import TabNavigation from 'components/TabNavigation'
 
+// Hooks
+import useGetLHDProfile from 'state/lhd/hooks/useGetLHDProfile'
+import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
+
 // Types
-import { chartExtras } from 'utils/types/lhd'
+import { chartExtras } from 'state/lhd/types'
 
 enum TabNames {
   Strength = 'Strength',

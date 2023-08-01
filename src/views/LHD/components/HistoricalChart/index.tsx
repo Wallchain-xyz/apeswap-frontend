@@ -16,7 +16,7 @@ import { getChartOptions } from './utils/getChartOptions'
 import { getDataSets } from './utils/getDataSets'
 
 // Types
-import { HistoricTokenData } from 'state/lhd/types'
+import { SimpleTokenProfile } from 'state/lhd/types'
 import { DatasetNames } from './types'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
@@ -25,7 +25,7 @@ const HistoricalChart = ({
   tokenHistoric,
   isLoading,
 }: {
-  tokenHistoric: HistoricTokenData[] | never[]
+  tokenHistoric: SimpleTokenProfile[] | never[]
   isLoading: boolean
 }) => {
   const isMobile = useIsMobile()

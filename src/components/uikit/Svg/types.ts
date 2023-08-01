@@ -110,6 +110,9 @@ export enum icons {
   LIQUIDITY_ICON = 'liquidity',
   POLYGON_NEW = 'polygonNew',
   FIRE = 'fire',
+  NAV_CARET = 'navCaret',
+  LOGOUT = 'logout',
+  WALLET = 'wallet',
 }
 
 export enum directions {

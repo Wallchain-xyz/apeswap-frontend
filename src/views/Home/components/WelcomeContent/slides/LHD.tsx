@@ -5,7 +5,7 @@ import CountUp from 'react-countup'
 import { useThemeUI } from 'theme-ui'
 
 // Hooks
-import useGetIndustryStats from 'hooks/queries/useGetIndustryStats'
+import useGetIndustryStats from 'state/lhd/hooks/useGetIndustryStats'
 import { useTranslation } from 'contexts/Localization'
 
 // Components

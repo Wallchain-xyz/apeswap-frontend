@@ -15,7 +15,7 @@ import useSwiper from 'hooks/useSwiper'
 import { useTranslation } from 'contexts/Localization'
 
 // Types
-import { TokenDTO, SortedTokens } from 'utils/types/homepage'
+import { TokenDTO, SortedTokens } from 'state/homepage/types'
 
 interface TokensListProps {
   tokens: SortedTokens

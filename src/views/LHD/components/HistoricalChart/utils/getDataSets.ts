@@ -1,12 +1,12 @@
 // Types
-import { HistoricTokenData } from 'state/lhd/types'
+import { SimpleTokenProfile } from 'state/lhd/types'
 import { DatasetNames } from '../types'
 import type { ChartData } from 'chart.js'
 
 // Helpers
 import { parseHistoricalData } from './parseHistoricalData'
 
-export const getDataSets = (tokenHistoricalData: HistoricTokenData[]): ChartData<'line'> => {
+export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartData<'line'> => {
   const {
     mcap,
     ownershipScore,

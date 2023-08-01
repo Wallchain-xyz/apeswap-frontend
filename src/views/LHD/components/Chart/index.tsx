@@ -14,7 +14,7 @@ import {
   ChartOptions,
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
-import { LiquidityHealthChart } from 'utils/types/lhd'
+import { LiquidityHealthChart } from 'state/lhd/types'
 import { getColor } from '../../utils/getColor'
 import { useTranslation } from '../../../../contexts/Localization'
 import PriceChange from '../FullProfile/components/PercentageChange'

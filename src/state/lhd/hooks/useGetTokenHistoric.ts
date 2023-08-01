@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 // Types
-import { HistoricTokenData } from 'state/lhd/types'
+import { SimpleTokenProfile } from 'state/lhd/types'
 
 // Constants
 import { LHD_API_HIST_TEMP } from 'config/constants/api'
@@ -13,7 +13,7 @@ interface IGetTokenHistoric {
   address: string
 }
 
-export const getTokenHistoric = async ({ chainID, address }: IGetTokenHistoric): Promise<HistoricTokenData[]> => {
+export const getTokenHistoric = async ({ chainID, address }: IGetTokenHistoric): Promise<SimpleTokenProfile[]> => {
   const { data } = await axios.get(`${LHD_API_HIST_TEMP}/liquidity-health-dashboard/historic/${chainID}/${address}`)
   return data
 }

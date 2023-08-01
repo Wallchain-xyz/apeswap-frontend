@@ -1,5 +1,5 @@
 // types
-import { HistoricTokenData } from 'state/lhd/types'
+import { SimpleTokenProfile } from 'state/lhd/types'
 
 interface IParsedHistoricalData {
   mcap: number[]
@@ -12,7 +12,7 @@ interface IParsedHistoricalData {
   liquidityDebt: number[]
 }
 
-export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[]): IParsedHistoricalData => {
+export const parseHistoricalData = (tokenHistoricalData: SimpleTokenProfile[]): IParsedHistoricalData => {
   const initialHistoricalData: IParsedHistoricalData = {
     mcap: [],
     ownershipScore: [],
@@ -28,7 +28,7 @@ export const parseHistoricalData = (tokenHistoricalData: HistoricTokenData[]): I
     return initialHistoricalData
   }
 
-  const historicalData = tokenHistoricalData.reduce((acc: IParsedHistoricalData, curr: HistoricTokenData) => {
+  const historicalData = tokenHistoricalData.reduce((acc: IParsedHistoricalData, curr: SimpleTokenProfile) => {
     const { mcap, ownershipScore, totalScore, totalExtractableLiquidity, healthScore, ownedLiquidity } = curr
 
     const [firstReport] = mcap
