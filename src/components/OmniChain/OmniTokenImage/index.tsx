@@ -32,7 +32,7 @@ const OmniTokenImage = ({ url, chain, size }: { url?: string; chain: SupportedCh
             onError={() => setError(true)}
           />
           <img
-            src={`${chainsData[chain].logoURI}`}
+            src={`${chainsData[chain]?.logoURI}`}
             alt={'chain img'}
             width={size / 2}
             height={size / 2}
