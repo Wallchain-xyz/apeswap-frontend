@@ -151,7 +151,7 @@ const LiveAndUpcoming = () => {
                       minWidth: `${swiperSlideWidth}px`,
                     }}
                   >
-                    <Link target='_blank' href={slide.link}>
+                    <Link target={slide?.link && '_blank'} href={slide?.link || ''}>
                       <Flex
                         sx={{
                           height: `${swiperSlideWidth}px`,
