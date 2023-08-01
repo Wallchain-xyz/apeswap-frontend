@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'contexts/Localization'
 import useSelectChain from 'hooks/useSelectChain'
 import React from 'react'
-import { CHAIN_PARAMS, NETWORK_LABEL } from 'config/constants/chains'
+import { CHAIN_PARAMS, ChainId, NETWORK_LABEL } from 'config/constants/chains'
 
 const ListView404: React.FC<{ product: LIST_VIEW_PRODUCTS }> = ({ product }) => {
   const { chainId } = useWeb3React()
@@ -62,7 +62,7 @@ const ListView404: React.FC<{ product: LIST_VIEW_PRODUCTS }> = ({ product }) => 
                 onClick={() => switchNetwork(chainId)}
               >
                 <ServiceTokenDisplay
-                  token1={CHAIN_PARAMS[chainId as SupportedChainId]?.nativeCurrency.symbol}
+                  token1={CHAIN_PARAMS[chainId as ChainId]?.nativeCurrency.symbol}
                   size={22.5}
                 />
                 <Text ml="10px">{NETWORK_LABEL[chainId]}</Text>

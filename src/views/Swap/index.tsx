@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
 import DexPanel from 'components/DexPanel'
@@ -28,6 +28,7 @@ import SwapAssetNotice from './components/SwapAssetNotice'
 import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
 import useFetchChains from '../../state/lists/hooks/useFetchChains'
+import { ChainId } from 'config/constants/chains'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -134,7 +135,7 @@ const Swap = () => {
           sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}
         >
           <SwapSwitchButton onClick={onSwitchTokens} />
-          <Risk chainId={chainId ?? SupportedChainId.BSC} currency={currencies[Field.OUTPUT]?.currency} />
+          <Risk chainId={chainId ?? ChainId.BSC} currency={currencies[Field.OUTPUT]?.currency} />
         </Flex>
         <OmniChainPanel
           panelText="To"

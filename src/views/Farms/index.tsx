@@ -19,6 +19,7 @@ import HarvestAll from './actions/HarvestAll'
 import BigNumber from 'bignumber.js'
 import { useSetZapOutputList } from 'state/zap/hooks'
 import { getBalanceNumber } from '../../utils/getBalanceNumber'
+import { ChainId } from 'config/constants/chains'
 
 const Farms = () => {
   const { account, chainId } = useWeb3React()
@@ -35,7 +36,7 @@ const Farms = () => {
   const urlSearchedFarm = params?.get('pid') ? params?.get('pid') : ''
   const urlSearchedJFarm = params?.get('jid') ? params?.get('jid') : ''
   const [stakedOnly, setStakedOnly] = useState(false)
-  const { farmOrderings } = useFarmOrderings(chainId as SupportedChainId)
+  const { farmOrderings } = useFarmOrderings(chainId as ChainId)
   const [isActive, setIsActive] = useState(true)
   const { t } = useTranslation()
 
@@ -282,7 +283,7 @@ const Farms = () => {
       </Flex>
       {!chainId ? (
         <></>
-      ) : !AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.FARMS].includes(chainId as SupportedChainId) ? (
+      ) : !AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS[LIST_VIEW_PRODUCTS.FARMS].includes(chainId as ChainId) ? (
         <Flex mt="20px">
           <ListView404 product={LIST_VIEW_PRODUCTS.FARMS} />
         </Flex>

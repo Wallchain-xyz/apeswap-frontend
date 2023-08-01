@@ -1,7 +1,6 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Button, Flex, Link, Modal, Svg, Text } from 'components/uikit'
-import { MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
+import { ChainId, MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
 import useSelectChain from 'hooks/useSelectChain'
 import { useAppDispatch } from 'state/hooks'
 import { updateSelectedNetwork } from 'state/user/reducer'
@@ -19,7 +18,7 @@ const NetworkModal = ({
   return (
     <Modal title="Network" onDismiss={onDismiss}>
       <Flex sx={{ flexDirection: 'column' }}>
-        {MAINNET_CHAINS.map((chainId: SupportedChainId) => {
+        {MAINNET_CHAINS.map((chainId: ChainId) => {
           return (
             <Button
               fullWidth

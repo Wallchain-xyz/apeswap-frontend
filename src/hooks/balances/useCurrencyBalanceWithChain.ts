@@ -1,11 +1,12 @@
-import { Currency, CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import { useMemo } from 'react'
 import { useCurrencyBalancesWithChain } from './useCurrenciesBalancesWithChain'
+import { ChainId } from 'config/constants/chains'
 
 export default function useCurrencyBalanceWithChain(
   account?: string,
   currency?: Currency,
-  chain?: SupportedChainId, // we should create a new chainId type, maybe LiFi Chain?
+  chain?: ChainId, // we should create a new chainId type, maybe LiFi Chain?
 ): CurrencyAmount<Currency> | undefined {
   return useCurrencyBalancesWithChain(
     account,

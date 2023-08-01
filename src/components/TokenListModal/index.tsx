@@ -1,9 +1,10 @@
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import { Flex, Modal, Svg } from 'components/uikit'
 import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
 import List from './components/List'
+import { ChainId } from 'config/constants/chains'
 
 const TokenListModal = ({
   onDismiss,
@@ -16,7 +17,7 @@ const TokenListModal = ({
   isZapInput,
 }: {
   onDismiss: () => void
-  onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   selectedCurrency?: Currency | null
   otherSelectedCurrency?: Currency | null
   showCommonBases?: boolean

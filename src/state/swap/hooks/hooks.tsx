@@ -1,4 +1,4 @@
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ParsedQs } from 'qs'
@@ -19,7 +19,7 @@ import { routingApi, useGetRoutesQuery } from '../../routing/slice'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Route } from '@lifi/sdk'
 import BigNumber from 'bignumber.js'
-import { AVERAGE_L1_BLOCK_TIME } from '../../../config/constants/chains'
+import { AVERAGE_L1_BLOCK_TIME, ChainId } from 'config/constants/chains'
 import useDebounce from '../../../hooks/useDebounce'
 import { useQueryParams } from './useQueryParams'
 
@@ -28,14 +28,14 @@ export function useSwapState(): AppState['swap'] {
 }
 
 export function useSwapActionHandlers(): {
-  onCurrencySelection: (field: Field, currency: Currency, chain: SupportedChainId) => void
+  onCurrencySelection: (field: Field, currency: Currency, chain: ChainId) => void
   onSwitchTokens: () => void
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {
   const dispatch = useAppDispatch()
   const onCurrencySelection = useCallback(
-    (field: Field, currency: Currency, chain: SupportedChainId) => {
+    (field: Field, currency: Currency, chain: ChainId) => {
       dispatch(
         selectCurrency({
           field,
@@ -84,7 +84,7 @@ export const useDerivedSwapInfo = (): {
   currencies: {
     [field in Field]: {
       currency: Currency | null
-      chain: SupportedChainId | undefined //change type
+      chain: ChainId | undefined
     }
   }
   inputError?: string

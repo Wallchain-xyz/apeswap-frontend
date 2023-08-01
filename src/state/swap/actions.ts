@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { ChainId } from 'config/constants/chains';
 
 export enum Field {
   INPUT = 'INPUT',
@@ -7,7 +7,7 @@ export enum Field {
 }
 
 //change chain type
-export const selectCurrency = createAction<{ field: Field; currencyId: string; chain?: SupportedChainId }>(
+export const selectCurrency = createAction<{ field: Field; currencyId: string; chain?: ChainId }>(
   'swap/selectCurrency',
 )
 export const switchCurrencies = createAction<void>('swap/switchCurrencies')
@@ -16,9 +16,9 @@ export const replaceSwapState = createAction<{
   field: Field
   typedValue: string
   inputCurrencyId?: string
-  inputChain?: SupportedChainId // change type
+  inputChain?: ChainId
   outputCurrencyId?: string
-  outputCain?: SupportedChainId // change type
+  outputCain?: ChainId
   recipient: string | null
 }>('swap/replaceSwapState')
 export const setRecipient = createAction<{ recipient: string | null }>('swap/setRecipient')

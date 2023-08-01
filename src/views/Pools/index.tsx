@@ -18,10 +18,10 @@ import { getBalanceNumber } from 'utils/getBalanceNumber'
 import BigNumber from 'bignumber.js'
 import { Flex } from 'components/uikit'
 import ListViewMenu from 'components/ListView/ListViewMenu'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
 import { useFetchLiveTagsAndOrdering } from 'state/stats/hooks'
 import HarvestAll from './Actions/HarvestAll'
+import { ChainId } from 'config/constants/chains'
 
 const NUMBER_OF_POOLS_VISIBLE = 12
 
@@ -37,8 +37,8 @@ const Pools: React.FC = () => {
   const { account } = useWeb3React()
   const { asPath } = useRouter()
   const allPools = usePools(account ?? '')
-  const { poolTags } = usePoolTags(chainId as SupportedChainId)
-  const { poolOrderings } = usePoolOrderings(chainId as SupportedChainId)
+  const { poolTags } = usePoolTags(chainId as ChainId)
+  const { poolOrderings } = usePoolOrderings(chainId as ChainId)
   const { t } = useTranslation()
   const currentBlock = useBlockNumber()
   const windowVisible = useIsWindowVisible()
@@ -188,7 +188,7 @@ const Pools: React.FC = () => {
           />
         </Flex>
         {!AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS.pools.includes(
-          (chainId as SupportedChainId) ?? SupportedChainId.BSC,
+          (chainId as ChainId) ?? ChainId.BSC,
         ) ? (
           <ListView404 product={LIST_VIEW_PRODUCTS.POOLS} />
         ) : (

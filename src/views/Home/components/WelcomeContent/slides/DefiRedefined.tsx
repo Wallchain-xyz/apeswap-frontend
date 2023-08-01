@@ -8,8 +8,8 @@ import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'conf
 import { Button, Flex, Link, Text } from 'components/uikit'
 import useSelectChain from 'hooks/useSelectChain'
 import { useRouter } from 'next/router'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import Image from 'next/image'
+import { ChainId } from 'config/constants/chains'
 
 // Hooks
 import useGetTvlStats from 'state/homepage/hooks/useGetTvlStats'
@@ -20,7 +20,7 @@ const DefiRedefined = ({ randomImage }: { randomImage: number }) => {
   const switchNetwork = useSelectChain()
   const { push } = useRouter()
 
-  const handleNetworkSwitch = (chainId: SupportedChainId) => {
+  const handleNetworkSwitch = (chainId: ChainId) => {
     push('/bonds')
     switchNetwork(chainId)
   }

@@ -1,4 +1,4 @@
-import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
+import { Currency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
 import { useAllTokens, useIsUserAddedToken, useSearchInactiveTokenLists, useToken } from 'hooks/Tokens'
@@ -14,7 +14,7 @@ import { CSSProperties } from 'theme-ui'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
-import { ChainId } from '../../../../config/constants/chains'
+import { ChainId } from 'config/constants/chains'
 
 const List = ({
   searchQuery,
@@ -25,7 +25,7 @@ const List = ({
 }: {
   searchQuery: string
   selectedCurrency?: Currency | null
-  onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   onDismiss?: () => void
   selectedChain?: ChainId
 }) => {

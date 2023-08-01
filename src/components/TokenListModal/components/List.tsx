@@ -1,4 +1,4 @@
-import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
+import { Currency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
 import { useAllTokens, useIsUserAddedToken, useSearchInactiveTokenLists, useToken } from 'hooks/Tokens'
@@ -15,6 +15,7 @@ import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
 import { useZapInputList } from '../../../state/zap/hooks'
+import { ChainId } from 'config/constants/chains'
 
 const List = ({
   searchQuery,
@@ -32,7 +33,7 @@ const List = ({
   showCommonBases?: boolean
   showCurrencyAmount?: boolean
   disableNonToken?: boolean
-  onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   onDismiss: () => void
   isZapInput?: boolean
 }) => {
@@ -51,8 +52,8 @@ const List = ({
     if (!zapInputTokens) return {}
     let filteredObject: Record<string, any> = {}
     Object.keys(defaultTokens).forEach((key) => {
-      Object.values(zapInputTokens[chainId as SupportedChainId]).forEach((subObject) => {
-        if (subObject.address && subObject.address[chainId as SupportedChainId]?.toLowerCase() === key.toLowerCase()) {
+      Object.values(zapInputTokens[chainId as ChainId]).forEach((subObject) => {
+        if (subObject.address && subObject.address[chainId as ChainId]?.toLowerCase() === key.toLowerCase()) {
           filteredObject[key] = defaultTokens[key]
         }
       })

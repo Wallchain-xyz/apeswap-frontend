@@ -4,12 +4,13 @@ import { Flex, Modal, Svg, Input, Text } from 'components/uikit'
 import ChainOptionsButtons from './components/ChainOptionsButtons'
 import ChainOptionsList from './components/ChainOptionsList'
 import List from './components/List'
+import { ChainId } from 'config/constants/chains'
 
 // Hooks
 import { ChangeEvent, useCallback, useState } from 'react'
 
 // Types, Constants, Utils
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import { isAddress } from 'utils'
 
 const ChainTokenSelector = ({
@@ -18,10 +19,10 @@ const ChainTokenSelector = ({
   selectedCurrency,
 }: {
   onDismiss?: () => void
-  onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   selectedCurrency?: Currency | null
 }) => {
-  const [selectedChain, setSelectedChain] = useState<SupportedChainId>(SupportedChainId.BSC)
+  const [selectedChain, setSelectedChain] = useState<ChainId>(ChainId.BSC)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [viewAllChains, setViewAllChains] = useState<boolean>(false)
 

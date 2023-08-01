@@ -10,8 +10,7 @@ import { useAppDispatch } from 'state/hooks'
 import { updateSelectedNetwork } from 'state/user/reducer'
 
 // Constants
-import { MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { ChainId, MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
 
 const NetworkDropdown = ({
   isVisible,
@@ -33,7 +32,7 @@ const NetworkDropdown = ({
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
       }}
     >
-      {MAINNET_CHAINS.map((chainId: SupportedChainId) => {
+      {MAINNET_CHAINS.map((chainId: ChainId) => {
         return (
           <Flex
             fullWidth
