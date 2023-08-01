@@ -9,6 +9,7 @@ import { getColor } from 'views/LHD/utils/getColor'
 import domtoimage from 'dom-to-image'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import ChainsIconsShareable from '../FullProfile/components/ChainsIconsShareable'
 
 const modalProps = {
   // sample styles for the modal. This are not checked at all so feel 100% free to change them
@@ -223,7 +224,7 @@ const SharableCard = ({
                 scale: '2.4',
               }}
             >
-              <ChainsIcons tokenAddresses={tokenAddresses} />
+              <ChainsIconsShareable tokenAddresses={tokenAddresses} />
             </Flex>
 
             <Flex>
