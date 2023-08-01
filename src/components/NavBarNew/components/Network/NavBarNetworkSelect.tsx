@@ -12,7 +12,7 @@ import { useTranslation } from 'contexts/Localization'
 import { ChainId, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
 import { isSupportedChain } from 'utils'
 
-const NavBarNetworkSelect = () => {
+const NavBarNetworkSelect = ({ placement }: { placement: string }) => {
   const { chainId } = useWeb3React()
   const [isHovered, setIsHovered] = useState<boolean>(false)
   const { t } = useTranslation()
@@ -24,7 +24,7 @@ const NavBarNetworkSelect = () => {
       onClick={() => setIsHovered(!isHovered)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      sx={styles.networkSelectContainer}
+      sx={placement === 'footer' ? styles.networkSelectContainerFooter : styles.networkSelectContainer}
     >
       <Flex sx={{ width: '100%', alignItems: 'center' }}>
         <Svg
@@ -40,7 +40,7 @@ const NavBarNetworkSelect = () => {
         </Text>
       </Flex>
       <Svg icon="navCaret" width="8px" color="text" direction={isHovered ? 'up' : 'down'} />
-      <NetworkDropdown isVisible={isHovered} />
+      <NetworkDropdown placement={placement} isVisible={isHovered} />
     </Flex>
   )
 }

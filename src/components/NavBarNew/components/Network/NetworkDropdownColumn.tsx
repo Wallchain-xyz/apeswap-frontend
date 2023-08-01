@@ -36,7 +36,7 @@ const NetworkDropdownColumn = ({
             key={chainId}
             sx={{ ...styles.networkOptionContainer, border: selectedChainId === chainId ? 'solid 2px #FFB300' : '' }}
             onClick={async () => {
-              if (isDexOnly) {
+              if (!isDexOnly) {
                 selectChain(chainId)
               } else {
                 selectChain(chainId).then(() => push('/swap'))

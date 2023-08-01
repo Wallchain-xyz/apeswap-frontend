@@ -8,7 +8,9 @@ export const styles: Record<
   | 'networkOptionContainer'
   | 'networkColumnContainer'
   | 'columnTitleText'
-  | 'networkOptionContent',
+  | 'networkOptionContent'
+  | 'networkSelectContainerFooter'
+  | 'networkDropdownMainContainerFooter',
   ThemeUIStyleObject
 > = {
   networkSelectContainer: {
@@ -23,6 +25,18 @@ export const styles: Record<
     position: 'relative',
     bg: ['navbar', 'navbar', 'navbar', 'navbar', 'transparent'],
   },
+  networkSelectContainerFooter: {
+    cursor: 'pointer',
+    '&:hover': { bg: 'navbar' },
+    height: '34px',
+    padding: '10px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '7px',
+    borderRadius: '6px',
+    position: 'relative',
+    bg: 'navbar',
+  },
   networkSelectorText: {
     display: NAV_DESKTOP_DISPLAY,
     m: '0px 7.5px',
@@ -34,6 +48,19 @@ export const styles: Record<
     position: 'absolute',
     top: '35px',
     right: '0px',
+    width: ['190px', '190px', '190px', '420px', '420px'],
+    height: ['300px', '400px', '400px', 'auto'],
+    overflowY: ['scroll', 'scroll', 'scroll', 'hidden'],
+    px: '15px',
+    py: '10px',
+    borderRadius: 'normal',
+    backdropFilter: 'blur(15px)',
+  },
+  networkDropdownMainContainerFooter: {
+    flexDirection: ['column', 'column', 'column', 'row'],
+    position: 'absolute',
+    bottom: '35px',
+    left: '0px',
     width: ['190px', '190px', '190px', '420px', '420px'],
     height: ['300px', '400px', '400px', 'auto'],
     overflowY: ['scroll', 'scroll', 'scroll', 'hidden'],
