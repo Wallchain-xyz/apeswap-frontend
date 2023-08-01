@@ -26,7 +26,7 @@ export function useNativeCurrencyBalances(
   chain?: ChainId,
 ): [CurrencyAmount<NativeCurrency | Token> | undefined, boolean] {
   const { account, provider } = useWeb3React()
-  const [result, setResult] = useState([])
+  const [result, setResult] = useState<[string | undefined]>([] as any)
   const [loading, setLoading] = useState(false)
 
   const calls = useMemo(() => {
