@@ -7,7 +7,7 @@ import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import TokenSelector from 'components/TokenSelector'
 import Dots from 'components/Dots'
-import useCurrencyBalanceWithChain from '../../../hooks/balances/useCurrencyBalanceWithChain'
+import useCurrencyBalanceWithChain from 'hooks/balances/useCurrencyBalanceWithChain'
 
 const OmniChainPanel = ({
   panelText,

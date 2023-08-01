@@ -1,72 +1,102 @@
 // Network chain ids
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { icons } from 'components/uikit/Svg/types'
 
 export const AVERAGE_L1_BLOCK_TIME = 12000
 
-// List of mainnet chains
-// This is currently used for the info page
+//This is the list of supported EVM chains
+export enum ChainId {
+  MAINNET = 1,
+  ARBITRUM_ONE = 42161,
+  POLYGON = 137,
+  POLYGON_MUMBAI = 80001,
+  BSC = 56,
+  BSC_TESTNET = 97,
+  TLOS = 40,
+  AVALANCHE = 43114,
+  OPTIMISM = 10,
+  FANTOM = 250,
+  CRONOS = 25,
+  POLYGON_ZK = 1101,
+  CELO = 42220,
+  GNOSIS = 100,
+  OKX = 66,
+}
+
+// This is the list we will display to the user
 export const MAINNET_CHAINS = [
-  SupportedChainId.BSC,
-  SupportedChainId.POLYGON,
-  SupportedChainId.MAINNET,
-  //SupportedChainId.TLOS,
-  SupportedChainId.ARBITRUM_ONE,
+  ChainId.BSC,
+  ChainId.POLYGON,
+  ChainId.MAINNET,
+  //ChainId.TLOS,
+  ChainId.ARBITRUM_ONE,
 ]
 
-export const CHAIN_NAMES: Record<SupportedChainId, string> = {
-  [SupportedChainId.BSC]: 'bnb_chain',
-  [SupportedChainId.BSC_TESTNET]: 'bnb_chain_testnet',
-  [SupportedChainId.POLYGON]: 'polygon',
-  [SupportedChainId.POLYGON_MUMBAI]: 'polygon_mumbai',
-  [SupportedChainId.MAINNET]: 'mainnet',
-  [SupportedChainId.TLOS]: 'telos',
-  [SupportedChainId.ARBITRUM_ONE]: 'arbitrum_one',
+export const CHAIN_NAMES: Record<ChainId, string> = {
+  [ChainId.MAINNET]: 'mainnet',
+  [ChainId.ARBITRUM_ONE]: 'arbitrum_one',
+  [ChainId.POLYGON]: 'polygon',
+  [ChainId.POLYGON_MUMBAI]: 'polygon_mumbai',
+  [ChainId.BSC]: 'bnb_chain',
+  [ChainId.BSC_TESTNET]: 'bnb_chain_testnet',
+  [ChainId.TLOS]: 'telos',
+  [ChainId.AVALANCHE]: 'avalanche',
+  [ChainId.OPTIMISM]: 'optimism',
+  [ChainId.FANTOM]: 'fantom',
+  [ChainId.CRONOS]: 'cronos',
+  [ChainId.POLYGON_ZK]: 'polygon (zk)', //check if this doesn't break
+  [ChainId.CELO]: 'celo',
+  [ChainId.GNOSIS]: 'gnosis',
+  [ChainId.OKX]: 'okexchain',
 }
 
 // Network Icons
-export const NETWORK_ICONS: Partial<Record<SupportedChainId, icons>> = {
-  [SupportedChainId.BSC]: icons.BNB_TOKEN,
-  [SupportedChainId.POLYGON]: icons.POLYGON_TOKEN,
-  [SupportedChainId.MAINNET]: icons.ETH_TOKEN,
-  [SupportedChainId.TLOS]: icons.TLOS_TOKEN,
-  [SupportedChainId.ARBITRUM_ONE]: icons.ARBITRUM_TOKEN,
+export const NETWORK_ICONS: Partial<Record<ChainId, icons>> = {
+  [ChainId.BSC]: icons.BNB_TOKEN,
+  [ChainId.POLYGON]: icons.POLYGON_TOKEN,
+  [ChainId.MAINNET]: icons.ETH_TOKEN,
+  [ChainId.TLOS]: icons.TLOS_TOKEN,
+  [ChainId.ARBITRUM_ONE]: icons.ARBITRUM_TOKEN,
 }
 
 // Network labels
-export const NETWORK_LABEL: Partial<Record<SupportedChainId, string>> = {
-  [SupportedChainId.BSC]: 'BNB',
-  [SupportedChainId.BSC_TESTNET]: 'BNB Testnet',
-  [SupportedChainId.POLYGON]: 'Polygon',
-  [SupportedChainId.POLYGON_MUMBAI]: 'Polygon Testnet',
-  [SupportedChainId.MAINNET]: 'Ethereum',
-  //[SupportedChainId.TLOS]: 'Telos',
-  [SupportedChainId.ARBITRUM_ONE]: 'Arbitrum',
+export const NETWORK_LABEL: Partial<Record<ChainId, string>> = {
+  [ChainId.BSC]: 'BNB',
+  [ChainId.BSC_TESTNET]: 'BNB Testnet',
+  [ChainId.POLYGON]: 'Polygon',
+  [ChainId.POLYGON_MUMBAI]: 'Polygon Testnet',
+  [ChainId.MAINNET]: 'Ethereum',
+  [ChainId.TLOS]: 'Telos',
+  [ChainId.ARBITRUM_ONE]: 'Arbitrum',
 }
 
 // Network block explorers
-export const BLOCK_EXPLORER: Record<SupportedChainId, string> = {
-  [SupportedChainId.BSC]: 'https://bscscan.com',
-  [SupportedChainId.BSC_TESTNET]: 'https://testnet.bscscan.com/',
-  [SupportedChainId.POLYGON]: 'https://polygonscan.com',
-  [SupportedChainId.POLYGON_MUMBAI]: 'https://mumbai.polygonscan.com/',
-  [SupportedChainId.MAINNET]: 'https://etherscan.io/',
-  [SupportedChainId.TLOS]: 'https://www.teloscan.io',
-  [SupportedChainId.ARBITRUM_ONE]: 'https://arbiscan.io',
+export const BLOCK_EXPLORER: Record<ChainId, string> = {
+  [ChainId.MAINNET]: 'https://etherscan.io/',
+  [ChainId.ARBITRUM_ONE]: 'https://arbiscan.io',
+  [ChainId.POLYGON]: 'https://polygonscan.com',
+  [ChainId.POLYGON_MUMBAI]: 'https://mumbai.polygonscan.com/',
+  [ChainId.BSC]: 'https://bscscan.com',
+  [ChainId.BSC_TESTNET]: 'https://testnet.bscscan.com/',
+  [ChainId.TLOS]: 'https://www.teloscan.io',
+  [ChainId.AVALANCHE]: 'https://cchain.explorer.avax.network/',
+  [ChainId.OPTIMISM]: 'https://optimistic.etherscan.io/',
+  [ChainId.FANTOM]: 'https://ftmscan.com/',
+  [ChainId.CRONOS]: 'https://cronos.crypto.org/explorer/',
+  [ChainId.POLYGON_ZK]: 'https://zkevm.polygonscan.com/',
+  [ChainId.CELO]: 'https://explorer.celo.org/',
+  [ChainId.GNOSIS]: 'https://blockscout.com/xdai/mainnet/',
+  [ChainId.OKX]: 'https://www.oklink.com/en/okc/',
 }
 
-export const CHAIN_PARAMS: Partial<
-  Record<
-    SupportedChainId,
-    {
-      chainId: string
-      chainName: string
-      nativeCurrency: { name: string; symbol: string; decimals: number }
-      blockExplorerUrls: string[]
-    }
-  >
-> = {
-  [SupportedChainId.BSC]: {
+interface ChainParamContent {
+  chainId: string
+  chainName: string
+  nativeCurrency: { name: string; symbol: string; decimals: number }
+  blockExplorerUrls: string[]
+}
+
+export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
+  [ChainId.BSC]: {
     chainId: '0x38',
     chainName: 'Binance Smart Chain',
     nativeCurrency: {
@@ -74,9 +104,9 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'BNB',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.BSC]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.BSC]],
   },
-  [SupportedChainId.BSC_TESTNET]: {
+  [ChainId.BSC_TESTNET]: {
     chainId: '0x61',
     chainName: 'Binance Smart Chain Testnet',
     nativeCurrency: {
@@ -84,9 +114,9 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'BNB',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.BSC_TESTNET]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.BSC_TESTNET]],
   },
-  [SupportedChainId.POLYGON]: {
+  [ChainId.POLYGON]: {
     chainId: '0x89',
     chainName: 'Matic',
     nativeCurrency: {
@@ -94,9 +124,9 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'MATIC',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.POLYGON]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.POLYGON]],
   },
-  [SupportedChainId.POLYGON_MUMBAI]: {
+  [ChainId.POLYGON_MUMBAI]: {
     chainId: '0x89',
     chainName: 'Matic',
     nativeCurrency: {
@@ -104,9 +134,9 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'MATIC',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.POLYGON_MUMBAI]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.POLYGON_MUMBAI]],
   },
-  [SupportedChainId.MAINNET]: {
+  [ChainId.MAINNET]: {
     chainId: '0x1',
     chainName: 'Ethereum',
     nativeCurrency: {
@@ -114,9 +144,9 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'ETH',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.MAINNET]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.MAINNET]],
   },
-  [SupportedChainId.TLOS]: {
+  [ChainId.TLOS]: {
     chainId: '0x28',
     chainName: 'Telos',
     nativeCurrency: {
@@ -124,9 +154,9 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'TLOS',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.TLOS]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.TLOS]],
   },
-  [SupportedChainId.ARBITRUM_ONE]: {
+  [ChainId.ARBITRUM_ONE]: {
     chainId: '0xa4b1',
     chainName: 'Arbitrum',
     nativeCurrency: {
@@ -134,61 +164,93 @@ export const CHAIN_PARAMS: Partial<
       symbol: 'ETH',
       decimals: 18,
     },
-    blockExplorerUrls: [BLOCK_EXPLORER[SupportedChainId.ARBITRUM_ONE]],
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.ARBITRUM_ONE]],
+  },
+  [ChainId.AVALANCHE]: {
+    chainId: '0xa86a',
+    chainName: 'Avalanche Mainnet',
+    nativeCurrency: {
+      name: 'AVAX',
+      symbol: 'AVAX',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.AVALANCHE]],
+  },
+  [ChainId.OPTIMISM]: {
+    chainId: '0xa',
+    chainName: 'Optimism',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.OPTIMISM]],
+  },
+  [ChainId.FANTOM]: {
+    chainId: '0xfa',
+    chainName: 'Fantom Opera',
+    nativeCurrency: {
+      name: 'FTM',
+      symbol: 'FTM',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.FANTOM]],
+  },
+  [ChainId.CRONOS]: {
+    chainId: '0x19',
+    chainName: 'Cronos',
+    nativeCurrency: {
+      name: 'CRO',
+      symbol: 'CRO',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.CRONOS]],
+  },
+  [ChainId.POLYGON_ZK]: {
+    chainId: '0x44d',
+    chainName: 'Polygon zkEVM',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.POLYGON_ZK]],
+  },
+  [ChainId.CELO]: {
+    chainId: '0xa4ec',
+    chainName: 'Celo Mainnet',
+    nativeCurrency: {
+      name: 'CELO',
+      symbol: 'CELO',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.CELO]],
+  },
+  [ChainId.GNOSIS]: {
+    chainId: '0x64',
+    chainName: 'Gnosis',
+    nativeCurrency: {
+      name: 'xDai',
+      symbol: 'xDai',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.GNOSIS]],
+  },
+  [ChainId.OKX]: {
+    chainId: '0x42',
+    chainName: 'OKXChain Mainnet',
+    nativeCurrency: {
+      name: 'OKT',
+      symbol: 'OKT',
+      decimals: 18,
+    },
+    blockExplorerUrls: [BLOCK_EXPLORER[ChainId.GNOSIS]],
   },
 }
 
-export const getChainInfo = (chainId: SupportedChainId): any => {
+export const getChainInfo = (chainId: ChainId): any => {
   if (chainId) {
     return CHAIN_PARAMS[chainId] ?? undefined
   }
   return undefined
-}
-
-// enum to corresponding url
-export enum LIST_VIEW_PRODUCTS {
-  BILLS = 'treasury-bills',
-  MAXIMIZERS = 'maximizers',
-  JUNGLE_FARMS = 'jungle-farms',
-  POOLS = 'pools',
-  FARMS = 'farms',
-}
-
-export enum OTHER_PRODUCTS {
-  GNANA = 'gnana',
-  MIGRATE = 'migrate',
-  ZAP = 'zap',
-  IAO = 'iao',
-  NFA_COLLECTION = 'nft',
-  NFA_AUCTION = 'auction',
-  NFA_STAKING = 'staking',
-  V3 = 'v3',
-}
-
-// Products on different chains and their available chains
-
-// These products are list view components that have a specific chain redirect component
-export const AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS: Record<LIST_VIEW_PRODUCTS, SupportedChainId[]> = {
-  [LIST_VIEW_PRODUCTS.BILLS]: [SupportedChainId.BSC, SupportedChainId.POLYGON, SupportedChainId.ARBITRUM_ONE],
-  [LIST_VIEW_PRODUCTS.FARMS]: [SupportedChainId.BSC, SupportedChainId.POLYGON],
-  [LIST_VIEW_PRODUCTS.MAXIMIZERS]: [SupportedChainId.BSC],
-  [LIST_VIEW_PRODUCTS.JUNGLE_FARMS]: [SupportedChainId.BSC],
-  [LIST_VIEW_PRODUCTS.POOLS]: [SupportedChainId.BSC],
-}
-
-// Full product names for readability
-export const FULL_PRODUCT_NAMES: Record<LIST_VIEW_PRODUCTS | OTHER_PRODUCTS, string> = {
-  [LIST_VIEW_PRODUCTS.BILLS]: 'Treasury Bills',
-  [LIST_VIEW_PRODUCTS.MAXIMIZERS]: 'Banana Maximizers',
-  [LIST_VIEW_PRODUCTS.JUNGLE_FARMS]: 'Jungle Farms',
-  [LIST_VIEW_PRODUCTS.POOLS]: 'Pools',
-  [LIST_VIEW_PRODUCTS.FARMS]: 'Farms',
-  [OTHER_PRODUCTS.GNANA]: 'Golden Banana',
-  [OTHER_PRODUCTS.MIGRATE]: 'Migrate',
-  [OTHER_PRODUCTS.ZAP]: 'Zap',
-  [OTHER_PRODUCTS.IAO]: 'Official IAO',
-  [OTHER_PRODUCTS.NFA_COLLECTION]: 'Nfa Collection',
-  [OTHER_PRODUCTS.NFA_AUCTION]: 'Nfa Auction',
-  [OTHER_PRODUCTS.NFA_STAKING]: 'Nfa Staking',
-  [OTHER_PRODUCTS.V3]: 'V3 Concentrated Liquidity',
 }

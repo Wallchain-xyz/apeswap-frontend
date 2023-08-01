@@ -7,11 +7,11 @@ import useFetchChains from '../../../state/lists/hooks/useFetchChains'
 
 const OmniTokenImage = ({ url, chain, size }: { url?: string; chain: SupportedChainId; size: number }) => {
   const [error, setError] = useState(false)
-  const { data: chainsData } = useFetchChains()
+  const { isLoading, data: chainsData } = useFetchChains()
 
   return (
     <>
-      {!error && url ? (
+      {!error && url && !isLoading ? (
         <Flex
           sx={{
             minWidth: `${size + 2}px`,
