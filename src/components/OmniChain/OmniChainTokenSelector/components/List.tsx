@@ -14,6 +14,7 @@ import { CSSProperties } from 'theme-ui'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
+import { ChainId } from '../../../../config/constants/chains'
 
 const List = ({
   searchQuery,
@@ -26,9 +27,9 @@ const List = ({
   selectedCurrency?: Currency | null
   onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
   onDismiss?: () => void
-  selectedChain?: SupportedChainId
+  selectedChain?: ChainId
 }) => {
-  const { chainId, account } = useWeb3React()
+  const { account } = useWeb3React()
   const [tokenLoaderTimerElapsed, setTokenLoaderTimerElapsed] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 200)
 
@@ -64,7 +65,7 @@ const List = ({
 
   const filteredSortedTokens = useSortTokensByQuery(debouncedQuery, sortedTokens)
 
-  const native = useNativeCurrency()
+  const native = useNativeCurrency(selectedChain)
   const nativeBalance = useCurrencyBalance(account, native)
   const wrapped = native.wrapped
 

@@ -6,5 +6,5 @@ export function useTokenBalancesWithChain(
   tokens?: (Token | undefined)[],
   chain?: SupportedChainId,
 ): { [tokenAddress: string]: CurrencyAmount<Token> | undefined } {
-  return useTokenBalancesWithLoadingIndicatorAndChain(address, tokens, chain)[0]
+  return useTokenBalancesWithLoadingIndicatorAndChain(tokens, chain)[0]
 }

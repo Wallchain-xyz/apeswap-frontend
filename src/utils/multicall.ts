@@ -5,6 +5,8 @@ import { chunk, flatten } from 'lodash'
 import { PUBLIC_RPC_URLS } from 'config/constants/networks'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { MULTICALL_V2 } from 'config/constants/addresses'
+import { LiFi, Token } from '@lifi/sdk'
+import { CHAIN_PARAMS, ChainId } from '../config/constants/chains'
 
 export interface Call {
   address: string // Address of the contract
@@ -37,3 +39,20 @@ const multicall = async (chainId: number, abi: any[], calls: Call[], batch?: boo
 }
 
 export default multicall
+
+export const getNativeBalance = async (account?: string, chain?: ChainId) => {
+  const lifi = new LiFi({ integrator: 'apeswap' })
+  if (!account || !chain) return
+  const asd: Token = {
+    address: '0x0000000000000000000000000000000000000000',
+    //@ts-ignore
+    chainId: chain,
+    coinKey: undefined,
+    decimals: 18,
+    name: CHAIN_PARAMS[chain].nativeCurrency.name.toUpperCase(),
+    priceUSD: '0',
+    symbol: CHAIN_PARAMS[chain].nativeCurrency.symbol.toUpperCase(),
+  }
+  const asd2 = await lifi.getTokenBalance(account, asd)
+  return asd2?.amount
+}

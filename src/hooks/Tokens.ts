@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 import { TokenAddressMap, useAllLists, useCombinedActiveList, useUnsupportedTokenList } from 'state/lists/hooks/hooks'
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
 import { useUserAddedTokens } from 'state/user/hooks'
+import { ChainId } from '../config/constants/chains'
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
 function useTokensFromMap(tokenMap: TokenAddressMap, chain?: SupportedChainId): { [address: string]: Token } {
@@ -26,7 +27,7 @@ function useTokensFromMap(tokenMap: TokenAddressMap, chain?: SupportedChainId): 
   }, [selectedChain, tokenMap])
 }
 
-export function useAllTokens(chain?: SupportedChainId): { [address: string]: Token } {
+export function useAllTokens(chain?: ChainId): { [address: string]: Token } {
   const allTokens = useCombinedActiveList()
   const { chainId } = useWeb3React()
   const selectedChain = chain ? chain : chainId

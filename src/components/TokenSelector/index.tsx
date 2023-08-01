@@ -66,7 +66,6 @@ const TokenSelector = ({
         ':hover': { background: 'white4' },
       }}
     >
-      {/* <DoubleCurrencyLogo currency0={currency} currency1={otherCurrency} size={30} /> */}
       <Text sx={styles.tokenText}>
         {currency?.symbol} - {otherCurrency?.symbol}
       </Text>
