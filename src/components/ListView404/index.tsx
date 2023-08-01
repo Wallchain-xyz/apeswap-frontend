@@ -4,14 +4,13 @@ import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import { Flex, Svg, Text } from 'components/uikit'
 import {
   AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS,
-  CHAIN_PARAMS,
   LIST_VIEW_PRODUCTS,
-  NETWORK_LABEL,
   FULL_PRODUCT_NAMES,
-} from 'config/constants/chains'
+} from 'config/constants/products'
 import { useTranslation } from 'contexts/Localization'
 import useSelectChain from 'hooks/useSelectChain'
 import React from 'react'
+import { CHAIN_PARAMS, NETWORK_LABEL } from 'config/constants/chains'
 
 const ListView404: React.FC<{ product: LIST_VIEW_PRODUCTS }> = ({ product }) => {
   const { chainId } = useWeb3React()

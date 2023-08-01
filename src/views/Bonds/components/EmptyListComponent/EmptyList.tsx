@@ -1,8 +1,6 @@
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import {
-  AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS,
   CHAIN_PARAMS,
-  LIST_VIEW_PRODUCTS,
   NETWORK_LABEL,
 } from 'config/constants/chains'
 import { useTranslation } from 'contexts/Localization'
@@ -13,6 +11,7 @@ import useSelectChain from 'hooks/useSelectChain'
 import { Button, Flex, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/products'
 
 export enum EmptyComponentType {
   USER_BILLS,
