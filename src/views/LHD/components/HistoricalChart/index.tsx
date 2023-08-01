@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Line } from 'react-chartjs-2'
 
 // Components
-import { Flex, Text, CheckBox } from 'components/uikit'
+import { Flex, Text, CheckBox, Spinner } from 'components/uikit'
 
 // Hooks
 import useIsMobile from 'hooks/useIsMobile'
@@ -67,7 +67,11 @@ const HistoricalChart = ({
   }
 
   if (isLoading && !tokenHistoric.length) {
-    return <div>Loading...</div>
+    return (
+      <Flex sx={{ flex: 1, alignItems: 'center' }}>
+        <Spinner size={200} />
+      </Flex>
+    )
   }
 
   return (
