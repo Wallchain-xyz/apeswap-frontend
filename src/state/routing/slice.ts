@@ -9,6 +9,7 @@ import { getFees } from './getFees'
 import track from '../../utils/track'
 import { humanOutputAmount } from '../../views/Swap/utils'
 import { filterRoutes } from './filterRoutes'
+import { ChainId as ChainID } from 'config/constants/chains'
 
 export enum RouterPreference {
   CLIENT = 'client',
@@ -17,8 +18,9 @@ export enum RouterPreference {
 
 function getRouter(chainId: ChainId, useApeRPC?: boolean): AlphaRouter {
   const supportedChainId = toSupportedChainId(chainId)
+
   if (supportedChainId) {
-    const provider = getProvider(supportedChainId, useApeRPC)
+    const provider = getProvider(supportedChainId as unknown as ChainID, useApeRPC)
     return new AlphaRouter({ chainId, provider })
   }
   throw new Error(`Router does not support this chain (chainId: ${chainId}).`)
