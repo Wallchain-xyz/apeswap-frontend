@@ -1,18 +1,22 @@
+// Components
+import CountUp from 'react-countup'
+import { Button, Flex, Skeleton, Svg, Text, Link } from 'components/uikit'
 import { LangaugeDropdown } from 'components/Langauge'
 import MoonPayModal from 'components/Moonpay/MoonpayModal'
 import Newsletter from 'components/NewsLetter'
 import ThemeSwitcher from 'components/ThemeSwitcher'
-import { Button, Flex, Skeleton, Svg, Text, Link } from 'components/uikit'
-import { mailChimpUrl } from 'config/constants/api'
+import MobileDropdown from './components/MobileDropdown'
+import NetworkSelector from 'components/NetworkSelector'
+import styles from './styles'
+
+// Hooks
 import { useTranslation } from 'contexts/Localization'
 import useModal from 'hooks/useModal'
-
-import CountUp from 'react-countup'
 import { useBananaPrice } from 'state/application/hooks'
-import MobileDropdown from './components/MobileDropdown'
+
+// Constants
+import { mailChimpUrl } from 'config/constants/api'
 import { ACCESS_LINKS, ENGAGE_LINKS, SOCIAL_LINKS, SUPPORT_LINKS } from './config'
-import styles from './styles'
-import NavBarNetworkSelect from 'components/NavBarNew/components/Network/NavBarNetworkSelect'
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -41,7 +45,7 @@ const Footer = () => {
               }}
             >
               <ThemeSwitcher />
-              <NavBarNetworkSelect placement="footer" />
+              <NetworkSelector />
               <LangaugeDropdown />
             </Flex>
             <Flex

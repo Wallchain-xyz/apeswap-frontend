@@ -20,7 +20,7 @@ const NetworkDropdown = ({ placement, isVisible }: { placement: string; isVisibl
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
       }}
     >
-      <NetworkDropdownColumn chains={MAINNET_CHAINS} title="Full Protocol" isDexOnly={false} />
+      <NetworkDropdownColumn chains={MAINNET_CHAINS} title="Primary Chains" isDexOnly={false} />
       <NetworkDropdownColumn chains={DEX_ONLY_CHAINS} title="Swap Only" isDexOnly={true} />
     </Flex>
   )

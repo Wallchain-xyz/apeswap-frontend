@@ -87,11 +87,12 @@ export const MULTICALL_V2: AddressMap = {
   [SupportedChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441',
   [SupportedChainId.TLOS]: '0xa1a283f10f578201a97a8f69d8c15828b778f04b',
   [SupportedChainId.ARBITRUM_ONE]: '0x089d8780e1c0789d0ef786bf001bee52d8351cad',
-
-  // I believe this is the only multicall needed for the DEX to function
   [ChainId.AVALANCHE]: '0xaad9d7d0c94f8bd2117fafaf3c35f77e9908740f',
   [ChainId.FANTOM]: '0xdb9e00ce3b7afd5fece9b515c7f647e716282781',
   [ChainId.OPTIMISM]: '0xdb9e00ce3b7afd5fece9b515c7f647e716282781',
+  [ChainId.POLYGON_ZK]: '0xe9654472e5bb9152cc5ef8c53c89839a8dc1f411',
+  [ChainId.CRONOS]: '0xDb9e00CE3B7AFD5fEce9B515c7f647E716282781',
+  [ChainId.GNOSIS]: '0xDb9e00CE3B7AFD5fEce9B515c7f647E716282781',
 }
 
 export const GNANA_ADDRESSES: AddressMap = {
