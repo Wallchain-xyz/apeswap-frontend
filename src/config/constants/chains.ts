@@ -111,6 +111,7 @@ interface ChainParamContent {
   chainName: string
   nativeCurrency: { name: string; symbol: string; decimals: number }
   blockExplorerUrls: string[]
+  logoURI: string
 }
 
 export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
@@ -123,6 +124,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.BSC]],
+    logoURI: 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/wbnb.png',
   },
   [ChainId.BSC_TESTNET]: {
     chainId: '0x61',
@@ -133,6 +135,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.BSC_TESTNET]],
+    logoURI: 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/wbnb.png',
   },
   [ChainId.POLYGON]: {
     chainId: '0x89',
@@ -143,6 +146,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.POLYGON]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/polygon.svg',
   },
   [ChainId.POLYGON_MUMBAI]: {
     chainId: '0x89',
@@ -153,6 +157,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.POLYGON_MUMBAI]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/polygon.svg',
   },
   [ChainId.MAINNET]: {
     chainId: '0x1',
@@ -163,6 +168,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.MAINNET]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/ethereum.svg',
   },
   [ChainId.TLOS]: {
     chainId: '0x28',
@@ -173,6 +179,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.TLOS]],
+    logoURI: 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/wtlos.svg',
   },
   [ChainId.ARBITRUM_ONE]: {
     chainId: '0xa4b1',
@@ -183,6 +190,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.ARBITRUM_ONE]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/arbitrum.svg',
   },
   [ChainId.AVALANCHE]: {
     chainId: '0xa86a',
@@ -193,6 +201,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.AVALANCHE]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/avalanche.svg',
   },
   [ChainId.OPTIMISM]: {
     chainId: '0xa',
@@ -203,6 +212,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.OPTIMISM]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/optimism.svg',
   },
   [ChainId.FANTOM]: {
     chainId: '0xfa',
@@ -213,6 +223,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.FANTOM]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/fantom.svg',
   },
   [ChainId.CRONOS]: {
     chainId: '0x19',
@@ -223,6 +234,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.CRONOS]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/cronos.svg',
   },
   [ChainId.POLYGON_ZK]: {
     chainId: '0x44d',
@@ -233,6 +245,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.POLYGON_ZK]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/ethereum.svg',
   },
   [ChainId.CELO]: {
     chainId: '0xa4ec',
@@ -243,6 +256,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.CELO]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/celo.svg',
   },
   [ChainId.GNOSIS]: {
     chainId: '0x64',
@@ -253,6 +267,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.GNOSIS]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/gnosis.svg',
   },
   [ChainId.OKX]: {
     chainId: '0x42',
@@ -263,6 +278,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       decimals: 18,
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.GNOSIS]],
+    logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/okx.svg',
   },
 }
 

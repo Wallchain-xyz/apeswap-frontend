@@ -96,8 +96,7 @@ export function useCurrencyFromMap(
   currencyId?: string | null,
   selectedChain?: ChainId,
 ): Currency | null {
-  const nativeCurrency = useNativeCurrency()
-  //const { chainId } = useWeb3React()
+  const nativeCurrency = useNativeCurrency(selectedChain)
   const isNative = Boolean(
     nativeCurrency &&
       (currencyId?.toUpperCase() === 'ETH' || currencyId === '0x0000000000000000000000000000000000000000'),

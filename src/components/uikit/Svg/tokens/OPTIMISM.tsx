@@ -1,16 +1,17 @@
 import React from 'react'
 import { SvgProps } from '../types'
 
-const ARBITRUM: React.FC<SvgProps> = (props) => {
+const ARBITRUM: React.FC<SvgProps> = ({ width }) => {
   return (
     <svg
+      width={width || '30'}
+      height={width || '30'}
       xmlns="http://www.w3.org/2000/svg"
       xmlSpace="preserve"
       id="Layer_1"
       x={0}
       y={0}
       viewBox="0 0 500 500"
-      {...props}
     >
       <style>{'.st1{fill:#fff}'}</style>
       <circle

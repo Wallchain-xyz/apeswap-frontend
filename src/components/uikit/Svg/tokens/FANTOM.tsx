@@ -1,10 +1,16 @@
 import React from 'react'
 import { SvgProps } from '../types'
 
-const ARBITRUM: React.FC<SvgProps> = (props) => {
+const FANTOM: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_2065_1996)">
+    <svg
+      width={width || '30'}
+      height={width || '30'}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_2065_1996)">
         <path
           d="M14.9997 29.1663C22.8237 29.1663 29.1663 22.8237 29.1663 14.9997C29.1663 7.17564 22.8237 0.833008 14.9997 0.833008C7.17564 0.833008 0.833008 7.17564 0.833008 14.9997C0.833008 22.8237 7.17564 29.1663 14.9997 29.1663Z"
           fill="#1969FF"
@@ -23,4 +29,4 @@ const ARBITRUM: React.FC<SvgProps> = (props) => {
   )
 }
 
-export default ARBITRUM
+export default FANTOM

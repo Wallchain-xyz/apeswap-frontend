@@ -1,9 +1,15 @@
 import React from 'react'
 import { SvgProps } from '../types'
 
-const ARBITRUM: React.FC<SvgProps> = (props) => {
+const POLYGONZK: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={width || '30'}
+      height={width || '30'}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g clipPath="url(#clip0_2197_4070)">
         <rect width="30" height="30" rx="15" fill="#FAFAFA" />
         <g clipPath="url(#clip1_2197_4070)">
@@ -33,4 +39,4 @@ const ARBITRUM: React.FC<SvgProps> = (props) => {
   )
 }
 
-export default ARBITRUM
+export default POLYGONZK

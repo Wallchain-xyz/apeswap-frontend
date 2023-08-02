@@ -215,12 +215,12 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
   ),
 }
 
-function isMatic(chainId: number): chainId is SupportedChainId.POLYGON {
-  return chainId === SupportedChainId.POLYGON
+function isMatic(chainId: number): chainId is ChainId.POLYGON {
+  return chainId === ChainId.POLYGON
 }
 
-function isBNB(chainId: number): chainId is SupportedChainId.BSC {
-  return chainId === SupportedChainId.BSC
+function isBNB(chainId: number): chainId is ChainId.BSC {
+  return chainId === ChainId.BSC
 }
 
 class MaticNativeCurrency extends NativeCurrency {
@@ -277,14 +277,22 @@ const cachedNativeCurrency: { [chainId: number]: NativeCurrency | Token } = {}
 export function nativeOnChain(chainId: number): NativeCurrency | Token {
   if (cachedNativeCurrency[chainId]) return cachedNativeCurrency[chainId]
   let nativeCurrency: NativeCurrency | Token
-  if (isMatic(chainId)) {
-    nativeCurrency = new MaticNativeCurrency(chainId)
-  } else if (isBNB(chainId)) {
-    nativeCurrency = new BNBNativeCurrency(chainId)
+
+  //TODO: find a more elegant solution
+  let selectedChain
+  if (typeof chainId === 'string') {
+    selectedChain = parseInt(chainId)
   } else {
-    nativeCurrency = ExtendedEther.onChain(chainId)
+    selectedChain = chainId
   }
-  return (cachedNativeCurrency[chainId] = nativeCurrency)
+  if (isMatic(selectedChain)) {
+    nativeCurrency = new MaticNativeCurrency(selectedChain)
+  } else if (isBNB(selectedChain)) {
+    nativeCurrency = new BNBNativeCurrency(selectedChain)
+  } else {
+    nativeCurrency = ExtendedEther.onChain(selectedChain)
+  }
+  return (cachedNativeCurrency[selectedChain] = nativeCurrency)
 }
 
 export const TOKEN_SHORTHANDS: {

@@ -1,13 +1,11 @@
-import { Currency, Token } from '@ape.swap/sdk-core'
+import React from 'react'
+import { Currency } from '@ape.swap/sdk-core'
 import TokenImportWarning from 'components/TokenImportWarning'
 import { Flex, Svg, Text } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
 import { CSSProperties } from 'theme-ui'
 import { registerToken } from 'utils'
-import { TokenInfo } from '@uniswap/token-lists'
-import TokenImage from '../../../TokenImage'
-import React from 'react'
 import OmniTokenImage from '../../OmniTokenImage'
 
 const ListRow = ({
@@ -66,7 +64,7 @@ const ListRow = ({
       }
     >
       <Flex sx={{ alignItems: 'center' }}>
-        <OmniTokenImage chain={currency.chainId} url={(currency as TokenInfo)?.logoURI} size={30} />
+        <OmniTokenImage currency={currency} size={30} />
         <Flex sx={{ flexDirection: 'column', ml: '15px' }}>
           <Flex sx={{ alignItems: 'center' }}>
             <Text weight={600}>{currency.symbol}</Text>

@@ -14,7 +14,7 @@ import { CSSProperties } from 'theme-ui'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
-import { ChainId } from 'config/constants/chains'
+import { CHAIN_PARAMS, ChainId } from 'config/constants/chains'
 
 const List = ({
   searchQuery,
@@ -67,7 +67,10 @@ const List = ({
 
   const native = useNativeCurrency(selectedChain)
   const nativeBalance = useCurrencyBalance(account, native)
-  const wrapped = native.wrapped
+  let wrapped = native.wrapped
+  //TODO: revisit this
+  //@ts-ignore
+  wrapped.logoURI = CHAIN_PARAMS?.[selectedChain]?.logoURI ?? ''
 
   // if no results on main list, show option to expand into inactive
   const filteredInactiveTokens = useSearchInactiveTokenLists(

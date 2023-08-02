@@ -12,18 +12,21 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
   tokens?: (Token | undefined)[],
   chain?: ChainId,
 ): [{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }, boolean] {
-  const { account } = useWeb3React()
-  const [result, setResult] = useState([])
+  const { chainId, account } = useWeb3React()
+
+  const selectedChain = chain ?? chainId
+
+  const [result, setResult] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
   const validatedTokens: Token[] = useMemo(
     () =>
       tokens?.filter((t?: Token): t is Token => {
         if (t?.address === '0x0000000000000000000000000000000000000000') return false
-        return isAddress(t?.address) !== false && t?.chainId === chain
+        return isAddress(t?.address) !== false && t?.chainId === selectedChain
       }) ?? [],
 
-    [chain, tokens],
+    [selectedChain, tokens?.length],
   )
 
   const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt?.address), [validatedTokens])
@@ -40,10 +43,10 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!chain || calls?.length === 0 || !account) return
+      if (!selectedChain || calls?.length === 0 || !account) return
       setLoading(true)
       try {
-        const data = await multicall(chain, erc20ABI, calls)
+        const data = await multicall(selectedChain, erc20ABI, calls)
         setResult(data)
       } catch (error) {
         console.error(error)
@@ -52,7 +55,7 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
       }
     }
     fetchData()
-  }, [chain, calls, account])
+  }, [selectedChain, calls, account])
 
   return useMemo(
     () => [

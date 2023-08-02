@@ -68,12 +68,12 @@ export default function useAssetLogoSource(
     }
     // Parses and stores logo sources from tokenlists if assets repo url fails
     if (!fallbackSrcs) {
-      const uris = TokenLogoLookupTable.getIcons(address, chainId) ?? []
-      if (backupImg) uris.push(backupImg)
-      const tokenListIcons = prioritizeLogoSources(parseLogoSources(uris))
-
-      setCurrent(tokenListIcons.find((src) => !BAD_SRCS[src]))
-      setFallbackSrcs(tokenListIcons)
+      //TODO: revisit this and change images logic
+      //const uris = TokenLogoLookupTable.getIcons(address, chainId) ?? []
+      //if (backupImg) uris.push(backupImg)
+      //const tokenListIcons = prioritizeLogoSources(parseLogoSources(uris))
+      //setCurrent(tokenListIcons.find((src) => !BAD_SRCS[src]))
+      //setFallbackSrcs(tokenListIcons)
     } else {
       setCurrent(fallbackSrcs.find((src) => !BAD_SRCS[src]))
     }

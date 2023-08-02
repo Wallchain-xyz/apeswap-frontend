@@ -1,17 +1,17 @@
-import { Flex } from 'components/uikit'
+import { Flex, Svg } from 'components/uikit'
 import React, { useState } from 'react'
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import useFetchChains from '../../../state/lists/hooks/useFetchChains'
+import { Currency } from '@ape.swap/sdk-core'
+import { TokenInfo } from '@uniswap/token-lists'
+import { ChainId, NETWORK_ICONS } from '../../../config/constants/chains'
+import { Box } from 'theme-ui'
 
 // The purpose of this component is to load token images of unknown sources and to use a custom image if load fails
 
-const OmniTokenImage = ({ url, chain, size }: { url?: string; chain: SupportedChainId; size: number }) => {
+const OmniTokenImage = ({ currency, size }: { currency: Currency; size: number }) => {
   const [error, setError] = useState(false)
-  const { isLoading, data: chainsData } = useFetchChains()
-
   return (
     <>
-      {!error && url && !isLoading ? (
+      {!error && currency ? (
         <Flex
           sx={{
             minWidth: `${size + 2}px`,
@@ -23,22 +23,25 @@ const OmniTokenImage = ({ url, chain, size }: { url?: string; chain: SupportedCh
             position: 'relative',
           }}
         >
-          <img
-            src={`${url}`}
-            alt={'token img'}
-            width={size}
-            height={size}
-            style={{ borderRadius: `${size}px` }}
-            onError={() => setError(true)}
-          />
-          <img
-            src={`${chainsData[chain]?.logoURI}`}
-            alt={'chain img'}
-            width={size / 2}
-            height={size / 2}
-            style={{ borderRadius: `${size}px`, position: 'absolute', top: 0, right: 0 }}
-            onError={() => setError(true)}
-          />
+          {currency?.isNative ? (
+            <Svg width={size} height={size} icon={NETWORK_ICONS?.[currency?.chainId as ChainId] ?? 'question'} />
+          ) : (
+            <img
+              src={`${(currency as TokenInfo).logoURI}`}
+              alt={'token img'}
+              width={size}
+              height={size}
+              style={{ borderRadius: `${size}px` }}
+              onError={() => setError(true)}
+            />
+          )}
+          <Box sx={{ borderRadius: `${size}px`, position: 'absolute', top: -1, right: -1 }}>
+            <Svg
+              width={size / 2.2}
+              height={size / 2.2}
+              icon={NETWORK_ICONS?.[currency?.chainId as ChainId] ?? 'question'}
+            />
+          </Box>
         </Flex>
       ) : (
         <Flex

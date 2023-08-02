@@ -19,18 +19,20 @@ import Approval from './Approval'
 import { TransactionType } from 'state/transactions/types'
 import { useAddTxFromHash } from 'state/transactions/hooks'
 import { parseCurrency } from 'config/constants/lifiRouting'
+import useSelectChain from 'hooks/useSelectChain'
+import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
 
 const Swap = ({
-                routingState,
-                selectedRoute,
-                wrapType,
-                showWrap,
-                wrapInputError,
-                onWrap,
-                inputError,
-                inputCurrencyAmount,
-                feeStructure,
-              }: {
+  routingState,
+  selectedRoute,
+  wrapType,
+  showWrap,
+  wrapInputError,
+  onWrap,
+  inputError,
+  inputCurrencyAmount,
+  feeStructure,
+}: {
   routingState?: TradeState
   selectedRoute: Route | undefined
   showWrap: boolean | undefined
@@ -44,6 +46,7 @@ const Swap = ({
     tier: string
   }
 }) => {
+  const onSelectChain = useSelectChain()
   const { chainId } = useWeb3React()
   const [{ swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     attemptingTxn: boolean
@@ -58,10 +61,10 @@ const Swap = ({
   const transactionDeadline = useTransactionDeadline()
   const [approvalState, approveCallback] = useApproveCallbackFromTrade(inputCurrencyAmount)
 
-  const {
-    state: signatureState,
-    gatherPermitSignature,
-  } = useERC20PermitFromTrade(inputCurrencyAmount, transactionDeadline)
+  const { state: signatureState, gatherPermitSignature } = useERC20PermitFromTrade(
+    inputCurrencyAmount,
+    transactionDeadline,
+  )
 
   const showApproveFlow =
     (!inputError && approvalState === ApprovalState.NOT_APPROVED) || approvalState === ApprovalState.PENDING
@@ -92,17 +95,15 @@ const Swap = ({
           txHash,
         })
         if (!res) return
-        addTransaction(
-          getTxHashFromRoute(res),
-          {
-            type: TransactionType.SWAP,
-            tradeType: TradeType.EXACT_INPUT,
-            inputCurrencyId: parseCurrency(selectedRoute.fromToken.address),
-            inputCurrencyAmountRaw: selectedRoute.fromAmount,
-            expectedOutputCurrencyAmountRaw: selectedRoute.toAmount,
-            outputCurrencyId: parseCurrency(selectedRoute.toToken.address),
-            minimumOutputCurrencyAmountRaw: selectedRoute.toAmountMin,
-          })
+        addTransaction(getTxHashFromRoute(res), {
+          type: TransactionType.SWAP,
+          tradeType: TradeType.EXACT_INPUT,
+          inputCurrencyId: parseCurrency(selectedRoute.fromToken.address),
+          inputCurrencyAmountRaw: selectedRoute.fromAmount,
+          expectedOutputCurrencyAmountRaw: selectedRoute.toAmount,
+          outputCurrencyId: parseCurrency(selectedRoute.toToken.address),
+          minimumOutputCurrencyAmountRaw: selectedRoute.toAmountMin,
+        })
         track({
           event: 'Swap',
           chain: chainId,
@@ -148,42 +149,54 @@ const Swap = ({
     onPresentConfirmModal()
   }
 
-  return (
-    (inputError || routingState === TradeState.NO_ROUTE_FOUND) && !showWrap ? (
-      <Button fullWidth disabled>
-        {routingState === TradeState.NO_ROUTE_FOUND ? 'No Route Found' : inputError}
-      </Button>
-    ) : showApproveFlow ? (
-      <Approval
-        signatureState={signatureState}
-        approvalState={approvalState}
-        gatherPermitSignature={gatherPermitSignature}
-        approveCallback={approveCallback}
-      />
-    ) : showWrap ? (
-      <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fullWidth>
-        {wrapInputError ? (
-          <WrapErrorText wrapInputError={wrapInputError} />
-        ) : wrapType === WrapType.WRAP ? (
-          <>Wrap</>
-        ) : wrapType === WrapType.UNWRAP ? (
-          <>Unwrap</>
-        ) : null}
-      </Button>
-    ) : (
-      <Button
-        fullWidth
-        onClick={handleConfirmSwap}
-        disabled={
-          routingState === TradeState.LOADING ||
-          routingState === TradeState.SYNCING ||
-          routingState === TradeState.INVALID ||
-          routingState === TradeState.NO_ROUTE_FOUND
+  const shouldChangeChain = selectedRoute?.fromToken.chainId ? chainId !== selectedRoute?.fromToken.chainId : false
+
+  return (inputError || routingState === TradeState.NO_ROUTE_FOUND) && !showWrap ? (
+    <Button fullWidth disabled>
+      {routingState === TradeState.NO_ROUTE_FOUND ? 'No Route Found' : inputError}
+    </Button>
+  ) : showApproveFlow ? (
+    <Approval
+      signatureState={signatureState}
+      approvalState={approvalState}
+      gatherPermitSignature={gatherPermitSignature}
+      approveCallback={approveCallback}
+    />
+  ) : showWrap ? (
+    <Button disabled={Boolean(wrapInputError)} onClick={onWrap} fullWidth>
+      {wrapInputError ? (
+        <WrapErrorText wrapInputError={wrapInputError} />
+      ) : wrapType === WrapType.WRAP ? (
+        <>Wrap</>
+      ) : wrapType === WrapType.UNWRAP ? (
+        <>Unwrap</>
+      ) : null}
+    </Button>
+  ) : shouldChangeChain ? (
+    <Button
+      fullWidth
+      onClick={() => {
+        if (selectedRoute?.fromToken?.chainId) {
+          onSelectChain(selectedRoute?.fromToken?.chainId as unknown as ChainId)
         }
-      >
-        Swap
-      </Button>
-    ))
+      }}
+    >
+      Switch to {NETWORK_LABEL[selectedRoute?.fromToken?.chainId as unknown as ChainId]}
+    </Button>
+  ) : (
+    <Button
+      fullWidth
+      onClick={handleConfirmSwap}
+      disabled={
+        routingState === TradeState.LOADING ||
+        routingState === TradeState.SYNCING ||
+        routingState === TradeState.INVALID ||
+        routingState === TradeState.NO_ROUTE_FOUND
+      }
+    >
+      Swap
+    </Button>
+  )
 }
 
 export default Swap
