@@ -8,8 +8,5 @@ export default function useNativeCurrency(chain?: ChainId): NativeCurrency | Tok
   const { chainId } = useWeb3React()
   const selectedChain = chain && chainId ? chain : chainId
   //TODO: revisit to check if this doesn't break with chains that do not use either matic bnb or eth for gas
-  return useMemo(
-    () => (selectedChain ? nativeOnChain(selectedChain) : nativeOnChain(SupportedChainId.BSC)),
-    [selectedChain],
-  )
+  return useMemo(() => (selectedChain ? nativeOnChain(selectedChain) : nativeOnChain(ChainId.BSC)), [selectedChain])
 }
