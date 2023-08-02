@@ -24,7 +24,7 @@ const NavBarNetworkSelect = ({ placement }: { placement: string }) => {
       onClick={() => setIsHovered(!isHovered)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      sx={placement === 'footer' ? styles.networkSelectContainerFooter : styles.networkSelectContainer}
+      sx={styles.networkSelectContainer}
     >
       <Flex sx={{ width: '100%', alignItems: 'center' }}>
         <Svg
