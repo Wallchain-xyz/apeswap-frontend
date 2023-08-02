@@ -9,13 +9,13 @@ import { useThemeUI } from 'theme-ui'
 // Constants
 import { DEX_ONLY_CHAINS, MAINNET_CHAINS } from 'config/constants/chains'
 
-const NetworkDropdown = ({ placement, isVisible }: { placement: string; isVisible: boolean }) => {
+const NetworkDropdown = ({ isVisible }: { placement: string; isVisible: boolean }) => {
   const { colorMode } = useThemeUI()
 
   return (
     <Flex
       sx={{
-        ...(placement === 'footer' ? styles.networkDropdownMainContainerFooter : styles.networkDropdownMainContainer),
+        ...styles.networkDropdownMainContainer,
         display: isVisible ? 'flex' : 'none',
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
       }}

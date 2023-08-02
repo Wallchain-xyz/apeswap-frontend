@@ -9,7 +9,6 @@ export const styles: Record<
   | 'networkColumnContainer'
   | 'columnTitleText'
   | 'networkOptionContent'
-  | 'networkSelectContainerFooter'
   | 'networkDropdownMainContainerFooter',
   ThemeUIStyleObject
 > = {
@@ -24,18 +23,6 @@ export const styles: Record<
     borderRadius: '6px',
     position: 'relative',
     bg: ['navbar', 'navbar', 'navbar', 'navbar', 'transparent'],
-  },
-  networkSelectContainerFooter: {
-    cursor: 'pointer',
-    '&:hover': { bg: 'navbar' },
-    height: '34px',
-    padding: '10px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '7px',
-    borderRadius: '6px',
-    position: 'relative',
-    bg: 'navbar',
   },
   networkSelectorText: {
     display: NAV_DESKTOP_DISPLAY,
@@ -55,6 +42,7 @@ export const styles: Record<
     py: '10px',
     borderRadius: 'normal',
     backdropFilter: 'blur(15px)',
+    boxShadow: '10px 10px 10px 0px rgba(0,0,0,0.1)',
   },
   networkDropdownMainContainerFooter: {
     flexDirection: ['column', 'column', 'column', 'row'],

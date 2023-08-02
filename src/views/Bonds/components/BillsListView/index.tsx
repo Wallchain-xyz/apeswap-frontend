@@ -40,7 +40,12 @@ const BillsListView: React.FC = () => {
     false,
     `billsModal${bondAddress}`,
   )
-  const [onPresentWalletConnectModal] = useModal(<NetworkModal onDismiss={() => null} />, true, true, 'NetworkModal')
+  const [onPresentWalletConnectModal] = useModal(
+    <NetworkModal displayAll={false} onDismiss={() => null} />,
+    true,
+    true,
+    'NetworkModal',
+  )
 
   useEffect(() => {
     if (index) {
