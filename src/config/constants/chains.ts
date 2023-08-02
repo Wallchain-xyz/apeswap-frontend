@@ -22,20 +22,15 @@ export enum ChainId {
   OKX = 66,
 }
 
-// This is the list we will display to the user
+// These are the lists we will display to the user
 export const MAINNET_CHAINS = [ChainId.BSC, ChainId.POLYGON, ChainId.MAINNET, ChainId.ARBITRUM_ONE]
-
 export const DEX_ONLY_CHAINS = [
   ChainId.AVALANCHE,
   ChainId.OPTIMISM,
   ChainId.FANTOM,
-
-  // TODO: Will add these in once approach for non DEX chains is finalized
-  // ChainId.CRONOS,
-  // ChainId.POLYGON_ZK,
-  // ChainId.CELO,
-  // ChainId.GNOSIS,
-  // ChainId.OKX,
+  ChainId.CRONOS,
+  ChainId.POLYGON_ZK,
+  ChainId.GNOSIS,
 ]
 
 export const CHAIN_NAMES: Record<ChainId, string> = {
@@ -66,6 +61,11 @@ export const NETWORK_ICONS: Partial<Record<ChainId, icons>> = {
   [ChainId.AVALANCHE]: icons.AVAX_TOKEN,
   [ChainId.OPTIMISM]: icons.OPTIMISM_TOKEN,
   [ChainId.FANTOM]: icons.FANTOM_TOKEN,
+  [ChainId.CRONOS]: icons.CRONOS_TOKEN,
+  [ChainId.POLYGON_ZK]: icons.POLYGONZK_TOKEN,
+  [ChainId.CELO]: icons.CELO_TOKEN,
+  [ChainId.GNOSIS]: icons.GNOSIS_TOKEN,
+  [ChainId.OKX]: icons.OKX_TOKEN,
 }
 
 // Network labels
@@ -81,7 +81,7 @@ export const NETWORK_LABEL: Partial<Record<ChainId, string>> = {
   [ChainId.OPTIMISM]: 'Optimism',
   [ChainId.FANTOM]: 'Fantom',
   [ChainId.CRONOS]: 'Cronos',
-  [ChainId.POLYGON_ZK]: 'Polygon zkEVM',
+  [ChainId.POLYGON_ZK]: 'zkEVM',
   [ChainId.CELO]: 'Celo',
   [ChainId.GNOSIS]: 'Gnosis',
   [ChainId.OKX]: 'OKXChain',
@@ -226,7 +226,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
   },
   [ChainId.POLYGON_ZK]: {
     chainId: '0x44d',
-    chainName: 'Polygon zkEVM',
+    chainName: 'zkEVM',
     nativeCurrency: {
       name: 'ETH',
       symbol: 'ETH',
