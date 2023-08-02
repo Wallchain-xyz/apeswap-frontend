@@ -5,10 +5,9 @@ import { MetaMask } from '@web3-react/metamask'
 import { Network } from '@web3-react/network'
 import { WalletConnect as WalletConnectV2 } from '@web3-react/walletconnect-v2'
 import { Connection, ConnectionType } from './types'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { RPC_URLS } from 'config/constants/networks'
 import { RPC_PROVIDERS } from 'config/constants/providers'
-import { MAINNET_CHAINS } from 'config/constants/chains'
+import { ChainId, MAINNET_CHAINS } from 'config/constants/chains'
 
 // Connections based from uniswap interface
 // https://github.com/Uniswap/interface/blob/main/src/connection/index.ts
@@ -24,7 +23,7 @@ const [web3Network, web3NetworkHooks] = initializeConnector<Network>(
     new Network({
       actions,
       urlMap: RPC_PROVIDERS,
-      defaultChainId: SupportedChainId.BSC,
+      defaultChainId: ChainId.BSC,
     }),
 )
 export const networkConnection: Connection = {
@@ -72,7 +71,7 @@ const [web3CoinbaseWallet, web3CoinbaseWalletHooks] = initializeConnector<Coinba
     new CoinbaseWallet({
       actions,
       options: {
-        url: RPC_URLS[SupportedChainId.BSC][0],
+        url: RPC_URLS[ChainId.BSC][0],
         appName: 'ApeSwap',
         appLogoUrl: 'favicon.ico',
         reloadOnDisconnect: false,
