@@ -1,4 +1,4 @@
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import CurrencyLogo from 'components/CurrencyLogo'
 import TokenListModal from 'components/TokenListModal'
 import { Flex, Skeleton, Svg, Text } from 'components/uikit'
@@ -9,6 +9,7 @@ import ChainTokenSelector from '../OmniChain/OmniChainTokenSelector'
 import TokenImage from '../TokenImage'
 import { TokenInfo } from '@uniswap/token-lists'
 import OmniTokenImage from '../OmniChain/OmniTokenImage'
+import { ChainId } from 'config/constants/chains'
 
 const TokenSelector = ({
   currency,
@@ -21,7 +22,7 @@ const TokenSelector = ({
 }: {
   currency?: Currency | null
   otherCurrency?: Currency | null
-  onCurrencySelect: (currency: Currency, chain: SupportedChainId) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   disableTokenSelect?: boolean
   isRemoveLiquidity?: boolean
   isZapInput?: boolean //make this an enum

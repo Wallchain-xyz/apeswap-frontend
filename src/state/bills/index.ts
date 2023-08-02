@@ -8,27 +8,27 @@ import {
 import fetchBills from './fetchBills'
 import { getNewBillNftData } from './getBillNftData'
 import { BillsConfig, bills } from '@ape.swap/apeswap-lists'
-import { MAINNET_CHAINS } from 'config/constants/chains'
+import { ChainId, MAINNET_CHAINS } from 'config/constants/chains'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { Bills } from 'views/Bonds/types'
 import { TokenPrices } from 'hooks/useAllTokenPrices'
 import { AppThunk } from 'state'
 
-const filterByChainId = (chainId: SupportedChainId) => {
+const filterByChainId = (chainId: ChainId) => {
   return bills.filter(
     (bill) =>
-      bill.contractAddress?.[chainId] !== '' &&
-      bill.contractAddress?.[chainId] !== null &&
-      bill.contractAddress?.[chainId] !== undefined,
+      bill.contractAddress?.[chainId as unknown as SupportedChainId] !== '' &&
+      bill.contractAddress?.[chainId as unknown as SupportedChainId] !== null &&
+      bill.contractAddress?.[chainId as unknown as SupportedChainId] !== undefined,
   )
 }
 
 export interface BillsState {
-  data: Partial<Record<SupportedChainId, Bills[]>>
+  data: Partial<Record<ChainId, Bills[]>>
 }
 
 const initialBillsState: any = {}
-MAINNET_CHAINS.forEach((chainId: SupportedChainId) => {
+MAINNET_CHAINS.forEach((chainId: ChainId) => {
   initialBillsState[chainId] = filterByChainId(chainId)
 })
 

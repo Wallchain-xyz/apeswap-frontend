@@ -2,8 +2,7 @@
 import { Flex, Svg, Text } from 'components/uikit'
 
 // Types, Constants, Utils
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import { NETWORK_ICONS } from 'config/constants/chains'
+import { ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { DEX_CHAINS } from '../constants'
 import { styles } from '../styles'
 
@@ -12,8 +11,8 @@ const ChainOptionsButtons = ({
   setSelectedChain,
   setViewAllChains,
 }: {
-  selectedChain: SupportedChainId
-  setSelectedChain: (chain: SupportedChainId) => void
+  selectedChain: ChainId
+  setSelectedChain: (chain: ChainId) => void
   setViewAllChains: (viewAllChains: boolean) => void
 }) => {
   return (

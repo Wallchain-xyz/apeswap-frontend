@@ -14,12 +14,13 @@ export function tokensToChainTokenMap(tokens: TokenList, isLiFi: boolean): Chain
   const cached = mapCache?.get(tokens)
   if (cached) return cached
 
-  let map = {}
+  // TODO: Review types
+  let map: {[chainId: string]: any} = {}
 
   if (isLiFi) {
     //TODO: Fix types
     Object.keys(tokens.tokens).forEach((key) => {
-      let array = tokens.tokens[key]
+      let array = tokens.tokens[Number(key)] as any
       array.map((tokenInfo: TokenInfo) => {
         const token = new WrappedTokenInfo(tokenInfo)
         if (map[token.chainId]?.[token.address] !== undefined) return

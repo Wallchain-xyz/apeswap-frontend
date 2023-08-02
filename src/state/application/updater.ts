@@ -1,4 +1,3 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import BigNumber from 'bignumber.js'
@@ -13,7 +12,7 @@ import { supportedChainId } from 'utils/supportedChainId'
 import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
 import { useGetProfilePic } from './hooks'
 import { updateSelectedNetwork } from '../user/reducer'
-import { NETWORK_LABEL } from '../../config/constants/chains'
+import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
 import useSelectChain from '../../hooks/useSelectChain'
 import { useGetIsLhdAuth } from 'state/lhd/hooks/useGetIsLhdAuth'
 
@@ -40,23 +39,23 @@ export default function Updater(): null {
     const paramChainId = params.get('chain')
     if (paramChainId && windowVisible) {
       const removeChainParamUrl = windowVisible ? window?.location?.href?.split('?chain')[0] : ''
-      if (paramChainId.toLowerCase() === NETWORK_LABEL[SupportedChainId.BSC]?.toLowerCase()) {
-        selectChain(SupportedChainId?.BSC).then(() => {
+      if (paramChainId.toLowerCase() === NETWORK_LABEL[ChainId.BSC]?.toLowerCase()) {
+        selectChain(ChainId?.BSC).then(() => {
           window.history.pushState({}, document.title, removeChainParamUrl)
         })
       }
-      if (paramChainId.toLowerCase() === NETWORK_LABEL[SupportedChainId.POLYGON]?.toLowerCase()) {
-        selectChain(SupportedChainId?.POLYGON).then(() => {
+      if (paramChainId.toLowerCase() === NETWORK_LABEL[ChainId.POLYGON]?.toLowerCase()) {
+        selectChain(ChainId?.POLYGON).then(() => {
           window.history.pushState({}, document.title, removeChainParamUrl)
         })
       }
-      if (paramChainId.toLowerCase() === NETWORK_LABEL[SupportedChainId.MAINNET]?.toLowerCase()) {
-        selectChain(SupportedChainId?.MAINNET).then(() => {
+      if (paramChainId.toLowerCase() === NETWORK_LABEL[ChainId.MAINNET]?.toLowerCase()) {
+        selectChain(ChainId?.MAINNET).then(() => {
           window.history.pushState({}, document.title, removeChainParamUrl)
         })
       }
-      if (paramChainId.toLowerCase() === NETWORK_LABEL[SupportedChainId.ARBITRUM_ONE]?.toLowerCase()) {
-        selectChain(SupportedChainId?.ARBITRUM_ONE).then(() => {
+      if (paramChainId.toLowerCase() === NETWORK_LABEL[ChainId.ARBITRUM_ONE]?.toLowerCase()) {
+        selectChain(ChainId?.ARBITRUM_ONE).then(() => {
           window.history.pushState({}, document.title, removeChainParamUrl)
         })
       }
@@ -81,7 +80,7 @@ export default function Updater(): null {
 
   const priceGetter = usePriceGetter()
   const { result: bananaPrice } = useSingleCallResult(priceGetter, 'getPrice', [
-    BANANA_ADDRESSES[chainId || SupportedChainId.BSC],
+    BANANA_ADDRESSES[chainId || ChainId.BSC],
     0,
   ])
 

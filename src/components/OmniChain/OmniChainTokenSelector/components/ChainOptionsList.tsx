@@ -6,20 +6,19 @@ import { Flex, Input, Svg, Text } from 'components/uikit'
 import { ChangeEvent, useCallback, useState } from 'react'
 
 // Types, Constants, Utils
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import { NETWORK_ICONS } from 'config/constants/chains'
+import { ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { DEX_CHAINS } from '../constants'
 
 const ChainOptionsList = ({
   setSelectedChain,
   setViewAllChains,
 }: {
-  setSelectedChain: (chain: SupportedChainId) => void
+  setSelectedChain: (chain: ChainId) => void
   setViewAllChains: (viewAllChains: boolean) => void
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
 
-  const handleChainSelect = (chain: SupportedChainId) => {
+  const handleChainSelect = (chain: ChainId) => {
     setSelectedChain(chain)
     setViewAllChains(false)
   }

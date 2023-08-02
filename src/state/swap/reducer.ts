@@ -3,7 +3,7 @@ import { parsedQueryString } from 'hooks/useParsedQueryString'
 
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { queryParametersToSwapState } from './hooks/hooks'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { ChainId } from 'config/constants/chains'
 
 export interface SwapState {
   // independentField is used to set which Field has been modified by the user, though LiFi does not support output quotes right now
@@ -11,11 +11,11 @@ export interface SwapState {
   readonly typedValue: string
   readonly [Field.INPUT]: {
     readonly currencyId: string | null
-    readonly chain: SupportedChainId | null // change type
+    readonly chain: ChainId | null
   }
   readonly [Field.OUTPUT]: {
     readonly currencyId: string | null
-    readonly chain: SupportedChainId | null // change type
+    readonly chain: ChainId | null
   }
   // the typed recipient address or ENS name, or null if swap should go to sender
   readonly recipient: string | null
