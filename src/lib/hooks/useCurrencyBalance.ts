@@ -143,20 +143,18 @@ export function useCurrencyBalances(
     [currencies],
   )
 
-  const { chainId } = useWeb3React()
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency?.isNative) ?? false, [currencies])
   const [ethBalance, loadingNativeBalance] = useNativeCurrencyBalances(currencies?.[0]?.chainId)
 
   return useMemo(
     () =>
       currencies?.map((currency) => {
-        if (!account || !currency || currency.chainId !== chainId) return undefined
+        if (!account || !currency) return undefined
         if (currency.isToken) return tokenBalances[currency.address]
         if (currency.isNative && !loadingNativeBalance) return ethBalance
         return undefined
       }) ?? [],
-    [account, chainId, currencies, ethBalance, loadingNativeBalance, tokenBalances],
+    [account, currencies, ethBalance, loadingNativeBalance, tokenBalances],
   )
 }
 

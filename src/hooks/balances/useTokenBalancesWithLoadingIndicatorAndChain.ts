@@ -40,8 +40,8 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
       if (!chain || calls?.length === 0 || !account) return
+      setLoading(true)
       try {
         const data = await multicall(chain, erc20ABI, calls)
         setResult(data)

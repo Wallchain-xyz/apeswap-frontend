@@ -11,6 +11,7 @@ import { DEFAULT_ERC20_DECIMALS } from 'config/constants/tokens'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { isAddress } from 'utils'
 import { supportedChainId } from 'utils/supportedChainId'
+import { ChainId } from '../../config/constants/chains'
 
 // parse a name or symbol from a token response
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/
@@ -90,17 +91,21 @@ export function useTokenFromMapOrNetwork(tokens: TokenMap, tokenAddress?: string
  * Returns null if currency is loading or null was passed.
  * Returns undefined if currencyId is invalid or token does not exist.
  */
-export function useCurrencyFromMap(tokens: TokenMap, currencyId?: string | null): Currency | null {
+export function useCurrencyFromMap(
+  tokens: TokenMap,
+  currencyId?: string | null,
+  selectedChain?: ChainId,
+): Currency | null {
   const nativeCurrency = useNativeCurrency()
-  const { chainId } = useWeb3React()
+  //const { chainId } = useWeb3React()
   const isNative = Boolean(
     nativeCurrency &&
       (currencyId?.toUpperCase() === 'ETH' || currencyId === '0x0000000000000000000000000000000000000000'),
   )
   const shorthandMatchAddress = useMemo(() => {
-    const chain = supportedChainId(chainId)
+    const chain = supportedChainId(selectedChain)
     return chain && currencyId ? TOKEN_SHORTHANDS[currencyId.toUpperCase()]?.[chain] : undefined
-  }, [chainId, currencyId])
+  }, [selectedChain, currencyId])
 
   const token = useTokenFromMapOrNetwork(tokens, isNative ? undefined : shorthandMatchAddress ?? currencyId)
 

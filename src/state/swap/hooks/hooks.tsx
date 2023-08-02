@@ -101,13 +101,13 @@ export const useDerivedSwapInfo = (): {
 
   const {
     typedValue,
-    [Field.INPUT]: { currencyId: inputCurrencyString },
-    [Field.OUTPUT]: { currencyId: outputCurrencyString },
+    [Field.INPUT]: { currencyId: inputCurrencyString, chain: fromChain },
+    [Field.OUTPUT]: { currencyId: outputCurrencyString, chain: toChain },
   } = useSwapState()
   const debouncedInput = useDebounce(typedValue, 400)
 
-  const inputCurrency = useCurrency(inputCurrencyString)
-  const outputCurrency = useCurrency(outputCurrencyString)
+  const inputCurrency = useCurrency(inputCurrencyString, fromChain ?? undefined)
+  const outputCurrency = useCurrency(outputCurrencyString, toChain ?? undefined)
 
   const relevantTokenBalances = useCurrencyBalances(
     account ?? undefined,
