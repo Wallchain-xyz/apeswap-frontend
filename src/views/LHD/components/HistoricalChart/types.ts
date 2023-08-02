@@ -6,7 +6,7 @@ export enum DatasetNames {
   TotalExtractableLiquidity = 'Total Extractable Liquidity',
   // Scores
   ConcentrationScore = 'Concentration Score',
-  HealthScore = 'Health Score',
+  HealthScore = 'Strength Score',
   OwnershipScore = 'Ownership Score',
   TotalScore = 'Total Score',
 }
