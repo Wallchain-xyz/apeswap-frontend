@@ -23,13 +23,13 @@ import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
 import { chartExtras } from 'state/lhd/types'
 
 enum TabNames {
-  Strength = 'Strength',
   Liquidity = 'Liquidity',
+  Historic = 'Historic Data',
 }
 
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
   const [queryString, setQueryString] = useState('')
-  const [activeTab, setActiveTab] = useState<TabNames>(TabNames.Strength)
+  const [activeTab, setActiveTab] = useState<TabNames>(TabNames.Liquidity)
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })
   const { data: tokenHistoric = [], isLoading: isHistoricLoading } = useGetTokenHistoric({ chainID, address })
   const { t } = useTranslation()
@@ -96,7 +96,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
               </Flex>
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>
-                  {t(activeTab === 'Strength' ? 'Liquidity Strength Chart ' : 'Historical Chart ')}
+                  {t(activeTab === TabNames.Liquidity ? 'Liquidity Strength Chart ' : 'Historical Data Chart ')}
                   <TooltipBubble
                     style={{ zIndex: 1000 }}
                     placement="bottomRight"
@@ -108,7 +108,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
                   </TooltipBubble>
                 </Text>
               </Flex>
-              {activeTab === 'Strength' ? (
+              {activeTab === TabNames.Liquidity ? (
                 <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
               ) : (
                 <HistoricalChart tokenHistoric={tokenHistoric} isLoading={isHistoricLoading} />
