@@ -74,7 +74,7 @@ const TokenSelector = ({
   ) : isOmniChain ? (
     <Flex sx={styles.primaryFlex} onClick={onPresentOmniCurrencyModal}>
       {currency ? (
-        <OmniTokenImage chain={currency.chainId} url={(currency as TokenInfo)?.logoURI} size={30} />
+        <OmniTokenImage currency={currency} size={30} />
       ) : (
         <Skeleton width="30px" height="30px" animation="waves" variant="circle" />
       )}

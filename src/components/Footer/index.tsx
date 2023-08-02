@@ -1,6 +1,5 @@
 import { LangaugeDropdown } from 'components/Langauge'
 import MoonPayModal from 'components/Moonpay/MoonpayModal'
-import NetworkSelector from 'components/NetworkSelector'
 import Newsletter from 'components/NewsLetter'
 import ThemeSwitcher from 'components/ThemeSwitcher'
 import { Button, Flex, Skeleton, Svg, Text, Link } from 'components/uikit'

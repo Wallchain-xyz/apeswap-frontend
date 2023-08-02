@@ -9,8 +9,8 @@ class TokenLogoLookupTable {
   initialize() {
     const dict: { [key: string]: string[] | undefined } = {}
 
-    DEFAULT_LIST_OF_LISTS.forEach((list) =>
-      store.getState().lists.byUrl[list]?.current?.tokens.forEach((token) => {
+    DEFAULT_LIST_OF_LISTS?.forEach((list) =>
+      store?.getState()?.lists?.byUrl[list]?.current?.tokens?.forEach((token) => {
         if (token.logoURI) {
           const lowercaseAddress = token.address.toLowerCase()
           const currentEntry = dict[lowercaseAddress + ':' + token.chainId]

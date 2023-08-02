@@ -1,7 +1,6 @@
 import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import DexNav from 'components/DexNav'
-import DexPanel from 'components/DexPanel'
 import { Flex } from 'components/uikit'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useMemo } from 'react'
@@ -18,21 +17,18 @@ import Actions from './actions'
 import LoadingBestRoute from './components/LoadingBestRoute'
 import Risk from './components/Risk/Risk'
 import SwapSwitchButton from './components/SwapSwitchButton'
-import useCurrencyBalance from '../../lib/hooks/useCurrencyBalance'
 import { getBNWithDecimals } from '../../utils/getBalanceNumber'
 import RouteDetails from './components/RouteDetails'
 import { toPrecisionAvoidExponential } from './utils'
 import JSBI from 'jsbi'
-import { Pricing } from '../../components/DexPanel/types'
 import SwapAssetNotice from './components/SwapAssetNotice'
 import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
-import useFetchChains from '../../state/lists/hooks/useFetchChains'
 import { ChainId } from 'config/constants/chains'
+import { useCurrencyBalancesWithChain } from '../../hooks/balances/useCurrenciesBalancesWithChain'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
-  useFetchChains()
   const { account, chainId } = useWeb3React()
 
   // TODO: Add token warning stuff
@@ -97,7 +93,12 @@ const Swap = () => {
     currencies?.INPUT?.currency && selectedRoute?.fromAmount
       ? CurrencyAmount.fromRawAmount(currencies?.INPUT?.currency, JSBI.BigInt(selectedRoute?.fromAmount))
       : undefined
-  const inputCurrencyBalance = useCurrencyBalance(account, currencies?.INPUT?.currency ?? undefined)
+
+  const inputCurrencyBalance = useCurrencyBalancesWithChain(
+    account,
+    [currencies?.INPUT?.currency ?? undefined],
+    currencies?.INPUT?.currency?.chainId,
+  )?.[0]
 
   const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
     () => maxAmountSpend(inputCurrencyBalance),
@@ -121,7 +122,7 @@ const Swap = () => {
       <Flex variant="flex.dexContainer">
         <DexNav />
         <Flex sx={{ margin: '25px 0px', maxWidth: '100%', width: '420px' }} />
-        <OmniChainPanel //finish this
+        <OmniChainPanel
           panelText="From"
           value={typedValue}
           currency={currencies[Field.INPUT].currency}

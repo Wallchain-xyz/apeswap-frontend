@@ -1,9 +1,15 @@
 import React from 'react'
 import { SvgProps } from '../types'
 
-const ARBITRUM: React.FC<SvgProps> = (props) => {
+const ARBITRUM: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      width={width || '30'}
+      height={width || '31'}
+      viewBox="0 0 30 31"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g clipPath="url(#clip0_286_8433)">
         <g clipPath="url(#clip1_286_8433)">
           <path

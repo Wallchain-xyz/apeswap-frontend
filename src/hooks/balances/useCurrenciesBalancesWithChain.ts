@@ -14,7 +14,6 @@ export function useCurrencyBalancesWithChain(
     [currencies],
   )
 
-  //const { chainId } = useWeb3React()
   const tokenBalances = useTokenBalancesWithChain(account, tokens, chain)
   const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency?.isNative) ?? false, [currencies])
   const ethBalance = useNativeCurrencyBalances(currencies?.[0]?.chainId)
