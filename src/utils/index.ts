@@ -3,7 +3,7 @@ import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import type { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
-import { BLOCK_EXPLORER } from 'config/constants/chains'
+import { BLOCK_EXPLORER, ChainId } from 'config/constants/chains'
 
 declare const window: Window & {
   ethereum?: {
@@ -42,14 +42,14 @@ export function getContract(address: string, ABI: any, provider: JsonRpcProvider
   return new Contract(address, ABI, getProviderOrSigner(provider, account) as any)
 }
 
-export function isSupportedChain(chainId: number | null | undefined): chainId is SupportedChainId {
-  return !!chainId && !!SupportedChainId[chainId]
+export function isSupportedChain(chainId: number | null | undefined): chainId is ChainId {
+  return !!chainId && !!ChainId[chainId]
 }
 
 export function getEtherscanLink(
   data: string | number,
   type: 'transaction' | 'token' | 'address' | 'block' | 'countdown',
-  chainId: SupportedChainId,
+  chainId: ChainId,
 ): string {
   switch (type) {
     case 'transaction': {

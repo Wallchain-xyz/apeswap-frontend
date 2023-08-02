@@ -2,6 +2,7 @@ import { Currency, Ether, NativeCurrency, Token, WETH9, SupportedChainId } from 
 import invariant from 'tiny-invariant'
 
 import { BANANA_ADDRESSES } from './addresses'
+import { ChainId } from './chains'
 
 export const NATIVE_CHAIN_ID = 'NATIVE'
 
@@ -160,7 +161,7 @@ export const BANANA: { [chainId: number]: Token } = {
 }
 
 export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } = {
-  ...(WETH9 as Record<SupportedChainId, Token>),
+  ...(WETH9 as Record<ChainId, Token>),
   [SupportedChainId.POLYGON]: new Token(
     SupportedChainId.POLYGON,
     '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
@@ -181,6 +182,20 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
     18,
     'WTLOS',
     'Wrapped TLOS',
+  ),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
+    18,
+    'WAVAX',
+    'Wrapped AVAX',
+  ),
+  [ChainId.FANTOM]: new Token(
+    ChainId.FANTOM,
+    '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83',
+    18,
+    'WFTM',
+    'Wrapped Fantom',
   ),
 }
 

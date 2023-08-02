@@ -1,5 +1,4 @@
 import React from 'react'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useTranslation } from 'contexts/Localization'
 import styles from './styles'
 import { useRouter } from 'next/router'
@@ -7,24 +6,17 @@ import useModal from 'hooks/useModal'
 import { Flex, Link, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import DexSettings from 'components/DexSettings'
-import SquidBridge from '../SquidBridge/SquidBridge'
 import ZapSlippage from '../ZapSlippage'
+import { ChainId, DEX_ONLY_CHAINS } from 'config/constants/chains'
 
 interface DexNavProps {
   zapSettings?: boolean
 }
 
 const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
-  const BRIDGE_SUPPORTED_CHAINS = [
-    SupportedChainId.BSC,
-    SupportedChainId.ARBITRUM_ONE,
-    SupportedChainId.POLYGON,
-    SupportedChainId.MAINNET,
-  ]
   const { t } = useTranslation()
   const { pathname, push } = useRouter()
   const { chainId } = useWeb3React()
-  const [onBridgeModal] = useModal(<SquidBridge />)
 
   const onLiquidity =
     pathname?.includes('add-liquidity') ||
@@ -37,16 +29,6 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
   const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
-
-  const handleSwitch = () => {
-    push(
-      pathname.includes('/v3-swap')
-        ? 'https://dex.apeswap.finance/swap'
-        : pathname.includes('/v3-add-liquidity')
-          ? 'https://dex.apeswap.finance/add-liquidity'
-          : 'https://dex.apeswap.finance/liquidity',
-    )
-  }
 
   return (
     <Flex sx={styles.dexNavContainer}>
@@ -64,35 +46,27 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         >
           {t('Swap')}
         </Text>
-        <Text
-          size="14px"
-          variant="link"
-          sx={{
-            ...styles.navLink,
-            color: !onLiquidity && 'textDisabled',
-          }}
-          onClick={() => push('/zap')}
-          id="liquidity-link"
-          className="liquidity"
-        >
-          {t('Liquidity')}
-        </Text>
+        {!DEX_ONLY_CHAINS.includes(chainId as ChainId) && (
+          <Text
+            size="14px"
+            variant="link"
+            sx={{
+              ...styles.navLink,
+              color: !onLiquidity && 'textDisabled',
+            }}
+            onClick={() => push('/zap')}
+            id="liquidity-link"
+            className="liquidity"
+          >
+            {t('Liquidity')}
+          </Text>
+        )}
       </Flex>
       <Flex sx={styles.navIconContainer}>
-        <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
+        <Flex sx={{ width: '60px', justifyContent: 'space-between', mt: '5px' }}>
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
-          <Flex
-            sx={styles.iconCover}
-            onClick={
-              BRIDGE_SUPPORTED_CHAINS.includes(chainId as number)
-                ? onBridgeModal
-                : () => window.open('https://jumper.exchange', '_blank')
-            }
-          >
-            <Svg icon="bridge" />
-          </Flex>
           <Flex
             onClick={zapSettings ? onPresentZapSettingsModal : onPresentSettingsModal}
             sx={{ cursor: 'pointer', mb: '5px' }}

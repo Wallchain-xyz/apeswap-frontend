@@ -1,5 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { FACTORY_ADDRESSES } from '@ape.swap/v3-sdk'
+import { ChainId } from './chains'
 
 type AddressMap = { [chainId: number]: string }
 
@@ -76,6 +77,7 @@ export const MULTICALL: AddressMap = {
   [SupportedChainId.MAINNET]: '0x1F98415757620B543A52E61c46B32eB19261F984',
   [SupportedChainId.TLOS]: '0xf553b2be7aac670bcd812ba64a5025d9f5095ab5',
   [SupportedChainId.ARBITRUM_ONE]: '0xC169b45E7A157Fe3fa248673576bcadcaFd8757B',
+  [ChainId.AVALANCHE]: '0xce96d67e45ea7c5d2c0ee234059d9616f8cf1afc',
 }
 
 export const MULTICALL_V2: AddressMap = {
@@ -85,6 +87,11 @@ export const MULTICALL_V2: AddressMap = {
   [SupportedChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441',
   [SupportedChainId.TLOS]: '0xa1a283f10f578201a97a8f69d8c15828b778f04b',
   [SupportedChainId.ARBITRUM_ONE]: '0x089d8780e1c0789d0ef786bf001bee52d8351cad',
+
+  // I believe this is the only multicall needed for the DEX to function
+  [ChainId.AVALANCHE]: '0xaad9d7d0c94f8bd2117fafaf3c35f77e9908740f',
+  [ChainId.FANTOM]: '0xdb9e00ce3b7afd5fece9b515c7f647e716282781',
+  [ChainId.OPTIMISM]: '0xdb9e00ce3b7afd5fece9b515c7f647e716282781',
 }
 
 export const GNANA_ADDRESSES: AddressMap = {

@@ -23,12 +23,19 @@ export enum ChainId {
 }
 
 // This is the list we will display to the user
-export const MAINNET_CHAINS = [
-  ChainId.BSC,
-  ChainId.POLYGON,
-  ChainId.MAINNET,
-  //ChainId.TLOS,
-  ChainId.ARBITRUM_ONE,
+export const MAINNET_CHAINS = [ChainId.BSC, ChainId.POLYGON, ChainId.MAINNET, ChainId.ARBITRUM_ONE]
+
+export const DEX_ONLY_CHAINS = [
+  ChainId.AVALANCHE,
+  ChainId.OPTIMISM,
+  ChainId.FANTOM,
+
+  // TODO: Will add these in once approach for non DEX chains is finalized
+  // ChainId.CRONOS,
+  // ChainId.POLYGON_ZK,
+  // ChainId.CELO,
+  // ChainId.GNOSIS,
+  // ChainId.OKX,
 ]
 
 export const CHAIN_NAMES: Record<ChainId, string> = {
@@ -43,7 +50,7 @@ export const CHAIN_NAMES: Record<ChainId, string> = {
   [ChainId.OPTIMISM]: 'optimism',
   [ChainId.FANTOM]: 'fantom',
   [ChainId.CRONOS]: 'cronos',
-  [ChainId.POLYGON_ZK]: 'polygon (zk)', //check if this doesn't break
+  [ChainId.POLYGON_ZK]: 'polygon_zk',
   [ChainId.CELO]: 'celo',
   [ChainId.GNOSIS]: 'gnosis',
   [ChainId.OKX]: 'okexchain',
@@ -56,6 +63,9 @@ export const NETWORK_ICONS: Partial<Record<ChainId, icons>> = {
   [ChainId.MAINNET]: icons.ETH_TOKEN,
   [ChainId.TLOS]: icons.TLOS_TOKEN,
   [ChainId.ARBITRUM_ONE]: icons.ARBITRUM_TOKEN,
+  [ChainId.AVALANCHE]: icons.AVAX_TOKEN,
+  [ChainId.OPTIMISM]: icons.OPTIMISM_TOKEN,
+  [ChainId.FANTOM]: icons.FANTOM_TOKEN,
 }
 
 // Network labels
@@ -67,6 +77,14 @@ export const NETWORK_LABEL: Partial<Record<ChainId, string>> = {
   [ChainId.MAINNET]: 'Ethereum',
   [ChainId.TLOS]: 'Telos',
   [ChainId.ARBITRUM_ONE]: 'Arbitrum',
+  [ChainId.AVALANCHE]: 'Avalanche',
+  [ChainId.OPTIMISM]: 'Optimism',
+  [ChainId.FANTOM]: 'Fantom',
+  [ChainId.CRONOS]: 'Cronos',
+  [ChainId.POLYGON_ZK]: 'Polygon zkEVM',
+  [ChainId.CELO]: 'Celo',
+  [ChainId.GNOSIS]: 'Gnosis',
+  [ChainId.OKX]: 'OKXChain',
 }
 
 // Network block explorers
