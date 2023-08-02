@@ -13,7 +13,6 @@ import { useBananaPrice } from 'state/application/hooks'
 import MobileDropdown from './components/MobileDropdown'
 import { ACCESS_LINKS, ENGAGE_LINKS, SOCIAL_LINKS, SUPPORT_LINKS } from './config'
 import styles from './styles'
-import NavBarNetworkSelect from 'components/NavBarNew/components/Network/NavBarNetworkSelect'
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -42,7 +41,7 @@ const Footer = () => {
               }}
             >
               <ThemeSwitcher />
-              <NavBarNetworkSelect placement="footer" />
+              <NetworkSelector />
               <LangaugeDropdown />
             </Flex>
             <Flex

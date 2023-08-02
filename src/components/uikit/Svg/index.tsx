@@ -87,7 +87,24 @@ import {
   Logout,
   Wallet,
 } from './Icons'
-import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM, FANTOM, AVAX, OPTIMISM } from './tokens'
+import {
+  BSC,
+  BANANA,
+  BNB,
+  ETH,
+  GNANA,
+  POLYGON,
+  TLOS,
+  ARBITRUM,
+  FANTOM,
+  AVAX,
+  OPTIMISM,
+  CELO,
+  CRONOS,
+  POLYGONZK,
+  GNOSIS,
+  OKEX,
+} from './tokens'
 import {
   BinanceChain,
   Bitkeep,
@@ -269,6 +286,16 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <FANTOM {...props} getStyles={getStyles} />
     case icons.OPTIMISM_TOKEN:
       return <OPTIMISM {...props} getStyles={getStyles} />
+    case icons.CRONOS_TOKEN:
+      return <CRONOS {...props} getStyles={getStyles} />
+    case icons.POLYGONZK_TOKEN:
+      return <POLYGONZK {...props} getStyles={getStyles} />
+    case icons.CELO_TOKEN:
+      return <CELO {...props} getStyles={getStyles} />
+    case icons.GNOSIS_TOKEN:
+      return <GNOSIS {...props} getStyles={getStyles} />
+    case icons.OKX_TOKEN:
+      return <OKEX {...props} getStyles={getStyles} />
     case icons.HAMBURGER_CLOSED:
       return <HamburgerClosed {...props} getStyles={getStyles} />
     case icons.BILLS_M1:
