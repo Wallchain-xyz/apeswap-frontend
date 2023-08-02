@@ -35,9 +35,9 @@ export const parseHistoricalData = (tokenHistoricalData: SimpleTokenProfile[]): 
 
     // TODO: add liquidityDebt when api is ready
     acc.liquidityDebt.push(0)
-    acc.mcap.push(firstReport.amount || 0)
-    acc.ownedLiquidity.push(ownedLiquidity)
-    acc.totalExtractableLiquidity.push(totalExtractableLiquidity)
+    acc.mcap.push(Math.trunc(firstReport.amount) || 0)
+    acc.ownedLiquidity.push(Math.trunc(ownedLiquidity))
+    acc.totalExtractableLiquidity.push(Math.trunc(totalExtractableLiquidity))
 
     acc.concentrationScore.push(Number((healthScore * 100).toFixed(2)))
     acc.healthScore.push(Number((healthScore * 100).toFixed(2)))
