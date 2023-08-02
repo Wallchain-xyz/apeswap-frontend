@@ -35,10 +35,10 @@ const OmniTokenImage = ({ currency, size }: { currency: Currency; size: number }
               onError={() => setError(true)}
             />
           )}
-          <Box sx={{ borderRadius: `${size}px`, position: 'absolute', top: 0, right: 0 }}>
+          <Box sx={{ borderRadius: `${size}px`, position: 'absolute', top: -1, right: -1 }}>
             <Svg
-              width={size / 2}
-              height={size / 2}
+              width={size / 2.2}
+              height={size / 2.2}
               icon={NETWORK_ICONS?.[currency?.chainId as ChainId] ?? 'question'}
             />
           </Box>
