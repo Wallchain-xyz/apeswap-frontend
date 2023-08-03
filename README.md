@@ -6,8 +6,8 @@ The `frontend` repo is the official frontend repository for ApeSwap.Finance, whi
 
 Getting up and running with the `frontend` repo is a super simple, 2 step process:
 
-1. Clone the repo
-2. Install dependencies
+1. Clone this repo
+2. Install dependencies (we suggest `yarn`)
 
 To do this, open a terminal and run the following commands:
 
