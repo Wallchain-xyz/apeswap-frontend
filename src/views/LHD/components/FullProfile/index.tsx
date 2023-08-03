@@ -23,7 +23,7 @@ import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
 import { chartExtras } from 'state/lhd/types'
 
 enum TabNames {
-  Liquidity = 'Liquidity',
+  Liquidity = 'Current',
   Historic = 'Historic Data',
 }
 
