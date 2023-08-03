@@ -38,11 +38,10 @@ export const routingApi = createApi({
         const { protocols, useApeRPC } = args
         try {
           const router = getRouter(args.tokenInChainId, useApeRPC)
-          const result = await getClientSideQuote(
-            args,
-            router,
-            { ...CLIENT_PARAMS, protocols: protocols || CLIENT_PARAMS.protocols },
-          )
+          const result = await getClientSideQuote(args, router, {
+            ...CLIENT_PARAMS,
+            protocols: protocols || CLIENT_PARAMS.protocols,
+          })
           return { data: result.data }
         } catch (e: any) {
           console.error(e)
@@ -81,7 +80,12 @@ export const routingApi = createApi({
         }
         try {
           console.log('Fetching LiFi Routes')
-          const lifi = new LiFi({ integrator: 'apeswap' })
+          const lifi = new LiFi({
+            integrator: 'apeswap',
+            defaultRouteOptions: {
+              maxPriceImpact: 1,
+            },
+          })
           const result = await lifi.getRoutes(routesRequest)
           const routes = result.routes
           track({
