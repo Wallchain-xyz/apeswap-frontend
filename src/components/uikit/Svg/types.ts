@@ -121,6 +121,7 @@ export enum icons {
   NAV_CARET = 'navCaret',
   LOGOUT = 'logout',
   WALLET = 'wallet',
+  RECEIPT = 'receipt',
 }
 
 export enum directions {

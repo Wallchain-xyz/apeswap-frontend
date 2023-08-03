@@ -86,6 +86,7 @@ import {
   NavCaret,
   Logout,
   Wallet,
+  Receipt,
 } from './Icons'
 import {
   BSC,
@@ -340,6 +341,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Logout {...props} getStyles={getStyles} />
     case icons.WALLET:
       return <Wallet {...props} getStyles={getStyles} />
+    case icons.RECEIPT:
+      return <Receipt {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:
