@@ -91,7 +91,7 @@ const DexPanel = ({
                         <Spinner width='15px' height='15px' />
                       ) : (
                         <Text size='12px' sx={styles.panelBottomText}>
-                          {value !== '.' && value && `$${apiPrice}`}
+                          {value !== '.' && value && apiPrice === '0.00' ? '$-' : `$${apiPrice}`}
                         </Text>
                       )}
                     </>
