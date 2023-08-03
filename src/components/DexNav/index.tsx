@@ -8,6 +8,7 @@ import { useWeb3React } from '@web3-react/core'
 import DexSettings from 'components/DexSettings'
 import ZapSlippage from '../ZapSlippage'
 import { ChainId, DEX_ONLY_CHAINS } from 'config/constants/chains'
+import TransactionHistory from 'views/Swap/components/TransactionHistory'
 
 interface DexNavProps {
   zapSettings?: boolean
@@ -29,6 +30,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
   const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
+  const [onViewTxHistory] = useModal(<TransactionHistory />)
 
   return (
     <Flex sx={styles.dexNavContainer}>
@@ -63,13 +65,24 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         )}
       </Flex>
       <Flex sx={styles.navIconContainer}>
-        <Flex sx={{ width: '60px', justifyContent: 'space-between', mt: '5px' }}>
+        <Flex
+          sx={{
+            width: '90px',
+            justifyContent: 'space-between',
+            mt: '5px',
+            alignItems: 'center',
+            justifyItems: 'center',
+          }}
+        >
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
+          <Flex sx={{ cursor: 'pointer', mb: '6px', ml: '2px' }} onClick={onViewTxHistory}>
+            <Svg icon="receipt" />
+          </Flex>
           <Flex
             onClick={zapSettings ? onPresentZapSettingsModal : onPresentSettingsModal}
-            sx={{ cursor: 'pointer', mb: '5px' }}
+            sx={{ cursor: 'pointer', mb: '6px' }}
           >
             <Svg icon="cog" />
           </Flex>
