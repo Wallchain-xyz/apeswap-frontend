@@ -1,40 +1,21 @@
-import axios from 'axios'
-
 // Components
 import styles from './styles'
 import { Flex, Modal, Spinner, Svg, Text } from 'components/uikit'
 import TransactionContainer from './TransactionContainer'
 
 // Hooks
-import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import useFetchLifiTxHistory from 'state/swap/hooks/useFetchLifiTxHistory'
 
 // Types, Constants, Utils
 import { LiFiTransaction } from './types'
 
 const TransactionHistory = ({ onDismiss }: { onDismiss?: () => void }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [pendingTransactions, setPendingTransactions] = useState<LiFiTransaction[]>([])
-
   const { account } = useWeb3React()
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get(
-        `https://li.quest/v1/analytics/wallets/${account}?integrator=apeswap&fromTimestamp=${Math.floor(
-          Date.now() / 1000 - 86400 * 30,
-        )}`,
-      )
-      console.log(response?.data)
-      const data = await response?.data?.transactions
-      setPendingTransactions(data)
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [account])
-
+  const { isLoading, data: rawTransactions } = useFetchLifiTxHistory(account || '')
   // Sort by pending first, then by timestamp
-  const transactions = pendingTransactions.sort((a, b) =>
+  const transactions = (rawTransactions || []).sort((a, b) =>
     a.status === 'PENDING' ? -2 : a.sending.timestamp > b.sending.timestamp ? -1 : 1,
   )
 

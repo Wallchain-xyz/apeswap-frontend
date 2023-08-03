@@ -95,7 +95,7 @@ const TransactionContainer = ({ transaction }: { transaction: LiFiTransaction })
         <Flex sx={styles.statusContainer}>
           {status === 'DONE' ? (
             <Svg width="20px" height="20px" icon="success" />
-          ) : status === 'FAILED' ? (
+          ) : ['NOT_FOUND', 'INVALID', 'FAILED'].includes(status) ? (
             <Svg width="20px" height="20px" color="error" icon="error" />
           ) : (
             <Spinner width="20px" height="20px" />
