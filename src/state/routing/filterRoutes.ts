@@ -13,7 +13,7 @@ export const filterRoutes = (routes: Route[]): Route[] => {
   return filteredRoutes.sort((a, b) => {
     let aValue = parseFloat(a.toAmountUSD)
     let bValue = parseFloat(b.toAmountUSD)
-    const apePreference = 1.0
+    const apePreference = 1.005 // i.e. 0.5% preference
     if (a.steps[0].tool.includes('apeswap')) {
       aValue *= apePreference
     }

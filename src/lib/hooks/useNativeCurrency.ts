@@ -1,4 +1,4 @@
-import { NativeCurrency, Token, SupportedChainId } from '@ape.swap/sdk-core'
+import { NativeCurrency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { nativeOnChain } from 'config/constants/tokens'
 import { useMemo } from 'react'

@@ -7,7 +7,7 @@ import { Box } from 'theme-ui'
 
 // The purpose of this component is to load token images of unknown sources and to use a custom image if load fails
 
-const OmniTokenImage = ({ currency, size }: { currency: Currency; size: number }) => {
+const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: number }) => {
   const [error, setError] = useState(false)
   return (
     <>

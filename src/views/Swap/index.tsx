@@ -24,7 +24,6 @@ import JSBI from 'jsbi'
 import SwapAssetNotice from './components/SwapAssetNotice'
 import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
-import { ChainId } from 'config/constants/chains'
 import { useCurrencyBalancesWithChain } from '../../hooks/balances/useCurrenciesBalancesWithChain'
 
 const Swap = () => {
@@ -136,7 +135,7 @@ const Swap = () => {
           sx={{ width: '100%', justifyContent: 'flex-end', height: '50px', alignItems: 'center', position: 'relative' }}
         >
           <SwapSwitchButton onClick={onSwitchTokens} />
-          <Risk chainId={chainId ?? ChainId.BSC} currency={currencies[Field.OUTPUT]?.currency} />
+          <Risk chainId={currencies[Field.OUTPUT]?.currency?.chainId} currency={currencies[Field.OUTPUT]?.currency} />
         </Flex>
         <OmniChainPanel
           panelText="To"
