@@ -120,7 +120,7 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
           color='error'
           sx={{
             textAlign: 'center',
-            width: '100%',
+            width: '80%',
             marginTop: '10px',
             fontSize: '12px',
             fontWeight: 500,

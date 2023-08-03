@@ -9,6 +9,7 @@ import useFetchLifiTxHistory from 'state/swap/hooks/useFetchLifiTxHistory'
 
 // Types, Constants, Utils
 import { LiFiTransaction } from './types'
+import ConnectWalletButton from 'components/ConnectWallet'
 
 const TransactionHistory = ({ onDismiss }: { onDismiss?: () => void }) => {
   const { account } = useWeb3React()
@@ -43,12 +44,21 @@ const TransactionHistory = ({ onDismiss }: { onDismiss?: () => void }) => {
         </Flex>
       ) : (
         <Flex sx={styles.emptyHistoryContainer}>
-          <Svg width="220px" height="50px" icon="placeholderMonkey" />
-          <Text sx={{ fontSize: '20px' }}>No Recent Transactions</Text>
-          <Text sx={{ fontSize: '14px', fontWeight: '300', textAlign: 'center' }}>
-            Transaction history only shows transactions over the previous 30 days. Please check a block explorer
-            directly for older transactions.
-          </Text>
+          {account ? (
+            <>
+              <Svg width="220px" height="50px" icon="placeholderMonkey" />
+              <Text sx={{ fontSize: '20px' }}>No Recent Transactions</Text>
+              <Text sx={{ fontSize: '14px', fontWeight: '300', textAlign: 'center' }}>
+                Transaction history only shows transactions over the previous 30 days. Please check a block explorer
+                directly for older transactions.
+              </Text>
+            </>
+          ) : (
+            <Flex sx={{ flexDirection: 'column', gap: '10px' }}>
+              <Text>Connect Wallet to View History</Text>
+              <ConnectWalletButton />
+            </Flex>
+          )}
         </Flex>
       )}
     </Modal>
