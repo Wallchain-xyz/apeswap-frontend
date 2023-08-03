@@ -23,6 +23,7 @@ const OmniChainPanel = ({
   disableTokenSelect,
   apiPrice,
 }: OmniChainPanelProps) => {
+  const { t } = useTranslation()
   const { account } = useWeb3React()
   const selectedCurrencyBalance = useCurrencyBalanceWithChain(
     account ?? undefined,
@@ -30,7 +31,7 @@ const OmniChainPanel = ({
     currencyChain ?? undefined, //make this dynamic and see if it is actually necessary
   )
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6) || '0'
-  const { t } = useTranslation()
+  const hideDust = currencyBalance === '0.000000000000000001' ? '0' : currencyBalance
 
   return (
     <Flex sx={styles.dexPanelContainer}>
@@ -62,10 +63,10 @@ const OmniChainPanel = ({
         {account && (
           <Flex sx={{ alignItems: 'center' }}>
             <Text size="12px" sx={styles.panelBottomText}>
-              {t('Balance: %balance%', { balance: currencyBalance || 'loading' })}
+              {t('Balance: %balance%', { balance: hideDust || 'loading' })}
             </Text>
-            {!currencyBalance && <Dots />}
-            {parseFloat(currencyBalance) > 0 && handleMaxInput && (
+            {!hideDust && <Dots />}
+            {parseFloat(hideDust) > 0 && handleMaxInput && (
               <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
                 <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
                   {t('MAX')}

@@ -109,13 +109,16 @@ const Swap = ({
           chain: chainId,
           data: {
             inputToken: res?.fromToken.symbol,
+            inputChain: res?.fromToken.chainId,
             outputToken: res?.toToken.symbol,
+            outputChain: res?.toToken.chainId,
             inputValue: humanOutputAmount(res?.fromAmount, res?.fromToken?.decimals),
             outputValue: humanOutputAmount(res?.toAmount, res?.toToken?.decimals),
             inputUsdValue: res?.fromAmountUSD,
             outputUsdValue: res?.toAmountUSD,
             fee: feeStructure.fee,
             feeTier: feeStructure.tier,
+            dex: res?.steps?.[0]?.toolDetails?.name,
           },
         })
         if (res.toToken.symbol?.toUpperCase() === 'BANANA' && !hideCircular) router.push('?modal=circular-buy')
@@ -150,6 +153,7 @@ const Swap = ({
   }
 
   const shouldChangeChain = selectedRoute?.fromToken.chainId ? chainId !== selectedRoute?.fromToken.chainId : false
+  const isCrossChain = selectedRoute?.fromToken?.chainId !== selectedRoute?.toToken?.chainId
 
   return (inputError || routingState === TradeState.NO_ROUTE_FOUND) && !showWrap ? (
     <Button fullWidth disabled>
@@ -194,7 +198,7 @@ const Swap = ({
         routingState === TradeState.NO_ROUTE_FOUND
       }
     >
-      Swap
+      {isCrossChain ? 'Bridge' : 'Swap'}
     </Button>
   )
 }
