@@ -2,7 +2,7 @@ import numbro from 'numbro'
 
 // Types
 import type { ChartOptions } from 'chart.js'
-import { DatasetNames } from '../types'
+import { DatasetNames, HistoricalDataType } from '../types'
 
 const SCORES = [
   DatasetNames.OwnershipScore,
@@ -15,11 +15,19 @@ export const getChartOptions = (
   toggledData: Record<DatasetNames, boolean>,
   isMobile: boolean,
 ): ChartOptions<'line'> => {
-  const scales = Object.values(DatasetNames).reduce((acc: any, value) => {
-    const isScore = SCORES.includes(value)
+  const scales = [
+    DatasetNames.LiquidityDebt,
+    DatasetNames.MarketCap,
+    DatasetNames.OwnedLiquidity,
+    DatasetNames.TotalExtractableLiquidity,
+    HistoricalDataType.Score,
+  ].reduce((acc: any, value) => {
+    const isScore = value === HistoricalDataType.Score
+    const isAnyScoreToggled = SCORES.some((score) => toggledData[score])
+
     acc[value] = {
       type: 'linear' as const,
-      display: toggledData[value],
+      display: isScore ? isAnyScoreToggled : toggledData[value as DatasetNames],
       position: isScore ? 'right' : ('left' as const),
       grid: {
         drawOnChartArea: false,

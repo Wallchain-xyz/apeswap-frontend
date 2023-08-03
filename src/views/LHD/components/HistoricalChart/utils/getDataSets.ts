@@ -1,6 +1,6 @@
 // Types
 import { SimpleTokenProfile } from 'state/lhd/types'
-import { DatasetNames } from '../types'
+import { DatasetNames, HistoricalDataType } from '../types'
 import type { ChartData } from 'chart.js'
 
 // Helpers
@@ -31,7 +31,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: ownershipScore,
     borderColor: 'rgb(53, 162, 235)',
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    yAxisID: DatasetNames.OwnershipScore,
+    yAxisID: HistoricalDataType.Score,
   }
 
   const concentrationScoreSet = {
@@ -39,7 +39,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: concentrationScore,
     borderColor: '#FA8072',
     backgroundColor: '#FA8072',
-    yAxisID: DatasetNames.ConcentrationScore,
+    yAxisID: HistoricalDataType.Score,
   }
 
   const extractableLiquiditySet = {
@@ -55,7 +55,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: totalScore,
     borderColor: '#964B00',
     backgroundColor: '#964B00',
-    yAxisID: DatasetNames.TotalScore,
+    yAxisID: HistoricalDataType.Score,
   }
 
   const healthScoreSet = {
@@ -63,7 +63,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: healthScore,
     borderColor: 'rgb(255, 172, 28)',
     backgroundColor: 'rgba(255, 172, 28, 1)',
-    yAxisID: DatasetNames.HealthScore,
+    yAxisID: HistoricalDataType.Score,
   }
 
   const ownedLiquiditySet = {

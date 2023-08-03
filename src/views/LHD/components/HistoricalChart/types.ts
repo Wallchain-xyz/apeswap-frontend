@@ -10,3 +10,8 @@ export enum DatasetNames {
   OwnershipScore = 'Ownership Score',
   TotalScore = 'Total Score',
 }
+
+export enum HistoricalDataType {
+  Dollar = 'Dollars',
+  Score = 'Scores',
+}
