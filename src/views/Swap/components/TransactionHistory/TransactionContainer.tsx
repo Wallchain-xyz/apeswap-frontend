@@ -1,79 +1,108 @@
 // Components
 import styles from './styles'
-import { Flex, Svg, Text, Link } from 'components/uikit'
+import { Flex, Svg, Text, Link, Tooltip } from 'components/uikit'
 import { Spinner } from 'theme-ui'
 import OmniTokenImage from 'components/OmniChain/OmniTokenImage'
 
 // Hooks
-import useNativeCurrency from 'lib/hooks/useNativeCurrency'
+import { useCurrency } from 'hooks/Tokens'
 
 // Types, Constants, Utils
-import { ObieDoesntUnderstandRoutes } from './data'
-import { getEtherscanLink } from 'utils'
 import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
+import { LiFiTransaction } from './types'
+import { humanOutputAmount } from 'views/Swap/utils'
+import { Currency } from '@ape.swap/sdk-core'
 
-const TransactionContainer = ({ route }: { route: ObieDoesntUnderstandRoutes }) => {
-  // Exclusively using these because I don't know how routes work
-  const fromCurrency = useNativeCurrency(route.fromChain)
-  const toCurrency = useNativeCurrency(route.toChain)
+const TransactionContainer = ({ transaction }: { transaction: LiFiTransaction }) => {
+  const { sending, status, receiving, transactionId, substatusMessage } = transaction
+
+  const fromCurrency = useCurrency(sending?.token?.address as string, sending?.chainId as ChainId)
+  const toCurrency = useCurrency(receiving?.token?.address as string, receiving?.chainId as ChainId)
+
+  // Logic to display dates
+  function pad(n: number) {
+    return n < 10 ? '0' + n : n
+  }
+  const date = new Date(sending?.timestamp * 1000)
+  let utcDate = date.getUTCFullYear() + '-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate())
+  let utcTime = pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes())
 
   return (
-    <Link
-      key={route.txHash}
-      target="_blank"
-      sx={{ textDecoration: 'none' }}
-      href={getEtherscanLink(route.txHash, 'transaction', route.fromChain)}
-    >
-      <Flex sx={styles.historicalTxContainer}>
-        {/* Header Section */}
-        <Flex
-          sx={{
-            justifyContent: 'space-between',
-          }}
-        >
-          <Text sx={{ fontSize: '14px', fontWeight: '300' }}>{route.date}</Text>
-          <Text sx={{ fontSize: '14px', fontWeight: '300' }}>{route.time}</Text>
-        </Flex>
+    <Flex sx={styles.historicalTxContainer}>
+      {/* Header Section */}
+      <Flex
+        sx={{
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text sx={{ fontSize: '14px', fontWeight: '300' }}>{utcDate}</Text>
+        <Text sx={{ fontSize: '14px', fontWeight: '300' }}>{utcTime + ' UTC'}</Text>
+      </Flex>
 
-        {/* Token Images & Info */}
-        <Flex>
-          <OmniTokenImage size={35} currency={fromCurrency} />
+      {/* Token Images & Info */}
+      <Link key={transactionId} target="_blank" sx={{ textDecoration: 'none' }} href={sending?.txLink}>
+        <Flex sx={styles.tokenInfoContainer}>
+          <OmniTokenImage size={35} currency={fromCurrency as Currency} />
           <Flex sx={{ flexDirection: 'column', ml: '10px' }}>
             <Text sx={{ fontSize: '16px', fontWeight: '700', lineHeight: '14px' }}>
-              {route.fromAmount} {fromCurrency.symbol}
+              {humanOutputAmount(sending?.amount, sending?.token?.decimals)} {sending?.token?.symbol}
             </Text>
             <Text sx={{ fontSize: '12px', fontWeight: '300' }}>
-              ${route.fromAmountUsd} of {fromCurrency.symbol} on {NETWORK_LABEL[route.fromChain as ChainId]}
+              ${sending?.amountUSD} of {sending?.token?.symbol} on {NETWORK_LABEL[sending?.chainId as ChainId]}
             </Text>
           </Flex>
         </Flex>
-        <Flex sx={{ width: '15px', height: '15px', ml: '15px' }}>
-          <Svg icon="arrow" direction="down" />
-        </Flex>
-        <Flex>
-          <OmniTokenImage size={35} currency={toCurrency} />
+      </Link>
+
+      <Flex sx={{ width: '15px', height: '15px', ml: '19px' }}>
+        <Svg icon="arrow" direction="down" />
+      </Flex>
+
+      <Link key={transactionId} target="_blank" sx={{ textDecoration: 'none' }} href={receiving?.txLink || ''}>
+        <Flex sx={styles.tokenInfoContainer}>
+          <OmniTokenImage size={35} currency={toCurrency as Currency} />
           <Flex sx={{ flexDirection: 'column', ml: '10px' }}>
             <Text sx={{ fontSize: '16px', fontWeight: '700', lineHeight: '14px' }}>
-              {route.toAmount} {toCurrency.symbol}
+              {receiving?.token ? (
+                <>
+                  {humanOutputAmount(receiving?.amount, receiving?.token?.decimals)} {receiving?.token?.symbol}
+                </>
+              ) : (
+                <>Transaction Pending</>
+              )}
             </Text>
             <Text sx={{ fontSize: '12px', fontWeight: '300' }}>
-              ${route.toAmountUsd} of {toCurrency.symbol} on {NETWORK_LABEL[route.toChain as ChainId]}
+              {receiving?.token ? (
+                <>
+                  ${receiving?.amountUSD} of {receiving?.token?.symbol} on{' '}
+                  {NETWORK_LABEL[receiving?.chainId as ChainId]}
+                </>
+              ) : (
+                <>in progress on {NETWORK_LABEL[receiving?.chainId as ChainId]}...</>
+              )}
             </Text>
           </Flex>
         </Flex>
+      </Link>
 
-        {/* Status */}
+      {/* Status */}
+      <Tooltip
+        placement={'topRight'}
+        transformTip={`translate(15px, -12px)`}
+        body={<Flex>{substatusMessage}</Flex>}
+        sx={{ width: '200px' }}
+      >
         <Flex sx={styles.statusContainer}>
-          {route.status === 'success' ? (
+          {status === 'DONE' ? (
             <Svg width="20px" height="20px" icon="success" />
-          ) : route.status === 'failed' ? (
+          ) : status === 'FAILED' ? (
             <Svg width="20px" height="20px" color="error" icon="error" />
           ) : (
             <Spinner width="20px" height="20px" />
           )}
         </Flex>
-      </Flex>
-    </Link>
+      </Tooltip>
+    </Flex>
   )
 }
 export default TransactionContainer
