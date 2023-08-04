@@ -5,7 +5,6 @@ import TransactionContainer from './TransactionContainer'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
-import { useEffect } from 'react'
 import useFetchLifiTxHistory from 'state/swap/hooks/useFetchLifiTxHistory'
 
 // Types, Constants, Utils
@@ -19,9 +18,9 @@ const TransactionHistory = ({ onDismiss }: { onDismiss?: () => void }) => {
 
   const transactions = (rawTransactions || []).sort((a, b) => {
     if (a.status === 'PENDING' && b.status !== 'PENDING') {
-      return -1 // 'PENDING' status comes first
+      return -1
     } else if (a.status !== 'PENDING' && b.status === 'PENDING') {
-      return 1 // 'PENDING' status comes first
+      return 1
     } else {
       // if both transactions have the same status, sort by timestamp
       return b.sending.timestamp - a.sending.timestamp
