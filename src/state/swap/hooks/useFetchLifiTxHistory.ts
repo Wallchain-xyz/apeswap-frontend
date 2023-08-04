@@ -6,6 +6,7 @@ const useFetchLifiTxHistory = (account: string) => {
   const { isLoading, error, data, refetch } = useQuery(
     ['fetchLifiTxHistory'],
     async () => {
+      if (!account) return []
       const response = await axios.get(
         `https://li.quest/v1/analytics/wallets/${account}?integrator=apeswap&fromTimestamp=${Math.floor(
           Date.now() / 1000 - 86400 * 30,

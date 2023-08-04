@@ -24,7 +24,9 @@ const TransactionContainer = ({ transaction }: { transaction: LiFiTransaction })
     return n < 10 ? '0' + n : n
   }
   const date = new Date(sending?.timestamp * 1000)
-  let utcDate = date.getUTCFullYear() + '-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate())
+  const utcDateObj = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
+  let options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' }
+  let utcDate = utcDateObj.toLocaleDateString('en-US', options)
   let utcTime = pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes())
 
   return (
@@ -40,7 +42,7 @@ const TransactionContainer = ({ transaction }: { transaction: LiFiTransaction })
       </Flex>
 
       {/* Token Images & Info */}
-      <Link key={transactionId} target="_blank" sx={{ textDecoration: 'none' }} href={sending?.txLink}>
+      <Link target="_blank" sx={{ textDecoration: 'none' }} href={sending?.txLink}>
         <Flex sx={styles.tokenInfoContainer}>
           <OmniTokenImage size={35} currency={fromCurrency as Currency} />
           <Flex sx={{ flexDirection: 'column', ml: '10px' }}>
@@ -58,7 +60,7 @@ const TransactionContainer = ({ transaction }: { transaction: LiFiTransaction })
         <Svg icon="arrow" direction="down" />
       </Flex>
 
-      <Link key={transactionId} target="_blank" sx={{ textDecoration: 'none' }} href={receiving?.txLink || ''}>
+      <Link target="_blank" sx={{ textDecoration: 'none' }} href={receiving?.txLink || ''}>
         <Flex sx={styles.tokenInfoContainer}>
           <OmniTokenImage size={35} currency={toCurrency as Currency} />
           <Flex sx={{ flexDirection: 'column', ml: '10px' }}>

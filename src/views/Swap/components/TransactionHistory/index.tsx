@@ -5,6 +5,7 @@ import TransactionContainer from './TransactionContainer'
 
 // Hooks
 import { useWeb3React } from '@web3-react/core'
+import { useEffect } from 'react'
 import useFetchLifiTxHistory from 'state/swap/hooks/useFetchLifiTxHistory'
 
 // Types, Constants, Utils
@@ -15,10 +16,17 @@ const TransactionHistory = ({ onDismiss }: { onDismiss?: () => void }) => {
   const { account } = useWeb3React()
 
   const { isLoading, data: rawTransactions } = useFetchLifiTxHistory(account || '')
-  // Sort by pending first, then by timestamp
-  const transactions = (rawTransactions || []).sort((a, b) =>
-    a.status === 'PENDING' ? -2 : a.sending.timestamp > b.sending.timestamp ? -1 : 1,
-  )
+
+  const transactions = (rawTransactions || []).sort((a, b) => {
+    if (a.status === 'PENDING' && b.status !== 'PENDING') {
+      return -1 // 'PENDING' status comes first
+    } else if (a.status !== 'PENDING' && b.status === 'PENDING') {
+      return 1 // 'PENDING' status comes first
+    } else {
+      // if both transactions have the same status, sort by timestamp
+      return b.sending.timestamp - a.sending.timestamp
+    }
+  })
 
   return (
     <Modal sx={{ height: '540px', width: '380px' }}>
@@ -39,7 +47,7 @@ const TransactionHistory = ({ onDismiss }: { onDismiss?: () => void }) => {
       ) : transactions.length > 0 ? (
         <Flex sx={{ flexDirection: 'column', gap: '10px' }}>
           {transactions.map((transaction: LiFiTransaction) => {
-            return <TransactionContainer key={transaction.transactionId} transaction={transaction} />
+            return <TransactionContainer key={transaction?.transactionId} transaction={transaction} />
           })}
         </Flex>
       ) : (

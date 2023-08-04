@@ -1,14 +1,20 @@
-import React from 'react'
-import { useTranslation } from 'contexts/Localization'
+// Components
 import styles from './styles'
-import { useRouter } from 'next/router'
-import useModal from 'hooks/useModal'
 import { Flex, Link, Svg, Text } from 'components/uikit'
-import { useWeb3React } from '@web3-react/core'
 import DexSettings from 'components/DexSettings'
 import ZapSlippage from '../ZapSlippage'
-import { ChainId, DEX_ONLY_CHAINS } from 'config/constants/chains'
 import TransactionHistory from 'views/Swap/components/TransactionHistory'
+
+// Hooks
+import React, { useEffect } from 'react'
+import { useTranslation } from 'contexts/Localization'
+import { useRouter } from 'next/router'
+import useModal from 'hooks/useModal'
+import { useWeb3React } from '@web3-react/core'
+import useFetchLifiTxHistory from 'state/swap/hooks/useFetchLifiTxHistory'
+
+// Types, Constants, Utils
+import { ChainId, DEX_ONLY_CHAINS } from 'config/constants/chains'
 
 interface DexNavProps {
   zapSettings?: boolean
@@ -17,7 +23,14 @@ interface DexNavProps {
 const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
   const { t } = useTranslation()
   const { pathname, push } = useRouter()
-  const { chainId } = useWeb3React()
+  const { chainId, account } = useWeb3React()
+  const { refetch, data: rawTransactions } = useFetchLifiTxHistory(account || '')
+
+  // Check for pending txs & refetch on any account changes
+  const isPendingTx = rawTransactions?.some((tx) => tx?.status === 'PENDING')
+  useEffect(() => {
+    refetch()
+  }, [account, refetch])
 
   const onLiquidity =
     pathname?.includes('add-liquidity') ||
@@ -77,7 +90,8 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
-          <Flex sx={{ cursor: 'pointer', mb: '6px', ml: '2px' }} onClick={onViewTxHistory}>
+          <Flex sx={{ cursor: 'pointer', mb: '6px', ml: '2px', position: 'relative' }} onClick={onViewTxHistory}>
+            {isPendingTx && <Flex sx={styles.pendingTxDot}></Flex>}
             <Svg icon="receipt" />
           </Flex>
           <Flex
