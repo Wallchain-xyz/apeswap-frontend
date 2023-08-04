@@ -1,16 +1,13 @@
 import { useWeb3React } from '@web3-react/core'
-import { BANANA_ADDRESSES } from 'config/constants/addresses'
 import BigNumber from 'bignumber.js'
-import { usePriceGetter } from 'hooks/useContract'
 import useDebounce from 'hooks/useDebounce'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
-import { useSingleCallResult } from 'lib/hooks/multicall'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { supportedChainId } from 'utils/supportedChainId'
 import { setBananaPrice, updateChainId, updateProfileImage } from './reducer'
-import { useGetProfilePic } from './hooks'
+import { useBananaPriceOnBnb, useGetProfilePic } from './hooks'
 import { updateSelectedNetwork } from '../user/reducer'
 import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
 import useSelectChain from '../../hooks/useSelectChain'
@@ -78,13 +75,8 @@ export default function Updater(): null {
     }
   }, [profileImage, account, dispatch])
 
-  const priceGetter = usePriceGetter()
-  const { result: bananaPrice } = useSingleCallResult(priceGetter, 'getPrice', [
-    BANANA_ADDRESSES[chainId || ChainId.BSC],
-    0,
-  ])
-
-  const price = getBalanceNumber(new BigNumber(bananaPrice?.toString() || '0'))
+  const fetchBananaPrice = useBananaPriceOnBnb()
+  const price = getBalanceNumber(new BigNumber(fetchBananaPrice || '0'))
 
   useEffect(() => {
     if (price) {
