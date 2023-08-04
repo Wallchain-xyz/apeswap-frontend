@@ -6,10 +6,12 @@ import Input from './Input'
 const NumericInput = ({
   onUserInput,
   value,
+  disabled,
   style,
 }: {
   onUserInput?: (input: string) => void
   value: string
+  disabled?: boolean
   style?: ThemeUIStyleObject
 }) => {
   return (
@@ -24,6 +26,7 @@ const NumericInput = ({
         ':focus': { outline: 'none' },
         ...style,
       }}
+      disabled={disabled}
       value={value}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
         onUserInput && onUserInput(e.target.value)

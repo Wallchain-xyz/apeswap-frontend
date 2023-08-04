@@ -144,6 +144,7 @@ const Swap = () => {
           currency={currencies[Field.OUTPUT]?.currency}
           currencyChain={currencies[Field.OUTPUT]?.chain}
           disabled
+          outputPanel={true}
           apiPrice={selectedRoute?.toAmountUSD}
         />
         {!showWrap && routeIsLoading ? (

@@ -19,6 +19,7 @@ const OmniChainPanel = ({
   handleMaxInput,
   fieldType,
   disabled,
+  outputPanel,
   independentField,
   disableTokenSelect,
   apiPrice,
@@ -37,7 +38,7 @@ const OmniChainPanel = ({
     <Flex sx={styles.dexPanelContainer}>
       <Flex sx={styles.panelTopContainer}>
         <Text sx={styles.swapDirectionText}>{panelText}</Text>
-        <NumericInput onUserInput={onUserInput} value={value} />
+        <NumericInput disabled={outputPanel as boolean} onUserInput={onUserInput} value={value} />
         <TokenSelector currency={currency} onCurrencySelect={onCurrencySelect} isOmniChain />
       </Flex>
       <Flex sx={styles.panelBottomContainer}>

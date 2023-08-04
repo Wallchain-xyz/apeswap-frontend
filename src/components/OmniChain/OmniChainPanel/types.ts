@@ -13,6 +13,7 @@ export interface OmniChainPanelProps {
   fieldType?: any
   showCommonBases?: boolean
   disabled?: boolean
+  outputPanel?: boolean
   ordersDisabled?: boolean
   independentField?: any
   disableTokenSelect?: boolean
