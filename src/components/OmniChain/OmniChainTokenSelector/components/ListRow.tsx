@@ -41,6 +41,8 @@ const ListRow = ({
     ).then(() => '')
   }
 
+  const hideDust = userBalance === '0.000000000000000001' ? '0' : userBalance
+
   return (
     <Flex
       sx={{
@@ -93,7 +95,7 @@ const ListRow = ({
         </Flex>
       </Flex>
       <Text size="14px" weight={600} sx={{ lineHeight: '0px' }}>
-        {userBalance}
+        {hideDust}
       </Text>
     </Flex>
   )

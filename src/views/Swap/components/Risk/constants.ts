@@ -1,6 +1,6 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { ChainId } from 'config/constants/chains'
 
-export const riskSupportedChains = [SupportedChainId.BSC]
+export const riskSupportedChains = [ChainId.BSC]
 
 export const TOKEN_RISK = {
   VERY_LOW: 0,

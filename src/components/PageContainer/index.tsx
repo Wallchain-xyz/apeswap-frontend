@@ -1,6 +1,5 @@
 import FloatingDocs from 'components/FloatingDocs'
 import { TOP_NAV_HEIGHT } from 'components/NavBarNew/styles'
-import NetworkMonitor from 'components/NetworkMonitor'
 import { Flex } from 'components/uikit'
 import { customMeta, DEFAULT_META } from 'config/constants/meta'
 import Head from 'next/head'
@@ -9,7 +8,7 @@ import { CSSProperties } from 'theme-ui'
 
 const variants = {
   dex: {
-    mt: ['75px', '75px', '75px', '75px', '75px', '75px'],
+    mt: ['25px', '25px', '25px', '25px', '75px', '75px'],
     mb: ['100px', '100px', '100px', '100px', '100px', '100px'],
     justifyContent: 'center',
   },
@@ -102,7 +101,6 @@ const PageContainer = ({
           {children}
         </Flex>
         <FloatingDocs />
-        {variant === 'dex' && <NetworkMonitor />}
       </Flex>
     </>
   )

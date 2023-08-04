@@ -258,9 +258,12 @@ export function useDefaultsFromURLSearch(): SwapState {
   const parsedSwapState = useMemo(() => {
     return queryParametersToSwapState(query)
   }, [query])
+  const { typedValue } = useSwapState()
 
   useEffect(() => {
-    if (!chainId) return
+    //if there's a typed value is because the user already picked a route he's interested in, so we don't
+    //want to reset the swap state
+    if (!chainId || typedValue) return
     const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? 'eth'
     const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? bananaAddress
 
