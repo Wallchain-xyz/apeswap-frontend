@@ -1,18 +1,18 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 
-const styles: Record<'historicalTxContainer' | 'emptyHistoryContainer' | 'statusContainer', ThemeUIStyleObject> = {
+const styles: Record<
+  'historicalTxContainer' | 'emptyHistoryContainer' | 'statusContainer' | 'tokenInfoContainer',
+  ThemeUIStyleObject
+> = {
   historicalTxContainer: {
-    height: '150px',
+    height: '160px',
     flexDirection: 'column',
     bg: 'white3',
     borderRadius: '10px',
     py: '6px',
     px: '10px',
-    gap: '8px',
+    gap: '2px',
     position: 'relative',
-    ':hover': {
-      bg: 'white4',
-    },
   },
   emptyHistoryContainer: {
     flexDirection: 'column',
@@ -23,8 +23,15 @@ const styles: Record<'historicalTxContainer' | 'emptyHistoryContainer' | 'status
   },
   statusContainer: {
     position: 'absolute',
-    bottom: '10px',
-    right: '10px',
+    bottom: '5px',
+    right: '5px',
+  },
+  tokenInfoContainer: {
+    p: '8px 4px 4px 4px',
+    borderRadius: '8px',
+    ':hover': {
+      bg: 'white4',
+    },
   },
 }
 
