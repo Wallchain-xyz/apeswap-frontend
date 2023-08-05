@@ -1,6 +1,4 @@
-import { Route } from '@lifi/sdk'
-
-export const oldRoute: Route = {
+export const oldRoute: any = {
   id: '0xf645aa5a2b899c5dda62f17b25409e0d8f76cd7ab363883fa73bdff63a63e1e3',
   fromChainId: 56,
   fromAmountUSD: '1.77',
