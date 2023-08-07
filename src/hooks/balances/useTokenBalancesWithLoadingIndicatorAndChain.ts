@@ -33,6 +33,9 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
 
   const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt?.address), [validatedTokens])
 
+  //this is ussed to control the useEffect triggering the rpc calls
+  const stringified = JSON.stringify(validatedTokenAddresses)
+
   const calls: Call[] = useMemo(
     () =>
       validatedTokenAddresses.map((token) => ({
@@ -40,7 +43,8 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
         name: 'balanceOf',
         params: [account],
       })),
-    [validatedTokenAddresses.length, account],
+    /* eslint-disable react-hooks/exhaustive-deps */
+    [stringified, account],
   )
 
   useEffect(() => {
