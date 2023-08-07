@@ -278,7 +278,7 @@ export const CHAIN_PARAMS: Record<ChainId, ChainParamContent> = {
       name: 'xDai',
       symbol: 'xDai',
       decimals: 18,
-      logo: 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/DAI.svg',
+      logo: 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/XDAI.svg',
     },
     blockExplorerUrls: [BLOCK_EXPLORER[ChainId.GNOSIS]],
     logoURI: 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/gnosis.svg',

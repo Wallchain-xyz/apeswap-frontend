@@ -88,7 +88,7 @@ export const humanOutputAmount = (amount: string, decimals: number, precision?: 
 }
 
 export const getTxHashFromRoute = (route: Route | undefined, allowBridge: boolean = false) => {
-  return route?.steps?.[0]?.execution?.process?.find((tx) =>
-    tx?.type === 'SWAP' || allowBridge ? tx?.type === 'CROSS_CHAIN' : false,
+  return route?.steps?.[0]?.execution?.process?.find(
+    (tx) => tx?.type === 'SWAP' || (allowBridge ? tx?.type === 'CROSS_CHAIN' : false),
   )?.txHash
 }

@@ -24,7 +24,7 @@ import JSBI from 'jsbi'
 import SwapAssetNotice from './components/SwapAssetNotice'
 import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
-import { useCurrencyBalancesWithChain } from 'hooks/balances/useCurrenciesBalancesWithChain'
+import { useCurrencyBalanceWithChain } from '../../hooks/balances/useCurrencyBalanceWithChain'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -54,11 +54,11 @@ const Swap = () => {
       ? CurrencyAmount.fromRawAmount(currencies?.INPUT?.currency, JSBI.BigInt(selectedRoute?.fromAmount))
       : undefined
 
-  const inputCurrencyBalance = useCurrencyBalancesWithChain(
+  const inputCurrencyBalance = useCurrencyBalanceWithChain(
     account,
-    [currencies?.INPUT?.currency ?? undefined],
+    currencies?.INPUT?.currency ?? undefined,
     currencies?.INPUT?.currency?.chainId,
-  )?.[0]
+  )
 
   const maxInputAmount: CurrencyAmount<Currency> | undefined = useMemo(
     () => maxAmountSpend(inputCurrencyBalance),
@@ -86,7 +86,7 @@ const Swap = () => {
           panelText="From"
           value={typedValue}
           currency={currencies[Field.INPUT].currency}
-          currencyChain={currencies[Field.INPUT].chain}
+          currencyChain={currencies[Field.INPUT].currency?.chainId}
           onCurrencySelect={(currency, chain) => onCurrencySelection(Field.INPUT, currency, chain)}
           onUserInput={(val) => onUserInput(Field.INPUT, val)}
           handleMaxInput={() => maxInputAmount && onUserInput(Field.INPUT, maxInputAmount.toExact())}
@@ -103,7 +103,7 @@ const Swap = () => {
           value={parsedOutput}
           onCurrencySelect={(currency, chain) => onCurrencySelection(Field.OUTPUT, currency, chain)}
           currency={currencies[Field.OUTPUT]?.currency}
-          currencyChain={currencies[Field.OUTPUT]?.chain}
+          currencyChain={currencies[Field.OUTPUT]?.currency?.chainId}
           disabled
           apiPrice={selectedRoute?.toAmountUSD}
         />

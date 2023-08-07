@@ -7,8 +7,8 @@ import { Flex, NumericInput, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
 import TokenSelector from 'components/TokenSelector'
 import Dots from 'components/Dots'
-import useCurrencyBalanceWithChain from 'hooks/balances/useCurrencyBalanceWithChain'
 import { Field } from 'state/swap/actions'
+import { useCurrencyBalanceWithChain } from 'hooks/balances/useCurrencyBalanceWithChain'
 
 const OmniChainPanel = ({
   panelText,
@@ -28,6 +28,7 @@ const OmniChainPanel = ({
     currency ?? undefined,
     currencyChain ?? undefined,
   )
+
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6) || '0'
   const hideDust = currencyBalance === '0.000000000000000001' ? '0' : currencyBalance
 

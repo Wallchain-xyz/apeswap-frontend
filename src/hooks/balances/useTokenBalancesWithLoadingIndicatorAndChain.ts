@@ -7,12 +7,14 @@ import { useWeb3React } from '@web3-react/core'
 import erc20ABI from '../../config/abi/erc20.json'
 import BigNumber from 'bignumber.js'
 import { ChainId } from '../../config/constants/chains'
+import useRefresh from '../useRefresh'
 
 export function useTokenBalancesWithLoadingIndicatorAndChain(
   tokens?: (Token | undefined)[],
   chain?: ChainId,
 ): [{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }, boolean] {
   const { chainId, account } = useWeb3React()
+  const { fastRefresh } = useRefresh()
 
   const selectedChain = chain ?? chainId
 
@@ -26,7 +28,7 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
         return isAddress(t?.address) !== false && t?.chainId === selectedChain
       }) ?? [],
 
-    [selectedChain, tokens?.length],
+    [selectedChain, tokens],
   )
 
   const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt?.address), [validatedTokens])
@@ -38,7 +40,7 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
         name: 'balanceOf',
         params: [account],
       })),
-    [validatedTokenAddresses, account],
+    [validatedTokenAddresses.length, account],
   )
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
       }
     }
     fetchData()
-  }, [selectedChain, calls, account])
+  }, [selectedChain, calls, account, fastRefresh])
 
   return useMemo(
     () => [

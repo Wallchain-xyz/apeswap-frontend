@@ -4,8 +4,8 @@ import { ChainId } from 'config/constants/chains'
 
 export function useTokenBalancesWithChain(
   address?: string,
-  tokens?: (Token | undefined)[],
+  tokens?: Token | undefined,
   chain?: ChainId,
 ): { [tokenAddress: string]: CurrencyAmount<Token> | undefined } {
-  return useTokenBalancesWithLoadingIndicatorAndChain(tokens, chain)[0]
+  return useTokenBalancesWithLoadingIndicatorAndChain([tokens], chain)[0]
 }

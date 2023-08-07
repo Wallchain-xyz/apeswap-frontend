@@ -19,6 +19,7 @@ const transactionSlice = createSlice({
   reducers: {
     addTransaction(transactions, { payload: { chainId, from, hash, info } }) {
       if (transactions[chainId]?.[hash]) return
+      console.log('transaction added')
       const txs = transactions[chainId] ?? {}
       txs[hash] = { hash, info, from, addedTime: now() }
       transactions[chainId] = txs
