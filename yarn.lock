@@ -20,10 +20,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ape.swap/apeswap-lists@1.4.6":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.6.tgz#62dbbc93c08b7fa025b80138cdefc3e95c682ee0"
-  integrity sha512-dlMiRCowbb4msViE5fW77apQ3bMtrPLmCrIFHWseth87uz+6bYJgkh6oBPD84Xl2H5shMFcwndv0mvWaERjKEQ==
+"@ape.swap/apeswap-lists@1.4.8":
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.8.tgz#b31e6babcfb9902fe1d430a3a66e81cf0881ea85"
+  integrity sha512-VfMvxVjuXXcOXGbTWlyvYL7QKis8RVU0o/U7dsMoFfwaJ6TvssX81uNZX1nrwgleOGvS84192VDI8BkrWVs+SA==
   dependencies:
     "@ape.swap/sdk" "4.4.0"
     bignumber.js "^9.0.2"
@@ -92,10 +92,10 @@
     node-cache "^5.1.2"
     stats-lite "^2.2.0"
 
-"@ape.swap/token-lists@1.0.56":
-  version "1.0.56"
-  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.56.tgz#3a21b02d0a17511d8ea191f43753fe7febc07c95"
-  integrity sha512-s6sV9rWSNTHCpjNK/Ps8gGudUyYAMh9t+Ov1YVYYcgPcRgswdSRcQ0BCv/c3IX10lQiKKeFsuPWzAbT/Yydp2Q==
+"@ape.swap/token-lists@1.0.59":
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.59.tgz#3d106d8d3eb52df7e11b732a24e4aaab3484924f"
+  integrity sha512-T4Qn1IjpRMOW/LaoB/M1CkkmnC9fZqnAKdKilS2CNz54VkmcMVg3fVF75tKvTw5se8vpEpYK9tOtocaWhLNc/A==
 
 "@ape.swap/token-lists@^1.0.6":
   version "1.0.53"

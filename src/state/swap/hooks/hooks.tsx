@@ -270,17 +270,17 @@ export function useDefaultsFromURLSearch(): SwapState {
       ? bananaAddress
       : usdcAddress
 
-    const inputChain = parsedSwapState[Field.INPUT].chain ?? chainId
-    const outputChain = parsedSwapState[Field.OUTPUT].chain ?? chainId
+    // const inputChain = parsedSwapState[Field.INPUT].chain ?? chainId
+    // const outputChain = parsedSwapState[Field.OUTPUT].chain ?? chainId
 
     dispatch(
       replaceSwapState({
         typedValue: parsedSwapState.typedValue,
         field: parsedSwapState.independentField,
         inputCurrencyId,
-        inputChain,
+        inputChain: chainId,
         outputCurrencyId,
-        outputChain,
+        outputChain: chainId,
         recipient: parsedSwapState.recipient,
       }),
     )
