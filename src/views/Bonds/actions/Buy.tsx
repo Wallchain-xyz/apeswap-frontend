@@ -29,6 +29,10 @@ import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
 
+// Hooks
+import useGetWidoQuote from 'state/bills/hooks/useGetWidoQuote'
+
+// TODO: Add wido hook for quote here
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
     token,
@@ -79,6 +83,12 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
 
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
+  const bondContractAddress = contractAddress[chainId as SupportedChainId] || ''
+  const { data: widoQuote, isLoading } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
+  if (!isLoading) {
+    console.log({ widoQuote })
+  }
+
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
   const { callback: zapCallback } = useZapCallback(
     zap,
