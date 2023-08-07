@@ -34,7 +34,7 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
   const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt?.address), [validatedTokens])
 
   //this is ussed to control the useEffect triggering the rpc calls
-  const stringified = JSON.stringify(validatedTokenAddresses)
+  const stringified = JSON.stringify(validatedTokenAddresses) + selectedChain
 
   const calls: Call[] = useMemo(
     () =>
