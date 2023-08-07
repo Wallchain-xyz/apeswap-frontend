@@ -15,7 +15,7 @@ export function useCurrencyBalancesWithChain(
   )
 
   const tokenBalances = useTokenBalancesWithChain(account, tokens, chain)
-  const ethBalance = useNativeCurrencyBalances(currencies?.[0]?.chainId)
+  const ethBalance = useNativeCurrencyBalances(currencies?.find((currency) => currency?.isNative)?.chainId)
 
   return useMemo(
     () =>

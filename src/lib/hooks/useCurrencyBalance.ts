@@ -4,16 +4,13 @@ import { useWeb3React } from '@web3-react/core'
 import ERC20ABI from 'config/abi/erc20.json'
 
 import JSBI from 'jsbi'
-import { useMultipleContractSingleData, useSingleContractMultipleData } from 'lib/hooks/multicall'
+import { useMultipleContractSingleData } from 'lib/hooks/multicall'
 import { useEffect, useMemo, useState } from 'react'
 
-import { nativeOnChain } from 'config/constants/tokens'
-import { useInterfaceMulticall } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { Erc20Interface } from 'config/abi/types/Erc20'
 import { ChainId } from '../../config/constants/chains'
-import multicall, { Call, getNativeBalance } from '../../utils/multicall'
-import erc20ABI from '../../config/abi/erc20.json'
+import multicall from '../../utils/multicall'
 import BigNumber from 'bignumber.js'
 import useNativeCurrency from './useNativeCurrency'
 import multicallV2Abi from '../../config/abi/multicallv2.json'
@@ -45,9 +42,7 @@ export function useNativeCurrencyBalances(
       setLoading(true)
       if (!chain || calls?.length === 0 || !account) return
       try {
-        //TODO: fix this shit
-        //const data = await multicall(chain, multicallV2Abi, calls)
-        const data = await getNativeBalance(account, chain)
+        const data = await multicall(chain, multicallV2Abi, calls)
         setResult([data])
       } catch (error) {
         console.error(error)
@@ -60,7 +55,7 @@ export function useNativeCurrencyBalances(
 
   const native = useNativeCurrency(chain)
 
-  const value = new BigNumber(result[0] ?? 0).times(new BigNumber(10).pow(18)).toString()
+  const value = new BigNumber(result[0] ?? 0).toString()
   const amount = value ? JSBI.BigInt(value) : undefined
 
   return useMemo(

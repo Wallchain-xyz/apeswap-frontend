@@ -39,20 +39,3 @@ const multicall = async (chainId: number, abi: any[], calls: Call[], batch?: boo
 }
 
 export default multicall
-
-export const getNativeBalance = async (account?: string, chain?: ChainId) => {
-  const lifi = new LiFi({ integrator: 'apeswap' })
-  if (!account || !chain) return
-  const asd: Token = {
-    address: '0x0000000000000000000000000000000000000000',
-    //@ts-ignore
-    chainId: chain,
-    coinKey: undefined,
-    decimals: 18,
-    name: CHAIN_PARAMS[chain].nativeCurrency.name.toUpperCase(),
-    priceUSD: '0',
-    symbol: CHAIN_PARAMS[chain].nativeCurrency.symbol.toUpperCase(),
-  }
-  const asd2 = await lifi.getTokenBalance(account, asd)
-  return asd2?.amount
-}
