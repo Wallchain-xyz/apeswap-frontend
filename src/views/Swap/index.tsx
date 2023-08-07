@@ -24,50 +24,11 @@ import JSBI from 'jsbi'
 import SwapAssetNotice from './components/SwapAssetNotice'
 import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
-import { useCurrencyBalancesWithChain } from '../../hooks/balances/useCurrenciesBalancesWithChain'
+import { useCurrencyBalancesWithChain } from 'hooks/balances/useCurrenciesBalancesWithChain'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
   const { account, chainId } = useWeb3React()
-
-  // TODO: Add token warning stuff
-
-  // token warning stuff
-  // const [loadedInputCurrency, loadedOutputCurrency] = [
-  //   useCurrency(loadedUrlParams?.[Field.INPUT]?.currencyId),
-  //   useCurrency(loadedUrlParams?.[Field.OUTPUT]?.currencyId),
-  // ]
-
-  // const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
-  // const urlLoadedTokens: Token[] = useMemo(
-  //   () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
-  //   [loadedInputCurrency, loadedOutputCurrency],
-  // )
-
-  // const handleConfirmTokenWarning = useCallback(() => {
-  //   setDismissTokenWarning(true)
-  // }, [])
-
-  // dismiss warning if all imported tokens are in active lists
-  // const defaultTokens = useAllTokens()
-  // const importTokensNotInDefault = useMemo(
-  //   () =>
-  //     urlLoadedTokens &&
-  //     urlLoadedTokens
-  //       .filter((token: Token) => {
-  //         return !(token.address in defaultTokens)
-  //       })
-  //       .filter((token: Token) => {
-  //         // Any token addresses that are loaded from the shorthands map do not need to show the import URL
-  //         const supported = supportedChainId(chainId)
-  //         if (!supported) return true
-  //         return !Object.keys(TOKEN_SHORTHANDS).some((shorthand) => {
-  //           const shorthandTokenAddress = TOKEN_SHORTHANDS[shorthand][supported]
-  //           return shorthandTokenAddress && shorthandTokenAddress === token.address
-  //         })
-  //       }),
-  //   [chainId, defaultTokens, urlLoadedTokens],
-  // )
 
   // swap state
   const { typedValue } = useSwapState()
@@ -139,12 +100,11 @@ const Swap = () => {
         </Flex>
         <OmniChainPanel
           panelText="To"
-          onCurrencySelect={(currency, chain) => onCurrencySelection(Field.OUTPUT, currency, chain)}
           value={parsedOutput}
+          onCurrencySelect={(currency, chain) => onCurrencySelection(Field.OUTPUT, currency, chain)}
           currency={currencies[Field.OUTPUT]?.currency}
           currencyChain={currencies[Field.OUTPUT]?.chain}
           disabled
-          outputPanel={true}
           apiPrice={selectedRoute?.toAmountUSD}
         />
         {!showWrap && routeIsLoading ? (

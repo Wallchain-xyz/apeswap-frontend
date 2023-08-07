@@ -2,8 +2,9 @@ import { Flex, Svg } from 'components/uikit'
 import React, { useState } from 'react'
 import { Currency } from '@ape.swap/sdk-core'
 import { TokenInfo } from '@uniswap/token-lists'
-import { ChainId, NETWORK_ICONS } from '../../../config/constants/chains'
+import { CHAIN_PARAMS, ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { Box } from 'theme-ui'
+import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 
 // The purpose of this component is to load token images of unknown sources and to use a custom image if load fails
 
@@ -23,8 +24,14 @@ const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: n
             position: 'relative',
           }}
         >
-          {currency?.isNative ? (
-            <Svg width={size} height={size} icon={NETWORK_ICONS?.[currency?.chainId as ChainId] ?? 'question'} />
+          {currency?.isNative || currency.equals(WRAPPED_NATIVE_CURRENCY[currency?.chainId] as Currency) ? (
+            <img
+              width={size}
+              height={size}
+              src={CHAIN_PARAMS?.[currency?.chainId as ChainId]?.nativeCurrency.logo ?? 'question'}
+              style={{ borderRadius: `${size}px` }}
+              onError={() => setError(true)}
+            />
           ) : (
             <img
               src={`${(currency as TokenInfo).logoURI}`}

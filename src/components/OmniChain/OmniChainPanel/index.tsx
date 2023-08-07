@@ -8,6 +8,7 @@ import { useWeb3React } from '@web3-react/core'
 import TokenSelector from 'components/TokenSelector'
 import Dots from 'components/Dots'
 import useCurrencyBalanceWithChain from 'hooks/balances/useCurrencyBalanceWithChain'
+import { Field } from 'state/swap/actions'
 
 const OmniChainPanel = ({
   panelText,
@@ -17,11 +18,7 @@ const OmniChainPanel = ({
   onCurrencySelect,
   onUserInput,
   handleMaxInput,
-  fieldType,
   disabled,
-  outputPanel,
-  independentField,
-  disableTokenSelect,
   apiPrice,
 }: OmniChainPanelProps) => {
   const { t } = useTranslation()
@@ -29,7 +26,7 @@ const OmniChainPanel = ({
   const selectedCurrencyBalance = useCurrencyBalanceWithChain(
     account ?? undefined,
     currency ?? undefined,
-    currencyChain ?? undefined, //make this dynamic and see if it is actually necessary
+    currencyChain ?? undefined,
   )
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6) || '0'
   const hideDust = currencyBalance === '0.000000000000000001' ? '0' : currencyBalance
@@ -38,7 +35,7 @@ const OmniChainPanel = ({
     <Flex sx={styles.dexPanelContainer}>
       <Flex sx={styles.panelTopContainer}>
         <Text sx={styles.swapDirectionText}>{panelText}</Text>
-        <NumericInput disabled={outputPanel as boolean} onUserInput={onUserInput} value={value} />
+        <NumericInput disabled={disabled} onUserInput={onUserInput} value={value} />
         <TokenSelector currency={currency} onCurrencySelect={onCurrencySelect} isOmniChain />
       </Flex>
       <Flex sx={styles.panelBottomContainer}>
@@ -46,7 +43,7 @@ const OmniChainPanel = ({
           sx={{
             alignItems: 'center',
             justifyContent: 'center',
-            opacity: independentField && independentField !== fieldType && disabled && 0.4,
+            opacity: disabled && 0.4,
           }}
         >
           {value && (
@@ -68,7 +65,7 @@ const OmniChainPanel = ({
             </Text>
             {!hideDust && <Dots />}
             {parseFloat(hideDust) > 0 && handleMaxInput && (
-              <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(fieldType)}>
+              <Flex sx={styles.maxButton} size="sm" onClick={() => handleMaxInput(Field.INPUT)}>
                 <Text color="primaryBright" sx={{ lineHeight: '0px' }}>
                   {t('MAX')}
                 </Text>
