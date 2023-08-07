@@ -3,7 +3,13 @@ import { SvgProps } from '../types'
 
 const BSC: React.FC<SvgProps> = ({ width }) => {
   return (
-    <svg width={width || '25'} viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={width || '25'}
+      height={width || '25'}
+      viewBox="0 0 25 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M12.4722 24C19.0996 24 24.4722 18.6274 24.4722 12C24.4722 5.37258 19.0996 0 12.4722 0C5.84475 0 0.472168 5.37258 0.472168 12C0.472168 18.6274 5.84475 24 12.4722 24Z"
         fill="#F3BA2F"

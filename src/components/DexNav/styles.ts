@@ -10,7 +10,8 @@ const styles: Record<
   | 'liquiditySelector'
   | 'liquiditySelectorContainer'
   | 'migrate'
-  | 'iconCover',
+  | 'iconCover'
+  | 'pendingTxDot',
   ThemeUIStyleObject
 > = {
   // Token selector container
@@ -71,6 +72,16 @@ const styles: Record<
     cursor: 'pointer',
     alignItems: 'flex-start',
     justifyContent: 'center',
+  },
+  pendingTxDot: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '50%',
+    bg: 'red',
+    position: 'absolute',
+    zIndex: '10',
+    right: '-2px',
+    top: '-2px',
   },
 }
 

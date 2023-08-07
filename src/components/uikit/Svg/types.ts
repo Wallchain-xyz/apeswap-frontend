@@ -40,6 +40,14 @@ export enum icons {
   TLOS_TOKEN = 'tlos_token',
   BSC_TOKEN = 'bsc_token',
   ARBITRUM_TOKEN = 'arbitrum_token',
+  AVAX_TOKEN = 'avax_token',
+  OPTIMISM_TOKEN = 'optimism_token',
+  FANTOM_TOKEN = 'fantom_token',
+  CRONOS_TOKEN = 'cronos_token',
+  POLYGONZK_TOKEN = 'polygonzk_token',
+  CELO_TOKEN = 'celo_token',
+  GNOSIS_TOKEN = 'gnosis_token',
+  OKX_TOKEN = 'okx_token',
   DISCORD = 'discord',
   REDDIT = 'reddit',
   MEDIUM = 'medium',
@@ -113,6 +121,7 @@ export enum icons {
   NAV_CARET = 'navCaret',
   LOGOUT = 'logout',
   WALLET = 'wallet',
+  RECEIPT = 'receipt',
 }
 
 export enum directions {

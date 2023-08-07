@@ -2,6 +2,7 @@ import { Currency, Ether, NativeCurrency, Token, WETH9, SupportedChainId } from 
 import invariant from 'tiny-invariant'
 
 import { BANANA_ADDRESSES } from './addresses'
+import { ChainId } from './chains'
 
 export const NATIVE_CHAIN_ID = 'NATIVE'
 
@@ -160,36 +161,142 @@ export const BANANA: { [chainId: number]: Token } = {
 }
 
 export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } = {
-  ...(WETH9 as Record<SupportedChainId, Token>),
-  [SupportedChainId.POLYGON]: new Token(
-    SupportedChainId.POLYGON,
+  ...(WETH9 as Record<ChainId, Token>),
+  [ChainId.POLYGON]: new Token(
+    ChainId.POLYGON,
     '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
     18,
     'WMATIC',
     'Wrapped MATIC',
   ),
-  [SupportedChainId.BSC]: new Token(
-    SupportedChainId.BSC,
-    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+  [ChainId.BSC]: new Token(ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'),
+  [ChainId.TLOS]: new Token(ChainId.TLOS, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WTLOS', 'Wrapped TLOS'),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
     18,
-    'WBNB',
-    'Wrapped BNB',
+    'WAVAX',
+    'Wrapped AVAX',
   ),
-  [SupportedChainId.TLOS]: new Token(
-    SupportedChainId.TLOS,
-    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+  [ChainId.FANTOM]: new Token(
+    ChainId.FANTOM,
+    '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83',
     18,
-    'WTLOS',
-    'Wrapped TLOS',
+    'WFTM',
+    'Wrapped Fantom',
+  ),
+  [ChainId.POLYGON_ZK]: new Token(
+    ChainId.POLYGON_ZK,
+    '0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9',
+    18,
+    'WETH',
+    'Wrapped ETH',
+  ),
+  [ChainId.CELO]: new Token(ChainId.CELO, '0x471EcE3750Da237f93B8E339c536989b8978a438', 18, 'CELO', 'CELO'),
+  [ChainId.CRONOS]: new Token(ChainId.CRONOS, '0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23', 18, 'WCRO', 'Wrapped CRO'),
+  [ChainId.GNOSIS]: new Token(
+    ChainId.GNOSIS,
+    '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d',
+    18,
+    'WXDAI',
+    'Wrapped xDAI',
   ),
 }
 
-function isMatic(chainId: number): chainId is SupportedChainId.POLYGON {
-  return chainId === SupportedChainId.POLYGON
+function isMatic(chainId: number): chainId is ChainId.POLYGON {
+  return chainId === ChainId.POLYGON
 }
 
-function isBNB(chainId: number): chainId is SupportedChainId.BSC {
-  return chainId === SupportedChainId.BSC
+function isBNB(chainId: number): chainId is ChainId.BSC {
+  return chainId === ChainId.BSC
+}
+
+function isAvax(chainId: number): chainId is ChainId.AVALANCHE {
+  return chainId === ChainId.AVALANCHE
+}
+
+function isFantom(chainId: number): chainId is ChainId.FANTOM {
+  return chainId === ChainId.FANTOM
+}
+
+function isCronos(chainId: number): chainId is ChainId.CRONOS {
+  return chainId === ChainId.CRONOS
+}
+
+function isGnosis(chainId: number): chainId is ChainId.GNOSIS {
+  return chainId === ChainId.GNOSIS
+}
+
+class GnosisNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    if (!isGnosis(this.chainId)) throw new Error('Not Gnosis')
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    if (!isGnosis(chainId)) throw new Error('Not Gnosis')
+    super(chainId, 18, 'xDAI', 'xDai')
+  }
+}
+
+class CronosNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    if (!isCronos(this.chainId)) throw new Error('Not Cronos')
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    if (!isCronos(chainId)) throw new Error('Not Cronos')
+    super(chainId, 18, 'CRO', 'CRO')
+  }
+}
+
+class FantomNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    if (!isFantom(this.chainId)) throw new Error('Not Fantom')
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    if (!isFantom(chainId)) throw new Error('Not Fantom')
+    super(chainId, 18, 'FTM', 'FTM')
+  }
+}
+
+class AvaxNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    if (!isAvax(this.chainId)) throw new Error('Not Avax')
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    if (!isAvax(chainId)) throw new Error('Not Avax')
+    super(chainId, 18, 'AVAX', 'Avax')
+  }
 }
 
 class MaticNativeCurrency extends NativeCurrency {
@@ -243,17 +350,34 @@ class ExtendedEther extends Ether {
 }
 
 const cachedNativeCurrency: { [chainId: number]: NativeCurrency | Token } = {}
+
 export function nativeOnChain(chainId: number): NativeCurrency | Token {
   if (cachedNativeCurrency[chainId]) return cachedNativeCurrency[chainId]
   let nativeCurrency: NativeCurrency | Token
-  if (isMatic(chainId)) {
-    nativeCurrency = new MaticNativeCurrency(chainId)
-  } else if (isBNB(chainId)) {
-    nativeCurrency = new BNBNativeCurrency(chainId)
+
+  //TODO: find a more elegant solution
+  let selectedChain
+  if (typeof chainId === 'string') {
+    selectedChain = parseInt(chainId)
   } else {
-    nativeCurrency = ExtendedEther.onChain(chainId)
+    selectedChain = chainId
   }
-  return (cachedNativeCurrency[chainId] = nativeCurrency)
+  if (isMatic(selectedChain)) {
+    nativeCurrency = new MaticNativeCurrency(selectedChain)
+  } else if (isBNB(selectedChain)) {
+    nativeCurrency = new BNBNativeCurrency(selectedChain)
+  } else if (isAvax(selectedChain)) {
+    nativeCurrency = new AvaxNativeCurrency(selectedChain)
+  } else if (isFantom(selectedChain)) {
+    nativeCurrency = new FantomNativeCurrency(selectedChain)
+  } else if (isCronos(selectedChain)) {
+    nativeCurrency = new CronosNativeCurrency(selectedChain)
+  } else if (isGnosis(selectedChain)) {
+    nativeCurrency = new GnosisNativeCurrency(selectedChain)
+  } else {
+    nativeCurrency = ExtendedEther.onChain(selectedChain)
+  }
+  return (cachedNativeCurrency[selectedChain] = nativeCurrency)
 }
 
 export const TOKEN_SHORTHANDS: {

@@ -1,10 +1,7 @@
-// import { sendAnalyticsEvent } from '@uniswap/analytics'
-// import { InterfaceEventName } from '@uniswap/analytics-events'
 import { Currency } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Text } from 'components/uikit'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
-import { formatToDecimal, getTokenAddress } from 'lib/utils/analytics'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { useMemo, useState } from 'react'
 
@@ -13,7 +10,6 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { TransactionType } from '../state/transactions/types'
 import { useWETHContract } from './useContract'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
-import { useCurrency } from './Tokens'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -78,20 +74,12 @@ export default function useWrapCallback(
 
   return useMemo(() => {
     if (!wethContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE
+    if (inputCurrency.chainId !== outputCurrency.chainId) return NOT_APPLICABLE
     const weth = WRAPPED_NATIVE_CURRENCY[chainId]
     if (!weth) return NOT_APPLICABLE
 
     const hasInputAmount = Boolean(inputAmount?.greaterThan('0'))
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
-
-    const eventProperties = {
-      token_in_address: getTokenAddress(inputCurrency),
-      token_out_address: getTokenAddress(outputCurrency),
-      token_in_symbol: inputCurrency.symbol,
-      token_out_symbol: outputCurrency.symbol,
-      chain_id: inputCurrency.chainId,
-      amount: inputAmount ? formatToDecimal(inputAmount, inputAmount?.currency.decimals) : undefined,
-    }
 
     if (inputCurrency.isNative && weth.equals(outputCurrency)) {
       return {

@@ -3,6 +3,7 @@ import HmacSHA256 from 'crypto-js/hmac-sha256'
 import EncodeHex from 'crypto-js/enc-hex'
 import { TOKEN_RISK_MAPPING } from './constants'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { ChainId } from '../../../../config/constants/chains'
 
 const host = 'https://avengerdao.org'
 const url = '/api/v1/address-security'
@@ -48,9 +49,10 @@ export const fetchRiskData = async (chainId: number, address_: string) => {
   return await response.json()
 }
 
-export const parsedRiskData = async (chainId: SupportedChainId, address: string) => {
+export const parsedRiskData = async (chainId?: ChainId, address?: string) => {
   let risk: string = ''
   try {
+    if (!chainId || !address) return
     const { data } = await fetchRiskData(chainId, address)
     risk = data?.band
   } catch (e) {

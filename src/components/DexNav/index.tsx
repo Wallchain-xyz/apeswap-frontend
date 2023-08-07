@@ -1,30 +1,36 @@
-import React from 'react'
-import { SupportedChainId } from '@ape.swap/sdk-core'
-import { useTranslation } from 'contexts/Localization'
+// Components
 import styles from './styles'
+import { Flex, Link, Svg, Text } from 'components/uikit'
+import DexSettings from 'components/DexSettings'
+import ZapSlippage from '../ZapSlippage'
+import TransactionHistory from 'views/Swap/components/TransactionHistory'
+
+// Hooks
+import React, { useEffect } from 'react'
+import { useTranslation } from 'contexts/Localization'
 import { useRouter } from 'next/router'
 import useModal from 'hooks/useModal'
-import { Flex, Link, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
-import DexSettings from 'components/DexSettings'
-import SquidBridge from '../SquidBridge/SquidBridge'
-import ZapSlippage from '../ZapSlippage'
+import useFetchLifiTxHistory from 'state/swap/hooks/useFetchLifiTxHistory'
+
+// Types, Constants, Utils
+import { ChainId, DEX_ONLY_CHAINS } from 'config/constants/chains'
 
 interface DexNavProps {
   zapSettings?: boolean
 }
 
 const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
-  const BRIDGE_SUPPORTED_CHAINS = [
-    SupportedChainId.BSC,
-    SupportedChainId.ARBITRUM_ONE,
-    SupportedChainId.POLYGON,
-    SupportedChainId.MAINNET,
-  ]
   const { t } = useTranslation()
   const { pathname, push } = useRouter()
-  const { chainId } = useWeb3React()
-  const [onBridgeModal] = useModal(<SquidBridge />)
+  const { chainId, account } = useWeb3React()
+  const { refetch, data: rawTransactions } = useFetchLifiTxHistory(account || '')
+
+  // Check for pending txs & refetch on any account changes
+  const isPendingTx = rawTransactions?.some((tx) => tx?.status === 'PENDING')
+  useEffect(() => {
+    refetch()
+  }, [account, refetch])
 
   const onLiquidity =
     pathname?.includes('add-liquidity') ||
@@ -37,16 +43,7 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
 
   const [onPresentSettingsModal] = useModal(<DexSettings />)
   const [onPresentZapSettingsModal] = useModal(<ZapSlippage />)
-
-  const handleSwitch = () => {
-    push(
-      pathname.includes('/v3-swap')
-        ? 'https://dex.apeswap.finance/swap'
-        : pathname.includes('/v3-add-liquidity')
-          ? 'https://dex.apeswap.finance/add-liquidity'
-          : 'https://dex.apeswap.finance/liquidity',
-    )
-  }
+  const [onViewTxHistory] = useModal(<TransactionHistory />)
 
   return (
     <Flex sx={styles.dexNavContainer}>
@@ -64,38 +61,42 @@ const DexNav: React.FC<DexNavProps> = ({ zapSettings }) => {
         >
           {t('Swap')}
         </Text>
-        <Text
-          size="14px"
-          variant="link"
-          sx={{
-            ...styles.navLink,
-            color: !onLiquidity && 'textDisabled',
-          }}
-          onClick={() => push('/zap')}
-          id="liquidity-link"
-          className="liquidity"
-        >
-          {t('Liquidity')}
-        </Text>
+        {!DEX_ONLY_CHAINS.includes(chainId as ChainId) && (
+          <Text
+            size="14px"
+            variant="link"
+            sx={{
+              ...styles.navLink,
+              color: !onLiquidity && 'textDisabled',
+            }}
+            onClick={() => push('/zap')}
+            id="liquidity-link"
+            className="liquidity"
+          >
+            {t('Liquidity')}
+          </Text>
+        )}
       </Flex>
       <Flex sx={styles.navIconContainer}>
-        <Flex sx={{ width: '90px', justifyContent: 'space-between', mt: '5px' }}>
+        <Flex
+          sx={{
+            width: '90px',
+            justifyContent: 'space-between',
+            mt: '5px',
+            alignItems: 'center',
+            justifyItems: 'center',
+          }}
+        >
           <Link href="?modal=tutorial">
             <Svg icon="quiz" />
           </Link>
-          <Flex
-            sx={styles.iconCover}
-            onClick={
-              BRIDGE_SUPPORTED_CHAINS.includes(chainId as number)
-                ? onBridgeModal
-                : () => window.open('https://jumper.exchange', '_blank')
-            }
-          >
-            <Svg icon="bridge" />
+          <Flex sx={{ cursor: 'pointer', mb: '6px', ml: '2px', position: 'relative' }} onClick={onViewTxHistory}>
+            {isPendingTx && <Flex sx={styles.pendingTxDot}></Flex>}
+            <Svg icon="receipt" />
           </Flex>
           <Flex
             onClick={zapSettings ? onPresentZapSettingsModal : onPresentSettingsModal}
-            sx={{ cursor: 'pointer', mb: '5px' }}
+            sx={{ cursor: 'pointer', mb: '6px' }}
           >
             <Svg icon="cog" />
           </Flex>

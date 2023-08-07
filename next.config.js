@@ -21,6 +21,7 @@ const nextConfig = {
       'apeswap.mypinata.cloud',
       'assets-cdn.trustwallet.com',
       'apeswap.finance',
+      'static.debank.com',
     ],
   },
   async redirects() {

@@ -1,8 +1,7 @@
 import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import {
-  AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS,
   CHAIN_PARAMS,
-  LIST_VIEW_PRODUCTS,
+  ChainId,
   NETWORK_LABEL,
 } from 'config/constants/chains'
 import { useTranslation } from 'contexts/Localization'
@@ -12,7 +11,7 @@ import { styles } from './styles'
 import useSelectChain from 'hooks/useSelectChain'
 import { Button, Flex, Svg, Text } from 'components/uikit'
 import { useWeb3React } from '@web3-react/core'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS, LIST_VIEW_PRODUCTS } from 'config/constants/products'
 
 export enum EmptyComponentType {
   USER_BILLS,
@@ -41,7 +40,7 @@ const EmptyList: React.FC<EmptyListComponentProps> = ({ type, handleBillsViewCha
         <Flex sx={styles.title}>
           <Text color="gray">
             {type === EmptyComponentType.AVAILABLE_BILLS &&
-              t(`All ApeSwap Bonds on ${NETWORK_LABEL[chainId as SupportedChainId]} are sold out.`)}
+              t(`All ApeSwap Bonds on ${NETWORK_LABEL[chainId as ChainId]} are sold out.`)}
             {type === EmptyComponentType.USER_BILLS && t(`You don't have any bonds`)}
             {type === EmptyComponentType.NO_RESULTS && t('No results found')}
             {type === EmptyComponentType.COMING_SOON && t('Bonds coming soon')}
@@ -57,7 +56,7 @@ const EmptyList: React.FC<EmptyListComponentProps> = ({ type, handleBillsViewCha
               return (
                 <Flex key={chainId} sx={styles.networkButton} onClick={() => switchNetwork(chainId)}>
                   <ServiceTokenDisplay
-                    token1={CHAIN_PARAMS?.[chainId as SupportedChainId]?.nativeCurrency.symbol}
+                    token1={CHAIN_PARAMS?.[chainId as ChainId]?.nativeCurrency.symbol}
                     size={22.5}
                   />
                   <Text ml="10px">{NETWORK_LABEL[chainId]}</Text>

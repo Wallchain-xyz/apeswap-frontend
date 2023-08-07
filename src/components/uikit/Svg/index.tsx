@@ -86,8 +86,26 @@ import {
   NavCaret,
   Logout,
   Wallet,
+  Receipt,
 } from './Icons'
-import { BSC, BANANA, BNB, ETH, GNANA, POLYGON, TLOS, ARBITRUM } from './tokens'
+import {
+  BSC,
+  BANANA,
+  BNB,
+  ETH,
+  GNANA,
+  POLYGON,
+  TLOS,
+  ARBITRUM,
+  FANTOM,
+  AVAX,
+  OPTIMISM,
+  CELO,
+  CRONOS,
+  POLYGONZK,
+  GNOSIS,
+  OKEX,
+} from './tokens'
 import {
   BinanceChain,
   Bitkeep,
@@ -263,6 +281,22 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <SwitchArrows {...props} getStyles={getStyles} />
     case icons.ARBITRUM_TOKEN:
       return <ARBITRUM {...props} getStyles={getStyles} />
+    case icons.AVAX_TOKEN:
+      return <AVAX {...props} getStyles={getStyles} />
+    case icons.FANTOM_TOKEN:
+      return <FANTOM {...props} getStyles={getStyles} />
+    case icons.OPTIMISM_TOKEN:
+      return <OPTIMISM {...props} getStyles={getStyles} />
+    case icons.CRONOS_TOKEN:
+      return <CRONOS {...props} getStyles={getStyles} />
+    case icons.POLYGONZK_TOKEN:
+      return <POLYGONZK {...props} getStyles={getStyles} />
+    case icons.CELO_TOKEN:
+      return <CELO {...props} getStyles={getStyles} />
+    case icons.GNOSIS_TOKEN:
+      return <GNOSIS {...props} getStyles={getStyles} />
+    case icons.OKX_TOKEN:
+      return <OKEX {...props} getStyles={getStyles} />
     case icons.HAMBURGER_CLOSED:
       return <HamburgerClosed {...props} getStyles={getStyles} />
     case icons.BILLS_M1:
@@ -307,6 +341,8 @@ const Svg: React.FC<SvgProps> = ({ icon, ...props }: any) => {
       return <Logout {...props} getStyles={getStyles} />
     case icons.WALLET:
       return <Wallet {...props} getStyles={getStyles} />
+    case icons.RECEIPT:
+      return <Receipt {...props} getStyles={getStyles} />
 
     // Wallet Icons
     case icons.BINANCE_CHAIN:

@@ -3,18 +3,18 @@ import Bnb from './grayChains/bnb'
 import Poly from './grayChains/poly'
 import { Box } from 'theme-ui'
 import { useTranslation } from 'contexts/Localization'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useRouter } from 'next/router'
 import { Button, Flex, Link, Text } from 'components/uikit'
 import useSelectChain from 'hooks/useSelectChain'
 import Image from 'next/image'
+import { ChainId } from 'config/constants/chains'
 
 const ApeSwapV3 = () => {
   const { t } = useTranslation()
   const switchNetwork = useSelectChain()
   const { push } = useRouter()
 
-  const handleNetworkSwitch = (chainId: SupportedChainId) => {
+  const handleNetworkSwitch = (chainId: ChainId) => {
     push('/add-liquidity')
     switchNetwork(chainId)
   }
@@ -32,11 +32,11 @@ const ApeSwapV3 = () => {
           <Text sx={styles.availableOn}>{t('AVAILABLE ON')}</Text>
           <Bnb
             sx={{ marginRight: '10px', cursor: 'pointer' }}
-            onClick={() => handleNetworkSwitch(SupportedChainId.BSC)}
+            onClick={() => handleNetworkSwitch(ChainId.BSC)}
           />
           <Poly
             sx={{ marginRight: '10px', cursor: 'pointer' }}
-            onClick={() => handleNetworkSwitch(SupportedChainId.POLYGON)}
+            onClick={() => handleNetworkSwitch(ChainId.POLYGON)}
           />
         </Flex>
         <Link href="/add-liquidity" sx={{ textDecoration: 'none' }}>

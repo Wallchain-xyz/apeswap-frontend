@@ -6,10 +6,9 @@ import {
   TransactionSubmittedContent,
 } from 'components/TransactionConfirmationModal'
 import { useTranslation } from 'contexts/Localization'
-import { getChainInfo } from 'config/constants/chains'
+import { ChainId, getChainInfo } from 'config/constants/chains'
 import { useZapState } from 'state/zap/hooks'
 import { useWeb3React } from '@web3-react/core'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { MergedZap } from 'state/zap/actions'
 
 export interface ZapConfirmationModalProps {
@@ -31,7 +30,7 @@ const ZapConfirmationModal: React.FC<ZapConfirmationModalProps> = ({
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
   const { typedValue } = useZapState()
-  const chainParams = getChainInfo(chainId as SupportedChainId)
+  const chainParams = getChainInfo(chainId as ChainId)
   const currencyInputSymbol =
     currencyIn?.currency?.symbol === 'ETH' ? chainParams?.nativeCurrency.symbol : currencyIn?.currency?.symbol
 

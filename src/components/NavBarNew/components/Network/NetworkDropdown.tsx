@@ -1,28 +1,15 @@
 // Components
-import { Flex, Svg, Text } from 'components/uikit'
 import { styles } from './styles'
+import { Flex } from 'components/uikit'
+import NetworkDropdownColumn from './NetworkDropdownColumn'
 
 // Hooks
-import { useWeb3React } from '@web3-react/core'
 import { useThemeUI } from 'theme-ui'
-import useSelectChain from 'hooks/useSelectChain'
-import { useAppDispatch } from 'state/hooks'
-import { updateSelectedNetwork } from 'state/user/reducer'
 
 // Constants
-import { MAINNET_CHAINS, NETWORK_ICONS, NETWORK_LABEL } from 'config/constants/chains'
-import { SupportedChainId } from '@ape.swap/sdk-core'
+import { DEX_ONLY_CHAINS, MAINNET_CHAINS } from 'config/constants/chains'
 
-const NetworkDropdown = ({
-  isVisible,
-  onSetRequestPending,
-}: {
-  isVisible: boolean
-  onSetRequestPending?: (reqFlag: boolean) => void
-}) => {
-  const selectChain = useSelectChain()
-  const dispatch = useAppDispatch()
-  const { chainId: selectedChainId } = useWeb3React()
+const NetworkDropdown = ({ isVisible }: { placement: string; isVisible: boolean }) => {
   const { colorMode } = useThemeUI()
 
   return (
@@ -33,36 +20,8 @@ const NetworkDropdown = ({
         bg: colorMode === 'dark' ? 'rgba(33, 33, 33, 0.85)' : 'rgba(249, 244, 231, 0.95)',
       }}
     >
-      {MAINNET_CHAINS.map((chainId: SupportedChainId) => {
-        return (
-          <Flex
-            fullWidth
-            key={chainId}
-            sx={styles.networkOptionContainer}
-            onClick={async () => {
-              if (onSetRequestPending) {
-                onSetRequestPending(true)
-                selectChain(chainId)
-                  .then(() => onSetRequestPending(false))
-                  .catch(() => onSetRequestPending(false))
-              } else {
-                selectChain(chainId)
-              }
-              dispatch(updateSelectedNetwork({ chainId: chainId }))
-            }}
-          >
-            <Flex sx={styles.networkOptionContent}>
-              <Svg icon={NETWORK_ICONS[chainId]} width="27.5px" />
-              <Text weight="400" size="15px" ml="10px" sx={{ lineHeight: '0px' }}>
-                {NETWORK_LABEL[chainId]}
-              </Text>
-              <Flex sx={{ ml: 'auto' }}>
-                {selectedChainId === chainId && <Svg icon="successOutline" width="18px" />}
-              </Flex>
-            </Flex>
-          </Flex>
-        )
-      })}
+      <NetworkDropdownColumn chains={MAINNET_CHAINS} title="Primary Chains" isDexOnly={false} />
+      <NetworkDropdownColumn chains={DEX_ONLY_CHAINS} title="Swap Only" isDexOnly={true} />
     </Flex>
   )
 }

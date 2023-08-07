@@ -1,5 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { FACTORY_ADDRESSES } from '@ape.swap/v3-sdk'
+import { ChainId } from './chains'
 
 type AddressMap = { [chainId: number]: string }
 
@@ -10,6 +11,14 @@ export const BANANA_ADDRESSES: AddressMap = {
   [SupportedChainId.MAINNET]: '0x92df60c51c710a1b1c20e42d85e221f3a1bfc7f2',
   [SupportedChainId.TLOS]: '0x667fd83e24ca1d935d36717d305d54fa0cac991c',
   [SupportedChainId.ARBITRUM_ONE]: '0xd978F8489e1245568704407a479a71FcCe2aFE8F',
+}
+
+export const USDC: AddressMap = {
+  [ChainId.POLYGON_ZK]: '0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035',
+  [ChainId.AVALANCHE]: '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+  [ChainId.OPTIMISM]: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
+  [ChainId.FANTOM]: '0x04068DA6C83AFCFA0e13ba15A6696662335D5B75',
+  [ChainId.GNOSIS]: '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
 }
 
 export const V2_FACTORY_ADDRESSES: AddressMap = {
@@ -52,11 +61,16 @@ export const QUOTER_ADDRESSES: AddressMap = {
 }
 
 export const SWAP_ROUTER_ADDRESSES: AddressMap = {
-  [SupportedChainId.BSC]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
-  [SupportedChainId.POLYGON]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
-  [SupportedChainId.MAINNET]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
-  [SupportedChainId.TLOS]: '0x9b11bc9fac17c058cab6286b0c785be6a65492ef',
-  [SupportedChainId.ARBITRUM_ONE]: '0x9b11bc9FAc17c058CAB6286b0c785bE6a65492EF',
+  [ChainId.BSC]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.POLYGON]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.MAINNET]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.TLOS]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.ARBITRUM_ONE]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.AVALANCHE]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.FANTOM]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.OPTIMISM]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.POLYGON_ZK]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+  [ChainId.GNOSIS]: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
 }
 
 export const PRICE_GETTER_ADDRESSES: AddressMap = {
@@ -76,6 +90,7 @@ export const MULTICALL: AddressMap = {
   [SupportedChainId.MAINNET]: '0x1F98415757620B543A52E61c46B32eB19261F984',
   [SupportedChainId.TLOS]: '0xf553b2be7aac670bcd812ba64a5025d9f5095ab5',
   [SupportedChainId.ARBITRUM_ONE]: '0xC169b45E7A157Fe3fa248673576bcadcaFd8757B',
+  [ChainId.AVALANCHE]: '0xce96d67e45ea7c5d2c0ee234059d9616f8cf1afc',
 }
 
 export const MULTICALL_V2: AddressMap = {
@@ -85,6 +100,12 @@ export const MULTICALL_V2: AddressMap = {
   [SupportedChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441',
   [SupportedChainId.TLOS]: '0xa1a283f10f578201a97a8f69d8c15828b778f04b',
   [SupportedChainId.ARBITRUM_ONE]: '0x089d8780e1c0789d0ef786bf001bee52d8351cad',
+  [ChainId.AVALANCHE]: '0xaad9d7d0c94f8bd2117fafaf3c35f77e9908740f',
+  [ChainId.FANTOM]: '0xdb9e00ce3b7afd5fece9b515c7f647e716282781',
+  [ChainId.OPTIMISM]: '0xdb9e00ce3b7afd5fece9b515c7f647e716282781',
+  [ChainId.POLYGON_ZK]: '0xe9654472e5bb9152cc5ef8c53c89839a8dc1f411',
+  [ChainId.CRONOS]: '0xDb9e00CE3B7AFD5fEce9B515c7f647E716282781',
+  [ChainId.GNOSIS]: '0xDb9e00CE3B7AFD5fEce9B515c7f647E716282781',
 }
 
 export const GNANA_ADDRESSES: AddressMap = {

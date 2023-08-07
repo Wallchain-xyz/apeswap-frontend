@@ -73,10 +73,7 @@ export function useUserSlippageTolerance(): [Percent | 'auto', (slippageToleranc
   const userSlippageToleranceRaw = useAppSelector((state) => {
     return state.user.userSlippageTolerance
   })
-  const userSlippageTolerance = useMemo(
-    () => new Percent(userSlippageToleranceRaw, 10_000),
-    [userSlippageToleranceRaw],
-  )
+  const userSlippageTolerance = useMemo(() => new Percent(userSlippageToleranceRaw, 10_000), [userSlippageToleranceRaw])
 
   const dispatch = useAppDispatch()
   const setUserSlippageTolerance = useCallback(
@@ -237,7 +234,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   return useMemo(() => {
     // dedupes pairs of tokens in the combined list
     const keyed = combinedList.reduce<{ [key: string]: [Token, Token] }>((memo, [tokenA, tokenB]) => {
-      const sorted = tokenA.sortsBefore(tokenB)
+      const sorted = tokenA?.sortsBefore(tokenB)
       const key = sorted ? `${tokenA.address}:${tokenB.address}` : `${tokenB.address}:${tokenA.address}`
       if (memo[key]) return memo
       memo[key] = sorted ? [tokenA, tokenB] : [tokenB, tokenA]
