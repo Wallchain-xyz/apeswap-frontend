@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import {
   ConfirmationPendingContent,
   TransactionErrorContent,
@@ -6,10 +5,8 @@ import {
 } from 'components/TransactionConfirmationModal'
 import { Flex, Modal } from 'components/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { Route } from '@lifi/sdk'
+import { ExchangeRateUpdateParams, Route } from '@lifi/sdk'
 import { humanOutputAmount } from '../../utils'
-import { useAppDispatch } from 'state/hooks'
-import { routingApi } from 'state/routing/slice'
 import ConfirmTxPanel from './ConfirmTxPanel'
 
 const ConfirmSwap = ({
@@ -20,6 +17,8 @@ const ConfirmSwap = ({
   onConfirm,
   onDismiss,
   fee,
+  newRates,
+  confirmNewRates,
 }: {
   selectedRoute: Route
   attemptingTxn: boolean
@@ -28,12 +27,16 @@ const ConfirmSwap = ({
   onConfirm?: () => void
   onDismiss: () => void
   fee: number
+  newRates: ExchangeRateUpdateParams | null
+  confirmNewRates: ((value: boolean) => void) | null
 }) => {
   const { t } = useTranslation()
-  const dispatch = useAppDispatch()
 
   const shortInputAmount = humanOutputAmount(selectedRoute?.fromAmount, selectedRoute?.fromToken?.decimals)
-  const shortExpectedOutputAmount = humanOutputAmount(selectedRoute?.toAmount, selectedRoute?.toToken?.decimals)
+  const shortExpectedOutputAmount = humanOutputAmount(
+    newRates?.newToAmount ?? selectedRoute?.toAmount,
+    selectedRoute?.toToken?.decimals,
+  )
 
   // text to show while loading
   const pendingText = `${t('Swapping')} ${shortInputAmount ?? ''} ${selectedRoute?.fromToken?.symbol ?? ''} for ${
@@ -57,25 +60,20 @@ const ConfirmSwap = ({
     ? 'Confirm Bridge'
     : 'Confirm Swap'
 
-  const handleDismiss = useCallback(() => {
-    if (swapErrorMessage?.includes('Exchange rate has changed!')) {
-      // if the exchange rate has changed delete quotes and refetch them
-      dispatch(routingApi.util.invalidateTags(['routes']))
-      onDismiss()
-    } else {
-      onDismiss()
-    }
-  }, [dispatch, onDismiss, swapErrorMessage])
-
   return (
     <Modal title={modalTitle}>
       <Flex sx={{ width: '420px', maxWidth: '100%', flexDirection: 'column' }}>
         {swapErrorMessage && errorText ? (
-          <TransactionErrorContent onDismiss={handleDismiss} message={errorText} />
+          <TransactionErrorContent
+            onDismiss={onDismiss}
+            message={errorText}
+            newRates={newRates}
+            confirmNewRates={confirmNewRates}
+          />
         ) : attemptingTxn ? (
           <ConfirmationPendingContent pendingText={pendingText} />
         ) : txHash ? (
-          <TransactionSubmittedContent hash={txHash} onDismiss={handleDismiss} />
+          <TransactionSubmittedContent hash={txHash} onDismiss={onDismiss} />
         ) : (
           <ConfirmTxPanel selectedRoute={selectedRoute} fee={fee} onConfirm={onConfirm} />
         )}

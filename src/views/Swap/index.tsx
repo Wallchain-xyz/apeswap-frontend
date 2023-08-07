@@ -73,7 +73,7 @@ const Swap = () => {
   const { typedValue } = useSwapState()
   const { routing, currencies, inputError } = useDerivedSwapInfo()
   const { routes, routingState, feeStructure } = routing
-  const selectedRoute = routes[0] // hardcoded for the time being
+  const selectedRoute = routes[0]
 
   const routeNotFound = routingState === TradeState.NO_ROUTE_FOUND
   const routeIsLoading = routingState === TradeState.LOADING

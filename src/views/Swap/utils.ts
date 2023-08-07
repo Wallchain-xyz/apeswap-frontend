@@ -87,6 +87,8 @@ export const humanOutputAmount = (amount: string, decimals: number, precision?: 
   return toPrecisionAvoidExponential(getBNWithDecimals(amount, decimals) ?? new BigNumber(0), precision)
 }
 
-export const getTxHashFromRoute = (route: Route | undefined) => {
-  return route?.steps?.[0]?.execution?.process?.find((tx) => tx?.type === 'SWAP')?.txHash
+export const getTxHashFromRoute = (route: Route | undefined, allowBridge: boolean = false) => {
+  return route?.steps?.[0]?.execution?.process?.find((tx) =>
+    tx?.type === 'SWAP' || allowBridge ? tx?.type === 'CROSS_CHAIN' : false,
+  )?.txHash
 }

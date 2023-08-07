@@ -7,8 +7,8 @@ import { TradeState } from 'state/routing/types'
 import ConfirmSwap from '../components/ConfirmSwap'
 import { useRouter } from 'next/router'
 import { useHideCircular } from 'hooks/useHideCircular'
-import { Route } from '@lifi/sdk'
-import { useSwapCallback } from 'hooks/useSwapCallback'
+import { ExchangeRateUpdateParams, Route } from '@lifi/sdk'
+import { useSwapCallback } from 'hooks/swap/useSwapCallback'
 import track from 'utils/track'
 import { getTxHashFromRoute, humanOutputAmount } from '../utils'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
@@ -73,37 +73,66 @@ const Swap = ({
   const hideCircular = useHideCircular()
   const addTransaction = useAddTxFromHash()
 
-  const handleConfirmDismiss = useCallback(() => {
-    setSwapState({
-      attemptingTxn: false,
-      swapErrorMessage: undefined,
-      txHash: undefined,
-    })
-  }, [])
-
   const callback = useSwapCallback(selectedRoute)
+
+  const [newRates, setNewRates] = useState<ExchangeRateUpdateParams | null>(null)
+  const [confirmNewRates, setConfirmNewRates] = useState<((value: boolean) => void) | null>(null)
+
+  const onAcceptExchangeRateUpdate = useCallback(
+    (resolver: (value: boolean) => void, data: ExchangeRateUpdateParams) => {
+      setSwapState({ attemptingTxn: true, swapErrorMessage: 'Exchange rate has changed!', txHash: undefined })
+      setNewRates(data)
+      setConfirmNewRates(() => (value: boolean) => {
+        setSwapState({ attemptingTxn: true, swapErrorMessage: undefined, txHash: undefined })
+        resolver(value)
+      })
+    },
+    [],
+  )
+
+  const acceptExchangeRateUpdateHook = useCallback(
+    async (params: ExchangeRateUpdateParams) => {
+      if (!onAcceptExchangeRateUpdate) {
+        return false
+      }
+      return await new Promise<boolean>((resolve) => {
+        onAcceptExchangeRateUpdate(resolve, params)
+      })
+    },
+    [onAcceptExchangeRateUpdate],
+  )
+
+  const updateRouteHook = useCallback(
+    (route: Route) => {
+      const foundTxHash = getTxHashFromRoute(route, true)
+      if (foundTxHash && !txHash) {
+        setSwapState({
+          attemptingTxn: false,
+          swapErrorMessage: undefined,
+          txHash: foundTxHash,
+        })
+        addTransaction(foundTxHash, {
+          type: TransactionType.SWAP,
+          tradeType: TradeType.EXACT_INPUT,
+          inputCurrencyId: parseCurrency(route.fromToken.address),
+          inputCurrencyAmountRaw: route.fromAmount,
+          expectedOutputCurrencyAmountRaw: route.toAmount,
+          outputCurrencyId: parseCurrency(route.toToken.address),
+          minimumOutputCurrencyAmountRaw: route.toAmountMin,
+        })
+      }
+    },
+    [addTransaction, txHash],
+  )
 
   const handleSwap = useCallback(() => {
     if (!callback || !selectedRoute) return
     setSwapState({ attemptingTxn: true, swapErrorMessage: undefined, txHash: undefined })
-    callback()
+    callback(updateRouteHook, acceptExchangeRateUpdateHook)
       .then((res) => {
-        const txHash = getTxHashFromRoute(res)
-        setSwapState({
-          attemptingTxn: false,
-          swapErrorMessage: undefined,
-          txHash,
-        })
         if (!res) return
-        addTransaction(getTxHashFromRoute(res), {
-          type: TransactionType.SWAP,
-          tradeType: TradeType.EXACT_INPUT,
-          inputCurrencyId: parseCurrency(selectedRoute.fromToken.address),
-          inputCurrencyAmountRaw: selectedRoute.fromAmount,
-          expectedOutputCurrencyAmountRaw: selectedRoute.toAmount,
-          outputCurrencyId: parseCurrency(selectedRoute.toToken.address),
-          minimumOutputCurrencyAmountRaw: selectedRoute.toAmountMin,
-        })
+        setNewRates(null)
+        setConfirmNewRates(null)
         track({
           event: 'Swap',
           chain: chainId,
@@ -121,16 +150,38 @@ const Swap = ({
             dex: res?.steps?.[0]?.toolDetails?.name,
           },
         })
-        if (res.toToken.symbol?.toUpperCase() === 'BANANA' && !hideCircular) router.push('?modal=circular-buy')
+        if (res?.toToken?.symbol?.toUpperCase() === 'BANANA' && !hideCircular) router.push('?modal=circular-buy')
       })
       .catch((error) => {
+        setNewRates(null)
+        setConfirmNewRates(null)
         setSwapState({
           attemptingTxn: false,
           swapErrorMessage: error.message ? error.message : error,
           txHash: undefined,
         })
       })
-  }, [addTransaction, callback, chainId, feeStructure.fee, feeStructure.tier, hideCircular, router, selectedRoute])
+  }, [
+    acceptExchangeRateUpdateHook,
+    callback,
+    chainId,
+    feeStructure.fee,
+    feeStructure.tier,
+    hideCircular,
+    router,
+    selectedRoute,
+    updateRouteHook,
+  ])
+
+  const handleConfirmDismiss = useCallback(() => {
+    setSwapState({
+      attemptingTxn: false,
+      swapErrorMessage: undefined,
+      txHash: undefined,
+    })
+    setNewRates(null)
+    setConfirmNewRates(null)
+  }, [])
 
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwap
@@ -141,6 +192,8 @@ const Swap = ({
       swapErrorMessage={swapErrorMessage}
       onDismiss={handleConfirmDismiss}
       fee={feeStructure.fee}
+      newRates={newRates}
+      confirmNewRates={confirmNewRates}
     />,
     true,
     true,
