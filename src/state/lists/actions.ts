@@ -1,5 +1,6 @@
 import { ActionCreatorWithPayload, createAction } from '@reduxjs/toolkit'
 import { TokenList } from '@uniswap/token-lists'
+import { Chain } from '@lifi/sdk'
 
 export const fetchTokenList: Readonly<{
   pending: ActionCreatorWithPayload<{ url: string; requestId: string }>
@@ -16,3 +17,5 @@ export const removeList = createAction<string>('lists/removeList')
 
 // versioning
 export const acceptListUpdate = createAction<string>('lists/acceptListUpdate')
+
+export const fetchChains = createAction<Chain[]>('lists/fetchChains')

@@ -4,6 +4,7 @@ import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Input } from 'theme-ui'
 import { isAddress } from 'utils'
 import List from './components/List'
+import { ChainId } from 'config/constants/chains'
 
 const TokenListModal = ({
   onDismiss,
@@ -16,7 +17,7 @@ const TokenListModal = ({
   isZapInput,
 }: {
   onDismiss: () => void
-  onCurrencySelect: (currency: Currency) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   selectedCurrency?: Currency | null
   otherSelectedCurrency?: Currency | null
   showCommonBases?: boolean

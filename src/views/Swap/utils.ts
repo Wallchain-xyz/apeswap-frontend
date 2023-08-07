@@ -70,23 +70,25 @@ export const parseOutputAmount = (amount: string, decimals: number) => {
 }
 
 export const toPrecisionAvoidExponential = (number: BigNumber, precision: number = 5): string => {
-  let output: string;
+  let output: string
   if (number.isLessThan(9999)) {
-    output = number.toPrecision(precision);
+    output = number.toPrecision(precision)
     // Check if the output is in exponential format
     if (output.indexOf('e') !== -1) {
-      output = number.toFixed(precision);
+      output = number.toFixed(precision)
     }
   } else {
     output = number.integerValue(BigNumber.ROUND_DOWN).toString()
   }
-  return output;
+  return output
 }
 
-export const humanOutputAmount = (amount: string, decimals: number) => {
-  return toPrecisionAvoidExponential(getBNWithDecimals(amount, decimals) ?? new BigNumber(0))
+export const humanOutputAmount = (amount: string, decimals: number, precision?: number) => {
+  return toPrecisionAvoidExponential(getBNWithDecimals(amount, decimals) ?? new BigNumber(0), precision)
 }
 
-export const getTxHashFromRoute = (route: Route | undefined) => {
-  return route?.steps?.[0]?.execution?.process?.find((tx) => tx?.type === 'SWAP')?.txHash
+export const getTxHashFromRoute = (route: Route | undefined, allowBridge: boolean = false) => {
+  return route?.steps?.[0]?.execution?.process?.find(
+    (tx) => tx?.type === 'SWAP' || (allowBridge ? tx?.type === 'CROSS_CHAIN' : false),
+  )?.txHash
 }

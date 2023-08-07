@@ -20,10 +20,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ape.swap/apeswap-lists@1.4.6":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.6.tgz#62dbbc93c08b7fa025b80138cdefc3e95c682ee0"
-  integrity sha512-dlMiRCowbb4msViE5fW77apQ3bMtrPLmCrIFHWseth87uz+6bYJgkh6oBPD84Xl2H5shMFcwndv0mvWaERjKEQ==
+"@ape.swap/apeswap-lists@1.4.8":
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.8.tgz#b31e6babcfb9902fe1d430a3a66e81cf0881ea85"
+  integrity sha512-VfMvxVjuXXcOXGbTWlyvYL7QKis8RVU0o/U7dsMoFfwaJ6TvssX81uNZX1nrwgleOGvS84192VDI8BkrWVs+SA==
   dependencies:
     "@ape.swap/sdk" "4.4.0"
     bignumber.js "^9.0.2"
@@ -92,10 +92,10 @@
     node-cache "^5.1.2"
     stats-lite "^2.2.0"
 
-"@ape.swap/token-lists@1.0.56":
-  version "1.0.56"
-  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.56.tgz#3a21b02d0a17511d8ea191f43753fe7febc07c95"
-  integrity sha512-s6sV9rWSNTHCpjNK/Ps8gGudUyYAMh9t+Ov1YVYYcgPcRgswdSRcQ0BCv/c3IX10lQiKKeFsuPWzAbT/Yydp2Q==
+"@ape.swap/token-lists@1.0.59":
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.59.tgz#3d106d8d3eb52df7e11b732a24e4aaab3484924f"
+  integrity sha512-T4Qn1IjpRMOW/LaoB/M1CkkmnC9fZqnAKdKilS2CNz54VkmcMVg3fVF75tKvTw5se8vpEpYK9tOtocaWhLNc/A==
 
 "@ape.swap/token-lists@^1.0.6":
   version "1.0.53"
@@ -2046,22 +2046,22 @@
   resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.2.tgz#5acd38242e8bde4f9986e7913c8fdf49d3aa199f"
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
-"@lifi/sdk@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.0.tgz#dbee1c05e7029183bb508b3f2b681eaa0ac3ef97"
-  integrity sha512-pPdBxv60L4Mdfqgoy5JEqcQLCWeObW15B0LQWW99By7JWNTccrVVJ7Dro6V4lK9Srv0HleGO/FCe+SF1RQaD9w==
+"@lifi/sdk@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.2.tgz#6d6b92e21dec7b5083d88c4f2a6c8b06473eef1c"
+  integrity sha512-HEkhwQkB9DRnTtn/4aMlUAvjky8KLFX156j6m2DOGv0auOhklP/BoPDjBs73KSoxWfUZzoeOqVdk0tLjENFYhA==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/contracts" "^5.7.0"
-    "@lifi/types" "^8.0.3"
+    "@lifi/types" "^8.0.4"
     bignumber.js "^9.1.1"
     eth-rpc-errors "^4.0.3"
     ethers "^5.7.2"
 
-"@lifi/types@^8.0.3":
-  version "8.0.4"
-  resolved "https://registry.yarnpkg.com/@lifi/types/-/types-8.0.4.tgz#2c2723a5756fb12a2024b638be5fffaee6da8fc3"
-  integrity sha512-87yXxDKyZOO9nEwebfkABIE/6n6+iPKrgb/uYhAlAGyfZm4APStShaFc5bwI+jlH/nv9+9JFRPZBpalFzFW6qA==
+"@lifi/types@^8.0.4":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@lifi/types/-/types-8.2.0.tgz#f71800c28855d7e59c101f5102fc808e0d86b7e8"
+  integrity sha512-drDyQ3zy9LeZQN1NwUqLtZaxRDPN+pWMcrhAvyZVm7XAO+kt+9D0sBhlgxy7S+BANz9ij/rIlC0l5bzUkqp9ig==
   dependencies:
     ethers "^5.7.2"
 

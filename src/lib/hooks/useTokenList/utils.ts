@@ -10,27 +10,44 @@ type Mutable<T> = {
 
 const mapCache = typeof WeakMap !== 'undefined' ? new WeakMap<TokenList | TokenInfo[], ChainTokenMap>() : null
 
-export function tokensToChainTokenMap(tokens: TokenList | TokenInfo[]): ChainTokenMap {
+export function tokensToChainTokenMap(tokens: TokenList, isLiFi: boolean): ChainTokenMap {
   const cached = mapCache?.get(tokens)
   if (cached) return cached
 
-  const [list, infos] = Array.isArray(tokens) ? [undefined, tokens] : [tokens, tokens.tokens]
-  const map = infos.reduce<Mutable<ChainTokenMap>>((map, info) => {
-    try {
-      const token = new WrappedTokenInfo(info, list)
-      if (map[token.chainId]?.[token.address] !== undefined) {
-        console.warn(`Duplicate token skipped: ${token.address}`)
+  // TODO: Review types
+  let map: {[chainId: string]: any} = {}
+
+  if (isLiFi) {
+    //TODO: Fix types
+    Object.keys(tokens.tokens).forEach((key) => {
+      let array = tokens.tokens[Number(key)] as any
+      array.map((tokenInfo: TokenInfo) => {
+        const token = new WrappedTokenInfo(tokenInfo)
+        if (map[token.chainId]?.[token.address] !== undefined) return
+        if (!map[token.chainId]) {
+          map[token.chainId] = {}
+        }
+        map[token.chainId][token.address] = { token }
+      })
+    })
+  } else {
+    map = tokens.tokens.reduce<Mutable<ChainTokenMap>>((map, info) => {
+      try {
+        const token = new WrappedTokenInfo(info)
+        if (map[token.chainId]?.[token.address] !== undefined) {
+          console.warn(`Duplicate token skipped: ${token.address}`)
+          return map
+        }
+        if (!map[token.chainId]) {
+          map[token.chainId] = {}
+        }
+        map[token.chainId][token.address] = { token }
+        return map
+      } catch {
         return map
       }
-      if (!map[token.chainId]) {
-        map[token.chainId] = {}
-      }
-      map[token.chainId][token.address] = { token, list }
-      return map
-    } catch {
-      return map
-    }
-  }, {}) as ChainTokenMap
+    }, {}) as ChainTokenMap
+  }
   mapCache?.set(tokens, map)
   return map
 }

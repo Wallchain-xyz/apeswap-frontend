@@ -4,14 +4,13 @@ import ServiceTokenDisplay from 'components/ServiceTokenDisplay'
 import { Flex, Svg, Text } from 'components/uikit'
 import {
   AVAILABLE_CHAINS_ON_LIST_VIEW_PRODUCTS,
-  CHAIN_PARAMS,
   LIST_VIEW_PRODUCTS,
-  NETWORK_LABEL,
   FULL_PRODUCT_NAMES,
-} from 'config/constants/chains'
+} from 'config/constants/products'
 import { useTranslation } from 'contexts/Localization'
 import useSelectChain from 'hooks/useSelectChain'
 import React from 'react'
+import { CHAIN_PARAMS, ChainId, NETWORK_LABEL } from 'config/constants/chains'
 
 const ListView404: React.FC<{ product: LIST_VIEW_PRODUCTS }> = ({ product }) => {
   const { chainId } = useWeb3React()
@@ -63,7 +62,7 @@ const ListView404: React.FC<{ product: LIST_VIEW_PRODUCTS }> = ({ product }) => 
                 onClick={() => switchNetwork(chainId)}
               >
                 <ServiceTokenDisplay
-                  token1={CHAIN_PARAMS[chainId as SupportedChainId]?.nativeCurrency.symbol}
+                  token1={CHAIN_PARAMS[chainId as ChainId]?.nativeCurrency.symbol}
                   size={22.5}
                 />
                 <Text ml="10px">{NETWORK_LABEL[chainId]}</Text>

@@ -20,7 +20,7 @@
     "prepare": "yarn contracts:compile && yarn graphql:fetch && yarn graphql:generate"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "18.x"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.29.9",
@@ -67,7 +67,7 @@
     "@graphql-codegen/typescript-operations": "^2.5.8",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/typescript-resolvers": "^2.7.8",
-    "@lifi/sdk": "^2.2.0",
+    "@lifi/sdk": "^2.2.2",
     "@reduxjs/toolkit": "^1.9.1",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",

@@ -8,6 +8,8 @@ import { LiFi } from '@lifi/sdk'
 import { getFees } from './getFees'
 import track from '../../utils/track'
 import { humanOutputAmount } from '../../views/Swap/utils'
+import { filterRoutes } from './filterRoutes'
+import { ChainId as ChainID } from 'config/constants/chains'
 
 export enum RouterPreference {
   CLIENT = 'client',
@@ -16,8 +18,9 @@ export enum RouterPreference {
 
 function getRouter(chainId: ChainId, useApeRPC?: boolean): AlphaRouter {
   const supportedChainId = toSupportedChainId(chainId)
+
   if (supportedChainId) {
-    const provider = getProvider(supportedChainId, useApeRPC)
+    const provider = getProvider(supportedChainId as unknown as ChainID, useApeRPC)
     return new AlphaRouter({ chainId, provider })
   }
   throw new Error(`Router does not support this chain (chainId: ${chainId}).`)
@@ -53,21 +56,22 @@ export const routingApi = createApi({
     getRoutes: builder.query<GetRoutesResult, GetRoutesParams>({
       queryFn: async (args: GetRoutesParams) => {
         const {
-          chainId,
           fromAmount,
           fromTokenAddress,
+          fromChain,
           fromTokenSymbol,
           fromTokenDecimals,
           toTokenAddress,
+          toChain,
           toTokenSymbol,
           slippage,
         } = args
         const feeStructure = getFees(fromTokenSymbol, toTokenSymbol)
         const routesRequest: RoutesRequest = {
-          fromChainId: chainId,
+          fromChainId: fromChain,
           fromAmount: fromAmount,
           fromTokenAddress: fromTokenAddress,
-          toChainId: chainId, // we will have to modify this to go omnichain in the future
+          toChainId: toChain, // we will have to modify this to go omnichain in the future
           toTokenAddress: toTokenAddress,
           options: {
             slippage: slippage,
@@ -90,16 +94,19 @@ export const routingApi = createApi({
           const routes = result.routes
           track({
             event: 'Quote',
-            chain: chainId,
+            chain: fromChain,
             data: {
               inputToken: fromTokenSymbol,
+              fromChain,
               outputToken: toTokenSymbol,
+              toChain,
               inputValue: humanOutputAmount(fromAmount, fromTokenDecimals),
               fee: feeStructure.fee,
               feeTier: feeStructure.tier,
             },
           })
-          return { data: { routes, feeStructure } }
+          const filteredRoutes = filterRoutes(routes)
+          return { data: { routes: filteredRoutes, feeStructure } }
         } catch (e: any) {
           console.log(e)
           return { error: { status: 'LiFi Route error', message: e?.message } }

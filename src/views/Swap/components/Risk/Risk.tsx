@@ -3,13 +3,14 @@ import { parsedRiskData } from './helpers'
 import { styles } from './styles'
 import { useTranslation } from 'contexts/Localization'
 import { riskSupportedChains, TAG_COLOR, TAG_TOKEN_RISK_VALUES, TOKEN_RISK_VALUES } from './constants'
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import TooltipBubble from 'components/uikit/Tooltip'
 import { Flex, Link, Text } from 'components/uikit'
 import Dots from 'components/Dots'
+import { ChainId } from 'config/constants/chains'
 
-const Risk = ({ chainId, currency }: { chainId: SupportedChainId; currency: Currency | null | undefined }) => {
-  const isChainSupported = riskSupportedChains.includes(chainId)
+const Risk = ({ chainId, currency }: { chainId?: ChainId; currency: Currency | null | undefined }) => {
+  const isChainSupported = chainId ? riskSupportedChains.includes(chainId) : false
   const [risk, setRisk] = useState<number | undefined>(undefined)
   const [hide, setHide] = useState(isChainSupported)
   const { t } = useTranslation()

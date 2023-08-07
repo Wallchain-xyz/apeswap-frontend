@@ -19,9 +19,9 @@ const NetworkSelector = ({ billsFlag }: { billsFlag?: boolean }) => {
   }, [])
 
   const [onPresentWalletConnectModal] = useModal(
-    <NetworkModal onDismiss={() => null} onSetRequestPending={onSetRequestPending} />,
+    <NetworkModal displayAll={true} onDismiss={() => null} onSetRequestPending={onSetRequestPending} />,
     true,
-    true,
+    false,
     'NetworkModal',
   )
 
