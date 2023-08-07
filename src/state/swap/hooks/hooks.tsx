@@ -1,25 +1,23 @@
 import { Currency } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ParsedQs } from 'qs'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { TradeState } from 'state/routing/types'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { useCurrency } from '../../../hooks/Tokens'
-import useENS from 'hooks/useENS'
 import { isAddress } from '../../../utils'
 import { AppState } from '../../index'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from '../actions'
 import { SwapState } from '../reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
-import { BANANA_ADDRESSES } from 'config/constants/addresses'
+import { BANANA_ADDRESSES, USDC } from 'config/constants/addresses'
 import { useRouter } from 'next/router'
-import { routingApi, useGetRoutesQuery } from '../../routing/slice'
+import { useGetRoutesQuery } from '../../routing/slice'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Route } from '@lifi/sdk'
 import BigNumber from 'bignumber.js'
-import { AVERAGE_L1_BLOCK_TIME, ChainId } from 'config/constants/chains'
+import { ChainId } from 'config/constants/chains'
 import useDebounce from '../../../hooks/useDebounce'
 import { useQueryParams } from './useQueryParams'
 
@@ -255,6 +253,7 @@ export function useDefaultsFromURLSearch(): SwapState {
   const dispatch = useAppDispatch()
   const { query } = useRouter()
   const bananaAddress = chainId ? BANANA_ADDRESSES[chainId] : undefined
+  const usdcAddress = chainId ? USDC[chainId] : undefined
   const parsedSwapState = useMemo(() => {
     return queryParametersToSwapState(query)
   }, [query])
@@ -265,7 +264,11 @@ export function useDefaultsFromURLSearch(): SwapState {
     //want to reset the swap state
     if (!chainId || typedValue) return
     const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? 'eth'
-    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? bananaAddress
+    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId
+      ? parsedSwapState[Field.OUTPUT].currencyId
+      : bananaAddress
+      ? bananaAddress
+      : usdcAddress
 
     dispatch(
       replaceSwapState({

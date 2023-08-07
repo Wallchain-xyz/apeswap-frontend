@@ -8,7 +8,6 @@ import ConfirmSwap from '../components/ConfirmSwap'
 import { useRouter } from 'next/router'
 import { useHideCircular } from 'hooks/useHideCircular'
 import { ExchangeRateUpdateParams, Route } from '@lifi/sdk'
-import { useSwapCallback } from 'hooks/swap/useSwapCallback'
 import track from 'utils/track'
 import { getTxHashFromRoute, humanOutputAmount } from '../utils'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
@@ -21,6 +20,7 @@ import { useAddTxFromHash } from 'state/transactions/hooks'
 import { parseCurrency } from 'config/constants/lifiRouting'
 import useSelectChain from 'hooks/useSelectChain'
 import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
+import { useSwapCallback } from '../../../hooks/swap/useSwapCallback'
 
 const Swap = ({
   routingState,

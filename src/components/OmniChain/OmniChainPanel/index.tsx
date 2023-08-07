@@ -1,6 +1,6 @@
+import React from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { Spinner } from 'theme-ui'
-import React from 'react'
 import styles from './styles'
 import { OmniChainPanelProps } from './types'
 import { Flex, NumericInput, Text } from 'components/uikit'

@@ -28,7 +28,7 @@ export const DEX_ONLY_CHAINS = [
   ChainId.AVALANCHE,
   ChainId.OPTIMISM,
   ChainId.FANTOM,
-  ChainId.CRONOS,
+  //ChainId.CRONOS, temporarily disabled
   ChainId.POLYGON_ZK,
   ChainId.GNOSIS,
 ]
