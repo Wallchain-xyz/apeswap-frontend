@@ -89,21 +89,21 @@ export const NETWORK_LABEL: Partial<Record<ChainId, string>> = {
 
 // Network block explorers
 export const BLOCK_EXPLORER: Record<ChainId, string> = {
-  [ChainId.MAINNET]: 'https://etherscan.io/',
+  [ChainId.MAINNET]: 'https://etherscan.io',
   [ChainId.ARBITRUM_ONE]: 'https://arbiscan.io',
   [ChainId.POLYGON]: 'https://polygonscan.com',
-  [ChainId.POLYGON_MUMBAI]: 'https://mumbai.polygonscan.com/',
+  [ChainId.POLYGON_MUMBAI]: 'https://mumbai.polygonscan.com',
   [ChainId.BSC]: 'https://bscscan.com',
-  [ChainId.BSC_TESTNET]: 'https://testnet.bscscan.com/',
+  [ChainId.BSC_TESTNET]: 'https://testnet.bscscan.com',
   [ChainId.TLOS]: 'https://www.teloscan.io',
-  [ChainId.AVALANCHE]: 'https://cchain.explorer.avax.network/',
-  [ChainId.OPTIMISM]: 'https://optimistic.etherscan.io/',
-  [ChainId.FANTOM]: 'https://ftmscan.com/',
-  [ChainId.CRONOS]: 'https://cronos.crypto.org/explorer/',
-  [ChainId.POLYGON_ZK]: 'https://zkevm.polygonscan.com/',
-  [ChainId.CELO]: 'https://explorer.celo.org/',
-  [ChainId.GNOSIS]: 'https://blockscout.com/xdai/mainnet/',
-  [ChainId.OKX]: 'https://www.oklink.com/en/okc/',
+  [ChainId.AVALANCHE]: 'https://cchain.explorer.avax.network',
+  [ChainId.OPTIMISM]: 'https://optimistic.etherscan.io',
+  [ChainId.FANTOM]: 'https://ftmscan.com',
+  [ChainId.CRONOS]: 'https://cronos.crypto.org/explorer',
+  [ChainId.POLYGON_ZK]: 'https://zkevm.polygonscan.com',
+  [ChainId.CELO]: 'https://explorer.celo.org',
+  [ChainId.GNOSIS]: 'https://blockscout.com/xdai/mainnet',
+  [ChainId.OKX]: 'https://www.oklink.com/en/okc',
 }
 
 interface ChainParamContent {
