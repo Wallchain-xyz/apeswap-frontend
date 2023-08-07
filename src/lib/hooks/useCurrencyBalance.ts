@@ -51,7 +51,7 @@ export function useNativeCurrencyBalances(
       }
     }
     fetchData()
-  }, [chain, calls, account, provider])
+  }, [chain, account])
 
   const native = useNativeCurrency(chain)
 
