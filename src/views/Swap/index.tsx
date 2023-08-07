@@ -25,7 +25,6 @@ import SwapAssetNotice from './components/SwapAssetNotice'
 import { KNOWN_REFLECT_ADDRESSES } from './constants'
 import OmniChainPanel from '../../components/OmniChain/OmniChainPanel'
 import { useCurrencyBalancesWithChain } from '../../hooks/balances/useCurrenciesBalancesWithChain'
-import { oldRoute } from './oldRoute'
 
 const Swap = () => {
   useDefaultsFromURLSearch()
@@ -74,8 +73,7 @@ const Swap = () => {
   const { typedValue } = useSwapState()
   const { routing, currencies, inputError } = useDerivedSwapInfo()
   const { routes, routingState, feeStructure } = routing
-  //const selectedRoute = routes[0]
-  const selectedRoute = oldRoute // hardcoded for the time being
+  const selectedRoute = routes[0]
 
   const routeNotFound = routingState === TradeState.NO_ROUTE_FOUND
   const routeIsLoading = routingState === TradeState.LOADING
