@@ -29,7 +29,7 @@ export default createReducer<SwapState>(initialState, (builder) =>
       replaceSwapState,
       (
         state,
-        { payload: { typedValue, recipient, field, inputCurrencyId, outputCurrencyId, inputChain, outputCain } },
+        { payload: { typedValue, recipient, field, inputCurrencyId, outputCurrencyId, inputChain, outputChain } },
       ) => {
         return {
           [Field.INPUT]: {
@@ -38,7 +38,7 @@ export default createReducer<SwapState>(initialState, (builder) =>
           },
           [Field.OUTPUT]: {
             currencyId: outputCurrencyId ?? null,
-            chain: outputCain ?? null,
+            chain: outputChain ?? null,
           },
           independentField: field,
           typedValue,
