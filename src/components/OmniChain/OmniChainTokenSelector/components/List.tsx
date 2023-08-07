@@ -1,13 +1,13 @@
 import { Currency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import { Flex, Skeleton } from 'components/uikit'
+import { Flex } from 'components/uikit'
 import { useAllTokens, useIsUserAddedToken, useSearchInactiveTokenLists, useToken } from 'hooks/Tokens'
 import useDebounce from 'hooks/useDebounce'
 import { useAllTokenBalances } from 'lib/hooks/useAllTokenBalances'
 import { getTokenFilter } from 'lib/hooks/useTokenList/filtering'
 import { tokenComparator, useSortTokensByQuery } from 'lib/hooks/useTokenList/sorting'
 import { FixedSizeList } from 'react-window'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { UserAddedToken } from 'state/user/types'
 import ListRow from './ListRow'
 import { CSSProperties } from 'theme-ui'
@@ -30,7 +30,6 @@ const List = ({
   selectedChain?: ChainId
 }) => {
   const { account } = useWeb3React()
-  const [tokenLoaderTimerElapsed, setTokenLoaderTimerElapsed] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 200)
 
   const defaultTokens = useAllTokens(selectedChain)
@@ -46,29 +45,25 @@ const List = ({
 
   const sortedTokens: Token[] = useMemo(
     () =>
-      !balancesAreLoading
-        ? filteredTokens
-            .filter((token) => {
-              // If there is no query, filter out unselected user-added tokens with no balance.
-              if (!debouncedQuery && token instanceof UserAddedToken) {
-                if (selectedCurrency?.equals(token)) return true
-                return balances[token.address]?.greaterThan(0)
-              }
-              return true
-            })
-            .sort(tokenComparator.bind(null, balances))
-        : [],
-    [balances, balancesAreLoading, debouncedQuery, filteredTokens, selectedCurrency],
+      filteredTokens
+        .filter((token) => {
+          // If there is no query, filter out unselected user-added tokens with no balance.
+          if (!debouncedQuery && token instanceof UserAddedToken) {
+            if (selectedCurrency?.equals(token)) return true
+            return balances[token.address]?.greaterThan(0)
+          }
+          if (token?.address?.toLowerCase() === '0xbb9bc244d798123fde783fcc1c72d3bb8c189413'.toLowerCase()) return false
+          return true
+        })
+        .sort(tokenComparator.bind(null, balances)),
+    [balances, debouncedQuery, filteredTokens, selectedCurrency],
   )
-
-  const isLoading = Boolean(balancesAreLoading && !tokenLoaderTimerElapsed)
 
   const filteredSortedTokens = useSortTokensByQuery(debouncedQuery, sortedTokens)
 
   const native = useNativeCurrency(selectedChain)
   const nativeBalance = useCurrencyBalance(account, native)
   let wrapped = native.wrapped
-  //TODO: revisit this
   //@ts-ignore
   wrapped.logoURI = CHAIN_PARAMS?.[selectedChain]?.logoURI ?? ''
 
@@ -86,14 +81,6 @@ const List = ({
     return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
   }, [debouncedQuery, filteredSortedTokens, native, wrapped, searchToken])
 
-  // Timeout token loader after 3 seconds to avoid hanging in a loading state.
-  useEffect(() => {
-    const tokenLoaderTimer = setTimeout(() => {
-      setTokenLoaderTimerElapsed(true)
-    }, 3000)
-    return () => clearTimeout(tokenLoaderTimer)
-  }, [])
-
   const Row = useCallback(
     ({ data, index, style }: { data: Currency[]; index: number; style: CSSProperties }) => {
       const row: Currency = data[index]
@@ -102,14 +89,6 @@ const List = ({
       const currencyIsImported = !!filteredInactiveTokens.find(
         (token) => token.address.toLowerCase() === currency.wrapped.address.toLowerCase(),
       )
-      if (balancesAreLoading)
-        return (
-          <Flex sx={{ ...style, flexDirection: 'column', height: '500px' }}>
-            {[...Array(8)].map((i) => {
-              return <Skeleton key={i} width="100%" height="50px" animation="waves" sx={{ margin: '2.5px 0px' }} />
-            })}
-          </Flex>
-        )
       return (
         <ListRow
           currency={row}
@@ -130,7 +109,6 @@ const List = ({
     },
     [
       balances,
-      balancesAreLoading,
       filteredInactiveTokens,
       nativeBalance,
       searchTokenIsAdded,

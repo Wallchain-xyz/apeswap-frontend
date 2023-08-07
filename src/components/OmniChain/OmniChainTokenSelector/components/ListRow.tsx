@@ -4,7 +4,7 @@ import TokenImportWarning from 'components/TokenImportWarning'
 import { Flex, Svg, Text } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
-import { CSSProperties } from 'theme-ui'
+import { CSSProperties, Spinner } from 'theme-ui'
 import { registerToken } from 'utils'
 import OmniTokenImage from '../../OmniTokenImage'
 
@@ -95,7 +95,7 @@ const ListRow = ({
         </Flex>
       </Flex>
       <Text size="14px" weight={600} sx={{ lineHeight: '0px' }}>
-        {hideDust}
+        {hideDust === undefined ? <Spinner width="15px" height="15px" /> : hideDust}
       </Text>
     </Flex>
   )
