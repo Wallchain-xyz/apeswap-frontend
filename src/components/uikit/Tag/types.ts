@@ -40,6 +40,7 @@ export type ListTagVariants = (typeof listTagVariants)[keyof typeof listTagVaria
 
 export interface ListTagProps extends SpaceProps {
   variant: ListTagVariants
+  text?: string
 }
 
 export const lpTags = ['ape', 'uni', 'ark']
