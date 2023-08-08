@@ -31,6 +31,7 @@ import { useToastError } from 'state/application/hooks'
 
 // Hooks
 import useGetWidoQuote from 'state/bills/hooks/useGetWidoQuote'
+import useSignTransaction from 'state/bills/hooks/useSignTransaction'
 
 // TODO: Add wido hook for quote here
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
@@ -84,9 +85,18 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const bondContractAddress = contractAddress[chainId as SupportedChainId] || ''
-  const { data: widoQuote, isLoading } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
+  const {
+    data: widoQuote,
+    isLoading,
+    isError,
+  } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
   if (!isLoading) {
     console.log({ widoQuote })
+  }
+  const { signTransaction } = useSignTransaction()
+
+  if (isError) {
+    console.log('failed to fetch widoQuote')
   }
 
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
@@ -98,6 +108,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
   )
+
+  const { isSupported: isWidoSupported = false } = widoQuote ?? {}
+
   const rawPriceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
   const priceImpact = useMemo(() => new Percent(rawPriceImpact, 10_000), [rawPriceImpact])
 
@@ -161,6 +174,59 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const handleBuy = useCallback(async () => {
     if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
+    if (isWidoSupported) {
+      signTransaction({ widoQuote })
+        // TODO: This whole .then and .catch can be merged in with the zapCallback .then and catch method
+        .then((hash: any) => {
+          setPendingTrx(true)
+          setZapSlippage(originalSlippage)
+          provider
+            ?.waitForTransaction(hash)
+            .then((receipt) => {
+              const { logs } = receipt
+              const findBillNftLog = logs.find((log) => log.address.toLowerCase() === billNftAddress?.toLowerCase())
+              const getBillNftIndex = findBillNftLog?.topics[findBillNftLog.topics.length - 1]
+              const convertHexId = parseInt(getBillNftIndex ?? '', 16)
+              onBillId(convertHexId.toString(), hash)
+              dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
+              dispatch(fetchBillsUserDataAsync(chainId, account))
+            })
+            .catch((e) => {
+              console.error(e)
+              setPendingTrx(false)
+              onTransactionSubmited(false)
+            })
+          track({
+            event: 'zap',
+            chain: chainId,
+            data: {
+              cat: 'bill',
+              token1: zap.currencyIn.currency.symbol,
+              token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
+              amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+            },
+          })
+          track({
+            event: 'bond',
+            chain: chainId,
+            data: {
+              cat: 'buy',
+              type: billType ?? '',
+              address: contractAddress[chainId as SupportedChainId],
+              typedValue,
+              usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
+            },
+          })
+        })
+        .catch((e: any) => {
+          setZapSlippage(originalSlippage)
+          console.error(e)
+          toastError(e)
+          setPendingTrx(false)
+          onTransactionSubmited(false)
+        })
+      return
+    }
     onTransactionSubmited(true)
     if (currencyB) {
       await onBuyBill()
