@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { quote } from 'wido'
+import { quote, QuoteResult } from 'wido'
 import { useSelector } from 'react-redux'
+import { useWeb3React } from '@web3-react/core'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'
@@ -10,29 +12,39 @@ import { AppState } from 'state'
 
 // Constants
 import { QUERY_KEYS } from 'config/constants/queryKeys'
+const WIDO_NATIVE_TOKEN_ID = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 
 export const getWidoQuote = async ({
   inputCurrencyId,
   amount,
   toToken,
   slippagePercentage,
+  account,
+  chainId,
 }: {
   inputCurrencyId: any
   amount: any
   toToken: string
   slippagePercentage: number
-}): Promise<any> => {
-  const quoteResult = await quote({
-    fromChainId: 137,
-    toChainId: 137,
-    fromToken: inputCurrencyId,
-    toToken,
-    user: '0x0FAD8a2d60aD6Cd1e46d7898BA4feEEBB60979f2', // User
-    amount,
-    slippagePercentage,
-  })
+  account: string
+  chainId: SupportedChainId
+}): Promise<QuoteResult | null> => {
+  try {
+    const quoteResult = await quote({
+      fromChainId: chainId,
+      toChainId: chainId,
+      fromToken: inputCurrencyId,
+      toToken,
+      user: account,
+      amount,
+      slippagePercentage,
+    })
 
-  return quoteResult
+    return quoteResult
+  } catch (e) {
+    console.error({ e })
+    return null
+  }
 }
 
 export default function useGetWidoQuote({
@@ -44,16 +56,25 @@ export default function useGetWidoQuote({
   currencyB: any
   toToken: string
 }) {
+  const { chainId = 137, account = '0x123' } = useWeb3React()
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
   const { userZapSlippage } = useSelector<AppState, AppState['user']>((state) => state.user)
 
   const amount = convertToTokenValue(amountInput || '0', 18)
   const slippagePercentage = userZapSlippage / 100 || 0.05
-  const inputCurrencyId = currencyA.isNative ? '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' : '0x1234'
+  const inputCurrencyId = currencyA.isNative ? WIDO_NATIVE_TOKEN_ID : '0x1234'
 
   return useQuery({
-    queryKey: [QUERY_KEYS.WIDO_QUOTE, inputCurrencyId, amount, toToken, slippagePercentage],
-    queryFn: () => getWidoQuote({ inputCurrencyId, amount, toToken, slippagePercentage }),
+    queryKey: [
+      QUERY_KEYS.WIDO_QUOTE,
+      { inputCurrencyId },
+      { amountInput },
+      { toToken },
+      slippagePercentage,
+      account,
+      chainId,
+    ],
+    queryFn: () => getWidoQuote({ inputCurrencyId, amount, toToken, slippagePercentage, account, chainId }),
     enabled: !!amountInput,
   })
 }
