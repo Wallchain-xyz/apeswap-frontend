@@ -82,6 +82,8 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     yAxisID: DatasetNames.LiquidityDebt,
   }
 
+  const labels = tokenHistoricalData.map((x) => x.createdAt)
+
   const datasets = [
     marketCapSet,
     ownershipScoreSet,
@@ -94,7 +96,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
   ]
 
   return {
-    labels: Array(tokenHistoricalData.length).fill(''),
+    labels: labels,
     datasets: datasets,
   }
 }

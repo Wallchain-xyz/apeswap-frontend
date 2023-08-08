@@ -43,6 +43,7 @@ export interface SimpleTokenProfile {
   totalExtractableLiquidity: number
   ownedLiquidity: number
   ranking: number
+  createdAt: string
 }
 export interface LHDProfiles {
   count: number

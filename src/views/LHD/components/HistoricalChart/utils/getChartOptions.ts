@@ -1,4 +1,5 @@
 import numbro from 'numbro'
+import moment from 'moment'
 
 // Types
 import type { ChartOptions } from 'chart.js'
@@ -30,8 +31,9 @@ export const getChartOptions = (
       display: isScore ? isAnyScoreToggled : toggledData[value as DatasetNames],
       position: isScore ? 'right' : ('left' as const),
       grid: {
-        drawOnChartArea: false,
+        display: true,
       },
+      border: { dash: [4, 4] },
       title: {
         display: isMobile !== true,
         text: [value],
@@ -41,7 +43,7 @@ export const getChartOptions = (
         suggestedMin: 0,
         callback: (tickValue: number | string) => {
           return isScore
-            ? `${tickValue}%`
+            ? `${tickValue}`
             : numbro(Number(tickValue))
                 .formatCurrency({
                   average: true,
@@ -60,6 +62,7 @@ export const getChartOptions = (
         },
       },
     }
+
     return acc
   }, {})
 
@@ -97,8 +100,26 @@ export const getChartOptions = (
     scales: {
       ...scales,
       x: {
+        display: true,
         grid: {
-          display: false,
+          display: true,
+          drawTicks: true, // This is true by default but added for clarity
+          tickLength: 10, // Length of the tick mark
+        },
+        border: { dash: [4, 4] },
+        ticks: {
+          display: true,
+          maxTicksLimit: 6,
+          callback: function (tickValue: string, index: number, array: []) {
+            // @ts-ignore
+            const unixTimestamp: number = this.getLabelForValue(tickValue)
+            return moment(Number(unixTimestamp)).format('DD-MMM-YY')
+          },
+        },
+        title: {
+          display: true,
+          text: 'Dates',
+          color: '#A09F9C',
         },
       },
     },
