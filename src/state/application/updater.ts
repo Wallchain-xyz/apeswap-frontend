@@ -11,13 +11,11 @@ import { useBananaPriceOnBnb, useGetProfilePic } from './hooks'
 import { updateSelectedNetwork } from '../user/reducer'
 import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
 import useSelectChain from '../../hooks/useSelectChain'
-import { useGetIsLhdAuth } from 'state/lhd/hooks/useGetIsLhdAuth'
 
 export default function Updater(): null {
   const { account, chainId, provider } = useWeb3React()
   const dispatch = useAppDispatch()
   const windowVisible = useIsWindowVisible()
-  const { getIsLhdAuth } = useGetIsLhdAuth()
 
   const [activeChainId, setActiveChainId] = useState(chainId)
 
@@ -83,10 +81,6 @@ export default function Updater(): null {
       dispatch(setBananaPrice(price))
     }
   }, [dispatch, price])
-
-  useEffect(() => {
-    getIsLhdAuth()
-  }, [getIsLhdAuth])
 
   return null
 }
