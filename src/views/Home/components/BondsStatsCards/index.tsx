@@ -12,14 +12,15 @@ import { BondsStats } from 'state/homepage/types'
 interface ICardsDescription {
   name: BondsStats
   subTitle: string
+  defaultValue: number
 }
 
 // Constants
 const CARDS_DESCRIPTION: ICardsDescription[] = [
-  { name: BondsStats.TotalBondsSold, subTitle: 'TOTAL BONDS SOLD' },
-  { name: BondsStats.TotalBondedValue, subTitle: 'TOTAL BONDED VALUE' },
-  { name: BondsStats.TotalTradeVolume, subTitle: 'TOTAL TRADE VOL' },
-  { name: BondsStats.TotalValueLocked, subTitle: 'TOTAL VALUE LOCKED' },
+  { name: BondsStats.TotalBondsSold, subTitle: 'TOTAL BONDS SOLD', defaultValue: 12000 },
+  { name: BondsStats.TotalBondedValue, subTitle: 'TOTAL BONDED VALUE', defaultValue: 4000000 },
+  { name: BondsStats.TotalTradeVolume, subTitle: 'TOTAL TRADE VOL', defaultValue: 18000000000 },
+  { name: BondsStats.TotalValueLocked, subTitle: 'TOTAL VALUE LOCKED', defaultValue: 30000000 },
 ]
 
 const BondsStatsCards = () => {
@@ -39,8 +40,14 @@ const BondsStatsCards = () => {
           my: ['20px', '20px', '50px'],
         }}
       >
-        {CARDS_DESCRIPTION.map(({ name, subTitle }) => (
-          <BondStatsCard name={name} amount={stats?.[name] ?? 1} subTitle={subTitle} key={name} isLoading={isLoading} />
+        {CARDS_DESCRIPTION.map(({ name, subTitle, defaultValue }) => (
+          <BondStatsCard
+            name={name}
+            amount={stats?.[name] ?? defaultValue}
+            subTitle={subTitle}
+            key={name}
+            isLoading={isLoading}
+          />
         ))}
       </Grid>
     </Flex>
