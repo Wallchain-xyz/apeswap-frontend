@@ -41,10 +41,10 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
 
         const thresholdToHide = new BigNumber(100).div(earnTokenPrice ?? '0')
         const thresholdToShow = new BigNumber(5).div(earnTokenPrice ?? '0')
-        const disabled =
-          maxTotalPayOut && totalPayoutGiven && earnTokenPrice
-            ? new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
-            : false
+        const disabled = false;
+        // maxTotalPayOut && totalPayoutGiven && earnTokenPrice
+        //   ? new BigNumber(available).lte(thresholdToHide) || discount === '100.00'
+        //   : false
 
         const displayAvailable =
           available.eq(0) || !thresholdToShow.isFinite() ? null : available.minus(thresholdToShow).toFixed(0)
@@ -57,9 +57,8 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
         const remainingTokens = totalMaxPayout.minus(totalPayout)
         const remainingPercentage = remainingTokens.div(totalMaxPayout).times(100).toNumber()
         const availableTokensTooltip = displayAvailable
-          ? `${disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 3)} ${earnToken.symbol} ($${
-              disabled ? '0' : formatNumberSI(parseInt(dollarAvailable), 3)
-            })`
+          ? `${disabled ? '0' : formatNumberSI(parseFloat(displayAvailable), 3)} ${earnToken.symbol} ($${disabled ? '0' : formatNumberSI(parseInt(dollarAvailable), 3)
+          })`
           : 'Loading...'
         return {
           tokenDisplayProps: {
@@ -222,8 +221,8 @@ const BillsRows: React.FC<BillsRowsProps> = ({ billsToRender, noResults }) => {
             chainId === SupportedChainId.ARBITRUM_ONE
               ? EmptyComponentType.COMING_SOON
               : noResults
-              ? EmptyComponentType.NO_RESULTS
-              : EmptyComponentType.AVAILABLE_BILLS
+                ? EmptyComponentType.NO_RESULTS
+                : EmptyComponentType.AVAILABLE_BILLS
           }
         />
       )}

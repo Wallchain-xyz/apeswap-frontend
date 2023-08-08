@@ -1,6 +1,8 @@
 import axiosRetry from 'axios-retry'
 import axios from 'axios'
-import { apiV2BaseUrl } from 'config/constants/api'
+// import { apiV2BaseUrl } from 'config/constants/api'
+
+const apiV2BaseUrl = 'https://apeswap-api-v2-pr-90.herokuapp.com'
 
 const getBillNftData = async (billNftId: string, billNftAddress: string, chainId: number) => {
   try {
