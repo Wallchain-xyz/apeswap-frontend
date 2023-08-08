@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
+// Hooks
+import { useV2Pair } from 'hooks/useV2Pairs'
+
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'
 
@@ -13,6 +16,24 @@ import { AppState } from 'state'
 // Constants
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 const WIDO_NATIVE_TOKEN_ID = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+
+const getInputCurrencyAddress = ({
+  currencyA,
+  currencyB,
+  LPTokenAddress,
+}: {
+  currencyA: any
+  currencyB: any
+  LPTokenAddress: string
+}): string => {
+  if (currencyB) {
+    return LPTokenAddress
+  }
+  const {
+    tokenInfo: { address },
+  } = currencyA
+  return currencyA.isNative ? WIDO_NATIVE_TOKEN_ID : address
+}
 
 export const getWidoQuote = async ({
   inputCurrencyId,
@@ -39,7 +60,6 @@ export const getWidoQuote = async ({
       amount,
       slippagePercentage,
     })
-
     return quoteResult
   } catch (e) {
     console.error({ e })
@@ -60,9 +80,13 @@ export default function useGetWidoQuote({
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
   const { userZapSlippage } = useSelector<AppState, AppState['user']>((state) => state.user)
 
+  const [, pair] = useV2Pair(currencyA, currencyB)
+
+  const { liquidityToken: { address } = { address: '' } } = pair ?? {}
+
   const amount = convertToTokenValue(amountInput || '0', 18)
   const slippagePercentage = userZapSlippage / 100 || 0.05
-  const inputCurrencyId = currencyA.isNative ? WIDO_NATIVE_TOKEN_ID : '0x1234'
+  const inputCurrencyId = getInputCurrencyAddress({ currencyA, currencyB, LPTokenAddress: address })
 
   return useQuery({
     queryKey: [
