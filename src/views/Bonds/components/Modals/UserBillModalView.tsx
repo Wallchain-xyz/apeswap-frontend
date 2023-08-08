@@ -26,6 +26,7 @@ import Image from 'next/image'
 import useModal from 'hooks/useModal'
 import { ListTagVariants } from 'components/uikit/Tag/types'
 import ModalHeader from '../../../../components/uikit/Modal/ModalHeader'
+import { LiquidityDex, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
 
 interface BillModalProps {
   onDismiss?: () => void
@@ -104,7 +105,7 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
             <Flex sx={{ flexDirection: 'column' }}>
               <BillTitleContainer>
                 <Flex sx={{ mb: '5px' }}>
-                  <ListTag variant={billType as ListTagVariants} />
+                  <ListTag variant={billType as ListTagVariants} text={dexDisplayAttributes[bill?.lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].tag} />
                 </Flex>
                 <Flex sx={{ alignItems: 'center' }}>
                   <ServiceTokenDisplay
