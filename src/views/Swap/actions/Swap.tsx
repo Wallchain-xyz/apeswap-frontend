@@ -1,8 +1,8 @@
+import { useCallback, useRef, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { Button } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import { WrapErrorText, WrapInputError, WrapType } from 'hooks/useWrapCallback'
-import { useCallback, useState } from 'react'
 import { TradeState } from 'state/routing/types'
 import ConfirmSwap from '../components/ConfirmSwap'
 import { useRouter } from 'next/router'
@@ -20,7 +20,7 @@ import { useAddTxFromHash } from 'state/transactions/hooks'
 import { parseCurrency } from 'config/constants/lifiRouting'
 import useSelectChain from 'hooks/useSelectChain'
 import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
-import { useSwapCallback } from '../../../hooks/swap/useSwapCallback'
+import { useSwapCallback } from 'hooks/swap/useSwapCallback'
 
 const Swap = ({
   routingState,
@@ -102,10 +102,12 @@ const Swap = ({
     [onAcceptExchangeRateUpdate],
   )
 
+  const hasSetSwapStateRef = useRef(false)
+
   const updateRouteHook = useCallback(
     (route: Route) => {
       const foundTxHash = getTxHashFromRoute(route, true)
-      if (foundTxHash && !txHash) {
+      if (foundTxHash && !txHash && !hasSetSwapStateRef.current) {
         setSwapState({
           attemptingTxn: false,
           swapErrorMessage: undefined,
@@ -120,6 +122,7 @@ const Swap = ({
           outputCurrencyId: parseCurrency(route.toToken.address),
           minimumOutputCurrencyAmountRaw: route.toAmountMin,
         })
+        hasSetSwapStateRef.current = true
       }
     },
     [addTransaction, txHash],
@@ -212,6 +215,17 @@ const Swap = ({
     <Button fullWidth disabled>
       {routingState === TradeState.NO_ROUTE_FOUND ? 'No Route Found' : inputError}
     </Button>
+  ) : shouldChangeChain ? (
+    <Button
+      fullWidth
+      onClick={() => {
+        if (selectedRoute?.fromToken?.chainId) {
+          onSelectChain(selectedRoute?.fromToken?.chainId as unknown as ChainId)
+        }
+      }}
+    >
+      Switch to {NETWORK_LABEL[selectedRoute?.fromToken?.chainId as unknown as ChainId]}
+    </Button>
   ) : showApproveFlow ? (
     <Approval
       signatureState={signatureState}
@@ -228,17 +242,6 @@ const Swap = ({
       ) : wrapType === WrapType.UNWRAP ? (
         <>Unwrap</>
       ) : null}
-    </Button>
-  ) : shouldChangeChain ? (
-    <Button
-      fullWidth
-      onClick={() => {
-        if (selectedRoute?.fromToken?.chainId) {
-          onSelectChain(selectedRoute?.fromToken?.chainId as unknown as ChainId)
-        }
-      }}
-    >
-      Switch to {NETWORK_LABEL[selectedRoute?.fromToken?.chainId as unknown as ChainId]}
     </Button>
   ) : (
     <Button
