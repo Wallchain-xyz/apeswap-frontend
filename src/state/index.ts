@@ -15,7 +15,6 @@ import transactions from './transactions/reducer'
 import user from './user/reducer'
 import wallets from './wallets/reducer'
 import zap from './zap/reducer'
-import lhd from './lhd/reducer'
 import bills from './bills'
 import protocolDashboard from './protocolDashboard'
 import farms from './farms'
@@ -32,7 +31,6 @@ if (typeof window !== 'undefined') {
 
 const store = configureStore({
   reducer: {
-    lhd,
     application,
     user,
     transactions,

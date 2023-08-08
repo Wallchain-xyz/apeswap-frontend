@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import PageContainer from '../../../components/PageContainer'
 import FullProfile from '../../../views/LHD/components/FullProfile'
-import LHDModal from 'views/LHD/components/LHDModal'
 
 // Hooks
 import { useSelector } from 'react-redux'
@@ -14,7 +13,6 @@ import { AppState } from 'state'
 const MultiParamPage = () => {
   const router = useRouter()
   const { chainID, address } = router.query
-  const { isLhdAuth } = useSelector((state: AppState) => state.lhd)
 
   useEffect(() => {
     if (chainID && address) {
@@ -25,7 +23,6 @@ const MultiParamPage = () => {
   return (
     <PageContainer variant="lhd" pageDetails={`${chainID}_${address}`}>
       <FullProfile chainID={chainID as string} address={address as string} />
-      <LHDModal isLhdAuthModalOpen={!isLhdAuth} />
     </PageContainer>
   )
 }
