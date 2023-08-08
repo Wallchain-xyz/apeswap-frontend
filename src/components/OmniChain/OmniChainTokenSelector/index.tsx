@@ -47,7 +47,7 @@ const ChainTokenSelector = ({
       <Flex sx={styles.searchAndListContainer}>
         <Flex sx={{ position: 'relative', flexDirection: 'column' }}>
           <Flex>
-            <Input onChange={handleInput} sx={styles.searchInput} placeholder="Search by chain name" />
+            <Input onChange={handleInput} sx={styles.searchInput} placeholder="Search by token or address" />
             <Flex sx={{ position: 'absolute', right: '10px', top: '12px' }}>
               <Svg icon="search" />
             </Flex>
