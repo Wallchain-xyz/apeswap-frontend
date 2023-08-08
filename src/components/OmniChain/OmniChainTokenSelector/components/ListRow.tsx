@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Currency } from '@ape.swap/sdk-core'
 import TokenImportWarning from 'components/TokenImportWarning'
 import { Flex, Svg, Text } from 'components/uikit'
@@ -16,6 +16,7 @@ const ListRow = ({
   style,
   onSelect,
   onDismiss,
+  showAddToMeta,
 }: {
   currency: Currency
   userBalance: string | undefined
@@ -24,7 +25,10 @@ const ListRow = ({
   style: CSSProperties
   onSelect: () => void
   onDismiss?: () => void
+  showAddToMeta?: boolean
 }) => {
+  const [isSuccessfulCopy, setIsSuccessfulCopy] = useState<boolean>(false)
+
   const [onImportWarningModal] = useModal(
     <TokenImportWarning currency={currency} onDismiss={onDismiss} onSelect={onSelect} />,
     true,
@@ -32,7 +36,8 @@ const ListRow = ({
     'tokenImportWarningModal',
   )
 
-  const addToMetaMask = () => {
+  const addToMetaMask = (e: React.MouseEvent) => {
+    e.stopPropagation()
     registerToken(
       currency?.wrapped?.address,
       currency?.wrapped?.symbol,
@@ -42,6 +47,15 @@ const ListRow = ({
   }
 
   const hideDust = userBalance === '0.000000000000000001' ? '0' : userBalance
+
+  const handleCopy = (e: React.MouseEvent) => {
+    setIsSuccessfulCopy(true)
+    e.stopPropagation()
+    navigator.clipboard.writeText(currency?.wrapped?.address)
+    setTimeout(() => {
+      setIsSuccessfulCopy(false)
+    }, 1000)
+  }
 
   return (
     <Flex
@@ -75,18 +89,15 @@ const ListRow = ({
                 <Svg icon="error" width={13} color="yellow" />
               </span>
             )}
-            {searchTokenIsAdded && (
+            {searchTokenIsAdded && showAddToMeta && (
               <>
                 <Flex sx={{ ml: '5px', cursor: 'copy' }} onClick={addToMetaMask}>
                   <Svg icon="metamask" width={15} />
                 </Flex>
               </>
             )}
-            <Flex
-              sx={{ ml: '5px', cursor: 'copy' }}
-              onClick={() => navigator.clipboard.writeText(currency?.wrapped?.address)}
-            >
-              <Svg icon="copy" width={15} />
+            <Flex sx={{ ml: '5px', cursor: 'copy' }} onClick={handleCopy}>
+              <Svg icon={isSuccessfulCopy ? 'success' : 'copy'} width={15} />
             </Flex>
           </Flex>
           <Text weight={400} size="10px" sx={{ lineHeight: '12px' }}>

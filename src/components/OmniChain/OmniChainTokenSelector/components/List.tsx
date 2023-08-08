@@ -29,19 +29,21 @@ const List = ({
   onDismiss?: () => void
   selectedChain?: ChainId
 }) => {
-  const { account } = useWeb3React()
-  const debouncedQuery = useDebounce(searchQuery, 200)
+  const { account, chainId } = useWeb3React()
+  const debouncedQuery = useDebounce(searchQuery, 300)
 
   const defaultTokens = useAllTokens(selectedChain)
-  const [balances, balancesAreLoading] = useAllTokenBalances(selectedChain)
+  const [balances] = useAllTokenBalances(selectedChain)
 
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
   const isAddressSearch = isAddress(debouncedQuery)
 
+  const tokensArray = Object.values(defaultTokens)
   const filteredTokens: Token[] = useMemo(() => {
-    return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
-  }, [defaultTokens, debouncedQuery])
+    return tokensArray.filter(getTokenFilter(debouncedQuery))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokensArray.length, debouncedQuery])
 
   const sortedTokens: Token[] = useMemo(
     () =>
@@ -71,6 +73,7 @@ const List = ({
   const filteredInactiveTokens = useSearchInactiveTokenLists(
     filteredTokens.length === 0 || (debouncedQuery.length > 2 && !isAddressSearch) ? debouncedQuery : undefined,
   )
+  console.log(filteredInactiveTokens)
 
   const searchCurrencies: Currency[] = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
@@ -104,6 +107,7 @@ const List = ({
             onDismiss && onDismiss()
           }}
           onDismiss={onDismiss}
+          showAddToMeta={selectedChain === chainId}
         />
       )
     },
@@ -116,6 +120,8 @@ const List = ({
       selectedCurrency,
       onCurrencySelect,
       onDismiss,
+      selectedChain,
+      chainId,
     ],
   )
 
