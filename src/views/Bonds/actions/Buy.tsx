@@ -28,7 +28,7 @@ import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
-import { LiquidityDex, dexFactories, dexToZapMapping, ZapVersion } from '@ape.swap/apeswap-lists'
+import { LiquidityDex, dexFactories, dexToZapMapping, ZapVersion, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
 import { useRouter } from 'next/router'
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
@@ -321,7 +321,11 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               >
                 {t('Get LP')}
                 <Flex sx={{ ml: '10px' }}>
-                  <Svg icon="ZapIcon" color="yellow" />
+                  {zapVersion !== ZapVersion.External
+                    ?
+                    <Svg icon="ZapIcon" color="yellow" />
+                    :
+                    <img src={dexDisplayAttributes[lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].icon ?? ''} width={20}></img>}
                 </Flex>
               </Button>
             </Box>
