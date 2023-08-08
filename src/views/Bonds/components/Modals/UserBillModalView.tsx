@@ -105,7 +105,15 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
             <Flex sx={{ flexDirection: 'column' }}>
               <BillTitleContainer>
                 <Flex sx={{ mb: '5px' }}>
-                  <ListTag variant={billType as ListTagVariants} text={dexDisplayAttributes[bill?.lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].tag} />
+                  {bill?.billType !== 'reserve'
+                    ?
+                    <Flex sx={{ mr: '5px' }}>
+                      <ListTag variant={'bondLp'} text={dexDisplayAttributes[bill?.lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].tag} />
+                    </Flex>
+                    :
+                    ''
+                  }
+                  <ListTag variant={billType as ListTagVariants} />
                 </Flex>
                 <Flex sx={{ alignItems: 'center' }}>
                   <ServiceTokenDisplay
@@ -125,25 +133,25 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, bill, billId })
             <Flex sx={{ flexDirection: 'column' }}>
               {attributes
                 ? attributes.map((attrib) => {
-                    return (
-                      <GridTextValContainer key={attrib.value}>
-                        <Text size="12px" weight={500} sx={{ lineHeight: '12px' }}>
-                          {attrib?.trait_type}
-                        </Text>
-                        <Text size="12px" weight={700} sx={{ lineHeight: '12px' }}>
-                          {attrib?.value}
-                        </Text>
-                      </GridTextValContainer>
-                    )
-                  })
+                  return (
+                    <GridTextValContainer key={attrib.value}>
+                      <Text size="12px" weight={500} sx={{ lineHeight: '12px' }}>
+                        {attrib?.trait_type}
+                      </Text>
+                      <Text size="12px" weight={700} sx={{ lineHeight: '12px' }}>
+                        {attrib?.value}
+                      </Text>
+                    </GridTextValContainer>
+                  )
+                })
                 : BILL_ATTRIBUTES.map((attrib) => {
-                    return (
-                      <GridTextValContainer key={attrib}>
-                        <Text size="12px">{t(attrib)}</Text>
-                        <Skeleton width="150px" />
-                      </GridTextValContainer>
-                    )
-                  })}
+                  return (
+                    <GridTextValContainer key={attrib}>
+                      <Text size="12px">{t(attrib)}</Text>
+                      <Skeleton width="150px" />
+                    </GridTextValContainer>
+                  )
+                })}
             </Flex>
             <Flex sx={{ width: '100%' }}>
               <Flex

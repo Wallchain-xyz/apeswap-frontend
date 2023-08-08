@@ -97,7 +97,15 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
           <Flex sx={{ flexDirection: 'column' }}>
             <BillTitleContainer>
               <Flex sx={{ mb: '5px' }}>
-                <ListTag variant={bill?.billType as ListTagVariants} text={dexDisplayAttributes[bill?.lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].tag} />
+                {bill?.billType !== 'reserve'
+                  ?
+                  <Flex sx={{ mr: '5px' }}>
+                    <ListTag variant={'bondLp'} text={dexDisplayAttributes[bill?.lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].tag} />
+                  </Flex>
+                  :
+                  ''
+                }
+                <ListTag variant={bill?.billType as ListTagVariants} />
               </Flex>
               <Flex sx={{ alignItems: 'center' }}>
                 <ServiceTokenDisplay
