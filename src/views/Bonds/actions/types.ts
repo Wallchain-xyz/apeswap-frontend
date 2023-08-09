@@ -29,6 +29,7 @@ export interface BillActionsProps {
   bill: Bills
   zap: MergedZap
   zapRouteState: TradeState
+  currencyA: Currency
   currencyB: Currency
   handleBuy: () => void
   billValue: string

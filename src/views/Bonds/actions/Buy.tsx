@@ -389,6 +389,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               bill={bill}
               zap={zap}
               zapRouteState={zapRouteState}
+              currencyA={currencyA as Currency}
               currencyB={currencyB as Currency}
               handleBuy={handleBuy}
               billValue={billValue}

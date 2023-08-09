@@ -8,4 +8,5 @@ export const QUERY_KEYS = {
   LIVE_AND_UPCOMING: 'liveAndUpcoming',
   TVL_STATS: 'tvlStats',
   WIDO_QUOTE: 'widoQuote',
+  WIDO_ALLOWANCE: 'widoAllowance',
 }
