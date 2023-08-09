@@ -2,7 +2,7 @@ export enum DatasetNames {
   // $ Values
   MarketCap = 'Market Cap',
   TotalExtractableLiquidity = 'Total Extractable Liquidity',
-  OwnedLiquidity = 'Owned Liquidity',
+  OwnedLiquidity = 'Owned Extractable Liquidity',
   LiquidityDebt = 'Liquidity Debt',
   // Scores
   TotalScore = 'Total Score',
@@ -14,4 +14,5 @@ export enum DatasetNames {
 export enum HistoricalDataType {
   Dollar = 'Dollars',
   Score = 'Scores',
+  Liquidity = 'Liquidity',
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Grid } from 'theme-ui'
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from 'chart.js'
@@ -79,7 +79,8 @@ const HistoricalChart = ({
       <Line options={options} data={chartData} />
       <Grid
         sx={{
-          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '1fr 1fr 1fr 1fr'],
+          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '1fr 1fr 1fr'],
+          mt: '10px',
         }}
       >
         {Object.values(DatasetNames).map((datasetName) => (
@@ -92,8 +93,19 @@ const HistoricalChart = ({
             onClick={() => handleDataToggle({ datasetName })}
           >
             <CheckBox checked={toggledData[datasetName]} onChange={() => handleDataToggle({ datasetName })} />
-            <Text ml="5px" sx={{ fontSize: ['10px', '10px', '12px'] }}>
+            <Text ml="5px" sx={{ fontSize: ['9px', '9px', '12px'], fontWeight: '500' }}>
               {t(datasetName)}
+              <Flex
+                sx={{
+                  float: 'right',
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '15px',
+                  background: data.datasets.filter((x) => x.label === datasetName)[0].backgroundColor,
+                  ml: '4px',
+                  mt: '8px',
+                }}
+              />
             </Text>
           </Flex>
         ))}

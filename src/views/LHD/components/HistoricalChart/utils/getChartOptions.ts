@@ -12,6 +12,8 @@ const SCORES = [
   DatasetNames.HealthScore,
 ]
 
+const LIQUIDITY = [DatasetNames.OwnedLiquidity, DatasetNames.TotalExtractableLiquidity]
+
 export const getChartOptions = (
   toggledData: Record<DatasetNames, boolean>,
   isMobile: boolean,
@@ -19,16 +21,26 @@ export const getChartOptions = (
   const scales = [
     DatasetNames.LiquidityDebt,
     DatasetNames.MarketCap,
-    DatasetNames.OwnedLiquidity,
-    DatasetNames.TotalExtractableLiquidity,
+    HistoricalDataType.Liquidity,
     HistoricalDataType.Score,
   ].reduce((acc: any, value) => {
     const isScore = value === HistoricalDataType.Score
+    const isLiquidity = value === HistoricalDataType.Liquidity
     const isAnyScoreToggled = SCORES.some((score) => toggledData[score])
+    const isAnyLiquidityToggled = LIQUIDITY.some((liquidity) => toggledData[liquidity])
+
+    let displayValue
+    if (isScore) {
+      displayValue = isAnyScoreToggled
+    } else if (isLiquidity) {
+      displayValue = isAnyLiquidityToggled
+    } else {
+      displayValue = toggledData[value as DatasetNames]
+    }
 
     acc[value] = {
       type: 'linear' as const,
-      display: isScore ? isAnyScoreToggled : toggledData[value as DatasetNames],
+      display: displayValue,
       position: isScore ? 'right' : ('left' as const),
       grid: {
         display: true,
@@ -109,7 +121,7 @@ export const getChartOptions = (
         border: { dash: [4, 4] },
         ticks: {
           display: true,
-          maxTicksLimit: 6,
+          maxTicksLimit: isMobile === true ? 4 : 6,
           callback: function (tickValue: string, index: number, array: []) {
             // @ts-ignore
             const unixTimestamp: number = this.getLabelForValue(tickValue)

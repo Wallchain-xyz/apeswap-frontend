@@ -47,7 +47,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: totalExtractableLiquidity,
     borderColor: '#1179A6',
     backgroundColor: '#1179A6',
-    yAxisID: DatasetNames.TotalExtractableLiquidity,
+    yAxisID: HistoricalDataType.Liquidity,
   }
 
   const totalScoreSet = {
@@ -71,7 +71,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: ownedLiquidity,
     borderColor: '#904DC4',
     backgroundColor: '#904DC4',
-    yAxisID: DatasetNames.OwnedLiquidity,
+    yAxisID: HistoricalDataType.Liquidity,
   }
 
   const liquidityDebtSet = {
