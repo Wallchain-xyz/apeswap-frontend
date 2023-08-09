@@ -26,10 +26,10 @@ export function Balance({ balance }: { balance: CurrencyAmount<Currency> }) {
   )
 }
 
-const DropdownDisplay: React.FC<{ inputCurrencies: Currency[]; active?: boolean }> = ({ inputCurrencies, active }) => {
+const DropdownDisplay: React.FC<{ principalToken: Currency | null, inputCurrencies: Currency[]; active?: boolean }> = ({ principalToken, inputCurrencies, active }) => {
   const { account } = useWeb3React()
   const [, pair] = useV2Pair(inputCurrencies[0], inputCurrencies[1])
-  const balance = useCurrencyBalance(account ?? undefined, pair ? pair?.liquidityToken : inputCurrencies[0])
+  const balance = useCurrencyBalance(account ?? undefined, inputCurrencies[1] ? (principalToken ?? inputCurrencies[0]) : inputCurrencies[0])
 
   return (
     <Flex sx={{ alignItems: 'center', width: active ? '100%' : '170px' }}>

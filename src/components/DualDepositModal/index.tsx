@@ -137,6 +137,7 @@ const DualDepositModal: React.FC<DualDepositModalProps> = ({
             value={typedValue}
             onCurrencySelect={handleCurrencySelect}
             inputCurrencies={inputCurrencies}
+            principalToken={pair?.liquidityToken ?? currencyA}
             lpList={[lpCurrencies]}
             enableZap={enableZap}
           />

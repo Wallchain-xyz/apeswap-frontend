@@ -34,12 +34,14 @@ export const listTagVariants = {
   LIQUIDITY: 'liquidity',
   RESERVE: 'reserve',
   LAUNCH: 'launch',
+  bondLp: 'bondLp'
 } as const
 
 export type ListTagVariants = (typeof listTagVariants)[keyof typeof listTagVariants]
 
 export interface ListTagProps extends SpaceProps {
   variant: ListTagVariants
+  text?: string
 }
 
 export const lpTags = ['ape', 'uni', 'ark']
