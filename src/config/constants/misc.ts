@@ -35,3 +35,5 @@ export enum PRODUCT {
 export const BASE_EXCHANGE_URL = 'https://apeswap.finance'
 export const BASE_ADD_LIQUIDITY_URL = `${BASE_EXCHANGE_URL}/add`
 export const BASE_LIQUIDITY_POOL_URL = `${BASE_EXCHANGE_URL}/pool`
+
+export const WIDO_NATIVE_TOKEN_ID = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'

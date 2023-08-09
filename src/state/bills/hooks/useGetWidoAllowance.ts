@@ -45,7 +45,7 @@ const useGetWidoAllowance = ({
   return useQuery({
     queryKey: [QUERY_KEYS.WIDO_ALLOWANCE, { account }, { fromToken }, { fromToken }],
     queryFn: () => getWidoAllowance({ chainId, toToken, fromToken, account }),
-    enabled: isActive && !isNative,
+    enabled: isActive && !isNative && !!fromToken && !!toToken,
   })
 }
 

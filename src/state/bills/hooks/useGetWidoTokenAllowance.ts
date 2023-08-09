@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import { CurrencyAmount, Currency } from '@ape.swap/sdk-core'
 
 // Types
 import { AppState } from 'state'
@@ -10,28 +9,7 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'
-
-// Constants
-const WIDO_NATIVE_TOKEN_ID = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-
-const getInputCurrencyInfo = ({
-  currencyA,
-  currencyB,
-  pair,
-}: {
-  currencyA: any
-  currencyB: any | null
-  pair: any | null
-}): { address: string; decimals: number } => {
-  if (currencyB) {
-    const { liquidityToken: { address, decimals } = { address: '', decimals: 18 } } = pair || {}
-    return { address, decimals }
-  } else if (currencyA.isNative) {
-    return { address: WIDO_NATIVE_TOKEN_ID, decimals: currencyA.decimals }
-  }
-  const { tokenInfo: { address, decimals } = { address: '', decimals: 18 } } = currencyA || {}
-  return { address, decimals }
-}
+import getCurrencyInfo from 'utils/getCurrencyInfo'
 
 const useGetWidoTokenAllowance = ({
   currencyA,
@@ -49,7 +27,7 @@ const useGetWidoTokenAllowance = ({
 
   let requiresApproval: boolean = !isNative
 
-  const { address, decimals } = getInputCurrencyInfo({ currencyA, currencyB, pair })
+  const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
 
   const { data: widoAllowance, isLoading: isWidoAllowanceLoading } = useGetWidoAllowance({
     fromToken: address,

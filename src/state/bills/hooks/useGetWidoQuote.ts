@@ -9,29 +9,13 @@ import { useV2Pair } from 'hooks/useV2Pairs'
 
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'
+import getCurrencyInfo from 'utils/getCurrencyInfo'
 
 // Types
 import { AppState } from 'state'
 
 // Constants
 import { QUERY_KEYS } from 'config/constants/queryKeys'
-const WIDO_NATIVE_TOKEN_ID = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-
-const getInputCurrencyAddress = ({
-  currencyA,
-  currencyB,
-  LPTokenAddress,
-}: {
-  currencyA: any
-  currencyB: any
-  LPTokenAddress: string
-}): string => {
-  if (currencyB) {
-    return LPTokenAddress
-  }
-  const { tokenInfo: { address } = { address: '' } } = currencyA
-  return currencyA.isNative ? WIDO_NATIVE_TOKEN_ID : address
-}
 
 export const getWidoQuote = async ({
   inputCurrencyId,
@@ -80,23 +64,22 @@ export default function useGetWidoQuote({
 
   const [, pair] = useV2Pair(currencyA, currencyB)
 
-  const { liquidityToken: { address } = { address: '' } } = pair ?? {}
+  const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
 
-  const amount = convertToTokenValue(amountInput || '0', 18)
+  const amount = convertToTokenValue(amountInput || '0', decimals)
   const slippagePercentage = userZapSlippage / 100 || 0.05
-  const inputCurrencyId = getInputCurrencyAddress({ currencyA, currencyB, LPTokenAddress: address })
 
   return useQuery({
     queryKey: [
       QUERY_KEYS.WIDO_QUOTE,
-      { inputCurrencyId },
+      { inputCurrencyId: address },
       { amountInput },
       { toToken },
       slippagePercentage,
       account,
       chainId,
     ],
-    queryFn: () => getWidoQuote({ inputCurrencyId, amount, toToken, slippagePercentage, account, chainId }),
+    queryFn: () => getWidoQuote({ inputCurrencyId: address, amount, toToken, slippagePercentage, account, chainId }),
     enabled: !!amountInput,
   })
 }
