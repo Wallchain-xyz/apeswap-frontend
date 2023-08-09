@@ -79,7 +79,7 @@ const HistoricalChart = ({
       <Line options={options} data={chartData} />
       <Grid
         sx={{
-          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '1fr 1fr 1fr'],
+          gridTemplateColumns: ['1fr 1fr', '1fr 1fr', '0.7fr 1fr 1fr 1fr'],
           mt: '10px',
         }}
       >

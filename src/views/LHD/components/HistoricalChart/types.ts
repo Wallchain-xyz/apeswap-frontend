@@ -1,8 +1,8 @@
 export enum DatasetNames {
   // $ Values
   MarketCap = 'Market Cap',
-  TotalExtractableLiquidity = 'Total Extractable Liquidity',
-  OwnedLiquidity = 'Owned Extractable Liquidity',
+  TotalExtractableLiquidity = 'Total Extractable Liq',
+  OwnedLiquidity = 'Owned Extractable Liq',
   LiquidityDebt = 'Liquidity Debt',
   // Scores
   TotalScore = 'Total Score',
