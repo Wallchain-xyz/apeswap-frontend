@@ -73,7 +73,6 @@ const List = ({
   const filteredInactiveTokens = useSearchInactiveTokenLists(
     filteredTokens.length === 0 || (debouncedQuery.length > 2 && !isAddressSearch) ? debouncedQuery : undefined,
   )
-  console.log(filteredInactiveTokens)
 
   const searchCurrencies: Currency[] = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
@@ -92,6 +91,7 @@ const List = ({
       const currencyIsImported = !!filteredInactiveTokens.find(
         (token) => token.address.toLowerCase() === currency.wrapped.address.toLowerCase(),
       )
+
       return (
         <ListRow
           currency={row}
@@ -112,16 +112,16 @@ const List = ({
       )
     },
     [
-      balances,
-      filteredInactiveTokens,
-      nativeBalance,
-      searchTokenIsAdded,
-      searchToken,
       selectedCurrency,
-      onCurrencySelect,
+      filteredInactiveTokens,
+      searchToken,
+      searchTokenIsAdded,
+      balances,
+      nativeBalance,
       onDismiss,
       selectedChain,
       chainId,
+      onCurrencySelect,
     ],
   )
 

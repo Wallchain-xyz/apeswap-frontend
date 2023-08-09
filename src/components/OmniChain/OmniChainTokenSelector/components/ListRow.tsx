@@ -7,6 +7,7 @@ import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
 import { CSSProperties, Spinner } from 'theme-ui'
 import { registerToken } from 'utils'
 import OmniTokenImage from '../../OmniTokenImage'
+import { useWeb3React } from '@web3-react/core'
 
 const ListRow = ({
   currency,
@@ -27,6 +28,7 @@ const ListRow = ({
   onDismiss?: () => void
   showAddToMeta?: boolean
 }) => {
+  const { account } = useWeb3React()
   const [isSuccessfulCopy, setIsSuccessfulCopy] = useState<boolean>(false)
 
   const [onImportWarningModal] = useModal(
@@ -34,6 +36,7 @@ const ListRow = ({
     true,
     true,
     'tokenImportWarningModal',
+    true,
   )
 
   const addToMetaMask = (e: React.MouseEvent) => {
@@ -70,14 +73,7 @@ const ListRow = ({
           backgroundColor: 'white4',
         },
       }}
-      onClick={() =>
-        searchTokenIsAdded
-          ? onSelect()
-          : () => {
-              onDismiss && onDismiss()
-              onImportWarningModal()
-            }
-      }
+      onClick={() => (searchTokenIsAdded ? onSelect() : onImportWarningModal())}
     >
       <Flex sx={{ alignItems: 'center' }}>
         <OmniTokenImage currency={currency} size={30} />
@@ -106,7 +102,7 @@ const ListRow = ({
         </Flex>
       </Flex>
       <Text size="14px" weight={600} sx={{ lineHeight: '0px' }}>
-        {hideDust === undefined ? <Spinner width="15px" height="15px" /> : hideDust}
+        {hideDust === undefined ? account ? <Spinner width="15px" height="15px" /> : '' : hideDust}
       </Text>
     </Flex>
   )
