@@ -24,7 +24,7 @@ const NewRates = ({ newRates }: { newRates: ExchangeRateUpdateParams }) => {
           <Flex sx={{ flexDirection: 'column', ml: '10px' }}>
             <Text sx={{ fontSize: '12px', fontWeight: '300', lineHeight: '14px' }}>Old Amount:</Text>
             <Text sx={{ fontSize: '16px', fontWeight: '700' }}>
-              {humanOutputAmount(oldToAmount, toToken.decimals)} {toToken.symbol}
+              {humanOutputAmount(oldToAmount, toToken.decimals, 8)} {toToken.symbol}
             </Text>
           </Flex>
         </Flex>
@@ -45,7 +45,7 @@ const NewRates = ({ newRates }: { newRates: ExchangeRateUpdateParams }) => {
           <Flex sx={{ flexDirection: 'column', ml: '10px' }}>
             <Text sx={{ fontSize: '12px', fontWeight: '300', lineHeight: '14px' }}>New Amount:</Text>
             <Text sx={{ fontSize: '16px', fontWeight: '700' }}>
-              {humanOutputAmount(newToAmount, toToken.decimals)} {toToken.symbol}
+              {humanOutputAmount(newToAmount, toToken.decimals, 8)} {toToken.symbol}
             </Text>
           </Flex>
         </Flex>
