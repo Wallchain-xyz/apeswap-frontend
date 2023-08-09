@@ -105,7 +105,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
                     body={
                       activeTab === TabNames.Liquidity
                         ? `This chart plots a project's total and owned extractable liquidity by MCAP. Additionally it shows the project's liquidity debt, where the token sits in relationship to the sustainability range, and plots other tokens' total extractable liquidity.`
-                        : 'This chart shows historical data used to determine liquidity strength. Select which data to show by clicking the checkboxes below. \n'
+                        : "This chart shows the token's historical data used to determine its health. Select which data to show by clicking the checkboxes below. \n"
                     }
                   >
                     <Svg icon="question" width="12px" />

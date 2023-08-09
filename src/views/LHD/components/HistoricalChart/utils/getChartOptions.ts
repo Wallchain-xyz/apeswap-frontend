@@ -121,7 +121,7 @@ export const getChartOptions = (
         border: { dash: [4, 4] },
         ticks: {
           display: true,
-          maxTicksLimit: isMobile === true ? 4 : 6,
+          maxTicksLimit: isMobile === true ? 2 : 4,
           callback: function (tickValue: string, index: number, array: []) {
             // @ts-ignore
             const unixTimestamp: number = this.getLabelForValue(tickValue)
