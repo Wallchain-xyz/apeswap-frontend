@@ -29,9 +29,7 @@ const getInputCurrencyAddress = ({
   if (currencyB) {
     return LPTokenAddress
   }
-  const {
-    tokenInfo: { address },
-  } = currencyA
+  const { tokenInfo: { address } = { address: '' } } = currencyA
   return currencyA.isNative ? WIDO_NATIVE_TOKEN_ID : address
 }
 
