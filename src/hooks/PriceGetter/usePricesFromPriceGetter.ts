@@ -98,6 +98,9 @@ export function usePriceGetterData(
               case Protocols.Algebra:
                 factoryAlgebra = dexFactory?.factory ?? factoryAlgebra
                 break
+              case Protocols.Steer:
+                factoryV3 = dexFactory?.factory ?? factoryV3
+                break
             }
           }
 
@@ -113,7 +116,7 @@ export function usePriceGetterData(
                 throw new Error(errMsg)
               }
               break
-            case Protocols.V3:
+            case Protocols.V3 || Protocols.Steer:
               if (factoryV3 === ZERO_ADDRESS) {
                 throw new Error(errMsg)
               }
