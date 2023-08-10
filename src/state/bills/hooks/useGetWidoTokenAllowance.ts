@@ -24,10 +24,8 @@ const useGetWidoTokenAllowance = ({
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
 
   const isNative = currencyA.isNative
-
-  let requiresApproval: boolean = !isNative
-
   const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
+  const amountToApprove = convertToTokenValue(amountInput || '0', decimals).toString()
 
   const { data: widoAllowance, isLoading: isWidoAllowanceLoading } = useGetWidoAllowance({
     fromToken: address,
@@ -36,11 +34,12 @@ const useGetWidoTokenAllowance = ({
   })
   const { allowance } = widoAllowance ?? {}
 
-  const amountToApprove = convertToTokenValue(amountInput || '0', decimals).toString()
+  let requiresApproval: boolean = isNative ? !isNative : isWidoAllowanceLoading
 
   if (!isNative && !isWidoAllowanceLoading && !!allowance) {
     // TODO: maybe will need to use useHasPendingApproval?
-    requiresApproval = amountToApprove > allowance
+    console.log({ amountToApprove, allowance })
+    requiresApproval = Number(amountToApprove) > Number(allowance)
   }
 
   return { requiresApproval, isWidoAllowanceLoading }

@@ -38,6 +38,7 @@ export interface BillActionsProps {
   balance: string
   pendingTrx: boolean
   errorMessage: string | null
+  isWidoSupported: boolean
 }
 
 export interface DualCurrencySelector {
