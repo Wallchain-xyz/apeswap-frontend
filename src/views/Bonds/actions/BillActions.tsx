@@ -14,9 +14,13 @@ import { useToastError } from '../../../state/application/hooks'
 import { fetchBillsUserDataAsync } from '../../../state/bills'
 import { useAppDispatch } from '../../../state/hooks'
 
+// Hooks
+import useGetWidoTokenAllowance from 'state/bills/hooks/useGetWidoTokenAllowance'
+
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
   zap,
+  currencyA,
   currencyB,
   handleBuy,
   billValue,
@@ -26,14 +30,29 @@ const BillActions: React.FC<BillActionsProps> = ({
   balance,
   pendingTrx,
   errorMessage,
+  isWidoSupported,
+  widoQuote,
 }) => {
   const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
+  const { chainId, account } = useWeb3React()
+
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
+  const bondContractAddress = contractAddress[chainId as SupportedChainId] || ''
+
   const toastError = useToastError()
   const dispatch = useAppDispatch()
-  const { chainId, account } = useWeb3React()
+
+  const {
+    requiresApproval: requiresApprovalWido,
+    approveWidoSpender,
+    isApproveWidoSpenderLoading,
+  } = useGetWidoTokenAllowance({
+    currencyA,
+    currencyB,
+    toToken: bondContractAddress,
+  })
 
   const { onApprove } = useApproveBill(
     lpToken?.address?.[chainId as SupportedChainId] ?? '',
@@ -63,43 +82,61 @@ const BillActions: React.FC<BillActionsProps> = ({
       })
   }
 
-  return (
-    <>
-      {!currencyB && showApproveZapFlow ? (
-        <Button
-          onClick={approveCallback}
-          disabled={approval !== ApprovalState.NOT_APPROVED}
-          load={approval === ApprovalState.PENDING}
-          fullWidth
-        >
-          {approval === ApprovalState.PENDING
-            ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
-            : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
-        </Button>
-      ) : currencyB && showApproveLP ? (
-        <Button onClick={handleLPApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
-          {t('Enable')}
-        </Button>
-      ) : (
-        <BuyButton
-          onClick={handleBuy}
-          load={pendingTrx || zapRouteState === TradeState.LOADING}
-          disabled={
-            billValue === 'NaN' ||
-            parseFloat(billValue) < 0.01 ||
-            parseFloat(billValue) > parseFloat(purchaseLimit) ||
-            parseFloat(balance) < parseFloat(value) ||
-            pendingApprove ||
-            pendingTrx ||
-            !!errorMessage ||
-            zapRouteState === TradeState.LOADING
-          }
-        >
-          {errorMessage && !pendingTrx ? errorMessage : t('Buy')}
-        </BuyButton>
-      )}
-    </>
-  )
+  const getBillActionButton = () => {
+    switch (true) {
+      case isWidoSupported && requiresApprovalWido:
+        return (
+          <Button
+            onClick={() => approveWidoSpender()}
+            disabled={isApproveWidoSpenderLoading}
+            load={isApproveWidoSpenderLoading}
+          >
+            {isApproveWidoSpenderLoading ? 'isApproveWidoSpenderLoading' : 'Approve Wido'}
+          </Button>
+        )
+      case currencyB && showApproveZapFlow && !isWidoSupported:
+        return (
+          <Button
+            onClick={approveCallback}
+            disabled={approval !== ApprovalState.NOT_APPROVED}
+            load={approval === ApprovalState.PENDING}
+            fullWidth
+          >
+            {approval === ApprovalState.PENDING
+              ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
+              : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
+          </Button>
+        )
+      case currencyB && showApproveLP && !isWidoSupported:
+        return (
+          <Button onClick={handleLPApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
+            {t('Enable')}
+          </Button>
+        )
+      default:
+        return (
+          <BuyButton
+            onClick={handleBuy}
+            load={pendingTrx || zapRouteState === TradeState.LOADING}
+            disabled={
+              billValue === 'NaN' ||
+              parseFloat(billValue) < 0.01 ||
+              parseFloat(billValue) > parseFloat(purchaseLimit) ||
+              parseFloat(balance) < parseFloat(value) ||
+              pendingApprove ||
+              pendingTrx ||
+              !!errorMessage ||
+              zapRouteState === TradeState.LOADING ||
+              (!widoQuote && isWidoSupported)
+            }
+          >
+            {errorMessage && !pendingTrx ? errorMessage : t('Buy')}
+          </BuyButton>
+        )
+    }
+  }
+
+  return getBillActionButton()
 }
 
 export default React.memo(BillActions)

@@ -85,21 +85,10 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const bondContractAddress = contractAddress[chainId as SupportedChainId] || ''
-  const {
-    data: widoQuote,
-    isLoading,
-    isError,
-  } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
-  if (!isLoading) {
-    console.log({ widoQuote })
-  }
+  const { data: widoQuote } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
   const { signTransaction } = useSignTransaction()
 
   const { to, data, value } = widoQuote ?? {}
-
-  if (isError) {
-    console.log('failed to fetch widoQuote')
-  }
 
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
   const { callback: zapCallback } = useZapCallback(
