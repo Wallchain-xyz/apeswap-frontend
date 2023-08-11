@@ -29,8 +29,8 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
   const ownershipScoreSet = {
     label: DatasetNames.OwnershipScore,
     data: ownershipScore,
-    borderColor: 'rgb(53, 162, 235)',
-    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    borderColor: '#A01A7D',
+    backgroundColor: '#A01A7D',
     yAxisID: HistoricalDataType.Score,
   }
 
