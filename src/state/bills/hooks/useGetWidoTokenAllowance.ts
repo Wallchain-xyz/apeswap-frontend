@@ -5,6 +5,7 @@ import { AppState } from 'state'
 
 // Hooks
 import useGetWidoAllowance from './useGetWidoAllowance'
+import useApproveWidoSpender from './useApproveWidoSpender'
 import { useV2Pair } from 'hooks/useV2Pairs'
 
 // Utils
@@ -30,18 +31,23 @@ const useGetWidoTokenAllowance = ({
   const { data: widoAllowance, isLoading: isWidoAllowanceLoading } = useGetWidoAllowance({
     fromToken: address,
     toToken,
-    isNative,
+    isEnabled: !isNative && Number(amountToApprove) > 0,
   })
   const { allowance } = widoAllowance ?? {}
 
   let requiresApproval: boolean = isNative ? !isNative : isWidoAllowanceLoading
 
   if (!isNative && !isWidoAllowanceLoading && !!allowance) {
-    // TODO: maybe will need to use useHasPendingApproval?
     requiresApproval = Number(amountToApprove) > Number(allowance)
   }
 
-  return { requiresApproval, isWidoAllowanceLoading }
+  const { mutate: approveWidoSpender, isLoading: isApproveWidoSpenderLoading } = useApproveWidoSpender({
+    currencyA,
+    currencyB,
+    toToken,
+  })
+
+  return { requiresApproval, isWidoAllowanceLoading, approveWidoSpender, isApproveWidoSpenderLoading }
 }
 
 export default useGetWidoTokenAllowance
