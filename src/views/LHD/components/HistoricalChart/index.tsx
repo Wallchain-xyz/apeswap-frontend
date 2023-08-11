@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState, useRef } from 'react'
 import { Box, Grid } from 'theme-ui'
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from 'chart.js'
@@ -24,13 +24,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 const HistoricalChart = ({
   tokenHistoric,
   isLoading,
-  selectedHistorical,
-  setSelectedHistorical,
+  selectedHistoricalRef,
 }: {
   tokenHistoric: SimpleTokenProfile[] | never[]
   isLoading: boolean
-  selectedHistorical: string[]
-  setSelectedHistorical: (newList: (prevList: any) => any[]) => void
+  selectedHistoricalRef: React.MutableRefObject<string[]>
 }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
@@ -40,7 +38,7 @@ const HistoricalChart = ({
   const [toggledData, setToggledData] = useState(() => {
     let initialState: Record<DatasetNames, boolean> = {
       [DatasetNames.LiquidityDebt]: false,
-      [DatasetNames.MarketCap]: true,
+      [DatasetNames.MarketCap]: false,
       [DatasetNames.OwnedLiquidity]: false,
       [DatasetNames.TotalExtractableLiquidity]: false,
       [DatasetNames.ConcentrationScore]: false,
@@ -49,13 +47,17 @@ const HistoricalChart = ({
       [DatasetNames.TotalScore]: false,
     }
 
-    selectedHistorical.forEach((datasetName) => {
+    selectedHistoricalRef.current.forEach((datasetName) => {
       // @ts-ignore
       if (initialState[datasetName] !== undefined) {
         // @ts-ignore
         initialState[datasetName] = true
       }
     })
+
+    if (selectedHistoricalRef.current.length === 0) {
+      initialState['Market Cap'] = true
+    }
 
     return initialState
   })
@@ -82,11 +84,14 @@ const HistoricalChart = ({
 
       setChartData({ ...chartData, datasets: newChartData })
 
-      // Step 3: Inform the parent about the change
       if (updatedToggledData[datasetName]) {
-        setSelectedHistorical((prevList) => [...prevList, datasetName])
+        selectedHistoricalRef.current = [...selectedHistoricalRef.current, datasetName]
       } else {
-        setSelectedHistorical((prevList) => prevList.filter((item: DatasetNames) => item !== datasetName))
+        // @ts-ignore
+        // @ts-ignore
+        selectedHistoricalRef.current = selectedHistoricalRef.current.filter(
+          (item: string) => (item as DatasetNames) !== datasetName,
+        )
       }
 
       return updatedToggledData

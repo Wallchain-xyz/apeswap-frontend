@@ -14,7 +14,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     totalScore,
     totalExtractableLiquidity,
     healthScore,
-    ownedLiquidity,
+    ownedExtractableLiquidity,
     liquidityDebt,
   } = parseHistoricalData(tokenHistoricalData)
 
@@ -68,7 +68,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
 
   const ownedLiquiditySet = {
     label: DatasetNames.OwnedLiquidity,
-    data: ownedLiquidity,
+    data: ownedExtractableLiquidity,
     borderColor: '#904DC4',
     backgroundColor: '#904DC4',
     yAxisID: HistoricalDataType.Liquidity,

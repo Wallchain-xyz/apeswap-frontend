@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Flex, Spinner, Svg, Text } from 'components/uikit'
 import Chart from '../Chart'
@@ -42,7 +42,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
     liquidityDebt: 0,
   })
 
-  const [selectedHistorical, setSelectedHistorical] = useState<string[]>([])
+  const selectedHistoricalRef = useRef<string[]>([])
 
   useEffect(() => {
     const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
@@ -120,8 +120,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
                 <HistoricalChart
                   tokenHistoric={tokenHistoric}
                   isLoading={isHistoricLoading}
-                  selectedHistorical={selectedHistorical}
-                  setSelectedHistorical={setSelectedHistorical}
+                  selectedHistoricalRef={selectedHistoricalRef}
                 />
               )}
             </Flex>

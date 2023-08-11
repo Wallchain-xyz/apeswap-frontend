@@ -8,7 +8,7 @@ interface IParsedHistoricalData {
   totalScore: number[]
   totalExtractableLiquidity: number[]
   healthScore: number[]
-  ownedLiquidity: number[]
+  ownedExtractableLiquidity: number[]
   liquidityDebt: number[]
 }
 
@@ -20,7 +20,7 @@ export const parseHistoricalData = (tokenHistoricalData: SimpleTokenProfile[]): 
     totalScore: [],
     totalExtractableLiquidity: [],
     healthScore: [],
-    ownedLiquidity: [],
+    ownedExtractableLiquidity: [],
     liquidityDebt: [],
   }
 
@@ -29,15 +29,21 @@ export const parseHistoricalData = (tokenHistoricalData: SimpleTokenProfile[]): 
   }
 
   const historicalData = tokenHistoricalData.reduce((acc: IParsedHistoricalData, curr: SimpleTokenProfile) => {
-    const { mcap, ownershipScore, totalScore, totalExtractableLiquidity, healthScore, ownedLiquidity, liquidityDebt } =
-      curr
+    const {
+      mcap,
+      ownershipScore,
+      totalScore,
+      totalExtractableLiquidity,
+      healthScore,
+      ownedExtractableLiquidity,
+      liquidityDebt,
+    } = curr
 
     const [firstReport] = mcap
 
-    // TODO: add liquidityDebt when api is ready
     acc.liquidityDebt.push(liquidityDebt || 0)
     acc.mcap.push(Math.trunc(firstReport.amount) || 0)
-    acc.ownedLiquidity.push(Math.trunc(ownedLiquidity))
+    acc.ownedExtractableLiquidity.push(Math.trunc(ownedExtractableLiquidity || 0))
     acc.totalExtractableLiquidity.push(Math.trunc(totalExtractableLiquidity))
 
     acc.concentrationScore.push(Number((healthScore * 100).toFixed(2)))

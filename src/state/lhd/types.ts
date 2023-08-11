@@ -45,6 +45,7 @@ export interface SimpleTokenProfile {
   ranking: number
   createdAt: string
   liquidityDebt?: number
+  ownedExtractableLiquidity?: number
 }
 export interface LHDProfiles {
   count: number
@@ -119,7 +120,6 @@ export interface TokenProfile extends SimpleTokenProfile {
   totalValidLiquidity: number
   totalExtractableLiquidity: number
   ownedLiquidity: number
-  ownedExtractableLiquidity: number
   ownedLiquidityPercentage: number
   validOwnedLiquidity: number
   circulatingSupply: ExternalDataOption[]
