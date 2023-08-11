@@ -79,7 +79,7 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
     data: liquidityDebt,
     borderColor: '#DF4141',
     backgroundColor: '#DF4141',
-    yAxisID: DatasetNames.LiquidityDebt,
+    yAxisID: HistoricalDataType.Liquidity,
   }
 
   const labels = tokenHistoricalData.map((x) => x.createdAt)

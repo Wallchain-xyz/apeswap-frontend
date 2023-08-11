@@ -12,71 +12,69 @@ const SCORES = [
   DatasetNames.HealthScore,
 ]
 
-const LIQUIDITY = [DatasetNames.OwnedLiquidity, DatasetNames.TotalExtractableLiquidity]
+const LIQUIDITY = [DatasetNames.OwnedLiquidity, DatasetNames.TotalExtractableLiquidity, DatasetNames.LiquidityDebt]
 
 export const getChartOptions = (
   toggledData: Record<DatasetNames, boolean>,
   isMobile: boolean,
 ): ChartOptions<'line'> => {
-  const scales = [
-    DatasetNames.LiquidityDebt,
-    DatasetNames.MarketCap,
-    HistoricalDataType.Liquidity,
-    HistoricalDataType.Score,
-  ].reduce((acc: any, value) => {
-    const isScore = value === HistoricalDataType.Score
-    const isLiquidity = value === HistoricalDataType.Liquidity
-    const isAnyScoreToggled = SCORES.some((score) => toggledData[score])
-    const isAnyLiquidityToggled = LIQUIDITY.some((liquidity) => toggledData[liquidity])
+  const scales = [DatasetNames.MarketCap, HistoricalDataType.Liquidity, HistoricalDataType.Score].reduce(
+    (acc: any, value) => {
+      const isScore = value === HistoricalDataType.Score
+      const isLiquidity = value === HistoricalDataType.Liquidity
+      const isAnyScoreToggled = SCORES.some((score) => toggledData[score])
+      const isAnyLiquidityToggled = LIQUIDITY.some((liquidity) => toggledData[liquidity])
 
-    let displayValue
-    if (isScore) {
-      displayValue = isAnyScoreToggled
-    } else if (isLiquidity) {
-      displayValue = isAnyLiquidityToggled
-    } else {
-      displayValue = toggledData[value as DatasetNames]
-    }
+      let displayValue
+      if (isScore) {
+        displayValue = isAnyScoreToggled
+      } else if (isLiquidity) {
+        displayValue = isAnyLiquidityToggled
+      } else {
+        displayValue = toggledData[value as DatasetNames]
+      }
 
-    acc[value] = {
-      type: 'linear' as const,
-      display: displayValue,
-      position: isScore ? 'right' : ('left' as const),
-      grid: {
-        display: true,
-      },
-      border: { dash: [4, 4] },
-      title: {
-        display: isMobile !== true,
-        text: [value],
-        color: '#A09F9C',
-      },
-      ticks: {
-        suggestedMin: 0,
-        callback: (tickValue: number | string) => {
-          return isScore
-            ? `${tickValue}`
-            : numbro(Number(tickValue))
-                .formatCurrency({
-                  average: true,
-                  mantissa: Number(tickValue) < 1 ? 1 : 0,
-                  abbreviations: {
-                    million: 'M',
-                    billion: 'B',
-                  },
-                })
-                .toUpperCase()
+      acc[value] = {
+        type: 'linear' as const,
+        display: displayValue,
+        position: isScore ? 'right' : ('left' as const),
+        grid: {
+          display: true,
         },
-        font: {
-          family: 'Poppins',
-          size: 10,
-          weight: '500',
+        border: { dash: [4, 4] },
+        title: {
+          display: isMobile !== true,
+          text: [value],
+          color: '#A09F9C',
         },
-      },
-    }
+        ticks: {
+          suggestedMin: 0,
+          callback: (tickValue: number | string) => {
+            return isScore
+              ? `${tickValue}`
+              : numbro(Number(tickValue))
+                  .formatCurrency({
+                    average: true,
+                    mantissa: Number(tickValue) < 1 ? 1 : 0,
+                    abbreviations: {
+                      million: 'M',
+                      billion: 'B',
+                    },
+                  })
+                  .toUpperCase()
+          },
+          font: {
+            family: 'Poppins',
+            size: 10,
+            weight: '500',
+          },
+        },
+      }
 
-    return acc
-  }, {})
+      return acc
+    },
+    {},
+  )
 
   const options = {
     responsive: true,
