@@ -24,24 +24,40 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 const HistoricalChart = ({
   tokenHistoric,
   isLoading,
+  selectedHistorical,
+  setSelectedHistorical,
 }: {
   tokenHistoric: SimpleTokenProfile[] | never[]
   isLoading: boolean
+  selectedHistorical: string[]
+  setSelectedHistorical: (newList: (prevList: any) => any[]) => void
 }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const data = useMemo(() => getDataSets(tokenHistoric), [tokenHistoric])
 
   const [chartData, setChartData] = useState(data)
-  const [toggledData, setToggledData] = useState({
-    [DatasetNames.LiquidityDebt]: false,
-    [DatasetNames.MarketCap]: true,
-    [DatasetNames.OwnedLiquidity]: false,
-    [DatasetNames.TotalExtractableLiquidity]: false,
-    [DatasetNames.ConcentrationScore]: false,
-    [DatasetNames.HealthScore]: false,
-    [DatasetNames.OwnershipScore]: false,
-    [DatasetNames.TotalScore]: false,
+  const [toggledData, setToggledData] = useState(() => {
+    let initialState: Record<DatasetNames, boolean> = {
+      [DatasetNames.LiquidityDebt]: false,
+      [DatasetNames.MarketCap]: true,
+      [DatasetNames.OwnedLiquidity]: false,
+      [DatasetNames.TotalExtractableLiquidity]: false,
+      [DatasetNames.ConcentrationScore]: false,
+      [DatasetNames.HealthScore]: false,
+      [DatasetNames.OwnershipScore]: false,
+      [DatasetNames.TotalScore]: false,
+    }
+
+    selectedHistorical.forEach((datasetName) => {
+      // @ts-ignore
+      if (initialState[datasetName] !== undefined) {
+        // @ts-ignore
+        initialState[datasetName] = true
+      }
+    })
+
+    return initialState
   })
 
   useEffect(() => {
@@ -52,18 +68,29 @@ const HistoricalChart = ({
   const options = getChartOptions(toggledData, isMobile)
 
   const handleDataToggle = ({ datasetName }: { datasetName: DatasetNames }): void => {
-    if (chartData.datasets.length === 1 && toggledData[datasetName]) {
-      return console.error('Error: chart must display at least one dataset')
-    }
-    setToggledData({ ...toggledData, [datasetName]: !toggledData[datasetName] })
-    const newChartData = data.datasets.filter((set) => {
-      if (set.label === datasetName) {
-        return !toggledData[datasetName]
-      }
-      return toggledData[set.label as DatasetNames]
-    })
+    // Step 1: Update state based on the previous state
+    setToggledData((prevState) => {
+      const updatedToggledData = { ...prevState, [datasetName]: !prevState[datasetName] }
 
-    setChartData({ ...chartData, datasets: newChartData })
+      // Step 2: Filter the datasets based on the updated state
+      const newChartData = data.datasets.filter((set) => {
+        if (set.label === datasetName) {
+          return updatedToggledData[datasetName]
+        }
+        return updatedToggledData[set.label as DatasetNames]
+      })
+
+      setChartData({ ...chartData, datasets: newChartData })
+
+      // Step 3: Inform the parent about the change
+      if (updatedToggledData[datasetName]) {
+        setSelectedHistorical((prevList) => [...prevList, datasetName])
+      } else {
+        setSelectedHistorical((prevList) => prevList.filter((item: DatasetNames) => item !== datasetName))
+      }
+
+      return updatedToggledData
+    })
   }
 
   if (isLoading && !tokenHistoric.length) {
@@ -92,7 +119,7 @@ const HistoricalChart = ({
             }}
             onClick={() => handleDataToggle({ datasetName })}
           >
-            <CheckBox checked={toggledData[datasetName]} onChange={() => handleDataToggle({ datasetName })} />
+            <CheckBox checked={toggledData[datasetName]} />
             <Text ml="5px" sx={{ fontSize: ['9px', '9px', '12px'], fontWeight: '500' }}>
               {t(datasetName)}
               <Flex

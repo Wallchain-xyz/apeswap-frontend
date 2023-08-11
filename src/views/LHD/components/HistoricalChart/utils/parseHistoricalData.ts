@@ -29,12 +29,13 @@ export const parseHistoricalData = (tokenHistoricalData: SimpleTokenProfile[]): 
   }
 
   const historicalData = tokenHistoricalData.reduce((acc: IParsedHistoricalData, curr: SimpleTokenProfile) => {
-    const { mcap, ownershipScore, totalScore, totalExtractableLiquidity, healthScore, ownedLiquidity } = curr
+    const { mcap, ownershipScore, totalScore, totalExtractableLiquidity, healthScore, ownedLiquidity, liquidityDebt } =
+      curr
 
     const [firstReport] = mcap
 
     // TODO: add liquidityDebt when api is ready
-    acc.liquidityDebt.push(0)
+    acc.liquidityDebt.push(liquidityDebt || 0)
     acc.mcap.push(Math.trunc(firstReport.amount) || 0)
     acc.ownedLiquidity.push(Math.trunc(ownedLiquidity))
     acc.totalExtractableLiquidity.push(Math.trunc(totalExtractableLiquidity))

@@ -21,8 +21,8 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
   const marketCapSet = {
     label: DatasetNames.MarketCap,
     data: mcap,
-    borderColor: 'rgb(255, 99, 132)',
-    backgroundColor: 'rgba(255, 99, 132, 1)',
+    borderColor: '#FF7691',
+    backgroundColor: '#FF7691',
     yAxisID: DatasetNames.MarketCap,
   }
 
@@ -37,8 +37,8 @@ export const getDataSets = (tokenHistoricalData: SimpleTokenProfile[]): ChartDat
   const concentrationScoreSet = {
     label: DatasetNames.ConcentrationScore,
     data: concentrationScore,
-    borderColor: '#FA8072',
-    backgroundColor: '#FA8072',
+    borderColor: '#BAABBD',
+    backgroundColor: '#BAABBD',
     yAxisID: HistoricalDataType.Score,
   }
 

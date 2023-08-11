@@ -42,6 +42,8 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
     liquidityDebt: 0,
   })
 
+  const [selectedHistorical, setSelectedHistorical] = useState<string[]>([])
+
   useEffect(() => {
     const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
 
@@ -115,7 +117,12 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
               {activeTab === TabNames.Liquidity ? (
                 <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
               ) : (
-                <HistoricalChart tokenHistoric={tokenHistoric} isLoading={isHistoricLoading} />
+                <HistoricalChart
+                  tokenHistoric={tokenHistoric}
+                  isLoading={isHistoricLoading}
+                  selectedHistorical={selectedHistorical}
+                  setSelectedHistorical={setSelectedHistorical}
+                />
               )}
             </Flex>
             <Flex sx={styles.infoCardMobile}>

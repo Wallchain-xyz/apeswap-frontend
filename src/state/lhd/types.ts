@@ -44,6 +44,7 @@ export interface SimpleTokenProfile {
   ownedLiquidity: number
   ranking: number
   createdAt: string
+  liquidityDebt?: number
 }
 export interface LHDProfiles {
   count: number
