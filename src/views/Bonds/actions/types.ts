@@ -2,6 +2,7 @@ import { Currency } from '@ape.swap/sdk-core'
 import { Bills } from '../types'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
+import { QuoteResult } from 'wido'
 
 export interface ClaimProps {
   billAddress: string
@@ -39,6 +40,7 @@ export interface BillActionsProps {
   pendingTrx: boolean
   errorMessage: string | null
   isWidoSupported: boolean
+  widoQuote: QuoteResult | undefined | null
 }
 
 export interface DualCurrencySelector {

@@ -64,7 +64,7 @@ export default function useGetWidoQuote({
 
   const [, pair] = useV2Pair(currencyA, currencyB)
 
-  const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
+  const { address: inputCurrencyId, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
 
   const amount = convertToTokenValue(amountInput || '0', decimals).toString()
   const slippagePercentage = userZapSlippage / 100 || 0.05
@@ -72,14 +72,14 @@ export default function useGetWidoQuote({
   return useQuery({
     queryKey: [
       QUERY_KEYS.WIDO_QUOTE,
-      { inputCurrencyId: address },
+      { inputCurrencyId },
       { amount },
       { toToken },
       { slippagePercentage },
       { account },
       { chainId },
     ],
-    queryFn: () => getWidoQuote({ inputCurrencyId: address, amount, toToken, slippagePercentage, account, chainId }),
-    enabled: !!amount,
+    queryFn: () => getWidoQuote({ inputCurrencyId, amount, toToken, slippagePercentage, account, chainId }),
+    enabled: Number(amount) > 0 && !!inputCurrencyId && !!toToken,
   })
 }

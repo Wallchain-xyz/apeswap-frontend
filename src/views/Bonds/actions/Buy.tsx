@@ -95,6 +95,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   }
   const { signTransaction } = useSignTransaction()
 
+  const { to, data, value } = widoQuote ?? {}
+
   if (isError) {
     console.log('failed to fetch widoQuote')
   }
@@ -175,7 +177,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
     if (isWidoSupported) {
-      signTransaction({ widoQuote })
+      console.log('Signing Wido buy Tx')
+      signTransaction({ to, data, value })
         // TODO: This whole .then and .catch can be merged in with the zapCallback .then and catch method
         .then((hash: any) => {
           setPendingTrx(true)
@@ -196,27 +199,28 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               setPendingTrx(false)
               onTransactionSubmited(false)
             })
-          track({
-            event: 'zap',
-            chain: chainId,
-            data: {
-              cat: 'bill',
-              token1: zap.currencyIn.currency.symbol,
-              token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
-              amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
-            },
-          })
-          track({
-            event: 'bond',
-            chain: chainId,
-            data: {
-              cat: 'buy',
-              type: billType ?? '',
-              address: contractAddress[chainId as SupportedChainId],
-              typedValue,
-              usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
-            },
-          })
+          // TODO: Fix Tracking for non Native tokens
+          // track({
+          //   event: 'zap',
+          //   chain: chainId,
+          //   data: {
+          //     cat: 'bill',
+          //     token1: zap.currencyIn.currency.symbol,
+          //     token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
+          //     amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+          //   },
+          // })
+          // track({
+          //   event: 'bond',
+          //   chain: chainId,
+          //   data: {
+          //     cat: 'buy',
+          //     type: billType ?? '',
+          //     address: contractAddress[chainId as SupportedChainId],
+          //     typedValue,
+          //     usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
+          //   },
+          // })
         })
         .catch((e: any) => {
           setZapSlippage(originalSlippage)
@@ -400,6 +404,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               errorMessage={
                 zapSlippage && zapSlippage.lessThan(priceImpact ?? '0') && !currencyB ? 'Change Slippage' : null
               }
+              isWidoSupported={isWidoSupported}
+              widoQuote={widoQuote}
             />
           </Box>
           {showUpdateSlippage && !pendingTrx && (

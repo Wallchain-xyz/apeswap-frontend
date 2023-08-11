@@ -35,17 +35,18 @@ const getWidoAllowance = async ({
 const useGetWidoAllowance = ({
   toToken,
   fromToken,
-  isNative,
+  isEnabled,
 }: {
   toToken: string
   fromToken: string
-  isNative: boolean
+  isEnabled: boolean
 }) => {
   const { isActive, account = '0x123', chainId = 137 } = useWeb3React()
+
   return useQuery({
-    queryKey: [QUERY_KEYS.WIDO_ALLOWANCE, { account }, { fromToken }, { fromToken }],
+    queryKey: [QUERY_KEYS.WIDO_ALLOWANCE, { account }, { fromToken }, { toToken }],
     queryFn: () => getWidoAllowance({ chainId, toToken, fromToken, account }),
-    enabled: isActive && !isNative && !!fromToken && !!toToken,
+    enabled: isActive && isEnabled && !!fromToken && !!toToken,
   })
 }
 

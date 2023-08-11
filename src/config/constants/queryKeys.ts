@@ -9,4 +9,6 @@ export const QUERY_KEYS = {
   TVL_STATS: 'tvlStats',
   WIDO_QUOTE: 'widoQuote',
   WIDO_ALLOWANCE: 'widoAllowance',
+  WIDO_APPROVAL: 'widoApproval',
+  WIDO_SIGN_APPROVAL: 'widoSignApproval',
 }

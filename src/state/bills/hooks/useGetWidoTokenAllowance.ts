@@ -38,7 +38,6 @@ const useGetWidoTokenAllowance = ({
 
   if (!isNative && !isWidoAllowanceLoading && !!allowance) {
     // TODO: maybe will need to use useHasPendingApproval?
-    console.log({ amountToApprove, allowance })
     requiresApproval = Number(amountToApprove) > Number(allowance)
   }
 
