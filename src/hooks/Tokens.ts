@@ -13,7 +13,6 @@ import { ChainId } from '../config/constants/chains'
 function useTokensFromMap(tokenMap: TokenAddressMap, chain?: SupportedChainId): { [address: string]: Token } {
   const { chainId } = useWeb3React()
 
-  //TODO: revisit this. I think we should remove chainId hook and get the chain as a param
   const selectedChain = chain ?? chainId
 
   return useMemo(() => {

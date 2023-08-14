@@ -1,0 +1,192 @@
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import { useTranslation } from 'contexts/Localization'
+import { styles } from './styles'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useColorMode } from 'theme-ui'
+import track from 'utils/track'
+import { useWeb3React } from '@web3-react/core'
+import { Flex, Svg, Toggle } from 'components/uikit'
+import Input from 'components/uikit/Input/Input'
+import MenuSelect from '../../../components/ListView/ListViewMenu/MenuSelect'
+import { SORT_OPTIONS } from '../types'
+import { Button } from 'components/uikit'
+import { ChainId, NETWORK_ICONS } from 'config/constants/chains'
+import { DESKTOP_DISPLAY, MOBILE_DISPLAY } from '../../../theme/display'
+
+export interface BondsLandingMenuProps {
+  query: string
+  onHandleQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  chainsWithBonds: string[]
+  showAvailable: boolean
+  setShowAvailable: Dispatch<SetStateAction<boolean>>
+  sortOption?: string
+  setSortOption: Dispatch<SetStateAction<string>>
+  filteredChains: Record<string, boolean>
+  setFilteredChains: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+}
+
+const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
+  query,
+  onHandleQueryChange,
+  chainsWithBonds,
+  showAvailable,
+  setShowAvailable,
+  sortOption,
+  setSortOption,
+  filteredChains,
+  setFilteredChains,
+}) => {
+  const { chainId } = useWeb3React()
+  const { t } = useTranslation()
+  const [expanded, setExpended] = useState<boolean | undefined>(false)
+
+  const [colorMode] = useColorMode()
+  const [usedSearch, setUsedSearch] = useState<boolean | undefined>(false)
+
+  const handleTracking = useCallback(
+    (type: string) => {
+      track({
+        event: 'list-menu',
+        chain: chainId,
+        data: {
+          cat: type,
+        },
+      })
+    },
+    [chainId],
+  )
+
+  const handleToogle = useCallback(() => {
+    setShowAvailable((prev) => !prev)
+  }, [setShowAvailable])
+
+  const handleExpandedBtn = () => {
+    setExpended(!expanded)
+    handleTracking('expanded')
+  }
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onHandleQueryChange(e)
+    if (!usedSearch) {
+      setUsedSearch(true)
+      handleTracking('search')
+    }
+  }
+
+  const handleSortChange = (value: string) => {
+    setSortOption(value)
+    handleTracking('sort')
+  }
+
+  return (
+    <Flex sx={styles.menuContainer}>
+      <>
+        <Flex sx={{ width: ['100%', '100%', '100%', 'unset'], maxWidth: '353px' }}>
+          <Input
+            value={query}
+            onChange={handleQueryChange}
+            variant="search"
+            width={['100%', '100%', '100%', 'unset']}
+            sx={styles.searchInput}
+          />
+          <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
+            <Svg icon="MenuSettings" width="18px" />
+          </Flex>
+        </Flex>
+        <Flex sx={{ display: MOBILE_DISPLAY, width: '100%' }}>
+          <AnimatePresence>
+            {expanded && (
+              <motion.div
+                initial={{ height: 0 }}
+                animate={{ height: 'fit-content', transitionEnd: { overflow: 'visible' } }}
+                transition={{ opacity: { duration: 0.2 } }}
+                exit={{ height: 0, overflow: 'hidden' }}
+                sx={styles.expandedContainer}
+              >
+                <Flex sx={styles.container}>
+                  {chainsWithBonds.map((chain) => {
+                    return (
+                      <Flex
+                        onClick={() =>
+                          setFilteredChains((prevChains) => ({
+                            ...prevChains,
+                            [chain]: !prevChains[chain],
+                          }))
+                        }
+                        key={chain}
+                        sx={styles.filterChainBtn}
+                      >
+                        <Flex
+                          sx={{
+                            ...styles.chainIconCont,
+                            filter: `${filteredChains[chain] ? 'none' : 'grayscale(100%)'}`,
+                          }}
+                        >
+                          <Svg icon={NETWORK_ICONS[chain as unknown as ChainId]} width="20px" />
+                        </Flex>
+                      </Flex>
+                    )
+                  })}
+                </Flex>
+                <Flex sx={styles.container}>
+                  {sortOption && (
+                    <Flex sx={styles.selectContainer} pr={3}>
+                      <MenuSelect selectedOption={sortOption} setOption={handleSortChange} options={SORT_OPTIONS} />
+                    </Flex>
+                  )}
+                </Flex>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Flex>
+        <Flex sx={{ display: DESKTOP_DISPLAY }}>
+          {chainsWithBonds.map((chain) => {
+            return (
+              <Flex
+                onClick={() =>
+                  setFilteredChains((prevChains) => ({
+                    ...prevChains,
+                    [chain]: !prevChains[chain],
+                  }))
+                }
+                key={chain}
+                sx={styles.filterChainBtn}
+              >
+                <Flex
+                  sx={{
+                    ...styles.chainIconCont,
+                    filter: `${filteredChains[chain] ? 'none' : 'grayscale(100%)'}`,
+                  }}
+                >
+                  <Svg icon={NETWORK_ICONS[chain as unknown as ChainId]} width="20px" />
+                </Flex>
+              </Flex>
+            )
+          })}
+        </Flex>
+        {sortOption && (
+          <Flex sx={{ minWidth: '100px', display: DESKTOP_DISPLAY }}>
+            <MenuSelect selectedOption={sortOption} setOption={handleSortChange} options={SORT_OPTIONS} />
+          </Flex>
+        )}
+        <Flex sx={{ ...styles.container, width: ['100%', '100%', '100%', '350px'] }}>
+          <Toggle
+            size="md"
+            labels={['Available', 'Sold Out']}
+            onChange={handleToogle}
+            checked={!showAvailable}
+            sx={{ height: '36px', alignItems: 'center', '& button': { lineHeight: '20px' } }}
+          />
+          <Button
+            sx={{ height: '36px', fontSize: '14px', ml: ['0px', '0px', '0px', '5px'] }}
+            onClick={() => (window.location.href = 'bonds?my-bonds')}
+          >
+            My bonds
+          </Button>
+        </Flex>
+      </>
+    </Flex>
+  )
+}
+
+export default BondsLandingMenu

@@ -18,7 +18,7 @@ const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: n
             minWidth: `${size + 2}px`,
             height: `${size + 2}px`,
             background: '#fff',
-            borderRadius: '25px',
+            borderRadius: `${size}px`,
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',

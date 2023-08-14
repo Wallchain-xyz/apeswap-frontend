@@ -43,7 +43,7 @@ const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Bonds',
     order: 2,
-    href: '/bonds',
+    href: '/bonds-landing',
     icon: '/images/navbar/bonds',
   },
   {

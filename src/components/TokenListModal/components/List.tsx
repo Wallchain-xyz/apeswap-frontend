@@ -71,22 +71,18 @@ const List = ({
 
   const sortedTokens: Token[] = useMemo(
     () =>
-      !balancesAreLoading
-        ? filteredTokens
-            .filter((token) => {
-              // If there is no query, filter out unselected user-added tokens with no balance.
-              if (!debouncedQuery && token instanceof UserAddedToken) {
-                if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
-                return balances[token.address]?.greaterThan(0)
-              }
-              return true
-            })
-            .sort(tokenComparator.bind(null, balances))
-        : [],
-    [balances, balancesAreLoading, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency],
+      filteredTokens
+        .filter((token) => {
+          // If there is no query, filter out unselected user-added tokens with no balance.
+          if (!debouncedQuery && token instanceof UserAddedToken) {
+            if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
+            return balances[token.address]?.greaterThan(0)
+          }
+          return true
+        })
+        .sort(tokenComparator.bind(null, balances)),
+    [balances, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency],
   )
-
-  const isLoading = Boolean(balancesAreLoading && !tokenLoaderTimerElapsed)
 
   const filteredSortedTokens = useSortTokensByQuery(debouncedQuery, sortedTokens)
 
@@ -111,11 +107,11 @@ const List = ({
     return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
   }, [debouncedQuery, filteredSortedTokens, disableNonToken, native, wrapped, isZapInput, searchToken])
 
-  // Timeout token loader after 3 seconds to avoid hanging in a loading state.
+  // Timeout token loader after 0.5s
   useEffect(() => {
     const tokenLoaderTimer = setTimeout(() => {
       setTokenLoaderTimerElapsed(true)
-    }, 3000)
+    }, 500)
     return () => clearTimeout(tokenLoaderTimer)
   }, [])
 
@@ -128,7 +124,7 @@ const List = ({
       const currencyIsImported = !!filteredInactiveTokens.find(
         (token) => token.address.toLowerCase() === currency.wrapped.address.toLowerCase(),
       )
-      if (balancesAreLoading)
+      if (!tokenLoaderTimerElapsed)
         return (
           <Flex sx={{ ...style, flexDirection: 'column', height: '500px' }}>
             {[...Array(8)].map((i) => {
@@ -160,7 +156,7 @@ const List = ({
       selectedCurrency,
       otherSelectedCurrency,
       filteredInactiveTokens,
-      balancesAreLoading,
+      tokenLoaderTimerElapsed,
       searchToken,
       searchTokenIsAdded,
       balances,
