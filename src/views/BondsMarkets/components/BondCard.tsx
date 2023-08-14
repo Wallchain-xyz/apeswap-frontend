@@ -47,12 +47,12 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
             <OmniTokenImage currency={currency} size={40} />
           </Flex>
           <Flex sx={{ display: ['none', 'none', 'none', 'none', 'flex'] }}>
-            <OmniTokenImage currency={currency} size={60} />
+            <OmniTokenImage currency={currency} size={56} />
           </Flex>
         </Flex>
         <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
           <Flex sx={{ flexDirection: 'column', justifyContent: 'center' }}>
-            <Text sx={{ fontSize: ['12px', '12px', '12px', '18px'] }}>{currency?.symbol}</Text>
+            <Text sx={{ fontSize: ['12px', '12px', '12px', '16px'], fontWeight: 700 }}>{currency?.symbol}</Text>
             <Text sx={styles.markets}>{bonds?.length} Markets</Text>
           </Flex>
           {bonds && !bonds?.[0]?.soldOut ? (

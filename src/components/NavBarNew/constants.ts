@@ -43,19 +43,20 @@ const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Bonds',
     order: 2,
+    href: '/bonds-landing',
     icon: '/images/navbar/bonds',
     items: [
       {
         itemLabel: 'Purchase',
-        itemDesc: 'Add content here',
+        itemDesc: 'Purchase select tokens at a discount.',
         href: '/bonds',
         icon: '/images/navbar/bonds',
       },
       {
         itemLabel: 'Markets',
-        itemDesc: 'Add content here',
-        href: '/bonds-markets',
-        icon: '/images/navbar/bonds',
+        itemDesc: 'View all bonds, past & present.',
+        href: '/bond-markets',
+        icon: '/images/navbar/markets',
       },
     ],
   },

@@ -86,7 +86,14 @@ const BondsLandingList: React.FC<BondsLandingListProps> = ({ query, sortOption, 
           <Flex sx={{ flexDirection: 'column', width: '100%', alignItems: 'center', position: 'relative', my: '15px' }}>
             <Divider sx={{ width: '100%' }} />
             <Text
-              sx={{ position: 'absolute', top: '-10px', background: 'white1', p: '5px 15px', borderRadius: '10px' }}
+              sx={{
+                position: 'absolute',
+                top: '-10px',
+                background: 'white1',
+                p: '5px 15px',
+                borderRadius: '10px',
+                fontWeight: 700,
+              }}
             >
               SOLD OUT
             </Text>

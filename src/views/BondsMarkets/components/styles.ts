@@ -117,7 +117,7 @@ export const styles: Record<
     minWidth: ['32px', '32px', '32px', '40px', '60px'],
   },
   markets: {
-    fontWeight: 300,
+    fontWeight: 400,
     fontSize: ['10px', '10px', '10px', '12px'],
     color: 'textDisabled',
     lineHeight: '14px',
@@ -125,8 +125,8 @@ export const styles: Record<
   bondInfo: {
     flexDirection: 'column',
     justifyContent: 'center',
-    px: '15px',
-    width: ['150px', '150px', '150px', '80px'],
+    width: ['150px', '150px', '150px', '70px'],
+    mr: '5px',
   },
   buyNow: {
     display: MOBILE_DISPLAY,
@@ -136,14 +136,14 @@ export const styles: Record<
   },
   discount: {
     fontSize: ['10px', '10px', '10px', '12px'],
-    lineHeight: ['14px'],
-    fontWeight: 300,
+    lineHeight: ['14px', '14px', '14px', '24px'],
+    fontWeight: 400,
     color: 'textDisabled',
-    mr: '5px',
   },
   discountAmount: {
     fontSize: ['12px', '12px', '12px', '14px'],
     lineHeight: '14px',
+    fontWeight: 700,
   },
   hoverContainer: {
     position: 'absolute',
