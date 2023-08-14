@@ -20,6 +20,8 @@ interface ZapLiquidityActionsProps {
   zapErrorMessage: string | undefined
   txHash?: string
   handleDismissConfirmation: () => void
+
+  isWidoQuoteLoading: boolean
 }
 
 const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
@@ -30,6 +32,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   zapRouteState,
   txHash,
   handleDismissConfirmation,
+  isWidoQuoteLoading,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -70,6 +73,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
       )
     }
     if (showApproveFlow) {
+      // TODO: Add Wido approval flow here
       return (
         <Flex sx={{ width: '100%' }}>
           <>
@@ -89,7 +93,11 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
       )
     }
     return (
-      <Button fullWidth onClick={() => handleConfirmZap()} disabled={zapRouteState === TradeState.LOADING}>
+      <Button
+        fullWidth
+        onClick={() => handleConfirmZap()}
+        disabled={zapRouteState === TradeState.LOADING || isWidoQuoteLoading}
+      >
         {t('Zap Liquidity')}
       </Button>
     )

@@ -55,7 +55,7 @@ export default function useGetWidoQuote({
   toToken,
 }: {
   currencyA: any
-  currencyB: any
+  currencyB?: any
   toToken: string
 }) {
   const { chainId = 137, account = '0x123' } = useWeb3React()

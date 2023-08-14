@@ -26,6 +26,16 @@ import { TradeState } from 'state/routing/types'
 import ModalProvider from '../../contexts/ModalContext'
 import { Pricing } from '../DexPanel/types'
 
+// Hooks
+import useGetWidoQuote from 'state/bills/hooks/useGetWidoQuote'
+import { useV2Pair } from 'hooks/useV2Pairs'
+import useSignTransaction from 'state/bills/hooks/useSignTransaction'
+
+// Utils
+import getCurrencyInfo from 'utils/getCurrencyInfo'
+
+// Types
+import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
 interface ZapLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut: Pair) => void
   poolAddress: string
@@ -50,13 +60,32 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
+  const { signTransaction } = useSignTransaction()
 
-  const { INPUT, typedValue, recipient, zapType } = useZapState()
+  const { INPUT, typedValue, recipient, zapType, OUTPUT } = useZapState()
   const [zapSlippage] = useUserZapSlippageTolerance()
 
   const currencyA = INPUT.currencyId
 
+  const { currency1, currency2 } = OUTPUT
+  const outputCurrencyA = useCurrency(currency1)
+  const outputCurrencyB = useCurrency(currency2)
   const inputCurrency = useCurrency(currencyA)
+
+  const [, outputPair] = useV2Pair(outputCurrencyA as Currency, outputCurrencyB as Currency)
+
+  const { address: outputCurrencyId, decimals } = getCurrencyInfo({
+    currencyA: outputCurrencyA as WrappedTokenInfo,
+    currencyB: outputCurrencyB as WrappedTokenInfo,
+    pair: outputPair,
+  })
+
+  const { data: widoQuote, isLoading: isWidoQuoteLoading } = useGetWidoQuote({
+    currencyA: inputCurrency,
+    toToken: outputCurrencyId,
+  })
+
+  const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}
 
   const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
   const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()
@@ -93,8 +122,14 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, '', pid)
 
   const handleZap = useCallback(() => {
+    const zapMethod = isWidoSupported ? signTransaction({ to, data, value }) : zapCallback()
+
+    if (isWidoSupported) {
+      console.log('Signing Wido buy tx')
+    }
+
     setZapErrorMessage('')
-    zapCallback()
+    zapMethod
       .then((hash: any) => {
         handleConfirmedTx(hash, zap?.pairOut.pair)
         const amount = getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString()))
@@ -202,6 +237,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             zapErrorMessage={zapErrorMessage}
             zapRouteState={zapRouteState}
             handleDismissConfirmation={handleDismissConfirmation}
+            isWidoQuoteLoading={isWidoQuoteLoading && !widoQuote}
           />
         </ModalProvider>
         <Flex sx={{ marginTop: '10px', justifyContent: 'center' }}>

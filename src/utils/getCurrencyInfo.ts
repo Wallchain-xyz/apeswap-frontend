@@ -10,14 +10,14 @@ const getCurrencyInfo = ({
   currencyB,
   pair,
 }: {
-  currencyA: WrappedTokenInfo
-  currencyB: WrappedTokenInfo
+  currencyA: WrappedTokenInfo | null
+  currencyB: WrappedTokenInfo | null
   pair: Pair | null
 }): { address: string; decimals: number } => {
   if (currencyB) {
     const { liquidityToken: { address, decimals } = { address: '', decimals: 18 } } = pair || {}
     return { address, decimals }
-  } else if (currencyA.isNative) {
+  } else if (currencyA?.isNative) {
     return { address: WIDO_NATIVE_TOKEN_ID, decimals: currencyA.decimals }
   }
   const { tokenInfo: { address, decimals } = { address: '', decimals: 18 } } = currencyA || {}

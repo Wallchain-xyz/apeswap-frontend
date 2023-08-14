@@ -88,7 +88,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { data: widoQuote } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
   const { signTransaction } = useSignTransaction()
 
-  const { to, data, value } = widoQuote ?? {}
+  const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}
 
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
   const { callback: zapCallback } = useZapCallback(
@@ -99,8 +99,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     contractAddress[chainId as SupportedChainId] || '',
     maxPrice,
   )
-
-  const { isSupported: isWidoSupported = false } = widoQuote ?? {}
 
   const rawPriceImpact = new BigNumber(zap?.totalPriceImpact?.toFixed(2) ?? '0').times(100).toNumber()
   const priceImpact = useMemo(() => new Percent(rawPriceImpact, 10_000), [rawPriceImpact])
