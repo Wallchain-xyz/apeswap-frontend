@@ -12,7 +12,7 @@ const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: n
   const [error, setError] = useState(false)
   return (
     <>
-      {!error && currency ? (
+      {!error && currency && ((currency as TokenInfo)?.logoURI || currency.isNative) ? (
         <Flex
           sx={{
             minWidth: `${size + 2}px`,
