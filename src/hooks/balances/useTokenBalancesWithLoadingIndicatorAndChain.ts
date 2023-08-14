@@ -18,7 +18,8 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
 
   const selectedChain = chain ?? chainId
 
-  const [result, setResult] = useState<any[]>([])
+  const [result, setResult] = useState([])
+  const [previousChain, setPreviousChain] = useState<ChainId | null>(null)
   const [loading, setLoading] = useState(false)
 
   const validatedTokens: Token[] = useMemo(
@@ -52,8 +53,10 @@ export function useTokenBalancesWithLoadingIndicatorAndChain(
       if (!selectedChain || calls?.length === 0 || !account) return
       setLoading(true)
       try {
+        if (previousChain !== selectedChain) setResult([])
         const data = await multicall(selectedChain, erc20ABI, calls)
         setResult(data)
+        setPreviousChain(selectedChain)
       } catch (error) {
         console.error(error)
       } finally {

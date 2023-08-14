@@ -26,6 +26,8 @@ const CurrencyLogo = ({
       src={
         currency?.symbol === 'GNANA'
           ? 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/GNANA.svg'
+          : currency?.symbol === 'WBNB'
+          ? 'https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/WBNB.svg'
           : src
       }
       onError={nextSrc}
