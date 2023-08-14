@@ -25,7 +25,6 @@ export const styles: Record<
   menuContainer: {
     borderRadius: '10px',
     justifyContent: 'space-between',
-    padding: '10px 20px',
     zIndex: 2,
     backgroundColor: 'white2',
     minWidth: '300px',
@@ -58,10 +57,10 @@ export const styles: Record<
     border: 'none',
     width: '100%',
     '@media screen and (min-width: 852px)': {
-      width: useSinglePageView ? '250px' : '180px',
+      width: useSinglePageView ? '100%' : '180px',
     },
     '@media screen and (min-width: 1000px)': {
-      width: useSinglePageView ? '370px' : '300px',
+      width: useSinglePageView ? '100%' : '300px',
     },
   },
   expandedContainer: {
@@ -139,6 +138,7 @@ export const styles: Record<
     lineHeight: ['14px', '14px', '14px', '24px'],
     fontWeight: 400,
     color: 'textDisabled',
+    mr: ['5px', '5px', '5px', '0px'],
   },
   discountAmount: {
     fontSize: ['12px', '12px', '12px', '14px'],

@@ -80,12 +80,12 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
   return (
     <Flex sx={styles.menuContainer}>
       <>
-        <Flex sx={{ width: ['100%', '100%', '100%', 'unset'], maxWidth: '353px' }}>
+        <Flex sx={{ width: ['100%', '100%', '100%', '45%'] }}>
           <Input
             value={query}
             onChange={handleQueryChange}
             variant="search"
-            width={['100%', '100%', '100%', 'unset']}
+            width={['100%', '100%', '100%', '100%']}
             sx={styles.searchInput}
           />
           <Flex sx={styles.expandedButton} onClick={handleExpandedBtn}>
@@ -185,7 +185,11 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
             />
           )}
           <Button
-            sx={{ width: '250px', height: '36px', fontSize: '14px', ml: ['0px', '0px', '0px', '5px'] }}
+            sx={{
+              width: '100%',
+              height: '36px',
+              fontSize: '14px',
+            }}
             onClick={() => push('bonds?yourBonds')}
           >
             My bonds
