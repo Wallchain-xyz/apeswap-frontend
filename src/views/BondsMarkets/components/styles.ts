@@ -1,5 +1,6 @@
 import { ThemeUIStyleObject } from 'theme-ui'
 import { MOBILE_DISPLAY } from 'theme/display'
+import { useSinglePageView } from '../types'
 
 export const styles: Record<
   | 'menuContainer'
@@ -57,10 +58,10 @@ export const styles: Record<
     border: 'none',
     width: '100%',
     '@media screen and (min-width: 852px)': {
-      width: '120px',
+      width: useSinglePageView ? '250px' : '180px',
     },
     '@media screen and (min-width: 1000px)': {
-      width: '240px',
+      width: useSinglePageView ? '370px' : '300px',
     },
   },
   expandedContainer: {
@@ -76,7 +77,9 @@ export const styles: Record<
     borderRadius: '10px',
     padding: '8px',
     cursor: 'pointer',
-    margin: '0px 0px 0px 10px',
+    ':not(:first-of-type)': {
+      ml: '10px',
+    },
   },
   chainIconCont: {
     borderRadius: '18px',
@@ -87,14 +90,13 @@ export const styles: Record<
   },
   bondCard: {
     position: 'relative',
-    cursor: 'pointer',
     ':hover > div:last-of-type': {
       visibility: 'visible',
       opacity: 1,
       transition: 'opacity 0.3s',
       bg: 'white2Opacity09',
       borderRadius: '15px',
-      backdropFilter: 'blur(1.5px)',
+      backdropFilter: 'blur(15px)',
     },
     width: ['100%', '100%', '100%', 'calc(25% - 9px)'],
     background: 'white2',
@@ -124,7 +126,7 @@ export const styles: Record<
     flexDirection: 'column',
     justifyContent: 'center',
     px: '15px',
-    width: ['120px', '120px', '120px', '80px'],
+    width: ['150px', '150px', '150px', '80px'],
   },
   buyNow: {
     display: MOBILE_DISPLAY,

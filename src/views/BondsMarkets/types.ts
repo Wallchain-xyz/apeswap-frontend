@@ -12,3 +12,5 @@ export const SORT_OPTIONS = [
     value: 'initTime',
   },
 ]
+
+export const useSinglePageView = true

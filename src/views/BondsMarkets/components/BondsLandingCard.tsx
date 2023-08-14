@@ -84,7 +84,14 @@ const BondsLandingCard = ({
           {renderCountUp()}
         </Text>
       </Flex>
-      <Text sx={{ fontSize: ['10px', '10px', '10px', '14px'], fontWeight: 'light', opacity: '0.7' }}>
+      <Text
+        sx={{
+          fontSize: ['10px', '10px', '10px', '14px'],
+          lineHeight: ['10px', '10px', '10px', '14px'],
+          fontWeight: 'light',
+          opacity: '0.7',
+        }}
+      >
         {t(subTitle)}
       </Text>
     </Flex>

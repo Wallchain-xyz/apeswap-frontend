@@ -34,6 +34,7 @@ const BondsLandingCards = () => {
           mb: '20px',
           background: ['white2', 'white2', 'white2', 'transparent'],
           borderRadius: '15px',
+          mt: '20px',
         }}
       >
         {CARDS_DESCRIPTION.map(({ name, subTitle, defaultValue }) => (

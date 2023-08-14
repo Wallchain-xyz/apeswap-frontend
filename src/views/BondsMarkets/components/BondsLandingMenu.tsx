@@ -8,7 +8,7 @@ import { useWeb3React } from '@web3-react/core'
 import { Flex, Svg, Toggle } from 'components/uikit'
 import Input from 'components/uikit/Input/Input'
 import MenuSelect from '../../../components/ListView/ListViewMenu/MenuSelect'
-import { SORT_OPTIONS } from '../types'
+import { SORT_OPTIONS, useSinglePageView } from '../types'
 import { Button } from 'components/uikit'
 import { ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { DESKTOP_DISPLAY, MOBILE_DISPLAY } from '../../../theme/display'
@@ -164,20 +164,28 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
           })}
         </Flex>
         {sortOption && (
-          <Flex sx={{ minWidth: '100px', display: DESKTOP_DISPLAY }}>
+          <Flex sx={{ minWidth: '120px', display: DESKTOP_DISPLAY }}>
             <MenuSelect selectedOption={sortOption} setOption={handleSortChange} options={SORT_OPTIONS} />
           </Flex>
         )}
-        <Flex sx={{ ...styles.container, width: ['100%', '100%', '100%', '350px'] }}>
-          <Toggle
-            size="md"
-            labels={['Available', 'Sold Out']}
-            onChange={handleToogle}
-            checked={!showAvailable}
-            sx={{ height: '36px', alignItems: 'center', '& button': { lineHeight: '20px' } }}
-          />
+        <Flex
+          sx={{
+            ...styles.container,
+            width: useSinglePageView ? ['100%', '100%', '100%', '250px'] : ['100%', '100%', '100%', '350px'],
+            justifyContent: 'center',
+          }}
+        >
+          {!useSinglePageView && (
+            <Toggle
+              size="md"
+              labels={['Available', 'Sold Out']}
+              onChange={handleToogle}
+              checked={!showAvailable}
+              sx={{ minWidth: '185px', height: '36px', alignItems: 'center', '& button': { lineHeight: '20px' } }}
+            />
+          )}
           <Button
-            sx={{ height: '36px', fontSize: '14px', ml: ['0px', '0px', '0px', '5px'] }}
+            sx={{ width: '250px', height: '36px', fontSize: '14px', ml: ['0px', '0px', '0px', '5px'] }}
             onClick={() => push('bonds?yourBonds')}
           >
             My bonds

@@ -1,10 +1,10 @@
 import PageContainer from 'components/PageContainer'
-import BondsLanding from 'views/BondsLanding'
+import BondsMarkets from 'views/BondsMarkets'
 
 const BondsPage = () => {
   return (
     <PageContainer variant="listView">
-      <BondsLanding />
+      <BondsMarkets />
     </PageContainer>
   )
 }

@@ -43,8 +43,21 @@ const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Bonds',
     order: 2,
-    href: '/bonds-landing',
     icon: '/images/navbar/bonds',
+    items: [
+      {
+        itemLabel: 'Purchase',
+        itemDesc: 'Add content here',
+        href: '/bonds',
+        icon: '/images/navbar/bonds',
+      },
+      {
+        itemLabel: 'Markets',
+        itemDesc: 'Add content here',
+        href: '/bonds-markets',
+        icon: '/images/navbar/bonds',
+      },
+    ],
   },
   {
     label: 'Liquidity Health',

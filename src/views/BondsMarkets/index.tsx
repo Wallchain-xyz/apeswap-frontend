@@ -8,7 +8,7 @@ import BondsLandingCards from './components/BondsLandingCards'
 import BondsLandingList from './BondsLandingList'
 import { useRouter } from 'next/router'
 
-const BondsLanding = () => {
+const BondsMarkets = () => {
   const { data: bondsLandingList } = useGetBondsLandingList()
   const chainsWithBonds = Object.keys(bondsLandingList ?? {}).filter((key) =>
     Object.values(ChainId).includes(Number(key)),
@@ -26,12 +26,11 @@ const BondsLanding = () => {
   const [filteredChains, setFilteredChains] = useState<Record<string, boolean>>(defaultChains)
 
   useEffect(() => {
+    // Check if bondsLandingList has a value (i.e., has been loaded from the API)
     if (bondsLandingList && Object.keys(filteredChains).length === 0) {
-      // Check if bondsLandingList has a value (i.e., has been loaded from the API)
       const chainsWithBonds = Object.keys(bondsLandingList).filter((key) =>
         Object.values(ChainId).includes(Number(key)),
       )
-
       const updatedChains = chainsWithBonds.reduce((acc, key) => {
         acc[key] = true
         return acc
@@ -68,4 +67,4 @@ const BondsLanding = () => {
   )
 }
 
-export default BondsLanding
+export default BondsMarkets

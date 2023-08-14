@@ -8,8 +8,8 @@ import { DESKTOP_DISPLAY, MOBILE_DISPLAY } from 'theme/display'
 import { styles } from './styles'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
-import useSelectChain from '../../../hooks/useSelectChain'
-import useModal from '../../../hooks/useModal'
+import useSelectChain from 'hooks/useSelectChain'
+import useModal from 'hooks/useModal'
 import MultiMarketBond from './MultiMarketBond'
 
 const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: boolean }> = ({ bonds, showAvailable }) => {
@@ -19,11 +19,12 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
   const { chainId } = useWeb3React()
   const selectChain = useSelectChain()
   const [multiMarketBond] = useModal(<MultiMarketBond bonds={bonds} />)
+  const hasToSwitchChain = chainId !== bonds?.[0]?.chainId
 
   const handleClick = () => {
-    if (!showAvailable) return
+    if (bonds?.[0]?.soldOut) return
     if (bonds?.length === 1) {
-      if (chainId !== bonds?.[0]?.chainId) {
+      if (hasToSwitchChain) {
         selectChain(bonds?.[0]?.chainId).then(() => {
           router.push(`/bonds?bondAddress=${bonds?.[0]?.billAddress?.toLowerCase()}`)
         })
@@ -36,7 +37,7 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
   }
 
   return (
-    <Flex sx={styles.bondCard} onClick={handleClick}>
+    <Flex sx={{ ...styles.bondCard, cursor: bonds?.[0]?.soldOut ? 'unset' : 'pointer' }} onClick={handleClick}>
       <Flex sx={styles.mainContent}>
         <Flex sx={{ ...styles.imageCont, mx: ['10px', '10px', '10px', '15px'] }}>
           <Flex sx={{ display: MOBILE_DISPLAY }}>
@@ -52,19 +53,19 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
         <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
           <Flex sx={{ flexDirection: 'column', justifyContent: 'center' }}>
             <Text sx={{ fontSize: ['12px', '12px', '12px', '18px'] }}>{currency?.symbol}</Text>
-            <Text sx={styles.markets}>{bonds?.length} Market</Text>
+            <Text sx={styles.markets}>{bonds?.length} Markets</Text>
           </Flex>
           {bonds && !bonds?.[0]?.soldOut ? (
             <Flex sx={styles.bondInfo}>
               <Flex sx={{ justifyContent: 'flex-end' }}>
                 <Text sx={styles.buyNow}>
-                  BUY NOW
+                  {hasToSwitchChain ? 'SWITCH CHAIN & BUY' : 'BUY NOW'}
                   <Flex sx={{ ml: '5px' }}>
                     <Svg icon="caret" direction="right" color="yellow" width="7" />
                   </Flex>
                 </Text>
               </Flex>
-              <Flex sx={{ flexDirection: ['row', 'row', 'row', 'column'] }}>
+              <Flex sx={{ flexDirection: ['row', 'row', 'row', 'column'], justifyContent: 'flex-end' }}>
                 <Text sx={styles.discount}>Discount</Text>
                 <Text
                   sx={{
@@ -85,8 +86,8 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
       </Flex>
       {bonds && !bonds?.[0]?.soldOut && (
         <Flex sx={{ ...styles.hoverContainer, display: DESKTOP_DISPLAY }}>
-          <Text sx={{ display: 'flex', fontSize: '18px', fontWeight: 900, color: 'yellow' }}>
-            BUY NOW
+          <Text sx={{ display: 'flex', fontSize: '16px', fontWeight: 900, color: 'yellow' }}>
+            {hasToSwitchChain ? 'SWITCH CHAIN & BUY' : 'BUY NOW'}
             <Flex sx={{ ml: '5px' }}>
               <Svg icon="caret" direction="right" width={10} color="yellow" />
             </Flex>

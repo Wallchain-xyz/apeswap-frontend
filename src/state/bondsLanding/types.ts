@@ -5,6 +5,7 @@ export interface BondLanding {
   index?: number
   chainId: ChainId
   showcaseToken: string
+  showcaseTokenName: string
   type?: string
   billAddress?: string
   principalToken?: string
