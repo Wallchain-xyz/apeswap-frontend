@@ -12,6 +12,7 @@ import { SORT_OPTIONS } from '../types'
 import { Button } from 'components/uikit'
 import { ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { DESKTOP_DISPLAY, MOBILE_DISPLAY } from '../../../theme/display'
+import { useRouter } from 'next/router'
 
 export interface BondsLandingMenuProps {
   query: string
@@ -37,11 +38,9 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
   setFilteredChains,
 }) => {
   const { chainId } = useWeb3React()
-  const { t } = useTranslation()
   const [expanded, setExpended] = useState<boolean | undefined>(false)
-
-  const [colorMode] = useColorMode()
   const [usedSearch, setUsedSearch] = useState<boolean | undefined>(false)
+  const { push } = useRouter()
 
   const handleTracking = useCallback(
     (type: string) => {
@@ -179,7 +178,7 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
           />
           <Button
             sx={{ height: '36px', fontSize: '14px', ml: ['0px', '0px', '0px', '5px'] }}
-            onClick={() => (window.location.href = 'bonds?my-bonds')}
+            onClick={() => push('bonds?yourBonds')}
           >
             My bonds
           </Button>
