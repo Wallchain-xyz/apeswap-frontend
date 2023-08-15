@@ -17,7 +17,11 @@ const Index = () => {
         <Button
           variant="secondary"
           onClick={() => window.open('https://github.com/ApeSwapFinance/lhd-config', '_blank')}
-          sx={{ ...styles.btn, width: ['100%', '100%', '100%', '215px'] }}
+          sx={{
+            ...styles.btn,
+            width: ['100%', '100%', '100%', '215px'],
+            m: ['0 0 10px 0', '0 0 10px 0', '0 0 10px 0', '0 0 0 0'],
+          }}
         >
           {t('SUBMIT DATA UPDATE')}
         </Button>
