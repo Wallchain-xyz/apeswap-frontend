@@ -27,7 +27,7 @@ interface ZapLiquidityActionsProps {
   isWidoQuoteLoading?: boolean
   inputCurrency?: Currency | null
   outputCurrencyId?: string
-  isWidoSupported?: boolean
+  shouldUseWido?: boolean
   widoQuote?: any
 }
 
@@ -42,7 +42,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   isWidoQuoteLoading = false,
   outputCurrencyId,
   inputCurrency,
-  isWidoSupported = false,
+  shouldUseWido = false,
   widoQuote,
 }) => {
   const { t } = useTranslation()
@@ -134,17 +134,19 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
             {zapInputError}
           </Button>
         )
-      case isWidoSupported && requiresApprovalWido:
+      case shouldUseWido && requiresApprovalWido:
         return (
           <Button
             onClick={() => approveWidoSpender()}
             disabled={isApproveWidoSpenderLoading}
             load={isApproveWidoSpenderLoading}
           >
-            {isApproveWidoSpenderLoading ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}` : 'Approve Wido'}
+            {isApproveWidoSpenderLoading
+              ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
+              : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
           </Button>
         )
-      case showApproveFlow && !isWidoSupported:
+      case showApproveFlow && !shouldUseWido:
         return (
           <Flex sx={{ width: '100%' }}>
             <>
@@ -168,7 +170,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
           <Button
             fullWidth
             onClick={() => handleConfirmZap()}
-            disabled={zapRouteState === TradeState.LOADING || (!widoQuote && isWidoSupported)}
+            disabled={zapRouteState === TradeState.LOADING || (!widoQuote && shouldUseWido)}
           >
             {t('Zap Liquidity')}
           </Button>

@@ -25,6 +25,7 @@ import LoadingBestRoute from 'views/Swap/components/LoadingBestRoute'
 import { TradeState } from 'state/routing/types'
 import ModalProvider from '../../contexts/ModalContext'
 import { Pricing } from '../DexPanel/types'
+import { useRouter } from 'next/router'
 
 // Hooks
 import useGetWidoQuote from 'state/bills/hooks/useGetWidoQuote'
@@ -58,6 +59,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const [stakeIntoProduct, setStakeIntoProduct] = useState<boolean>(true)
   const [disableZap, setDisableZap] = useState<boolean>(false)
 
+  const { route } = useRouter()
   const { t } = useTranslation()
   const { chainId } = useWeb3React()
   const { signTransaction } = useSignTransaction()
@@ -66,7 +68,6 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const [zapSlippage] = useUserZapSlippageTolerance()
 
   const currencyA = INPUT.currencyId
-
   const { currency1, currency2 } = OUTPUT
   const outputCurrencyA = useCurrency(currency1)
   const outputCurrencyB = useCurrency(currency2)
@@ -86,6 +87,8 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   })
 
   const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}
+  const isBondsPage = route.includes('bonds')
+  const shouldUseWido = isWidoSupported && isBondsPage
 
   const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
   const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()
@@ -122,9 +125,9 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, '', pid)
 
   const handleZap = useCallback(() => {
-    const zapMethod = isWidoSupported ? signTransaction({ to, data, value }) : zapCallback()
+    const zapMethod = shouldUseWido ? signTransaction({ to, data, value }) : zapCallback()
 
-    if (isWidoSupported) {
+    if (shouldUseWido) {
       console.log('Signing Wido buy tx')
     }
 
@@ -240,7 +243,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             isWidoQuoteLoading={isWidoQuoteLoading && !widoQuote}
             inputCurrency={inputCurrency}
             outputCurrencyId={outputCurrencyId}
-            isWidoSupported={isWidoSupported}
+            shouldUseWido={shouldUseWido}
             widoQuote={widoQuote}
           />
         </ModalProvider>
