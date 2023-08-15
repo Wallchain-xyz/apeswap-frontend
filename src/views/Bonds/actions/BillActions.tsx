@@ -90,8 +90,11 @@ const BillActions: React.FC<BillActionsProps> = ({
             onClick={() => approveWidoSpender()}
             disabled={isApproveWidoSpenderLoading}
             load={isApproveWidoSpenderLoading}
+            fullWidth
           >
-            {isApproveWidoSpenderLoading ? 'isApproveWidoSpenderLoading' : 'Approve Wido'}
+            {isApproveWidoSpenderLoading
+              ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
+              : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
           </Button>
         )
       case currencyB && showApproveZapFlow && !isWidoSupported:
@@ -118,6 +121,7 @@ const BillActions: React.FC<BillActionsProps> = ({
           <BuyButton
             onClick={handleBuy}
             load={pendingTrx || zapRouteState === TradeState.LOADING}
+            fullWidth
             disabled={
               billValue === 'NaN' ||
               parseFloat(billValue) < 0.01 ||
