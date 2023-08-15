@@ -83,6 +83,7 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
         <Flex sx={{ width: ['100%', '100%', '100%', '45%'], maxWidth: ['353px', '353px', '353px', 'unset'] }}>
           <Input
             value={query}
+            placeholder="Search for a Bond..."
             onChange={handleQueryChange}
             variant="search"
             width={['100%', '100%', '100%', '100%']}
