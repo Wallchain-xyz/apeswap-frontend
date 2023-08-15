@@ -47,7 +47,13 @@ const DEFAULT_NAV: NavItem[] = [
     icon: '/images/navbar/bonds',
     items: [
       {
-        itemLabel: 'Purchase',
+        itemLabel: 'Intro',
+        itemDesc: 'Learn about bonding use cases.',
+        href: 'https://welcome.apeswap.finance/bonds',
+        icon: '/images/navbar/bond-intro',
+      },
+      {
+        itemLabel: 'Bonds List',
         itemDesc: 'Purchase select tokens at a discount.',
         href: '/bonds',
         icon: '/images/navbar/bonds',
