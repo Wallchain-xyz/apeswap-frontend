@@ -19,10 +19,13 @@ const BondsLandingList: React.FC<BondsLandingListProps> = ({ query, sortOption, 
   const bondList = Object.values(bondsLandingList ?? {})
     .flat()
     .flatMap((obj) => obj?.bonds)
+    .filter((bond) => {
+      if (!bond || bond?.inactive) return false
+      if (bond?.showcaseTokenName === 'GMR') return false
+      return true
+    })
 
   const [availableBondsArray, soldOutBondsArray] = _.partition(bondList, (bond) => {
-    if (!bond || bond?.inactive) return false
-    if (bond?.showcaseTokenName === 'GMR') return false
     return !bond.soldOut
   })
 
@@ -83,21 +86,25 @@ const BondsLandingList: React.FC<BondsLandingListProps> = ({ query, sortOption, 
               return <BondCard bonds={bonds} key={bonds?.[0]?.billAddress} showAvailable={showAvailable} />
             })}
           </Flex>
-          <Flex sx={{ flexDirection: 'column', width: '100%', alignItems: 'center', position: 'relative', my: '15px' }}>
-            <Divider sx={{ width: '100%' }} />
-            <Text
-              sx={{
-                position: 'absolute',
-                top: '-10px',
-                background: 'white1',
-                p: '5px 15px',
-                borderRadius: '10px',
-                fontWeight: 700,
-              }}
+          {Object.keys(groupedSoldOutBonds).length > 0 && (
+            <Flex
+              sx={{ flexDirection: 'column', width: '100%', alignItems: 'center', position: 'relative', my: '15px' }}
             >
-              SOLD OUT
-            </Text>
-          </Flex>
+              <Divider sx={{ width: '100%' }} />
+              <Text
+                sx={{
+                  position: 'absolute',
+                  top: '-10px',
+                  background: 'white1',
+                  p: '5px 15px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                }}
+              >
+                SOLD OUT
+              </Text>
+            </Flex>
+          )}
           <Flex sx={{ width: '100%', flexWrap: 'wrap', justifyContent: 'flex-start', mt: '20px' }}>
             {Object.keys(groupedSoldOutBonds)?.map((key) => {
               const bonds = groupedSoldOutBonds[key]

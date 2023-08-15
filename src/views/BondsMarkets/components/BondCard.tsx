@@ -20,6 +20,7 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
   const selectChain = useSelectChain()
   const [multiMarketBond] = useModal(<MultiMarketBond bonds={bonds} />)
   const hasToSwitchChain = chainId !== bonds?.[0]?.chainId
+  console.log(bonds)
 
   const handleClick = () => {
     if (bonds?.[0]?.soldOut) return
