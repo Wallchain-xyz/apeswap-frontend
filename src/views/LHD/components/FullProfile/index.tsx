@@ -42,6 +42,33 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
     liquidityDebt: 0,
   })
 
+  const [sevenDaysScoreDifference, setSevenDaysScoreDifference] = useState(0)
+
+  useEffect(() => {
+    if (tokenHistoric.length > 0) {
+      const now = Math.floor(Date.now())
+      const sevenDaysAgo = now - 5 * 24 * 60 * 60 * 1000
+      const eightDaysAgo = now - 8 * 24 * 60 * 60 * 1000
+
+      const filteredAndSorted = tokenHistoric
+        .filter((obj) => {
+          const createdAt = parseInt(obj.createdAt, 10)
+          return createdAt > eightDaysAgo && createdAt < sevenDaysAgo
+        })
+        .sort((a, b) => parseInt(b.createdAt, 10) - parseInt(a.createdAt, 10))
+
+      const mostRecent = filteredAndSorted[0]
+
+      if (mostRecent === null) return
+
+      let currentScore = fullProfile?.totalScore || 0 // Use optional chaining and default to 0 if undefined
+      let previousScore = mostRecent.totalScore
+      let percentageDifference = (Math.abs(currentScore - previousScore) / ((currentScore + previousScore) / 2)) * 100
+
+      setSevenDaysScoreDifference(percentageDifference)
+    }
+  }, [tokenHistoric])
+
   const selectedHistoricalRef = useRef<string[]>([])
 
   useEffect(() => {
@@ -89,7 +116,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
         ) : (
           <></>
         )}
-        <TopSectionCards fullProfile={fullProfile} />
+        <TopSectionCards fullProfile={fullProfile} scoreDifference={sevenDaysScoreDifference} />
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>

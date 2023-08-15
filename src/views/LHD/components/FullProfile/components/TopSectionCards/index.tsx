@@ -16,7 +16,7 @@ import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
+const TopSectionCards = ({ fullProfile, scoreDifference }: { fullProfile: TokenProfile; scoreDifference: number }) => {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -147,8 +147,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
               <ProgressBar value={Math.floor(fullProfile?.concentrationScore * 100)} position="right" />
             </Flex>
           </Flex>
-          <Flex sx={styles.scoreCont}>
-            <Text sx={styles.scoreText}>{t('SCORE')}</Text>
+          <Flex sx={{ ...styles.scoreCont, ml: '15px' }}>
             <Text
               sx={{
                 ...styles.scoreNumber,
@@ -158,6 +157,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
             >
               {Math.floor(fullProfile.totalScore * 100)}
             </Text>
+            <PriceChange priceChange={scoreDifference.toFixed(2)} />
           </Flex>
         </Flex>
         <Flex sx={{ mt: ['10px', '10px', '10px', '0px'] }}>
