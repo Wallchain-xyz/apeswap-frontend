@@ -1,7 +1,6 @@
 // Components
 import { styles } from './styles'
 import { Box, useThemeUI } from 'theme-ui'
-import Image from 'next/image'
 import { Flex, Text, Link } from 'components/uikit'
 
 // Hooks
@@ -39,7 +38,7 @@ const DropdownMenu = ({ isVisible, items }: NavMenuProps) => {
                 }}
               >
                 <Box sx={{ height: '25px', width: '25px', position: 'relative' }}>
-                  <Image src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} fill />
+                  <img src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} />
                 </Box>
                 <Flex sx={{ flexDirection: 'column' }}>
                   <Text sx={styles.desktopNavItemTitle}>{t(itemLabel || '')}</Text>
