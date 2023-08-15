@@ -109,6 +109,7 @@
     "jsbi": "^3.1.4",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
+    "moment": "^2.29.4",
     "multicodec": "^3.2.1",
     "next": "^13.2.4",
     "numbro": "^2.3.6",

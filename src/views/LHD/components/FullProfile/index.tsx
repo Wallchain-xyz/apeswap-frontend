@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Flex, Spinner, Svg, Text } from 'components/uikit'
 import Chart from '../Chart'
@@ -11,25 +11,38 @@ import AreYouContributor from '../AreYouContributor'
 import ExemptAssetNotice from './components/ExemptAssetNotice'
 import TooltipBubble from 'components/uikit/Tooltip'
 
+// Components
+import HistoricalChart from '../HistoricalChart'
+import TabNavigation from 'components/TabNavigation'
+
 // Hooks
 import useGetLHDProfile from 'state/lhd/hooks/useGetLHDProfile'
+import useGetTokenHistoric from 'state/lhd/hooks/useGetTokenHistoric'
 
 // Types
 import { chartExtras } from 'state/lhd/types'
 
+enum TabNames {
+  Liquidity = 'Strength',
+  Historic = 'Historic Data',
+}
+
 const FullProfile = ({ chainID, address }: { chainID: string; address: string }) => {
+  const [queryString, setQueryString] = useState('')
+  const [activeTab, setActiveTab] = useState<TabNames>(TabNames.Liquidity)
   const { data: fullProfile } = useGetLHDProfile({ chainID, address })
+  const { data: tokenHistoric = [], isLoading: isHistoricLoading } = useGetTokenHistoric({ chainID, address })
   const { t } = useTranslation()
   const router = useRouter()
   const DEX_MISSING_ASSETS = ['CRV']
-
-  const [queryString, setQueryString] = useState('')
 
   const [chartPassBackData, setChartPassBackData] = useState<chartExtras>({
     sustainabilityLower: 0,
     sustainabilityUpper: 0,
     liquidityDebt: 0,
   })
+
+  const selectedHistoricalRef = useRef<string[]>([])
 
   useEffect(() => {
     const qs = router.asPath.split('?')[1] !== undefined ? router.asPath.split('?')[1] : ''
@@ -80,21 +93,36 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
         <Flex sx={styles.lowerContainer}>
           <Flex sx={styles.layout}>
             <Flex sx={styles.chartCont}>
+              <Flex sx={{ alignSelf: 'start', pl: '20px', pt: '20px' }}>
+                <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} tabs={Object.values(TabNames)} />
+              </Flex>
               <Flex sx={styles.titleContainer}>
                 <Text sx={styles.titleText}>
-                  {t('Liquidity Strength Chart ')}
+                  {t(activeTab === TabNames.Liquidity ? 'Liquidity Strength Chart ' : 'Historical Data Chart ')}
                   <TooltipBubble
                     style={{ zIndex: 1000 }}
                     placement="bottomRight"
                     transformTip="translate(8%, -6%)"
                     width="300px"
-                    body={`This chart plots a project's total and owned extractable liquidity by MCAP. Additionally it shows the project's liquidity debt, where the token sits in relationship to the sustainability range, and plots other tokens' total extractable liquidity.`}
+                    body={
+                      activeTab === TabNames.Liquidity
+                        ? `This chart plots a project's total and owned extractable liquidity by MCAP. Additionally it shows the project's liquidity debt, where the token sits in relationship to the sustainability range, and plots other tokens' total extractable liquidity.`
+                        : "This chart shows the token's historical data used to determine its health. Select which data to show by clicking the checkboxes below. \n"
+                    }
                   >
                     <Svg icon="question" width="12px" />
                   </TooltipBubble>
                 </Text>
               </Flex>
-              <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
+              {activeTab === TabNames.Liquidity ? (
+                <Chart chartData={fullProfile?.healthChartData} passBackData={handleChartCallback} />
+              ) : (
+                <HistoricalChart
+                  tokenHistoric={tokenHistoric}
+                  isLoading={isHistoricLoading}
+                  selectedHistoricalRef={selectedHistoricalRef}
+                />
+              )}
             </Flex>
             <Flex sx={styles.infoCardMobile}>
               <InfoCards fullProfile={fullProfile} chartExtras={chartPassBackData} />
