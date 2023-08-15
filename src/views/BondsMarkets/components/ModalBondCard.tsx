@@ -51,7 +51,7 @@ const ModalBondCard = ({ bond }: { bond: BondLanding }) => {
           <Text sx={{ fontSize: ['12px', '12px', '12px', '18px'] }}>{currency?.symbol}</Text>
           <Text sx={styles.markets}>{bond.principalTokenName}</Text>
         </Flex>
-        <Flex sx={styles.bondInfo}>
+        <Flex sx={{ ...styles.bondInfo, width: ['55px', '55px', '55px', '70px'] }}>
           <Flex sx={{ flexDirection: 'column' }}>
             <Text sx={styles.discount}>Discount</Text>
             <Text

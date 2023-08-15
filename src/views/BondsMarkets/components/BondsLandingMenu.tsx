@@ -80,7 +80,7 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
   return (
     <Flex sx={styles.menuContainer}>
       <>
-        <Flex sx={{ width: ['100%', '100%', '100%', '45%'] }}>
+        <Flex sx={{ width: ['100%', '100%', '100%', '45%'], maxWidth: ['353px', '353px', '353px', 'unset'] }}>
           <Input
             value={query}
             onChange={handleQueryChange}
@@ -129,7 +129,7 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
                 </Flex>
                 <Flex sx={styles.container}>
                   {sortOption && (
-                    <Flex sx={styles.selectContainer} pr={3}>
+                    <Flex sx={styles.selectContainer}>
                       <MenuSelect selectedOption={sortOption} setOption={handleSortChange} options={SORT_OPTIONS} />
                     </Flex>
                   )}

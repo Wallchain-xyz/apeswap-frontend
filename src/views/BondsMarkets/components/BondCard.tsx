@@ -56,7 +56,7 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
             <Text sx={styles.markets}>{bonds?.length} Markets</Text>
           </Flex>
           {bonds && !bonds?.[0]?.soldOut ? (
-            <Flex sx={styles.bondInfo}>
+            <Flex sx={{ ...styles.bondInfo, width: ['150px', '150px', '150px', '70px'] }}>
               <Flex sx={{ justifyContent: 'flex-end' }}>
                 <Text sx={styles.buyNow}>
                   {hasToSwitchChain ? 'SWITCH CHAIN & BUY' : 'BUY NOW'}
@@ -78,7 +78,7 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
               </Flex>
             </Flex>
           ) : (
-            <Flex sx={{ ...styles.bondInfo, alignItems: 'flex-end' }}>
+            <Flex sx={{ ...styles.bondInfo, width: ['150px', '150px', '150px', '70px'], alignItems: 'flex-end' }}>
               <Text sx={styles.buyNow}> SOLD OUT</Text>
             </Flex>
           )}

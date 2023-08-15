@@ -50,6 +50,7 @@ export const styles: Record<
   selectContainer: {
     width: '100%',
     justifyContent: 'center',
+    pr: ['0px', '0px', '0px', '10px'],
   },
   searchInput: {
     borderRadius: '10px',
@@ -124,8 +125,7 @@ export const styles: Record<
   bondInfo: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: ['150px', '150px', '150px', '70px'],
-    mr: '5px',
+    mr: ['15px', '15px', '15px', '5px'],
   },
   buyNow: {
     display: MOBILE_DISPLAY,
