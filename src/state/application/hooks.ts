@@ -9,6 +9,8 @@ import { getContract } from '../../utils'
 import { useWeb3React } from '@web3-react/core'
 import NFB_ABI from '../../config/abi/nonFungibleBananas.json'
 import { RPC_PROVIDERS } from '../../config/constants/providers'
+import { BANANA_ADDRESSES, PRICE_GETTER_ADDRESSES } from 'config/constants/addresses'
+import PRICE_GETTER_ABI from 'config/abi/price-getter.json'
 
 /** @ref https://dashboard.moonpay.com/api_reference/client_side_api#ip_addresses */
 interface MoonpayIPAddressesResponse {
@@ -121,6 +123,29 @@ export function useToastError(): (content: PopupContent, key?: string, removeAft
     },
     [dispatch],
   )
+}
+
+export const useBananaPriceOnBnb = (): string | undefined => {
+  const [bananaPrice, setBananaPrice] = useState<string | undefined>()
+
+  useEffect(() => {
+    const fetchBananaPrice = async () => {
+      try {
+        const priceGetterContract = getContract(
+          PRICE_GETTER_ADDRESSES[SupportedChainId.BSC],
+          PRICE_GETTER_ABI,
+          RPC_PROVIDERS[SupportedChainId.BSC],
+        )
+        const bananaPrice: number = await priceGetterContract?.getPrice(BANANA_ADDRESSES[SupportedChainId.BSC], 18)
+        setBananaPrice(bananaPrice.toString())
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    fetchBananaPrice()
+  }, [])
+
+  return bananaPrice
 }
 
 export const useGetProfilePic = (): string | undefined => {

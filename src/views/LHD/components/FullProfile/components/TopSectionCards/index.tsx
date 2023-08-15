@@ -13,9 +13,13 @@ import { useTranslation } from 'contexts/Localization'
 import TokenImage from '../../../../../../components/TokenImage'
 import Link from 'next/link'
 import { CHAIN_DETAILS } from 'views/LHD/utils/config'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
   const { t } = useTranslation()
+  const router = useRouter()
+
   const firstValidMcap = fullProfile?.mcap.find((input: ExternalDataOption) => input?.amount) as ExternalDataOption
 
   const { siteUrl, auditUrls, twitterUrl, telegramUrl, discordUrl } = fullProfile?.addressMapping
@@ -44,6 +48,13 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
       formulaVersion={fullProfile?.formulaVersion}
     />,
   )
+
+  useEffect(() => {
+    if (router.query.modal === 'card') {
+      onCreateCard()
+    }
+  }, [router.query])
+
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.leftContainer}>
@@ -150,9 +161,11 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
           </Flex>
         </Flex>
         <Flex sx={{ mt: ['10px', '10px', '10px', '0px'] }}>
-          <Button variant="tertiary" sx={styles.shareCard} onClick={onCreateCard}>
-            <Text sx={styles.shareText}>{t('Share')}</Text>
-            <Svg icon="share" width={17} color="text" />
+          <Button variant="primary" sx={styles.shareCard} onClick={onCreateCard}>
+            <Text sx={styles.shareText} color="primaryBright">
+              {t('Share')}
+            </Text>
+            <Svg icon="share" width={17} color="primaryBright" />
           </Button>
         </Flex>
       </Flex>

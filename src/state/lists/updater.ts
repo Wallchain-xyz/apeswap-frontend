@@ -4,13 +4,14 @@ import { UNSUPPORTED_LIST_URLS } from 'config/constants/lists'
 import useInterval from 'lib/hooks/useInterval'
 import { useCallback, useEffect } from 'react'
 import { useAppDispatch } from 'state/hooks'
-import { useAllLists } from 'state/lists/hooks'
+import { useAllLists } from 'state/lists/hooks/hooks'
 
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { acceptListUpdate } from './actions'
 
 export default function Updater(): null {
+  //TODO: this updater might not be necessary, revisit this
   const { provider } = useWeb3React()
   const dispatch = useAppDispatch()
   const isWindowVisible = useIsWindowVisible()

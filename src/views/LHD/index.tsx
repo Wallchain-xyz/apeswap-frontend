@@ -7,7 +7,6 @@ import { styles } from './styles'
 import ListViewLayout from 'components/ListView/ListViewLayout'
 import TokensProfileList from './components/TokensProfileList'
 import TitleCards from './components/TitleCards'
-import LHDModal from './components/LHDModal'
 
 // Helpers
 import { generateSearchParams, queryStringToObject, getFilterDiff } from './components/SearchBar/helpers'
@@ -37,7 +36,6 @@ const LHD = () => {
   /** Prevents a race condition between searching and filtering */
   const [isSearchQuery, setIsSearchQuery] = useState<boolean>(false)
   const { data: simpleProfiles = { count: 0, data: [] }, isLoading } = useGetLHDProfiles({ filters: appliedFilters })
-  const { isLhdAuth } = useSelector((state: AppState) => state.lhd)
 
   const { offset, search, sort, ...appliedModalFilters } = appliedFilters
   /**
@@ -79,7 +77,6 @@ const LHD = () => {
           appliedFilters={appliedFilters}
         />
       </ListViewLayout>
-      <LHDModal isLhdAuthModalOpen={!isLhdAuth} />
     </Flex>
   )
 }

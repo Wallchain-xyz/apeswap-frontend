@@ -1,13 +1,13 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { useCallback } from 'react'
 import { switchChain } from 'utils/switchChain'
+import { ChainId } from 'config/constants/chains'
 
 export default function useSelectChain() {
   const { connector } = useWeb3React()
 
   return useCallback(
-    async (targetChain: SupportedChainId) => {
+    async (targetChain: ChainId) => {
       if (!connector) return
       try {
         await switchChain(connector, targetChain)

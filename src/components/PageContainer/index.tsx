@@ -1,6 +1,5 @@
 import FloatingDocs from 'components/FloatingDocs'
 import { TOP_NAV_HEIGHT } from 'components/NavBarNew/styles'
-import NetworkMonitor from 'components/NetworkMonitor'
 import { Flex } from 'components/uikit'
 import { customMeta, DEFAULT_META } from 'config/constants/meta'
 import Head from 'next/head'
@@ -9,7 +8,7 @@ import { CSSProperties } from 'theme-ui'
 
 const variants = {
   dex: {
-    mt: ['75px', '75px', '75px', '75px', '75px', '75px'],
+    mt: ['25px', '25px', '25px', '25px', '75px', '75px'],
     mb: ['100px', '100px', '100px', '100px', '100px', '100px'],
     justifyContent: 'center',
   },
@@ -48,16 +47,30 @@ const PageContainer = ({
   return (
     <>
       <Head>
-        <title>{title}</title>
-        {asPath.includes('/liquidity-health/') ? (
+        {asPath.includes('/liquidity-health') ? (
           <>
+            <title>ApeSwap | Liquidity Health Dashboard</title>
             <meta property="og:title" content="ApeSwap | Liquidity Health Dashboard" />
             <meta
               property="og:description"
               content="ApeSwap’s Liquidity Health Dashboard provides insights into the quality and sustainability of cryptocurrency projects based on different characteristics of their liquidity."
             />
-            <meta property="og:image" content={imageURL} />
-            <meta name="twitter:image" content={imageURL} />
+            <meta
+              property="og:image"
+              content={
+                asPath.includes('/liquidity-health/')
+                  ? imageURL
+                  : 'https://frontend-git-feat-lhd-improvements-ape-swap-finance.vercel.app/lhd-meta.png'
+              }
+            />
+            <meta
+              name="twitter:image"
+              content={
+                asPath.includes('/liquidity-health/')
+                  ? imageURL
+                  : 'https://frontend-git-feat-lhd-improvements-ape-swap-finance.vercel.app/lhd-meta.png'
+              }
+            />
 
             <meta
               name="twitter:description"
@@ -67,6 +80,7 @@ const PageContainer = ({
           </>
         ) : (
           <>
+            <title>{title}</title>
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />
@@ -102,7 +116,6 @@ const PageContainer = ({
           {children}
         </Flex>
         <FloatingDocs />
-        {variant === 'dex' && <NetworkMonitor />}
       </Flex>
     </>
   )

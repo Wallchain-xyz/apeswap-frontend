@@ -15,7 +15,7 @@ import { updateSelectedWallet } from 'state/user/reducer'
 
 // Constants & Utils
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { CHAIN_PARAMS, NETWORK_ICONS } from 'config/constants/chains'
+import { CHAIN_PARAMS, ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { getEtherscanLink } from 'utils'
 
 const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
@@ -24,7 +24,7 @@ const AccountDetailsDropdown = ({ isVisible }: { isVisible: boolean }) => {
   const { colorMode } = useThemeUI()
   const dispatch = useAppDispatch()
   const { account, chainId, connector } = useWeb3React()
-  const balance = useCurrencyBalanceString(account ?? '')
+  const balance = useCurrencyBalanceString(chainId ?? ChainId.BSC)
 
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {

@@ -158,7 +158,6 @@ export const styles: Record<
     lineHeight: ['40px'],
   },
   shareCard: {
-    color: 'text',
     width: ['100%'],
     textTransform: 'capitalize',
     flexDirection: ['row', 'row', 'row', 'column-reverse'],

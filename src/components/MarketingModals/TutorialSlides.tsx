@@ -20,27 +20,7 @@ export const SwapSlides = () => {
       key={1}
       step="Step 1"
       slideTitle="Select Tokens & Amount"
-      slideContent={
-        <>
-          <Text>{t('Select the tokens you want to trade and enter your preferred amount.')}</Text>
-          <Text sx={{ fontStyle: 'italic' }}>
-            {t(`New to ${NETWORK_LABEL[chainId as SupportedChainId]} Chain? You might need to`)}
-            <Link
-              href="https://jumper.exchange"
-              target="_blank"
-              rel="noreferrer noopener"
-              sx={{ ...styles.yellow, mx: '3px' }}
-            >
-              {t('bridge tokens')}
-            </Link>
-            {t(
-              `first. Always keep spare ${
-                CHAIN_PARAMS[chainId as SupportedChainId]?.nativeCurrency.symbol
-              } to account for gas fees.`,
-            )}
-          </Text>
-        </>
-      }
+      slideContent={<Text>{t('Select the tokens & chains you want to trade. Then enter your preferred amount.')}</Text>}
     />,
     <Slide
       key={2}
@@ -49,47 +29,10 @@ export const SwapSlides = () => {
       slideContent={
         <>
           <Text>{t(`You'll need to APPROVE the router just once.`)}</Text>
-          <Text sx={{ fontStyle: 'italic' }}>
-            <Text sx={styles.content}>{t('Keep in mind ApeSwap uses three different routers (')}</Text>
-            <Tooltip
-              placement={'topRight'}
-              transformTip={`translate(${isMobile ? '9%' : '5%'}, 2%)`}
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t("ApeSwap's primary DEX router that facilitates token swaps through native liquidity sources.")}
-                </Flex>
-              }
-              sx={{ width: ['190px', '190px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>Ape,</Text>
-            </Tooltip>{' '}
-            <Tooltip
-              placement={'topRight'}
-              transformTip="translate(4%, 2%)"
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t("ApeSwap's router that facilitates token swaps through external sources of liquidity.")}
-                </Flex>
-              }
-              sx={{ width: ['220px', '220px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>Smart,</Text>
-            </Tooltip>{' '}
-            <Tooltip
-              placement={'topRight'}
-              transformTip="translate(4%, 2%)"
-              body={
-                <Flex sx={styles.tipBody}>
-                  {t(
-                    "ApeSwap's router that finds backrunning strategies and returns a Swap Bonus when arbitrage is identified.",
-                  )}
-                </Flex>
-              }
-              sx={{ width: ['260px', '260px', '350px'] }}
-            >
-              <Text sx={styles.tipTitle}>Bonus</Text>
-            </Tooltip>
-            <Text sx={styles.content}>{t(')')}</Text>
+          <Text sx={styles.content}>
+            {t(
+              'Keep in mind that ApeSwap routes through several different liquidity sources, but you only need to approve the router once!',
+            )}
           </Text>
         </>
       }
@@ -102,7 +45,7 @@ export const SwapSlides = () => {
         <>
           <Text>
             {t(
-              'You’ll need to select APPROVE, SWAP and then CONFIRM. Approve all transactions in your wallet. In a few seconds, the trade will go through and you will receive your output tokens.',
+              'You’ll need to select APPROVE, SWAP/BRIDGE, and then CONFIRM. Approve all transactions in your wallet. Most transactions will take only a few seconds, but bridging transactions can take several minutes.',
             )}
           </Text>
         </>

@@ -1,7 +1,6 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { RPC_URLS, PUBLIC_RPC_URLS } from './networks'
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
-import { AVERAGE_L1_BLOCK_TIME, CHAIN_NAMES } from './chains'
+import { AVERAGE_L1_BLOCK_TIME, CHAIN_NAMES, ChainId } from './chains'
 import { isPlain } from '@reduxjs/toolkit'
 import { deepCopy } from 'ethers/lib/utils'
 
@@ -16,7 +15,7 @@ class AppJsonRpcProvider extends StaticJsonRpcProvider {
     return this._blockCache
   }
 
-  constructor(chainId: SupportedChainId, useApeRPC = false) {
+  constructor(chainId: ChainId, useApeRPC = false) {
     const urls = useApeRPC ? RPC_URLS : PUBLIC_RPC_URLS
     super(urls[chainId][0], /* networkish= */ { chainId, name: CHAIN_NAMES[chainId] })
 
@@ -53,16 +52,24 @@ class AppJsonRpcProvider extends StaticJsonRpcProvider {
 /**
  * These are the only JsonRpcProviders used directly by the interface.
  */
-export const RPC_PROVIDERS: Record<SupportedChainId, StaticJsonRpcProvider> = {
-  [SupportedChainId.MAINNET]: new AppJsonRpcProvider(SupportedChainId.MAINNET),
-  [SupportedChainId.POLYGON]: new AppJsonRpcProvider(SupportedChainId.POLYGON),
-  [SupportedChainId.ARBITRUM_ONE]: new AppJsonRpcProvider(SupportedChainId.ARBITRUM_ONE),
-  [SupportedChainId.POLYGON_MUMBAI]: new AppJsonRpcProvider(SupportedChainId.POLYGON_MUMBAI),
-  [SupportedChainId.BSC]: new AppJsonRpcProvider(SupportedChainId.BSC),
-  [SupportedChainId.BSC_TESTNET]: new AppJsonRpcProvider(SupportedChainId.BSC_TESTNET),
-  [SupportedChainId.TLOS]: new AppJsonRpcProvider(SupportedChainId.TLOS),
+export const RPC_PROVIDERS: Record<ChainId, StaticJsonRpcProvider> = {
+  [ChainId.MAINNET]: new AppJsonRpcProvider(ChainId.MAINNET),
+  [ChainId.POLYGON]: new AppJsonRpcProvider(ChainId.POLYGON),
+  [ChainId.ARBITRUM_ONE]: new AppJsonRpcProvider(ChainId.ARBITRUM_ONE),
+  [ChainId.POLYGON_MUMBAI]: new AppJsonRpcProvider(ChainId.POLYGON_MUMBAI),
+  [ChainId.BSC]: new AppJsonRpcProvider(ChainId.BSC),
+  [ChainId.BSC_TESTNET]: new AppJsonRpcProvider(ChainId.BSC_TESTNET),
+  [ChainId.TLOS]: new AppJsonRpcProvider(ChainId.TLOS),
+  [ChainId.GNOSIS]: new AppJsonRpcProvider(ChainId.GNOSIS),
+  [ChainId.AVALANCHE]: new AppJsonRpcProvider(ChainId.AVALANCHE),
+  [ChainId.OPTIMISM]: new AppJsonRpcProvider(ChainId.OPTIMISM),
+  [ChainId.FANTOM]: new AppJsonRpcProvider(ChainId.FANTOM),
+  [ChainId.CRONOS]: new AppJsonRpcProvider(ChainId.CRONOS),
+  [ChainId.POLYGON_ZK]: new AppJsonRpcProvider(ChainId.POLYGON_ZK),
+  [ChainId.OKX]: new AppJsonRpcProvider(ChainId.OKX),
+  [ChainId.CELO]: new AppJsonRpcProvider(ChainId.CELO),
 }
 
-export const getProvider = (chainId: SupportedChainId, useApeRPC: boolean = false) => {
+export const getProvider = (chainId: ChainId, useApeRPC: boolean = false) => {
   return new AppJsonRpcProvider(chainId, useApeRPC)
 }

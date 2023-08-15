@@ -63,7 +63,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
   const handleBackButton = () => {
     router.push(
       { pathname: `/liquidity-health?${queryString ? queryString : Math.random() * 10}` },
-      `/liquidity-health${queryString ? '?' + queryString : ''}`,
+      `/liquidity-health${queryString.replace('modal=card', '') ? '?' + queryString.replace('modal=card', '') : ''}`,
     )
   }
 
