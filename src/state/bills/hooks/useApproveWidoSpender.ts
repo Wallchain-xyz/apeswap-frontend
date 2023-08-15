@@ -29,16 +29,17 @@ const useApproveWidoSpender = ({
   toToken: string
 }) => {
   const queryClient = useQueryClient()
-  const { account, provider } = useWeb3React()
+  const { account, provider, isActive } = useWeb3React()
   const [, pair] = useV2Pair(currencyA, currencyB)
 
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
   const { address: fromTokenAddress, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
 
   const amount = convertToTokenValue(amountInput || '0', decimals).toString()
+  const isEnabled = isActive && !!fromTokenAddress && !!toToken && Number(amount) > 0 && !currencyA.isNative
 
   const { signTransaction } = useSignTransaction()
-  const { data: widoSpenderData } = useGetWidoApprove({ fromToken: fromTokenAddress, toToken, amount })
+  const { data: widoSpenderData } = useGetWidoApprove({ fromToken: fromTokenAddress, toToken, amount, isEnabled })
 
   const { data, to } = widoSpenderData || {}
 

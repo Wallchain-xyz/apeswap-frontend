@@ -32,12 +32,22 @@ const getWidoApprove = async ({
   }
 }
 
-const useGetWidoApprove = ({ fromToken, toToken, amount }: { fromToken: string; toToken: string; amount: string }) => {
-  const { isActive, account = '0x123', chainId = 137 } = useWeb3React()
+const useGetWidoApprove = ({
+  fromToken,
+  toToken,
+  amount,
+  isEnabled,
+}: {
+  fromToken: string
+  toToken: string
+  amount: string
+  isEnabled: boolean
+}) => {
+  const { account = '0x123', chainId = 137 } = useWeb3React()
   return useQuery({
     queryKey: [QUERY_KEYS.WIDO_APPROVAL, { account }, { fromToken }, { toToken }],
     queryFn: () => getWidoApprove({ chainId, toToken, fromToken, amount }),
-    enabled: isActive && !!fromToken && !!toToken && Number(amount) > 0,
+    enabled: isEnabled,
   })
 }
 

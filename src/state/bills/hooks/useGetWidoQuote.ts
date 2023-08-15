@@ -68,6 +68,7 @@ export default function useGetWidoQuote({
 
   const amount = convertToTokenValue(amountInput || '0', decimals).toString()
   const slippagePercentage = userZapSlippage / 100 || 0.05
+  const isEnabled = !currencyA.isNative && Number(amount) > 0 && !!inputCurrencyId && !!toToken
 
   return useQuery({
     queryKey: [
@@ -80,6 +81,6 @@ export default function useGetWidoQuote({
       { chainId },
     ],
     queryFn: () => getWidoQuote({ inputCurrencyId, amount, toToken, slippagePercentage, account, chainId }),
-    enabled: Number(amount) > 0 && !!inputCurrencyId && !!toToken,
+    enabled: isEnabled,
   })
 }

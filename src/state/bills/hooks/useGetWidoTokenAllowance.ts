@@ -18,7 +18,7 @@ const useGetWidoTokenAllowance = ({
   toToken,
 }: {
   currencyA: any
-  currencyB: any
+  currencyB?: any
   toToken: string
 }) => {
   const [, pair] = useV2Pair(currencyA, currencyB)
@@ -28,10 +28,12 @@ const useGetWidoTokenAllowance = ({
   const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
   const amountToApprove = convertToTokenValue(amountInput || '0', decimals).toString()
 
+  const isEnabled = !isNative && Number(amountToApprove) > 0
+
   const { data: widoAllowance, isLoading: isWidoAllowanceLoading } = useGetWidoAllowance({
     fromToken: address,
     toToken,
-    isEnabled: !isNative && Number(amountToApprove) > 0,
+    isEnabled,
   })
   const { allowance } = widoAllowance ?? {}
 
