@@ -10,6 +10,8 @@ import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
 
 const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: number }) => {
   const [error, setError] = useState(false)
+  const chainSize = size / 2.2 > 20 ? 20 : size / 2.2
+
   return (
     <>
       {!error && currency && ((currency as TokenInfo)?.logoURI || currency.isNative) ? (
@@ -18,7 +20,7 @@ const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: n
             minWidth: `${size + 2}px`,
             height: `${size + 2}px`,
             background: '#fff',
-            borderRadius: '25px',
+            borderRadius: `${size}px`,
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
@@ -44,8 +46,8 @@ const OmniTokenImage = ({ currency, size }: { currency: Currency | null; size: n
           )}
           <Box sx={{ borderRadius: `${size}px`, position: 'absolute', top: -1, right: -1 }}>
             <Svg
-              width={size / 2.2}
-              height={size / 2.2}
+              width={chainSize}
+              height={chainSize}
               icon={NETWORK_ICONS?.[currency?.chainId as ChainId] ?? 'question'}
             />
           </Box>

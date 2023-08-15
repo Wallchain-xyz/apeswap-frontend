@@ -20,10 +20,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ape.swap/apeswap-lists@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.8.tgz#b31e6babcfb9902fe1d430a3a66e81cf0881ea85"
-  integrity sha512-VfMvxVjuXXcOXGbTWlyvYL7QKis8RVU0o/U7dsMoFfwaJ6TvssX81uNZX1nrwgleOGvS84192VDI8BkrWVs+SA==
+"@ape.swap/apeswap-lists@1.4.9":
+  version "1.4.9"
+  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.9.tgz#c6484ddcf81e1ddc10a0a92a3de00cf7dcc4a7f6"
+  integrity sha512-Rbfpp/fGCBGNBU03nUSsbVrtjULrtkmS1jWyqO9g1vA4VIWA1uGvyPupbJM14z4kEHAMzw/E+Hu/X3uW2PdiHg==
   dependencies:
     "@ape.swap/sdk" "4.4.0"
     bignumber.js "^9.0.2"
@@ -2047,9 +2047,9 @@
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
 "@lifi/sdk@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.2.tgz#6d6b92e21dec7b5083d88c4f2a6c8b06473eef1c"
-  integrity sha512-HEkhwQkB9DRnTtn/4aMlUAvjky8KLFX156j6m2DOGv0auOhklP/BoPDjBs73KSoxWfUZzoeOqVdk0tLjENFYhA==
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.3.tgz#8088303d1f41ee522b1aa2a5cacbacc47f629e1a"
+  integrity sha512-k5KFK5SRRqA1hGrQkkWPPhM0AYciAFyu6GLCJdDFUK6HM+No4qDQWT359K9mGU6FrXVhPMds58Imex/lj/XReQ==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/contracts" "^5.7.0"

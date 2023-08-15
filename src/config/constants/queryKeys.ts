@@ -7,4 +7,5 @@ export const QUERY_KEYS = {
   HOMEPAGE_STATS: 'homepageStats',
   LIVE_AND_UPCOMING: 'liveAndUpcoming',
   TVL_STATS: 'tvlStats',
+  BONDS_LANDING: 'bondsLanding',
 }

@@ -12,6 +12,7 @@ import BillsListView from './components/BillsListView'
 import BillsNav from './components/BillsNav'
 import UserBillsView from './components/UserBillsView'
 import { ChainId } from 'config/constants/chains'
+import { useRouter } from 'next/router'
 
 export enum BillsView {
   AVAILABLE_BILLS = 'Available Bonds',
@@ -21,7 +22,10 @@ export enum BillsView {
 const Bills: React.FC = () => {
   const { chainId } = useWeb3React()
   const { t } = useTranslation()
-  const [billsView, setBillsView] = useState<string>(BillsView.AVAILABLE_BILLS)
+  const router = useRouter()
+  const [billsView, setBillsView] = useState<string>(
+    router?.query?.yourBonds !== undefined ? BillsView.YOUR_BILLS : BillsView.AVAILABLE_BILLS,
+  )
   const value = typeof window !== 'undefined' ? localStorage.getItem('hideTips') : null
   const hideTips: boolean = value === null ? false : JSON.parse(value)
 
