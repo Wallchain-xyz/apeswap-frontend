@@ -20,8 +20,7 @@ interface ZapLiquidityActionsProps {
   zapErrorMessage: string | undefined
   txHash?: string
   handleDismissConfirmation: () => void
-
-  isWidoQuoteLoading: boolean
+  isWidoQuoteLoading?: boolean
 }
 
 const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
@@ -32,7 +31,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   zapRouteState,
   txHash,
   handleDismissConfirmation,
-  isWidoQuoteLoading,
+  isWidoQuoteLoading = false,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
