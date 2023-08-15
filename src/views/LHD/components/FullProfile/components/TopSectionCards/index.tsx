@@ -157,7 +157,18 @@ const TopSectionCards = ({ fullProfile, scoreDifference }: { fullProfile: TokenP
             >
               {Math.floor(fullProfile.totalScore * 100)}
             </Text>
-            <PriceChange priceChange={scoreDifference.toFixed(2)} />
+            <Flex sx={{ flexDirection: 'row' }}>
+              <PriceChange priceChange={scoreDifference.toFixed(2)} />
+              <Text
+                sx={{
+                  fontSize: '10px',
+                  fontWeight: '300',
+                  ml: '5px',
+                }}
+              >
+                (7d)
+              </Text>
+            </Flex>
           </Flex>
         </Flex>
         <Flex sx={{ mt: ['10px', '10px', '10px', '0px'] }}>
