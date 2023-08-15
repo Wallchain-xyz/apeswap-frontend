@@ -68,7 +68,7 @@ export default function useGetWidoQuote({
 
   const amount = convertToTokenValue(amountInput || '0', decimals).toString()
   const slippagePercentage = userZapSlippage / 100 || 0.05
-  const isEnabled = !currencyA.isNative && Number(amount) > 0 && !!inputCurrencyId && !!toToken
+  const isEnabled = Number(amount) > 0 && !!inputCurrencyId && !!toToken
 
   return useQuery({
     queryKey: [

@@ -15,11 +15,11 @@ import getCurrencyInfo from 'utils/getCurrencyInfo'
 const useGetWidoTokenAllowance = ({
   currencyA,
   currencyB,
-  toToken,
+  toToken = '',
 }: {
   currencyA: any
   currencyB?: any
-  toToken: string
+  toToken?: string
 }) => {
   const [, pair] = useV2Pair(currencyA, currencyB)
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
@@ -28,7 +28,7 @@ const useGetWidoTokenAllowance = ({
   const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
   const amountToApprove = convertToTokenValue(amountInput || '0', decimals).toString()
 
-  const isEnabled = !isNative && Number(amountToApprove) > 0
+  const isEnabled = !isNative && Number(amountToApprove) > 0 && !!toToken
 
   const { data: widoAllowance, isLoading: isWidoAllowanceLoading } = useGetWidoAllowance({
     fromToken: address,

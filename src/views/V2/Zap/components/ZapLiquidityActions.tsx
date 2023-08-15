@@ -11,6 +11,10 @@ import { useUserSlippageToleranceWithDefault, useUserZapSlippageTolerance } from
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
+import { Currency } from '@ape.swap/sdk-core'
+
+// Hooks
+import useGetWidoTokenAllowance from 'state/bills/hooks/useGetWidoTokenAllowance'
 
 interface ZapLiquidityActionsProps {
   handleZap: () => void
@@ -21,6 +25,10 @@ interface ZapLiquidityActionsProps {
   txHash?: string
   handleDismissConfirmation: () => void
   isWidoQuoteLoading?: boolean
+  inputCurrency?: Currency | null
+  outputCurrencyId?: string
+  isWidoSupported?: boolean
+  widoQuote?: any
 }
 
 const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
@@ -32,9 +40,22 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   txHash,
   handleDismissConfirmation,
   isWidoQuoteLoading = false,
+  outputCurrencyId,
+  inputCurrency,
+  isWidoSupported = false,
+  widoQuote,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
+
+  const {
+    requiresApproval: requiresApprovalWido,
+    approveWidoSpender,
+    isApproveWidoSpenderLoading,
+  } = useGetWidoTokenAllowance({
+    currencyA: inputCurrency,
+    toToken: outputCurrencyId,
+  })
 
   const [onPresentAddLiquidityModal] = useModal(
     <ZapConfirmationModal
@@ -60,7 +81,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   const showApproveFlow =
     !zapInputError && (approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING)
 
-  const renderAction = () => {
+  const renderActionOld = () => {
     if (!account) {
       return <ConnectWalletButton />
     }
@@ -100,6 +121,59 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
         {t('Zap Liquidity')}
       </Button>
     )
+  }
+
+  const renderAction = () => {
+    switch (true) {
+      case !account:
+        return <ConnectWalletButton />
+
+      case !!zapInputError:
+        return (
+          <Button fullWidth disabled>
+            {zapInputError}
+          </Button>
+        )
+      case isWidoSupported && requiresApprovalWido:
+        return (
+          <Button
+            onClick={() => approveWidoSpender()}
+            disabled={isApproveWidoSpenderLoading}
+            load={isApproveWidoSpenderLoading}
+          >
+            {isApproveWidoSpenderLoading ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}` : 'Approve Wido'}
+          </Button>
+        )
+      case showApproveFlow && !isWidoSupported:
+        return (
+          <Flex sx={{ width: '100%' }}>
+            <>
+              <Button
+                onClick={approveCallback}
+                disabled={approval !== ApprovalState.NOT_APPROVED}
+                load={approval === ApprovalState.PENDING}
+                fullWidth
+                sx={{ padding: '10px 2px' }}
+              >
+                {approval === ApprovalState.PENDING
+                  ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
+                  : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
+              </Button>
+            </>
+          </Flex>
+        )
+
+      default:
+        return (
+          <Button
+            fullWidth
+            onClick={() => handleConfirmZap()}
+            disabled={zapRouteState === TradeState.LOADING || (!widoQuote && isWidoSupported)}
+          >
+            {t('Zap Liquidity')}
+          </Button>
+        )
+    }
   }
 
   return <Flex sx={styles.zapActionsContainer}>{renderAction()}</Flex>

@@ -238,6 +238,10 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             zapRouteState={zapRouteState}
             handleDismissConfirmation={handleDismissConfirmation}
             isWidoQuoteLoading={isWidoQuoteLoading && !widoQuote}
+            inputCurrency={inputCurrency}
+            outputCurrencyId={outputCurrencyId}
+            isWidoSupported={isWidoSupported}
+            widoQuote={widoQuote}
           />
         </ModalProvider>
         <Flex sx={{ marginTop: '10px', justifyContent: 'center' }}>
