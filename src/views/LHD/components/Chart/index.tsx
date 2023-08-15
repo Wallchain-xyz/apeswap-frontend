@@ -20,6 +20,7 @@ import { useTranslation } from '../../../../contexts/Localization'
 import PriceChange from '../FullProfile/components/PercentageChange'
 import { formatDollar } from '../../../../utils/formatNumbers'
 import useIsMobile from '../../../../hooks/useIsMobile'
+import { useThemeUI } from 'theme-ui'
 
 ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, LineController, Filler)
 
@@ -28,6 +29,8 @@ let hideTimeout: NodeJS.Timeout | null = null
 let liquidityDebt: unknown = null
 let sustainabilityLower: unknown = null
 let sustainabilityUpper: unknown = null
+
+let selectedTooltip: any = null
 
 const CustomTooltip = ({
   show,
@@ -43,6 +46,9 @@ const CustomTooltip = ({
   isOwnedExtractable: boolean
 }) => {
   const { t } = useTranslation()
+  const { theme } = useThemeUI()
+  const white2 = theme!.colors!.white2
+  selectedTooltip = data
 
   if (!show) return null
   return createPortal(
@@ -50,7 +56,7 @@ const CustomTooltip = ({
       sx={{
         position: 'absolute',
         left: x,
-        top: y,
+        top: y - 23,
         transform: 'translate(-50%, -100%)',
         zIndex: 100,
         borderRadius: '10px',
@@ -58,6 +64,18 @@ const CustomTooltip = ({
         flexDirection: 'column',
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
         width: '370px',
+        '::after': {
+          content: '""',
+          position: 'absolute',
+          left: '50%',
+          bottom: '-10px',
+          width: 0,
+          height: 0,
+          borderLeft: '10px solid transparent',
+          borderRight: '10px solid transparent',
+          borderTop: `10px solid ${white2}`,
+          transform: 'translateX(-50%)',
+        },
       }}
     >
       <Flex
@@ -459,6 +477,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           beginAtZero: false,
         },
       },
+      onClick: (context: any) => {
+        customTooltipHandler(context, 'click')
+      },
       plugins: {
         zoom: {
           limits: {
@@ -499,39 +520,43 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     setOptions(newOptions)
   }, [chartData, isMobile])
 
-  const customTooltipHandler = (context: { chart?: any; tooltip?: any }) => {
+  const customTooltipHandler = (context: { chart?: any; tooltip?: any }, type: string = '') => {
     const { tooltip } = context
 
-    if (tooltip.opacity === 0) {
-      if (hideTimeout) clearTimeout(hideTimeout)
+    if (type === 'click') {
+      window.location.href = selectedTooltip.link
+    } else {
+      if (tooltip.opacity === 0) {
+        if (hideTimeout) clearTimeout(hideTimeout)
 
-      hideTimeout = setTimeout(() => {
-        setTooltipState((prevState) => ({ ...prevState, show: false }))
-      }, 500)
-      return
+        hideTimeout = setTimeout(() => {
+          setTooltipState((prevState) => ({ ...prevState, show: false }))
+        }, 500)
+        return
+      }
+
+      if (hideTimeout) {
+        clearTimeout(hideTimeout)
+        hideTimeout = null
+      }
+
+      const currentItem = tooltip.dataPoints[0]
+      const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
+
+      if (!data) return
+
+      const canvasPosition = context.chart.canvas.getBoundingClientRect()
+
+      setTooltipState({
+        show: true,
+        x: canvasPosition.left + window.scrollX + currentItem.element.x,
+        y: canvasPosition.top + window.scrollY + currentItem.element.y,
+        data: data,
+        //Last one is the owned extractable liquidity icon
+        isOwnedExtractable:
+          currentItem.dataIndex === context.chart.data.datasets[currentItem.datasetIndex].data.length - 1,
+      })
     }
-
-    if (hideTimeout) {
-      clearTimeout(hideTimeout)
-      hideTimeout = null
-    }
-
-    const currentItem = tooltip.dataPoints[0]
-    const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
-
-    if (!data) return
-
-    const canvasPosition = context.chart.canvas.getBoundingClientRect()
-
-    setTooltipState({
-      show: true,
-      x: canvasPosition.left + window.scrollX + currentItem.element.x,
-      y: canvasPosition.top + window.scrollY + currentItem.element.y,
-      data: data,
-      //Last one is the owned extractable liquidity icon
-      isOwnedExtractable:
-        currentItem.dataIndex === context.chart.data.datasets[currentItem.datasetIndex].data.length - 1,
-    })
   }
 
   const data = useMemo(() => {

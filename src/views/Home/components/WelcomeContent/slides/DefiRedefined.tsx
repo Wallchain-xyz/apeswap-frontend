@@ -63,12 +63,7 @@ const DefiRedefined = ({ randomImage }: { randomImage: number }) => {
           <Button
             variant="secondary"
             sx={styles.learnMoreButton}
-            onClick={() =>
-              window.open(
-                'https://apeswap.gitbook.io/apeswap-finance/product-and-features/raise/treasury-bills',
-                '_blank',
-              )
-            }
+            onClick={() => window.open('https://prelanding.webflow.io/bonds', '_blank')}
           >
             {t('Learn more')}
           </Button>
