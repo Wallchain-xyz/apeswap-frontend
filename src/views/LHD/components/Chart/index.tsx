@@ -524,7 +524,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     const { tooltip } = context
 
     if (type === 'click') {
-      window.location.href = selectedTooltip.link
+      if (selectedTooltip.link) {
+        window.location.href = selectedTooltip.link
+      }
     } else {
       if (tooltip.opacity === 0) {
         if (hideTimeout) clearTimeout(hideTimeout)
