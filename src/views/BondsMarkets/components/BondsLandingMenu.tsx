@@ -17,7 +17,6 @@ import { useRouter } from 'next/router'
 export interface BondsLandingMenuProps {
   query: string
   onHandleQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  chainsWithBonds: string[]
   showAvailable: boolean
   setShowAvailable: Dispatch<SetStateAction<boolean>>
   sortOption?: string
@@ -29,7 +28,6 @@ export interface BondsLandingMenuProps {
 const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
   query,
   onHandleQueryChange,
-  chainsWithBonds,
   showAvailable,
   setShowAvailable,
   sortOption,
@@ -104,7 +102,8 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
                 sx={styles.expandedContainer}
               >
                 <Flex sx={styles.container}>
-                  {chainsWithBonds.map((chain) => {
+                  {Object.keys(filteredChains).map((prefixedChain) => {
+                    const chain = prefixedChain.substring(6)
                     return (
                       <Flex
                         onClick={() =>
@@ -119,7 +118,7 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
                         <Flex
                           sx={{
                             ...styles.chainIconCont,
-                            filter: `${filteredChains[chain] ? 'none' : 'grayscale(100%)'}`,
+                            filter: `${filteredChains['chain_' + chain] ? 'none' : 'grayscale(100%)'}`,
                           }}
                         >
                           <Svg icon={NETWORK_ICONS[chain as unknown as ChainId]} width="20px" />
@@ -140,7 +139,8 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
           </AnimatePresence>
         </Flex>
         <Flex sx={{ display: DESKTOP_DISPLAY }}>
-          {chainsWithBonds.map((chain) => {
+          {Object.keys(filteredChains).map((prefixedChain) => {
+            const chain = prefixedChain.substring(6)
             return (
               <Flex
                 onClick={() =>
@@ -155,7 +155,7 @@ const BondsLandingMenu: React.FC<BondsLandingMenuProps> = ({
                 <Flex
                   sx={{
                     ...styles.chainIconCont,
-                    filter: `${filteredChains[chain] ? 'none' : 'grayscale(100%)'}`,
+                    filter: `${filteredChains['chain_' + chain] ? 'none' : 'grayscale(100%)'}`,
                   }}
                 >
                   <Svg icon={NETWORK_ICONS[chain as unknown as ChainId]} width="20px" />

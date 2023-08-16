@@ -1,10 +1,11 @@
-import { Flex, Svg } from 'components/uikit'
 import React, { useState } from 'react'
+import { Flex, Svg } from 'components/uikit'
 import { Currency } from '@ape.swap/sdk-core'
 import { TokenInfo } from '@uniswap/token-lists'
 import { CHAIN_PARAMS, ChainId, NETWORK_ICONS } from 'config/constants/chains'
 import { Box } from 'theme-ui'
 import { WRAPPED_NATIVE_CURRENCY } from 'config/constants/tokens'
+import { useCurrency } from '../../../hooks/Tokens'
 
 // The purpose of this component is to load token images of unknown sources and to use a custom image if load fails
 

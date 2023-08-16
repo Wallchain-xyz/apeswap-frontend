@@ -34,7 +34,7 @@ const PopUpMobileMenu = ({ isVisible, items }: NavMenuProps) => {
                 }}
               >
                 <Box sx={{ height: '20px', width: '20px', position: 'relative' }}>
-                  <Image src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} fill />
+                  <img src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} />
                 </Box>
                 <Flex sx={{ flexDirection: 'column' }}>
                   <Text sx={styles.mobileNavOptionTitle}>{t(itemLabel || '')}</Text>

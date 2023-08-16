@@ -1,6 +1,6 @@
-import { Flex, Skeleton } from 'components/uikit'
+import React, { useState } from 'react'
+import { Skeleton } from 'components/uikit'
 import Image from 'next/image'
-import { useState } from 'react'
 
 const BAD_SRCS: { [tokenAddress: string]: true } = {}
 
@@ -21,6 +21,7 @@ const Logo = ({ srcs, alt, width, height }: LogoProps) => {
   if (src) {
     return (
       <Image
+        unoptimized
         sx={{ borderRadius: width ? width / 2 : 15 }}
         alt={alt || ''}
         src={src}
@@ -34,7 +35,7 @@ const Logo = ({ srcs, alt, width, height }: LogoProps) => {
     )
   }
 
-  return <Skeleton /> // <MissingIcon {...rest} color="white" />
+  return <Skeleton />
 }
 
 export default Logo
