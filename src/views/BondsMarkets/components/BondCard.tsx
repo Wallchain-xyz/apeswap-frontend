@@ -20,7 +20,6 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
   const selectChain = useSelectChain()
   const [multiMarketBond] = useModal(<MultiMarketBond bonds={bonds} />)
   const hasToSwitchChain = chainId !== bonds?.[0]?.chainId
-  console.log(bonds)
 
   const handleClick = () => {
     if (bonds?.[0]?.soldOut) return
@@ -54,7 +53,9 @@ const BondCard: React.FC<{ bonds: BondLanding[] | undefined; showAvailable: bool
         <Flex sx={{ width: '100%', justifyContent: 'space-between' }}>
           <Flex sx={{ flexDirection: 'column', justifyContent: 'center' }}>
             <Text sx={{ fontSize: ['12px', '12px', '12px', '16px'], fontWeight: 700 }}>{currency?.symbol}</Text>
-            <Text sx={styles.markets}>{bonds?.length} Markets</Text>
+            <Text sx={styles.markets}>
+              {bonds?.length} {bonds?.length === 1 ? 'Market' : 'Markets'}
+            </Text>
           </Flex>
           {bonds && !bonds?.[0]?.soldOut ? (
             <Flex sx={{ ...styles.bondInfo, width: ['150px', '150px', '150px', '70px'] }}>
