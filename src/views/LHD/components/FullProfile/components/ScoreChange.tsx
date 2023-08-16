@@ -7,7 +7,6 @@ const ScoreChange = ({ change }: { change: string }) => {
 
   const changeStyle = {
     color: floatChange > 0 ? 'success' : floatChange < 0 ? 'error' : 'text',
-    ml: '5px',
     fontSize: ['10px', '10px', '10px', '12px'],
   }
 
