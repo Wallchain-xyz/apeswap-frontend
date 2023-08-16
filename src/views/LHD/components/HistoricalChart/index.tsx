@@ -70,17 +70,21 @@ const HistoricalChart = ({
   const options = getChartOptions(toggledData, isMobile)
 
   const handleDataToggle = ({ datasetName }: { datasetName: DatasetNames }): void => {
-    // Step 1: Update state based on the previous state
     setToggledData((prevState) => {
       const updatedToggledData = { ...prevState, [datasetName]: !prevState[datasetName] }
 
-      // Step 2: Filter the datasets based on the updated state
       const newChartData = data.datasets.filter((set) => {
         if (set.label === datasetName) {
           return updatedToggledData[datasetName]
         }
         return updatedToggledData[set.label as DatasetNames]
       })
+
+      //If market cap isn't the one being selected (so unselected) and the current list = 0, add market cap to the list so
+      //it sticks
+      if (selectedHistoricalRef.current.length === 0 && datasetName !== 'Market Cap') {
+        selectedHistoricalRef.current = [...selectedHistoricalRef.current, 'Market Cap']
+      }
 
       setChartData({ ...chartData, datasets: newChartData })
 

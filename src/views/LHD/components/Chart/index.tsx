@@ -478,7 +478,7 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         },
       },
       onClick: (context: any) => {
-        customTooltipHandler(context, 'click')
+        customTooltipHandler(context.chart.canvas, context, 'click')
       },
       plugins: {
         zoom: {
@@ -509,9 +509,10 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
           },
         },
         tooltip: {
+          usePointStyle: true,
           enabled: false,
           external: (context: any) => {
-            customTooltipHandler(context)
+            customTooltipHandler(context.chart.canvas, context)
           },
         },
       },
@@ -520,8 +521,14 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
     setOptions(newOptions)
   }, [chartData, isMobile])
 
-  const customTooltipHandler = (context: { chart?: any; tooltip?: any }, type: string = '') => {
+  const customTooltipHandler = (
+    canvas: HTMLCanvasElement,
+    context: { chart?: any; tooltip?: any },
+    type: string = '',
+  ) => {
     const { tooltip } = context
+
+    console.log(type)
 
     if (type === 'click') {
       if (selectedTooltip.link) {
@@ -534,6 +541,9 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
         hideTimeout = setTimeout(() => {
           setTooltipState((prevState) => ({ ...prevState, show: false }))
         }, 500)
+
+        canvas.style.cursor = 'default'
+
         return
       }
 
@@ -543,6 +553,13 @@ const Chart = ({ chartData, passBackData }: { chartData: LiquidityHealthChart; p
       }
 
       const currentItem = tooltip.dataPoints[0]
+
+      if (currentItem) {
+        canvas.style.cursor = 'pointer'
+      } else {
+        canvas.style.cursor = 'default'
+      }
+
       const data = context.chart.data.datasets[currentItem.datasetIndex].data[currentItem.dataIndex].data
 
       if (!data) return
