@@ -22,13 +22,11 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     }
   }
 
-  const firstTwoPages = [1, 2].filter((page) => page <= totalPages)
-  const lastTwoPages = [totalPages - 1, totalPages].filter((page) => page > 2)
+  const initialPages = currentPage <= 5 ? Array.from({ length: 6 }, (_, i) => i + 1) : [1]
   const middlePages =
-    totalPages > 4
-      ? [currentPage - 1, currentPage, currentPage + 1].filter((page) => page > 2 && page < totalPages - 1)
-      : []
-  const isMiddlePage = middlePages.includes(currentPage)
+    currentPage > 5 && currentPage <= totalPages - 5 ? Array.from({ length: 5 }, (_, i) => currentPage - 2 + i) : []
+  const finalPages =
+    currentPage > totalPages - 5 ? Array.from({ length: 6 }, (_, i) => totalPages - 5 + i) : [totalPages]
 
   return (
     <>
@@ -37,54 +35,51 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
           <Flex onClick={handlePreviousPage} sx={{ mx: '5px', cursor: 'pointer' }}>
             <Svg icon="caret" direction="left" width={7} color="textDisabled" />
           </Flex>
-          {firstTwoPages.map((page) =>
-            !isMiddlePage || page !== 2 || currentPage === 3 ? (
-              <Button
-                size="sm"
-                key={page}
-                onClick={() => onPageChange(page)}
-                sx={{ ...styles.btn, background: currentPage === page ? 'yellow' : 'white2' }}
-                variant={currentPage === page ? 'primary' : 'secondary'}
-              >
-                {page}
-              </Button>
-            ) : null,
-          )}
-          {totalPages > 4 && (currentPage === 1 || currentPage === totalPages) && (
+
+          {initialPages.map((page) => (
+            <Button
+              size="sm"
+              key={page}
+              onClick={() => onPageChange(page)}
+              sx={{ ...styles.btn, background: currentPage === page ? 'yellow' : 'white2' }}
+              variant={currentPage === page ? 'primary' : 'secondary'}
+            >
+              {page}
+            </Button>
+          ))}
+
+          {(middlePages.length > 0 || finalPages[0] !== 2) && (
             <Text sx={{ color: 'textDisabled', mx: '10px' }}>...</Text>
           )}
-          {totalPages > 4 && (middlePages[0] > firstTwoPages[firstTwoPages.length - 1] + 1 || currentPage === 4) ? (
+
+          {middlePages.map((page) => (
+            <Button
+              size="sm"
+              key={page}
+              onClick={() => onPageChange(page)}
+              sx={{ ...styles.btn, background: currentPage === page ? 'yellow' : 'white2' }}
+              variant={currentPage === page ? 'primary' : 'secondary'}
+            >
+              {page}
+            </Button>
+          ))}
+
+          {(middlePages.length > 0 || initialPages[0] !== totalPages - 1) && (
             <Text sx={{ color: 'textDisabled', mx: '10px' }}>...</Text>
-          ) : null}
-          {totalPages > 4 &&
-            middlePages.map((page) => (
-              <Button
-                size="sm"
-                key={page}
-                onClick={() => onPageChange(page)}
-                sx={{ ...styles.btn, background: currentPage === page ? 'yellow' : 'white2' }}
-                variant={currentPage === page ? 'primary' : 'secondary'}
-              >
-                {page}
-              </Button>
-            ))}
-          {totalPages > 4 &&
-          (middlePages[middlePages.length - 1] < lastTwoPages[0] - 1 || currentPage === totalPages - 3) ? (
-            <Text sx={{ color: 'textDisabled', mx: '10px' }}>...</Text>
-          ) : null}
-          {lastTwoPages.map((page) =>
-            !isMiddlePage || page !== totalPages - 1 || currentPage === totalPages - 2 ? (
-              <Button
-                size="sm"
-                key={page}
-                onClick={() => onPageChange(page)}
-                sx={{ ...styles.btn, background: currentPage === page ? 'yellow' : 'white2' }}
-                variant={currentPage === page ? 'primary' : 'secondary'}
-              >
-                {page}
-              </Button>
-            ) : null,
           )}
+
+          {finalPages.map((page) => (
+            <Button
+              size="sm"
+              key={page}
+              onClick={() => onPageChange(page)}
+              sx={{ ...styles.btn, background: currentPage === page ? 'yellow' : 'white2' }}
+              variant={currentPage === page ? 'primary' : 'secondary'}
+            >
+              {page}
+            </Button>
+          ))}
+
           <Flex onClick={handleNextPage} sx={{ mx: '5px', cursor: 'pointer' }}>
             <Svg icon="caret" direction="right" width={7} color="textDisabled" />
           </Flex>
