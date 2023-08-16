@@ -15,7 +15,7 @@ import { fetchBillsUserDataAsync } from '../../../state/bills'
 import { useAppDispatch } from '../../../state/hooks'
 
 // Hooks
-import useGetWidoTokenAllowance from 'state/bills/hooks/useGetWidoTokenAllowance'
+import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,

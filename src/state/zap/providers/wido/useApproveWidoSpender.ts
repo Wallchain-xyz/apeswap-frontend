@@ -1,13 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
-import { approve, ApproveResult, QuoteResult } from 'wido'
-import { SupportedChainId } from '@ape.swap/sdk-core'
 
 // Hooks
 import useGetWidoApprove from './useGetWidoApprove'
 import { useV2Pair } from 'hooks/useV2Pairs'
-import useSignTransaction from './useSignTransaction'
+import useSignTransaction from '../../../bills/hooks/useSignTransaction'
 
 // Utils
 import getCurrencyInfo from 'utils/getCurrencyInfo'

@@ -28,7 +28,7 @@ import { Pricing } from '../DexPanel/types'
 import { useRouter } from 'next/router'
 
 // Hooks
-import useGetWidoQuote from 'state/bills/hooks/useGetWidoQuote'
+import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
 import { useV2Pair } from 'hooks/useV2Pairs'
 import useSignTransaction from 'state/bills/hooks/useSignTransaction'
 

@@ -30,7 +30,7 @@ import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquid
 import { useToastError } from 'state/application/hooks'
 
 // Hooks
-import useGetWidoQuote from 'state/bills/hooks/useGetWidoQuote'
+import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
 import useSignTransaction from 'state/bills/hooks/useSignTransaction'
 
 // TODO: Add wido hook for quote here

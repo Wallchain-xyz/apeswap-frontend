@@ -14,7 +14,7 @@ import { TradeState } from 'state/routing/types'
 import { Currency } from '@ape.swap/sdk-core'
 
 // Hooks
-import useGetWidoTokenAllowance from 'state/bills/hooks/useGetWidoTokenAllowance'
+import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
 
 interface ZapLiquidityActionsProps {
   handleZap: () => void
