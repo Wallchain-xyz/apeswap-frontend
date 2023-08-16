@@ -15,10 +15,9 @@ export function tokensToChainTokenMap(tokens: TokenList, isLiFi: boolean): Chain
   if (cached) return cached
 
   // TODO: Review types
-  let map: {[chainId: string]: any} = {}
+  let map: { [chainId: string]: any } = {}
 
   if (isLiFi) {
-    //TODO: Fix types
     Object.keys(tokens.tokens).forEach((key) => {
       let array = tokens.tokens[Number(key)] as any
       array.map((tokenInfo: TokenInfo) => {
