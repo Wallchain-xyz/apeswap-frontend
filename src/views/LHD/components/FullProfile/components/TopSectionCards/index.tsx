@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { CHAIN_DETAILS } from 'views/LHD/utils/config'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import ScoreChange from '../ScoreChange'
 
 const TopSectionCards = ({ fullProfile, scoreDifference }: { fullProfile: TokenProfile; scoreDifference: number }) => {
   const { t } = useTranslation()
@@ -158,7 +159,7 @@ const TopSectionCards = ({ fullProfile, scoreDifference }: { fullProfile: TokenP
               {Math.floor(fullProfile.totalScore * 100)}
             </Text>
             <Flex sx={{ flexDirection: 'row' }}>
-              <PriceChange priceChange={scoreDifference.toFixed(2)} />
+              <ScoreChange change={scoreDifference.toFixed(2)} />
               <Text
                 sx={{
                   fontSize: '10px',
