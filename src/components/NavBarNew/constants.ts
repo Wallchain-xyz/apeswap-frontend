@@ -43,8 +43,28 @@ const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Bonds',
     order: 2,
-    href: '/bonds',
+    href: '/bonds-landing',
     icon: '/images/navbar/bonds',
+    items: [
+      {
+        itemLabel: 'Buy a Bond',
+        itemDesc: 'Purchase select tokens at a discount.',
+        href: '/bonds',
+        icon: '/images/navbar/bonds',
+      },
+      {
+        itemLabel: 'Bond Markets',
+        itemDesc: 'View all bonds, past & present.',
+        href: '/bond-markets',
+        icon: '/images/navbar/markets',
+      },
+      {
+        itemLabel: 'Bonds for Partners',
+        itemDesc: 'Learn about bonding use cases.',
+        href: 'https://welcome.apeswap.finance/bonds',
+        icon: '/images/navbar/bond-intro',
+      },
+    ],
   },
   {
     label: 'Liquidity Health',

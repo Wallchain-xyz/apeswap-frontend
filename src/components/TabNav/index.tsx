@@ -22,10 +22,22 @@ export const TabNav: React.FC<TabNavProps> = ({ tabOptions, activeTab, onChangeA
   }
 
   useEffect(() => {
-    //@ts-ignore
-    setLeft(refs.current[0].offsetLeft)
-    //@ts-ignore
-    setWidth(refs.current[0].offsetWidth)
+    const activeTabIndex = tabOptions.indexOf(activeTab)
+
+    // Check if the activeTab provided exists in tabOptions
+    if (activeTabIndex > -1) {
+      //@ts-ignore
+      setLeft(refs.current[activeTabIndex].offsetLeft)
+      //@ts-ignore
+      setWidth(refs.current[activeTabIndex].offsetWidth)
+    } else {
+      // Default to the first tab if the activeTab does not match any tabOption
+      //@ts-ignore
+      setLeft(refs.current[0].offsetLeft)
+      //@ts-ignore
+      setWidth(refs.current[0].offsetWidth)
+    }
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
 
   return (

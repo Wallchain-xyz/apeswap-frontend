@@ -92,10 +92,10 @@
     node-cache "^5.1.2"
     stats-lite "^2.2.0"
 
-"@ape.swap/token-lists@1.0.61":
-  version "1.0.61"
-  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.61.tgz#58484a139793b5eaac4bf147bc6e5deb266d40f0"
-  integrity sha512-Yp25KGUTGi2vBq/mUT7cz92yuClPHnsk6xCRiZOntRmv0UYoijWr7uzHMLWuDIwPilX2bogq4H5bnU36v6dR/A==
+"@ape.swap/token-lists@1.0.63":
+  version "1.0.63"
+  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.63.tgz#ee10928f25128facbb27de7bfe7d72693de81dfb"
+  integrity sha512-9vEMAm2zszNjDvf3l3c6Z+ZByoBaIA+kmPp2LA4KgZiJ6CHELFepetUGDe+eDuZ01PSXhQZZAvd93baAZzYz5A==
 
 "@ape.swap/token-lists@^1.0.6":
   version "1.0.53"
@@ -2047,9 +2047,9 @@
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
 "@lifi/sdk@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.2.tgz#6d6b92e21dec7b5083d88c4f2a6c8b06473eef1c"
-  integrity sha512-HEkhwQkB9DRnTtn/4aMlUAvjky8KLFX156j6m2DOGv0auOhklP/BoPDjBs73KSoxWfUZzoeOqVdk0tLjENFYhA==
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.3.tgz#8088303d1f41ee522b1aa2a5cacbacc47f629e1a"
+  integrity sha512-k5KFK5SRRqA1hGrQkkWPPhM0AYciAFyu6GLCJdDFUK6HM+No4qDQWT359K9mGU6FrXVhPMds58Imex/lj/XReQ==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/contracts" "^5.7.0"
