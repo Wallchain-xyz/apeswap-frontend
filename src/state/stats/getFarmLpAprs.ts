@@ -1,8 +1,8 @@
-import { apiBaseUrl } from "config/constants/api"
+import { apiV2BaseUrl } from "config/constants/api"
 
 const getFarmLpAprs = async (chainId: number) => {
   try {
-    const response = await fetch(`${apiBaseUrl}/stats/network/lpAprs/${chainId}`)
+    const response = await fetch(`${apiV2BaseUrl}/stats/lpAprs/${chainId}`)
     const farmLpAprs = await response.json()
     if (farmLpAprs.statusCode === 500) {
       return null

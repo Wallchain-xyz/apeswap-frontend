@@ -7,6 +7,8 @@ export interface TvlStats {
   totalVolume: number
   partnerCount?: number
   bondingPartnerCount?: number
+  bondsCount?: number
+  totalBondedValue?: number
 }
 
 import { SupportedChainId } from '@ape.swap/sdk-core'
