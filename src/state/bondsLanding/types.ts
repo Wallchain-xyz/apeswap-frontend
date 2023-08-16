@@ -1,4 +1,3 @@
-import { SupportedChainId } from '@ape.swap/sdk-core'
 import { ChainId } from '../../config/constants/chains'
 
 export interface BondLanding {
@@ -24,4 +23,4 @@ export interface BondLanding {
   tokensRemaining?: number
 }
 
-export type BondsLandingMap = Record<SupportedChainId, { bonds: BondLanding[] }>
+export type BondsLandingMap = Record<string, { bonds: BondLanding[] }>

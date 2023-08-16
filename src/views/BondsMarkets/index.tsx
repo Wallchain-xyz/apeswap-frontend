@@ -26,13 +26,13 @@ const BondsMarkets = () => {
   const [filteredChains, setFilteredChains] = useState<Record<string, boolean>>(defaultChains)
 
   useEffect(() => {
-    // Check if bondsLandingList has a value (i.e., has been loaded from the API)
+    // Check if bondsLandingList has a value (i.e. has been loaded from the API)
     if (bondsLandingList && Object.keys(filteredChains).length === 0) {
-      const chainsWithBonds = Object.keys(bondsLandingList).filter((key) =>
-        Object.values(ChainId).includes(Number(key)),
-      )
-      const updatedChains = chainsWithBonds.reduce((acc, key) => {
-        acc[key] = true
+      const chainsWithBonds = Object.keys(bondsLandingList)
+        .filter((key) => Object.values(ChainId).includes(Number(key)))
+        .sort((a, b) => bondsLandingList[b].bonds.length - bondsLandingList[a].bonds.length)
+      const updatedChains = chainsWithBonds.reduce((acc, key: string) => {
+        acc['chain_' + key] = true
         return acc
       }, {} as Record<string, boolean>)
       setFilteredChains(updatedChains)
@@ -49,7 +49,6 @@ const BondsMarkets = () => {
       <BondsLandingMenu
         query={query}
         onHandleQueryChange={onHandleQueryChange}
-        chainsWithBonds={chainsWithBonds}
         showAvailable={showAvailable}
         setShowAvailable={setShowAvailable}
         sortOption={sortOption}
