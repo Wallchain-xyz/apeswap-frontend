@@ -28,6 +28,8 @@ import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
+import { LiquidityDex, dexFactories, dexToZapMapping, ZapVersion, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
+import { useRouter } from 'next/router'
 
 // Hooks
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
@@ -35,6 +37,8 @@ import useSignTransaction from 'state/bills/hooks/useSignTransaction'
 
 // TODO: Add wido hook for quote here
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
+  const { push } = useRouter()
+
   const {
     token,
     quoteToken,
@@ -73,13 +77,17 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const [currencyB, setCurrencyB] = useState(billsCurrencies.currencyB)
   const inputCurrencies = [currencyA, currencyB]
 
-  // We want to find the pair (if any) to get its balance, if there's no pair use currencyA
-  const [, pair] = useV2Pair(inputCurrencies[0] ?? undefined, inputCurrencies[1] ?? undefined)
+  const liquidityDex = lpToken.liquidityDex?.[chainId as SupportedChainId] || LiquidityDex.ApeSwapV2;
+  const dexData = dexFactories[chainId as SupportedChainId]?.[liquidityDex];
+  const principalToken = useCurrency(lpToken.address[chainId as SupportedChainId]);
+
   const selectedCurrencyBalance = useCurrencyBalance(
     account ?? undefined,
-    pair?.liquidityToken ?? currencyA ?? undefined,
+    inputCurrencies[1] ? (principalToken ?? currencyA ?? undefined) : (currencyA ?? undefined),
   )
 
+  //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
+  const zapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId];
   const { zap, zapRouteState } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
 
@@ -135,6 +143,14 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     new BigNumber(10).pow(earnToken?.decimals?.[chainId as SupportedChainId] ?? 18),
   )
   const displayAvailable = singlePurchaseLimit.lt(safeAvailable) ? singlePurchaseLimit : safeAvailable
+
+  const sendToExternalLpUrl = () => {
+    if (lpToken.getLpUrl?.[chainId as SupportedChainId]) {
+      window.open(lpToken.getLpUrl?.[chainId as SupportedChainId]!, '_blank');
+    } else {
+      throw new Error('External lp url not found. Please contact support')
+    }
+  }
 
   const onHandleValueChange = useCallback(
     (val: string) => {
@@ -336,8 +352,10 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           inputCurrencies={billType !== 'reserve' ? inputCurrencies : [inputCurrencies[0]]}
           // @ts-ignore
           lpList={[billsCurrencies]}
-          enableZap={billType !== 'reserve'}
-          lpUsdVal={pair?.liquidityToken ? lpPrice : 0}
+          principalToken={principalToken}
+          enableZap={billType !== 'reserve' && zapVersion !== ZapVersion.External}
+          lpUsdVal={lpPrice}
+          dexData={dexData}
         />
       </Flex>
       <Flex sx={styles.detailsContainer}>
@@ -365,12 +383,16 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             <Box sx={styles.getLpContainer}>
               <Button
                 variant="secondary"
-                onClick={() => onAddLiquidityModal(token, quoteToken, '', '', false)}
+                onClick={() => zapVersion == ZapVersion.External ? sendToExternalLpUrl() : onAddLiquidityModal(token, quoteToken, '', '', false)}
                 sx={{ width: '100%' }}
               >
                 {t('Get LP')}
                 <Flex sx={{ ml: '10px' }}>
-                  <Svg icon="ZapIcon" color="yellow" />
+                  {zapVersion !== ZapVersion.External
+                    ?
+                    <Svg icon="ZapIcon" color="yellow" />
+                    :
+                    <img src={dexDisplayAttributes[lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].icon ?? ''} width={20}></img>}
                 </Flex>
               </Button>
             </Box>

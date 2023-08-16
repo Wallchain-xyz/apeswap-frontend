@@ -1,44 +1,44 @@
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ParsedQs } from 'qs'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { TradeState } from 'state/routing/types'
 import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
-import { useCurrency } from '../../hooks/Tokens'
-import useENS from 'hooks/useENS'
-import { isAddress } from '../../utils'
-import { AppState } from '../index'
-import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
-import { SwapState } from './reducer'
+import { useCurrency } from '../../../hooks/Tokens'
+import { isAddress } from '../../../utils'
+import { AppState } from '../../index'
+import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from '../actions'
+import { SwapState } from '../reducer'
 import { useCurrencyBalances } from 'lib/hooks/useCurrencyBalance'
-import { BANANA_ADDRESSES } from 'config/constants/addresses'
+import { BANANA_ADDRESSES, USDC } from 'config/constants/addresses'
 import { useRouter } from 'next/router'
-import { routingApi, useGetRoutesQuery } from '../routing/slice'
+import { useGetRoutesQuery } from '../../routing/slice'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Route } from '@lifi/sdk'
 import BigNumber from 'bignumber.js'
-import { AVERAGE_L1_BLOCK_TIME } from '../../config/constants/chains'
-import useDebounce from '../../hooks/useDebounce'
+import { ChainId } from 'config/constants/chains'
+import useDebounce from '../../../hooks/useDebounce'
+import { useQueryParams } from './useQueryParams'
 
 export function useSwapState(): AppState['swap'] {
   return useAppSelector((state: AppState) => state.swap)
 }
 
 export function useSwapActionHandlers(): {
-  onCurrencySelection: (field: Field, currency: Currency) => void
+  onCurrencySelection: (field: Field, currency: Currency, chain: ChainId) => void
   onSwitchTokens: () => void
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {
   const dispatch = useAppDispatch()
   const onCurrencySelection = useCallback(
-    (field: Field, currency: Currency) => {
+    (field: Field, currency: Currency, chain: ChainId) => {
       dispatch(
         selectCurrency({
           field,
           currencyId: currency.isToken ? currency.address : currency.isNative ? 'ETH' : '',
+          chain,
         }),
       )
     },
@@ -79,7 +79,12 @@ const BAD_RECIPIENT_ADDRESSES: { [address: string]: true } = {
 
 // from the current swap inputs, compute the best trade and return it.
 export const useDerivedSwapInfo = (): {
-  currencies: { [field in Field]: Currency | null }
+  currencies: {
+    [field in Field]: {
+      currency: Currency | null
+      chain: ChainId | undefined
+    }
+  }
   inputError?: string
   routing: {
     routes: Route[]
@@ -94,13 +99,13 @@ export const useDerivedSwapInfo = (): {
 
   const {
     typedValue,
-    [Field.INPUT]: { currencyId: inputCurrencyString },
-    [Field.OUTPUT]: { currencyId: outputCurrencyString },
+    [Field.INPUT]: { currencyId: inputCurrencyString, chain: fromChain },
+    [Field.OUTPUT]: { currencyId: outputCurrencyString, chain: toChain },
   } = useSwapState()
   const debouncedInput = useDebounce(typedValue, 400)
 
-  const inputCurrency = useCurrency(inputCurrencyString)
-  const outputCurrency = useCurrency(outputCurrencyString)
+  const inputCurrency = useCurrency(inputCurrencyString, fromChain ?? undefined)
+  const outputCurrency = useCurrency(outputCurrencyString, toChain ?? undefined)
 
   const relevantTokenBalances = useCurrencyBalances(
     account ?? undefined,
@@ -112,19 +117,17 @@ export const useDerivedSwapInfo = (): {
   })
   const slippageParsed = slippage / 10000
 
-  const queryParams = getQueryParams(chainId, debouncedInput, inputCurrencyString, inputCurrency?.symbol, inputCurrency?.decimals, outputCurrencyString, outputCurrency?.symbol, slippageParsed, inputCurrency)
+  const queryParams = useQueryParams(debouncedInput, inputCurrency, outputCurrency, slippageParsed)
 
-  const {
-    isLoading,
-    isFetching,
-    isError,
-    data,
-  } = useGetRoutesQuery(
-    queryParams ?? skipToken,
-    { pollingInterval: 120000 },
-  )
+  const { isLoading, isFetching, isError, data } = useGetRoutesQuery(queryParams ?? skipToken, {
+    pollingInterval: 120000,
+  })
 
-  const error = relevantTokenBalances[0]?.toExact() && (new BigNumber(typedValue).gt(new BigNumber(relevantTokenBalances[0]?.toExact()))) ? 'Insufficient Balance' : ''
+  const error =
+    relevantTokenBalances[0]?.toExact() &&
+    new BigNumber(typedValue).gt(new BigNumber(relevantTokenBalances[0]?.toExact()))
+      ? 'Insufficient Balance'
+      : ''
 
   const routingState = useMemo(() => {
     //return empty routes if something is missing
@@ -169,8 +172,8 @@ export const useDerivedSwapInfo = (): {
   return useMemo(
     () => ({
       currencies: {
-        [Field.INPUT]: inputCurrency,
-        [Field.OUTPUT]: outputCurrency,
+        [Field.INPUT]: { currency: inputCurrency, chain: inputCurrency?.chainId },
+        [Field.OUTPUT]: { currency: outputCurrency, chain: outputCurrency?.chainId },
       },
       typedValue,
       inputError: error,
@@ -214,6 +217,8 @@ function validatedRecipient(recipient: any): string | null {
 export function queryParametersToSwapState(parsedQs: any): SwapState {
   let inputCurrency = parsedQs?.inputcurrency ?? parsedQs?.inputCurrency ?? ''
   let outputCurrency = parsedQs?.outputcurrency ?? parsedQs?.outputCurrency ?? ''
+  const inputChain = parsedQs?.inputChain ?? parsedQs?.inputChain ?? '56'
+  const outputChain = parsedQs?.outputChain ?? parsedQs?.outputChain ?? '56'
   const typedValue = parseTokenAmountURLParameter(parsedQs.exactAmount)
   const independentField = parseIndependentFieldURLParameter(parsedQs.exactField)
 
@@ -230,9 +235,11 @@ export function queryParametersToSwapState(parsedQs: any): SwapState {
   return {
     [Field.INPUT]: {
       currencyId: inputCurrency === '' ? null : inputCurrency ?? null,
+      chain: inputChain,
     },
     [Field.OUTPUT]: {
       currencyId: outputCurrency === '' ? null : outputCurrency ?? null,
+      chain: outputChain,
     },
     typedValue,
     independentField,
@@ -246,21 +253,34 @@ export function useDefaultsFromURLSearch(): SwapState {
   const dispatch = useAppDispatch()
   const { query } = useRouter()
   const bananaAddress = chainId ? BANANA_ADDRESSES[chainId] : undefined
+  const usdcAddress = chainId ? USDC[chainId] : undefined
   const parsedSwapState = useMemo(() => {
     return queryParametersToSwapState(query)
   }, [query])
+  const { typedValue } = useSwapState()
 
   useEffect(() => {
-    if (!chainId) return
+    //if there's a typed value is because the user already picked a route he's interested in, so we don't
+    //want to reset the swap state
+    if (!chainId || typedValue) return
     const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? 'eth'
-    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? bananaAddress
+    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId
+      ? parsedSwapState[Field.OUTPUT].currencyId
+      : bananaAddress
+      ? bananaAddress
+      : usdcAddress
+
+    // const inputChain = parsedSwapState[Field.INPUT].chain ?? chainId
+    // const outputChain = parsedSwapState[Field.OUTPUT].chain ?? chainId
 
     dispatch(
       replaceSwapState({
         typedValue: parsedSwapState.typedValue,
         field: parsedSwapState.independentField,
         inputCurrencyId,
+        inputChain: chainId,
         outputCurrencyId,
+        outputChain: chainId,
         recipient: parsedSwapState.recipient,
       }),
     )
@@ -269,41 +289,4 @@ export function useDefaultsFromURLSearch(): SwapState {
   }, [dispatch, chainId, parsedSwapState])
 
   return parsedSwapState
-}
-
-export const getQueryParams = (
-  chainId: number | undefined,
-  typedValue: string | undefined,
-  inputCurrencyString: string | null,
-  inputCurrencySymbol: string | undefined,
-  inputCurrencyDecimals: number | undefined,
-  outputCurrencyString: string | null,
-  outputCurrencySymbol: string | undefined,
-  slippageParsed: number | null,
-  inputCurrency: Currency | null) => {
-  //return null if any of the required params is missing
-  if (!chainId
-    || !typedValue
-    || !inputCurrencyString
-    || !inputCurrencySymbol
-    || !inputCurrencyDecimals
-    || !outputCurrencyString
-    || !outputCurrencySymbol
-    || !slippageParsed
-    || !inputCurrency
-  ) {
-    return null
-  } else {
-    return {
-      chainId,
-      //improve this
-      fromAmount: new BigNumber(typedValue).times(new BigNumber(10).pow(inputCurrency.decimals)).toFixed(0, BigNumber.ROUND_DOWN),
-      fromTokenAddress: inputCurrencyString === 'ETH' ? '0x0000000000000000000000000000000000000000' : inputCurrencyString,
-      fromTokenSymbol: inputCurrencySymbol,
-      fromTokenDecimals: inputCurrencyDecimals,
-      toTokenAddress: outputCurrencyString === 'ETH' ? '0x0000000000000000000000000000000000000000' : outputCurrencyString,
-      toTokenSymbol: outputCurrencySymbol,
-      slippage: slippageParsed,
-    }
-  }
 }

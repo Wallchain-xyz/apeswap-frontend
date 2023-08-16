@@ -40,7 +40,12 @@ const DisplayFarms = ({
   const dispatch = useAppDispatch()
 
   const [onPresentAddLiquidityModal] = useModal(<DualLiquidityModal />, true, true, 'liquidityWidgetModal')
-  const [onPresentWalletConnectModal] = useModal(<NetworkModal onDismiss={() => null} />, true, true, 'NetworkModal')
+  const [onPresentWalletConnectModal] = useModal(
+    <NetworkModal displayAll={false} onDismiss={() => null} />,
+    true,
+    true,
+    'NetworkModal',
+  )
 
   const { switchChain = false } = query
 

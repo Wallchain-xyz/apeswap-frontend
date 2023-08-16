@@ -1,4 +1,4 @@
-import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
+import { Currency, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { Flex, Skeleton } from 'components/uikit'
 import { useAllTokens, useIsUserAddedToken, useSearchInactiveTokenLists, useToken } from 'hooks/Tokens'
@@ -15,6 +15,7 @@ import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { isAddress } from 'utils'
 import { useZapInputList } from '../../../state/zap/hooks'
+import { ChainId } from 'config/constants/chains'
 
 const List = ({
   searchQuery,
@@ -32,7 +33,7 @@ const List = ({
   showCommonBases?: boolean
   showCurrencyAmount?: boolean
   disableNonToken?: boolean
-  onCurrencySelect: (currency: Currency) => void
+  onCurrencySelect: (currency: Currency, chain: ChainId) => void
   onDismiss: () => void
   isZapInput?: boolean
 }) => {
@@ -51,8 +52,8 @@ const List = ({
     if (!zapInputTokens) return {}
     let filteredObject: Record<string, any> = {}
     Object.keys(defaultTokens).forEach((key) => {
-      Object.values(zapInputTokens[chainId as SupportedChainId]).forEach((subObject) => {
-        if (subObject.address && subObject.address[chainId as SupportedChainId]?.toLowerCase() === key.toLowerCase()) {
+      Object.values(zapInputTokens[chainId as ChainId]).forEach((subObject) => {
+        if (subObject.address && subObject.address[chainId as ChainId]?.toLowerCase() === key.toLowerCase()) {
           filteredObject[key] = defaultTokens[key]
         }
       })
@@ -70,22 +71,18 @@ const List = ({
 
   const sortedTokens: Token[] = useMemo(
     () =>
-      !balancesAreLoading
-        ? filteredTokens
-            .filter((token) => {
-              // If there is no query, filter out unselected user-added tokens with no balance.
-              if (!debouncedQuery && token instanceof UserAddedToken) {
-                if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
-                return balances[token.address]?.greaterThan(0)
-              }
-              return true
-            })
-            .sort(tokenComparator.bind(null, balances))
-        : [],
-    [balances, balancesAreLoading, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency],
+      filteredTokens
+        .filter((token) => {
+          // If there is no query, filter out unselected user-added tokens with no balance.
+          if (!debouncedQuery && token instanceof UserAddedToken) {
+            if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
+            return balances[token.address]?.greaterThan(0)
+          }
+          return true
+        })
+        .sort(tokenComparator.bind(null, balances)),
+    [balances, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency],
   )
-
-  const isLoading = Boolean(balancesAreLoading && !tokenLoaderTimerElapsed)
 
   const filteredSortedTokens = useSortTokensByQuery(debouncedQuery, sortedTokens)
 
@@ -110,11 +107,11 @@ const List = ({
     return searchToken ? [searchToken, ...natives, ...tokens] : [...natives, ...tokens]
   }, [debouncedQuery, filteredSortedTokens, disableNonToken, native, wrapped, isZapInput, searchToken])
 
-  // Timeout token loader after 3 seconds to avoid hanging in a loading state.
+  // Timeout token loader after 0.5s
   useEffect(() => {
     const tokenLoaderTimer = setTimeout(() => {
       setTokenLoaderTimerElapsed(true)
-    }, 3000)
+    }, 500)
     return () => clearTimeout(tokenLoaderTimer)
   }, [])
 
@@ -127,7 +124,7 @@ const List = ({
       const currencyIsImported = !!filteredInactiveTokens.find(
         (token) => token.address.toLowerCase() === currency.wrapped.address.toLowerCase(),
       )
-      if (balancesAreLoading)
+      if (!tokenLoaderTimerElapsed)
         return (
           <Flex sx={{ ...style, flexDirection: 'column', height: '500px' }}>
             {[...Array(8)].map((i) => {
@@ -147,7 +144,8 @@ const List = ({
           style={style}
           key={currency.isToken ? currency.address : 'ETHER'}
           onSelect={() => {
-            onCurrencySelect(row)
+            //TODO: fix this, we should take redux chain of no chainId
+            onCurrencySelect(row, chainId ?? 56)
             onDismiss()
           }}
           onDismiss={onDismiss}
@@ -155,16 +153,17 @@ const List = ({
       )
     },
     [
-      balances,
-      balancesAreLoading,
-      filteredInactiveTokens,
-      nativeBalance,
-      searchTokenIsAdded,
-      searchToken,
-      otherSelectedCurrency,
       selectedCurrency,
-      onCurrencySelect,
+      otherSelectedCurrency,
+      filteredInactiveTokens,
+      tokenLoaderTimerElapsed,
+      searchToken,
+      searchTokenIsAdded,
+      balances,
+      nativeBalance,
       onDismiss,
+      onCurrencySelect,
+      chainId,
     ],
   )
 

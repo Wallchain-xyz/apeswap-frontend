@@ -5,6 +5,8 @@ import { chunk, flatten } from 'lodash'
 import { PUBLIC_RPC_URLS } from 'config/constants/networks'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { MULTICALL_V2 } from 'config/constants/addresses'
+import { LiFi, Token } from '@lifi/sdk'
+import { CHAIN_PARAMS, ChainId } from '../config/constants/chains'
 
 export interface Call {
   address: string // Address of the contract

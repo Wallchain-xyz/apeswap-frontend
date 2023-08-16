@@ -1,7 +1,7 @@
 import { dualFarms, farms, farmsV2, jungleFarms, tokens } from '@ape.swap/apeswap-lists'
 import { FarmTypes } from './types'
 import { SupportedChainId } from '@ape.swap/sdk-core'
-import { MAINNET_CHAINS } from 'config/constants/chains'
+import { ChainId, MAINNET_CHAINS } from 'config/constants/chains'
 import { uniqueId } from 'lodash'
 
 const mergeFarmObj: any = {}
@@ -51,16 +51,16 @@ const mergeFarmConfigs = () => {
             quoteTokenSymbol,
             projectLink,
           }) => {
-            return chainId === SupportedChainId.BSC
+            return chainId === ChainId.BSC
               ? {
                   id: uniqueId(FarmTypes.MASTER_CHEF_V2),
                   pid,
                   farmType: FarmTypes.MASTER_CHEF_V2,
-                  lpStakeTokenAddress: lpAddresses[SupportedChainId.BSC] ?? '',
+                  lpStakeTokenAddress: lpAddresses[ChainId.BSC] ?? '',
                   lpStakeTokenSymbol: lpSymbol ?? '',
-                  tokenAddress: tokenAddresses[SupportedChainId.BSC] ?? '',
+                  tokenAddress: tokenAddresses[ChainId.BSC] ?? '',
                   tokenSymbol,
-                  quoteTokenAddress: quoteTokenAdresses[SupportedChainId.BSC] ?? '',
+                  quoteTokenAddress: quoteTokenAdresses[ChainId.BSC] ?? '',
                   quoteTokenSymbol,
                   rewardToken: tokens.banana,
                   projectLink,
@@ -81,21 +81,21 @@ const mergeFarmConfigs = () => {
             projectLink,
             twitter,
           }) => {
-            return contractAddress?.[chainId] !== undefined
+            return contractAddress?.[chainId as unknown as SupportedChainId] !== undefined
               ? {
                   id: uniqueId(FarmTypes.JUNLGE_FARM),
                   pid: jungleId,
                   farmType: FarmTypes.JUNLGE_FARM,
-                  lpStakeTokenAddress: stakingToken.address[chainId] ?? '',
+                  lpStakeTokenAddress: stakingToken.address[chainId as unknown as SupportedChainId] ?? '',
                   lpStakeTokenSymbol: stakingToken.symbol ?? '',
-                  tokenAddress: lpTokens?.token.address[chainId] ?? '',
+                  tokenAddress: lpTokens?.token.address[chainId as unknown as SupportedChainId] ?? '',
                   tokenSymbol: lpTokens?.token.symbol ?? '',
-                  quoteTokenAddress: lpTokens?.quoteToken.address[chainId] ?? '',
+                  quoteTokenAddress: lpTokens?.quoteToken.address[chainId as unknown as SupportedChainId] ?? '',
                   quoteTokenSymbol: lpTokens?.quoteToken.symbol ?? '',
                   rewardToken: rewardToken,
                   tokensPerBlock: tokenPerBlock,
                   bonusEndBlock,
-                  contractAddress: contractAddress[chainId],
+                  contractAddress: contractAddress[chainId as unknown as SupportedChainId],
                   rewardsPerSecond,
                   projectLink,
                   twitterLink: twitter,
@@ -104,16 +104,16 @@ const mergeFarmConfigs = () => {
           },
         ),
         ...dualFarms.flatMap(({ pid, stakeTokenAddress, stakeTokens, rewardTokens, rewarderAddress, dualImage }) => {
-          return chainId === SupportedChainId.POLYGON
+          return chainId === ChainId.POLYGON
             ? {
                 id: uniqueId(FarmTypes.DUAL_FARM),
                 pid,
                 farmType: FarmTypes.DUAL_FARM,
                 lpStakeTokenAddress: stakeTokenAddress ?? '',
                 lpStakeTokenSymbol: `${stakeTokens?.token0.symbol}-${stakeTokens?.token1.symbol}` ?? '',
-                tokenAddress: stakeTokens?.token0.address[chainId] ?? '',
+                tokenAddress: stakeTokens?.token0.address[chainId as unknown as SupportedChainId] ?? '',
                 tokenSymbol: stakeTokens?.token0.symbol ?? '',
-                quoteTokenAddress: stakeTokens?.token1.address[chainId] ?? '',
+                quoteTokenAddress: stakeTokens?.token1.address[chainId as unknown as SupportedChainId] ?? '',
                 quoteTokenSymbol: stakeTokens?.token1.symbol ?? '',
                 rewardToken: rewardTokens.token0,
                 secondRewardToken: rewardTokens.token1,

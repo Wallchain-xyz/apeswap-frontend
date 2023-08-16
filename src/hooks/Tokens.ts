@@ -1,31 +1,36 @@
-import { Currency, Token, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId, Token } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { DEFAULT_INACTIVE_LIST_URLS } from 'config/constants/lists'
 import { useCurrencyFromMap, useTokenFromMapOrNetwork } from 'lib/hooks/useCurrency'
 import { getTokenFilter } from 'lib/hooks/useTokenList/filtering'
 import { useMemo } from 'react'
-import { useAllLists, useCombinedActiveList } from 'state/lists/hooks'
+import { TokenAddressMap, useAllLists, useCombinedActiveList, useUnsupportedTokenList } from 'state/lists/hooks/hooks'
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
-import { useUserAddedTokens, useUserAddedTokensOnChain } from 'state/user/hooks'
-import { TokenAddressMap, useUnsupportedTokenList } from 'state/lists/hooks'
+import { useUserAddedTokens } from 'state/user/hooks'
+import { ChainId } from '../config/constants/chains'
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
-function useTokensFromMap(tokenMap: TokenAddressMap): { [address: string]: Token } {
+function useTokensFromMap(tokenMap: TokenAddressMap, chain?: SupportedChainId): { [address: string]: Token } {
   const { chainId } = useWeb3React()
+
+  const selectedChain = chain ?? chainId
+
   return useMemo(() => {
-    if (!chainId) return {}
+    if (!selectedChain) return {}
 
     // reduce to just tokens
-    return Object.keys(tokenMap[chainId] ?? {}).reduce<{ [address: string]: Token }>((newMap, address) => {
-      newMap[address] = tokenMap[chainId][address].token
+    return Object.keys(tokenMap[selectedChain] ?? {}).reduce<{ [address: string]: Token }>((newMap, address) => {
+      newMap[address] = tokenMap[selectedChain][address].token
       return newMap
     }, {})
-  }, [chainId, tokenMap])
+  }, [selectedChain, tokenMap])
 }
 
-export function useAllTokens(): { [address: string]: Token } {
+export function useAllTokens(chain?: ChainId): { [address: string]: Token } {
   const allTokens = useCombinedActiveList()
-  const tokensFromMap = useTokensFromMap(allTokens)
+  const { chainId } = useWeb3React()
+  const selectedChain = chain ? chain : chainId
+  const tokensFromMap = useTokensFromMap(allTokens, selectedChain)
   const userAddedTokens = useUserAddedTokens()
   return useMemo(() => {
     return (
@@ -43,20 +48,10 @@ export function useAllTokens(): { [address: string]: Token } {
     )
   }, [tokensFromMap, userAddedTokens])
 }
-type BridgeInfo = Record<
-  SupportedChainId,
-  {
-    tokenAddress: string
-    originBridgeAddress: string
-    destBridgeAddress: string
-  }
->
 
 export function useUnsupportedTokens(): { [address: string]: Token } {
   const unsupportedTokensMap = useUnsupportedTokenList()
-  const unsupportedTokens = useTokensFromMap(unsupportedTokensMap)
-
-  return unsupportedTokens
+  return useTokensFromMap(unsupportedTokensMap)
 }
 
 export function useSearchInactiveTokenLists(search: string | undefined, minResults = 10): WrappedTokenInfo[] {
@@ -94,26 +89,10 @@ export function useSearchInactiveTokenLists(search: string | undefined, minResul
 // Check if currency is included in custom list from user storage
 export function useIsUserAddedToken(currency: Currency | undefined | null): boolean {
   const userAddedTokens = useUserAddedTokens()
-
   if (!currency) {
     return false
   }
-
   return !!userAddedTokens.find((token: Token) => currency.equals(token))
-}
-
-// Check if currency on specific chain is included in custom list from user storage
-export function useIsUserAddedTokenOnChain(
-  address: string | undefined | null,
-  chain: number | undefined | null,
-): boolean {
-  const userAddedTokens = useUserAddedTokensOnChain(chain)
-
-  if (!address || !chain) {
-    return false
-  }
-
-  return !!userAddedTokens.find((token: Token) => token.address === address)
 }
 
 // undefined if invalid or does not exist
@@ -124,7 +103,7 @@ export function useToken(tokenAddress?: string | null): Token | null | undefined
   return useTokenFromMapOrNetwork(tokens, tokenAddress)
 }
 
-export function useCurrency(currencyId?: string | null): Currency | null {
-  const tokens = useAllTokens()
-  return useCurrencyFromMap(tokens, currencyId)
+export function useCurrency(currencyId?: string | null, chain?: ChainId): Currency | null {
+  const tokens = useAllTokens(chain)
+  return useCurrencyFromMap(tokens, currencyId, chain)
 }

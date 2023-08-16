@@ -46,6 +46,7 @@ const Colors = {
     launch: '#D53131',
     reserve: '#60974C',
     liquidity: '#3B78D3',
+    bondLp: "#FEB901"
   },
   island: '#4D4040',
   listTagBg: {
@@ -60,6 +61,7 @@ const Colors = {
     beta: '#38A611',
     max: '#38A611',
     real_yield: '#F0B90B',
+    bondLp: 'rgba(254, 185, 1, 0.2)'
   },
   home: {
     c1: '#ece8de',

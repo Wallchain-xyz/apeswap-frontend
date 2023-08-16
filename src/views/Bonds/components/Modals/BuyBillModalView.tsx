@@ -20,6 +20,9 @@ import { ListTagVariants } from 'components/uikit/Tag/types'
 import { useBills } from 'state/bills/hooks'
 import Image from 'next/image'
 import ModalHeader from 'components/uikit/Modal/ModalHeader'
+import { LiquidityDex, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
+import { SupportedChainId } from '@ape.swap/sdk-core'
+import { useWeb3React } from '@web3-react/core'
 
 interface BillModalProps {
   onDismiss?: () => void
@@ -27,6 +30,7 @@ interface BillModalProps {
 }
 
 const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) => {
+  const { chainId } = useWeb3React()
   const { replace } = useRouter()
   const { t } = useTranslation()
   const bills: Bills[] | undefined = useBills()
@@ -93,6 +97,14 @@ const BuyBillModalView: React.FC<BillModalProps> = ({ onDismiss, billIndex }) =>
           <Flex sx={{ flexDirection: 'column' }}>
             <BillTitleContainer>
               <Flex sx={{ mb: '5px' }}>
+                {bill?.billType !== 'reserve'
+                  ?
+                  <Flex sx={{ mr: '5px' }}>
+                    <ListTag variant={'bondLp'} text={dexDisplayAttributes[bill?.lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].tag} />
+                  </Flex>
+                  :
+                  ''
+                }
                 <ListTag variant={bill?.billType as ListTagVariants} />
               </Flex>
               <Flex sx={{ alignItems: 'center' }}>

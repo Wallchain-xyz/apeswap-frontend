@@ -4,8 +4,10 @@ import TokenImportWarning from 'components/TokenImportWarning'
 import { Flex, Svg, Text } from 'components/uikit'
 import useModal from 'hooks/useModal'
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
-import { CSSProperties } from 'theme-ui'
+import { CSSProperties, Spinner } from 'theme-ui'
 import { registerToken } from 'utils'
+import React from 'react'
+import { useWeb3React } from '@web3-react/core'
 
 const ListRow = ({
   currency,
@@ -26,6 +28,8 @@ const ListRow = ({
   onSelect: () => void
   onDismiss: () => void
 }) => {
+  const { account } = useWeb3React()
+
   const [onImportWarningModal] = useModal(
     <TokenImportWarning currency={currency} onDismiss={onDismiss} onSelect={onSelect} />,
     true,
@@ -41,6 +45,8 @@ const ListRow = ({
       currency instanceof WrappedTokenInfo ? currency?.tokenInfo?.logoURI : '',
     ).then(() => '')
   }
+
+  const hideDust = userBalance === '0.000000000000000001' ? '0' : userBalance
 
   return (
     <Flex
@@ -87,7 +93,7 @@ const ListRow = ({
         </Flex>
       </Flex>
       <Text size="14px" weight={600} sx={{ lineHeight: '0px' }}>
-        {userBalance}
+        {hideDust === undefined ? account ? <Spinner width="15px" height="15px" /> : '' : hideDust}
       </Text>
     </Flex>
   )

@@ -5,7 +5,7 @@ import { styles } from './styles'
 import DualCurrencyDropdown from './DualCurrencyDropdown'
 import useIsMobile from 'hooks/useIsMobile'
 import { DualCurrencySelector } from 'views/Bonds/actions/types'
-import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import { PairState, useV2Pair } from 'hooks/useV2Pairs'
@@ -33,8 +33,9 @@ interface DualCurrencyPanelProps {
   onCurrencySelect: (currency: DualCurrencySelector) => void
   inputCurrencies: Currency[]
   lpList: DualCurrencySelector[]
+  principalToken: Currency | null,
   enableZap?: boolean
-  //Currently used to pass lp price for bonds. Especially for non Ape LPs bonds as this checks ApeV2 LP pair address
+  //Currently used to pass lp price for bonds. Especially for non Ape LPs bonds as this file checks ApeV2 LP pair address
   lpUsdVal?: number
 }
 
@@ -45,30 +46,29 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
   onCurrencySelect,
   inputCurrencies,
   lpList,
+  principalToken,
   enableZap,
   lpUsdVal = 0,
 }) => {
   const { account, chainId } = useWeb3React()
-  const [pairState, pair] = useV2Pair(inputCurrencies[0], inputCurrencies[1])
-  const [, lpPair] = useV2Pair(lpList[0].currencyA, lpList[0]?.currencyB)
   const isMobile = useIsMobile()
-  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, pair?.liquidityToken ?? inputCurrencies[0])
-  const pairBalance = useCurrencyBalance(account, lpPair?.liquidityToken)
+  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, inputCurrencies[1] ? (principalToken ?? inputCurrencies[0]) : inputCurrencies[0])
+  const pairBalance = useCurrencyBalance(account, (principalToken ?? inputCurrencies[0]))
   const currencyBalance = selectedCurrencyBalance?.toSignificant(6)
   const { t } = useTranslation()
 
   const [usdValue] = useTokenPriceUsd(
-    pairState === PairState.EXISTS ? pair?.liquidityToken : inputCurrencies[0],
-    pairState === PairState.EXISTS && true,
+    inputCurrencies[1] ? principalToken : inputCurrencies[0],
+    !!inputCurrencies[1],
   )
-  const usdVal = lpUsdVal == 0 ? usdValue : lpUsdVal
+  const usdVal = inputCurrencies[1] ? lpUsdVal : usdValue
 
   useEffect(() => {
-    if (pairBalance?.toExact() === '0') {
+    if (enableZap && pairBalance && pairBalance?.toExact() === '0') {
       onCurrencySelect({ currencyA: nativeOnChain(chainId as SupportedChainId), currencyB: undefined })
     }
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [pairBalance?.toExact(), chainId])
+  }, [pairBalance, chainId])
 
   return (
     <Flex sx={styles.dexPanelContainer}>
@@ -77,14 +77,15 @@ const DualCurrencyPanel: React.FC<DualCurrencyPanelProps> = ({
           value={value}
           onUserInput={(val) => onUserInput(val)}
           style={{ fontSize: isMobile ? '15px' : '22px', align: 'left' }}
-          // removeLiquidity={isMobile}
+        // removeLiquidity={isMobile}
         />
         <DualCurrencyDropdown
           inputCurrencies={inputCurrencies}
           onCurrencySelect={onCurrencySelect}
           lpList={lpList}
+          principalToken={principalToken}
           enableZap={enableZap ?? true}
-          showNativeFirst={pairBalance?.toExact() === '0'}
+          showNativeFirst={enableZap && pairBalance?.toExact() === '0'}
         />
       </Flex>
       <Flex sx={styles.panelBottomContainer}>

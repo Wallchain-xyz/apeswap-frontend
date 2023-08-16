@@ -20,7 +20,7 @@
     "prepare": "yarn contracts:compile && yarn graphql:fetch && yarn graphql:generate"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "18.x"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.29.9",
@@ -49,11 +49,11 @@
     "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
-    "@ape.swap/apeswap-lists": "1.4.6",
+    "@ape.swap/apeswap-lists": "1.5.1",
     "@ape.swap/router-sdk": "^1.2.0",
     "@ape.swap/sdk-core": "^1.0.2",
     "@ape.swap/smart-order-router": "1.2.3-alpha.3",
-    "@ape.swap/token-lists": "1.0.56",
+    "@ape.swap/token-lists": "1.0.63",
     "@ape.swap/v2-sdk": "^1.1.0",
     "@ape.swap/v2-zap-sdk": "^1.0.0-alpha.12",
     "@ape.swap/v3-sdk": "^1.2.0",
@@ -67,7 +67,7 @@
     "@graphql-codegen/typescript-operations": "^2.5.8",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/typescript-resolvers": "^2.7.8",
-    "@lifi/sdk": "^2.2.0",
+    "@lifi/sdk": "^2.2.2",
     "@reduxjs/toolkit": "^1.9.1",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",

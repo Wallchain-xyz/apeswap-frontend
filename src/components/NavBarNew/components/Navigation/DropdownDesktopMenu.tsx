@@ -28,7 +28,7 @@ const DropdownMenu = ({ isVisible, items }: NavMenuProps) => {
         {items.map(({ itemLabel, itemDesc, icon, href }, index) => {
           const isItemHovered = isHovered === index
           return (
-            <Link href={href} key={itemLabel} style={{ color: 'inherit', textDecoration: 'inherit' }}>
+            <Link href={href || ''} key={itemLabel} style={{ color: 'inherit', textDecoration: 'inherit' }}>
               <Flex
                 onMouseEnter={() => setIsHovered(index)}
                 onFocus={() => setIsHovered(index)}
@@ -42,8 +42,8 @@ const DropdownMenu = ({ isVisible, items }: NavMenuProps) => {
                   <Image src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} fill />
                 </Box>
                 <Flex sx={{ flexDirection: 'column' }}>
-                  <Text sx={styles.desktopNavItemTitle}>{t(itemLabel)}</Text>
-                  <Text sx={styles.desktopNavItemSubtitle}>{t(itemDesc)}</Text>
+                  <Text sx={styles.desktopNavItemTitle}>{t(itemLabel || '')}</Text>
+                  <Text sx={styles.desktopNavItemSubtitle}>{t(itemDesc || '')}</Text>
                 </Flex>
                 <Flex
                   sx={{

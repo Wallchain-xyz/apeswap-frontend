@@ -1,10 +1,13 @@
 // Types
+import { ChainId, DEX_ONLY_CHAINS } from 'config/constants/chains'
 import { NavItem } from './types'
 
 // This function returns the nav list for a given chainId
-export const getChainNavList = (chainId: number): NavItem[] => {
+export const getChainNavList = (chainId: ChainId): NavItem[] => {
   if (NAV_LISTS[chainId]) {
     return NAV_LISTS[chainId]
+  } else if (DEX_ONLY_CHAINS.includes(chainId)) {
+    return [DEX_ONLY_EXCHANGE_ITEMS, DEFAULT_NAV[1], DEFAULT_NAV[2], DEFAULT_NAV[3]]
   } else {
     return DEFAULT_NAV
   }
@@ -40,8 +43,28 @@ const DEFAULT_NAV: NavItem[] = [
   {
     label: 'Bonds',
     order: 2,
-    href: '/bonds',
+    href: '/bonds-landing',
     icon: '/images/navbar/bonds',
+    items: [
+      {
+        itemLabel: 'Buy a Bond',
+        itemDesc: 'Purchase select tokens at a discount.',
+        href: '/bonds',
+        icon: '/images/navbar/bonds',
+      },
+      {
+        itemLabel: 'Bond Markets',
+        itemDesc: 'View all bonds, past & present.',
+        href: '/bond-markets',
+        icon: '/images/navbar/markets',
+      },
+      {
+        itemLabel: 'Bonds for Partners',
+        itemDesc: 'Learn about bonding use cases.',
+        href: 'https://welcome.apeswap.finance/bonds',
+        icon: '/images/navbar/bond-intro',
+      },
+    ],
   },
   {
     label: 'Liquidity Health',
@@ -93,6 +116,26 @@ const DEFAULT_NAV: NavItem[] = [
     ],
   },
 ]
+
+const DEX_ONLY_EXCHANGE_ITEMS = {
+  label: 'Exchange',
+  order: 1,
+  icon: '/images/navbar/trading',
+  items: [
+    {
+      itemLabel: 'Swap',
+      itemDesc: 'Trade any tokens across several chains.',
+      href: '/swap',
+      icon: '/images/navbar/swap',
+    },
+    {
+      itemLabel: 'Pro Trading',
+      itemDesc: 'Utilize Enhanced trading options & charting.',
+      href: 'https://pro.apeswap.finance',
+      icon: '/images/navbar/pro',
+    },
+  ],
+}
 
 // Start of custom navs for each chain
 

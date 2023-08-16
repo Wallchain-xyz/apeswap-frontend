@@ -26,7 +26,7 @@ const PopUpMobileMenu = ({ isVisible, items }: NavMenuProps) => {
       <Flex sx={{ gap: '10px', flexDirection: 'column' }}>
         {items.map(({ itemLabel, itemDesc, icon, href }, index) => {
           return (
-            <Link href={href} key={itemLabel} style={{ color: 'inherit', textDecoration: 'inherit' }}>
+            <Link href={href || ''} key={itemLabel} style={{ color: 'inherit', textDecoration: 'inherit' }}>
               <Flex
                 sx={{
                   ...styles.popUpMobileMenuOption,
@@ -37,8 +37,8 @@ const PopUpMobileMenu = ({ isVisible, items }: NavMenuProps) => {
                   <Image src={`${icon}-${colorMode}.svg`} alt={`${itemLabel} logo`} fill />
                 </Box>
                 <Flex sx={{ flexDirection: 'column' }}>
-                  <Text sx={styles.mobileNavOptionTitle}>{t(itemLabel)}</Text>
-                  <Text sx={styles.mobileNavOptionSubtitle}>{t(itemDesc)}</Text>
+                  <Text sx={styles.mobileNavOptionTitle}>{t(itemLabel || '')}</Text>
+                  <Text sx={styles.mobileNavOptionSubtitle}>{t(itemDesc || '')}</Text>
                 </Flex>
               </Flex>
             </Link>
