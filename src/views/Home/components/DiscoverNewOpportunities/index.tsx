@@ -7,8 +7,8 @@ import useGetHomepageStats from 'state/homepage/hooks/useGetHomepageStats'
 
 // Components
 import { Text } from 'components/uikit'
-import Tabs from './Tabs'
 import Lists from './Lists'
+import TabNavigation from 'components/TabNavigation'
 
 // Constants
 import { TabNavOptions } from './types'
@@ -31,7 +31,7 @@ const DiscoverNewOpportunities = () => {
       <Box sx={{ mb: ['10px', '10px', '35px'] }}>
         <Text sx={{ fontSize: ['25px', '25px', '35px'], fontWeight: '500' }}>{t('Discover New Opportunities')}</Text>
       </Box>
-      <Tabs tabs={TABS} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <TabNavigation tabs={TABS} activeTab={activeTab} setActiveTab={setActiveTab} />
       <Lists activeTab={activeTab} stats={stats} />
     </Box>
   )

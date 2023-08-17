@@ -150,7 +150,7 @@ const SharableCard = ({
         .catch((error) => console.log('Error sharing', error))
     } else {
       const text = `${message}`
-      const url = `https://apeswap.finance${asPath}?d=${dateParam}`
+      const url = `https://apeswap.finance${asPath}?d=${dateParam}&model=card`
 
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
         url,
