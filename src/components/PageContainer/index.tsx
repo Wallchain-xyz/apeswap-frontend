@@ -47,16 +47,22 @@ const PageContainer = ({
   return (
     <>
       <Head>
-        <title>{title}</title>
-        {asPath.includes('/liquidity-health/') ? (
+        {asPath.includes('/liquidity-health') ? (
           <>
+            <title>ApeSwap | Liquidity Health Dashboard</title>
             <meta property="og:title" content="ApeSwap | Liquidity Health Dashboard" />
             <meta
               property="og:description"
               content="ApeSwap’s Liquidity Health Dashboard provides insights into the quality and sustainability of cryptocurrency projects based on different characteristics of their liquidity."
             />
-            <meta property="og:image" content={imageURL} />
-            <meta name="twitter:image" content={imageURL} />
+            <meta
+              property="og:image"
+              content={asPath.includes('/liquidity-health/') ? imageURL : 'https://apeswap.finance/lhd-meta.png'}
+            />
+            <meta
+              name="twitter:image"
+              content={asPath.includes('/liquidity-health/') ? imageURL : 'https://apeswap.finance/lhd-meta.png'}
+            />
 
             <meta
               name="twitter:description"
@@ -66,6 +72,7 @@ const PageContainer = ({
           </>
         ) : (
           <>
+            <title>{title}</title>
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />

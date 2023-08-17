@@ -108,7 +108,7 @@ const LHD = ({ randomLHDImage, activeSlide }: { randomLHDImage: number; activeSl
             {t('Learn more')}
           </Button>
           <Link href="/liquidity-health" sx={{ textDecoration: 'none' }}>
-            <Button sx={{ fontSize: ['14px', '14px', '16px'], width: '138px' }}>{t('Join beta')}</Button>
+            <Button sx={{ fontSize: ['14px', '14px', '16px'], width: '138px' }}>{t('Enter now')}</Button>
           </Link>
         </Flex>
       </Flex>

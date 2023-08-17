@@ -6,17 +6,13 @@ import { Flex, Text } from 'components/uikit'
 // Hooks
 import { useTranslation } from 'contexts/Localization'
 
-// Types
-import { TabNavOptions } from '../types'
-
-interface TabsProps {
-  tabs: TabNavOptions[]
-  activeTab: TabNavOptions
-  setActiveTab: (newActiveTab: TabNavOptions) => void
+interface TabNavigationProps<T> {
+  tabs: T[]
+  activeTab: T
+  setActiveTab: (value: T) => void
 }
 
-// TODO: Animate the border-bottom
-const Tabs = ({ tabs, activeTab, setActiveTab }: TabsProps) => {
+const TabNavigation = <T extends string>({ tabs, activeTab, setActiveTab }: TabNavigationProps<T>) => {
   const { t } = useTranslation()
 
   return (
@@ -47,4 +43,4 @@ const Tabs = ({ tabs, activeTab, setActiveTab }: TabsProps) => {
   )
 }
 
-export default Tabs
+export default TabNavigation
