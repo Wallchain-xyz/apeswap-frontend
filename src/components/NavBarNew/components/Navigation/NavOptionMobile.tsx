@@ -2,7 +2,6 @@
 import { Flex, Text, Link } from 'components/uikit'
 import { styles } from './styles'
 import PopUpMobileMenu from './PopUpMobileMenu'
-import Image from 'next/image'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
@@ -31,7 +30,7 @@ const NavOptionMobile = ({ navItem }: NavOptionProps) => {
         bg: isOpen && 'white1',
       }}
     >
-      <Image width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
+      <img width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
       <PopUpMobileMenu isVisible={isOpen} items={items} />
       <Text sx={styles.mobileNavOptionText}>{t(label)}</Text>
     </Flex>
@@ -47,7 +46,7 @@ const NavOptionMobile = ({ navItem }: NavOptionProps) => {
             ...styles.mobileNavOptionContainer,
           }}
         >
-          <Image width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
+          <img width={25} height={25} src={`${navItem.icon}-${colorMode}.svg`} alt={`${navItem.label} logo`} />
           <Text sx={styles.mobileNavOptionText}>{t(label)}</Text>
         </Flex>
       </Link>

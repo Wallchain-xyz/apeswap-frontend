@@ -8,4 +8,5 @@ export const QUERY_KEYS = {
   LIVE_AND_UPCOMING: 'liveAndUpcoming',
   TVL_STATS: 'tvlStats',
   TOKEN_HISTORIC: 'tokenHistoric',
+  BONDS_LANDING: 'bondsLanding',
 }
