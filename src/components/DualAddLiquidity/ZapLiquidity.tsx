@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useCurrency } from 'hooks/Tokens'
-import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
 import { Field } from 'state/zap/actions'
 import { useDerivedZapInfo, useSetZapInputList, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { styles } from './styles'
@@ -26,6 +26,7 @@ import { TradeState } from 'state/routing/types'
 import ModalProvider from '../../contexts/ModalContext'
 import { Pricing } from '../DexPanel/types'
 import { useRouter } from 'next/router'
+import { LiquidityDex, dexToZapMapping, ZapVersion } from '@ape.swap/apeswap-lists'
 
 // Hooks
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
@@ -75,6 +76,11 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const [, outputPair] = useV2Pair(outputCurrencyA as Currency, outputCurrencyB as Currency)
 
+  // @ts-ignore Property 'liquidityDex' does not exist on type 'Pair'
+  const liquidityDex = outputPair?.liquidityDex?.[chainId as SupportedChainId] || LiquidityDex.ApeSwapV2
+  //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
+  const zapVersion = dexToZapMapping[liquidityDex as LiquidityDex]?.[chainId as SupportedChainId] as ZapVersion
+
   const { address: outputCurrencyId, decimals } = getCurrencyInfo({
     currencyA: outputCurrencyA as WrappedTokenInfo,
     currencyB: outputCurrencyB as WrappedTokenInfo,
@@ -88,7 +94,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}
   const isBondsPage = route.includes('bonds')
-  const shouldUseWido = isWidoSupported && isBondsPage
+  const shouldUseWido = isWidoSupported && isBondsPage && zapVersion === ZapVersion.External
 
   const { zap, inputError: zapInputError, currencyBalances, zapRouteState } = useDerivedZapInfo()
   const { onUserInput, onInputSelect, onCurrencySelection, onSetZapType } = useZapActionHandlers()

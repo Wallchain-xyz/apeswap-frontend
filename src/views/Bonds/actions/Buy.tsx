@@ -386,7 +386,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               <Button
                 variant="secondary"
                 onClick={() =>
-                  zapVersion == ZapVersion.External
+                  zapVersion == ZapVersion.External && !isWidoSupported
                     ? sendToExternalLpUrl()
                     : onAddLiquidityModal(token, quoteToken, '', '', false)
                 }
