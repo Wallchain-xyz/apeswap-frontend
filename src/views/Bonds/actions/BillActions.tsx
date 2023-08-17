@@ -16,6 +16,7 @@ import { useAppDispatch } from '../../../state/hooks'
 
 // Hooks
 import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
+import { ZapVersion } from '@ape.swap/apeswap-lists'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -32,6 +33,7 @@ const BillActions: React.FC<BillActionsProps> = ({
   errorMessage,
   isWidoSupported,
   widoQuote,
+  zapVersion,
 }) => {
   const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
@@ -84,7 +86,7 @@ const BillActions: React.FC<BillActionsProps> = ({
 
   const getBillActionButton = () => {
     switch (true) {
-      case isWidoSupported && requiresApprovalWido:
+      case isWidoSupported && requiresApprovalWido && zapVersion === ZapVersion.External:
         return (
           <Button
             onClick={() => approveWidoSpender()}
@@ -97,7 +99,7 @@ const BillActions: React.FC<BillActionsProps> = ({
               : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
           </Button>
         )
-      case currencyB && showApproveZapFlow && !isWidoSupported:
+      case currencyB && showApproveZapFlow && zapVersion === ZapVersion.ZapV1:
         return (
           <Button
             onClick={approveCallback}
@@ -110,7 +112,7 @@ const BillActions: React.FC<BillActionsProps> = ({
               : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
           </Button>
         )
-      case currencyB && showApproveLP && !isWidoSupported:
+      case currencyB && showApproveLP && zapVersion === ZapVersion.ZapV1:
         return (
           <Button onClick={handleLPApprove} load={pendingApprove} disabled={pendingApprove} fullWidth>
             {t('Enable')}

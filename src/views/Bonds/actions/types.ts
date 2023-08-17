@@ -3,6 +3,7 @@ import { Bills } from '../types'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
 import { QuoteResult } from 'wido'
+import { ZapVersion } from '@ape.swap/apeswap-lists'
 
 export interface ClaimProps {
   billAddress: string
@@ -41,6 +42,7 @@ export interface BillActionsProps {
   errorMessage: string | null
   isWidoSupported: boolean
   widoQuote: QuoteResult | undefined | null
+  zapVersion: ZapVersion
 }
 
 export interface DualCurrencySelector {
