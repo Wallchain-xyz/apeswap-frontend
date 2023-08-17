@@ -5,7 +5,7 @@ import axios from 'axios'
 import { SimpleTokenProfile } from 'state/lhd/types'
 
 // Constants
-import { LHD_API_HIST_TEMP } from 'config/constants/api'
+import { LHD_API } from 'config/constants/api'
 import { QUERY_KEYS } from 'config/constants/queryKeys'
 
 interface IGetTokenHistoric {
@@ -14,7 +14,7 @@ interface IGetTokenHistoric {
 }
 
 export const getTokenHistoric = async ({ chainID, address }: IGetTokenHistoric): Promise<SimpleTokenProfile[]> => {
-  const { data } = await axios.get(`${LHD_API_HIST_TEMP}/liquidity-health-dashboard/historic/${chainID}/${address}`)
+  const { data } = await axios.get(`${LHD_API}/liquidity-health-dashboard/historic/${chainID}/${address}`)
   return data
 }
 

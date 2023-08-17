@@ -57,19 +57,11 @@ const PageContainer = ({
             />
             <meta
               property="og:image"
-              content={
-                asPath.includes('/liquidity-health/')
-                  ? imageURL
-                  : 'https://frontend-git-feat-lhd-improvements-ape-swap-finance.vercel.app/lhd-meta.png'
-              }
+              content={asPath.includes('/liquidity-health/') ? imageURL : 'https://apeswap.finance/lhd-meta.png'}
             />
             <meta
               name="twitter:image"
-              content={
-                asPath.includes('/liquidity-health/')
-                  ? imageURL
-                  : 'https://frontend-git-feat-lhd-improvements-ape-swap-finance.vercel.app/lhd-meta.png'
-              }
+              content={asPath.includes('/liquidity-health/') ? imageURL : 'https://apeswap.finance/lhd-meta.png'}
             />
 
             <meta

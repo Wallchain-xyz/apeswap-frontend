@@ -92,6 +92,9 @@ export const getChartOptions = (
     plugins: {
       tooltip: {
         callbacks: {
+          title: function (items: any) {
+            return moment(Number(items[0].label)).format('DD-MMM-YY')
+          },
           label: (context: any) => {
             const {
               dataset: { label },
