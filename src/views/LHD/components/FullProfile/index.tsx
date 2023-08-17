@@ -102,7 +102,7 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
             <Flex sx={{ mr: '5px' }}>
               <Svg icon="caret" direction="left" width={7} />
             </Flex>
-            {t('Back')}
+            {t('Back To List View')}
           </Text>
           <Text sx={styles.lastUpdated}>
             {t('Last updated')} {Math.round((Date.now() - parseInt(fullProfile?.createdAt)) / 36000) / 100}
