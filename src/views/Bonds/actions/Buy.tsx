@@ -35,7 +35,9 @@ import { useRouter } from 'next/router'
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
 import useSignTransaction from 'state/bills/hooks/useSignTransaction'
 
-// TODO: Add wido hook for quote here
+// Constants
+import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
+
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { push } = useRouter()
 
@@ -93,7 +95,35 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const { onCurrencySelection, onUserInput } = useZapActionHandlers()
   const bondContractAddress = contractAddress[chainId as SupportedChainId] || ''
-  const { data: widoQuote } = useGetWidoQuote({ currencyA, currencyB, toToken: bondContractAddress })
+
+  // @ts-ignore
+  const [, pair] = useV2Pair(currencyA, currencyB)
+
+  const getInputCurrency = () => {
+    if (currencyB && pair) {
+      return pair.liquidityToken
+    }
+
+    if (currencyB && !pair) {
+      return principalToken
+    }
+
+    if (currencyA?.isNative) {
+      return { ...currencyA, address: WIDO_NATIVE_TOKEN_ID }
+    }
+
+    // @ts-ignore
+    return currencyA?.tokenInfo
+  }
+
+  const { address = '', decimals = 18 } = getInputCurrency() ?? {}
+
+  const { data: widoQuote } = useGetWidoQuote({
+    inputTokenAddress: address,
+    inputTokenDecimals: decimals,
+    toTokenAddress: bondContractAddress,
+    zapVersion,
+  })
   const { signTransaction } = useSignTransaction()
 
   const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}

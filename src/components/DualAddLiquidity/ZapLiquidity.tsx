@@ -26,6 +26,7 @@ import { TradeState } from 'state/routing/types'
 import ModalProvider from '../../contexts/ModalContext'
 import { Pricing } from '../DexPanel/types'
 import { useRouter } from 'next/router'
+import { ZapVersion } from '@ape.swap/apeswap-lists'
 
 // Hooks
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
@@ -75,15 +76,20 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const [, outputPair] = useV2Pair(outputCurrencyA as Currency, outputCurrencyB as Currency)
 
-  const { address: outputCurrencyId, decimals } = getCurrencyInfo({
+  const { address: outputCurrencyId } = getCurrencyInfo({
     currencyA: outputCurrencyA as WrappedTokenInfo,
     currencyB: outputCurrencyB as WrappedTokenInfo,
     pair: outputPair,
   })
+  const { address: inputTokenAddress, decimals: inputTokenDecimals } = getCurrencyInfo({
+    currencyA: inputCurrency as WrappedTokenInfo,
+  })
 
   const { data: widoQuote, isLoading: isWidoQuoteLoading } = useGetWidoQuote({
-    currencyA: inputCurrency,
-    toToken: outputCurrencyId,
+    inputTokenAddress: inputTokenAddress,
+    inputTokenDecimals: inputTokenDecimals,
+    toTokenAddress: outputCurrencyId,
+    zapVersion: ZapVersion.ZapV1,
   })
 
   const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}

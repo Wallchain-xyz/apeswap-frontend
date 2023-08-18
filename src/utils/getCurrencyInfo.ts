@@ -11,8 +11,8 @@ const getCurrencyInfo = ({
   pair,
 }: {
   currencyA: WrappedTokenInfo | null
-  currencyB: WrappedTokenInfo | null
-  pair: Pair | null
+  currencyB?: WrappedTokenInfo | null
+  pair?: Pair | null
 }): { address: string; decimals: number } => {
   if (currencyB) {
     const { liquidityToken: { address, decimals } = { address: '', decimals: 18 } } = pair || {}
@@ -21,7 +21,7 @@ const getCurrencyInfo = ({
     return { address: WIDO_NATIVE_TOKEN_ID, decimals: currencyA.decimals }
   }
   const { tokenInfo: { address, decimals } = { address: '', decimals: 18 } } = currencyA || {}
-  return { address, decimals }
+  return { address: address ? address : (currencyA?.address as string), decimals }
 }
 
 export default getCurrencyInfo
