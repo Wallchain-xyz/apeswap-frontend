@@ -94,7 +94,9 @@ const BillActions: React.FC<BillActionsProps> = ({
             load={isApproveWidoSpenderLoading}
             fullWidth
           >
-            {isApproveWidoSpenderLoading ? t('Enabling') : t('Enable')}
+            {isApproveWidoSpenderLoading
+              ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
+              : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
           </Button>
         )
       case currencyB && showApproveZapFlow && zapVersion === ZapVersion.ZapV1:
