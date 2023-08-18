@@ -25,10 +25,11 @@ interface ZapLiquidityActionsProps {
   txHash?: string
   handleDismissConfirmation: () => void
   isWidoQuoteLoading?: boolean
-  inputCurrency?: Currency | null
-  outputCurrencyId?: string
   shouldUseWido?: boolean
   widoQuote?: any
+  inputTokenAddress?: string
+  inputTokenDecimals?: number
+  toTokenAddress?: string
 }
 
 const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
@@ -40,10 +41,11 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   txHash,
   handleDismissConfirmation,
   isWidoQuoteLoading = false,
-  outputCurrencyId,
-  inputCurrency,
   shouldUseWido = false,
   widoQuote,
+  inputTokenAddress = '',
+  inputTokenDecimals = 18,
+  toTokenAddress = '',
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -53,8 +55,9 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     approveWidoSpender,
     isApproveWidoSpenderLoading,
   } = useGetWidoTokenAllowance({
-    currencyA: inputCurrency,
-    toToken: outputCurrencyId,
+    inputTokenAddress,
+    inputTokenDecimals,
+    toTokenAddress,
   })
 
   const [onPresentAddLiquidityModal] = useModal(
