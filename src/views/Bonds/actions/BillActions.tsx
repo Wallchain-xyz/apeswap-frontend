@@ -34,6 +34,9 @@ const BillActions: React.FC<BillActionsProps> = ({
   isWidoSupported,
   widoQuote,
   zapVersion,
+  inputTokenAddress,
+  inputTokenDecimals,
+  toTokenAddress,
 }) => {
   const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
@@ -51,9 +54,9 @@ const BillActions: React.FC<BillActionsProps> = ({
     approveWidoSpender,
     isApproveWidoSpenderLoading,
   } = useGetWidoTokenAllowance({
-    currencyA,
-    currencyB,
-    toToken: bondContractAddress,
+    inputTokenAddress,
+    inputTokenDecimals,
+    toTokenAddress,
   })
 
   const { onApprove } = useApproveBill(

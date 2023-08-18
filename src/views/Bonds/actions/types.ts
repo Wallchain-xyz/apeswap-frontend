@@ -43,6 +43,9 @@ export interface BillActionsProps {
   isWidoSupported: boolean
   widoQuote: QuoteResult | undefined | null
   zapVersion: ZapVersion
+  inputTokenAddress: string
+  inputTokenDecimals: number
+  toTokenAddress: string
 }
 
 export interface DualCurrencySelector {

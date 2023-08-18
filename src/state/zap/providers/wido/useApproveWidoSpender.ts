@@ -13,31 +13,40 @@ import convertToTokenValue from 'utils/convertToTokenValue'
 
 // Constants
 import { QUERY_KEYS } from 'config/constants/queryKeys'
+import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 
 // Types
 import { AppState } from 'state'
 
 const useApproveWidoSpender = ({
-  currencyA,
-  currencyB,
-  toToken,
+  inputTokenAddress,
+  inputTokenDecimals,
+  toTokenAddress,
 }: {
-  currencyA: any
-  currencyB: any
-  toToken: string
+  inputTokenAddress: string
+  inputTokenDecimals: number
+  toTokenAddress: string
 }) => {
   const queryClient = useQueryClient()
   const { account, provider, isActive } = useWeb3React()
-  const [, pair] = useV2Pair(currencyA, currencyB)
 
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
-  const { address: fromTokenAddress, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
 
-  const amount = convertToTokenValue(amountInput || '0', decimals).toString()
-  const isEnabled = isActive && !!fromTokenAddress && !!toToken && Number(amount) > 0 && !currencyA.isNative
+  const amount = convertToTokenValue(amountInput || '0', inputTokenDecimals).toString()
+  const isEnabled =
+    isActive &&
+    !!inputTokenAddress &&
+    !!toTokenAddress &&
+    inputTokenAddress !== WIDO_NATIVE_TOKEN_ID &&
+    Number(amount) > 0
 
   const { signTransaction } = useSignTransaction()
-  const { data: widoSpenderData } = useGetWidoApprove({ fromToken: fromTokenAddress, toToken, amount, isEnabled })
+  const { data: widoSpenderData } = useGetWidoApprove({
+    fromToken: inputTokenAddress,
+    toToken: toTokenAddress,
+    amount,
+    isEnabled,
+  })
 
   const { data, to } = widoSpenderData || {}
 
@@ -50,7 +59,7 @@ const useApproveWidoSpender = ({
       // will wait for query invalidation to finish,
       // mutation state will stay loading while related queries update
       return queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.WIDO_ALLOWANCE, { account }, { fromToken: fromTokenAddress }, { toToken }],
+        queryKey: [QUERY_KEYS.WIDO_ALLOWANCE, { account }, { fromToken: inputTokenAddress }, { toTokenAddress }],
       })
     },
   })

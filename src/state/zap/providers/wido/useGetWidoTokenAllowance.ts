@@ -6,33 +6,31 @@ import { AppState } from 'state'
 // Hooks
 import useGetWidoAllowance from './useGetWidoAllowance'
 import useApproveWidoSpender from './useApproveWidoSpender'
-import { useV2Pair } from 'hooks/useV2Pairs'
 
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'
 import getCurrencyInfo from 'utils/getCurrencyInfo'
+// Constants
+import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 
 const useGetWidoTokenAllowance = ({
-  currencyA,
-  currencyB,
-  toToken = '',
+  inputTokenAddress,
+  inputTokenDecimals,
+  toTokenAddress,
 }: {
-  currencyA: any
-  currencyB?: any
-  toToken?: string
+  inputTokenAddress: string
+  inputTokenDecimals: number
+  toTokenAddress: string
 }) => {
-  const [, pair] = useV2Pair(currencyA, currencyB)
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
 
-  const isNative = currencyA.isNative
-  const { address, decimals } = getCurrencyInfo({ currencyA, currencyB, pair })
-  const amountToApprove = convertToTokenValue(amountInput || '0', decimals).toString()
-
-  const isEnabled = !isNative && Number(amountToApprove) > 0 && !!toToken
+  const amountToApprove = convertToTokenValue(amountInput || '0', inputTokenDecimals).toString()
+  const isNative = inputTokenAddress === WIDO_NATIVE_TOKEN_ID
+  const isEnabled = !isNative && Number(amountToApprove) > 0 && !!toTokenAddress
 
   const { data: widoAllowance, isLoading: isWidoAllowanceLoading } = useGetWidoAllowance({
-    fromToken: address,
-    toToken,
+    fromToken: inputTokenAddress,
+    toToken: toTokenAddress,
     isEnabled,
   })
   const { allowance } = widoAllowance ?? {}
@@ -44,9 +42,9 @@ const useGetWidoTokenAllowance = ({
   }
 
   const { mutate: approveWidoSpender, isLoading: isApproveWidoSpenderLoading } = useApproveWidoSpender({
-    currencyA,
-    currencyB,
-    toToken,
+    inputTokenAddress,
+    inputTokenDecimals,
+    toTokenAddress,
   })
 
   return { requiresApproval, isWidoAllowanceLoading, approveWidoSpender, isApproveWidoSpenderLoading }

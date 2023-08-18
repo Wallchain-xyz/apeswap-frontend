@@ -459,6 +459,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               isWidoSupported={isWidoSupported}
               widoQuote={widoQuote}
               zapVersion={zapVersion}
+              inputTokenAddress={address}
+              inputTokenDecimals={decimals}
+              toTokenAddress={bondContractAddress}
             />
           </Box>
           {showUpdateSlippage && !pendingTrx && (
