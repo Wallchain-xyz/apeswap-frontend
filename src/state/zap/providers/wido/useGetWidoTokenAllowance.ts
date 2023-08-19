@@ -9,7 +9,7 @@ import useApproveWidoSpender from './useApproveWidoSpender'
 
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'
-import getCurrencyInfo from 'utils/getCurrencyInfo'
+
 // Constants
 import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 

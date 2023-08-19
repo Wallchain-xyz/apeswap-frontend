@@ -116,7 +116,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     return currencyA?.tokenInfo
   }
 
-  const { address = '', decimals = 18 } = getInputCurrency() ?? {}
+  const inputCurrency = getInputCurrency()
+
+  const { address = '', decimals = 18 } = inputCurrency ?? {}
 
   const { data: widoQuote } = useGetWidoQuote({
     inputTokenAddress: address,
@@ -212,7 +214,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     if (zapVersion === ZapVersion.External && isWidoSupported) {
       console.log('Signing Wido buy Tx')
       signTransaction({ to, data, value })
-        // TODO: This whole .then and .catch can be merged in with the zapCallback .then and catch method
         .then((hash: any) => {
           setPendingTrx(true)
           setZapSlippage(originalSlippage)
@@ -232,28 +233,27 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               setPendingTrx(false)
               onTransactionSubmited(false)
             })
-          // TODO: Fix Tracking for non Native tokens
-          // track({
-          //   event: 'zap',
-          //   chain: chainId,
-          //   data: {
-          //     cat: 'bill',
-          //     token1: zap.currencyIn.currency.symbol,
-          //     token2: `${zap.currencyOut1.outputCurrency.symbol}-${zap.currencyOut2.outputCurrency.symbol}`,
-          //     amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
-          //   },
-          // })
-          // track({
-          //   event: 'bond',
-          //   chain: chainId,
-          //   data: {
-          //     cat: 'buy',
-          //     type: billType ?? '',
-          //     address: contractAddress[chainId as SupportedChainId],
-          //     typedValue,
-          //     usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
-          //   },
-          // })
+          track({
+            event: 'zap',
+            chain: chainId,
+            data: {
+              cat: 'bill',
+              token1: pair ? `${currencyA?.symbol}-${currencyB?.symbol}` : inputCurrency.symbol,
+              token2: bill.lpToken.symbol,
+              amount: getBalanceNumber(new BigNumber(zap.currencyIn.inputAmount.toString())),
+            },
+          })
+          track({
+            event: 'bond',
+            chain: chainId,
+            data: {
+              cat: 'buy',
+              type: billType ?? '',
+              address: contractAddress[chainId as SupportedChainId],
+              typedValue,
+              usdAmount: parseFloat(zap?.pairOut?.liquidityMinted?.toExact()) * (lpPrice ?? 0),
+            },
+          })
         })
         .catch((e: any) => {
           setZapSlippage(originalSlippage)
