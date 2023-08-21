@@ -8,9 +8,7 @@ import { NEVER_RELOAD, useSingleCallResult } from 'lib/hooks/multicall'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import { useMemo } from 'react'
 import { DEFAULT_ERC20_DECIMALS } from 'config/constants/tokens'
-import { TOKEN_SHORTHANDS } from 'config/constants/tokens'
 import { isAddress } from 'utils'
-import { supportedChainId } from 'utils/supportedChainId'
 import { ChainId } from '../../config/constants/chains'
 
 // parse a name or symbol from a token response
@@ -101,17 +99,9 @@ export function useCurrencyFromMap(
     nativeCurrency &&
       (currencyId?.toUpperCase() === 'ETH' || currencyId === '0x0000000000000000000000000000000000000000'),
   )
-  const shorthandMatchAddress = useMemo(() => {
-    const chain = supportedChainId(selectedChain)
-    return chain && currencyId ? TOKEN_SHORTHANDS[currencyId.toUpperCase()]?.[chain] : undefined
-  }, [selectedChain, currencyId])
+  const token = useTokenFromMapOrNetwork(tokens, isNative ? undefined : currencyId)
 
-  const token = useTokenFromMapOrNetwork(tokens, isNative ? undefined : shorthandMatchAddress ?? currencyId)
-
-  //TODO: revisit this and check why was this used like this
-  //const isSupportedChainId = isSupportedChain(chainId)
-  const isSupportedChainId = true
-  if (currencyId === null || currencyId === undefined || !isSupportedChainId) return null
+  if (currencyId === null || currencyId === undefined) return null
 
   // this case so we use our builtin wrapped token instead of wrapped tokens on token lists
   const wrappedNative = nativeCurrency?.wrapped

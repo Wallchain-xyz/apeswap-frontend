@@ -33,7 +33,7 @@ const BondsLandingList: React.FC<BondsLandingListProps> = ({ query, sortOption, 
     (bonds: BondLanding[]) => {
       const filteredQuery = bonds?.filter((obj) => obj?.showcaseTokenName?.toUpperCase().includes(query.toUpperCase()))
 
-      const filteredBondsByChain = filteredQuery.filter((obj) => filteredChains[obj.chainId.toString()] === true)
+      const filteredBondsByChain = filteredQuery.filter((obj) => filteredChains['chain_' + obj.chainId.toString()])
 
       const sortedBonds = filteredBondsByChain.filter(Boolean).sort((a, b) => {
         switch (sortOption) {

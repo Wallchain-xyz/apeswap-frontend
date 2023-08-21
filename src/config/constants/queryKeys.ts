@@ -11,5 +11,6 @@ export const QUERY_KEYS = {
   WIDO_ALLOWANCE: 'widoAllowance',
   WIDO_APPROVAL: 'widoApproval',
   WIDO_SIGN_APPROVAL: 'widoSignApproval',
+  TOKEN_HISTORIC: 'tokenHistoric',
   BONDS_LANDING: 'bondsLanding',
 }

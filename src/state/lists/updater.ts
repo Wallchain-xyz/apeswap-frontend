@@ -11,7 +11,6 @@ import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { acceptListUpdate } from './actions'
 
 export default function Updater(): null {
-  //TODO: this updater might not be necessary, revisit this
   const { provider } = useWeb3React()
   const dispatch = useAppDispatch()
   const isWindowVisible = useIsWindowVisible()

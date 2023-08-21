@@ -13,9 +13,14 @@ import { useTranslation } from 'contexts/Localization'
 import TokenImage from '../../../../../../components/TokenImage'
 import Link from 'next/link'
 import { CHAIN_DETAILS } from 'views/LHD/utils/config'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import ScoreChange from '../ScoreChange'
 
-const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
+const TopSectionCards = ({ fullProfile, scoreDifference }: { fullProfile: TokenProfile; scoreDifference: number }) => {
   const { t } = useTranslation()
+  const router = useRouter()
+
   const firstValidMcap = fullProfile?.mcap.find((input: ExternalDataOption) => input?.amount) as ExternalDataOption
 
   const { siteUrl, auditUrls, twitterUrl, telegramUrl, discordUrl } = fullProfile?.addressMapping
@@ -44,6 +49,13 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
       formulaVersion={fullProfile?.formulaVersion}
     />,
   )
+
+  useEffect(() => {
+    if (router.query.modal === 'card') {
+      onCreateCard()
+    }
+  }, [router.query])
+
   return (
     <Flex sx={styles.mainContainer}>
       <Flex sx={styles.leftContainer}>
@@ -136,8 +148,7 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
               <ProgressBar value={Math.floor(fullProfile?.concentrationScore * 100)} position="right" />
             </Flex>
           </Flex>
-          <Flex sx={styles.scoreCont}>
-            <Text sx={styles.scoreText}>{t('SCORE')}</Text>
+          <Flex sx={{ ...styles.scoreCont, ml: '15px' }}>
             <Text
               sx={{
                 ...styles.scoreNumber,
@@ -147,12 +158,26 @@ const TopSectionCards = ({ fullProfile }: { fullProfile: TokenProfile }) => {
             >
               {Math.floor(fullProfile.totalScore * 100)}
             </Text>
+            <Flex sx={{ flexDirection: 'row' }}>
+              <ScoreChange change={scoreDifference.toFixed(2)} />
+              <Text
+                sx={{
+                  fontSize: '10px',
+                  fontWeight: '300',
+                  ml: '5px',
+                }}
+              >
+                (7d)
+              </Text>
+            </Flex>
           </Flex>
         </Flex>
         <Flex sx={{ mt: ['10px', '10px', '10px', '0px'] }}>
-          <Button variant="tertiary" sx={styles.shareCard} onClick={onCreateCard}>
-            <Text sx={styles.shareText}>{t('Share')}</Text>
-            <Svg icon="share" width={17} color="text" />
+          <Button variant="primary" sx={styles.shareCard} onClick={onCreateCard}>
+            <Text sx={styles.shareText} color="primaryBright">
+              {t('Share')}
+            </Text>
+            <Svg icon="share" width={17} color="primaryBright" />
           </Button>
         </Flex>
       </Flex>
