@@ -57,9 +57,10 @@ const FullProfile = ({ chainID, address }: { chainID: string; address: string })
         })
         .sort((a, b) => parseInt(b.createdAt, 10) - parseInt(a.createdAt, 10))
 
-      const mostRecent = filteredAndSorted[0]
-
-      if (mostRecent === null) return
+      const mostRecent =
+        filteredAndSorted.length !== 0
+          ? filteredAndSorted[0]
+          : tokenHistoric.sort((a, b) => parseInt(b.createdAt, 10) - parseInt(a.createdAt, 10))[0]
 
       let currentScore = fullProfile?.totalScore || 0 // Use optional chaining and default to 0 if undefined
       let previousScore = mostRecent.totalScore
