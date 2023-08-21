@@ -20,10 +20,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ape.swap/apeswap-lists@1.4.9":
-  version "1.4.9"
-  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.4.9.tgz#c6484ddcf81e1ddc10a0a92a3de00cf7dcc4a7f6"
-  integrity sha512-Rbfpp/fGCBGNBU03nUSsbVrtjULrtkmS1jWyqO9g1vA4VIWA1uGvyPupbJM14z4kEHAMzw/E+Hu/X3uW2PdiHg==
+"@ape.swap/apeswap-lists@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@ape.swap/apeswap-lists/-/apeswap-lists-1.5.1.tgz#952d115d909da0a6eae6523f67557af8d31c1b81"
+  integrity sha512-qSBZ5n/kgeqPpD0I4x9p/7Xjua5VLBWOlNRFshQiVvWYffH3n9FDFm/MJ8x1ukObCLRxBSqFYjiu+1zaYyqKPA==
   dependencies:
     "@ape.swap/sdk" "4.4.0"
     bignumber.js "^9.0.2"
@@ -92,10 +92,10 @@
     node-cache "^5.1.2"
     stats-lite "^2.2.0"
 
-"@ape.swap/token-lists@1.0.59":
-  version "1.0.59"
-  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.59.tgz#3d106d8d3eb52df7e11b732a24e4aaab3484924f"
-  integrity sha512-T4Qn1IjpRMOW/LaoB/M1CkkmnC9fZqnAKdKilS2CNz54VkmcMVg3fVF75tKvTw5se8vpEpYK9tOtocaWhLNc/A==
+"@ape.swap/token-lists@1.0.63":
+  version "1.0.63"
+  resolved "https://registry.yarnpkg.com/@ape.swap/token-lists/-/token-lists-1.0.63.tgz#ee10928f25128facbb27de7bfe7d72693de81dfb"
+  integrity sha512-9vEMAm2zszNjDvf3l3c6Z+ZByoBaIA+kmPp2LA4KgZiJ6CHELFepetUGDe+eDuZ01PSXhQZZAvd93baAZzYz5A==
 
 "@ape.swap/token-lists@^1.0.6":
   version "1.0.53"
@@ -2047,9 +2047,9 @@
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
 "@lifi/sdk@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.2.tgz#6d6b92e21dec7b5083d88c4f2a6c8b06473eef1c"
-  integrity sha512-HEkhwQkB9DRnTtn/4aMlUAvjky8KLFX156j6m2DOGv0auOhklP/BoPDjBs73KSoxWfUZzoeOqVdk0tLjENFYhA==
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-2.2.3.tgz#8088303d1f41ee522b1aa2a5cacbacc47f629e1a"
+  integrity sha512-k5KFK5SRRqA1hGrQkkWPPhM0AYciAFyu6GLCJdDFUK6HM+No4qDQWT359K9mGU6FrXVhPMds58Imex/lj/XReQ==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/contracts" "^5.7.0"
@@ -8386,7 +8386,7 @@ mnemonist@^0.38.3:
   dependencies:
     obliterator "^2.0.0"
 
-moment@^2.19.3, moment@^2.29.4:
+moment@^2.19.3:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
