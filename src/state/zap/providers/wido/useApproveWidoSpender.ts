@@ -7,7 +7,6 @@ import useGetWidoApprove from './useGetWidoApprove'
 import useSignTransaction from '../../../bills/hooks/useSignTransaction'
 
 // Utils
-import getCurrencyInfo from 'utils/getCurrencyInfo'
 import convertToTokenValue from 'utils/convertToTokenValue'
 
 // Constants

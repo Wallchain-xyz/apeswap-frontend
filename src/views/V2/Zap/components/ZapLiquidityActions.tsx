@@ -11,10 +11,10 @@ import { useUserSlippageToleranceWithDefault, useUserZapSlippageTolerance } from
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
-import { Currency } from '@ape.swap/sdk-core'
 
 // Hooks
 import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
+import { ZapVersion } from '@ape.swap/apeswap-lists'
 
 interface ZapLiquidityActionsProps {
   handleZap: () => void
@@ -30,6 +30,7 @@ interface ZapLiquidityActionsProps {
   inputTokenAddress?: string
   inputTokenDecimals?: number
   toTokenAddress?: string
+  zapVersion?: ZapVersion
 }
 
 const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
@@ -46,6 +47,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   inputTokenAddress = '',
   inputTokenDecimals = 18,
   toTokenAddress = '',
+  zapVersion = ZapVersion.ZapV1,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -58,6 +60,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     inputTokenAddress,
     inputTokenDecimals,
     toTokenAddress,
+    zapVersion,
   })
 
   const [onPresentAddLiquidityModal] = useModal(

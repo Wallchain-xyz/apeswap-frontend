@@ -63,7 +63,7 @@ export default function useGetWidoQuote({
 
   const amount = convertToTokenValue(amountInput || '0', inputTokenDecimals).toString()
   const slippagePercentage = userZapSlippage / 100 || 0.05
-  const isEnabled = Number(amount) > 0 && !!inputTokenAddress && !!toTokenAddress && zapVersion === ZapVersion.External
+  const isEnabled = Number(amount) > 0 && !!inputTokenAddress && !!toTokenAddress && zapVersion === ZapVersion.Wido
 
   return useQuery({
     queryKey: [

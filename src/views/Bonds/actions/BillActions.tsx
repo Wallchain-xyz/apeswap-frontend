@@ -21,7 +21,6 @@ import { ZapVersion } from '@ape.swap/apeswap-lists'
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
   zap,
-  currencyA,
   currencyB,
   handleBuy,
   billValue,
@@ -44,7 +43,6 @@ const BillActions: React.FC<BillActionsProps> = ({
   const { chainId, account } = useWeb3React()
 
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
-  const bondContractAddress = contractAddress[chainId as SupportedChainId] || ''
 
   const toastError = useToastError()
   const dispatch = useAppDispatch()
@@ -57,6 +55,7 @@ const BillActions: React.FC<BillActionsProps> = ({
     inputTokenAddress,
     inputTokenDecimals,
     toTokenAddress,
+    zapVersion,
   })
 
   const { onApprove } = useApproveBill(
@@ -89,7 +88,7 @@ const BillActions: React.FC<BillActionsProps> = ({
 
   const getBillActionButton = () => {
     switch (true) {
-      case isWidoSupported && requiresApprovalWido && zapVersion === ZapVersion.External:
+      case isWidoSupported && requiresApprovalWido && zapVersion === ZapVersion.Wido:
         return (
           <Button
             onClick={() => approveWidoSpender()}

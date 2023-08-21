@@ -211,7 +211,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const handleBuy = useCallback(async () => {
     if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
-    if (zapVersion === ZapVersion.External && isWidoSupported) {
+    if (zapVersion === ZapVersion.Wido && isWidoSupported) {
       console.log('Signing Wido buy Tx')
       signTransaction({ to, data, value })
         .then((hash: any) => {
@@ -445,7 +445,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               bill={bill}
               zap={zap}
               zapRouteState={zapRouteState}
-              currencyA={currencyA as Currency}
               currencyB={currencyB as Currency}
               handleBuy={handleBuy}
               billValue={billValue}
