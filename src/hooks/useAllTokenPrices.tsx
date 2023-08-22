@@ -1,6 +1,6 @@
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import { getBalanceNumber } from 'utils/getBalanceNumber'
-import { tokens, } from '@ape.swap/apeswap-lists'
+import { tokens } from '@ape.swap/apeswap-lists'
 import { useWeb3React } from '@web3-react/core'
 import { useLpTokenPricesFromPriceGetter, useTokenPricesFromPriceGetter } from './PriceGetter/usePricesFromPriceGetter'
 export interface TokenPrices {

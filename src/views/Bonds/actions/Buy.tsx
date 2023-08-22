@@ -72,17 +72,17 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const [currencyB, setCurrencyB] = useState(billsCurrencies.currencyB)
   const inputCurrencies = [currencyA, currencyB]
 
-  const liquidityDex = lpToken.liquidityDex?.[chainId as SupportedChainId] || LiquidityDex.ApeSwapV2;
-  const dexData = dexFactories[chainId as SupportedChainId]?.[liquidityDex];
-  const principalToken = useCurrency(lpToken.address[chainId as SupportedChainId]);
+  const liquidityDex = lpToken.liquidityDex?.[chainId as SupportedChainId] || LiquidityDex.ApeSwapV2
+  const dexData = dexFactories[chainId as SupportedChainId]?.[liquidityDex]
+  const principalToken = useCurrency(lpToken.address[chainId as SupportedChainId])
 
   const selectedCurrencyBalance = useCurrencyBalance(
     account ?? undefined,
-    inputCurrencies[1] ? (principalToken ?? currencyA ?? undefined) : (currencyA ?? undefined),
+    inputCurrencies[1] ? principalToken ?? currencyA ?? undefined : currencyA ?? undefined,
   )
 
   //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
-  const zapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId];
+  const zapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId]
   const { zap, zapRouteState } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
 
@@ -134,7 +134,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const sendToExternalLpUrl = () => {
     if (lpToken.getLpUrl?.[chainId as SupportedChainId]) {
-      window.open(lpToken.getLpUrl?.[chainId as SupportedChainId]!, '_blank');
+      window.open(lpToken.getLpUrl?.[chainId as SupportedChainId]!, '_blank')
     } else {
       throw new Error('External lp url not found. Please contact support')
     }
@@ -159,7 +159,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
       const findBillNftLog = logs.find((log: any) => log.address.toLowerCase() === billNftAddress.toLowerCase())
       const getBillNftIndex = findBillNftLog.topics[findBillNftLog.topics.length - 1]
       const convertHexId = parseInt(getBillNftIndex, 16)
-      onBillId(convertHexId.toString(), transactionHash)
+      onBillId && onBillId(convertHexId.toString(), transactionHash)
     },
     [onBillId],
   )
@@ -167,7 +167,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const handleBuy = useCallback(async () => {
     if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
-    onTransactionSubmited(true)
+    onTransactionSubmited && onTransactionSubmited(true)
     if (currencyB) {
       await onBuyBill()
         .then((resp: any) => {
@@ -179,7 +179,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           console.error(e)
           toastError(e)
           setPendingTrx(false)
-          onTransactionSubmited(false)
+          onTransactionSubmited && onTransactionSubmited(false)
         })
     } else {
       await zapCallback()
@@ -193,14 +193,14 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               const findBillNftLog = logs.find((log) => log.address.toLowerCase() === billNftAddress?.toLowerCase())
               const getBillNftIndex = findBillNftLog?.topics[findBillNftLog.topics.length - 1]
               const convertHexId = parseInt(getBillNftIndex ?? '', 16)
-              onBillId(convertHexId.toString(), hash)
+              onBillId && onBillId(convertHexId.toString(), hash)
               dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
               dispatch(fetchBillsUserDataAsync(chainId, account))
             })
             .catch((e) => {
               console.error(e)
               setPendingTrx(false)
-              onTransactionSubmited(false)
+              onTransactionSubmited && onTransactionSubmited(false)
             })
           track({
             event: 'zap',
@@ -229,7 +229,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           console.error(e)
           toastError(e)
           setPendingTrx(false)
-          onTransactionSubmited(false)
+          onTransactionSubmited && onTransactionSubmited(false)
         })
     }
   }, [
@@ -316,16 +316,27 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             <Box sx={styles.getLpContainer}>
               <Button
                 variant="secondary"
-                onClick={() => zapVersion == ZapVersion.External ? sendToExternalLpUrl() : onAddLiquidityModal(token, quoteToken, '', '', false)}
+                onClick={() =>
+                  zapVersion == ZapVersion.External
+                    ? sendToExternalLpUrl()
+                    : onAddLiquidityModal(token, quoteToken, '', '', false)
+                }
                 sx={{ width: '100%' }}
               >
                 {t('Get LP')}
                 <Flex sx={{ ml: '10px' }}>
-                  {zapVersion !== ZapVersion.External
-                    ?
+                  {zapVersion !== ZapVersion.External ? (
                     <Svg icon="ZapIcon" color="yellow" />
-                    :
-                    <img src={dexDisplayAttributes[lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2].icon ?? ''} width={20}></img>}
+                  ) : (
+                    <img
+                      src={
+                        dexDisplayAttributes[
+                          lpToken.liquidityDex?.[chainId as SupportedChainId] ?? LiquidityDex.ApeSwapV2
+                        ].icon ?? ''
+                      }
+                      width={20}
+                    ></img>
+                  )}
                 </Flex>
               </Button>
             </Box>

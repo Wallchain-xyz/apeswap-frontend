@@ -21,8 +21,8 @@ export interface TransferProps {
 
 export interface BuyProps {
   bill: Bills
-  onBillId: (billId: string, transactionHash: string) => void
-  onTransactionSubmited: (trxSent: boolean) => void
+  onBillId?: (billId: string, transactionHash: string) => void
+  onTransactionSubmited?: (trxSent: boolean) => void
 }
 
 export interface BillActionsProps {
