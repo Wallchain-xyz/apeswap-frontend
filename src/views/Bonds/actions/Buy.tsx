@@ -436,7 +436,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               <Button
                 variant="secondary"
                 onClick={() =>
-                  zapVersion == ZapVersion.External
+                  lpTokenZapVersion !== ZapVersion.ZapV1
                     ? sendToExternalLpUrl()
                     : onAddLiquidityModal(token, quoteToken, '', '', false)
                 }
@@ -444,7 +444,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               >
                 {t('Get LP')}
                 <Flex sx={{ ml: '10px' }}>
-                  {zapVersion !== ZapVersion.External ? (
+                  {lpTokenZapVersion === ZapVersion.ZapV1 ? (
                     <Svg icon="ZapIcon" color="yellow" />
                   ) : (
                     <img
