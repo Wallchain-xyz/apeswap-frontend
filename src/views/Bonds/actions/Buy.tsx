@@ -130,8 +130,17 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     toTokenAddress: bondContractAddress,
     zapVersion,
   })
+
+  const { data: widoNativeChainTokenQuote } = useGetWidoQuote({
+    inputTokenAddress: WIDO_NATIVE_TOKEN_ID,
+    inputTokenDecimals: decimals,
+    toTokenAddress: bondContractAddress,
+    zapVersion: lpTokenZapVersion,
+  })
+
   const { signTransaction } = useSignTransaction()
 
+  const { isSupported: isWidoNativeChainTokenSupported = false } = widoNativeChainTokenQuote ?? {}
   const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}
 
   const maxPrice = new BigNumber(price ?? 0).times(102).div(100).toFixed(0)
@@ -376,6 +385,13 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     [billsCurrencies.currencyA, billsCurrencies.currencyB, onCurrencySelection, onHandleValueChange],
   )
 
+  const getIsZapCurrDropdownEnabled = (): boolean => {
+    if (lpTokenZapVersion === ZapVersion.Wido) {
+      return isWidoNativeChainTokenSupported
+    }
+    return billType !== 'reserve' && lpTokenZapVersion !== ZapVersion.External
+  }
+
   return (
     <Flex sx={styles.buyContainer}>
       <Flex sx={{ flexWrap: 'wrap' }}>
@@ -389,7 +405,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
           // @ts-ignore
           lpList={[billsCurrencies]}
           principalToken={principalToken}
-          enableZap={billType !== 'reserve' && zapVersion !== ZapVersion.External}
+          enableZap={getIsZapCurrDropdownEnabled()}
           lpUsdVal={lpPrice}
           dexData={dexData}
         />
