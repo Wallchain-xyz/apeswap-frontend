@@ -13,6 +13,7 @@ import { getBNWithDecimals } from '../../../utils/getBalanceNumber'
 import { useToastError } from '../../../state/application/hooks'
 import { fetchBillsUserDataAsync } from '../../../state/bills'
 import { useAppDispatch } from '../../../state/hooks'
+import ConnectWalletButton from '../../../components/ConnectWallet'
 
 const BillActions: React.FC<BillActionsProps> = ({
   bill,
@@ -65,7 +66,9 @@ const BillActions: React.FC<BillActionsProps> = ({
 
   return (
     <>
-      {!currencyB && showApproveZapFlow ? (
+      {!account ? (
+        <ConnectWalletButton />
+      ) : !currencyB && showApproveZapFlow ? (
         <Button
           onClick={approveCallback}
           disabled={approval !== ApprovalState.NOT_APPROVED}

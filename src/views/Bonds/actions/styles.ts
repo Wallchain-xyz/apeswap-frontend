@@ -28,9 +28,6 @@ export const styles = {
   buyContainer: {
     width: '100%',
     flexDirection: 'column',
-    '@media screen and (min-width: 1180px)': {
-      marginRight: '40px',
-    },
   },
   detailsContainer: {
     width: '100%',

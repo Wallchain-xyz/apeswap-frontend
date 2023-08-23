@@ -71,7 +71,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const [currencyA, setCurrencyA] = useState(billsCurrencies.currencyA)
   const [currencyB, setCurrencyB] = useState(billsCurrencies.currencyB)
   const inputCurrencies = [currencyA, currencyB]
-
   const liquidityDex = lpToken.liquidityDex?.[chainId as SupportedChainId] || LiquidityDex.ApeSwapV2
   const dexData = dexFactories[chainId as SupportedChainId]?.[liquidityDex]
   const principalToken = useCurrency(lpToken.address[chainId as SupportedChainId])

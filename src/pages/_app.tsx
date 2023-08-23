@@ -28,6 +28,7 @@ import BigNumber from 'bignumber.js'
 
 // Components
 import NavBarNew from 'components/NavBarNew'
+import { useRouter } from 'next/router'
 
 // This config is required for number formatting
 BigNumber.config({
@@ -51,6 +52,10 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
   }
 
   const [queryClient] = useState(() => new QueryClient())
+
+  // Logic used to hide navbar and footer on bond-widget
+  const router = useRouter()
+  const show = router.pathname !== '/bond-widget'
 
   const Updaters = () => {
     return (
@@ -81,12 +86,12 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
                       <LanguageProvider>
                         <ModalProvider>
                           <Blocklist>
-                            <NavBarNew />
+                            {show && <NavBarNew />}
                             <MarketingModalCheck />
                             <Popups />
                             <Component {...pageProps} />
                             <Analytics />
-                            <Footer />
+                            {show && <Footer />}
                           </Blocklist>
                         </ModalProvider>
                       </LanguageProvider>
