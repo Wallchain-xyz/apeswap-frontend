@@ -3,6 +3,7 @@ import { EN, languages } from 'config/localization/languages'
 import translations from 'config/localization/translations.json'
 import { ContextApi, Language, ProviderState, TranslateFunction } from './types'
 import { LS_KEY, fetchLocale, getLanguageCodeFromLS } from './helpers'
+import { setLocalStorage } from '../../utils/useLocalStorage'
 
 const initialState: ProviderState = {
   isFetching: true,
@@ -58,7 +59,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
         languageMap.set(language.locale, { ...enLocale, ...locale })
       }
 
-      localStorage.setItem(LS_KEY, language.locale)
+      setLocalStorage(LS_KEY, language.locale)
 
       setState((prevState) => ({
         ...prevState,
@@ -66,7 +67,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
         currentLanguage: language,
       }))
     } else {
-      localStorage.setItem(LS_KEY, language.locale)
+      setLocalStorage(LS_KEY, language.locale)
       setState((prevState) => ({
         ...prevState,
         isFetching: false,

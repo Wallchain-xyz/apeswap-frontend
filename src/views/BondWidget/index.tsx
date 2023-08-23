@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 import state from '../../state'
 import { APESWAP } from '../../config/constants/lists'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import AccountLoggedIn from '../../components/NavBarNew/components/Account/AccountLoggedIn'
 
 const BondWidget = ({
   capturedBillAddress,
@@ -31,7 +32,9 @@ const BondWidget = ({
       }}
     >
       <Flex sx={{ maxWidth: '500px', flexDirection: 'column' }}>
-        {account}
+        <Flex sx={{ width: '100%', justifyContent: 'flex-end', mb: '10px', height: '34px' }}>
+          {account && <AccountLoggedIn />}
+        </Flex>
         {bill && isApeListInitialized && <Buy bill={bill} />}
       </Flex>
     </Flex>

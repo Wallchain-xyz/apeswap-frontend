@@ -1,4 +1,5 @@
 import { EN } from 'config/localization/languages'
+import { getLocalStorage } from '../../utils/useLocalStorage'
 
 const publicUrl = process.env.PUBLIC_URL || ''
 
@@ -12,7 +13,7 @@ export const fetchLocale = async (locale: string) => {
 
 export const getLanguageCodeFromLS = () => {
   try {
-    const codeFromStorage = localStorage.getItem(LS_KEY)
+    const codeFromStorage = getLocalStorage(LS_KEY)
 
     return codeFromStorage || EN.locale
   } catch {

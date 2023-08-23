@@ -1,4 +1,6 @@
+import { getLocalStorage } from '../utils/useLocalStorage'
+
 export const useHideCircular = (): boolean => {
-  const hideCircular = localStorage.getItem('hideCircular')
+  const hideCircular = getLocalStorage('hideCircular')
   return hideCircular ? JSON.parse(hideCircular) : false
 }

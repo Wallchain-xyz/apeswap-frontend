@@ -33,7 +33,7 @@ export const usePollSingleBill = (chain?: SupportedChainId, capturedBillAddress?
     if (chain && capturedBillAddress) {
       dispatch(fetchSingleBillPublicData(chain, tokenPrices, capturedBillAddress))
     }
-  }, [capturedBillAddress, chain, dispatch, tokenPrices.length])
+  }, [capturedBillAddress, chain, dispatch, tokenPrices])
 }
 
 export const usePollUserBills = (): Bills[] => {

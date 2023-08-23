@@ -5,6 +5,7 @@ import { MP } from './types'
 import { circular } from './styles'
 import { Button, Flex, Text } from '../uikit'
 import Checkbox from '../uikit/Checkbox'
+import { getLocalStorage, setLocalStorage } from '../../utils/useLocalStorage'
 
 const CircularContent: React.FC<MP> = ({ actionType, description, supporting, children }) => {
   const { t } = useTranslation()
@@ -18,11 +19,11 @@ const CircularContent: React.FC<MP> = ({ actionType, description, supporting, ch
 
   const handleHideCircular = (value: boolean): void => {
     setHideCircular(value)
-    localStorage.setItem('hideCircular', JSON.stringify(value))
+    setLocalStorage('hideCircular', JSON.stringify(value))
   }
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('hideCircular')
+    const storedValue = getLocalStorage('hideCircular')
     if (storedValue) {
       setHideCircular(JSON.parse(storedValue))
     }

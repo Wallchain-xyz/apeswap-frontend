@@ -6,6 +6,7 @@ import GnanaModal from 'components/GnanaModal'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import CircularModal from '../CircularModal'
+import { getLocalStorage, setLocalStorage } from '../../utils/useLocalStorage'
 
 const MarketingModalCheck = () => {
   const { pathname, replace, query } = useRouter()
@@ -15,10 +16,10 @@ const MarketingModalCheck = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(SHOW_DEFAULT_MODAL_KEY) // remove old key
       localStorage.removeItem(SET_DEFAULT_MODAL_KEY) // remove old key
-      const sdmk = localStorage.getItem(SET_DEF_MOD_KEY)
+      const sdmk = getLocalStorage(SET_DEF_MOD_KEY)
       const isDefaultModalSet = JSON.parse(sdmk as string)
       if (!isDefaultModalSet) {
-        localStorage.setItem(SHOW_DEF_MOD_KEY, JSON.stringify('SHOW'))
+        setLocalStorage(SHOW_DEF_MOD_KEY, JSON.stringify('SHOW'))
       }
     }
   }, [])

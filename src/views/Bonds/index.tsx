@@ -13,6 +13,7 @@ import BillsNav from './components/BillsNav'
 import UserBillsView from './components/UserBillsView'
 import { ChainId } from 'config/constants/chains'
 import { useRouter } from 'next/router'
+import { getLocalStorage } from '../../utils/useLocalStorage'
 
 export enum BillsView {
   AVAILABLE_BILLS = 'Available Bonds',
@@ -26,7 +27,7 @@ const Bills: React.FC = () => {
   const [billsView, setBillsView] = useState<string>(
     router?.query?.yourBonds !== undefined ? BillsView.YOUR_BILLS : BillsView.AVAILABLE_BILLS,
   )
-  const value = typeof window !== 'undefined' ? localStorage.getItem('hideTips') : null
+  const value = typeof window !== 'undefined' ? getLocalStorage('hideTips') : null
   const hideTips: boolean = value === null ? false : JSON.parse(value)
 
   const handleBillsViewChange = useCallback((newBillsView: string) => {

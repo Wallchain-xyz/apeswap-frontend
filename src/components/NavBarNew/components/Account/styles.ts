@@ -24,6 +24,7 @@ export const styles: Record<
     position: 'relative',
   },
   mainAccountDetailsContainer: {
+    zIndex: 2,
     flexDirection: 'column',
     position: 'absolute',
     top: '35px',

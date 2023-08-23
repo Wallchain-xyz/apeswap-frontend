@@ -1,5 +1,7 @@
+import { setLocalStorage } from '../../../../utils/useLocalStorage'
+
 export const useHideTips = () => {
   return (value: boolean) => {
-    localStorage.setItem('hideTips', JSON.stringify(value))
+    setLocalStorage('hideTips', JSON.stringify(value))
   }
 }
