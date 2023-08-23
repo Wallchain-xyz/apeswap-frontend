@@ -29,7 +29,7 @@ import BigNumber from 'bignumber.js'
 // Components
 import NavBarNew from 'components/NavBarNew'
 import { useRouter } from 'next/router'
-import { setLocalStorage } from '../utils/useLocalStorage'
+import { getLocalStorage, setLocalStorage } from '../utils/useLocalStorage'
 
 // This config is required for number formatting
 BigNumber.config({
@@ -44,7 +44,7 @@ interface MyAppProps extends AppProps {
 export default function App({ Component, pageProps, initialColorMode }: MyAppProps) {
   //initialize user's theme preference to keep consistence between SSR and client-side
   if (typeof window !== 'undefined') {
-    if (!window?.localStorage?.getItem('theme-ui-color-mode')) {
+    if (!getLocalStorage('theme-ui-color-mode')) {
       setLocalStorage('theme-ui-color-mode', initialColorMode)
     }
   }

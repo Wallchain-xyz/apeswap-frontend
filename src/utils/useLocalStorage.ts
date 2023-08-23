@@ -28,3 +28,17 @@ export const setLocalStorage = (key: string, value: any) => {
     console.log('Running inside an iframe')
   }
 }
+
+export const removeLocalStorage = (key: string) => {
+  if (window.self === window.top) {
+    // Not in an iframe, safe to access localStorage
+    try {
+      localStorage.removeItem(key)
+    } catch (error) {
+      console.error('Failed to remove value from localStorage:', error)
+    }
+  } else {
+    // Inside an iframe, don't access localStorage
+    console.log('Running inside an iframe')
+  }
+}

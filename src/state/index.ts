@@ -52,7 +52,10 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: true }).concat(routingApi.middleware).concat(middleware),
-  preloadedState: typeof window !== 'undefined' ? load({ states: PERSISTED_KEYS, disableWarnings: true }) : undefined,
+  preloadedState:
+    typeof window !== 'undefined' && window.self === window.top
+      ? load({ states: PERSISTED_KEYS, disableWarnings: true })
+      : undefined,
 })
 
 store.dispatch(updateVersion())

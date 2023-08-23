@@ -6,7 +6,7 @@ import GnanaModal from 'components/GnanaModal'
 import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 import CircularModal from '../CircularModal'
-import { getLocalStorage, setLocalStorage } from '../../utils/useLocalStorage'
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from '../../utils/useLocalStorage'
 
 const MarketingModalCheck = () => {
   const { pathname, replace, query } = useRouter()
@@ -14,8 +14,8 @@ const MarketingModalCheck = () => {
   const modalQuery = query.modal
   useMemo(() => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem(SHOW_DEFAULT_MODAL_KEY) // remove old key
-      localStorage.removeItem(SET_DEFAULT_MODAL_KEY) // remove old key
+      removeLocalStorage(SHOW_DEFAULT_MODAL_KEY) // remove old key
+      removeLocalStorage(SET_DEFAULT_MODAL_KEY) // remove old key
       const sdmk = getLocalStorage(SET_DEF_MOD_KEY)
       const isDefaultModalSet = JSON.parse(sdmk as string)
       if (!isDefaultModalSet) {
