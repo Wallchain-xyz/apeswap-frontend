@@ -88,8 +88,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     inputCurrencies[1] ? principalToken ?? currencyA ?? undefined : currencyA ?? undefined,
   )
 
-  //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
-  const zapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId] as ZapVersion
   const { zap, zapRouteState } = useDerivedZapInfo()
   const [zapSlippage, setZapSlippage] = useUserZapSlippageTolerance()
 
@@ -118,10 +116,16 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const inputCurrency = getInputCurrency()
 
-  const { address = '', decimals = 18 } = inputCurrency ?? {}
+  const { address: inputTokenAddress = '', decimals = 18 } = inputCurrency ?? {}
+
+  //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
+  const lpTokenZapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId] as ZapVersion
+  // @ts-ignore
+  const isInputCurrencyPrincipal = inputTokenAddress === principalToken?.address
+  const zapVersion = isInputCurrencyPrincipal ? ZapVersion.ZapV1 : lpTokenZapVersion
 
   const { data: widoQuote } = useGetWidoQuote({
-    inputTokenAddress: address,
+    inputTokenAddress: inputTokenAddress,
     inputTokenDecimals: decimals,
     toTokenAddress: bondContractAddress,
     zapVersion,
@@ -265,7 +269,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
       return
     }
     onTransactionSubmited(true)
-    if (zapVersion === ZapVersion.ZapV1) {
+    if (zapVersion === ZapVersion.ZapV1 || isInputCurrencyPrincipal) {
       if (currencyB) {
         await onBuyBill()
           .then((resp: any) => {
@@ -458,7 +462,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               isWidoSupported={isWidoSupported}
               widoQuote={widoQuote}
               zapVersion={zapVersion}
-              inputTokenAddress={address}
+              inputTokenAddress={inputTokenAddress}
               inputTokenDecimals={decimals}
               toTokenAddress={bondContractAddress}
             />
