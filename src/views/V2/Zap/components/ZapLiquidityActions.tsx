@@ -32,6 +32,8 @@ interface ZapLiquidityActionsProps {
   inputTokenDecimals?: number
   toTokenAddress?: string
   zapVersion?: ZapVersion
+  inputTokenChainId?: SupportedChainId
+  outputTokenChainId?: SupportedChainId
 }
 
 const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
@@ -49,9 +51,11 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   inputTokenDecimals = 18,
   toTokenAddress = '',
   zapVersion = ZapVersion.ZapV1,
+  inputTokenChainId = SupportedChainId.BSC,
+  outputTokenChainId = SupportedChainId.BSC,
 }) => {
   const { t } = useTranslation()
-  const { account, chainId = SupportedChainId.BSC } = useWeb3React()
+  const { account } = useWeb3React()
 
   const {
     requiresApproval: requiresApprovalWido,
@@ -62,8 +66,8 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     inputTokenDecimals,
     toTokenAddress,
     zapVersion,
-    toChainId: chainId,
-    fromChainId: chainId,
+    toChainId: inputTokenChainId,
+    fromChainId: outputTokenChainId,
   })
 
   const [onPresentAddLiquidityModal] = useModal(
@@ -89,48 +93,6 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, allowedSlippage)
   const showApproveFlow =
     !zapInputError && (approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING)
-
-  const renderActionOld = () => {
-    if (!account) {
-      return <ConnectWalletButton />
-    }
-    if (zapInputError) {
-      return (
-        <Button fullWidth disabled>
-          {zapInputError}
-        </Button>
-      )
-    }
-    if (showApproveFlow) {
-      // TODO: Add Wido approval flow here
-      return (
-        <Flex sx={{ width: '100%' }}>
-          <>
-            <Button
-              onClick={approveCallback}
-              disabled={approval !== ApprovalState.NOT_APPROVED}
-              load={approval === ApprovalState.PENDING}
-              fullWidth
-              sx={{ padding: '10px 2px' }}
-            >
-              {approval === ApprovalState.PENDING
-                ? `${t('Enabling')} ${zap?.currencyIn?.currency?.symbol}`
-                : `${t('Enable')} ${zap?.currencyIn?.currency?.symbol}`}
-            </Button>
-          </>
-        </Flex>
-      )
-    }
-    return (
-      <Button
-        fullWidth
-        onClick={() => handleConfirmZap()}
-        disabled={zapRouteState === TradeState.LOADING || isWidoQuoteLoading}
-      >
-        {t('Zap Liquidity')}
-      </Button>
-    )
-  }
 
   const renderAction = () => {
     switch (true) {

@@ -1,4 +1,4 @@
-import { Currency } from '@ape.swap/sdk-core'
+import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
 import { Bills } from '../types'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
@@ -45,6 +45,7 @@ export interface BillActionsProps {
   inputTokenAddress: string
   inputTokenDecimals: number
   toTokenAddress: string
+  inputTokenChainId: SupportedChainId
 }
 
 export interface DualCurrencySelector {

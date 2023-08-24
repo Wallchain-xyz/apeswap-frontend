@@ -485,6 +485,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
               inputTokenAddress={inputTokenAddress}
               inputTokenDecimals={decimals}
               toTokenAddress={bondContractAddress}
+              inputTokenChainId={inputTokenChainId}
             />
           </Box>
           {showUpdateSlippage && !pendingTrx && (

@@ -36,6 +36,7 @@ const BillActions: React.FC<BillActionsProps> = ({
   inputTokenAddress,
   inputTokenDecimals,
   toTokenAddress,
+  inputTokenChainId,
 }) => {
   const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
@@ -56,7 +57,7 @@ const BillActions: React.FC<BillActionsProps> = ({
     inputTokenDecimals,
     toTokenAddress,
     zapVersion,
-    fromChainId: chainId,
+    fromChainId: inputTokenChainId,
     toChainId: chainId,
   })
 

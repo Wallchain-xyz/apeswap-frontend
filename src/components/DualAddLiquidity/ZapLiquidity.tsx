@@ -258,6 +258,8 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
             widoQuote={widoQuote}
             inputTokenAddress={inputTokenAddress}
             inputTokenDecimals={inputTokenDecimals}
+            inputTokenChainId={inputCurrencyChainId}
+            outputTokenChainId={outputCurrencyChainId}
             toTokenAddress={outputCurrencyId}
           />
         </ModalProvider>
