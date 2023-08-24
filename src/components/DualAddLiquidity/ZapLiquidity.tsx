@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useCurrency } from 'hooks/Tokens'
-import { Currency, CurrencyAmount } from '@ape.swap/sdk-core'
+import { Currency, CurrencyAmount, SupportedChainId } from '@ape.swap/sdk-core'
 import { Field } from 'state/zap/actions'
 import { useDerivedZapInfo, useSetZapInputList, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { styles } from './styles'
@@ -62,7 +62,7 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const { route } = useRouter()
   const { t } = useTranslation()
-  const { chainId } = useWeb3React()
+  const { chainId = SupportedChainId.BSC } = useWeb3React()
   const { signTransaction } = useSignTransaction()
 
   const { INPUT, typedValue, recipient, zapType, OUTPUT } = useZapState()
@@ -76,12 +76,17 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
 
   const [, outputPair] = useV2Pair(outputCurrencyA as Currency, outputCurrencyB as Currency)
 
-  const { address: outputCurrencyId } = getCurrencyInfo({
+  const { address: outputCurrencyId, chainId: outputCurrencyChainId } = getCurrencyInfo({
     currencyA: outputCurrencyA as WrappedTokenInfo,
     currencyB: outputCurrencyB as WrappedTokenInfo,
     pair: outputPair,
   })
-  const { address: inputTokenAddress, decimals: inputTokenDecimals } = getCurrencyInfo({
+
+  const {
+    address: inputTokenAddress,
+    decimals: inputTokenDecimals,
+    chainId: inputCurrencyChainId,
+  } = getCurrencyInfo({
     currencyA: inputCurrency as WrappedTokenInfo,
   })
 
@@ -90,6 +95,8 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
     inputTokenDecimals: inputTokenDecimals,
     toTokenAddress: outputCurrencyId,
     zapVersion: ZapVersion.ZapV1,
+    fromChainId: inputCurrencyChainId,
+    toChainId: outputCurrencyChainId,
   })
 
   const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}

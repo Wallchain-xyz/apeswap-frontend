@@ -20,19 +20,21 @@ export const getWidoQuote = async ({
   toTokenAddress,
   slippagePercentage,
   account,
-  chainId,
+  fromChainId,
+  toChainId,
 }: {
-  inputTokenAddress: any
+  inputTokenAddress: string
   amount: string
   toTokenAddress: string
   slippagePercentage: number
   account: string
-  chainId: SupportedChainId
+  fromChainId: SupportedChainId
+  toChainId: SupportedChainId
 }): Promise<QuoteResult | null> => {
   try {
     const quoteResult = await quote({
-      fromChainId: chainId,
-      toChainId: chainId,
+      fromChainId,
+      toChainId,
       fromToken: inputTokenAddress,
       toToken: toTokenAddress,
       user: account,
@@ -51,13 +53,17 @@ export default function useGetWidoQuote({
   inputTokenDecimals,
   toTokenAddress,
   zapVersion,
+  fromChainId,
+  toChainId,
 }: {
   inputTokenAddress: string
   inputTokenDecimals: number
   toTokenAddress: string
   zapVersion: ZapVersion
+  fromChainId: SupportedChainId
+  toChainId: SupportedChainId
 }) {
-  const { chainId = 137, account = '0x123' } = useWeb3React()
+  const { chainId = 0, account = '' } = useWeb3React()
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
   const { userZapSlippage } = useSelector<AppState, AppState['user']>((state) => state.user)
 
@@ -76,7 +82,8 @@ export default function useGetWidoQuote({
       { chainId },
       { zapVersion },
     ],
-    queryFn: () => getWidoQuote({ inputTokenAddress, amount, toTokenAddress, slippagePercentage, account, chainId }),
-    enabled: isEnabled,
+    queryFn: () =>
+      getWidoQuote({ inputTokenAddress, amount, toTokenAddress, slippagePercentage, account, fromChainId, toChainId }),
+    enabled: isEnabled && !!chainId && !!account,
   })
 }

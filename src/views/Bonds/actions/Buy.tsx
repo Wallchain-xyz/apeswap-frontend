@@ -56,7 +56,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     maxPayoutTokens,
   } = bill
   const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
-  const { chainId, account, provider } = useWeb3React()
+  const { chainId = SupportedChainId.BSC, account, provider } = useWeb3React()
   const { recipient, typedValue } = useZapState()
   const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
   const { onBuyBill } = useBuyBill(
@@ -116,7 +116,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
 
   const inputCurrency = getInputCurrency()
 
-  const { address: inputTokenAddress = '', decimals = 18 } = inputCurrency ?? {}
+  const { address: inputTokenAddress = '', decimals = 18, chainId: inputTokenChainId } = inputCurrency ?? {}
 
   //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
   const lpTokenZapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId] as ZapVersion
@@ -129,6 +129,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     inputTokenDecimals: decimals,
     toTokenAddress: bondContractAddress,
     zapVersion,
+    fromChainId: inputTokenChainId,
+    toChainId: chainId,
   })
 
   const { data: widoNativeChainTokenQuote } = useGetWidoQuote({
@@ -136,6 +138,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     inputTokenDecimals: decimals,
     toTokenAddress: bondContractAddress,
     zapVersion: lpTokenZapVersion,
+    fromChainId: inputTokenChainId,
+    toChainId: chainId,
   })
 
   const { signTransaction } = useSignTransaction()
