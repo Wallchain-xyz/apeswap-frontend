@@ -9,4 +9,5 @@ export const QUERY_KEYS = {
   TVL_STATS: 'tvlStats',
   TOKEN_HISTORIC: 'tokenHistoric',
   BONDS_LANDING: 'bondsLanding',
+  BOND_POST_REFERENCE: 'bondPostReference',
 }
