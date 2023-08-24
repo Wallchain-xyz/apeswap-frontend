@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 
 // Hooks
 import useGetWidoApprove from './useGetWidoApprove'
-import useSignTransaction from '../../../bills/hooks/useSignTransaction'
+import { useSignTransaction } from 'state/transactions/hooks'
 
 // Utils
 import convertToTokenValue from 'utils/convertToTokenValue'

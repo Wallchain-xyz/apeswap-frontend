@@ -31,7 +31,7 @@ import { ZapVersion } from '@ape.swap/apeswap-lists'
 // Hooks
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
 import { useV2Pair } from 'hooks/useV2Pairs'
-import useSignTransaction from 'state/bills/hooks/useSignTransaction'
+import { useSignTransaction } from 'state/transactions/hooks'
 
 // Utils
 import getCurrencyInfo from 'utils/getCurrencyInfo'

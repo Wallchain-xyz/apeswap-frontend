@@ -33,7 +33,7 @@ import { useRouter } from 'next/router'
 
 // Hooks
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
-import useSignTransaction from 'state/bills/hooks/useSignTransaction'
+import { useSignTransaction } from 'state/transactions/hooks'
 
 // Constants
 import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'

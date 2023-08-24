@@ -23,7 +23,7 @@ export function useTransactionAdder(): (response: TransactionResponse, info: Tra
       }
       dispatch(addTransaction({ hash, from: account, info, chainId }))
     },
-    [account, chainId, dispatch]
+    [account, chainId, dispatch],
   )
 }
 
@@ -40,7 +40,7 @@ export function useAddTxFromHash(): (hash?: string, info?: TransactionInfo) => v
       }
       dispatch(addTransaction({ hash, from: account, info, chainId }))
     },
-    [account, chainId, dispatch]
+    [account, chainId, dispatch],
   )
 }
 
@@ -104,6 +104,16 @@ export function useHasPendingApproval(token?: Token, spender?: string): boolean 
           return tx.info.spender === spender && tx.info.tokenAddress === token.address && isTransactionRecent(tx)
         }
       }),
-    [allTransactions, spender, token?.address]
+    [allTransactions, spender, token?.address],
   )
+}
+
+export const useSignTransaction = () => {
+  const { provider } = useWeb3React()
+
+  const signTransaction = async (dataToSign: any): Promise<string | undefined> => {
+    const tx = await provider?.getSigner().sendTransaction(dataToSign)
+    return tx?.hash
+  }
+  return { signTransaction }
 }
