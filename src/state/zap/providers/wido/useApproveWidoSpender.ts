@@ -15,15 +15,20 @@ import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 
 // Types
 import { AppState } from 'state'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 const useApproveWidoSpender = ({
   inputTokenAddress,
   inputTokenDecimals,
   toTokenAddress,
+  fromChainId,
+  toChainId,
 }: {
   inputTokenAddress: string
   inputTokenDecimals: number
   toTokenAddress: string
+  fromChainId: SupportedChainId
+  toChainId: SupportedChainId
 }) => {
   const queryClient = useQueryClient()
   const { account, provider, isActive } = useWeb3React()
@@ -44,6 +49,8 @@ const useApproveWidoSpender = ({
     toToken: toTokenAddress,
     amount,
     isEnabled,
+    fromChainId,
+    toChainId,
   })
 
   const { data, to } = widoSpenderData || {}

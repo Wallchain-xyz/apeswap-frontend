@@ -10,20 +10,25 @@ const getWidoApprove = async ({
   chainId,
   fromToken,
   toToken,
+  fromChainId,
+  toChainId,
   amount,
 }: {
   chainId: SupportedChainId
   fromToken: string
   toToken: string
   amount: string
+  fromChainId: SupportedChainId
+  toChainId: SupportedChainId
 }): Promise<ApproveResult | null> => {
   try {
     const tokenAllowance = approve({
       chainId: chainId,
-      toChainId: chainId,
+      toChainId,
       fromToken,
       toToken,
       amount,
+      fromChainId,
     })
     return tokenAllowance
   } catch (e) {
@@ -35,6 +40,8 @@ const getWidoApprove = async ({
 const useGetWidoApprove = ({
   fromToken,
   toToken,
+  fromChainId,
+  toChainId,
   amount,
   isEnabled,
 }: {
@@ -42,12 +49,14 @@ const useGetWidoApprove = ({
   toToken: string
   amount: string
   isEnabled: boolean
+  fromChainId: SupportedChainId
+  toChainId: SupportedChainId
 }) => {
-  const { account = '0x123', chainId = 137 } = useWeb3React()
+  const { account = '', chainId = 0 } = useWeb3React()
   return useQuery({
     queryKey: [QUERY_KEYS.WIDO_APPROVAL, { account }, { fromToken }, { toToken }],
-    queryFn: () => getWidoApprove({ chainId, toToken, fromToken, amount }),
-    enabled: isEnabled,
+    queryFn: () => getWidoApprove({ chainId, toToken, fromToken, amount, fromChainId, toChainId }),
+    enabled: isEnabled && !!account && !!chainId,
   })
 }
 

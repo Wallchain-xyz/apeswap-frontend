@@ -55,6 +55,8 @@ const useGetWidoTokenAllowance = ({
     inputTokenAddress,
     inputTokenDecimals,
     toTokenAddress,
+    fromChainId,
+    toChainId,
   })
 
   return { requiresApproval, isWidoAllowanceLoading, approveWidoSpender, isApproveWidoSpenderLoading }
