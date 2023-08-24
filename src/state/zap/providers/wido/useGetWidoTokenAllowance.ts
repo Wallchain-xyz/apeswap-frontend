@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { ZapVersion } from '@ape.swap/apeswap-lists'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 // Types
 import { AppState } from 'state'
@@ -19,11 +20,15 @@ const useGetWidoTokenAllowance = ({
   inputTokenDecimals,
   toTokenAddress,
   zapVersion,
+  fromChainId,
+  toChainId,
 }: {
   inputTokenAddress: string
   inputTokenDecimals: number
   toTokenAddress: string
   zapVersion: ZapVersion
+  fromChainId: SupportedChainId
+  toChainId: SupportedChainId
 }) => {
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
 
@@ -35,6 +40,8 @@ const useGetWidoTokenAllowance = ({
     fromToken: inputTokenAddress,
     toToken: toTokenAddress,
     isEnabled,
+    fromChainId,
+    toChainId,
   })
   const { allowance } = widoAllowance ?? {}
 

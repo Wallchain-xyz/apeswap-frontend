@@ -40,7 +40,7 @@ const BillActions: React.FC<BillActionsProps> = ({
   const { lpToken, contractAddress } = bill
   const [slippage] = useUserZapSlippageTolerance()
   const [approval, approveCallback] = useApproveCallbackFromZap(zap, slippage)
-  const { chainId, account } = useWeb3React()
+  const { chainId = SupportedChainId.BSC, account } = useWeb3React()
 
   const showApproveZapFlow = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
 
@@ -56,6 +56,8 @@ const BillActions: React.FC<BillActionsProps> = ({
     inputTokenDecimals,
     toTokenAddress,
     zapVersion,
+    fromChainId: chainId,
+    toChainId: chainId,
   })
 
   const { onApprove } = useApproveBill(

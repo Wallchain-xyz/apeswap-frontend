@@ -11,6 +11,7 @@ import { useUserSlippageToleranceWithDefault, useUserZapSlippageTolerance } from
 import { DEFAULT_ADD_V2_SLIPPAGE_TOLERANCE } from 'views/V2/AddLiquidityV2/components/Actions'
 import { MergedZap } from 'state/zap/actions'
 import { TradeState } from 'state/routing/types'
+import { SupportedChainId } from '@ape.swap/sdk-core'
 
 // Hooks
 import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
@@ -50,7 +51,7 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
   zapVersion = ZapVersion.ZapV1,
 }) => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
+  const { account, chainId = SupportedChainId.BSC } = useWeb3React()
 
   const {
     requiresApproval: requiresApprovalWido,
@@ -61,6 +62,8 @@ const ZapLiquidityActions: React.FC<ZapLiquidityActionsProps> = ({
     inputTokenDecimals,
     toTokenAddress,
     zapVersion,
+    toChainId: chainId,
+    fromChainId: chainId,
   })
 
   const [onPresentAddLiquidityModal] = useModal(
