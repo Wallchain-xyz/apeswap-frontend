@@ -14,6 +14,7 @@ import { useAppDispatch } from 'state/hooks'
 import { AppState } from 'state'
 import useRefresh from 'hooks/useRefresh'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { getSupportedChainId } from '../../utils/validateChainId'
 
 export const usePollBills = () => {
   const { chainId } = useWeb3React()
@@ -24,16 +25,16 @@ export const usePollBills = () => {
   }, [dispatch, tokenPrices, chainId])
 }
 
-export const usePollSingleBill = (chain?: SupportedChainId, capturedBillAddress?: string) => {
+export const usePollSingleBill = (chain?: string, capturedBillAddress?: string) => {
   const dispatch = useAppDispatch()
-
+  const chainId = getSupportedChainId(chain)
   const tokenPrices: any = useAllTokenPrices()
 
   useEffect(() => {
-    if (chain && capturedBillAddress) {
-      dispatch(fetchSingleBillPublicData(chain, tokenPrices, capturedBillAddress))
+    if (chainId && capturedBillAddress) {
+      dispatch(fetchSingleBillPublicData(chainId, tokenPrices, capturedBillAddress))
     }
-  }, [capturedBillAddress, chain, dispatch, tokenPrices])
+  }, [capturedBillAddress, chainId, dispatch, tokenPrices])
 }
 
 export const usePollUserBills = (): Bills[] => {

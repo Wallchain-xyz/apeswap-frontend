@@ -1,5 +1,5 @@
 import Buy from '../Bonds/actions/Buy'
-import { Flex } from '../../components/uikit'
+import { Flex, Text } from '../../components/uikit'
 import { Bills } from '../Bonds/types'
 import { useBills } from '../../state/bills/hooks'
 import { useWeb3React } from '@web3-react/core'
@@ -14,15 +14,21 @@ import LaunchBondInfo from './components/LaunchBondInfo'
 const BondWidget = ({
   capturedBillAddress,
   capturedChain,
+  error,
 }: {
   capturedBillAddress: string
   capturedChain: SupportedChainId
+  error: boolean
 }) => {
-  const { account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   const bills: Bills[] | undefined = useBills()
-  const bill: Bills | undefined = bills?.find(
-    (billToSearch) => billToSearch?.contractAddress?.[capturedChain] === capturedBillAddress,
-  )
+  const bill: Bills | undefined = bills?.find((billToSearch) => {
+    const address = billToSearch?.contractAddress?.[capturedChain]
+    if (address === undefined && capturedBillAddress === undefined) {
+      return false // Do not match when both are undefined
+    }
+    return address === capturedBillAddress
+  })
   const isApeListInitialized = typeof state?.getState()?.lists?.byUrl?.[APESWAP]?.current?.tokens?.length === 'number'
 
   const { mutate: postBillReference, isLoading, isError } = usePostBillReference()
@@ -42,26 +48,37 @@ const BondWidget = ({
     <Flex
       sx={{
         width: '100%',
-        height: '100vh',
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      <Flex sx={{ flexDirection: 'column', background: 'white2', borderRadius: '10px', overflow: 'hidden' }}>
-        {bill && isApeListInitialized && (
-          <>
-            {true && (
-              //TODO: remove this
-              //bill?.billType === 'launch' &&
-              <LaunchBondInfo bill={bill} />
-            )}
-            <Header bill={bill} />
-            <Flex sx={{ p: '10px' }}>
-              <Buy bill={bill} />
-            </Flex>
-          </>
-        )}
-      </Flex>
+      {error ? (
+        <Text sx={{ textAlign: 'center', fontSize: '12px' }}>
+          Error found in the URL config, please get in contact with ApeSwap team
+        </Text>
+      ) : (
+        <Flex sx={{ flexDirection: 'column', background: 'white2', borderRadius: '10px', overflow: 'hidden' }}>
+          {isApeListInitialized && (
+            <>
+              {bill ? (
+                <>
+                  {true && (
+                    //TODO: remove this
+                    //bill?.billType === 'launch' &&
+                    <LaunchBondInfo bill={bill} />
+                  )}
+                  <Header bill={bill} />
+                  <Flex sx={{ p: '10px' }}>
+                    <Buy bill={bill} />
+                  </Flex>
+                </>
+              ) : (
+                <Text sx={{ textAlign: 'center', fontSize: '12px' }}>Bill not found</Text>
+              )}
+            </>
+          )}
+        </Flex>
+      )}
     </Flex>
   )
 }
