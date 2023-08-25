@@ -33,7 +33,7 @@ export const styles: Record<string, ThemeUIStyleObject> = {
     transform: 'translate(0px, -30px)',
   },
   maxButton: {
-    background: 'yellow',
+    background: 'var(--theme-ui-colors-yellow)',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '6px',

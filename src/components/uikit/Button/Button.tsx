@@ -16,8 +16,9 @@ const Button = ({
   let hoverStyle = {
     '&:hover': {
       '&:not([disabled])': {
-        borderColor: 'hoveredYellow',
-        background: variant === 'primary' && 'hoveredYellow',
+        borderColor: 'var(--theme-ui-colors-yellow)',
+        background: variant === 'primary' && 'var(--theme-ui-colors-yellow)',
+        opacity: 0.6,
       },
       '&:disabled': {},
     },
@@ -29,6 +30,7 @@ const Button = ({
         '&:disabled': {
           color: 'secondaryButtonDisableColor',
           borderColor: 'secondaryButtonDisable',
+          opacity: 0.6,
         },
       },
     }
@@ -39,6 +41,7 @@ const Button = ({
         '&:not([disabled])': {
           borderColor: 'primaryBtnDisable',
           background: 'white4',
+          opacity: 1,
         },
         '&:disabled': {},
       },
@@ -50,6 +53,7 @@ const Button = ({
         '&:not([disabled])': {
           borderColor: 'hoveredSuccess',
           background: 'hoveredSuccess',
+          opacity: 1,
         },
         '&:disabled': {},
       },
@@ -61,6 +65,7 @@ const Button = ({
         '&:not([disabled])': {
           borderColor: 'hoveredDanger',
           background: 'hoveredDanger',
+          opacity: 1,
         },
         '&:disabled': {},
       },

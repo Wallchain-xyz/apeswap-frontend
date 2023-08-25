@@ -1,54 +1,6 @@
 export async function getServerSideProps(context: { query: any }) {
-  const { path, outputCurrency, inputCurrency } = context.query
-  if (Array.isArray(path))
-  //   if (path[0]?.toLowerCase() === 'swap') {
-  //     if (outputCurrency) {
-  //       return {
-  //         redirect: {
-  //           destination: `https://dex.apeswap.finance/swap?outputCurrency=${outputCurrency}`,
-  //           permanent: false,
-  //         },
-  //       }
-  //     }
-  //     if (inputCurrency) {
-  //       return {
-  //         redirect: {
-  //           destination: `https://dex.apeswap.finance/swap?inputCurrency=${inputCurrency}`,
-  //           permanent: false,
-  //         },
-  //       }
-  //     }
-  //     return {
-  //       redirect: {
-  //         destination: `https://dex.apeswap.finance/swap`,
-  //         permanent: false,
-  //       },
-  //     }
-  //   }
-  // if (path[0]?.toLowerCase() === 'add-liquidity') {
-  //   return {
-  //     redirect: {
-  //       destination: 'https://dex.apeswap.finance/add-liquidity',
-  //       permanent: false,
-  //     },
-  //   }
-  // }
-  // if (path[0]?.toLowerCase() === 'liquidity') {
-  //   return {
-  //     redirect: {
-  //       destination: 'https://dex.apeswap.finance/liquidity',
-  //       permanent: false,
-  //     },
-  //   }
-  // }
-  // if (path[0]?.toLowerCase() === 'zap') {
-  //   return {
-  //     redirect: {
-  //       destination: 'https://dex.apeswap.finance/zap',
-  //       permanent: false,
-  //     },
-  //   }
-  // }
+  const { path } = context.query
+  //Redirects users to legacy services if they have not been migrated to the new repository yet
   if (path[0]?.toLowerCase() === 'iao') {
     return {
       redirect: {
@@ -97,7 +49,6 @@ export async function getServerSideProps(context: { query: any }) {
       },
     }
   }
-
   // For all other paths, redirect to the home page.
   return {
     redirect: {

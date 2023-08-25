@@ -1,5 +1,9 @@
 export const buttonHover = {
-  '&:not([disabled])': { borderColor: '#FFDA00', background: '#FFDA00' },
+  '&:not([disabled])': {
+    borderColor: 'var(--theme-ui-colors-yellow)',
+    background: 'var(--theme-ui-colors-yellow)',
+    opacity: 0.6,
+  },
   '&:disabled': {},
 }
 
@@ -105,8 +109,8 @@ const components = {
       margin: 'auto',
     },
     '&:checked ': {
-      background: 'yellow',
-      borderColor: 'yellow',
+      background: 'var(--theme-ui-colors-yellow)',
+      borderColor: 'var(--theme-ui-colors-yellow)',
       '& + svg': {
         display: 'block',
       },
@@ -117,11 +121,11 @@ const components = {
     },
     '&:focus': {
       outline: 'none',
-      boxShadow: '0px 0px 0px 1px #FFB300, 0px 0px 0px 4px rgb(255, 179, 0, .4)',
+      boxShadow: '0px 0px 0px 1px var(--theme-ui-colors-yellow), 0px 0px 0px 4px rgb(255, 179, 0, .4)',
     },
     '&:hover:not(:disabled):not(:checked)': {
-      borderColor: 'yellow',
-      boxShadow: '0px 0px 0px 1px #FFB300, 0px 0px 0px 4px rgb(255, 179, 0, .4)',
+      borderColor: 'var(--theme-ui-colors-yellow)',
+      boxShadow: '0px 0px 0px 1px var(--theme-ui-colors-yellow), 0px 0px 0px 4px rgb(255, 179, 0, .4)',
     },
   },
   radio: {
@@ -150,18 +154,18 @@ const components = {
       borderRadius: '50px',
     },
     '&:checked ': {
-      background: 'yellow',
-      borderColor: 'yellow',
+      background: 'var(--theme-ui-colors-yellow)',
+      borderColor: 'var(--theme-ui-colors-yellow)',
       '& + span': {
         display: 'block',
       },
     },
     '&:focus': {
       outline: 'none',
-      boxShadow: '0px 0px 0px 1px #FFB300, 0px 0px 0px 4px rgb(255, 179, 0, .2)',
+      boxShadow: '0px 0px 0px 1px var(--theme-ui-colors-yellow), 0px 0px 0px 4px rgb(255, 179, 0, .2)',
     },
     '&:hover:not(:disabled):not(:checked)': {
-      borderColor: 'yellow',
+      borderColor: 'var(--theme-ui-colors-yellow)',
     },
   },
   label: {
@@ -172,9 +176,9 @@ const components = {
     },
   },
   borders: {
-    primaryButton: '3px solid #FFB300',
+    primaryButton: '3px solid var(--theme-ui-colors-yellow)',
     primaryBtnDisable: '3px solid transparent',
-    secondaryButton: '3px solid #FFB300',
+    secondaryButton: '3px solid var(--theme-ui-colors-yellow)',
     secondaryButtonDisable: '3px solid #FDFBF5',
     mode: {
       dark: {
@@ -185,7 +189,7 @@ const components = {
   buttons: {
     primary: {
       ...buttonBaseStyles,
-      background: 'yellow',
+      background: 'var(--theme-ui-colors-yellow)',
       border: 'primaryButton',
       color: 'primaryBright',
 
@@ -198,8 +202,8 @@ const components = {
 
       '&:hover': {
         '&:not([disabled])': {
-          borderColor: 'hoveredYellow',
-          background: 'hoveredYellow',
+          borderColor: 'rgba(var(--theme-ui-colors-yellow), 0.7)',
+          background: 'rgba(var(--theme-ui-colors-yellow), 0.7)',
         },
         '&:disabled': {},
       },
@@ -208,7 +212,7 @@ const components = {
       ...buttonBaseStyles,
       background: 'transparent',
       border: 'secondaryButton',
-      color: 'yellow',
+      color: 'var(--theme-ui-colors-yellow)',
 
       '&:disabled': {
         cursor: 'not-allowed',
@@ -219,7 +223,7 @@ const components = {
 
       '&&:hover': {
         '&:not([disabled])': {
-          borderColor: 'hoveredYellow',
+          borderColor: 'rgba(var(--theme-ui-colors-yellow), 0.7)',
         },
         '&:disabled': {},
       },
@@ -250,7 +254,7 @@ const components = {
 
       '&:hover': {
         '&:not([disabled])': {
-          color: 'yellow',
+          color: 'var(--theme-ui-colors-yellow)',
         },
         '&:disabled': {},
       },
@@ -376,7 +380,7 @@ const components = {
   switch: {
     backgroundColor: 'white4',
     'input:checked ~ &': {
-      backgroundColor: 'yellow',
+      backgroundColor: 'var(--theme-ui-colors-yellow)',
     },
   },
 }

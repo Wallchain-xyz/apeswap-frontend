@@ -6,11 +6,12 @@ import Countdown from './Countdown'
 
 const LaunchBondInfo = ({ bill }: { bill: Bills }) => {
   const dummyBill = {
-    bannerURL: 'https://apeswap.finance/images/banners/treasury-bills-day.svg',
+    bannerURL: 'https://pad.chaingpt.org/images/landing/landing-bg.png',
     earnToken: {
-      symbol: 'BANANA',
+      symbol: 'CGPT',
     },
-    projectSummary: 'I love Obie more than life itself',
+    projectSummary:
+      'Your Crypto Finances on Autopilot - the future of trade automation and portfolio management, powered by AI and ML.',
     launchTimeISOString: '2023-09-01T23:30:00Z',
   }
   return (
@@ -23,7 +24,11 @@ const LaunchBondInfo = ({ bill }: { bill: Bills }) => {
       }}
     >
       {dummyBill.bannerURL ? (
-        <img src={dummyBill.bannerURL} alt="banner img" style={{ width: '100%', minHeight: '100px' }} />
+        <img
+          src={dummyBill.bannerURL}
+          alt="banner img"
+          style={{ width: '100%', minHeight: '100px', maxHeight: '100px', objectFit: 'cover' }}
+        />
       ) : (
         <Text
           sx={{

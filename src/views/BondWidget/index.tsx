@@ -12,22 +12,22 @@ import Header from './components/Header'
 import LaunchBondInfo from './components/LaunchBondInfo'
 
 const BondWidget = ({
-  capturedBillAddress,
-  capturedChain,
+  bondAddress,
+  chain,
   error,
 }: {
-  capturedBillAddress: string
-  capturedChain: SupportedChainId
+  bondAddress: string
+  chain: SupportedChainId
   error: boolean
 }) => {
   const { chainId } = useWeb3React()
-  const bills: Bills[] | undefined = useBills()
+  const bills: Bills[] | undefined = useBills(chain)
   const bill: Bills | undefined = bills?.find((billToSearch) => {
-    const address = billToSearch?.contractAddress?.[capturedChain]
-    if (address === undefined && capturedBillAddress === undefined) {
+    const address = billToSearch?.contractAddress?.[chain]
+    if (address === undefined && bondAddress === undefined) {
       return false // Do not match when both are undefined
     }
-    return address === capturedBillAddress
+    return address?.toUpperCase() === bondAddress?.toUpperCase()
   })
   const isApeListInitialized = typeof state?.getState()?.lists?.byUrl?.[APESWAP]?.current?.tokens?.length === 'number'
 
@@ -57,7 +57,14 @@ const BondWidget = ({
           Error found in the URL config, please get in contact with ApeSwap team
         </Text>
       ) : (
-        <Flex sx={{ flexDirection: 'column', background: 'white2', borderRadius: '10px', overflow: 'hidden' }}>
+        <Flex
+          sx={{
+            flexDirection: 'column',
+            background: bill ? 'white2' : 'unset',
+            borderRadius: '10px',
+            overflow: 'hidden',
+          }}
+        >
           {isApeListInitialized && (
             <>
               {bill ? (

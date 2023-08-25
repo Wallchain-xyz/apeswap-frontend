@@ -50,8 +50,9 @@ export const usePollUserBills = (): Bills[] => {
   return bills
 }
 
-export const useBills = (): Bills[] | undefined => {
+export const useBills = (chain?: SupportedChainId): Bills[] | undefined => {
   const { chainId } = useWeb3React()
-  const bills = useSelector((state: AppState) => state.bills.data[chainId as SupportedChainId])
+  const selectedChain = chain ?? chainId
+  const bills = useSelector((state: AppState) => state.bills.data[selectedChain as SupportedChainId])
   return bills
 }

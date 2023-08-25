@@ -17,7 +17,7 @@ const DualCurrencyDropdown: React.FC<{
   inputCurrencies: Currency[]
   onCurrencySelect: (currency: DualCurrencySelector) => void
   lpList: DualCurrencySelector[]
-  principalToken: Currency | null,
+  principalToken: Currency | null
   enableZap: boolean
   showNativeFirst?: boolean
 }> = ({ inputCurrencies, onCurrencySelect, lpList, principalToken, enableZap, showNativeFirst }) => {
@@ -132,7 +132,7 @@ const DualCurrencyDropdown: React.FC<{
             <Dropdown
               size="sm"
               component={<DropdownDisplay principalToken={principalToken} inputCurrencies={inputCurrencies} active />}
-              sx={{ width: '190px', zIndex: 500, background: 'white4' }}
+              sx={{ width: '190px', zIndex: 1, background: 'white4' }}
             >
               {currenciesList.slice(0, 4).map((item: any, index: number) => {
                 return Item([item.currencyA, item.currencyB], index)

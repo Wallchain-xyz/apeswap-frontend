@@ -2,7 +2,6 @@ import { useState } from 'react'
 import type { AppContext, AppProps } from 'next/app'
 import { ThemeProvider } from 'theme-ui'
 import store from 'state'
-import { theme } from 'theme'
 import { Provider } from 'react-redux'
 import Footer from 'components/Footer'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -28,8 +27,9 @@ import BigNumber from 'bignumber.js'
 
 // Components
 import NavBarNew from 'components/NavBarNew'
-import { useRouter } from 'next/router'
-import { getLocalStorage, setLocalStorage } from '../utils/useLocalStorage'
+import useConfigParser from '../hooks/useConfigParser'
+import { useGetAppConfig } from '../hooks/useGetAppConfig'
+import { theme } from '../theme'
 
 // This config is required for number formatting
 BigNumber.config({
@@ -42,21 +42,11 @@ interface MyAppProps extends AppProps {
 }
 
 export default function App({ Component, pageProps, initialColorMode }: MyAppProps) {
-  //initialize user's theme preference to keep consistence between SSR and client-side
-  if (typeof window !== 'undefined') {
-    if (!getLocalStorage('theme-ui-color-mode')) {
-      setLocalStorage('theme-ui-color-mode', initialColorMode)
-    }
-  }
-  if (theme) {
-    theme.initialColorModeName = initialColorMode
-  }
-
   const [queryClient] = useState(() => new QueryClient())
 
-  // Logic used to hide navbar and footer on bond-widget
-  const router = useRouter()
-  const show = router.pathname !== '/bond-widget'
+  //Analyze URL params and change the theme to create custom styles
+  const [config] = useConfigParser()
+  const [parsedTheme, show] = useGetAppConfig(initialColorMode, config)
 
   const Updaters = () => {
     return (
@@ -77,7 +67,7 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps?.dehydratedState}>
           <Provider store={store}>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={parsedTheme}>
               <GlobalStyles />
               <Web3Provider>
                 <BlockNumberProvider>
@@ -88,7 +78,7 @@ export default function App({ Component, pageProps, initialColorMode }: MyAppPro
                         <ModalProvider>
                           <Blocklist>
                             {show && <NavBarNew />}
-                            <MarketingModalCheck />
+                            {show && <MarketingModalCheck />}
                             <Popups />
                             <Component {...pageProps} />
                             <Analytics />
