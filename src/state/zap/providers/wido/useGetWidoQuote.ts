@@ -55,6 +55,7 @@ export default function useGetWidoQuote({
   zapVersion,
   fromChainId,
   toChainId,
+  tokenAmount,
 }: {
   inputTokenAddress: string
   inputTokenDecimals: number
@@ -62,12 +63,13 @@ export default function useGetWidoQuote({
   zapVersion: ZapVersion
   fromChainId: SupportedChainId
   toChainId: SupportedChainId
+  tokenAmount?: string
 }) {
   const { chainId = 0, account = '' } = useWeb3React()
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
   const { userZapSlippage } = useSelector<AppState, AppState['user']>((state) => state.user)
 
-  const amount = convertToTokenValue(amountInput || '0', inputTokenDecimals).toString()
+  const amount = convertToTokenValue(amountInput ? amountInput : tokenAmount || '0', inputTokenDecimals).toString()
   const slippagePercentage = userZapSlippage / 100 || 0.05
   const isEnabled = !!inputTokenAddress && !!toTokenAddress && zapVersion === ZapVersion.Wido
 

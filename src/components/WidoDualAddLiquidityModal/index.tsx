@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { utils } from 'ethers'
 
 // Components
 import DexPanel from 'components/DexPanel'
@@ -14,6 +15,7 @@ import { useTranslation } from 'contexts/Localization'
 import { useCurrency } from 'hooks/Tokens'
 import useCurrencyBalance from 'lib/hooks/useCurrencyBalance'
 import useTokenPriceUsd from 'hooks/useTokenPriceUsd'
+import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
 
 // Utils
 import { maxAmountSpend } from 'utils/maxAmountSpend'
@@ -22,19 +24,27 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Field } from 'state/zap/actions'
 import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
 import { Pricing } from 'components/DexPanel/types'
-import { Token } from '@ape.swap/apeswap-lists'
+import { Token, ZapVersion } from '@ape.swap/apeswap-lists'
 
 // Constants
 const NATIVE_CURR_ID = 'ETH'
+import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 
 interface WidoDualAddLiquidityModalProps {
   onDismiss?: () => void
   lpToken: Token
   lpTokenA: Token
   lpTokenB: Token
+  bondContractAddress: string
 }
 
-const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismiss, lpToken, lpTokenA, lpTokenB }) => {
+const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({
+  onDismiss,
+  lpToken,
+  lpTokenA,
+  lpTokenB,
+  bondContractAddress,
+}) => {
   const [inputCurrencyId, setInputCurrencyId] = useState<string>(NATIVE_CURR_ID)
   const [inputCurrencyAmount, setInputCurrencyAmount] = useState<string>('')
 
@@ -52,12 +62,37 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
   const lpPrincipalTokenBalance = useCurrencyBalance(account ?? undefined, lpPrincipalToken ?? undefined)
 
   const inputCurrencyMaxSpend = maxAmountSpend(inputCurrencyBalance)
+  console.log({ inputCurrency })
 
-  // TODO: Replace this value to Wido quote value
-  const mockedValue = '123'
+  const formatInputCurrency = () => {
+    if (inputCurrency?.isNative) {
+      return { ...inputCurrency, address: WIDO_NATIVE_TOKEN_ID }
+    }
+    // @ts-ignore
+    return inputCurrency?.address ? inputCurrency : inputCurrency.tokenInfo
+  }
+
+  const {
+    address: inputCurrencyAddress,
+    decimals: inputTokenDecimals,
+    chainId: inputTokenChainId,
+  } = formatInputCurrency()
+
+  const { data: widoQuote } = useGetWidoQuote({
+    inputTokenAddress: inputCurrencyAddress,
+    inputTokenDecimals,
+    toTokenAddress: bondContractAddress,
+    zapVersion: ZapVersion.Wido,
+    fromChainId: inputTokenChainId,
+    toChainId: chainId as SupportedChainId,
+    tokenAmount: inputCurrencyAmount,
+  })
+
+  const { toTokenAmount = '0' } = widoQuote ?? {}
+
+  const zapAmountOutput = utils.formatUnits(toTokenAmount, inputTokenDecimals)
 
   const handleCurrencySelect = (curr: Currency) => {
-    console.log({ curr })
     setInputCurrencyId(curr.isToken ? curr.address : curr.isNative ? NATIVE_CURR_ID : '')
     setInputCurrencyAmount('0')
   }
@@ -96,7 +131,7 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
           }}
         >
           <Flex sx={{ width: '100%', height: 'auto', justifyContent: 'space-between' }}>
-            <NumericInput value={mockedValue} onUserInput={() => null} />
+            <NumericInput value={zapAmountOutput} onUserInput={() => null} />
             <Flex
               sx={{
                 minWidth: 'max-content',

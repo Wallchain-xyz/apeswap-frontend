@@ -31,9 +31,13 @@ import { useToastError } from 'state/application/hooks'
 import { LiquidityDex, dexFactories, dexToZapMapping, ZapVersion, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
 import { useRouter } from 'next/router'
 
+// Components
+import WidoDualAddLiquidityModal from 'components/WidoDualAddLiquidityModal'
+
 // Hooks
 import useGetWidoQuote from 'state/zap/providers/wido/useGetWidoQuote'
 import { useSignTransaction } from 'state/transactions/hooks'
+import useModal from 'hooks/useModal'
 
 // Constants
 import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
@@ -117,6 +121,18 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const inputCurrency = getInputCurrency()
 
   const { address: inputTokenAddress = '', decimals = 18, chainId: inputTokenChainId } = inputCurrency ?? {}
+
+  const [onPresentWidoDualAddLiquidityModal] = useModal(
+    <WidoDualAddLiquidityModal
+      lpTokenA={quoteToken}
+      lpTokenB={token}
+      lpToken={lpToken}
+      bondContractAddress={bondContractAddress}
+    />,
+    true,
+    false,
+    'widoDualLiquidityModal',
+  )
 
   //zapVersion ZapV1, ZapV2, Wido or External LP (no zap)
   const lpTokenZapVersion = dexToZapMapping[liquidityDex]?.[chainId as SupportedChainId] as ZapVersion

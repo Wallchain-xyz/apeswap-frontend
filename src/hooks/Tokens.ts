@@ -103,7 +103,7 @@ export function useToken(tokenAddress?: string | null): Token | null | undefined
   return useTokenFromMapOrNetwork(tokens, tokenAddress)
 }
 
-export function useCurrency(currencyId?: string | null, chain?: ChainId): Currency | null {
+export function useCurrency(currencyId?: string | null, chain?: ChainId): Currency | WrappedTokenInfo | null {
   const tokens = useAllTokens(chain)
   return useCurrencyFromMap(tokens, currencyId, chain)
 }
