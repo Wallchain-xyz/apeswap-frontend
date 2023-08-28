@@ -1,5 +1,5 @@
 import Buy from '../Bonds/actions/Buy'
-import { Flex, Text } from '../../components/uikit'
+import { Button, Flex, Text } from '../../components/uikit'
 import { Bills } from '../Bonds/types'
 import { useBills } from '../../state/bills/hooks'
 import { useWeb3React } from '@web3-react/core'
@@ -10,6 +10,8 @@ import { BillReferenceData, usePostBillReference } from 'state/bills/usePostBill
 import React from 'react'
 import Header from './components/Header'
 import LaunchBondInfo from './components/LaunchBondInfo'
+import { ChainId, NETWORK_LABEL } from '../../config/constants/chains'
+import useSelectChain from '../../hooks/useSelectChain'
 
 const BondWidget = ({
   bondAddress,
@@ -17,12 +19,15 @@ const BondWidget = ({
   error,
 }: {
   bondAddress: string
-  chain: SupportedChainId
+  chain?: SupportedChainId
   error: boolean
 }) => {
   const { chainId } = useWeb3React()
+  const isOnDifferentChain = chain ? chainId !== chain : false
+  const onSelectChain = useSelectChain()
   const bills: Bills[] | undefined = useBills(chain)
   const bill: Bills | undefined = bills?.find((billToSearch) => {
+    if (!chain) return
     const address = billToSearch?.contractAddress?.[chain]
     if (address === undefined && bondAddress === undefined) {
       return false // Do not match when both are undefined
@@ -47,7 +52,7 @@ const BondWidget = ({
   return (
     <Flex
       sx={{
-        width: '100%',
+        width: '100vw',
         justifyContent: 'center',
         alignItems: 'center',
       }}
@@ -63,6 +68,7 @@ const BondWidget = ({
             background: bill ? 'white2' : 'unset',
             borderRadius: '10px',
             overflow: 'hidden',
+            width: '100vw',
           }}
         >
           {isApeListInitialized && (
@@ -75,8 +81,17 @@ const BondWidget = ({
                     <LaunchBondInfo bill={bill} />
                   )}
                   <Header bill={bill} />
-                  <Flex sx={{ p: '10px' }}>
-                    <Buy bill={bill} />
+                  <Flex sx={{ p: '10px', justifyContent: 'center' }}>
+                    {isOnDifferentChain && chain ? (
+                      <Button
+                        onClick={() => onSelectChain(chain as unknown as ChainId)}
+                        sx={{ width: '100%', maxWidth: '300px', mt: '10px' }}
+                      >
+                        Switch to {NETWORK_LABEL[chain as unknown as ChainId]}
+                      </Button>
+                    ) : (
+                      <Buy bill={bill} />
+                    )}
                   </Flex>
                 </>
               ) : (

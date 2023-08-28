@@ -25,9 +25,8 @@ export const usePollBills = () => {
   }, [dispatch, tokenPrices, chainId])
 }
 
-export const usePollSingleBill = (chain?: string, capturedBillAddress?: string) => {
+export const usePollSingleBill = (chainId?: SupportedChainId, capturedBillAddress?: string) => {
   const dispatch = useAppDispatch()
-  const chainId = getSupportedChainId(chain)
   const tokenPrices: any = useAllTokenPrices()
 
   useEffect(() => {

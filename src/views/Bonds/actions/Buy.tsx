@@ -22,17 +22,26 @@ import { getBalanceNumber } from 'utils/getBalanceNumber'
 import { BillValueContainer, TextWrapper } from '../components/Modals/styles'
 import { useBillType } from '../hooks/useBillType'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
-import { useV2Pair } from 'hooks/useV2Pairs'
 import { useDerivedZapInfo, useZapActionHandlers, useZapState } from 'state/zap/hooks'
 import { useZapCallback } from 'hooks/useZapCallback'
 import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
 import { LiquidityDex, dexFactories, dexToZapMapping, ZapVersion, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
-import { useRouter } from 'next/router'
+import { BillReferenceData, usePostBillReference } from '../../../state/bills/usePostBillReference'
+import useConfigParser from '../../../hooks/useConfigParser'
+
+/**
+ * Invokes callback repeatedly over an interval defined by the delay
+ *
+ * @param bill
+ * @param onBillId function used to control after buy flow
+ * @param onTransactionSubmited function used to control after buy flow
+ * @param selectedChain variable used in the iframe. This is used to verify that the user is in the bill's chain
+ */
 
 const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
-  const { push } = useRouter()
+  const { chainId, account, provider } = useWeb3React()
 
   const {
     token,
@@ -49,7 +58,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     maxPayoutTokens,
   } = bill
   const onAddLiquidityModal = useAddLiquidityModal(undefined, true)
-  const { chainId, account, provider } = useWeb3React()
   const { recipient, typedValue } = useZapState()
   const billType = useBillType(contractAddress[chainId as SupportedChainId] ?? '')
   const { onBuyBill } = useBuyBill(
@@ -163,6 +171,9 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     [onBillId],
   )
 
+  const [config] = useConfigParser()
+  const { mutate: postBillReference } = usePostBillReference()
+
   const handleBuy = useCallback(async () => {
     if (!provider || !chainId || !billNftAddress || !account) return
     setPendingTrx(true)
@@ -170,9 +181,16 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     if (currencyB) {
       await onBuyBill()
         .then((resp: any) => {
+          console.log(resp)
           searchForBillId(resp, billNftAddress)
           dispatch(fetchUserOwnedBillsDataAsync(chainId, account))
           dispatch(fetchBillsUserDataAsync(chainId, account))
+          const billsReference: Partial<BillReferenceData> = {
+            chainId,
+            transactionHash: resp?.transactionHash,
+            referenceId: config?.referenceId,
+          }
+          postBillReference(billsReference)
         })
         .catch((e) => {
           console.error(e)
@@ -185,6 +203,12 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
         .then((hash: any) => {
           setPendingTrx(true)
           setZapSlippage(originalSlippage)
+          const billsReference: Partial<BillReferenceData> = {
+            chainId,
+            transactionHash: hash,
+            referenceId: config?.referenceId,
+          }
+          postBillReference(billsReference)
           provider
             ?.waitForTransaction(hash)
             .then((receipt) => {

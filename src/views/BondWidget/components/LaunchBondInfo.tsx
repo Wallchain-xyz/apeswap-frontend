@@ -11,7 +11,7 @@ const LaunchBondInfo = ({ bill }: { bill: Bills }) => {
       symbol: 'CGPT',
     },
     projectSummary:
-      'Your Crypto Finances on Autopilot - the future of trade automation and portfolio management, powered by AI and ML.',
+      'ChainGPT 🤖 #1 ranked AI infrastructure for Blockchain, Crypto & Web3. 🔥Unleash the power of Blockchain AI with ChainGPT. Powered by $CGPT token.',
     launchTimeISOString: '2023-09-01T23:30:00Z',
   }
   return (
@@ -42,16 +42,18 @@ const LaunchBondInfo = ({ bill }: { bill: Bills }) => {
           {dummyBill.earnToken.symbol}
         </Text>
       )}
-      <Text
-        sx={{
-          mt: '10px',
-          textAlign: 'center',
-          fontSize: ['16px'],
-          fontWeight: 700,
-        }}
-      >
-        {dummyBill.projectSummary}
-      </Text>
+      <Flex sx={{ p: '10px 10px 0 10px', justifyContent: 'center' }}>
+        <Text
+          sx={{
+            textAlign: 'center',
+            fontSize: ['16px'],
+            fontWeight: 700,
+            maxWidth: ['unset', 'unset', 'unset', '80%'],
+          }}
+        >
+          {dummyBill.projectSummary}
+        </Text>
+      </Flex>
       <Text
         sx={{
           color: 'yellow',

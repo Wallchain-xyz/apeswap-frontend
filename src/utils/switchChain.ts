@@ -9,6 +9,8 @@ export const switchChain = async (connector: Connector, chainId: ChainId) => {
     throw new Error(`Chain ${chainId} not supported for connector (${typeof connector})`)
   } else if (connector === walletConnectConnection.connector || connector === networkConnection.connector) {
     await connector.activate(chainId)
+  } else if (typeof chainId !== 'number') {
+    console.error(`Type of chainId must be number. Type passed is ${typeof chainId}`)
   } else {
     const info = getChainInfo(chainId)
     const addChainParameter = {
