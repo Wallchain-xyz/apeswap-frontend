@@ -29,8 +29,8 @@ const BondWidget = ({
   const bill: Bills | undefined = bills?.find((billToSearch) => {
     if (!chain) return
     const address = billToSearch?.contractAddress?.[chain]
-    if (address === undefined && bondAddress === undefined) {
-      return false // Do not match when both are undefined
+    if (address === undefined || bondAddress === undefined) {
+      return false
     }
     return address?.toUpperCase() === bondAddress?.toUpperCase()
   })

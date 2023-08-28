@@ -112,11 +112,18 @@ export const fetchBillsPublicDataAsync =
   }
 
 export const fetchSingleBillPublicData =
-  (chainId: SupportedChainId, tokenPrices: TokenPrices[], billAddress: string): AppThunk =>
+  (chainId: SupportedChainId, tokenPrices: TokenPrices[], bondAddress: string): AppThunk =>
   async (dispatch: Dispatch, getState: any) => {
     try {
       const bills: BillsConfig[] = getState().bills.data[chainId]
-      const bill = bills.find((bill) => bill.contractAddress[chainId] === billAddress)
+      const bill: Bills | undefined = bills?.find((billToSearch) => {
+        if (!chainId) return
+        const address = billToSearch?.contractAddress?.[chainId]
+        if (address === undefined || bondAddress === undefined) {
+          return false
+        }
+        return address?.toUpperCase() === bondAddress?.toUpperCase()
+      })
       if (bill) {
         const returnedBills = await fetchBills(chainId, tokenPrices, [bill])
         dispatch(setBillsPublicData({ value: returnedBills, chainId }))
