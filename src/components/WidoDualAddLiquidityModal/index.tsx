@@ -4,7 +4,8 @@ import { utils } from 'ethers'
 
 // Components
 import DexPanel from 'components/DexPanel'
-import { Modal } from 'components/uikit'
+import { Box } from 'theme-ui'
+import { Modal, Svg, Link } from 'components/uikit'
 import { Flex, NumericInput, Text } from 'components/uikit'
 import ZapButton from './components/ZapButton'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
@@ -83,7 +84,7 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
     tokenAmount: inputCurrencyAmount,
   })
 
-  const { isSupported: isWidoSupported = false, toTokenAmount = '0' } = widoQuote ?? {}
+  const { toTokenAmount = '0' } = widoQuote ?? {}
 
   const zapAmountOutput = utils.formatUnits(toTokenAmount, inputTokenDecimals)
 
@@ -111,8 +112,12 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
           isZapInput
           pricing={Pricing.PRICEGETTER}
         />
-
-        <Text>{t('To:')}</Text>
+        <Flex sx={{ position: 'relative', mt: '10px' }}>
+          <Text>{t('To:')}</Text>
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Svg icon="ZapArrow" />
+          </Box>
+        </Flex>
         <Flex
           sx={{
             position: 'relative',
@@ -181,6 +186,18 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
           toChainId={chainId as SupportedChainId}
           fromChainId={inputTokenChainId}
         />
+        <Flex sx={{ marginTop: '10px', justifyContent: 'center' }}>
+          <Link
+            href="https://apeswap.gitbook.io/apeswap-finance/product-and-features/exchange/liquidity"
+            target="_blank"
+            textAlign="center"
+            sx={{ textDecoration: 'none' }}
+          >
+            <Text style={{ fontSize: '12px', lineHeight: '18px', fontWeight: 400, borderBottom: '1px solid' }}>
+              Learn more{'>'}
+            </Text>
+          </Link>
+        </Flex>
       </Flex>
     </Modal>
   )
