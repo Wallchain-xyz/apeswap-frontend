@@ -153,6 +153,7 @@ const Swap = ({
             dex: res?.steps?.[0]?.toolDetails?.name,
           },
         })
+        hasSetSwapStateRef.current = false
         if (res?.toToken?.symbol?.toUpperCase() === 'BANANA' && !hideCircular) router.push('?modal=circular-buy')
       })
       .catch((error) => {
@@ -163,6 +164,7 @@ const Swap = ({
           swapErrorMessage: error.message ? error.message : error,
           txHash: undefined,
         })
+        hasSetSwapStateRef.current = false
       })
   }, [
     acceptExchangeRateUpdateHook,
