@@ -66,6 +66,7 @@ export default function useGetWidoQuote({
   tokenAmount?: string
 }) {
   const { chainId = 0, account = '' } = useWeb3React()
+  // TODO: Pass typedValue as a prop instead of consuming Redux state
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
   const { userZapSlippage } = useSelector<AppState, AppState['user']>((state) => state.user)
 

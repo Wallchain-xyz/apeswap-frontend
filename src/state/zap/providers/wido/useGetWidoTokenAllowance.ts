@@ -22,6 +22,7 @@ const useGetWidoTokenAllowance = ({
   zapVersion,
   fromChainId,
   toChainId,
+  tokenAmount,
 }: {
   inputTokenAddress: string
   inputTokenDecimals: number
@@ -29,10 +30,15 @@ const useGetWidoTokenAllowance = ({
   zapVersion: ZapVersion
   fromChainId: SupportedChainId
   toChainId: SupportedChainId
+  tokenAmount?: string
 }) => {
+  // TODO: Pass typedValue as a prop instead of consuming Redux state
   const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
 
-  const amountToApprove = convertToTokenValue(amountInput || '0', inputTokenDecimals).toString()
+  const amountToApprove = convertToTokenValue(
+    amountInput ? amountInput : tokenAmount || '0',
+    inputTokenDecimals,
+  ).toString()
   const isNative = inputTokenAddress === WIDO_NATIVE_TOKEN_ID
   const isEnabled = !isNative && Number(amountToApprove) > 0 && !!toTokenAddress && zapVersion === ZapVersion.Wido
 
@@ -53,10 +59,10 @@ const useGetWidoTokenAllowance = ({
 
   const { mutate: approveWidoSpender, isLoading: isApproveWidoSpenderLoading } = useApproveWidoSpender({
     inputTokenAddress,
-    inputTokenDecimals,
     toTokenAddress,
     fromChainId,
     toChainId,
+    amountToApprove,
   })
 
   return { requiresApproval, isWidoAllowanceLoading, approveWidoSpender, isApproveWidoSpenderLoading }

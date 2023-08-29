@@ -6,6 +6,7 @@ import { utils } from 'ethers'
 import DexPanel from 'components/DexPanel'
 import { Modal } from 'components/uikit'
 import { Flex, NumericInput, Text } from 'components/uikit'
+import ZapButton from './components/ZapButton'
 import DoubleCurrencyLogo from 'components/DoubleCurrencyLogo'
 import { Spinner } from 'theme-ui'
 import Dots from 'components/Dots'
@@ -25,6 +26,7 @@ import { Field } from 'state/zap/actions'
 import { Currency, SupportedChainId } from '@ape.swap/sdk-core'
 import { Pricing } from 'components/DexPanel/types'
 import { Token, ZapVersion } from '@ape.swap/apeswap-lists'
+import { Token as CoreToken } from '@ape.swap/sdk-core'
 
 // Constants
 const NATIVE_CURR_ID = 'ETH'
@@ -35,16 +37,9 @@ interface WidoDualAddLiquidityModalProps {
   lpToken: Token
   lpTokenA: Token
   lpTokenB: Token
-  bondContractAddress: string
 }
 
-const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({
-  onDismiss,
-  lpToken,
-  lpTokenA,
-  lpTokenB,
-  bondContractAddress,
-}) => {
+const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismiss, lpToken, lpTokenA, lpTokenB }) => {
   const [inputCurrencyId, setInputCurrencyId] = useState<string>(NATIVE_CURR_ID)
   const [inputCurrencyAmount, setInputCurrencyAmount] = useState<string>('')
 
@@ -57,12 +52,12 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({
 
   const inputCurrency = useCurrency(inputCurrencyId)
   const [usdVal] = useTokenPriceUsd(inputCurrency)
-
   const inputCurrencyBalance = useCurrencyBalance(account ?? undefined, inputCurrency ?? undefined)
-  const lpPrincipalTokenBalance = useCurrencyBalance(account ?? undefined, lpPrincipalToken ?? undefined)
+  const inputCurrencyMaxSpend = maxAmountSpend(inputCurrencyBalance)?.toExact() || '0'
+  const { symbol: inputCurrencySymbol = '' } = inputCurrency as CoreToken
 
-  const inputCurrencyMaxSpend = maxAmountSpend(inputCurrencyBalance)
-  console.log({ inputCurrency })
+  const lpPrincipalTokenBalance = useCurrencyBalance(account ?? undefined, lpPrincipalToken ?? undefined)
+  const { address: lpPrincipalTokenAddress } = lpPrincipalToken as CoreToken
 
   const formatInputCurrency = () => {
     if (inputCurrency?.isNative) {
@@ -78,17 +73,17 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({
     chainId: inputTokenChainId,
   } = formatInputCurrency()
 
-  const { data: widoQuote } = useGetWidoQuote({
+  const { data: widoQuote, isLoading: isWidoQuoteLoading } = useGetWidoQuote({
     inputTokenAddress: inputCurrencyAddress,
     inputTokenDecimals,
-    toTokenAddress: bondContractAddress,
+    toTokenAddress: lpPrincipalTokenAddress,
     zapVersion: ZapVersion.Wido,
     fromChainId: inputTokenChainId,
     toChainId: chainId as SupportedChainId,
     tokenAmount: inputCurrencyAmount,
   })
 
-  const { toTokenAmount = '0' } = widoQuote ?? {}
+  const { isSupported: isWidoSupported = false, toTokenAmount = '0' } = widoQuote ?? {}
 
   const zapAmountOutput = utils.formatUnits(toTokenAmount, inputTokenDecimals)
 
@@ -98,7 +93,7 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({
   }
 
   const handleMaxInput = () => {
-    setInputCurrencyAmount(inputCurrencyMaxSpend?.toExact() as string)
+    setInputCurrencyAmount(inputCurrencyMaxSpend)
   }
 
   return (
@@ -173,6 +168,18 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({
             </Flex>
           </Flex>
         </Flex>
+        <ZapButton
+          inputCurrencyAmount={inputCurrencyAmount}
+          hasSufficientBal={Number(inputCurrencyMaxSpend) >= Number(inputCurrencyAmount)}
+          widoQuote={widoQuote}
+          isWidoQuoteLoading={isWidoQuoteLoading}
+          inputTokenAddress={inputCurrencyAddress}
+          inputTokenDecimals={inputTokenDecimals}
+          toTokenAddress={lpPrincipalTokenAddress}
+          inputCurrencySymbol={inputCurrencySymbol}
+          toChainId={chainId as SupportedChainId}
+          fromChainId={inputTokenChainId}
+        />
       </Flex>
     </Modal>
   )

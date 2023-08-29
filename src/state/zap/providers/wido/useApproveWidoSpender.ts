@@ -19,35 +19,32 @@ import { SupportedChainId } from '@ape.swap/sdk-core'
 
 const useApproveWidoSpender = ({
   inputTokenAddress,
-  inputTokenDecimals,
   toTokenAddress,
   fromChainId,
   toChainId,
+  amountToApprove,
 }: {
   inputTokenAddress: string
-  inputTokenDecimals: number
   toTokenAddress: string
   fromChainId: SupportedChainId
   toChainId: SupportedChainId
+  amountToApprove: string
 }) => {
   const queryClient = useQueryClient()
   const { account, provider, isActive } = useWeb3React()
 
-  const { typedValue: amountInput } = useSelector<AppState, AppState['zap']>((state) => state.zap)
-
-  const amount = convertToTokenValue(amountInput || '0', inputTokenDecimals).toString()
   const isEnabled =
     isActive &&
     !!inputTokenAddress &&
     !!toTokenAddress &&
     inputTokenAddress !== WIDO_NATIVE_TOKEN_ID &&
-    Number(amount) > 0
+    Number(amountToApprove) > 0
 
   const { signTransaction } = useSignTransaction()
   const { data: widoSpenderData } = useGetWidoApprove({
     fromToken: inputTokenAddress,
     toToken: toTokenAddress,
-    amount,
+    amount: amountToApprove,
     isEnabled,
     fromChainId,
     toChainId,
@@ -64,7 +61,13 @@ const useApproveWidoSpender = ({
       // will wait for query invalidation to finish,
       // mutation state will stay loading while related queries update
       return queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.WIDO_ALLOWANCE, { account }, { fromToken: inputTokenAddress }, { toTokenAddress }],
+        queryKey: [
+          QUERY_KEYS.WIDO_ALLOWANCE,
+          { account },
+          { fromToken: inputTokenAddress },
+          { toTokenAddress },
+          { amountToApprove },
+        ],
       })
     },
   })

@@ -123,12 +123,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const { address: inputTokenAddress = '', decimals = 18, chainId: inputTokenChainId } = inputCurrency ?? {}
 
   const [onPresentWidoDualAddLiquidityModal] = useModal(
-    <WidoDualAddLiquidityModal
-      lpTokenA={quoteToken}
-      lpTokenB={token}
-      lpToken={lpToken}
-      bondContractAddress={bondContractAddress}
-    />,
+    <WidoDualAddLiquidityModal lpTokenA={quoteToken} lpTokenB={token} lpToken={lpToken} />,
     true,
     false,
     'widoDualLiquidityModal',
@@ -412,6 +407,8 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     return billType !== 'reserve' && lpTokenZapVersion !== ZapVersion.External
   }
 
+  console.log({ lpTokenZapVersion })
+
   return (
     <Flex sx={styles.buyContainer}>
       <Flex sx={{ flexWrap: 'wrap' }}>
@@ -455,16 +452,19 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
             <Box sx={styles.getLpContainer}>
               <Button
                 variant="secondary"
-                onClick={() =>
-                  lpTokenZapVersion !== ZapVersion.ZapV1
-                    ? sendToExternalLpUrl()
+                onClick={() => {
+                  if (lpTokenZapVersion === ZapVersion.External) {
+                    return sendToExternalLpUrl()
+                  }
+                  return lpTokenZapVersion === ZapVersion.Wido
+                    ? onPresentWidoDualAddLiquidityModal()
                     : onAddLiquidityModal(token, quoteToken, '', '', false)
-                }
+                }}
                 sx={{ width: '100%' }}
               >
                 {t('Get LP')}
                 <Flex sx={{ ml: '10px' }}>
-                  {lpTokenZapVersion === ZapVersion.ZapV1 ? (
+                  {lpTokenZapVersion !== ZapVersion.External ? (
                     <Svg icon="ZapIcon" color="yellow" />
                   ) : (
                     <img
