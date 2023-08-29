@@ -57,7 +57,7 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
   const { symbol: inputCurrencySymbol = '' } = inputCurrency as CoreToken
 
   const lpPrincipalTokenBalance = useCurrencyBalance(account ?? undefined, lpPrincipalToken ?? undefined)
-  const { address: lpPrincipalTokenAddress } = lpPrincipalToken as CoreToken
+  const { address: lpPrincipalTokenAddress, symbol: lpPrincipalTokenSymbol = '' } = lpPrincipalToken as CoreToken
 
   const formatInputCurrency = () => {
     if (inputCurrency?.isNative) {
@@ -177,6 +177,7 @@ const WidoDualAddLiquidityModal: FC<WidoDualAddLiquidityModalProps> = ({ onDismi
           inputTokenDecimals={inputTokenDecimals}
           toTokenAddress={lpPrincipalTokenAddress}
           inputCurrencySymbol={inputCurrencySymbol}
+          lpPrincipalTokenSymbol={lpPrincipalTokenSymbol}
           toChainId={chainId as SupportedChainId}
           fromChainId={inputTokenChainId}
         />

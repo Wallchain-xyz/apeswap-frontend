@@ -8,6 +8,9 @@ import { useTranslation } from 'contexts/Localization'
 import { useSignTransaction } from 'state/transactions/hooks'
 import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
 
+// Utils
+import track from 'utils/track'
+
 // Types
 import { QuoteResult } from 'wido'
 import { ZapVersion } from '@ape.swap/apeswap-lists'
@@ -27,6 +30,7 @@ interface ZapButtonProps {
   inputTokenDecimals: number
   toTokenAddress: string
   inputCurrencySymbol: string
+  lpPrincipalTokenSymbol: string
   toChainId: SupportedChainId
   fromChainId: SupportedChainId
 }
@@ -40,6 +44,7 @@ const ZapButton: FC<ZapButtonProps> = ({
   inputTokenDecimals,
   toTokenAddress,
   inputCurrencySymbol,
+  lpPrincipalTokenSymbol,
   toChainId,
   fromChainId,
 }) => {
@@ -56,7 +61,7 @@ const ZapButton: FC<ZapButtonProps> = ({
     tokenAmount: inputCurrencyAmount,
   })
 
-  const { to, data, value, isSupported: isWidoSupported = false } = widoQuote ?? {}
+  const { to, data, value, isSupported: isWidoSupported = false, toTokenAmount = '' } = widoQuote ?? {}
 
   const getButtonLabel = (): string => {
     switch (true) {
@@ -72,7 +77,25 @@ const ZapButton: FC<ZapButtonProps> = ({
   const buttonAction = {
     [ButtonActions.Zap]: {
       action: () =>
-        isWidoSupported ? signTransaction({ to, data, value }) : console.error('Error: Wido zap not supported'),
+        isWidoSupported
+          ? signTransaction({ to, data, value })
+              .then(() => {
+                track({
+                  event: 'zap',
+                  chain: fromChainId,
+                  data: {
+                    cat: 'liquidity',
+                    token1: inputCurrencySymbol,
+                    token2: lpPrincipalTokenSymbol,
+                    amount: inputCurrencyAmount,
+                    usdAmount: toTokenAmount,
+                  },
+                })
+              })
+              .catch((error: any) => {
+                console.error(error)
+              })
+          : console.error('Error: Wido zap not supported'),
       isDisabled: !(Number(inputCurrencyAmount) > 0) || !hasSufficientBal || isWidoQuoteLoading,
       label: getButtonLabel(),
     },
