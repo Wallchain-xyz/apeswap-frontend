@@ -131,26 +131,23 @@ const ZapButton: FC<ZapButtonProps> = ({
     [ButtonActions.Zap]: {
       action: () => (isWidoSupported ? handleConfirmZap() : console.error('Error: Wido zap not supported')),
       isDisabled: !(Number(inputCurrencyAmount) > 0) || !hasSufficientBal || isWidoQuoteLoading,
+      isLoading: isWidoQuoteLoading,
       label: getButtonLabel(),
     },
     [ButtonActions.Approve]: {
       action: () => approveWidoSpender(),
       isDisabled: isApproveWidoSpenderLoading,
+      isLoading: isApproveWidoSpenderLoading,
       label: `${t('Enable')} ${inputCurrencySymbol}`,
     },
   }
 
   const btnAction = requiresApproval ? ButtonActions.Approve : ButtonActions.Zap
 
-  const { action, isDisabled, label } = buttonAction[btnAction]
+  const { action, label, isDisabled, isLoading } = buttonAction[btnAction]
 
   return (
-    <Button
-      fullWidth
-      disabled={isDisabled}
-      onClick={action}
-      // TODO: add load state
-    >
+    <Button fullWidth disabled={isDisabled} onClick={action} load={isLoading}>
       {label}
     </Button>
   )
