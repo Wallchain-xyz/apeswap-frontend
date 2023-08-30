@@ -49,7 +49,7 @@ const useGetWidoTokenAllowance = ({
     fromChainId,
     toChainId,
   })
-  const { allowance } = widoAllowance ?? {}
+  const { allowance, spender: spenderAddress = '' } = widoAllowance ?? {}
 
   let requiresApproval: boolean = isNative ? !isNative : isWidoAllowanceLoading
 
@@ -63,6 +63,7 @@ const useGetWidoTokenAllowance = ({
     fromChainId,
     toChainId,
     amountToApprove,
+    spenderAddress,
   })
 
   return { requiresApproval, isWidoAllowanceLoading, approveWidoSpender, isApproveWidoSpenderLoading }

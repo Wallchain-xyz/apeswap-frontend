@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSelector } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 
 // Hooks
@@ -14,7 +13,7 @@ import { QUERY_KEYS } from 'config/constants/queryKeys'
 import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 
 // Types
-import { AppState } from 'state'
+import { TransactionType } from 'state/transactions/types'
 import { SupportedChainId } from '@ape.swap/sdk-core'
 
 const useApproveWidoSpender = ({
@@ -23,15 +22,17 @@ const useApproveWidoSpender = ({
   fromChainId,
   toChainId,
   amountToApprove,
+  spenderAddress,
 }: {
   inputTokenAddress: string
   toTokenAddress: string
   fromChainId: SupportedChainId
   toChainId: SupportedChainId
   amountToApprove: string
+  spenderAddress: string
 }) => {
   const queryClient = useQueryClient()
-  const { account, provider, isActive } = useWeb3React()
+  const { account, isActive } = useWeb3React()
 
   const isEnabled =
     isActive &&
@@ -55,7 +56,10 @@ const useApproveWidoSpender = ({
   return useMutation({
     mutationFn: () => {
       console.log('Signing Wido permission Tx')
-      return signTransaction({ data, to }).then((hash: any) => provider?.waitForTransaction(hash))
+      return signTransaction({
+        dataToSign: { to, data },
+        txInfo: { type: TransactionType.APPROVAL, tokenAddress: toTokenAddress, spender: spenderAddress },
+      })
     },
     onSuccess: () => {
       // will wait for query invalidation to finish,

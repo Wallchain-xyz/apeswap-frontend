@@ -29,7 +29,6 @@ import BigNumber from 'bignumber.js'
 import useAddLiquidityModal from 'components/DualAddLiquidity/hooks/useAddLiquidityModal'
 import { useToastError } from 'state/application/hooks'
 import { LiquidityDex, dexFactories, dexToZapMapping, ZapVersion, dexDisplayAttributes } from '@ape.swap/apeswap-lists'
-import { useRouter } from 'next/router'
 
 // Components
 import WidoDualAddLiquidityModal from 'components/WidoDualAddLiquidityModal'
@@ -42,9 +41,10 @@ import useModal from 'hooks/useModal'
 // Constants
 import { WIDO_NATIVE_TOKEN_ID } from 'config/constants/misc'
 
-const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
-  const { push } = useRouter()
+// Types
+import { TransactionType } from 'state/transactions/types'
 
+const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
   const {
     token,
     quoteToken,
@@ -241,7 +241,7 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     setPendingTrx(true)
     if (zapVersion === ZapVersion.Wido && isWidoSupported) {
       console.log('Signing Wido buy Tx')
-      signTransaction({ to, data, value })
+      signTransaction({ dataToSign: { to, data, value }, txInfo: { type: TransactionType.ZAP } })
         .then((hash: any) => {
           setPendingTrx(true)
           setZapSlippage(originalSlippage)
@@ -406,8 +406,6 @@ const Buy: React.FC<BuyProps> = ({ bill, onBillId, onTransactionSubmited }) => {
     }
     return billType !== 'reserve' && lpTokenZapVersion !== ZapVersion.External
   }
-
-  console.log({ lpTokenZapVersion })
 
   return (
     <Flex sx={styles.buyContainer}>

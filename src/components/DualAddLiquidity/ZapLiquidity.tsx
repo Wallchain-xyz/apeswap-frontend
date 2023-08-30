@@ -38,6 +38,7 @@ import getCurrencyInfo from 'utils/getCurrencyInfo'
 
 // Types
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
+import { TransactionType } from 'state/transactions/types'
 interface ZapLiquidityProps {
   handleConfirmedTx: (hash: string, pairOut: Pair) => void
   poolAddress: string
@@ -138,7 +139,9 @@ const ZapLiquidity: React.FC<ZapLiquidityProps> = ({
   const { callback: zapCallback } = useZapCallback(zap, zapType, zapSlippage, recipient, poolAddress, '', pid)
 
   const handleZap = useCallback(() => {
-    const zapMethod = shouldUseWido ? signTransaction({ to, data, value }) : zapCallback()
+    const zapMethod = shouldUseWido
+      ? signTransaction({ dataToSign: { to, data, value }, txInfo: { type: TransactionType.ZAP } })
+      : zapCallback()
 
     if (shouldUseWido) {
       console.log('Signing Wido buy tx')

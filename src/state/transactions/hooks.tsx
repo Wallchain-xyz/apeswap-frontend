@@ -111,8 +111,19 @@ export function useHasPendingApproval(token?: Token, spender?: string): boolean 
 export const useSignTransaction = () => {
   const { provider } = useWeb3React()
 
-  const signTransaction = async (dataToSign: any): Promise<string | undefined> => {
+  const addTransaction = useTransactionAdder()
+
+  const signTransaction = async ({
+    dataToSign,
+    txInfo,
+  }: {
+    dataToSign: any
+    txInfo: TransactionInfo
+  }): Promise<string | undefined> => {
     const tx = await provider?.getSigner().sendTransaction(dataToSign)
+    if (tx) {
+      addTransaction(tx, txInfo)
+    }
     return tx?.hash
   }
   return { signTransaction }

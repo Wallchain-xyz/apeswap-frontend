@@ -18,6 +18,7 @@ import { utils } from 'ethers'
 import { QuoteResult } from 'wido'
 import { ZapVersion } from '@ape.swap/apeswap-lists'
 import { SupportedChainId } from '@ape.swap/sdk-core'
+import { TransactionType } from 'state/transactions/types'
 
 enum ButtonActions {
   Approve = 'approve',
@@ -105,7 +106,7 @@ const ZapButton: FC<ZapButtonProps> = ({
   const handleConfirmZap = () => {
     onPresentAddLiquidityModal()
     setZapErrorMessage('')
-    signTransaction({ to, data, value })
+    signTransaction({ dataToSign: { to, data, value }, txInfo: { type: TransactionType.ZAP } })
       .then((txHash) => {
         setTxHash(txHash || '')
         track({
@@ -144,7 +145,12 @@ const ZapButton: FC<ZapButtonProps> = ({
   const { action, isDisabled, label } = buttonAction[btnAction]
 
   return (
-    <Button fullWidth disabled={isDisabled} onClick={action}>
+    <Button
+      fullWidth
+      disabled={isDisabled}
+      onClick={action}
+      // TODO: add load state
+    >
       {label}
     </Button>
   )
