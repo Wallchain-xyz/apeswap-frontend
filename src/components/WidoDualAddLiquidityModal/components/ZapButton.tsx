@@ -1,15 +1,18 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 // Components
 import { Button } from 'components/uikit'
+import ZapConfirmationModal from 'views/V2/Zap/components/ZapConfirmationModal'
 
 // Hooks
 import { useTranslation } from 'contexts/Localization'
 import { useSignTransaction } from 'state/transactions/hooks'
 import useGetWidoTokenAllowance from 'state/zap/providers/wido/useGetWidoTokenAllowance'
+import useModal from 'hooks/useModal'
 
 // Utils
 import track from 'utils/track'
+import { utils } from 'ethers'
 
 // Types
 import { QuoteResult } from 'wido'
@@ -30,7 +33,7 @@ interface ZapButtonProps {
   inputTokenDecimals: number
   toTokenAddress: string
   inputCurrencySymbol: string
-  lpPrincipalTokenSymbol: string
+  lpTokenSymbol: string
   toChainId: SupportedChainId
   fromChainId: SupportedChainId
 }
@@ -44,10 +47,13 @@ const ZapButton: FC<ZapButtonProps> = ({
   inputTokenDecimals,
   toTokenAddress,
   inputCurrencySymbol,
-  lpPrincipalTokenSymbol,
+  lpTokenSymbol,
   toChainId,
   fromChainId,
 }) => {
+  const [zapErrorMessage, setZapErrorMessage] = useState<string>('')
+  const [txHash, setTxHash] = useState<string>('')
+
   const { t } = useTranslation()
   const { signTransaction } = useSignTransaction()
 
@@ -61,7 +67,29 @@ const ZapButton: FC<ZapButtonProps> = ({
     tokenAmount: inputCurrencyAmount,
   })
 
-  const { to, data, value, isSupported: isWidoSupported = false, toTokenAmount = '' } = widoQuote ?? {}
+  const { to, data, value, isSupported: isWidoSupported = false, toTokenAmount = '0' } = widoQuote ?? {}
+
+  const zapAmountOutput = utils.formatUnits(toTokenAmount, inputTokenDecimals)
+
+  const [onPresentAddLiquidityModal] = useModal(
+    <ZapConfirmationModal
+      title={t('Confirm ZAP')}
+      onDismiss={() => {
+        setZapErrorMessage('')
+        setTxHash('')
+      }}
+      txHash={txHash}
+      zapErrorMessage={zapErrorMessage}
+      inputCurrencySymbol={inputCurrencySymbol}
+      inputCurrencyAmount={parseFloat(inputCurrencyAmount).toFixed(4)}
+      toTokenAmount={parseFloat(zapAmountOutput).toFixed(4)}
+      outputCurrencySymbol={lpTokenSymbol}
+      zapVersion={ZapVersion.Wido}
+    />,
+    true,
+    true,
+    'widoZapConfirmationModal',
+  )
 
   const getButtonLabel = (): string => {
     switch (true) {
@@ -74,28 +102,33 @@ const ZapButton: FC<ZapButtonProps> = ({
     }
   }
 
+  const handleConfirmZap = () => {
+    onPresentAddLiquidityModal()
+    setZapErrorMessage('')
+    signTransaction({ to, data, value })
+      .then((txHash) => {
+        setTxHash(txHash || '')
+        track({
+          event: 'zap',
+          chain: fromChainId,
+          data: {
+            cat: 'liquidity',
+            token1: inputCurrencySymbol,
+            token2: lpTokenSymbol,
+            amount: inputCurrencyAmount,
+            usdAmount: toTokenAmount,
+          },
+        })
+      })
+      .catch((error: any) => {
+        setZapErrorMessage(error.message)
+        console.error(error)
+      })
+  }
+
   const buttonAction = {
     [ButtonActions.Zap]: {
-      action: () =>
-        isWidoSupported
-          ? signTransaction({ to, data, value })
-              .then(() => {
-                track({
-                  event: 'zap',
-                  chain: fromChainId,
-                  data: {
-                    cat: 'liquidity',
-                    token1: inputCurrencySymbol,
-                    token2: lpPrincipalTokenSymbol,
-                    amount: inputCurrencyAmount,
-                    usdAmount: toTokenAmount,
-                  },
-                })
-              })
-              .catch((error: any) => {
-                console.error(error)
-              })
-          : console.error('Error: Wido zap not supported'),
+      action: () => (isWidoSupported ? handleConfirmZap() : console.error('Error: Wido zap not supported')),
       isDisabled: !(Number(inputCurrencyAmount) > 0) || !hasSufficientBal || isWidoQuoteLoading,
       label: getButtonLabel(),
     },
