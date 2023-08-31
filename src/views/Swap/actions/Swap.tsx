@@ -21,6 +21,7 @@ import { parseCurrency } from 'config/constants/lifiRouting'
 import useSelectChain from 'hooks/useSelectChain'
 import { ChainId, NETWORK_LABEL } from 'config/constants/chains'
 import { useSwapCallback } from 'hooks/swap/useSwapCallback'
+import { useWallchainApi } from 'hooks/useWallchain'
 
 const Swap = ({
   routingState,
@@ -58,8 +59,10 @@ const Swap = ({
     txHash: undefined,
   })
 
+  const [ wallchainStatus, approvalAddress ] = useWallchainApi(selectedRoute);
+
   const transactionDeadline = useTransactionDeadline()
-  const [approvalState, approveCallback] = useApproveCallbackFromTrade(inputCurrencyAmount)
+  const [approvalState, approveCallback] = useApproveCallbackFromTrade(inputCurrencyAmount, wallchainStatus, approvalAddress)
 
   const { state: signatureState, gatherPermitSignature } = useERC20PermitFromTrade(
     inputCurrencyAmount,
@@ -73,7 +76,8 @@ const Swap = ({
   const hideCircular = useHideCircular()
   const addTransaction = useAddTxFromHash()
 
-  const callback = useSwapCallback(selectedRoute)
+
+  const callback = useSwapCallback(selectedRoute, wallchainStatus)
 
   const [newRates, setNewRates] = useState<ExchangeRateUpdateParams | null>(null)
   const [confirmNewRates, setConfirmNewRates] = useState<((value: boolean) => void) | null>(null)
@@ -251,7 +255,8 @@ const Swap = ({
         routingState === TradeState.LOADING ||
         routingState === TradeState.SYNCING ||
         routingState === TradeState.INVALID ||
-        routingState === TradeState.NO_ROUTE_FOUND
+        routingState === TradeState.NO_ROUTE_FOUND ||
+        wallchainStatus === 'pending'
       }
     >
       {isCrossChain ? 'Bridge' : 'Swap'}

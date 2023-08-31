@@ -9,6 +9,8 @@ import { useApproval } from '../useApproval'
 export default function useSwapApproval(
   inputCurrencyAmount: CurrencyAmount<Currency> | undefined,
   useIsPendingApproval: (token?: Token, spender?: string) => boolean,
+  wallchainStatus?: string,
+  wallchaiApprovalAddress?: string,
 ) {
   const { chainId } = useWeb3React()
 
@@ -16,7 +18,9 @@ export default function useSwapApproval(
     () => (inputCurrencyAmount?.currency.isToken ? inputCurrencyAmount : undefined),
     [inputCurrencyAmount],
   )
-  const spender = chainId ? SWAP_ROUTER_ADDRESSES[chainId] : undefined
+  const spender = chainId ? 
+    (wallchainStatus === 'found' ? wallchaiApprovalAddress : SWAP_ROUTER_ADDRESSES[chainId])
+    : undefined
 
   return useApproval(amountToApprove, spender, useIsPendingApproval)
 }

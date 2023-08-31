@@ -38,8 +38,10 @@ export function useApproveCallback(
 
 export function useApproveCallbackFromTrade(
   inputCurrencyAmount: CurrencyAmount<Currency> | undefined,
+  wallchainStatus?: string,
+  wallchaiApprovalAddress?: string
 ): [ApprovalState, () => Promise<void>] {
-  const [approval, getApproval] = useSwapApproval(inputCurrencyAmount, useHasPendingApproval)
+  const [approval, getApproval] = useSwapApproval(inputCurrencyAmount, useHasPendingApproval, wallchainStatus, wallchaiApprovalAddress)
   return [approval, useGetAndTrackApproval(getApproval)]
 }
 
