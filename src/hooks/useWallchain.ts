@@ -93,7 +93,7 @@ export const useWallchainApi = (selectedRoute?: Route) => {
                     tokenIn: srcToken as `0x${string}`,
                     tokenOut: dstToken as `0x${string}`,
                     amountIn: amount
-                 })
+                })
 
                 if (response.MEVFound) {
                     setApprovalAddress((await sdk.getSpenderForAllowance()) as `0x${string}`)
@@ -114,67 +114,64 @@ export const useWallchainApi = (selectedRoute?: Route) => {
 
 export const getWallchainRoute = async (provider: Web3Provider, selectedRoute: Route, wallchainStatus?: TWallchainStatus):
     Promise<Route> => {
-    try {
-        if (!provider || wallchainStatus !== 'found') return selectedRoute
-        const account = (await provider.listAccounts())[0]
-        const sdk = new Wallchain({ keys: WallchainKeys, provider: provider.provider })
-        const srcToken = normalizeNative(selectedRoute?.fromToken.address)
-        const dstToken = normalizeNative(selectedRoute?.toToken.address)
-        const amount = selectedRoute?.fromAmount
+    if (!provider || wallchainStatus !== 'found') return selectedRoute
+    const account = (await provider.listAccounts())[0]
+    const sdk = new Wallchain({ keys: WallchainKeys, provider: provider.provider })
+    const srcToken = normalizeNative(selectedRoute?.fromToken.address)
+    const dstToken = normalizeNative(selectedRoute?.toToken.address)
+    const amount = selectedRoute?.fromAmount
 
-        if (!srcToken || !dstToken || !amount) return selectedRoute
+    if (!srcToken || !dstToken || !amount) return selectedRoute
 
-        const txn = await prepareTxn(provider.getSigner(), selectedRoute.steps[0])
-        
-        const response = await sdk.checkForMEV(txn, {
-            tokenIn: srcToken as `0x${string}`,
-            tokenOut: dstToken as `0x${string}`,
-            amountIn: amount
-        })
+    const txn = await prepareTxn(provider.getSigner(), selectedRoute.steps[0])
 
-
-        if (response.MEVFound) {
-            const spender = (await sdk.getSpender()) as `0x${string}`
-            const needPermit = srcToken !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-            let witness: false | Awaited<ReturnType<typeof sdk.signPermit>> = false
-
-            if (needPermit) {
-                witness = await sdk.signPermit(srcToken as `0x${string}`, account, spender, amount)
-            }
-
-            const data = await sdk.createNewTransaction(
-                selectedRoute.steps[0].estimate.approvalAddress,
-                needPermit,
-                txn.data,
-                amount,
-                txn.value,
-                srcToken,
-                dstToken,
-                response.searcherSignature,
-                response.searcherRequest,
-                witness,
-            )
+    const response = await sdk.checkForMEV(txn, {
+        tokenIn: srcToken as `0x${string}`,
+        tokenOut: dstToken as `0x${string}`,
+        amountIn: amount
+    })
 
 
-            return {
-                ...selectedRoute,
-                steps: [
-                    {
-                        ...selectedRoute.steps[0],
-                        transactionRequest: {
-                            ...txn,
-                            data: data.data,
-                            to: spender,
-                            gasLimit: 20000000
-                        }
-                    }
-                ]
-            }
+
+
+    if (response.MEVFound) {
+        const spender = (await sdk.getSpender()) as `0x${string}`
+        const needPermit = srcToken !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+        let witness: false | Awaited<ReturnType<typeof sdk.signPermit>> = false
+
+        if (needPermit) {
+            witness = await sdk.signPermit(srcToken as `0x${string}`, account, spender, amount)
         }
 
-        return selectedRoute
-    } catch (e) {
-        console.log(e)
-        return selectedRoute
+        const data = await sdk.createNewTransaction(
+            selectedRoute.steps[0].estimate.approvalAddress,
+            needPermit,
+            txn.data,
+            amount,
+            txn.value,
+            srcToken,
+            dstToken,
+            response.searcherSignature,
+            response.searcherRequest,
+            witness,
+        )
+
+
+        return {
+            ...selectedRoute,
+            steps: [
+                {
+                    ...selectedRoute.steps[0],
+                    transactionRequest: {
+                        ...txn,
+                        data: data.data,
+                        to: spender,
+                        gasLimit: response.suggestedGas
+                    }
+                }
+            ]
+        }
+    } else {
+        throw new Error('WallchainError: oppurtunity lost')
     }
 }

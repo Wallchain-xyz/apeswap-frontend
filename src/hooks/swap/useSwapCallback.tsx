@@ -28,7 +28,19 @@ export const useSwapCallback = (
         integrator: 'apeswap',
       })
       if (!signer || !selectedRoute) return
-      const wallchainSteps = await getWallchainRoute(provider as Web3Provider, selectedRoute, wallchainStatus)
+      let wallchainSteps;
+      try {
+        wallchainSteps = await getWallchainRoute(provider as Web3Provider, selectedRoute, wallchainStatus)
+      } catch (error) {
+        if (
+            wallchainStatus === 'found' 
+            && selectedRoute.fromAddress !== '0x0000000000000000000000000000000000000000'
+        ) { // if route was here it means we checked allowance for Wallchain not for LiFi, so need to restart
+            throw new Error('Route has changed, please try again.')
+        } else {
+            wallchainSteps = selectedRoute
+        }
+      }
       return await lifi
         .executeRoute(signer, wallchainSteps, { updateRouteHook, acceptExchangeRateUpdateHook })
         .then((response) => {
@@ -40,6 +52,6 @@ export const useSwapCallback = (
           throw error
         })
     },
-    [selectedRoute, signer],
+    [selectedRoute, signer, wallchainStatus],
   )
 }
