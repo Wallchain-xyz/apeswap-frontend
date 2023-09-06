@@ -3,7 +3,7 @@ import Wallchain from "@wallchain/sdk";
 import { Route, LifiStep } from '@lifi/sdk';
 import { useWeb3React } from "@web3-react/core";
 import type { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
-
+import bn from 'bn.js';
 
 import { WallchainKeys } from "config/constants/wallchainKeys";
 import Bottleneck from 'bottleneck';
@@ -92,7 +92,7 @@ export const useWallchainApi = (selectedRoute?: Route) => {
                 const response = await wrappedApiResponse(sdk, txn, { 
                     tokenIn: srcToken as `0x${string}`,
                     tokenOut: dstToken as `0x${string}`,
-                    amountIn: amount
+                    amountIn: `0x${new bn(amount).toString(16)}`
                 })
 
                 if (response.MEVFound) {

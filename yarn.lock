@@ -2880,6 +2880,13 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/bn.js@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-5.1.1.tgz#b51e1b55920a4ca26e9285ff79936bbdec910682"
+  integrity sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==
+  dependencies:
+    "@types/node" "*"
+
 "@types/connect@^3.4.33":
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -3557,10 +3564,10 @@
   resolved "https://registry.yarnpkg.com/@wagmi/chains/-/chains-1.6.0.tgz#eb992ad28dbaaab729b5bcab3e5b461e8a035656"
   integrity sha512-5FRlVxse5P4ZaHG3GTvxwVANSmYJas1eQrTBHhjxVtqXoorm0aLmCHbhmN8Xo1yu09PaWKlleEvfE98yH4AgIw==
 
-"@wallchain/sdk@^0.6.5":
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/@wallchain/sdk/-/sdk-0.6.5.tgz#d11378d45bc94d9261415dc1324550baa47f0d31"
-  integrity sha512-rMGuMwYw7c6XwCKXsMSOmuanFSC8juvyKWNCfoj41Rc6GEQ6GhhEl82FPme0S/6ux6PWxyWW034TehN+FbK5KQ==
+"@wallchain/sdk@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@wallchain/sdk/-/sdk-0.6.6.tgz#8330eb0985636ea43cb9544f09f6282ad24336d2"
+  integrity sha512-9FdyOJKZJfuLeYNDZNKXXLMdQbBA+23N0dFa6YieX2hgBNjm8TDAvSfqzXP2Q2F6Oft6rmh3LOJIro3PDYoR2g==
   dependencies:
     "@types/randombytes" "^2.0.0"
     "@uniswap/permit2-sdk" "^1.2.0"
