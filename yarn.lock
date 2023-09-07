@@ -3564,10 +3564,10 @@
   resolved "https://registry.yarnpkg.com/@wagmi/chains/-/chains-1.6.0.tgz#eb992ad28dbaaab729b5bcab3e5b461e8a035656"
   integrity sha512-5FRlVxse5P4ZaHG3GTvxwVANSmYJas1eQrTBHhjxVtqXoorm0aLmCHbhmN8Xo1yu09PaWKlleEvfE98yH4AgIw==
 
-"@wallchain/sdk@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@wallchain/sdk/-/sdk-0.6.6.tgz#8330eb0985636ea43cb9544f09f6282ad24336d2"
-  integrity sha512-9FdyOJKZJfuLeYNDZNKXXLMdQbBA+23N0dFa6YieX2hgBNjm8TDAvSfqzXP2Q2F6Oft6rmh3LOJIro3PDYoR2g==
+"@wallchain/sdk@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@wallchain/sdk/-/sdk-0.6.7.tgz#15943bf00b0f531c92b920a5ae6d85d7e84d9d26"
+  integrity sha512-JspSOp6T6QW20kS99dQwT6u2gXVNkIiFlS+2xwJa8SXNkk4npVgsiaVuJD80oNT9oQ0LW0y/Je03tfApXkorxg==
   dependencies:
     "@types/randombytes" "^2.0.0"
     "@uniswap/permit2-sdk" "^1.2.0"

@@ -14,6 +14,9 @@ const limiter = new Bottleneck({
     highWater: 1,
 })
 
+const overrideAddresses = {
+    56: '0x662ccE1A8A940492fD33F6B47459D9EFDd039d5A'
+}
 
 export type TWallchainStatus = 'pending' | 'found' | 'not_found';
 
@@ -86,7 +89,7 @@ export const useWallchainApi = (selectedRoute?: Route) => {
                 if (!srcToken || !dstToken || !amount) return selectedRoute
 
                 setStatus('pending')
-                const sdk = new Wallchain({ keys: WallchainKeys, provider: provider.provider })
+                const sdk = new Wallchain({ keys: WallchainKeys, provider: provider.provider, overrideAddresses })
                 const txn = await wrappedPrepareTxn(provider.getSigner(), selectedRoute.steps[0])
                 
                 const response = await wrappedApiResponse(sdk, txn, { 
@@ -116,7 +119,7 @@ export const getWallchainRoute = async (provider: Web3Provider, selectedRoute: R
     Promise<Route> => {
     if (!provider || wallchainStatus !== 'found') return selectedRoute
     const account = (await provider.listAccounts())[0]
-    const sdk = new Wallchain({ keys: WallchainKeys, provider: provider.provider })
+    const sdk = new Wallchain({ keys: WallchainKeys, provider: provider.provider, overrideAddresses })
     const srcToken = normalizeNative(selectedRoute?.fromToken.address)
     const dstToken = normalizeNative(selectedRoute?.toToken.address)
     const amount = selectedRoute?.fromAmount
@@ -145,7 +148,8 @@ export const getWallchainRoute = async (provider: Web3Provider, selectedRoute: R
 
         const data = await sdk.createNewTransaction(
             selectedRoute.steps[0].estimate.approvalAddress,
-            needPermit,
+            selectedRoute.steps[0].estimate.approvalAddress, 
+            false,
             txn.data,
             amount,
             txn.value,
